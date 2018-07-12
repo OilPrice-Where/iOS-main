@@ -98,23 +98,15 @@
 		8E7FFE2320F5E5FF006CED48 /* OilPrice-Where */ = {
 			isa = PBXGroup;
 			children = (
+				8EE7E34720F5EDA400F35473 /* AppDelegate */,
 				8E4DAF0920F5EC2400E4FD92 /* Model */,
 				8E4DAF0A20F5EC2700E4FD92 /* Services */,
-				8E7FFE3C20F5EAA8006CED48 /* AppDelegate */,
 				8E7FFE3F20F5EB46006CED48 /* ViewController */,
 				8E7FFE4120F5EBD2006CED48 /* View */,
 				8E7FFE3D20F5EABE006CED48 /* Resource */,
 				8E7FFE3E20F5EB17006CED48 /* Supporting File */,
 			);
 			path = "OilPrice-Where";
-			sourceTree = "<group>";
-		};
-		8E7FFE3C20F5EAA8006CED48 /* AppDelegate */ = {
-			isa = PBXGroup;
-			children = (
-				8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */,
-			);
-			name = AppDelegate;
 			sourceTree = "<group>";
 		};
 		8E7FFE3D20F5EABE006CED48 /* Resource */ = {
@@ -159,6 +151,14 @@
 			children = (
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		8EE7E34720F5EDA400F35473 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */,
+			);
+			name = AppDelegate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
