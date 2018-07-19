@@ -23,7 +23,7 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
             mapView.delegate = self
             
             // set the application api key for Open MapViewer Library
-            mapView.setClientId("vAtAL8AZh0zr0hBVFlYB")
+            mapView.setClientId("NMdSrEaqoUoo0bzgtlId")
             
             mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             
