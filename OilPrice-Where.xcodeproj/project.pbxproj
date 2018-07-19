@@ -305,7 +305,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/Users/sojeong/Downloads/maps.ios-master/Scripts/strip-frameworks.sh";
+			shellScript = "../iOS-main/naverMap/Scripts/strip-frameworks.sh";
 		};
 		A1410BAAA832A712804BE11F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -501,7 +501,7 @@
 					"-ObjC",
 					"-lxml2",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.OilPrice-Where";
+				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/OilPrice-Where/NHeader.h";
 				SWIFT_VERSION = 4.0;
@@ -533,7 +533,7 @@
 					"-ObjC",
 					"-lxml2",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.OilPrice-Where";
+				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/OilPrice-Where/NHeader.h";
 				SWIFT_VERSION = 4.0;
