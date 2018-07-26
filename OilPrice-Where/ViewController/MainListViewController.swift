@@ -36,12 +36,11 @@ class MainListViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        stopLocationManager()
     }
     
     private func gasStationListData(katecPoint: KatecPoint){
-        print(katecPoint)
-        ServiceList.gasStationList(x: 314681.8, y: 544837, radius: 3000, prodcd: "B027", sort: 1) { (result) in
+        print(katecPoint) 
+        ServiceList.gasStationList(x: katecPoint.x, y: katecPoint.y, radius: 3000, prodcd: "B027", sort: 1) { (result) in
             switch result {
             case .success(let gasStationData):
                 print(gasStationData)
@@ -55,13 +54,13 @@ class MainListViewController: UIViewController {
         }
     }
 
-    func convertWGS84ToKatec(latitude: Double, longitude: Double) -> KatecPoint {
+    func convertWGS84ToKatec(longitude: Double, latitude: Double) -> KatecPoint {
         let convert = GeoConverter()
-        let wgsPoint = GeographicPoint(x: 37.566609, y: 126.978371)
+        let wgsPoint = GeographicPoint(x: longitude, y: latitude)
         let tmPoint = convert.convert(sourceType: .WGS_84, destinationType: .TM, geoPoint: wgsPoint)
         let katecPoint = convert.convert(sourceType: .TM, destinationType: .KATEC, geoPoint: tmPoint!)
         
-        return KatecPoint(x: katecPoint!.x, y: katecPoint!.y)
+        return KatecPoint(x: katecPoint!.x.roundTo(places: 8), y: katecPoint!.y.roundTo(places: 8))
         
     }
     
@@ -109,11 +108,11 @@ extension MainListViewController: CLLocationManagerDelegate {
         let newLocation = locations.last
         
         if newLocation != nil {
-            print("=====================================")
-//            let katecPoint = convertWGS84ToKatec(latitude: location.coordinate.latitude,
-//                                                 longitude: location.coordinate.longitude)
+            print(newLocation!.coordinate)
+            let katecPoint = convertWGS84ToKatec(longitude: newLocation!.coordinate.longitude,
+                                                 latitude: newLocation!.coordinate.latitude)
             
-            gasStationListData(katecPoint: KatecPoint(x: 314681.8, y: 544837))
+            gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
         }
     }
 }
