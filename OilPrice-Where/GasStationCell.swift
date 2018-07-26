@@ -31,14 +31,14 @@ class GasStationCell: UITableViewCell {
         
         self.name.text = gasStation.name
         self.price.text = String(gasStation.price)
-        self.distance.text = String(distanceKM.rounded(toPlaces: 2)) + "km"
+        self.distance.text = String(distanceKM.roundTo(places: 2)) + "km"
     }
 
 }
 
 extension Double {
     /// Rounds the double to decimal places value
-    func rounded(toPlaces places:Int) -> Double {
+    func roundTo(places:Int) -> Double {
         let divisor = pow(10.0, Double(places))
         return (self * divisor).rounded() / divisor
     }
