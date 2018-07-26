@@ -13,6 +13,7 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
     //    @IBOutlet weak var levelStepper: UIStepper!
     var mapView: NMapView?
     var changeStateButton: UIButton?
+    var location: CLLocation?
     
     enum state {
         case disabled
@@ -55,13 +56,14 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
         }
     }
     
+    // MARK: - NMapViewDelegate Methods
     open func onMapView(_ mapView: NMapView!, initHandler error: NMapError!) {
         if (error == nil) { // success
             // set map center and level
             mapView.setMapCenter(NGeoPoint(longitude:126.978371, latitude:37.5666091), atLevel:11)
             // set for retina display
             mapView.setMapEnlarged(true, mapHD: true)
-            // set map mode : vector/satelite/hybrid
+            // set map mode : vector(일반지도)/satelite(위성)/hybrid(주소설명과 위성지도)
             mapView.mapViewMode = .vector
         } else { // fail
             print("onMapView:initHandler: \(error.description)")
@@ -88,8 +90,10 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        print("CLLocation: ", location)
         mapView?.viewWillAppear()
+        enableLocationUpdate()
+//        enableHeading()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -136,10 +140,12 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
         mapView?.setMapCenter(myLocation)
     }
     
+    // 위치 에러
     open func locationManager(_ locationManager: NMapLocationManager!, didFailWithError errorType: NMapLocationManagerErrorType) {
         
         var message: String = ""
         
+        // 에러 타입
         switch errorType {
         case .unknown: fallthrough
         case .canceled: fallthrough
@@ -153,11 +159,13 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
             message = "나침반 정보를 확인 할 수 없습니다."
         }
         
+        // 에러메세지가 있을 시 Alert 호출
         if (!message.isEmpty) {
             let alert = UIAlertController(title:"NMapViewer", message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title:"OK", style:.default, handler: nil))
             present(alert, animated: true, completion: nil)
         }
+        
         
         if let mapView = mapView, mapView.isAutoRotateEnabled {
             mapView.setAutoRotateEnabled(false, animate: true)
@@ -201,6 +209,7 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
                 return
             }
             
+            // Location 장치 false일 시 true로 변경
             if lm.isUpdateLocationStarted() == false {
                 // set delegate
                 lm.setDelegate(self)
@@ -214,6 +223,7 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
         
         if let lm = NMapLocationManager.getSharedInstance() {
             
+            // Location 장치 true일 시 false로 변경
             if lm.isUpdateLocationStarted() {
                 // start updating location
                 lm.stopUpdateLocationInfo()
@@ -283,7 +293,6 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
                 updateState(.tracking)
             case .tracking:
                 let isAvailableCompass = lm.headingAvailable()
-                
                 if isAvailableCompass {
                     enableLocationUpdate()
                     if enableHeading() {

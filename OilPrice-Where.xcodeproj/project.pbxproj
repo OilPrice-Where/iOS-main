@@ -11,6 +11,13 @@
 		8E167D3021007A4E0066A59E /* ApiGatewayMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8E167D2E21007A4E0066A59E /* ApiGatewayMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8E167D3321007A680066A59E /* NMapViewerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E167D3221007A680066A59E /* NMapViewerSDK.framework */; };
 		8E167D3721007F510066A59E /* NMapViewResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3621007F510066A59E /* NMapViewResources.swift */; };
+		8E167D3B2107AD480066A59E /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3A2107AD480066A59E /* Service.swift */; };
+		8E167D3D2107AEA30066A59E /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3C2107AEA30066A59E /* API.swift */; };
+		8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3E2107D95C0066A59E /* GeoConverter.swift */; };
+		8E167D412107E30F0066A59E /* GasStationListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D402107E30F0066A59E /* GasStationListData.swift */; };
+		8E1BB8ED2107E78D0065281B /* ServiceResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1BB8EC2107E78D0065281B /* ServiceResult.swift */; };
+		8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1BB8EE2107E9A60065281B /* DataUtility.swift */; };
+		8E1BB8F12107F61E0065281B /* GasStationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1BB8F02107F61E0065281B /* GasStationCell.swift */; };
 		8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */; };
 		8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */; };
 		8E7FFE2A20F5E5FF006CED48 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2820F5E5FF006CED48 /* Main.storyboard */; };
@@ -43,6 +50,13 @@
 		8E167D3221007A680066A59E /* NMapViewerSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NMapViewerSDK.framework; path = naverMap/Frameworks/NMapViewerSDK.framework; sourceTree = "<group>"; };
 		8E167D3521007BFE0066A59E /* NHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NHeader.h; sourceTree = "<group>"; };
 		8E167D3621007F510066A59E /* NMapViewResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NMapViewResources.swift; sourceTree = "<group>"; };
+		8E167D3A2107AD480066A59E /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		8E167D3C2107AEA30066A59E /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = API.swift; path = "OilPrice-Where/API.swift"; sourceTree = SOURCE_ROOT; };
+		8E167D3E2107D95C0066A59E /* GeoConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoConverter.swift; sourceTree = "<group>"; };
+		8E167D402107E30F0066A59E /* GasStationListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GasStationListData.swift; path = "OilPrice-Where/GasStationListData.swift"; sourceTree = SOURCE_ROOT; };
+		8E1BB8EC2107E78D0065281B /* ServiceResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceResult.swift; sourceTree = "<group>"; };
+		8E1BB8EE2107E9A60065281B /* DataUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUtility.swift; sourceTree = "<group>"; };
+		8E1BB8F02107F61E0065281B /* GasStationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationCell.swift; sourceTree = "<group>"; };
 		8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OilPrice-Where.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
@@ -88,9 +102,19 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		8E167D422107E7240066A59E /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
 		8E4DAF0920F5EC2400E4FD92 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8E167D3C2107AEA30066A59E /* API.swift */,
+				8E167D402107E30F0066A59E /* GasStationListData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -98,6 +122,7 @@
 		8E4DAF0A20F5EC2700E4FD92 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				8E167D3A2107AD480066A59E /* Service.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -124,7 +149,8 @@
 		8E7FFE2320F5E5FF006CED48 /* OilPrice-Where */ = {
 			isa = PBXGroup;
 			children = (
-				8EE7E34720F5EDA400F35473 /* AppDelegate */,
+				8E167D422107E7240066A59E /* AppDelegate */,
+				8EE7E34720F5EDA400F35473 /* Utility */,
 				8E4DAF0920F5EC2400E4FD92 /* Model */,
 				8E4DAF0A20F5EC2700E4FD92 /* Services */,
 				8E7FFE3F20F5EB46006CED48 /* ViewController */,
@@ -150,6 +176,7 @@
 			children = (
 				8E7FFE3020F5E600006CED48 /* Info.plist */,
 				8E167D3521007BFE0066A59E /* NHeader.h */,
+				8E167D3E2107D95C0066A59E /* GeoConverter.swift */,
 			);
 			name = "Supporting File";
 			sourceTree = "<group>";
@@ -177,16 +204,18 @@
 		8E7FFE4120F5EBD2006CED48 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8E1BB8F02107F61E0065281B /* GasStationCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
 		};
-		8EE7E34720F5EDA400F35473 /* AppDelegate */ = {
+		8EE7E34720F5EDA400F35473 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */,
+				8E1BB8EC2107E78D0065281B /* ServiceResult.swift */,
+				8E1BB8EE2107E9A60065281B /* DataUtility.swift */,
 			);
-			name = AppDelegate;
+			name = Utility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -333,10 +362,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E7FFE3B20F5EA36006CED48 /* FindViewController.swift in Sources */,
+				8E167D3B2107AD480066A59E /* Service.swift in Sources */,
+				8E1BB8ED2107E78D0065281B /* ServiceResult.swift in Sources */,
+				8E167D412107E30F0066A59E /* GasStationListData.swift in Sources */,
 				8E7FFE3920F5EA1C006CED48 /* SettingTableViewController.swift in Sources */,
+				8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */,
 				8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */,
+				8E1BB8F12107F61E0065281B /* GasStationCell.swift in Sources */,
 				8E7FFE3720F5E9F8006CED48 /* MapViewController.swift in Sources */,
 				8E167D3721007F510066A59E /* NMapViewResources.swift in Sources */,
+				8E167D3D2107AEA30066A59E /* API.swift in Sources */,
+				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
