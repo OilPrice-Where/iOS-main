@@ -9,13 +9,13 @@
 import Alamofire
 
 protocol ServiceType {
-    static func gasStationList(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, completion: @escaping (Result<OilList>) -> ())
+    static func gasStationList(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String, completion: @escaping (Result<OilList>) -> ())
 }
 
 struct ServiceList: ServiceType {
-    static func gasStationList(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, completion: @escaping (Result<OilList>) -> ()) {
+    static func gasStationList(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String, completion: @escaping (Result<OilList>) -> ()) {
         Alamofire
-            .request(API.aroundAll(x: x, y: y, radius: radius, prodcd: prodcd, sort: sort).urlString)
+            .request(API.aroundAll(x: x, y: y, radius: radius, prodcd: prodcd, sort: sort, appKey: appKey).urlString)
             .validate()
             .responseData(completionHandler: { (response) in
                 switch response.result {
