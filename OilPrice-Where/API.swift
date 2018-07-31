@@ -32,64 +32,64 @@ enum API: APIProtocol {
     // osnm = 상호 검색명 (검색어 두글자 이상)
     enum LIST: String {
         // 전국 주유소 평균 가격
-        case avgAll = "/avgAllPrice.do?out=json&code=F302180619"
+        case avgAll = "/avgAllPrice.do?out=json&code=%@"
         // 시도별 주유소 평균 가격
-        case avgSido = "/avgSidoPrice.do?prodcd=%@&sido=%02d&out=json&code=F302180619"
+        case avgSido = "/avgSidoPrice.do?prodcd=%@&sido=%02d&out=json&code=%@"
         // 시군구별 주유소 평균 가격
-        case avgSigun = "/avgSigunPrice.do?prodcd=%@&sigun=%04d&sido=%02d&out=json&code=F302180619"
+        case avgSigun = "/avgSigunPrice.do?prodcd=%@&sigun=%04d&sido=%02d&out=json&code=%@"
         // 최근 7일간 전국 일일 평균 가격
-        case avgRecent = "/avgRecentPrice.do?prodcd=%@&out=json&code=F302180619"
+        case avgRecent = "/avgRecentPrice.do?prodcd=%@&out=json&code=%@"
         // 최근 1주의 주간 평균 유가(전국/시도별)
-        case avgLastWeek = "/avgLastWeek.do?prodcd=%@&code=F302180619&out=json"
+        case avgLastWeek = "/avgLastWeek.do?prodcd=%@&code=%@&out=json"
         // 지역별 최저가 주유소(Top10)
-        case lowTop10 = "/lowTop10.do?area=%04d&prodcd=%@&out=json&code=F302180619"
+        case lowTop10 = "/lowTop10.do?area=%04d&prodcd=%@&out=json&code=%@"
         // 반경내 주유소 검색
-        case aroundAll = "/aroundAll.do?x=%.5f&y=%.5f&radius=%d&prodcd=%@&sort=%d&out=json&code=F302180619"
+        case aroundAll = "/aroundAll.do?x=%.5f&y=%.5f&radius=%d&prodcd=%@&sort=%d&out=json&code=%@"
         // 주유소 상세 정보
-        case detailById = "/detailById.do?code=F302180619&id=%@&out=json"
+        case detailById = "/detailById.do?code=%@&id=%@&out=json"
         // 지역 코드
-        case areaCode = "/areaCode.do?out=json&code=F302180619&area=%@"
+        case areaCode = "/areaCode.do?out=json&code=%@&area=%@"
         // 상호로 주유소 검색
-        case searchByName = "/searchByName.do?code=F302180619&out=json&osnm=%@"
+        case searchByName = "/searchByName.do?code=%@&out=json&osnm=%@"
     }
     
     // API List
-    case avgAll // 전국 주유소 평균 가격
-    case avgSido(prodcd: String, sido: Int) // 시도별 주유소 평균 가격
-    case avgSigun(prodcd: String, sigun: Int, sido: Int) // 시군구별 주유소 평균 가격
-    case avgRecent(prodcd: String) // 최근 7일간 전국 일일 평균 가격
-    case avgLastWeek(prodcd: String) // 최근 1주의 주간 평균 유가(전국/시도별)
-    case lowTop10(prodcd: String, area: String) // 지역별 최저가 주유소(Top10)
-    case aroundAll(x: Double, y: Double, radius: Int, prodcd: String, sort: Int) // 반경내 주유소 검색
-    case detailById(id: String) // 주유소 상세 정보
-    case areaCode(area: String) // 지역 코드
-    case searchByName(osnm: String) // 상호로 주유소 검색
+    case avgAll(appKey: String) // 전국 주유소 평균 가격
+    case avgSido(prodcd: String, sido: Int, appKey: String) // 시도별 주유소 평균 가격
+    case avgSigun(prodcd: String, sigun: Int, sido: Int, appKey: String) // 시군구별 주유소 평균 가격
+    case avgRecent(prodcd: String, appKey: String) // 최근 7일간 전국 일일 평균 가격
+    case avgLastWeek(prodcd: String, appKey: String) // 최근 1주의 주간 평균 유가(전국/시도별)
+    case lowTop10(prodcd: String, area: String, appKey: String) // 지역별 최저가 주유소(Top10)
+    case aroundAll(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String) // 반경내 주유소
+    case detailById(appKey: String, id: String) // 주유소 상세 정보
+    case areaCode(area: String, appKey: String) // 지역 코드
+    case searchByName(appKey: String, osnm: String) // 상호로 주유소 검색
     
     // endPoint에 파라미터 값을 반환하는 변수
     private var endpointString: String {
         get {
             var tempString: String = ""
             switch self {
-            case .avgAll:
-                tempString = String(format: LIST.avgAll.rawValue)
-            case .avgSido(let prodcd, let sido):
-                tempString = String(format: LIST.avgSido.rawValue, prodcd, sido)
-            case .avgSigun(let prodcd, let sigun, let sido):
-                tempString = String(format: LIST.avgSigun.rawValue, prodcd, sigun, sido)
-            case .avgRecent(let prodcd):
-                tempString = String(format: LIST.avgRecent.rawValue, prodcd)
-            case .avgLastWeek(let prodcd):
-                tempString =  String(format: LIST.avgLastWeek.rawValue, prodcd)
-            case .lowTop10(let prodcd, let area):
-                tempString = String(format: LIST.lowTop10.rawValue, prodcd, area)
-            case .aroundAll(let x, let y, let radius, let prodcd, let sort):
-                tempString = String(format: LIST.aroundAll.rawValue, x, y, radius, prodcd, sort)
-            case .detailById(let id):
-                tempString = String(format: LIST.detailById.rawValue, id)
-            case .areaCode(let area):
-                tempString = String(format: LIST.areaCode.rawValue, area)
-            case .searchByName(let osnm):
-                tempString = String(format: LIST.searchByName.rawValue, osnm)
+            case .avgAll(let appKey):
+                tempString = String(format: LIST.avgAll.rawValue, appKey)
+            case .avgSido(let prodcd, let sido, let appKey):
+                tempString = String(format: LIST.avgSido.rawValue, prodcd, sido, appKey)
+            case .avgSigun(let prodcd, let sigun, let sido, let appKey):
+                tempString = String(format: LIST.avgSigun.rawValue, prodcd, sigun, sido, appKey)
+            case .avgRecent(let prodcd, let appKey):
+                tempString = String(format: LIST.avgRecent.rawValue, prodcd, appKey)
+            case .avgLastWeek(let prodcd, let appKey):
+                tempString =  String(format: LIST.avgLastWeek.rawValue, prodcd, appKey)
+            case .lowTop10(let prodcd, let area, let appKey):
+                tempString = String(format: LIST.lowTop10.rawValue, prodcd, area, appKey)
+            case .aroundAll(let x, let y, let radius, let prodcd, let sort, let appKey):
+                tempString = String(format: LIST.aroundAll.rawValue, x, y, radius, prodcd, sort, appKey)
+            case .detailById(let appKey, let id):
+                tempString = String(format: LIST.detailById.rawValue, appKey, id)
+            case .areaCode(let area, let appKey):
+                tempString = String(format: LIST.areaCode.rawValue, area, appKey)
+            case .searchByName(let appKey, let osnm):
+                tempString = String(format: LIST.searchByName.rawValue, appKey, osnm)
             }
             return tempString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         }
