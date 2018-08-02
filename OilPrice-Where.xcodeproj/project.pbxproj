@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7658AB092112C26300723CF0 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7658AB082112C26300723CF0 /* NoticeViewController.swift */; };
+		7658AB0C2112C38A00723CF0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */; };
 		8E167D2F21007A4E0066A59E /* ApiGatewayMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E167D2E21007A4E0066A59E /* ApiGatewayMac.framework */; };
 		8E167D3021007A4E0066A59E /* ApiGatewayMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8E167D2E21007A4E0066A59E /* ApiGatewayMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8E167D3321007A680066A59E /* NMapViewerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E167D3221007A680066A59E /* NMapViewerSDK.framework */; };
@@ -22,7 +24,6 @@
 		8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */; };
 		8E7FFE2A20F5E5FF006CED48 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2820F5E5FF006CED48 /* Main.storyboard */; };
 		8E7FFE2C20F5E5FF006CED48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2B20F5E5FF006CED48 /* Assets.xcassets */; };
-		8E7FFE2F20F5E5FF006CED48 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2D20F5E5FF006CED48 /* LaunchScreen.storyboard */; };
 		8E7FFE3720F5E9F8006CED48 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3620F5E9F8006CED48 /* MapViewController.swift */; };
 		8E7FFE3920F5EA1C006CED48 /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */; };
 		8E7FFE3B20F5EA36006CED48 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3A20F5EA36006CED48 /* FindViewController.swift */; };
@@ -46,6 +47,8 @@
 /* Begin PBXFileReference section */
 		5ADD44E371ADD94F9E7AFB44 /* Pods-OilPrice-Where.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.release.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.release.xcconfig"; sourceTree = "<group>"; };
 		74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OilPrice_Where.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7658AB082112C26300723CF0 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
+		7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		8E167D2E21007A4E0066A59E /* ApiGatewayMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApiGatewayMac.framework; path = naverMap/Frameworks/ApiGatewayMac.framework; sourceTree = "<group>"; };
 		8E167D3221007A680066A59E /* NMapViewerSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NMapViewerSDK.framework; path = naverMap/Frameworks/NMapViewerSDK.framework; sourceTree = "<group>"; };
 		8E167D3521007BFE0066A59E /* NHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NHeader.h; sourceTree = "<group>"; };
@@ -62,7 +65,6 @@
 		8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
 		8E7FFE2920F5E5FF006CED48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8E7FFE2B20F5E5FF006CED48 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		8E7FFE2E20F5E5FF006CED48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E7FFE3020F5E600006CED48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E7FFE3620F5E9F8006CED48 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +102,14 @@
 				5ADD44E371ADD94F9E7AFB44 /* Pods-OilPrice-Where.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		7658AB0A2112C28100723CF0 /* Setting ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7658AB082112C26300723CF0 /* NoticeViewController.swift */,
+			);
+			name = "Setting ViewController";
 			sourceTree = "<group>";
 		};
 		8E167D422107E7240066A59E /* AppDelegate */ = {
@@ -166,7 +176,6 @@
 			children = (
 				8E7FFE4020F5EB69006CED48 /* Main */,
 				8E7FFE2B20F5E5FF006CED48 /* Assets.xcassets */,
-				8E7FFE2D20F5E5FF006CED48 /* LaunchScreen.storyboard */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -188,6 +197,7 @@
 				8E7FFE3620F5E9F8006CED48 /* MapViewController.swift */,
 				8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */,
 				8E7FFE3A20F5EA36006CED48 /* FindViewController.swift */,
+				7658AB0A2112C28100723CF0 /* Setting ViewController */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -197,6 +207,7 @@
 			children = (
 				8E7FFE2820F5E5FF006CED48 /* Main.storyboard */,
 				8E167D3621007F510066A59E /* NMapViewResources.swift */,
+				7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -280,7 +291,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E7FFE2F20F5E5FF006CED48 /* LaunchScreen.storyboard in Resources */,
+				7658AB0C2112C38A00723CF0 /* Launch Screen.storyboard in Resources */,
 				8E7FFE2C20F5E5FF006CED48 /* Assets.xcassets in Resources */,
 				8E7FFE2A20F5E5FF006CED48 /* Main.storyboard in Resources */,
 			);
@@ -355,6 +366,7 @@
 				8E1BB8F12107F61E0065281B /* GasStationCell.swift in Sources */,
 				8E7FFE3720F5E9F8006CED48 /* MapViewController.swift in Sources */,
 				8E167D3721007F510066A59E /* NMapViewResources.swift in Sources */,
+				7658AB092112C26300723CF0 /* NoticeViewController.swift in Sources */,
 				8E167D3D2107AEA30066A59E /* API.swift in Sources */,
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
@@ -370,14 +382,6 @@
 				8E7FFE2920F5E5FF006CED48 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		8E7FFE2D20F5E5FF006CED48 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8E7FFE2E20F5E5FF006CED48 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
