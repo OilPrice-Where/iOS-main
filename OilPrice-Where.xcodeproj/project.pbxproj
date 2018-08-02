@@ -507,11 +507,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-<<<<<<< HEAD
 				DEVELOPMENT_TEAM = Z339Z9FD2H;
-=======
-				DEVELOPMENT_TEAM = 944595JNCH;
->>>>>>> 103c34a8fe617f36072b16ac2c75f571d03dfea9
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -543,11 +539,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-<<<<<<< HEAD
 				DEVELOPMENT_TEAM = Z339Z9FD2H;
-=======
-				DEVELOPMENT_TEAM = 944595JNCH;
->>>>>>> 103c34a8fe617f36072b16ac2c75f571d03dfea9
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
