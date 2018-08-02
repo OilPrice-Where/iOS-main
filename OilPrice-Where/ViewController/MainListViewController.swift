@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  OilPrice-Where
 //
-//  Created by 박소정 on 2018. 7. 11..
+//  Created by 박상욱 on 2018. 7. 11..
 //  Copyright © 2018년 sangwook park. All rights reserved.
 //
 
@@ -40,8 +40,8 @@ class MainListViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gasStation"),
-                                        object: self.gasStations!)
+//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gasStation"),
+//                                        object: self.gasStations!)
     }
     
     private func gasStationListData(katecPoint: KatecPoint){
