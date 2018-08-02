@@ -157,8 +157,6 @@ extension MainListViewController: UITableViewDataSource {
         
         cell.configure(with: gasStations[indexPath.row])
         
-        
-        
         return cell
     }
     
