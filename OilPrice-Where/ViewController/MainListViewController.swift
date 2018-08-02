@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  OilPrice-Where
 //
-//  Created by 박소정 on 2018. 7. 11..
+//  Created by 박상욱 on 2018. 7. 11..
 //  Copyright © 2018년 sangwook park. All rights reserved.
 //
 
@@ -26,32 +26,55 @@ class MainListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        startLocationManager()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        startLocationManager()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+
+//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gasStation"),
+//                                        object: self.gasStations!)
     }
     
     private func gasStationListData(katecPoint: KatecPoint){
-        print(katecPoint) 
-        ServiceList.gasStationList(x: katecPoint.x, y: katecPoint.y, radius: 3000, prodcd: "B027", sort: 1) { (result) in
+        ServiceList.gasStationList(x: katecPoint.x, y: katecPoint.y, radius: 3000, prodcd: "B027", sort: 1, appKey: getAppKey()) { (result) in
             switch result {
             case .success(let gasStationData):
-                print(gasStationData)
                 self.gasStations = gasStationData.result.gasStations
                 self.tableView.reloadData()
-                self.stopLocationManager()
             case .error(let error):
                 print(error)
                 
             }
         }
+    }
+    
+    func getAppKey() -> String {
+        var appKey = ""
+        
+        switch arc4random_uniform(6) {
+        case 0:
+            appKey = "F302180619"
+        case 1:
+            appKey = "F303180619"
+        case 2:
+            appKey = "F304180619"
+        case 3:
+            appKey = "F305180619"
+        case 4:
+            appKey = "F306180619"
+        default:
+            appKey = "F307180619"
+        }
+        return appKey
     }
 
     func convertWGS84ToKatec(longitude: Double, latitude: Double) -> KatecPoint {
@@ -60,7 +83,7 @@ class MainListViewController: UIViewController {
         let tmPoint = convert.convert(sourceType: .WGS_84, destinationType: .TM, geoPoint: wgsPoint)
         let katecPoint = convert.convert(sourceType: .TM, destinationType: .KATEC, geoPoint: tmPoint!)
         
-        return KatecPoint(x: katecPoint!.x.roundTo(places: 8), y: katecPoint!.y.roundTo(places: 8))
+        return KatecPoint(x: katecPoint!.x.roundTo(places: 5), y: katecPoint!.y.roundTo(places: 5))
         
     }
     
@@ -105,14 +128,16 @@ extension MainListViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("Bye")
         let newLocation = locations.last
         
         if newLocation != nil {
-            print(newLocation!.coordinate)
             let katecPoint = convertWGS84ToKatec(longitude: newLocation!.coordinate.longitude,
                                                  latitude: newLocation!.coordinate.latitude)
             
             gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
+            
+            stopLocationManager()
         }
     }
 }

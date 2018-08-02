@@ -2,13 +2,15 @@
 //  MapViewController.swift
 //  OilPrice-Where
 //
-//  Created by 박소정 on 2018. 7. 11..
+//  Created by 박상욱 on 2018. 7. 11..
 //  Copyright © 2018년 sangwook park. All rights reserved.
 //
 
 import UIKit
 
 class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlayDelegate, NMapLocationManagerDelegate {
+    
+    var gasStations: [GasStation] = []
     
     //    @IBOutlet weak var levelStepper: UIStepper!
     var mapView: NMapView?
@@ -21,10 +23,21 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
         case trackingWithHeading
     }
     
-    var currentState: state = .disabled
+    var currentState: state = .tracking
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "gasStation"),
+                                               object: nil,
+                                               queue: nil) {
+                                                [weak self] (noti) in
+                                                if let gs = noti.object as? [GasStation] {
+                                                    self?.gasStations = gs
+                                                }
+        }
+        
+        mapView?.viewDidAppear()
         
         mapView = NMapView(frame: self.view.bounds)
         
@@ -90,10 +103,8 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("CLLocation: ", location)
         mapView?.viewWillAppear()
         enableLocationUpdate()
-//        enableHeading()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -116,7 +127,8 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        mapView?.viewDidAppear()
+        showMarkers()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -276,7 +288,7 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
         let button = UIButton(type: .custom)
         
         button.frame = CGRect(x: 15, y: 30, width: 36, height: 36)
-        button.setImage(#imageLiteral(resourceName: "v4_btn_navi_location_normal"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "v4_btn_navi_location_selected"), for: .normal)
         
         button.addTarget(self, action: #selector(buttonClicked(_:)), for: .touchUpInside)
         
@@ -321,5 +333,52 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
         case .trackingWithHeading:
             changeStateButton?.setImage(#imageLiteral(resourceName: "v4_btn_navi_location_my"), for: .normal)
         }
+    }
+    
+    // MARK : Marker
+    
+    func showMarkers() {
+        
+        if let mapOverlayManager = mapView?.mapOverlayManager {
+            
+            // create POI data overlay
+            if let poiDataOverlay = mapOverlayManager.newPOIdataOverlay() {
+                
+                poiDataOverlay.initPOIdata(Int32(gasStations.count))
+                
+                for i in 0..<gasStations.count {
+                    let wgsPoint = convertKatecToWGS(x: gasStations[i].katecX, y: gasStations[i].katecY)
+                    poiDataOverlay.addPOIitem(atLocation: NGeoPoint(longitude: wgsPoint.x,
+                                                                    latitude: wgsPoint.y),
+                                              title: gasStations[i].name,
+                                              type: UserPOIflagTypeDefault,
+                                              iconIndex: Int32(i),
+                                              with: nil)
+                }
+                
+                poiDataOverlay.endPOIdata()
+                
+                // show all POI data
+                poiDataOverlay.showAllPOIdata()
+                
+                poiDataOverlay.selectPOIitem(at: Int32(gasStations.count - 1), moveToCenter: false, focusedBySelectItem: true)
+                
+            }
+        }
+    }
+    
+    func clearOverlays() {
+        if let mapOverlayManager = mapView?.mapOverlayManager {
+            mapOverlayManager.clearOverlays()
+        }
+    }
+    
+    func convertKatecToWGS(x: Double, y: Double) -> KatecPoint {
+        let convert = GeoConverter()
+        let katecPoint = GeographicPoint(x: x, y: y)
+        let wgsPoint = convert.convert(sourceType: .KATEC, destinationType: .WGS_84, geoPoint: katecPoint)
+        
+        return KatecPoint(x: wgsPoint!.x.roundTo(places: 6), y: wgsPoint!.y.roundTo(places: 6))
+        
     }
 }
