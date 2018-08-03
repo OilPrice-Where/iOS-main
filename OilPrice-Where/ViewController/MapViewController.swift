@@ -10,6 +10,22 @@ import UIKit
 
 class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlayDelegate, NMapLocationManagerDelegate {
     
+    // MARK:- 레이블과 이미지뷰
+    @IBOutlet weak var logoImege: UIImageView!
+    @IBOutlet weak var gasStationNameLabel: UILabel!
+    @IBOutlet weak var distanceToGasStationLabel: UILabel!
+    @IBOutlet weak var typeOfOilLabel: UILabel!
+    @IBOutlet weak var oilPlice: UILabel!
+    
+    // MARK:- 버튼
+    @IBAction func favoritesButton(_ sender: UIButton) {
+    }
+    @IBAction func navigationButton(_ sender: UIButton) {
+    }
+    
+    
+    
+    
     var gasStations: [GasStation] = []
     
     //    @IBOutlet weak var levelStepper: UIStepper!
