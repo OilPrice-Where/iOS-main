@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7658AB092112C26300723CF0 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7658AB082112C26300723CF0 /* NoticeViewController.swift */; };
 		7658AB0C2112C38A00723CF0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */; };
+		76E226332117EFED00D719A8 /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E226322117EFED00D719A8 /* FavoriteCollectionViewCell.swift */; };
 		8E167D2F21007A4E0066A59E /* ApiGatewayMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E167D2E21007A4E0066A59E /* ApiGatewayMac.framework */; };
 		8E167D3021007A4E0066A59E /* ApiGatewayMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8E167D2E21007A4E0066A59E /* ApiGatewayMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8E167D3321007A680066A59E /* NMapViewerSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E167D3221007A680066A59E /* NMapViewerSDK.framework */; };
@@ -26,7 +27,7 @@
 		8E7FFE2C20F5E5FF006CED48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2B20F5E5FF006CED48 /* Assets.xcassets */; };
 		8E7FFE3720F5E9F8006CED48 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3620F5E9F8006CED48 /* MapViewController.swift */; };
 		8E7FFE3920F5EA1C006CED48 /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */; };
-		8E7FFE3B20F5EA36006CED48 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3A20F5EA36006CED48 /* FindViewController.swift */; };
+		8E7FFE3B20F5EA36006CED48 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3A20F5EA36006CED48 /* FavoritesViewController.swift */; };
 		B633531A781457C90F211EA0 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OilPrice_Where.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7658AB082112C26300723CF0 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		76E226322117EFED00D719A8 /* FavoriteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionViewCell.swift; sourceTree = "<group>"; };
 		8E167D2E21007A4E0066A59E /* ApiGatewayMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApiGatewayMac.framework; path = naverMap/Frameworks/ApiGatewayMac.framework; sourceTree = "<group>"; };
 		8E167D3221007A680066A59E /* NMapViewerSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NMapViewerSDK.framework; path = naverMap/Frameworks/NMapViewerSDK.framework; sourceTree = "<group>"; };
 		8E167D3521007BFE0066A59E /* NHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NHeader.h; sourceTree = "<group>"; };
@@ -68,7 +70,7 @@
 		8E7FFE3020F5E600006CED48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E7FFE3620F5E9F8006CED48 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
-		8E7FFE3A20F5EA36006CED48 /* FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindViewController.swift; sourceTree = "<group>"; };
+		8E7FFE3A20F5EA36006CED48 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,6 +112,14 @@
 				7658AB082112C26300723CF0 /* NoticeViewController.swift */,
 			);
 			name = "Setting ViewController";
+			sourceTree = "<group>";
+		};
+		76E226312117EFAD00D719A8 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				76E226322117EFED00D719A8 /* FavoriteCollectionViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		8E167D422107E7240066A59E /* AppDelegate */ = {
@@ -165,6 +175,7 @@
 				8E4DAF0A20F5EC2700E4FD92 /* Services */,
 				8E7FFE3F20F5EB46006CED48 /* ViewController */,
 				8E7FFE4120F5EBD2006CED48 /* View */,
+				76E226312117EFAD00D719A8 /* Cell */,
 				8E7FFE3D20F5EABE006CED48 /* Resource */,
 				8E7FFE3E20F5EB17006CED48 /* Supporting File */,
 			);
@@ -196,7 +207,7 @@
 				8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */,
 				8E7FFE3620F5E9F8006CED48 /* MapViewController.swift */,
 				8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */,
-				8E7FFE3A20F5EA36006CED48 /* FindViewController.swift */,
+				8E7FFE3A20F5EA36006CED48 /* FavoritesViewController.swift */,
 				7658AB0A2112C28100723CF0 /* Setting ViewController */,
 			);
 			path = ViewController;
@@ -356,10 +367,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E7FFE3B20F5EA36006CED48 /* FindViewController.swift in Sources */,
+				8E7FFE3B20F5EA36006CED48 /* FavoritesViewController.swift in Sources */,
 				8E167D3B2107AD480066A59E /* Service.swift in Sources */,
 				8E1BB8ED2107E78D0065281B /* ServiceResult.swift in Sources */,
 				8E167D412107E30F0066A59E /* GasStationListData.swift in Sources */,
+				76E226332117EFED00D719A8 /* FavoriteCollectionViewCell.swift in Sources */,
 				8E7FFE3920F5EA1C006CED48 /* SettingTableViewController.swift in Sources */,
 				8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */,
 				8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */,

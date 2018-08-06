@@ -23,9 +23,6 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
     @IBAction func navigationButton(_ sender: UIButton) {
     }
     
-    
-    
-    
     var gasStations: [GasStation] = []
     
     //    @IBOutlet weak var levelStepper: UIStepper!
@@ -193,7 +190,6 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
             alert.addAction(UIAlertAction(title:"OK", style:.default, handler: nil))
             present(alert, animated: true, completion: nil)
         }
-        
         
         if let mapView = mapView, mapView.isAutoRotateEnabled {
             mapView.setAutoRotateEnabled(false, animate: true)
