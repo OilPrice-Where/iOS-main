@@ -53,12 +53,6 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
             
             view.addSubview(mapView)
             
-            // Zoom 용 UIStepper 셋팅.
-//            initLevelStepper(mapView.minZoomLevel(), maxValue:mapView.maxZoomLevel(), initialValue:11)
-//            view.bringSubview(toFront: levelStepper)
-            
-//            mapView.setBuiltInAppControl(true)
-            
         }
         
         // Add Controls.
@@ -83,6 +77,31 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
         }
     }
     
+    func onMapView(_ mapView: NMapView!, touchesMoved touches: Set<AnyHashable>!, with event: UIEvent!) {
+        updateState(.disabled)
+    }
+    
+    func addPolylines() {
+        
+        if let mapOverlayManager = mapView?.mapOverlayManager {
+            
+            // set path data points
+            if let pathData = NMapPathData.init(capacity: 9) {
+                
+                pathData.initPathData()
+                
+                pathData.addPathPointLongitude(127.108099, latitude: 37.366034, lineType: .solid)
+                
+                pathData.end()
+                
+                // create path data overlay
+                if let pathDataOverlay = mapOverlayManager.newPathDataOverlay(pathData) {
+                    pathDataOverlay.showAllPathData()
+                }
+            }
+        }
+    }
+    
     open func onMapOverlay(_ poiDataOverlay: NMapPOIdataOverlay!, imageForOverlayItem poiItem: NMapPOIitem!, selected: Bool) -> UIImage! {
         return NMapViewResources.imageWithType(poiItem.poiFlagType, selected: selected)
     }
@@ -90,10 +109,16 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
         return NMapViewResources.anchorPoint(withType: poiFlagType)
     }
     open func onMapOverlay(_ poiDataOverlay: NMapPOIdataOverlay!, calloutOffsetWithType poiFlagType: NMapPOIflagType) -> CGPoint {
-        return CGPoint(x: 0, y: 0)
+        return CGPoint(x: 0.5, y: 0)
     }
     open func onMapOverlay(_ poiDataOverlay: NMapPOIdataOverlay!, imageForCalloutOverlayItem poiItem: NMapPOIitem!, constraintSize: CGSize, selected: Bool, imageForCalloutRightAccessory: UIImage!, calloutPosition: UnsafeMutablePointer<CGPoint>!, calloutHit calloutHitRect: UnsafeMutablePointer<CGRect>!) -> UIImage! {
         return nil
+    }
+    
+    func onMapOverlay(_ poiDataOverlay: NMapPOIdataOverlay!, viewForCalloutOverlayItem poiItem: NMapPOIitem!, calloutPosition: UnsafeMutablePointer<CGPoint>!) -> UIView! {
+        calloutLabel.text = poiItem.title
+        calloutPosition.pointee.x = round(calloutView.bounds.size.width / 2) + 1
+        return calloutView
     }
     
     override func didReceiveMemoryWarning() {
@@ -113,20 +138,10 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
         mapView?.viewDidDisappear()
     }
     
-//    func initLevelStepper(_ minValue: Int32, maxValue: Int32, initialValue: Int32) {
-//        levelStepper.minimumValue = Double(minValue)
-//        levelStepper.maximumValue = Double(maxValue)
-//        levelStepper.stepValue = 1
-//        levelStepper.value = Double(initialValue)
-//    }
-//
-//    @IBAction func levelStepperValeChanged(_ sender: UIStepper) {
-//        mapView?.setZoomLevel(Int32(sender.value))
-//    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        print(gasStations)
         showMarkers()
         
     }
@@ -149,7 +164,9 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
         let locationAccuracy = Float(location.horizontalAccuracy)
         
         mapView?.mapOverlayManager.setMyLocation(myLocation, locationAccuracy: locationAccuracy)
-        mapView?.setMapCenter(myLocation)
+        if currentState == .trackingWithHeading || currentState == .tracking {
+            mapView?.setMapCenter(myLocation)
+        }
     }
     
     // 위치 에러
@@ -361,7 +378,7 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
                 // show all POI data
                 poiDataOverlay.showAllPOIdata()
                 
-                poiDataOverlay.selectPOIitem(at: Int32(gasStations.count - 1), moveToCenter: false, focusedBySelectItem: true)
+                poiDataOverlay.selectPOIitem(at: Int32(gasStations.count - 1), moveToCenter: true, focusedBySelectItem: true)
                 
             }
         }

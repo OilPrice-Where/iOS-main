@@ -40,8 +40,8 @@ class MainListViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gasStation"),
-//                                        object: self.gasStations!)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gasStation"),
+                                        object: self.gasStations!)
     }
     
     private func gasStationListData(katecPoint: KatecPoint){
