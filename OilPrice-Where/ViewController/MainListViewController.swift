@@ -108,10 +108,8 @@ class MainListViewController: UIViewController {
     
     // 위치 검색 중지
     func stopLocationManager() {
-        if updatingLocation {
-            locationManager.stopUpdatingLocation()
-            locationManager.delegate = nil
-        }
+        locationManager.stopUpdatingLocation()
+        locationManager.delegate = nil
     }
 }
 
