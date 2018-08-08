@@ -95,6 +95,7 @@ class MainListViewController: UIViewController {
         
         if status == .notDetermined { // notDetermined일 시 AlwaysAuthorization 요청
             locationManager.requestAlwaysAuthorization()
+            startLocationUpdates(locationManager: locationManager)
         } else if status == .authorizedAlways || status == .authorizedWhenInUse { // 인증시 위치 정보 받아오기 시작
             startLocationUpdates(locationManager: locationManager)
         }
