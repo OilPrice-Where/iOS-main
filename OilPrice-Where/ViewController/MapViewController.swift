@@ -2,45 +2,50 @@
 //  MapViewController.swift
 //  OilPrice-Where
 //
-//  Created by 박상욱 on 2018. 7. 11..
+//  Created by 박소정 on 2018. 8. 6..
 //  Copyright © 2018년 sangwook park. All rights reserved.
 //
 
 import UIKit
+import MapKit
+import CoreLocation
 
-class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlayDelegate, NMapLocationManagerDelegate {
-    
-    // MARK:- 레이블과 이미지뷰
-    @IBOutlet weak var logoImege: UIImageView!
-    @IBOutlet weak var gasStationNameLabel: UILabel!
-    @IBOutlet weak var distanceToGasStationLabel: UILabel!
-    @IBOutlet weak var typeOfOilLabel: UILabel!
-    @IBOutlet weak var oilPlice: UILabel!
-    
-    // MARK:- 버튼
-    @IBAction func favoritesButton(_ sender: UIButton) {
-    }
-    @IBAction func navigationButton(_ sender: UIButton) {
-    }
-    
+class MapViewController: UIViewController {
+
     var gasStations: [GasStation] = []
     
-    //    @IBOutlet weak var levelStepper: UIStepper!
-    var mapView: NMapView?
-    var changeStateButton: UIButton?
-    var location: CLLocation?
+    //Detail View
+    @IBOutlet private weak var logoType : UIImageView!
+    @IBOutlet private weak var stationName : UILabel!
+    @IBOutlet private weak var distance : UILabel!
+    @IBOutlet private weak var oilPrice : UILabel!
+    private var lastKactecX: Double?
+    private var lastKactecY: Double?
     
-    enum state {
-        case disabled
-        case tracking
-        case trackingWithHeading
-    }
+    //Core Location
+    var locationManager = CLLocationManager()
+    var lastLocationError: Error?
     
-    var currentState: state = .tracking
+    //Map Kit
+    @IBOutlet private weak var mapView: MKMapView!
+    private var currentCoordinate: CLLocationCoordinate2D?
+    var currentPlacemark: CLPlacemark?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadData() // 지도위 데이터 로드
+        configureLocationServices() // 로케이션 서바스 시작
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        showMarker() // 마커 생성
+    }
+    
+    // 지도위 데이터 정보 생성
+    func loadData() {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "gasStation"),
                                                object: nil,
                                                queue: nil) {
@@ -50,364 +55,252 @@ class MapViewController: UIViewController , NMapViewDelegate, NMapPOIdataOverlay
                                                 }
         }
         
-        mapView?.viewDidAppear()
+        mapView.delegate = self
+    }
+    
+    // 마커 생성
+    func showMarker() {
+        var annotations: [ImageAnnotation] = [] // 마커 배열 생성
         
-        mapView = NMapView(frame: self.view.bounds)
-        
-        if let mapView = mapView {
-            
-            // set the delegate for map view
-            mapView.delegate = self
-            
-            // set the application api key for Open MapViewer Library
-            mapView.setClientId("NMdSrEaqoUoo0bzgtlId")
-            
-            mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            
-            view.addSubview(mapView)
-            
-        }
-        
-        // Add Controls.
-        changeStateButton = createButton()
-        
-        if let button = changeStateButton {
-            view.addSubview(button)
+        for i in 0..<gasStations.count {
+            annotations.append(ImageAnnotation()) // 마커 생성
+            annotations[i].coordinate = convertKatecToWGS(x: gasStations[i].katecX, // 마커 위치 선점
+                                                          y: gasStations[i].katecY)
+            annotations[i].image = logoImage(logoName: gasStations[i].brand) // 브랜드
+            annotations[i].name = gasStations[i].name // 상호명
+            annotations[i].distance = gasStations[i].distance // 거리
+            annotations[i].price = gasStations[i].price // 가격
+            annotations[i].katecX = gasStations[i].katecX // KatecX
+            annotations[i].katecY = gasStations[i].katecY // KatecY
+            self.mapView.addAnnotation(annotations[i]) // 맵뷰에 마커 생성
         }
     }
     
-    // MARK: - NMapViewDelegate Methods
-    open func onMapView(_ mapView: NMapView!, initHandler error: NMapError!) {
-        if (error == nil) { // success
-            // set map center and level
-            mapView.setMapCenter(NGeoPoint(longitude:126.978371, latitude:37.5666091), atLevel:11)
-            // set for retina display
-            mapView.setMapEnlarged(true, mapHD: true)
-            // set map mode : vector(일반지도)/satelite(위성)/hybrid(주소설명과 위성지도)
-            mapView.mapViewMode = .vector
-        } else { // fail
-            print("onMapView:initHandler: \(error.description)")
+    // 로고 이미지
+    func logoImage(logoName name: String) -> UIImage? {
+        switch name {
+        case "SKE":
+            return UIImage(named: "LogoSKEnergy")
+        case "GSC":
+            return UIImage(named: "LogoGSCaltex")
+        case "HDO":
+            return UIImage(named: "LogoOilBank")
+        case "SOL":
+            return UIImage(named: "LogoSOil")
+        case "RTO":
+            return UIImage(named: "LogoFrugalOil")
+        case "RTX":
+            return UIImage(named: "LogoExpresswayOil")
+        case "NHO":
+            return UIImage(named: "LogoNHOil")
+        case "ETC":
+            return UIImage(named: "LogoPersonalOil")
+        case "E1G":
+            return UIImage(named: "LogoEnergyOne")
+        case "SKG":
+            return UIImage(named: "LogoSKGas")
+        default:
+            return nil
         }
     }
     
-    func onMapView(_ mapView: NMapView!, touchesMoved touches: Set<AnyHashable>!, with event: UIEvent!) {
-        updateState(.disabled)
-    }
-    
-    func addPolylines() {
-        
-        if let mapOverlayManager = mapView?.mapOverlayManager {
-            
-            // set path data points
-            if let pathData = NMapPathData.init(capacity: 9) {
-                
-                pathData.initPathData()
-                
-                pathData.addPathPointLongitude(127.108099, latitude: 37.366034, lineType: .solid)
-                
-                pathData.end()
-                
-                // create path data overlay
-                if let pathDataOverlay = mapOverlayManager.newPathDataOverlay(pathData) {
-                    pathDataOverlay.showAllPathData()
-                }
-            }
-        }
-    }
-    
-    open func onMapOverlay(_ poiDataOverlay: NMapPOIdataOverlay!, imageForOverlayItem poiItem: NMapPOIitem!, selected: Bool) -> UIImage! {
-        return NMapViewResources.imageWithType(poiItem.poiFlagType, selected: selected)
-    }
-    open func onMapOverlay(_ poiDataOverlay: NMapPOIdataOverlay!, anchorPointWithType poiFlagType: NMapPOIflagType) -> CGPoint {
-        return NMapViewResources.anchorPoint(withType: poiFlagType)
-    }
-    open func onMapOverlay(_ poiDataOverlay: NMapPOIdataOverlay!, calloutOffsetWithType poiFlagType: NMapPOIflagType) -> CGPoint {
-        return CGPoint(x: 0.5, y: 0)
-    }
-    open func onMapOverlay(_ poiDataOverlay: NMapPOIdataOverlay!, imageForCalloutOverlayItem poiItem: NMapPOIitem!, constraintSize: CGSize, selected: Bool, imageForCalloutRightAccessory: UIImage!, calloutPosition: UnsafeMutablePointer<CGPoint>!, calloutHit calloutHitRect: UnsafeMutablePointer<CGRect>!) -> UIImage! {
-        return nil
-    }
-    
-    func onMapOverlay(_ poiDataOverlay: NMapPOIdataOverlay!, viewForCalloutOverlayItem poiItem: NMapPOIitem!, calloutPosition: UnsafeMutablePointer<CGPoint>!) -> UIView! {
-        calloutLabel.text = poiItem.title
-        calloutPosition.pointee.x = round(calloutView.bounds.size.width / 2) + 1
-        return calloutView
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        mapView?.didReceiveMemoryWarning()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        mapView?.viewWillAppear()
-        enableLocationUpdate()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        mapView?.viewDidDisappear()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        print(gasStations)
-        showMarkers()
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        mapView?.viewWillDisappear()
-        
-        stopLocationUpdating()
-    }
-    
-    // MARK: - NMapLocationManagerDelegate Methods
-    
-    open func locationManager(_ locationManager: NMapLocationManager!, didUpdateTo location: CLLocation!) {
-        
-        let coordinate = location.coordinate
-        
-        let myLocation = NGeoPoint(longitude: coordinate.longitude, latitude: coordinate.latitude)
-        let locationAccuracy = Float(location.horizontalAccuracy)
-        
-        mapView?.mapOverlayManager.setMyLocation(myLocation, locationAccuracy: locationAccuracy)
-        if currentState == .trackingWithHeading || currentState == .tracking {
-            mapView?.setMapCenter(myLocation)
-        }
-    }
-    
-    // 위치 에러
-    open func locationManager(_ locationManager: NMapLocationManager!, didFailWithError errorType: NMapLocationManagerErrorType) {
-        
-        var message: String = ""
-        
-        // 에러 타입
-        switch errorType {
-        case .unknown: fallthrough
-        case .canceled: fallthrough
-        case .timeout:
-            message = "일시적으로 내위치를 확인 할 수 없습니다."
-        case .denied:
-            message = "위치 정보를 확인 할 수 없습니다.\n사용자의 위치 정보를 확인하도록 허용하시려면 위치서비스를 켜십시오."
-        case .unavailableArea:
-            message = "현재 위치는 지도내에 표시할 수 없습니다."
-        case .heading:
-            message = "나침반 정보를 확인 할 수 없습니다."
-        }
-        
-        // 에러메세지가 있을 시 Alert 호출
-        if (!message.isEmpty) {
-            let alert = UIAlertController(title:"NMapViewer", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title:"OK", style:.default, handler: nil))
-            present(alert, animated: true, completion: nil)
-        }
-        
-        if let mapView = mapView, mapView.isAutoRotateEnabled {
-            mapView.setAutoRotateEnabled(false, animate: true)
-        }
-    }
-    
-    func locationManager(_ locationManager: NMapLocationManager!, didUpdate heading: CLHeading!) {
-        let headingValue = heading.trueHeading < 0.0 ? heading.magneticHeading : heading.trueHeading
-        setCompassHeadingValue(headingValue)
-    }
-    
-    func onMapViewIsGPSTracking(_ mapView: NMapView!) -> Bool {
-        return NMapLocationManager.getSharedInstance().isTrackingEnabled()
-    }
-    
-    func findCurrentLocation() {
-        enableLocationUpdate()
-    }
-    
-    func setCompassHeadingValue(_ headingValue: Double) {
-        
-        if let mapView = mapView, mapView.isAutoRotateEnabled {
-            mapView.setRotateAngle(Float(headingValue), animate: true)
-        }
-    }
-    
-    func stopLocationUpdating() {
-        
-        disableHeading()
-        disableLocationUpdate()
-    }
-    
-    // MARK: - My Location
-    
-    func enableLocationUpdate() {
-        
-        if let lm = NMapLocationManager.getSharedInstance() {
-            
-            if lm.locationServiceEnabled() == false {
-                locationManager(lm, didFailWithError: .denied)
-                return
-            }
-            
-            // Location 장치 false일 시 true로 변경
-            if lm.isUpdateLocationStarted() == false {
-                // set delegate
-                lm.setDelegate(self)
-                // start updating location
-                lm.startContinuousLocationInfo()
-            }
-        }
-    }
-    
-    func disableLocationUpdate() {
-        
-        if let lm = NMapLocationManager.getSharedInstance() {
-            
-            // Location 장치 true일 시 false로 변경
-            if lm.isUpdateLocationStarted() {
-                // start updating location
-                lm.stopUpdateLocationInfo()
-                // set delegate
-                lm.setDelegate(nil)
-            }
-        }
-        
-        mapView?.mapOverlayManager.clearMyLocationOverlay()
-    }
-    
-    // MARK: - Compass
-    
-    func enableHeading() -> Bool {
-        
-        if let lm = NMapLocationManager.getSharedInstance() {
-            
-            let isAvailableCompass = lm.headingAvailable()
-            
-            if isAvailableCompass {
-                
-                mapView?.setAutoRotateEnabled(true, animate: true)
-                
-                lm.startUpdatingHeading()
-            } else {
-                return false
-            }
-        }
-        
-        return true;
-    }
-    
-    func disableHeading() {
-        if let lm = NMapLocationManager.getSharedInstance() {
-            
-            let isAvailableCompass = lm.headingAvailable()
-            
-            if isAvailableCompass {
-                lm.stopUpdatingHeading()
-            }
-        }
-        
-        mapView?.setAutoRotateEnabled(false, animate: true)
-    }
-    
-    // MARK: - Button Control
-    
-    func createButton() -> UIButton? {
-        
-        let button = UIButton(type: .custom)
-        
-        button.frame = CGRect(x: 15, y: 30, width: 36, height: 36)
-        button.setImage(#imageLiteral(resourceName: "v4_btn_navi_location_selected"), for: .normal)
-        
-        button.addTarget(self, action: #selector(buttonClicked(_:)), for: .touchUpInside)
-        
-        return button
-    }
-    
-    @objc func buttonClicked(_ sender: UIButton!) {
-        
-        if let lm = NMapLocationManager.getSharedInstance() {
-            
-            switch currentState {
-            case .disabled:
-                enableLocationUpdate()
-                updateState(.tracking)
-            case .tracking:
-                let isAvailableCompass = lm.headingAvailable()
-                if isAvailableCompass {
-                    enableLocationUpdate()
-                    if enableHeading() {
-                        updateState(.trackingWithHeading)
-                    }
-                } else {
-                    stopLocationUpdating()
-                    updateState(.disabled)
-                }
-            case .trackingWithHeading:
-                stopLocationUpdating()
-                updateState(.disabled)
-            }
-        }
-    }
-    
-    func updateState(_ newState: state) {
-        
-        currentState = newState
-        
-        switch currentState {
-        case .disabled:
-            changeStateButton?.setImage(#imageLiteral(resourceName: "v4_btn_navi_location_normal"), for: .normal)
-        case .tracking:
-            changeStateButton?.setImage(#imageLiteral(resourceName: "v4_btn_navi_location_selected"), for: .normal)
-        case .trackingWithHeading:
-            changeStateButton?.setImage(#imageLiteral(resourceName: "v4_btn_navi_location_my"), for: .normal)
-        }
-    }
-    
-    // MARK : Marker
-    
-    func showMarkers() {
-        
-        if let mapOverlayManager = mapView?.mapOverlayManager {
-            
-            // create POI data overlay
-            if let poiDataOverlay = mapOverlayManager.newPOIdataOverlay() {
-                
-                poiDataOverlay.initPOIdata(Int32(gasStations.count))
-                
-                for i in 0..<gasStations.count {
-                    let wgsPoint = convertKatecToWGS(x: gasStations[i].katecX, y: gasStations[i].katecY)
-                    poiDataOverlay.addPOIitem(atLocation: NGeoPoint(longitude: wgsPoint.x,
-                                                                    latitude: wgsPoint.y),
-                                              title: gasStations[i].name,
-                                              type: UserPOIflagTypeDefault,
-                                              iconIndex: Int32(i),
-                                              with: nil)
-                }
-                
-                poiDataOverlay.endPOIdata()
-                
-                // show all POI data
-                poiDataOverlay.showAllPOIdata()
-                
-                poiDataOverlay.selectPOIitem(at: Int32(gasStations.count - 1), moveToCenter: true, focusedBySelectItem: true)
-                
-            }
-        }
-    }
-    
-    func clearOverlays() {
-        if let mapOverlayManager = mapView?.mapOverlayManager {
-            mapOverlayManager.clearOverlays()
-        }
-    }
-    
-    func convertKatecToWGS(x: Double, y: Double) -> KatecPoint {
+    // 위치 변환
+    func convertKatecToWGS(x: Double, y: Double) -> CLLocationCoordinate2D {
         let convert = GeoConverter()
         let katecPoint = GeographicPoint(x: x, y: y)
-        let wgsPoint = convert.convert(sourceType: .KATEC, destinationType: .WGS_84, geoPoint: katecPoint)
+        let wgsPoint = convert.convert(sourceType: .KATEC,
+                                       destinationType: .WGS_84,
+                                       geoPoint: katecPoint)
         
-        return KatecPoint(x: wgsPoint!.x.roundTo(places: 6), y: wgsPoint!.y.roundTo(places: 6))
+        return CLLocationCoordinate2D(latitude: wgsPoint!.y.roundTo(places: 6),
+                                      longitude: wgsPoint!.x.roundTo(places: 6))
         
     }
+    
+    // 위치 관련 인증 확인
+    private func configureLocationServices() {
+        locationManager.delegate = self
+        let status = CLLocationManager.authorizationStatus() // 현재 인증상태 확인
+        
+        if status == .notDetermined { // notDetermined일 시 AlwaysAuthorization 요청
+            locationManager.requestAlwaysAuthorization()
+        } else if status == .authorizedAlways || status == .authorizedWhenInUse { // 인증시 위치 정보 받아오기 시작
+            beginLocationUpdates(locationManager: locationManager)
+        }
+    }
+    
+    // 위치 요청 시작
+    private func beginLocationUpdates(locationManager: CLLocationManager) {
+        mapView.showsUserLocation = true
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+    }
+    
+    // 화면 포커스
+    private func zoomToLatestLocation(with coordinate: CLLocationCoordinate2D) {
+        let zoomRegion = MKCoordinateRegionMakeWithDistance(coordinate, 2000, 2000) // 2km, 2km
+        mapView.setRegion(zoomRegion, animated: true)
+    }
+    
+    @IBAction private func navigateStart(_ sender: UIButton) {
+        guard let katecX = lastKactecX?.roundTo(places: 0), let katecY = lastKactecY?.roundTo(places: 0) else { return }
+        
+        print(katecX, katecY)
+        let destination = KNVLocation(name: stationName.text!,
+                                      x: NSNumber(value: katecX),
+                                      y: NSNumber(value: katecY))
+        let options = KNVOptions()
+        options.routeInfo = false
+        let params = KNVParams(destination: destination, options: options)
+        KNVNaviLauncher.shared().navigate(with: params) { (error) in
+            self.handleError(error: error)
+        }
+    }
+    
+    func handleError(error: Error?) -> Void {
+        if let error = error as NSError? {
+            print(error)
+            let alert = UIAlertController(title: self.title!, message: error.localizedFailureReason, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+}
+
+
+// MARK: - CLLocationManagerDelegate
+extension MapViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, // 위치 관리자가 위치를 얻을 수 없을 때
+        didFailWithError error: Error) {
+        print("did Fail With Error \(error)")
+        
+        // CLError.locationUnknown: 현재 위치를 알 수 없는데 Core Location이 계속 위치 정보를 요청할 때
+        // CLError.denied: 사용자가 위치 서비스를 사용하기 위한 앱 권한을 거부
+        // CLError.network: 네트워크 관련 오류
+        if (error as NSError).code == CLError.locationUnknown.rawValue {
+            return
+        }
+        
+        // CLError.locationUnknown의 오류 보다 더 심각한 오류가 발생하였을 때
+        // lastLocationError에 오류를 저장한다.
+        lastLocationError = error
+    }
+    
+    // 위치 업데이트
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let newLocation = locations.last else { return }
+        
+        if currentCoordinate == nil {
+            zoomToLatestLocation(with: newLocation.coordinate)
+        }
+        
+        currentCoordinate = newLocation.coordinate
+    }
+    
+    // 인증 상태가 변경 되었을 때
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedAlways || status == .authorizedWhenInUse {
+            beginLocationUpdates(locationManager: manager)
+        }
+    }
+}
+
+// MARK: - MKMapViewDelegate
+extension MapViewController: MKMapViewDelegate {
+    // 마커 뷰 관련 설정 Delegate
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation.isKind(of: MKUserLocation.self) {
+            return nil
+        }
+        
+        if !annotation.isKind(of: ImageAnnotation.self) {
+            var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "DefaultPinView")
+            if pinAnnotationView == nil {
+                pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "DefaultPinView")
+            }
+            return pinAnnotationView
+        }
+        
+        var view: ImageAnnotationView? = mapView.dequeueReusableAnnotationView(withIdentifier: "imageAnnotation") as? ImageAnnotationView
+        if view == nil {
+            view = ImageAnnotationView(annotation: annotation, reuseIdentifier: "imageAnnotation")
+        }
+        
+        let annotation = annotation as! ImageAnnotation
+        view?.annotation = annotation
+        view?.priceLabel.text = String(annotation.price!)
+        view?.coordinate = annotation.coordinate
+        view?.image = annotation.image
+        view?.name = annotation.name
+        view?.distance = annotation.distance
+        view?.katecX = annotation.katecX
+        view?.katecY = annotation.katecY
+        
+        return view
+    }
+    
+    // 마커 선택 Delegate
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let imageView = view as? ImageAnnotationView else { return }
+        
+        imageView.priceLabel.textColor = UIColor.red
+        self.logoType.image = imageView.image
+        self.stationName.text = imageView.name
+        self.lastKactecX = imageView.katecX
+        self.lastKactecY = imageView.katecY
+        
+        if let distance = imageView.distance, let price = imageView.priceLabel.text {
+            let kmDistance = distance / 1000
+            self.distance.text = String(kmDistance.roundTo(places: 2)) + "km"
+            self.oilPrice.text = price + "원"
+        }
+        
+        
+        self.currentPlacemark = MKPlacemark(coordinate: imageView.coordinate!)
+        
+        if let currentPlacemark = self.currentPlacemark {
+            let directionRequest = MKDirectionsRequest()
+            let destinationPlacemark = MKPlacemark(placemark: currentPlacemark)
+            
+            directionRequest.source = MKMapItem.forCurrentLocation()
+            directionRequest.destination = MKMapItem(placemark: destinationPlacemark)
+            directionRequest.transportType = .automobile
+            
+            // 거리 계산 / 루트
+            let directions = MKDirections(request: directionRequest)
+            directions.calculate { (directionsResponse, err) in
+                guard let directionsResponse = directionsResponse else {
+                    if let err = err {
+                        print("Error directions: \(err.localizedDescription)")
+                    }
+                    return
+                }
+                
+                let route = directionsResponse.routes[0] // 가장 빠른 루트
+                self.mapView.removeOverlays(self.mapView.overlays) // 이전 경로 삭제
+                self.mapView.add(route.polyline, level: .aboveRoads) // 경로 추가
+            }
+        }
+        
+    }
+    
+    // 마커 선택해제 관련 Delegate
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        let imageView = view as? ImageAnnotationView
+        imageView?.priceLabel.textColor = UIColor.black
+        
+        self.mapView.removeOverlays(self.mapView.overlays) // 경로 삭제
+    }
+    
+    // 경로관련 선 옵션 Delegate
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        
+        renderer.strokeColor = UIColor.blue
+        renderer.lineWidth = 2.0
+        
+        return renderer
+    }
+    
 }
