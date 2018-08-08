@@ -26,7 +26,7 @@ class MainListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        startLocationManager()
+        configureLocationServices()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,6 +46,7 @@ class MainListViewController: UIViewController {
     
     private func gasStationListData(katecPoint: KatecPoint){
         ServiceList.gasStationList(x: katecPoint.x, y: katecPoint.y, radius: 3000, prodcd: "B027", sort: 1, appKey: getAppKey()) { (result) in
+            
             switch result {
             case .success(let gasStationData):
                 self.gasStations = gasStationData.result.gasStations
@@ -87,14 +88,22 @@ class MainListViewController: UIViewController {
         
     }
     
-    // 위치 검색 시작
-    func startLocationManager() {
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters // 정확도 설정
-            locationManager.startUpdatingLocation() // 좌표 받기
-            updatingLocation = true
+    // 위치 관련 인증 확인
+    private func configureLocationServices() {
+        locationManager.delegate = self
+        let status = CLLocationManager.authorizationStatus() // 현재 인증상태 확인
+        
+        if status == .notDetermined { // notDetermined일 시 AlwaysAuthorization 요청
+            locationManager.requestAlwaysAuthorization()
+        } else if status == .authorizedAlways || status == .authorizedWhenInUse { // 인증시 위치 정보 받아오기 시작
+            startLocationUpdates(locationManager: locationManager)
         }
+    }
+    
+    // 위치 요청 시작
+    private func startLocationUpdates(locationManager: CLLocationManager) {
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
     }
     
     // 위치 검색 중지
@@ -102,7 +111,6 @@ class MainListViewController: UIViewController {
         if updatingLocation {
             locationManager.stopUpdatingLocation()
             locationManager.delegate = nil
-            updatingLocation = false
         }
     }
 }
@@ -136,8 +144,14 @@ extension MainListViewController: CLLocationManagerDelegate {
                                                  latitude: newLocation!.coordinate.latitude)
             
             gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
-            
             stopLocationManager()
+        }
+        
+        // 인증 상태가 변경 되었을 때
+        func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+            if status == .authorizedAlways || status == .authorizedWhenInUse {
+                startLocationUpdates(locationManager: manager)
+            }
         }
     }
 }
