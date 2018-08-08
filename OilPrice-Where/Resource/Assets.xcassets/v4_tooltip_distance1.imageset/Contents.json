@@ -9,11 +9,11 @@
         "mode" : "3-part-horizontal",
         "center" : {
           "mode" : "tile",
-          "width" : 17
+          "width" : 26
         },
         "cap-insets" : {
-          "right" : 8,
-          "left" : 15
+          "right" : 6,
+          "left" : 6
         }
       },
       "idiom" : "universal",

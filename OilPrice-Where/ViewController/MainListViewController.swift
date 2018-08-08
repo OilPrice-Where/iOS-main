@@ -40,8 +40,8 @@ class MainListViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gasStation"),
-//                                        object: self.gasStations!)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gasStation"),
+                                        object: self.gasStations!)
     }
     
     private func gasStationListData(katecPoint: KatecPoint){
@@ -156,8 +156,6 @@ extension MainListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GasStationCell") as! GasStationCell
         
         cell.configure(with: gasStations[indexPath.row])
-        
-        
         
         return cell
     }
