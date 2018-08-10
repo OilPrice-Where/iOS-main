@@ -13,24 +13,14 @@ class ImageAnnotation : NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var title: String?
     var subtitle: String?
-    var image: UIImage?
     var colour: UIColor?
-    var price: Int?
-    var name: String?
-    var distance: Double?
-    var katecX: Double?
-    var katecY: Double?
+    var stationInfo: GasStation?
     
     override init() {
         self.coordinate = CLLocationCoordinate2D()
         self.title = nil
         self.subtitle = nil
-        self.image = nil
-        self.price = nil
-        self.name = nil
-        self.distance = nil
-        self.katecX = nil
-        self.katecY = nil
+        self.stationInfo = nil
         self.colour = UIColor.white
     }
 }
@@ -40,11 +30,8 @@ class ImageAnnotationView: MKAnnotationView {
     private var secondImageView: UIImageView!
     private var logoImageView: UIImageView!
     var priceLabel: UILabel!
-    var name: String?
-    var distance: Double?
     var coordinate: CLLocationCoordinate2D?
-    var katecX: Double?
-    var katecY: Double?
+    var stationInfo: GasStation?
     
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)

@@ -47,9 +47,9 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app lets you keep track of interesting places. It needs access to the GPS coordinates for your location.</string>
+	<string>주변의 주유소를 검색하기 위해 위치 정보를 사용합니다.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app lets you keep track of interesting places. It needs access to the GPS coordinates for your location.</string>
+	<string>주변의 주유소를 검색하기 위해 위치 정보를 사용합니다.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>
 	<key>UIMainStoryboardFile</key>

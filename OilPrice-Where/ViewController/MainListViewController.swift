@@ -9,16 +9,11 @@
 import UIKit
 import CoreLocation
 
-struct KatecPoint {
-    let x: Double
-    let y: Double
-}
-
 class MainListViewController: UIViewController {
 
     @IBOutlet private weak var tableView : UITableView!
-    var gasStations: [GasStation]?
     
+    let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
     var locationManager = CLLocationManager()
     var location: CLLocation?
     var updatingLocation = false
@@ -26,30 +21,37 @@ class MainListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureLocationServices()
+        
+        
+        //Navigation Bar 색상 설정
+        UINavigationBar.appearance().barTintColor = self.view.backgroundColor
+        
+        appDelegate.mainViewController = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("HI02")
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gasStation"),
-                                        object: self.gasStations!)
+        print("HI03")
+        configureLocationServices()
     }
     
     private func gasStationListData(katecPoint: KatecPoint){
-        ServiceList.gasStationList(x: katecPoint.x, y: katecPoint.y, radius: 3000, prodcd: "B027", sort: 1, appKey: getAppKey()) { (result) in
+        ServiceList.gasStationList(x: katecPoint.x,
+                                   y: katecPoint.y,
+                                   radius: DefaultData.shared.radius,
+                                   prodcd: DefaultData.shared.oilType,
+                                   sort: 1,
+                                   appKey: Preferences.getAppKey()) { (result) in
             
             switch result {
             case .success(let gasStationData):
-                self.gasStations = gasStationData.result.gasStations
+                DefaultData.shared.data = gasStationData.result.gasStations
                 self.tableView.reloadData()
             case .error(let error):
                 print(error)
@@ -58,46 +60,36 @@ class MainListViewController: UIViewController {
         }
     }
     
-    func getAppKey() -> String {
-        var appKey = ""
-        
-        switch arc4random_uniform(6) {
-        case 0:
-            appKey = "F302180619"
-        case 1:
-            appKey = "F303180619"
-        case 2:
-            appKey = "F304180619"
-        case 3:
-            appKey = "F305180619"
-        case 4:
-            appKey = "F306180619"
-        default:
-            appKey = "F307180619"
-        }
-        return appKey
-    }
-
-    func convertWGS84ToKatec(longitude: Double, latitude: Double) -> KatecPoint {
-        let convert = GeoConverter()
-        let wgsPoint = GeographicPoint(x: longitude, y: latitude)
-        let tmPoint = convert.convert(sourceType: .WGS_84, destinationType: .TM, geoPoint: wgsPoint)
-        let katecPoint = convert.convert(sourceType: .TM, destinationType: .KATEC, geoPoint: tmPoint!)
-        
-        return KatecPoint(x: katecPoint!.x.roundTo(places: 5), y: katecPoint!.y.roundTo(places: 5))
-        
-    }
-    
     // 위치 관련 인증 확인
-    private func configureLocationServices() {
+    func configureLocationServices() {
         locationManager.delegate = self
         let status = CLLocationManager.authorizationStatus() // 현재 인증상태 확인
         
         if status == .notDetermined { // notDetermined일 시 AlwaysAuthorization 요청
-            locationManager.requestAlwaysAuthorization()
+            locationManager.requestWhenInUseAuthorization()
             startLocationUpdates(locationManager: locationManager)
         } else if status == .authorizedAlways || status == .authorizedWhenInUse { // 인증시 위치 정보 받아오기 시작
             startLocationUpdates(locationManager: locationManager)
+        } else if status == .restricted || status == .denied {
+            let alert = UIAlertController(title: "위치정보를 불러올 수 없습니다.",
+                                          message: "위치정보를 사용해 주변 주유소의 정보를 불러오기 때문에 위치정보 사용이 꼭 필요합니다. 설정으로 이동하여 위치 정보 접근을 허용해 주세요.",
+                                          preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "취소",
+                                             style: .cancel,
+                                             handler: nil)
+            
+            let openAction = UIAlertAction(title: "설정으로 이동",
+                                           style: .default) { (action) in
+                                            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                                                UIApplication.shared.open(url,
+                                                                          options: [String : Any](), completionHandler: nil)
+                                            }
+            }
+            
+            alert.addAction(cancelAction)
+            alert.addAction(openAction)
+            
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -139,8 +131,7 @@ extension MainListViewController: CLLocationManagerDelegate {
         let newLocation = locations.last
         
         if newLocation != nil {
-            let katecPoint = convertWGS84ToKatec(longitude: newLocation!.coordinate.longitude,
-                                                 latitude: newLocation!.coordinate.latitude)
+            let katecPoint = Converter.convertWGS84ToKatec(coordinate: newLocation!.coordinate)
             
             gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
             stopLocationManager()
@@ -158,11 +149,12 @@ extension MainListViewController: CLLocationManagerDelegate {
 // MARK: - UITableView
 extension MainListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return gasStations?.count ?? 1
+        guard let stationCount = DefaultData.shared.data?.count else { return 0 }
+        return stationCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let gasStations = self.gasStations else {
+        guard let gasStations = DefaultData.shared.data else {
             return UITableViewCell()
         }
         
