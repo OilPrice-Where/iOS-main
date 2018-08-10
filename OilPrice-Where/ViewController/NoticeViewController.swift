@@ -12,6 +12,9 @@ class NoticeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(view.backgroundColor)
+        print(UIColor(named: "MainColor"))
+        
 
         navigationItem.leftBarButtonItem?.tintColor = UIColor.white
         

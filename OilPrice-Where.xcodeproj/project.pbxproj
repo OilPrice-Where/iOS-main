@@ -27,6 +27,13 @@
 		8ECE0D032118963000FF2B46 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D022118963000FF2B46 /* CustomAnnotationView.swift */; };
 		8ECE0D4E21195F3600FF2B46 /* KakaoNavi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECE0D4C21195F3500FF2B46 /* KakaoNavi.framework */; };
 		8ECE0D4F21195F3600FF2B46 /* KakaoCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECE0D4D21195F3500FF2B46 /* KakaoCommon.framework */; };
+		8ECE0D52211AD42600FF2B46 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D51211AD42600FF2B46 /* Setting.swift */; };
+		8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */; };
+		8ECE0D76211C31F900FF2B46 /* UserInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8ECE0D75211C31F900FF2B46 /* UserInfo.plist */; };
+		8ECE0D78211C330600FF2B46 /* SelectOilTypeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D77211C330600FF2B46 /* SelectOilTypeTableViewController.swift */; };
+		8ECE0D7A211C332800FF2B46 /* SelectFindDistanceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D79211C332800FF2B46 /* SelectFindDistanceTableViewController.swift */; };
+		8ECE0D7C211C3CFC00FF2B46 /* OilTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */; };
+		8ECE0D7E211CB1F800FF2B46 /* FindDistanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */; };
 		B633531A781457C90F211EA0 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +63,13 @@
 		8ECE0D4C21195F3500FF2B46 /* KakaoNavi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoNavi.framework; path = Kakao/KakaoNavi.framework; sourceTree = "<group>"; };
 		8ECE0D4D21195F3500FF2B46 /* KakaoCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoCommon.framework; path = Kakao/KakaoCommon.framework; sourceTree = "<group>"; };
 		8ECE0D502119607300FF2B46 /* KakaoNavi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KakaoNavi-Bridging-Header.h"; sourceTree = "<group>"; };
+		8ECE0D51211AD42600FF2B46 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Setting.swift; path = "OilPrice-Where/Setting.swift"; sourceTree = SOURCE_ROOT; };
+		8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DefaultData.swift; path = "OilPrice-Where/DefaultData.swift"; sourceTree = SOURCE_ROOT; };
+		8ECE0D75211C31F900FF2B46 /* UserInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = UserInfo.plist; sourceTree = "<group>"; };
+		8ECE0D77211C330600FF2B46 /* SelectOilTypeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectOilTypeTableViewController.swift; sourceTree = "<group>"; };
+		8ECE0D79211C332800FF2B46 /* SelectFindDistanceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFindDistanceTableViewController.swift; sourceTree = "<group>"; };
+		8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OilTypeTableViewCell.swift; sourceTree = "<group>"; };
+		8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindDistanceTableViewCell.swift; sourceTree = "<group>"; };
 		AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,6 +118,8 @@
 			isa = PBXGroup;
 			children = (
 				76E226322117EFED00D719A8 /* FavoriteCollectionViewCell.swift */,
+				8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */,
+				8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -121,6 +137,8 @@
 			children = (
 				8E167D3C2107AEA30066A59E /* API.swift */,
 				8E167D402107E30F0066A59E /* GasStationListData.swift */,
+				8ECE0D51211AD42600FF2B46 /* Setting.swift */,
+				8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -180,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				8E7FFE3020F5E600006CED48 /* Info.plist */,
+				8ECE0D75211C31F900FF2B46 /* UserInfo.plist */,
 				8ECE0D502119607300FF2B46 /* KakaoNavi-Bridging-Header.h */,
 				8E167D3E2107D95C0066A59E /* GeoConverter.swift */,
 			);
@@ -191,8 +210,10 @@
 			children = (
 				8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */,
 				8ECE0CFE2118446F00FF2B46 /* MapViewController.swift */,
-				8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */,
 				8E7FFE3A20F5EA36006CED48 /* FavoritesViewController.swift */,
+				8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */,
+				8ECE0D77211C330600FF2B46 /* SelectOilTypeTableViewController.swift */,
+				8ECE0D79211C332800FF2B46 /* SelectFindDistanceTableViewController.swift */,
 				7658AB0A2112C28100723CF0 /* Setting ViewController */,
 			);
 			path = ViewController;
@@ -290,6 +311,7 @@
 				7658AB0C2112C38A00723CF0 /* Launch Screen.storyboard in Resources */,
 				8E7FFE2C20F5E5FF006CED48 /* Assets.xcassets in Resources */,
 				8E7FFE2A20F5E5FF006CED48 /* Main.storyboard in Resources */,
+				8ECE0D76211C31F900FF2B46 /* UserInfo.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,10 +357,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyPlistManager/SwiftyPlistManager.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyPlistManager.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -369,11 +393,15 @@
 			files = (
 				8E7FFE3B20F5EA36006CED48 /* FavoritesViewController.swift in Sources */,
 				8ECE0D032118963000FF2B46 /* CustomAnnotationView.swift in Sources */,
+				8ECE0D52211AD42600FF2B46 /* Setting.swift in Sources */,
 				8E167D3B2107AD480066A59E /* Service.swift in Sources */,
 				8E1BB8ED2107E78D0065281B /* ServiceResult.swift in Sources */,
 				8E167D412107E30F0066A59E /* GasStationListData.swift in Sources */,
+				8ECE0D78211C330600FF2B46 /* SelectOilTypeTableViewController.swift in Sources */,
 				76E226332117EFED00D719A8 /* FavoriteCollectionViewCell.swift in Sources */,
 				8E7FFE3920F5EA1C006CED48 /* SettingTableViewController.swift in Sources */,
+				8ECE0D7E211CB1F800FF2B46 /* FindDistanceTableViewCell.swift in Sources */,
+				8ECE0D7A211C332800FF2B46 /* SelectFindDistanceTableViewController.swift in Sources */,
 				8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */,
 				8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */,
 				8E1BB8F12107F61E0065281B /* GasStationCell.swift in Sources */,
@@ -381,6 +409,8 @@
 				8E167D3D2107AEA30066A59E /* API.swift in Sources */,
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
+				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,
+				8ECE0D7C211C3CFC00FF2B46 /* OilTypeTableViewCell.swift in Sources */,
 				8ECE0CFF2118446F00FF2B46 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
