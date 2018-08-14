@@ -19,9 +19,9 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     
     // 레이블
     @IBOutlet weak var gasStationNameLabel: UILabel!
-     @IBOutlet weak var carWashLabel: UILabel!
-     @IBOutlet weak var repairShopLabel: UILabel!
-     @IBOutlet weak var convenienceStoreLabel: UILabel!
+    @IBOutlet weak var carWashLabel: UILabel!
+    @IBOutlet weak var repairShopLabel: UILabel!
+    @IBOutlet weak var convenienceStoreLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var phoneNumberLabel: UILabel!
     @IBOutlet weak var qualityCertificationLabel: UILabel!
@@ -32,6 +32,10 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     //버튼
     @IBAction func navigationButton(_ sender: UIButton) {
         
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
     }
     
     
