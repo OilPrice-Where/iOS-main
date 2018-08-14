@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreLocation
+
 class FavoriteCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "FavoriteCollectionViewCell"
@@ -32,8 +34,26 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     //버튼
     @IBAction func navigationButton(_ sender: UIButton) {
         
+        let destination = KNVLocation(name: "Test", x: 321286, y: 533707)
+        let options = KNVOptions()
+        
+        let params = KNVParams(destination: destination,
+                               options: options)
+        KNVNaviLauncher.shared().navigate(with: params)
+        
     }
     
+    func configure(with gasStation: GasStation) {
+//        let distanceKM = gasStation.distance / 1000
+        
+        
+        self.gasStationNameLabel.text = gasStation.name
+        self.oilPlice.text = String(gasStation.price)
+        
+//        self.distance.text = String(distanceKM.roundTo(places: 2)) + "km"
+    }
+
+  
     override func awakeFromNib() {
         super.awakeFromNib()
     }
