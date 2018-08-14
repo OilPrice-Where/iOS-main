@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29B226412121EADB0012B2F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29B226402121EADB0012B2F6 /* GoogleService-Info.plist */; };
+		29B226432121FDC60012B2F6 /* AverageCostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B226422121FDC60012B2F6 /* AverageCostData.swift */; };
 		7658AB092112C26300723CF0 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7658AB082112C26300723CF0 /* NoticeViewController.swift */; };
 		7658AB0C2112C38A00723CF0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */; };
 		76E226332117EFED00D719A8 /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E226322117EFED00D719A8 /* FavoriteCollectionViewCell.swift */; };
@@ -31,6 +33,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		29B226402121EADB0012B2F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		29B226422121FDC60012B2F6 /* AverageCostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AverageCostData.swift; path = "OilPrice-Where/AverageCostData.swift"; sourceTree = SOURCE_ROOT; };
 		5ADD44E371ADD94F9E7AFB44 /* Pods-OilPrice-Where.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.release.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.release.xcconfig"; sourceTree = "<group>"; };
 		74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OilPrice_Where.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7658AB082112C26300723CF0 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
@@ -121,6 +125,7 @@
 			children = (
 				8E167D3C2107AEA30066A59E /* API.swift */,
 				8E167D402107E30F0066A59E /* GasStationListData.swift */,
+				29B226422121FDC60012B2F6 /* AverageCostData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -179,6 +184,7 @@
 		8E7FFE3E20F5EB17006CED48 /* Supporting File */ = {
 			isa = PBXGroup;
 			children = (
+				29B226402121EADB0012B2F6 /* GoogleService-Info.plist */,
 				8E7FFE3020F5E600006CED48 /* Info.plist */,
 				8ECE0D502119607300FF2B46 /* KakaoNavi-Bridging-Header.h */,
 				8E167D3E2107D95C0066A59E /* GeoConverter.swift */,
@@ -288,6 +294,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7658AB0C2112C38A00723CF0 /* Launch Screen.storyboard in Resources */,
+				29B226412121EADB0012B2F6 /* GoogleService-Info.plist in Resources */,
 				8E7FFE2C20F5E5FF006CED48 /* Assets.xcassets in Resources */,
 				8E7FFE2A20F5E5FF006CED48 /* Main.storyboard in Resources */,
 			);
@@ -335,10 +342,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -381,6 +392,7 @@
 				8E167D3D2107AEA30066A59E /* API.swift in Sources */,
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
+				29B226432121FDC60012B2F6 /* AverageCostData.swift in Sources */,
 				8ECE0CFF2118446F00FF2B46 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -519,7 +531,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = G4MM77V7NH;
+				DEVELOPMENT_TEAM = Z339Z9FD2H;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -550,7 +562,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = G4MM77V7NH;
+				DEVELOPMENT_TEAM = Z339Z9FD2H;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

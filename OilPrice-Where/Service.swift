@@ -31,4 +31,24 @@ struct ServiceList: ServiceType {
                 }
             })
     }
+    
+    static func nationCostAverage(appKey: String, completion: @escaping (Result<NationCostList>) -> ()) {
+        Alamofire
+            .request(API.avgAll(appKey: appKey).urlString)
+            .validate()
+            .responseData(completionHandler: { (response) in
+                switch response.result {
+                case .success(let value):
+                    do {
+                        let nationCostList = try value.decode(NationCostList.self)
+                        print(nationCostList)
+                        completion(.success(nationCostList))
+                    } catch {
+                        completion(.error(error))
+                    }
+                case .failure(let error):
+                    completion(.error(error))
+                }
+            })
+    }
 }
