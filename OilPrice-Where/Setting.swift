@@ -96,7 +96,7 @@ final class Preferences {
         switch name {
         case "휘발유":
             return "B027"
-        case "고급 휘발유":
+        case "고급휘발유":
             return "B034"
         case "경유":
             return "D047"
