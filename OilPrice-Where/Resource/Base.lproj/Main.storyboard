@@ -317,18 +317,18 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2JG-Qp-zaO">
                                 <rect key="frame" x="22" y="171" width="275" height="305"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9Ee-Me-5D9">
-                                    <size key="itemSize" width="248" height="298"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9Ee-Me-5D9">
+                                    <size key="itemSize" width="275" height="298"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FavoriteCollectionViewCell" id="3AO-mD-h1h" customClass="FavoriteCollectionViewCell" customModule="OilPrice_Where" customModuleProvider="target">
-                                        <rect key="frame" x="13.5" y="0.0" width="248" height="298"/>
+                                        <rect key="frame" x="0.0" y="3.5" width="275" height="298"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="248" height="298"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="275" height="298"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LogoGSCaltex" translatesAutoresizingMaskIntoConstraints="NO" id="Fk5-B2-WjJ">
@@ -455,6 +455,7 @@
                                                 </label>
                                             </subviews>
                                         </view>
+                                        <size key="customSize" width="275" height="298"/>
                                         <connections>
                                             <outlet property="addressLabel" destination="57N-cb-QHW" id="Urs-KF-fU7"/>
                                             <outlet property="carWashImageView" destination="NN9-ER-wGe" id="DIc-62-UdV"/>
@@ -472,6 +473,10 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="l0L-td-NTd" id="6B6-sy-f3t"/>
+                                    <outlet property="delegate" destination="l0L-td-NTd" id="nSg-5v-Eqb"/>
+                                </connections>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자주 가는 주유소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QcD-ZH-Vzk">
                                 <rect key="frame" x="22" y="140" width="112" height="21"/>
@@ -502,7 +507,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JnF-Gp-CNV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1013" y="-153"/>
+            <point key="canvasLocation" x="1012.5" y="-153.16901408450704"/>
         </scene>
         <!--설정-->
         <scene sceneID="2az-Vw-67D">
