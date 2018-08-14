@@ -7,21 +7,40 @@
 //
 
 import UIKit
+import MapKit
 import CoreLocation
 
 class MainListViewController: UIViewController {
-
-    @IBOutlet private weak var tableView : UITableView!
-    
-    let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    //CoreLocation
     var locationManager = CLLocationManager()
     var location: CLLocation?
     var updatingLocation = false
     var lastLocationError: Error?
     
+    //Detail View
+    @IBOutlet private weak var logoType : UIImageView!
+    @IBOutlet private weak var stationName : UILabel!
+    @IBOutlet private weak var distance : UILabel!
+    @IBOutlet private weak var oilPrice : UILabel!
+    @IBOutlet private weak var oilType : UILabel!
+    
+    //Map Kit
+    @IBOutlet private weak var appleMapView: MKMapView!
+    private var currentCoordinate: CLLocationCoordinate2D?
+    var currentPlacemark: CLPlacemark?
+    var annotations: [ImageAnnotation] = [] // 마커 배열 생성
+    
+    //Etc
+    let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    @IBOutlet private weak var tableView : UITableView!
+    @IBOutlet private weak var tableListView : UIView!
+    @IBOutlet private weak var mapView : UIView!
+    private var lastKactecX: Double?
+    private var lastKactecY: Double?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.tableView.cellLayoutMarginsFollowReadableWidth = true
         
         //Navigation Bar 색상 설정
         UINavigationBar.appearance().barTintColor = self.view.backgroundColor
@@ -31,14 +50,21 @@ class MainListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("HI02")
-        
+        configureLocationServices()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("HI03")
-        configureLocationServices()
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        appleMapView.removeAnnotations(annotations)
+        annotations = []
+        currentCoordinate = nil
+        
+        
     }
     
     private func gasStationListData(katecPoint: KatecPoint){
@@ -52,6 +78,7 @@ class MainListViewController: UIViewController {
             switch result {
             case .success(let gasStationData):
                 DefaultData.shared.data = gasStationData.result.gasStations
+                self.showMarker()
                 self.tableView.reloadData()
             case .error(let error):
                 print(error)
@@ -60,9 +87,67 @@ class MainListViewController: UIViewController {
         }
     }
     
+    //MARK: MapKit 관련
+    // 마커 생성
+    func showMarker() {
+        guard let gasStations = DefaultData.shared.data else { return }
+        
+        for i in 0 ..< gasStations.count {
+            annotations.append(ImageAnnotation()) // 마커 생성
+            annotations[i].coordinate = Converter.convertKatecToWGS(katec: KatecPoint(x: gasStations[i].katecX, y: gasStations[i].katecY)) // 마커 위치 선점
+            annotations[i].stationInfo = gasStations[i] // 주유소 정보 전달
+            self.appleMapView.addAnnotation(annotations[i]) // 맵뷰에 마커 생성
+        }
+    }
+    
+    // 화면 포커스
+    private func zoomToLatestLocation(with coordinate: CLLocationCoordinate2D) {
+        let zoomRegion = MKCoordinateRegionMakeWithDistance(coordinate, 2000, 2000) // 2km, 2km
+        appleMapView.setRegion(zoomRegion, animated: true)
+    }
+    
+    // 리스트 전환 액션
+    @IBAction private func toList(_ sender: UIButton) {
+        self.view.sendSubview(toBack: self.mapView)
+    }
+    
+    // 지도 전환 액션
+    @IBAction private func toMap(_ sender: UIButton) {
+        self.view.sendSubview(toBack: self.tableListView)
+    }
+    
+    @IBAction private func navigateStart(_ sender: UIButton) {
+        guard let katecX = lastKactecX?.roundTo(places: 0),
+            let katecY = lastKactecY?.roundTo(places: 0) else { return }
+        
+        let destination = KNVLocation(name: stationName.text!,
+                                      x: NSNumber(value: katecX),
+                                      y: NSNumber(value: katecY))
+        let options = KNVOptions()
+        options.routeInfo = false
+        let params = KNVParams(destination: destination,
+                               options: options)
+        KNVNaviLauncher.shared().navigate(with: params) { (error) in
+            self.handleError(error: error)
+        }
+    }
+    
+    func handleError(error: Error?) -> Void {
+        if let error = error as NSError? {
+            print(error)
+            let alert = UIAlertController(title: self.title!,
+                                          message: error.localizedFailureReason,
+                                          preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.cancel,
+                                          handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
     // 위치 관련 인증 확인
     func configureLocationServices() {
         locationManager.delegate = self
+        appleMapView.delegate = self
         let status = CLLocationManager.authorizationStatus() // 현재 인증상태 확인
         
         if status == .notDetermined { // notDetermined일 시 AlwaysAuthorization 요청
@@ -95,6 +180,7 @@ class MainListViewController: UIViewController {
     
     // 위치 요청 시작
     private func startLocationUpdates(locationManager: CLLocationManager) {
+        appleMapView.showsUserLocation = true
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
     }
@@ -127,10 +213,15 @@ extension MainListViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("Bye")
         let newLocation = locations.last
         
         if newLocation != nil {
+            if currentCoordinate == nil {
+                zoomToLatestLocation(with: newLocation!.coordinate)
+            }
+            
+            currentCoordinate = newLocation!.coordinate
+            
             let katecPoint = Converter.convertWGS84ToKatec(coordinate: newLocation!.coordinate)
             
             gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
@@ -148,9 +239,14 @@ extension MainListViewController: CLLocationManagerDelegate {
 
 // MARK: - UITableView
 extension MainListViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         guard let stationCount = DefaultData.shared.data?.count else { return 0 }
         return stationCount
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -160,16 +256,122 @@ extension MainListViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "GasStationCell") as! GasStationCell
         
-        cell.configure(with: gasStations[indexPath.row])
+        cell.configure(with: gasStations[indexPath.section])
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 145
+        return 100
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 12
     }
 }
 
 extension MainListViewController: UITableViewDelegate {
     
+}
+
+// MARK: - MKMapViewDelegate
+extension MainListViewController: MKMapViewDelegate {
+    // 마커 뷰 관련 설정 Delegate
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation.isKind(of: MKUserLocation.self) {
+            return nil
+        }
+        
+        if !annotation.isKind(of: ImageAnnotation.self) {
+            var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "DefaultPinView")
+            if pinAnnotationView == nil {
+                pinAnnotationView = MKPinAnnotationView(annotation: annotation,
+                                                        reuseIdentifier: "DefaultPinView")
+            }
+            return pinAnnotationView
+        }
+        
+        var view: ImageAnnotationView? = mapView.dequeueReusableAnnotationView(withIdentifier: "imageAnnotation") as? ImageAnnotationView
+        if view == nil {
+            view = ImageAnnotationView(annotation: annotation,
+                                       reuseIdentifier: "imageAnnotation")
+        }
+        
+        let annotation = annotation as! ImageAnnotation
+        view?.annotation = annotation
+        view?.stationInfo = annotation.stationInfo
+        
+        if let stationInfo = annotation.stationInfo {
+            view?.priceLabel.text = String(stationInfo.price)
+            view?.coordinate = annotation.coordinate
+            view?.image = Preferences.logoImage(logoName: stationInfo.brand)
+        }
+        
+        return view
+    }
+    
+    // 마커 선택 Delegate
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let markerView = view as? ImageAnnotationView else { return }
+        guard let stationInfo = markerView.stationInfo else { return }
+        
+        self.logoType.image = markerView.image
+        let kmDistance = stationInfo.distance / 1000
+        self.stationName.text = stationInfo.name
+        self.lastKactecX = stationInfo.katecX
+        self.lastKactecY = stationInfo.katecY
+        
+        self.distance.text = String(kmDistance.roundTo(places: 2)) + "km"
+        self.oilPrice.text = String(stationInfo.price) + "원"
+        self.oilType.text = Preferences.oil(code: DefaultData.shared.oilType)
+        markerView.firstImageView.image = UIImage(named: "SelectMapMarker")
+        markerView.priceLabel.textColor = UIColor.white
+        
+        
+        self.currentPlacemark = MKPlacemark(coordinate: markerView.coordinate!)
+        
+        if let currentPlacemark = self.currentPlacemark {
+            let directionRequest = MKDirectionsRequest()
+            let destinationPlacemark = MKPlacemark(placemark: currentPlacemark)
+            
+            directionRequest.source = MKMapItem.forCurrentLocation()
+            directionRequest.destination = MKMapItem(placemark: destinationPlacemark)
+            directionRequest.transportType = .automobile
+            
+            // 거리 계산 / 루트
+            let directions = MKDirections(request: directionRequest)
+            directions.calculate { (directionsResponse, err) in
+                guard let directionsResponse = directionsResponse else {
+                    if let err = err {
+                        print("Error directions: \(err.localizedDescription)")
+                    }
+                    return
+                }
+                
+                let route = directionsResponse.routes[0] // 가장 빠른 루트
+                self.appleMapView.removeOverlays(self.appleMapView.overlays) // 이전 경로 삭제
+                self.appleMapView.add(route.polyline, level: .aboveRoads) // 경로 추가
+            }
+        }
+        
+    }
+    
+    // 마커 선택해제 관련 Delegate
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        let markerView = view as? ImageAnnotationView
+        markerView?.firstImageView.image = UIImage(named: "NonMapMarker")
+        markerView?.priceLabel.textColor = UIColor.black
+        
+        self.appleMapView.removeOverlays(self.appleMapView.overlays) // 경로 삭제
+    }
+    
+    // 경로관련 선 옵션 Delegate
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        
+        renderer.strokeColor = UIColor(named: "MainColor")?.withAlphaComponent(0.8)
+        renderer.lineWidth = 5.0
+        
+        return renderer
+    }
 }

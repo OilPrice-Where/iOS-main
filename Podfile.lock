@@ -6,15 +6,10 @@ DEPENDENCIES:
   - Alamofire
   - SwiftyPlistManager
 
-SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
-    - Alamofire
-    - SwiftyPlistManager
-
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   SwiftyPlistManager: 5895924cccb7fe28deccbe14890e8aed78ae78ae
 
 PODFILE CHECKSUM: 7bd3bc971e1d7cfc10121fe562230828208c7335
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.4.0
