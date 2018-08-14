@@ -253,6 +253,7 @@
                         <outlet property="logoType" destination="nch-H1-wKi" id="woD-Q3-0JW"/>
                         <outlet property="mapView" destination="0W5-U8-FbK" id="oQg-Mr-ryc"/>
                         <outlet property="oilPrice" destination="e8i-Lv-vK3" id="BlB-r4-2up"/>
+                        <outlet property="oilType" destination="eG1-Ez-iCl" id="sLf-QS-5eI"/>
                         <outlet property="stationName" destination="o6G-h5-bSq" id="Q5J-rl-5wq"/>
                     </connections>
                 </viewController>

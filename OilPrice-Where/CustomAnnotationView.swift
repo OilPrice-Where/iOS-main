@@ -26,7 +26,7 @@ class ImageAnnotation : NSObject, MKAnnotation {
 }
 
 class ImageAnnotationView: MKAnnotationView {
-    private var firstImageView: UIImageView!
+    var firstImageView: UIImageView!
     private var secondImageView: UIImageView!
     private var logoImageView: UIImageView!
     var priceLabel: UILabel!
@@ -37,18 +37,19 @@ class ImageAnnotationView: MKAnnotationView {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         
         self.frame = CGRect(x: 0, y: 0, width: 65, height: 32)
-        self.firstImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 65, height: 28))
-        self.firstImageView.image = UIImage(named: "v4_tooltip_distance1")
-        self.secondImageView = UIImageView(frame: CGRect(x: 29.5, y: 27, width: 7, height: 6))
-        self.secondImageView.image = UIImage(named: "v4_tooltip_distance2")
-        self.logoImageView = UIImageView(frame: CGRect(x: 5, y: 6.5, width: 15, height: 15))
+        self.firstImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 60, height: 32))
+        self.firstImageView.image = UIImage(named: "NonMapMarker")
+//        self.secondImageView = UIImageView(frame: CGRect(x: 29.5, y: 27, width: 7, height: 6))
+//        self.secondImageView.image = UIImage(named: "v4_tooltip_distance2")
+        self.logoImageView = UIImageView(frame: CGRect(x: 5, y: 5, width: 15, height: 15))
         
-        self.priceLabel = UILabel(frame: CGRect(x: 23, y: 5, width: 37, height: 18))
+        self.priceLabel = UILabel(frame: CGRect(x: 23, y: 3, width: 37, height: 18))
         self.priceLabel.textAlignment = .left
-        self.priceLabel.font = UIFont.systemFont(ofSize: 15)
+        self.priceLabel.textColor = UIColor.white
+        self.priceLabel.font = UIFont.boldSystemFont(ofSize: 13)
         
         self.addSubview(self.firstImageView)
-        self.addSubview(self.secondImageView)
+//        self.addSubview(self.secondImageView)
         self.addSubview(self.priceLabel)
         self.addSubview(self.logoImageView)
         

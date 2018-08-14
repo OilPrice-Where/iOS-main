@@ -16,6 +16,7 @@ class MapViewController: UIViewController {
     @IBOutlet private weak var stationName : UILabel!
     @IBOutlet private weak var distance : UILabel!
     @IBOutlet private weak var oilPrice : UILabel!
+    @IBOutlet private weak var oilType : UILabel!
     private var lastKactecX: Double?
     private var lastKactecY: Double?
     
@@ -195,7 +196,8 @@ extension MapViewController: MKMapViewDelegate {
         
         self.distance.text = String(kmDistance.roundTo(places: 2)) + "km"
         self.oilPrice.text = String(stationInfo.price) + "원"
-        markerView.priceLabel.textColor = UIColor.red
+        self.oilType.text = Preferences.oil(code: DefaultData.shared.oilType)
+        markerView.firstImageView.image = UIImage(named: "SelectMapMarker")
         
         
         self.currentPlacemark = MKPlacemark(coordinate: markerView.coordinate!)
@@ -229,7 +231,7 @@ extension MapViewController: MKMapViewDelegate {
     // 마커 선택해제 관련 Delegate
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         let markerView = view as? ImageAnnotationView
-        markerView?.priceLabel.textColor = UIColor.black
+        markerView?.firstImageView.image = UIImage(named: "NonMapMarker")
         
         self.mapView.removeOverlays(self.mapView.overlays) // 경로 삭제
     }
@@ -238,8 +240,8 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
         
-        renderer.strokeColor = UIColor.blue
-        renderer.lineWidth = 2.0
+        renderer.strokeColor = UIColor(named: "MainColor")?.withAlphaComponent(0.8)
+        renderer.lineWidth = 5.0
         
         return renderer
     }
