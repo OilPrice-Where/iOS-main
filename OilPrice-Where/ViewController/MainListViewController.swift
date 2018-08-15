@@ -16,6 +16,13 @@ class MainListViewController: UIViewController {
     var location: CLLocation?
     var updatingLocation = false
     var lastLocationError: Error?
+    var priceDataList: [AllPrice] = []
+    
+    //Reverse Geocoding
+    let geocoder = CLGeocoder() // 지오코딩을 수행할 객체
+    var performingReverseGeocoding = false // 아직 위치가 없거나 주소가 일치 하지 않을 때는 주소를 받지 않을 것이므로
+                                           // Bool변수로 받을 지 안받을 지 선택한다.
+    var lastGeocodingError: Error? // 문제가 발생 했을 때 오류 저장 변수
     
     //Detail View
     @IBOutlet private weak var logoType : UIImageView!
@@ -27,8 +34,11 @@ class MainListViewController: UIViewController {
     //Map Kit
     @IBOutlet private weak var appleMapView: MKMapView!
     private var currentCoordinate: CLLocationCoordinate2D?
-    var currentPlacemark: CLPlacemark?
+    var currentPlacemark: CLPlacemark? // 주소결과가 들어있는 객체
     var annotations: [ImageAnnotation] = [] // 마커 배열 생성
+    
+    //HeaderView
+    @IBOutlet private weak var haderView : MainHeaderView!
     
     //Etc
     let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -37,14 +47,14 @@ class MainListViewController: UIViewController {
     @IBOutlet private weak var mapView : UIView!
     private var lastKactecX: Double?
     private var lastKactecY: Double?
+    var selectIndexPath: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.cellLayoutMarginsFollowReadableWidth = true
-        
+        self.tableView.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0)
         //Navigation Bar 색상 설정
         UINavigationBar.appearance().barTintColor = self.view.backgroundColor
-        
+        allPriceDataLoad()
         appDelegate.mainViewController = self
     }
     
@@ -83,6 +93,20 @@ class MainListViewController: UIViewController {
             case .error(let error):
                 print(error)
                 
+            }
+        }
+    }
+    
+    func allPriceDataLoad() {
+        ServiceList.allPriceList(appKey: Preferences.getAppKey()) { (result) in
+            switch result {
+            case .success(let allPriceListData):
+                self.priceDataList = allPriceListData.result.allPriceList
+                print("BYE!!!!")
+                print(self.priceDataList)
+            case .error(let err):
+                print("ERROR!!!!!!")
+                print(err)
             }
         }
     }
@@ -190,6 +214,25 @@ class MainListViewController: UIViewController {
         locationManager.stopUpdatingLocation()
         locationManager.delegate = nil
     }
+    
+    // 주소 한글 변환
+    func string(from placemark: CLPlacemark) -> String {
+        // address
+        var address = ""
+        if let s = placemark.administrativeArea {
+            address += s + " "
+        }
+        if let s = placemark.locality {
+            address += s + " "
+        }
+        if let s = placemark.thoroughfare {
+            address += s + " "
+        }
+        if let s = placemark.subThoroughfare {
+            address += s
+        }
+        return address
+    }
 }
 
 // MARK: - CLLocationManagerDelegate
@@ -224,6 +267,26 @@ extension MainListViewController: CLLocationManagerDelegate {
             
             let katecPoint = Converter.convertWGS84ToKatec(coordinate: newLocation!.coordinate)
             
+            if !performingReverseGeocoding {
+                print("*** Going to geocode")
+                
+                performingReverseGeocoding = true
+                
+                geocoder.reverseGeocodeLocation(newLocation!, completionHandler: {
+                    placemarks, error in
+                    self.lastGeocodingError = error
+                    // 에러가 없고, 주소 정보가 있으며 주소가 공백이지 않을 시
+                    if error == nil, let p = placemarks, !p.isEmpty {
+                        self.currentPlacemark = p.last!
+                    } else {
+                        self.currentPlacemark = nil
+                    }
+                    
+                    self.performingReverseGeocoding = false
+                    self.haderView.configure(with: self.string(from: self.currentPlacemark!))
+                })
+            }
+            
             gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
             stopLocationManager()
         }
@@ -253,16 +316,61 @@ extension MainListViewController: UITableViewDataSource {
         guard let gasStations = DefaultData.shared.data else {
             return UITableViewCell()
         }
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "GasStationCell") as! GasStationCell
         
+        if selectIndexPath?.section == indexPath.section {
+            cell.stationView.stackView.isHidden = false
+        }
+        
+        cell.selectionStyle = .none
         cell.configure(with: gasStations[indexPath.section])
         
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let selectPath = self.selectIndexPath else {
+            let cell = tableView.cellForRow(at: indexPath) as! GasStationCell
+            cell.stationView.stackView.isHidden = false
+            cell.selectionStyle = .none
+            self.selectIndexPath = indexPath
+            
+            tableView.beginUpdates()
+            tableView.endUpdates()
+            return
+        }
+        
+        if indexPath.section != selectPath.section {
+            if let newCell = tableView.cellForRow(at: indexPath) as? GasStationCell {
+                newCell.selectionStyle = .none
+                newCell.stationView.stackView.isHidden = false
+            }
+            if let oldCell = tableView.cellForRow(at: selectPath) as? GasStationCell {
+                oldCell.stationView.stackView.isHidden = true
+            }
+            self.selectIndexPath = indexPath
+        } else {
+            if let cell = tableView.cellForRow(at: indexPath) as? GasStationCell {
+                if cell.stationView.stackView.isHidden {
+                    cell.stationView.stackView.isHidden = false
+                } else {
+                    cell.stationView.stackView.isHidden = true
+                    selectIndexPath = nil
+                }
+            }
+        }
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        guard let selectSection = self.selectIndexPath?.section else { return 100 }
+        if indexPath.section == selectSection {
+            return 150
+        } else {
+            return 100
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

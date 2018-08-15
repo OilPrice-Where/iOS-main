@@ -30,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        // 앱 백드라운드로 갈 시 설정 데이터 저장
+        DefaultData.shared.save()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -45,22 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         
         // 앱 종료시 마지막 설정 데이터 저장
-        // Oil Type Save
-        SwiftyPlistManager.shared.save(DefaultData.shared.oilType,
-                                       forKey: "OilType",
-                                       toPlistWithName: "UserInfo") { (err) in
-                                        if err != nil {
-                                            print("Success Save Oil Type !!")
-                                        }
-        }
-        // Find Radius Value Save
-        SwiftyPlistManager.shared.save(DefaultData.shared.radius,
-                                       forKey: "FindRadius",
-                                       toPlistWithName: "UserInfo") { (err) in
-                                        if err != nil {
-                                            print("Success Save Distance !!")
-                                        }
-        }
+        DefaultData.shared.save()
     }
 
 
