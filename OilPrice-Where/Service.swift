@@ -10,9 +10,29 @@ import Alamofire
 
 protocol ServiceType {
     static func gasStationList(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String, completion: @escaping (Result<OilList>) -> ())
+    static func allPriceList(appKey: String, completion: @escaping (Result<AllPriceResult>) -> ())
 }
 
 struct ServiceList: ServiceType {
+    static func allPriceList(appKey: String, completion: @escaping (Result<AllPriceResult>) -> ()) {
+        Alamofire
+            .request(API.avgAll(appKey: appKey).urlString)
+            .validate()
+            .responseData { (response) in
+                switch response.result {
+                case .success(let value):
+                    do {
+                        let priceData = try value.decode(AllPriceResult.self)
+                        completion(.success(priceData))
+                    } catch {
+                        completion(.error(error))
+                    }
+                case .failure(let err):
+                    completion(.error(err))
+        }
+        }
+    }
+    
     static func gasStationList(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String, completion: @escaping (Result<OilList>) -> ()) {
         Alamofire
             .request(API.aroundAll(x: x, y: y, radius: radius, prodcd: prodcd, sort: sort, appKey: appKey).urlString)
