@@ -152,7 +152,7 @@
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vpo-wx-DUy">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <view key="tableHeaderView" contentMode="scaleToFill" id="6ZR-N8-BZE" customClass="MainHeaderView" customModule="OilPrice_Where" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="215"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -436,6 +436,7 @@
                                                         <constraint firstAttribute="trailing" secondItem="TqO-P2-MBE" secondAttribute="trailing" constant="14" id="cmg-1w-2wM"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
+                                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                 <connections>
                                                     <outlet property="stationView" destination="TqO-P2-MBE" id="Ogp-X3-Ztf"/>
                                                 </connections>
@@ -1059,7 +1060,7 @@
                     <tabBarItem key="tabBarItem" title="설정" id="ZTm-eG-udE"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Ukt-N1-kXo">
-                        <rect key="frame" x="0.0" y="20" width="320" height="96"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="93"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.36862748861312866" green="0.50980401039123535" blue="0.99999994039535522" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
@@ -1087,12 +1088,6 @@
         <image name="IconRepair" width="25" height="25"/>
         <image name="IconWash" width="25" height="25"/>
         <image name="LogoGSCaltex" width="30" height="30"/>
-<<<<<<< HEAD
-        <image name="LogoSKGas" width="30" height="30"/>
-        <image name="v4_tooltip_distance1" width="19" height="28"/>
-        <image name="v4_tooltip_distance2" width="7" height="6"/>
-=======
->>>>>>> 6e4b0c4482d6879c712233b3feb88c917b9b0339
         <namedColor name="MainColor">
             <color red="0.36800000071525574" green="0.50900000333786011" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
