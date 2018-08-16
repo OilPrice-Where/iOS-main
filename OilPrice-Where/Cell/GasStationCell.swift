@@ -16,7 +16,8 @@ class GasStationCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+        stationView.favoriteButton.layer.cornerRadius = 6
+        stationView.annotationButton.layer.cornerRadius = 6
     }
     
     override func layoutSubviews() {
@@ -40,7 +41,7 @@ class GasStationCell: UITableViewCell {
         self.stationView.configure(with: gasStation)
         self.stationView.layer.borderColor = UIColor.lightGray.cgColor.copy(alpha: 0.5)
         self.stationView.layer.borderWidth = 1
-        self.stationView.layer.cornerRadius = 5
+        self.stationView.layer.cornerRadius = 6
 //        self.stationView.layer.shadowRadius = 2
 //        self.stationView.layer.shadowColor = UIColor.black.cgColor
 //        self.stationView.layer.shadowOpacity = 0.5

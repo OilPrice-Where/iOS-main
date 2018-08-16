@@ -16,7 +16,6 @@ class MainListViewController: UIViewController {
     var location: CLLocation?
     var updatingLocation = false
     var lastLocationError: Error?
-    var priceDataList: [AllPrice] = []
     
     //Reverse Geocoding
     let geocoder = CLGeocoder() // 지오코딩을 수행할 객체
@@ -25,11 +24,13 @@ class MainListViewController: UIViewController {
     var lastGeocodingError: Error? // 문제가 발생 했을 때 오류 저장 변수
     
     //Detail View
+    @IBOutlet private weak var detailView : UIView!
     @IBOutlet private weak var logoType : UIImageView!
     @IBOutlet private weak var stationName : UILabel!
     @IBOutlet private weak var distance : UILabel!
     @IBOutlet private weak var oilPrice : UILabel!
     @IBOutlet private weak var oilType : UILabel!
+    @IBOutlet weak var detailViewBottomConstraint: NSLayoutConstraint!
     
     //Map Kit
     @IBOutlet private weak var appleMapView: MKMapView!
@@ -39,6 +40,7 @@ class MainListViewController: UIViewController {
     
     //HeaderView
     @IBOutlet private weak var haderView : MainHeaderView!
+    @IBOutlet weak var toListButton : UIButton!
     
     //Etc
     let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -54,7 +56,6 @@ class MainListViewController: UIViewController {
         self.tableView.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0)
         //Navigation Bar 색상 설정
         UINavigationBar.appearance().barTintColor = self.view.backgroundColor
-        allPriceDataLoad()
         appDelegate.mainViewController = self
     }
     
@@ -73,8 +74,6 @@ class MainListViewController: UIViewController {
         appleMapView.removeAnnotations(annotations)
         annotations = []
         currentCoordinate = nil
-        
-        
     }
     
     private func gasStationListData(katecPoint: KatecPoint){
@@ -97,20 +96,6 @@ class MainListViewController: UIViewController {
         }
     }
     
-    func allPriceDataLoad() {
-        ServiceList.allPriceList(appKey: Preferences.getAppKey()) { (result) in
-            switch result {
-            case .success(let allPriceListData):
-                self.priceDataList = allPriceListData.result.allPriceList
-                print("BYE!!!!")
-                print(self.priceDataList)
-            case .error(let err):
-                print("ERROR!!!!!!")
-                print(err)
-            }
-        }
-    }
-    
     //MARK: MapKit 관련
     // 마커 생성
     func showMarker() {
@@ -121,12 +106,13 @@ class MainListViewController: UIViewController {
             annotations[i].coordinate = Converter.convertKatecToWGS(katec: KatecPoint(x: gasStations[i].katecX, y: gasStations[i].katecY)) // 마커 위치 선점
             annotations[i].stationInfo = gasStations[i] // 주유소 정보 전달
             self.appleMapView.addAnnotation(annotations[i]) // 맵뷰에 마커 생성
+            
         }
     }
     
     // 화면 포커스
-    private func zoomToLatestLocation(with coordinate: CLLocationCoordinate2D) {
-        let zoomRegion = MKCoordinateRegionMakeWithDistance(coordinate, 2000, 2000) // 2km, 2km
+    func zoomToLatestLocation(with coordinate: CLLocationCoordinate2D) {
+        let zoomRegion = MKCoordinateRegionMakeWithDistance(coordinate, 3000, 3000) // 2km, 2km
         appleMapView.setRegion(zoomRegion, animated: true)
     }
     
@@ -140,9 +126,15 @@ class MainListViewController: UIViewController {
         self.view.sendSubview(toBack: self.tableListView)
     }
     
+    // 지도 보기
+    @objc func viewMapAction(annotionIndex index: UIButton) {
+        self.view.sendSubview(toBack: self.tableListView)
+        appleMapView.selectAnnotation(self.annotations[index.tag], animated: true)
+    }
+    
     @IBAction private func navigateStart(_ sender: UIButton) {
         guard let katecX = lastKactecX?.roundTo(places: 0),
-            let katecY = lastKactecY?.roundTo(places: 0) else { return }
+              let katecY = lastKactecY?.roundTo(places: 0) else { return }
         
         let destination = KNVLocation(name: stationName.text!,
                                       x: NSNumber(value: katecX),
@@ -268,10 +260,7 @@ extension MainListViewController: CLLocationManagerDelegate {
             let katecPoint = Converter.convertWGS84ToKatec(coordinate: newLocation!.coordinate)
             
             if !performingReverseGeocoding {
-                print("*** Going to geocode")
-                
                 performingReverseGeocoding = true
-                
                 geocoder.reverseGeocodeLocation(newLocation!, completionHandler: {
                     placemarks, error in
                     self.lastGeocodingError = error
@@ -324,12 +313,16 @@ extension MainListViewController: UITableViewDataSource {
         
         cell.selectionStyle = .none
         cell.configure(with: gasStations[indexPath.section])
+        cell.stationView.annotationButton.tag = indexPath.section
+        cell.stationView.annotationButton.addTarget(self,
+                                                    action: #selector(self.viewMapAction(annotionIndex:)),
+                                                    for: .touchUpInside)
+        //cell.stationView.favoriteButton.addTarget(self, action: <#T##Selector#>, for: .touchUpInside)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         guard let selectPath = self.selectIndexPath else {
             let cell = tableView.cellForRow(at: indexPath) as! GasStationCell
             cell.stationView.stackView.isHidden = false
@@ -435,6 +428,11 @@ extension MainListViewController: MKMapViewDelegate {
         markerView.firstImageView.image = UIImage(named: "SelectMapMarker")
         markerView.priceLabel.textColor = UIColor.white
         
+        UIView.animate(withDuration: 0.3) {
+            self.detailView.frame.origin.y = self.appleMapView.frame.maxY - 160
+            self.toListButton.frame.origin.y = self.detailView.frame.minY - 70
+            self.detailView.alpha = 1
+        }
         
         self.currentPlacemark = MKPlacemark(coordinate: markerView.coordinate!)
         
@@ -461,6 +459,7 @@ extension MainListViewController: MKMapViewDelegate {
                 self.appleMapView.add(route.polyline, level: .aboveRoads) // 경로 추가
             }
         }
+        zoomToLatestLocation(with: markerView.coordinate!)
         
     }
     
@@ -469,6 +468,12 @@ extension MainListViewController: MKMapViewDelegate {
         let markerView = view as? ImageAnnotationView
         markerView?.firstImageView.image = UIImage(named: "NonMapMarker")
         markerView?.priceLabel.textColor = UIColor.black
+        
+        UIView.animate(withDuration: 0.3) {
+            self.detailView.frame.origin.y = self.appleMapView.frame.maxY + 150
+            self.toListButton.frame.origin.y = self.appleMapView.frame.maxY - 70
+            self.detailView.alpha = 0
+        }
         
         self.appleMapView.removeOverlays(self.appleMapView.overlays) // 경로 삭제
     }
