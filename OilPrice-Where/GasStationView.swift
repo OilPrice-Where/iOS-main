@@ -16,6 +16,8 @@ class GasStationView: UIView {
     @IBOutlet private weak var oilType : UILabel!
     @IBOutlet private weak var logo : UIImageView!
     @IBOutlet weak var stackView : UIStackView!
+    @IBOutlet weak var favoriteButton : UIButton!
+    @IBOutlet weak var annotationButton : UIButton!
     
     func configure(with gasStation: GasStation) {
         let distanceKM = gasStation.distance / 1000
