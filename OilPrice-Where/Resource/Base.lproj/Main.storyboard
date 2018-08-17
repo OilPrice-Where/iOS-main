@@ -712,21 +712,21 @@
                                 <rect key="frame" x="0.0" y="171" width="320" height="305"/>
                                 <color key="backgroundColor" name="MainColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9Ee-Me-5D9">
-                                    <size key="itemSize" width="320" height="298"/>
+                                    <size key="itemSize" width="320" height="301"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FavoriteCollectionViewCell" id="3AO-mD-h1h" customClass="FavoriteCollectionViewCell" customModule="OilPrice_Where" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="3.5" width="320" height="298"/>
+                                        <rect key="frame" x="0.0" y="2" width="320" height="301"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="298"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="301"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="05x-4R-Vtn">
-                                                    <rect key="frame" x="15" y="1" width="291" height="299"/>
+                                                    <rect key="frame" x="15" y="1" width="291" height="298"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C3N-Ct-Uc4">
@@ -856,7 +856,7 @@
                                                 </label>
                                             </subviews>
                                         </view>
-                                        <size key="customSize" width="320" height="298"/>
+                                        <size key="customSize" width="320" height="301"/>
                                         <connections>
                                             <outlet property="addressLabel" destination="57N-cb-QHW" id="Urs-KF-fU7"/>
                                             <outlet property="carWashImageView" destination="NN9-ER-wGe" id="DIc-62-UdV"/>
@@ -879,8 +879,9 @@
                                     <outlet property="delegate" destination="l0L-td-NTd" id="nSg-5v-Eqb"/>
                                 </connections>
                             </collectionView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자주 가는 주유소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QcD-ZH-Vzk">
-                                <rect key="frame" x="0.0" y="140" width="112" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="자주 가는 주유소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QcD-ZH-Vzk">
+                                <rect key="frame" x="14" y="146" width="112" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -888,12 +889,10 @@
                         </subviews>
                         <color key="backgroundColor" red="0.36862745098039218" green="0.50980392156862742" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="2JG-Qp-zaO" firstAttribute="top" secondItem="QcD-ZH-Vzk" secondAttribute="bottom" constant="10" id="5dG-68-v3X"/>
                             <constraint firstItem="kA1-uz-41q" firstAttribute="top" secondItem="2JG-Qp-zaO" secondAttribute="bottom" constant="6" id="96M-ga-tzQ"/>
                             <constraint firstItem="kA1-uz-41q" firstAttribute="bottom" secondItem="wPf-Ca-eRM" secondAttribute="bottom" id="Nhh-T4-qzG"/>
                             <constraint firstItem="2JG-Qp-zaO" firstAttribute="leading" secondItem="wPf-Ca-eRM" secondAttribute="leading" id="SCh-9k-EeV"/>
                             <constraint firstItem="2JG-Qp-zaO" firstAttribute="centerX" secondItem="svd-eB-b5M" secondAttribute="centerX" id="Ta7-ba-w61"/>
-                            <constraint firstItem="QcD-ZH-Vzk" firstAttribute="leading" secondItem="2JG-Qp-zaO" secondAttribute="leading" id="WWL-7Q-aoO"/>
                             <constraint firstItem="kA1-uz-41q" firstAttribute="centerX" secondItem="svd-eB-b5M" secondAttribute="centerX" id="iHY-r7-G8J"/>
                             <constraint firstItem="2JG-Qp-zaO" firstAttribute="top" secondItem="wPf-Ca-eRM" secondAttribute="top" constant="151" id="ni6-Rx-u6l"/>
                             <constraint firstItem="wPf-Ca-eRM" firstAttribute="trailing" secondItem="2JG-Qp-zaO" secondAttribute="trailing" id="uiM-vb-Str"/>
@@ -908,7 +907,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JnF-Gp-CNV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="919" y="126"/>
+            <point key="canvasLocation" x="918.75" y="125.70422535211267"/>
         </scene>
         <!--설정-->
         <scene sceneID="2az-Vw-67D">
@@ -1002,7 +1001,7 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="Lhb-k5-Hzd" detailTextLabel="wIu-Z7-huF" style="IBUITableViewCellStyleValue1" id="kJv-6F-rwt">
                                         <rect key="frame" x="0.0" y="203" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kJv-6F-rwt" id="4Uw-cW-zFP">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kJv-6F-rwt" id="4Uw-cW-zFP">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
