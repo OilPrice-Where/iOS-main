@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 import SwiftyPlistManager
 
 @UIApplicationMain
@@ -16,6 +17,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var mainViewController:MainListViewController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
+        FirebaseApp.configure()
+        
+//        var ref: DatabaseReference!
+//
+//        ref = Database.database().reference()
+//        var data = ref.child("test")
+//
+//        print("**************yy******************")
+//        data.observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
+//            let tempNum = snapshot.value as! Int
+//            print(tempNum, "******************ffff******************")
+//        })
+
         DefaultData.shared.allPriceDataLoad()
         
         // 지연 1초
