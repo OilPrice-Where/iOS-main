@@ -26,10 +26,6 @@ class GasStationView: UIView {
         self.distance.text = String(distanceKM.roundTo(places: 2)) + "km"
         self.logo.image = Preferences.logoImage(logoName: gasStation.brand)
         self.oilType.text = Preferences.oil(code: DefaultData.shared.oilType)
-        if gasStation.price >= 1000 {
-            self.price.text = String(gasStation.price / 1000) + "," + String(gasStation.price % 1000)
-        } else {
-            self.price.text = String(gasStation.price)
-        }
+        self.price.text = Preferences.priceToWon(price: gasStation.price)
     }
 }
