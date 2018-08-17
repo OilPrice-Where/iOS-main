@@ -17,6 +17,7 @@ protocol APIProtocol
 }
 
 enum API: APIProtocol {
+    
     // ======= API 사용법 =======
     // LIST를 API URL 열거형으로 정의
     // 참조) String format에 아규먼트 값을 넣을 경우 필요한 형식
@@ -30,6 +31,7 @@ enum API: APIProtocol {
     // radius = 반경 선택 ( 최대 5000, 단위 :m)
     // sort = 1: 가격순, 2: 거리순
     // osnm = 상호 검색명 (검색어 두글자 이상)
+    
     enum LIST: String {
         // 전국 주유소 평균 가격
         case avgAll = "/avgAllPrice.do?out=json&code=%@"
