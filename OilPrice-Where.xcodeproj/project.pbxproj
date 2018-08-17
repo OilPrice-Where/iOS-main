@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29B226432121FDC60012B2F6 /* AverageCostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B226422121FDC60012B2F6 /* AverageCostData.swift */; };
+		29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */; };
+		29B2264B2122C2C40012B2F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29B2264A2122C2C30012B2F6 /* GoogleService-Info.plist */; };
+		29B226562126A8BF0012B2F6 /* NanumSquareRoundL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226522126A8B90012B2F6 /* NanumSquareRoundL.ttf */; };
+		29B226572126A8BF0012B2F6 /* NanumSquareRoundB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226532126A8BA0012B2F6 /* NanumSquareRoundB.ttf */; };
+		29B226582126A8BF0012B2F6 /* NanumSquareRoundEB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226542126A8BB0012B2F6 /* NanumSquareRoundEB.ttf */; };
+		29B226592126A8BF0012B2F6 /* NanumSquareRoundR.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226552126A8BD0012B2F6 /* NanumSquareRoundR.ttf */; };
 		7658AB092112C26300723CF0 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7658AB082112C26300723CF0 /* NoticeViewController.swift */; };
 		7658AB0C2112C38A00723CF0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */; };
 		76E226332117EFED00D719A8 /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E226322117EFED00D719A8 /* FavoriteCollectionViewCell.swift */; };
@@ -41,6 +48,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		29B226422121FDC60012B2F6 /* AverageCostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AverageCostData.swift; path = "OilPrice-Where/AverageCostData.swift"; sourceTree = SOURCE_ROOT; };
+		29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtility.swift; sourceTree = "<group>"; };
+		29B2264A2122C2C30012B2F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		29B226522126A8B90012B2F6 /* NanumSquareRoundL.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundL.ttf; sourceTree = "<group>"; };
+		29B226532126A8BA0012B2F6 /* NanumSquareRoundB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundB.ttf; sourceTree = "<group>"; };
+		29B226542126A8BB0012B2F6 /* NanumSquareRoundEB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundEB.ttf; sourceTree = "<group>"; };
+		29B226552126A8BD0012B2F6 /* NanumSquareRoundR.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundR.ttf; sourceTree = "<group>"; };
 		5ADD44E371ADD94F9E7AFB44 /* Pods-OilPrice-Where.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.release.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.release.xcconfig"; sourceTree = "<group>"; };
 		74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OilPrice_Where.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7658AB082112C26300723CF0 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +117,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		29B2264C2126A1210012B2F6 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				29B226532126A8BA0012B2F6 /* NanumSquareRoundB.ttf */,
+				29B226542126A8BB0012B2F6 /* NanumSquareRoundEB.ttf */,
+				29B226522126A8B90012B2F6 /* NanumSquareRoundL.ttf */,
+				29B226552126A8BD0012B2F6 /* NanumSquareRoundR.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		2C306C2524FE261E511F8C37 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,6 +169,7 @@
 			children = (
 				8E167D3C2107AEA30066A59E /* API.swift */,
 				8E167D402107E30F0066A59E /* GasStationListData.swift */,
+				29B226422121FDC60012B2F6 /* AverageCostData.swift */,
 				8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */,
 				8ECE0D51211AD42600FF2B46 /* Setting.swift */,
 				8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */,
@@ -205,6 +231,8 @@
 		8E7FFE3E20F5EB17006CED48 /* Supporting File */ = {
 			isa = PBXGroup;
 			children = (
+				29B2264C2126A1210012B2F6 /* Font */,
+				29B2264A2122C2C30012B2F6 /* GoogleService-Info.plist */,
 				8E7FFE3020F5E600006CED48 /* Info.plist */,
 				8ECE0D75211C31F900FF2B46 /* UserInfo.plist */,
 				8ECE0D502119607300FF2B46 /* KakaoNavi-Bridging-Header.h */,
@@ -251,6 +279,7 @@
 			children = (
 				8E1BB8EC2107E78D0065281B /* ServiceResult.swift */,
 				8E1BB8EE2107E9A60065281B /* DataUtility.swift */,
+				29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -318,9 +347,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				7658AB0C2112C38A00723CF0 /* Launch Screen.storyboard in Resources */,
+				29B226582126A8BF0012B2F6 /* NanumSquareRoundEB.ttf in Resources */,
 				8E7FFE2C20F5E5FF006CED48 /* Assets.xcassets in Resources */,
+				29B226572126A8BF0012B2F6 /* NanumSquareRoundB.ttf in Resources */,
+				29B2264B2122C2C40012B2F6 /* GoogleService-Info.plist in Resources */,
+				29B226592126A8BF0012B2F6 /* NanumSquareRoundR.ttf in Resources */,
 				8E7FFE2A20F5E5FF006CED48 /* Main.storyboard in Resources */,
 				8ECE0D76211C31F900FF2B46 /* UserInfo.plist in Resources */,
+				29B226562126A8BF0012B2F6 /* NanumSquareRoundL.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,8 +400,19 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyPlistManager/SwiftyPlistManager.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyPlistManager.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -381,12 +426,18 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyPlistManager/SwiftyPlistManager.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyPlistManager.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -422,6 +473,8 @@
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
 				8ECE0DA42122D62B00FF2B46 /* GasStationView.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
+				29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */,
+				29B226432121FDC60012B2F6 /* AverageCostData.swift in Sources */,
 				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,
 				8ECE0D7C211C3CFC00FF2B46 /* OilTypeTableViewCell.swift in Sources */,
 			);
@@ -568,10 +621,7 @@
 					"$(PROJECT_DIR)/Kakao",
 				);
 				INFOPLIST_FILE = "OilPrice-Where/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -599,10 +649,7 @@
 					"$(PROJECT_DIR)/Kakao",
 				);
 				INFOPLIST_FILE = "OilPrice-Where/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
