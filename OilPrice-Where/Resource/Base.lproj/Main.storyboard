@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Yq5-Ft-N12">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="duv-O6-adF">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -9,14 +9,20 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="NanumSquareRoundB.ttf">
+            <string>NanumSquareRoundB</string>
+        </array>
+    </customFonts>
     <scenes>
-        <!--메인-->
+        <!--MainListViewController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MainListViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="MainListViewController" id="BYZ-38-t0r" customClass="MainListViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -109,7 +115,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.36862745098039218" green="0.50980392156862742" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="vpo-wx-DUy" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Gph-Jl-xHY"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vpo-wx-DUy" secondAttribute="bottom" id="e8Y-Te-OLD"/>
@@ -125,7 +131,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="971" y="-1784"/>
+            <point key="canvasLocation" x="1013" y="-1642"/>
         </scene>
         <!--지도-->
         <scene sceneID="qc3-Bf-wYB">
@@ -185,7 +191,7 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5y8-ui-L3v">
                                                 <rect key="frame" x="74" y="0.0" width="190" height="35"/>
-                                                <color key="backgroundColor" red="0.36862745099999999" green="0.50980392159999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="0.36862745098039218" green="0.50980392156862742" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" title="길찾기">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -300,7 +306,185 @@
                     <viewLayoutGuide key="safeArea" id="7ru-zk-kNy"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="1065" y="-815.49295774647885"/>
+            <point key="canvasLocation" x="1013" y="-879"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="OaA-VS-98l">
+            <objects>
+                <viewController id="duv-O6-adF" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="i0z-7X-MUJ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cMt-0J-lWt">
+                                <rect key="frame" x="70.5" y="168.5" width="180" height="250"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hnH-qa-0ic" userLabel="GasolinView">
+                                        <rect key="frame" x="0.0" y="0.0" width="180" height="250"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gasolinImage" translatesAutoresizingMaskIntoConstraints="NO" id="mJY-QR-xLf">
+                                                <rect key="frame" x="29.5" y="0.0" width="120" height="210"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="휘발유" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rqa-jf-0M6">
+                                                <rect key="frame" x="49" y="216.5" width="82" height="33.5"/>
+                                                <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="30"/>
+                                                <color key="textColor" name="MainColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="rqa-jf-0M6" secondAttribute="bottom" id="4Ae-41-wuY"/>
+                                            <constraint firstItem="rqa-jf-0M6" firstAttribute="centerX" secondItem="hnH-qa-0ic" secondAttribute="centerX" id="65h-pl-37U"/>
+                                            <constraint firstItem="mJY-QR-xLf" firstAttribute="top" secondItem="hnH-qa-0ic" secondAttribute="top" id="F12-0M-nUm"/>
+                                            <constraint firstItem="mJY-QR-xLf" firstAttribute="centerX" secondItem="hnH-qa-0ic" secondAttribute="centerX" id="kaP-Pe-rvy"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oFV-0W-lLH" userLabel="DieselView">
+                                        <rect key="frame" x="180" y="-0.5" width="180" height="250"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dieselImage" translatesAutoresizingMaskIntoConstraints="NO" id="2v3-qg-5JD">
+                                                <rect key="frame" x="29.5" y="0.0" width="120" height="210"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="경유" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hus-E1-9Yz">
+                                                <rect key="frame" x="62" y="216.5" width="55" height="33.5"/>
+                                                <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="30"/>
+                                                <color key="textColor" name="MainColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="Hus-E1-9Yz" secondAttribute="bottom" id="2pj-7O-dnu"/>
+                                            <constraint firstItem="2v3-qg-5JD" firstAttribute="top" secondItem="oFV-0W-lLH" secondAttribute="top" id="ScP-fI-HTg"/>
+                                            <constraint firstItem="2v3-qg-5JD" firstAttribute="centerX" secondItem="oFV-0W-lLH" secondAttribute="centerX" id="UmK-gU-NUc"/>
+                                            <constraint firstItem="Hus-E1-9Yz" firstAttribute="centerX" secondItem="oFV-0W-lLH" secondAttribute="centerX" id="bV4-3c-bC3"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bnL-4j-eeU" userLabel="LPGView">
+                                        <rect key="frame" x="360" y="-0.5" width="180" height="250"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lpgImage" translatesAutoresizingMaskIntoConstraints="NO" id="dTY-L7-VCV">
+                                                <rect key="frame" x="29.5" y="0.0" width="120" height="210"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LPG" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FSA-4Q-jUk">
+                                                <rect key="frame" x="61.5" y="216.5" width="56" height="33.5"/>
+                                                <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="30"/>
+                                                <color key="textColor" name="MainColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="FSA-4Q-jUk" firstAttribute="centerX" secondItem="bnL-4j-eeU" secondAttribute="centerX" id="3vx-fu-f0y"/>
+                                            <constraint firstAttribute="bottom" secondItem="FSA-4Q-jUk" secondAttribute="bottom" id="Dhm-xv-57u"/>
+                                            <constraint firstItem="dTY-L7-VCV" firstAttribute="top" secondItem="bnL-4j-eeU" secondAttribute="top" id="o80-0w-Dmo"/>
+                                            <constraint firstItem="dTY-L7-VCV" firstAttribute="centerX" secondItem="bnL-4j-eeU" secondAttribute="centerX" id="zJ5-ZV-gqM"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TFu-yP-6Xd" userLabel="PremiumView">
+                                        <rect key="frame" x="540" y="-0.5" width="180" height="250"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="premiumImage" translatesAutoresizingMaskIntoConstraints="NO" id="ZIe-EP-brI">
+                                                <rect key="frame" x="29.5" y="0.0" width="120" height="210"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="고급 휘발유" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YgF-Og-jiS">
+                                                <rect key="frame" x="17.5" y="216.5" width="144" height="33.5"/>
+                                                <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="30"/>
+                                                <color key="textColor" name="MainColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="YgF-Og-jiS" secondAttribute="bottom" id="Ln1-b5-nQt"/>
+                                            <constraint firstItem="ZIe-EP-brI" firstAttribute="top" secondItem="TFu-yP-6Xd" secondAttribute="top" id="RLm-FV-m01"/>
+                                            <constraint firstItem="YgF-Og-jiS" firstAttribute="centerX" secondItem="TFu-yP-6Xd" secondAttribute="centerX" id="W0d-CP-Xye"/>
+                                            <constraint firstItem="ZIe-EP-brI" firstAttribute="centerX" secondItem="TFu-yP-6Xd" secondAttribute="centerX" id="YQz-Li-6ej"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="hnH-qa-0ic" firstAttribute="leading" secondItem="cMt-0J-lWt" secondAttribute="leading" id="0ef-ak-2gY"/>
+                                    <constraint firstAttribute="bottom" secondItem="TFu-yP-6Xd" secondAttribute="bottom" id="16P-w9-ann"/>
+                                    <constraint firstItem="oFV-0W-lLH" firstAttribute="height" secondItem="cMt-0J-lWt" secondAttribute="height" id="1gw-fM-rSW"/>
+                                    <constraint firstItem="TFu-yP-6Xd" firstAttribute="centerY" secondItem="cMt-0J-lWt" secondAttribute="centerY" id="2eq-Wq-vls"/>
+                                    <constraint firstAttribute="trailing" secondItem="TFu-yP-6Xd" secondAttribute="trailing" id="4cN-9B-BDY"/>
+                                    <constraint firstItem="oFV-0W-lLH" firstAttribute="leading" secondItem="hnH-qa-0ic" secondAttribute="trailing" id="ACL-ol-XJJ"/>
+                                    <constraint firstItem="bnL-4j-eeU" firstAttribute="top" secondItem="cMt-0J-lWt" secondAttribute="top" id="BrO-MH-gwd"/>
+                                    <constraint firstItem="hnH-qa-0ic" firstAttribute="top" secondItem="cMt-0J-lWt" secondAttribute="top" id="C7g-gP-HFC"/>
+                                    <constraint firstItem="TFu-yP-6Xd" firstAttribute="top" secondItem="cMt-0J-lWt" secondAttribute="top" id="FUI-jk-Ldp"/>
+                                    <constraint firstItem="hnH-qa-0ic" firstAttribute="width" secondItem="cMt-0J-lWt" secondAttribute="width" id="LcY-AI-dMc"/>
+                                    <constraint firstItem="TFu-yP-6Xd" firstAttribute="width" secondItem="cMt-0J-lWt" secondAttribute="width" id="T0Q-z4-TjG"/>
+                                    <constraint firstItem="oFV-0W-lLH" firstAttribute="width" secondItem="cMt-0J-lWt" secondAttribute="width" id="UQz-HW-6Zz"/>
+                                    <constraint firstItem="TFu-yP-6Xd" firstAttribute="height" secondItem="cMt-0J-lWt" secondAttribute="height" id="VYJ-mH-qPL"/>
+                                    <constraint firstItem="bnL-4j-eeU" firstAttribute="centerY" secondItem="cMt-0J-lWt" secondAttribute="centerY" id="Xq8-Gt-pHc"/>
+                                    <constraint firstAttribute="bottom" secondItem="oFV-0W-lLH" secondAttribute="bottom" id="beY-mi-Giu"/>
+                                    <constraint firstAttribute="height" constant="250" id="bpy-dO-YY5"/>
+                                    <constraint firstItem="oFV-0W-lLH" firstAttribute="centerY" secondItem="cMt-0J-lWt" secondAttribute="centerY" id="h7H-9g-5Ne"/>
+                                    <constraint firstItem="bnL-4j-eeU" firstAttribute="width" secondItem="cMt-0J-lWt" secondAttribute="width" id="hcU-gF-VQ5"/>
+                                    <constraint firstAttribute="bottom" secondItem="bnL-4j-eeU" secondAttribute="bottom" id="iNd-KM-4i8"/>
+                                    <constraint firstItem="hnH-qa-0ic" firstAttribute="centerY" secondItem="cMt-0J-lWt" secondAttribute="centerY" id="iPF-d4-8mY"/>
+                                    <constraint firstAttribute="width" constant="180" id="ipJ-rO-tqD"/>
+                                    <constraint firstItem="TFu-yP-6Xd" firstAttribute="leading" secondItem="bnL-4j-eeU" secondAttribute="trailing" id="ji0-r8-YQt"/>
+                                    <constraint firstItem="bnL-4j-eeU" firstAttribute="height" secondItem="cMt-0J-lWt" secondAttribute="height" id="kmR-4b-TET"/>
+                                    <constraint firstItem="hnH-qa-0ic" firstAttribute="height" secondItem="cMt-0J-lWt" secondAttribute="height" id="mb9-m6-RCG"/>
+                                    <constraint firstItem="oFV-0W-lLH" firstAttribute="top" secondItem="cMt-0J-lWt" secondAttribute="top" id="soS-xb-alx"/>
+                                    <constraint firstItem="bnL-4j-eeU" firstAttribute="leading" secondItem="oFV-0W-lLH" secondAttribute="trailing" id="vR3-eK-ZcP"/>
+                                    <constraint firstAttribute="bottom" secondItem="hnH-qa-0ic" secondAttribute="bottom" id="z1i-tV-6Zd"/>
+                                </constraints>
+                            </scrollView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="찾으시는 기름의 종류를 선택해주세요." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jD4-TR-dUC">
+                                <rect key="frame" x="40" y="86" width="240" height="22.5"/>
+                                <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="20"/>
+                                <color key="textColor" name="MainColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wx9-Rg-II8">
+                                <rect key="frame" x="20" y="168.5" width="50.5" height="250"/>
+                                <state key="normal" image="leftIcon"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iJt-DU-T0B">
+                                <rect key="frame" x="250.5" y="168.5" width="49.5" height="250"/>
+                                <state key="normal" image="rightIcon"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GIe-Ts-Ts5">
+                                <rect key="frame" x="70" y="478" width="180" height="40"/>
+                                <color key="backgroundColor" name="MainColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="tr5-db-Bvd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="20"/>
+                                <state key="normal" title="확인">
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="Yq5-Ft-N12" kind="show" id="YSj-DO-4pO"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="GIe-Ts-Ts5" firstAttribute="width" secondItem="hnH-qa-0ic" secondAttribute="width" id="2TU-rf-KiU"/>
+                            <constraint firstItem="jD4-TR-dUC" firstAttribute="leading" secondItem="ng6-k0-Aay" secondAttribute="leading" constant="40" id="3iy-4m-eLD"/>
+                            <constraint firstItem="ng6-k0-Aay" firstAttribute="bottom" secondItem="GIe-Ts-Ts5" secondAttribute="bottom" constant="50" id="4dd-d5-Ty7"/>
+                            <constraint firstItem="GIe-Ts-Ts5" firstAttribute="centerX" secondItem="ng6-k0-Aay" secondAttribute="centerX" id="7bX-9E-SBk"/>
+                            <constraint firstItem="cMt-0J-lWt" firstAttribute="leading" secondItem="wx9-Rg-II8" secondAttribute="trailing" id="7fW-KL-kjr"/>
+                            <constraint firstItem="iJt-DU-T0B" firstAttribute="leading" secondItem="cMt-0J-lWt" secondAttribute="trailing" id="GSr-li-12Q"/>
+                            <constraint firstItem="ng6-k0-Aay" firstAttribute="trailing" secondItem="jD4-TR-dUC" secondAttribute="trailing" constant="40" id="Q1h-jc-Ak5"/>
+                            <constraint firstItem="ng6-k0-Aay" firstAttribute="trailing" secondItem="iJt-DU-T0B" secondAttribute="trailing" constant="20" id="TF8-wN-Pe5"/>
+                            <constraint firstItem="iJt-DU-T0B" firstAttribute="height" secondItem="hnH-qa-0ic" secondAttribute="height" id="TLi-dD-irS"/>
+                            <constraint firstItem="cMt-0J-lWt" firstAttribute="top" secondItem="jD4-TR-dUC" secondAttribute="bottom" constant="60" id="dTa-G1-ntb"/>
+                            <constraint firstItem="cMt-0J-lWt" firstAttribute="centerY" secondItem="ng6-k0-Aay" secondAttribute="centerY" id="doY-XB-7dg"/>
+                            <constraint firstItem="jD4-TR-dUC" firstAttribute="centerX" secondItem="ng6-k0-Aay" secondAttribute="centerX" id="e1q-0E-VtP"/>
+                            <constraint firstItem="wx9-Rg-II8" firstAttribute="height" secondItem="hnH-qa-0ic" secondAttribute="height" id="eQr-Mr-0FW"/>
+                            <constraint firstItem="wx9-Rg-II8" firstAttribute="top" secondItem="hnH-qa-0ic" secondAttribute="top" id="emY-1f-6ew"/>
+                            <constraint firstItem="cMt-0J-lWt" firstAttribute="centerX" secondItem="ng6-k0-Aay" secondAttribute="centerX" id="l4I-dQ-6KV"/>
+                            <constraint firstItem="iJt-DU-T0B" firstAttribute="top" secondItem="hnH-qa-0ic" secondAttribute="top" id="ocj-7j-ywB"/>
+                            <constraint firstItem="wx9-Rg-II8" firstAttribute="leading" secondItem="ng6-k0-Aay" secondAttribute="leading" constant="20" id="zQF-04-tY5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ng6-k0-Aay"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="diJ-ar-nVL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1088" y="32"/>
         </scene>
         <!--Favorites View Controller-->
         <scene sceneID="3VI-dg-EPF">
@@ -501,7 +685,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JnF-Gp-CNV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1203.75" y="178.52112676056339"/>
+            <point key="canvasLocation" x="1013" y="-153"/>
         </scene>
         <!--설정-->
         <scene sceneID="2az-Vw-67D">
@@ -538,7 +722,7 @@
                             </tableViewSection>
                             <tableViewSection id="Vu8-bY-Hw5">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="rVr-tH-oAC" detailTextLabel="36B-Di-eph" style="IBUITableViewCellStyleValue1" id="tio-qc-F5F">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="rVr-tH-oAC" detailTextLabel="36B-Di-eph" style="IBUITableViewCellStyleValue1" id="tio-qc-F5F" userLabel="OilType">
                                         <rect key="frame" x="0.0" y="115" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tio-qc-F5F" id="au7-PG-hkD">
@@ -561,8 +745,11 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="8Sb-zz-u07" kind="show" identifier="SelectOilType" id="gqC-Tz-H6u"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="sXr-84-zEW" detailTextLabel="3dg-zk-6og" style="IBUITableViewCellStyleValue1" id="Ths-NR-P6K">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="sXr-84-zEW" detailTextLabel="3dg-zk-6og" style="IBUITableViewCellStyleValue1" id="Ths-NR-P6K" userLabel="FindDistance">
                                         <rect key="frame" x="0.0" y="159" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ths-NR-P6K" id="H2M-p4-mSe">
@@ -585,12 +772,15 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="71F-EY-24k" kind="show" identifier="FindDistance" id="m3N-fd-RG4"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Lhb-k5-Hzd" detailTextLabel="wIu-Z7-huF" style="IBUITableViewCellStyleValue1" id="kJv-6F-rwt">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="Lhb-k5-Hzd" detailTextLabel="wIu-Z7-huF" style="IBUITableViewCellStyleValue1" id="kJv-6F-rwt">
                                         <rect key="frame" x="0.0" y="203" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kJv-6F-rwt" id="4Uw-cW-zFP">
-                                            <rect key="frame" x="0.0" y="0.0" width="286" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="연동 지도 서비스" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lhb-k5-Hzd">
@@ -601,7 +791,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="카카오네비" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wIu-Z7-huF">
-                                                    <rect key="frame" x="211" y="12" width="74" height="20.5"/>
+                                                    <rect key="frame" x="230" y="12" width="74" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -681,10 +871,104 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="설정" id="sdq-YP-0GR"/>
+                    <connections>
+                        <outlet property="findLabel" destination="3dg-zk-6og" id="6qm-OH-Ktd"/>
+                        <outlet property="oilTypeLabel" destination="36B-Di-eph" id="Yk6-WU-f87"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cmh-P1-OO1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2158" y="1038"/>
+            <point key="canvasLocation" x="919" y="874"/>
+        </scene>
+        <!--Select Find Distance Table View Controller-->
+        <scene sceneID="H6V-MR-gxV">
+            <objects>
+                <tableViewController id="71F-EY-24k" customClass="SelectFindDistanceTableViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="KvI-tg-BN9">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="FindDistance" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FindDistance" id="Vn3-KK-Xtv" customClass="FindDistanceTableViewCell" customModule="OilPrice_Where" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Vn3-KK-Xtv" id="ltE-4E-2da">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sGS-fd-q1V">
+                                            <rect key="frame" x="26" y="11" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="sGS-fd-q1V" firstAttribute="centerY" secondItem="ltE-4E-2da" secondAttribute="centerY" id="2p3-eq-MAz"/>
+                                        <constraint firstItem="sGS-fd-q1V" firstAttribute="leading" secondItem="ltE-4E-2da" secondAttribute="leadingMargin" constant="10" id="CgG-wW-CLw"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="distanceLabel" destination="sGS-fd-q1V" id="dwO-U1-kKG"/>
+                                    <segue destination="WzB-Jn-mdJ" kind="unwind" unwindAction="didPickerDistance:" id="Erv-93-c1i"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="71F-EY-24k" id="I6B-7L-nfa"/>
+                            <outlet property="delegate" destination="71F-EY-24k" id="jN9-DT-ss8"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SFi-Rq-JTz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="WzB-Jn-mdJ" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="919" y="1690"/>
+        </scene>
+        <!--Select Oil Type Table View Controller-->
+        <scene sceneID="N6p-14-gCB">
+            <objects>
+                <tableViewController storyboardIdentifier="SelectOilType" id="8Sb-zz-u07" customClass="SelectOilTypeTableViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="nE6-Yb-oqP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="OilTypeCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="OilTypeCell" id="XFD-OA-Jrn" customClass="OilTypeTableViewCell" customModule="OilPrice_Where" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XFD-OA-Jrn" id="eMP-Il-KR5">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="휘발유" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="blt-e1-MKl">
+                                            <rect key="frame" x="26" y="12" width="44.5" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="blt-e1-MKl" firstAttribute="centerY" secondItem="eMP-Il-KR5" secondAttribute="centerY" id="sc4-yU-0cU"/>
+                                        <constraint firstItem="blt-e1-MKl" firstAttribute="leading" secondItem="eMP-Il-KR5" secondAttribute="leadingMargin" constant="10" id="syK-FP-ycd"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="oilTypeLabel" destination="blt-e1-MKl" id="9Z7-GF-WNL"/>
+                                    <segue destination="zQ9-SL-3CG" kind="unwind" unwindAction="didPickerOilType:" id="iuc-hn-E39"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="8Sb-zz-u07" id="9Xo-1F-B6s"/>
+                            <outlet property="delegate" destination="8Sb-zz-u07" id="vTu-zE-AQE"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eMy-Yh-C1U" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="zQ9-SL-3CG" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1733" y="1234"/>
         </scene>
         <!--공지사항-->
         <scene sceneID="YJg-Wv-0TD">
@@ -703,7 +987,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" red="0.36862745098039218" green="0.50980392156862742" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.39833971858024597" green="0.50583392381668091" blue="0.96803933382034302" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <viewLayoutGuide key="safeArea" id="d9S-3n-2UQ"/>
                     </view>
                     <navigationItem key="navigationItem" title="공지사항" largeTitleDisplayMode="never" id="orp-z7-sju">
@@ -717,12 +1001,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iRJ-W0-uGe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3249.375" y="575.70422535211264"/>
+            <point key="canvasLocation" x="1734" y="517"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--TabBarController-->
         <scene sceneID="5Mn-s0-oH5">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Yq5-Ft-N12" sceneMemberID="viewController">
+                <tabBarController title="TabBarController" automaticallyAdjustsScrollViewInsets="NO" id="Yq5-Ft-N12" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jXn-na-fJp">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -749,6 +1033,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Ukt-N1-kXo">
                         <rect key="frame" x="0.0" y="20" width="320" height="93"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.36862748861312866" green="0.50980401039123535" blue="0.99999994039535522" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
@@ -766,13 +1051,31 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jce-dt-H79" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1238" y="1031"/>
+            <point key="canvasLocation" x="32" y="874"/>
         </scene>
     </scenes>
     <resources>
         <image name="LogoGSCaltex" width="30" height="30"/>
         <image name="LogoSKGas" width="30" height="30"/>
+        <image name="dieselImage" width="120" height="210"/>
+        <image name="gasolinImage" width="120" height="210"/>
+        <image name="leftIcon" width="25" height="40"/>
+        <image name="lpgImage" width="120" height="210"/>
+        <image name="premiumImage" width="120" height="210"/>
+        <image name="rightIcon" width="25" height="40"/>
         <image name="v4_tooltip_distance1" width="19" height="28"/>
         <image name="v4_tooltip_distance2" width="7" height="6"/>
+        <namedColor name="MainColor">
+            <color red="0.3680000007" green="0.50900000329999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="MainColor">
+            <color red="0.3680000007" green="0.50900000329999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="MainColor">
+            <color red="0.36800000071525574" green="0.50900000333786011" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="MainColor">
+            <color red="0.3680000007" green="0.50900000329999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

@@ -11,9 +11,6 @@ import MapKit
 import CoreLocation
 
 class MapViewController: UIViewController {
-
-    var gasStations: [GasStation] = []
-    
     //Detail View
     @IBOutlet private weak var logoType : UIImageView!
     @IBOutlet private weak var stationName : UILabel!
@@ -30,103 +27,49 @@ class MapViewController: UIViewController {
     @IBOutlet private weak var mapView: MKMapView!
     private var currentCoordinate: CLLocationCoordinate2D?
     var currentPlacemark: CLPlacemark?
+    var annotations: [ImageAnnotation] = [] // 마커 배열 생성
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadData() // 지도위 데이터 로드
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         configureLocationServices() // 로케이션 서바스 시작
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        print("viewDidAppear")
         showMarker() // 마커 생성
     }
     
-    // 지도위 데이터 정보 생성
-    func loadData() {
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "gasStation"),
-                                               object: nil,
-                                               queue: nil) {
-                                                [weak self] (noti) in
-                                                if let gs = noti.object as? [GasStation] {
-                                                    self?.gasStations = gs
-                                                }
-        }
-        
-        mapView.delegate = self
+    override func viewDidDisappear(_ animated: Bool) {
+        print("viewDidDisappear")
+        super.viewDidDisappear(animated)
+        mapView.removeAnnotations(annotations)
+        annotations = []
+        currentCoordinate = nil
     }
     
     // 마커 생성
     func showMarker() {
-        var annotations: [ImageAnnotation] = [] // 마커 배열 생성
+        guard let gasStations = DefaultData.shared.data else { return }
         
-        for i in 0..<gasStations.count {
+        
+        for i in 0 ..< gasStations.count {
             annotations.append(ImageAnnotation()) // 마커 생성
-            annotations[i].coordinate = convertKatecToWGS(x: gasStations[i].katecX, // 마커 위치 선점
-                                                          y: gasStations[i].katecY)
-            annotations[i].image = logoImage(logoName: gasStations[i].brand) // 브랜드
-            annotations[i].name = gasStations[i].name // 상호명
-            annotations[i].distance = gasStations[i].distance // 거리
-            annotations[i].price = gasStations[i].price // 가격
-            annotations[i].katecX = gasStations[i].katecX // KatecX
-            annotations[i].katecY = gasStations[i].katecY // KatecY
+            annotations[i].coordinate = Converter.convertKatecToWGS(katec: KatecPoint(x: gasStations[i].katecX, y: gasStations[i].katecY)) // 마커 위치 선점
+            annotations[i].stationInfo = gasStations[i] // 주유소 정보 전달
             self.mapView.addAnnotation(annotations[i]) // 맵뷰에 마커 생성
         }
     }
     
-    // 로고 이미지
-    func logoImage(logoName name: String) -> UIImage? {
-        switch name {
-        case "SKE":
-            return UIImage(named: "LogoSKEnergy")
-        case "GSC":
-            return UIImage(named: "LogoGSCaltex")
-        case "HDO":
-            return UIImage(named: "LogoOilBank")
-        case "SOL":
-            return UIImage(named: "LogoSOil")
-        case "RTO":
-            return UIImage(named: "LogoFrugalOil")
-        case "RTX":
-            return UIImage(named: "LogoExpresswayOil")
-        case "NHO":
-            return UIImage(named: "LogoNHOil")
-        case "ETC":
-            return UIImage(named: "LogoPersonalOil")
-        case "E1G":
-            return UIImage(named: "LogoEnergyOne")
-        case "SKG":
-            return UIImage(named: "LogoSKGas")
-        default:
-            return nil
-        }
-    }
-    
-    // 위치 변환
-    func convertKatecToWGS(x: Double, y: Double) -> CLLocationCoordinate2D {
-        let convert = GeoConverter()
-        let katecPoint = GeographicPoint(x: x, y: y)
-        let wgsPoint = convert.convert(sourceType: .KATEC,
-                                       destinationType: .WGS_84,
-                                       geoPoint: katecPoint)
-        
-        return CLLocationCoordinate2D(latitude: wgsPoint!.y.roundTo(places: 6),
-                                      longitude: wgsPoint!.x.roundTo(places: 6))
-        
-    }
-    
     // 위치 관련 인증 확인
     private func configureLocationServices() {
+        mapView.delegate = self
         locationManager.delegate = self
-        let status = CLLocationManager.authorizationStatus() // 현재 인증상태 확인
-        
-        if status == .notDetermined { // notDetermined일 시 AlwaysAuthorization 요청
-            locationManager.requestAlwaysAuthorization()
-        } else if status == .authorizedAlways || status == .authorizedWhenInUse { // 인증시 위치 정보 받아오기 시작
-            beginLocationUpdates(locationManager: locationManager)
-        }
+        beginLocationUpdates(locationManager: locationManager)
     }
     
     // 위치 요청 시작
@@ -143,15 +86,16 @@ class MapViewController: UIViewController {
     }
     
     @IBAction private func navigateStart(_ sender: UIButton) {
-        guard let katecX = lastKactecX?.roundTo(places: 0), let katecY = lastKactecY?.roundTo(places: 0) else { return }
+        guard let katecX = lastKactecX?.roundTo(places: 0),
+              let katecY = lastKactecY?.roundTo(places: 0) else { return }
         
-        print(katecX, katecY)
         let destination = KNVLocation(name: stationName.text!,
                                       x: NSNumber(value: katecX),
                                       y: NSNumber(value: katecY))
         let options = KNVOptions()
         options.routeInfo = false
-        let params = KNVParams(destination: destination, options: options)
+        let params = KNVParams(destination: destination,
+                               options: options)
         KNVNaviLauncher.shared().navigate(with: params) { (error) in
             self.handleError(error: error)
         }
@@ -160,8 +104,11 @@ class MapViewController: UIViewController {
     func handleError(error: Error?) -> Void {
         if let error = error as NSError? {
             print(error)
-            let alert = UIAlertController(title: self.title!, message: error.localizedFailureReason, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.cancel, handler: nil))
+            let alert = UIAlertController(title: self.title!,
+                                          message: error.localizedFailureReason,
+                                          preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.cancel,
+                                          handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -197,13 +144,6 @@ extension MapViewController: CLLocationManagerDelegate {
         
         currentCoordinate = newLocation.coordinate
     }
-    
-    // 인증 상태가 변경 되었을 때
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedAlways || status == .authorizedWhenInUse {
-            beginLocationUpdates(locationManager: manager)
-        }
-    }
 }
 
 // MARK: - MKMapViewDelegate
@@ -217,47 +157,48 @@ extension MapViewController: MKMapViewDelegate {
         if !annotation.isKind(of: ImageAnnotation.self) {
             var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "DefaultPinView")
             if pinAnnotationView == nil {
-                pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "DefaultPinView")
+                pinAnnotationView = MKPinAnnotationView(annotation: annotation,
+                                                        reuseIdentifier: "DefaultPinView")
             }
             return pinAnnotationView
         }
         
         var view: ImageAnnotationView? = mapView.dequeueReusableAnnotationView(withIdentifier: "imageAnnotation") as? ImageAnnotationView
         if view == nil {
-            view = ImageAnnotationView(annotation: annotation, reuseIdentifier: "imageAnnotation")
+            view = ImageAnnotationView(annotation: annotation,
+                                       reuseIdentifier: "imageAnnotation")
         }
         
         let annotation = annotation as! ImageAnnotation
         view?.annotation = annotation
-        view?.priceLabel.text = String(annotation.price!)
-        view?.coordinate = annotation.coordinate
-        view?.image = annotation.image
-        view?.name = annotation.name
-        view?.distance = annotation.distance
-        view?.katecX = annotation.katecX
-        view?.katecY = annotation.katecY
+        view?.stationInfo = annotation.stationInfo
+        
+        if let stationInfo = annotation.stationInfo {
+            view?.priceLabel.text = String(stationInfo.price)
+            view?.coordinate = annotation.coordinate
+            view?.image = Preferences.logoImage(logoName: stationInfo.brand)
+        }
         
         return view
     }
     
     // 마커 선택 Delegate
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        guard let imageView = view as? ImageAnnotationView else { return }
+        guard let markerView = view as? ImageAnnotationView else { return }
+        guard let stationInfo = markerView.stationInfo else { return }
         
-        imageView.priceLabel.textColor = UIColor.red
-        self.logoType.image = imageView.image
-        self.stationName.text = imageView.name
-        self.lastKactecX = imageView.katecX
-        self.lastKactecY = imageView.katecY
+        self.logoType.image = markerView.image
+        let kmDistance = stationInfo.distance / 1000
+        self.stationName.text = stationInfo.name
+        self.lastKactecX = stationInfo.katecX
+        self.lastKactecY = stationInfo.katecY
         
-        if let distance = imageView.distance, let price = imageView.priceLabel.text {
-            let kmDistance = distance / 1000
-            self.distance.text = String(kmDistance.roundTo(places: 2)) + "km"
-            self.oilPrice.text = price + "원"
-        }
+        self.distance.text = String(kmDistance.roundTo(places: 2)) + "km"
+        self.oilPrice.text = String(stationInfo.price) + "원"
+        markerView.priceLabel.textColor = UIColor.red
         
         
-        self.currentPlacemark = MKPlacemark(coordinate: imageView.coordinate!)
+        self.currentPlacemark = MKPlacemark(coordinate: markerView.coordinate!)
         
         if let currentPlacemark = self.currentPlacemark {
             let directionRequest = MKDirectionsRequest()
@@ -287,8 +228,8 @@ extension MapViewController: MKMapViewDelegate {
     
     // 마커 선택해제 관련 Delegate
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        let imageView = view as? ImageAnnotationView
-        imageView?.priceLabel.textColor = UIColor.black
+        let markerView = view as? ImageAnnotationView
+        markerView?.priceLabel.textColor = UIColor.black
         
         self.mapView.removeOverlays(self.mapView.overlays) // 경로 삭제
     }
