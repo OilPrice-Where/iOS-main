@@ -17,7 +17,6 @@ class SelectOilTypeTableViewController: UITableViewController {
     "휘발유",
     "고급휘발유",
     "경유",
-    "실내등유",
     "자동차부탄"
     ]
     

@@ -100,10 +100,10 @@ final class Preferences {
             return "B034"
         case "경유":
             return "D047"
-        case "실내등유":
-            return "C004"
-        default: // 자동차 부탄
+        case "자동차부탄":
             return "K015"
+        default:
+            return ""
         }
     }
     
@@ -115,10 +115,10 @@ final class Preferences {
             return "고급휘발유"
         case "D047":
             return "경유"
-        case "C004":
-            return "실내등유"
-        default: // K015
+        case "K015":
             return "자동차부탄"
+        default:
+            return ""
         }
     }
     
@@ -131,5 +131,21 @@ final class Preferences {
         default: // 5KM
             return 5000
         }
+    }
+    
+    static func priceToWon(price: Int) -> String {
+        var stringPrice = ""
+        
+        if price >= 1000 {
+            if (price % 1000) < 100 {
+                stringPrice = String(price / 1000) + ",0" + String(price % 1000) + "원"
+            } else {
+                stringPrice = String(price / 1000) + "," + String(price % 1000) + "원"
+            }
+        } else {
+            stringPrice = String(price) + "원"
+        }
+        
+        return stringPrice
     }
 }

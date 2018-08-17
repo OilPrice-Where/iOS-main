@@ -36,7 +36,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 지연 1초
         sleep(1)
         
+        window?.rootViewController = initialViewController()
+        
         return true
+    }
+    
+    private func initialViewController() -> UIViewController {
+        if DefaultData.shared.oilType == "" {
+            return UIStoryboard(name: "Main",
+                                bundle: nil).instantiateViewController(withIdentifier: "TabBarController")
+        } else {
+            return UIStoryboard(name: "Main",
+                                bundle: nil).instantiateViewController(withIdentifier: "MainListViewController")
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

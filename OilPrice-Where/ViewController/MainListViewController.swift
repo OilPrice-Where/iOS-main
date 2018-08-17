@@ -32,43 +32,41 @@ class MainListViewController: UIViewController {
     @IBOutlet private weak var oilType : UILabel!
     @IBOutlet weak var detailViewBottomConstraint: NSLayoutConstraint!
     
-    //Map Kit
+    // Map
     @IBOutlet private weak var appleMapView: MKMapView!
     private var currentCoordinate: CLLocationCoordinate2D?
     var currentPlacemark: CLPlacemark? // 주소결과가 들어있는 객체
     var annotations: [ImageAnnotation] = [] // 마커 배열 생성
+    @IBOutlet private weak var mapView : UIView!
     
-    //HeaderView
+    // TableView
+    @IBOutlet private weak var tableView : UITableView!
+    @IBOutlet private weak var tableListView : UIView!
+    var selectIndexPath: IndexPath?
+    var refreshControl = UIRefreshControl()
+    
+    // HeaderView
     @IBOutlet private weak var haderView : MainHeaderView!
     @IBOutlet weak var toListButton : UIButton!
     
     //Etc
     let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-    @IBOutlet private weak var tableView : UITableView!
-    @IBOutlet private weak var tableListView : UIView!
-    @IBOutlet private weak var mapView : UIView!
     private var lastKactecX: Double?
     private var lastKactecY: Double?
-    var selectIndexPath: IndexPath?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0)
-        //Navigation Bar 색상 설정
-        UINavigationBar.appearance().barTintColor = self.view.backgroundColor
-        appDelegate.mainViewController = self
+        print("OilType")
+        print(DefaultData.shared.oilType)
+        setting()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureLocationServices()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         appleMapView.removeAnnotations(annotations)
@@ -93,6 +91,34 @@ class MainListViewController: UIViewController {
                 print(error)
                 
             }
+        }
+    }
+    
+    @objc func refresh() {
+        appleMapView.removeAnnotations(annotations)
+        annotations = []
+        currentCoordinate = nil
+        configureLocationServices()
+        
+        refreshControl.endRefreshing()
+    }
+    
+    func setting() {
+        // Navigation Bar 색상 설정
+        UINavigationBar.appearance().barTintColor = self.view.backgroundColor
+        appDelegate.mainViewController = self
+        
+        // 테이블 뷰 헤더 경계 값 설정
+        self.tableView.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0)
+        
+        // 새로 고침
+        self.refreshControl.addTarget(self,
+                                 action: #selector(refresh),
+                                 for: UIControlEvents.valueChanged)
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = self.refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
         }
     }
     
@@ -132,6 +158,7 @@ class MainListViewController: UIViewController {
         appleMapView.selectAnnotation(self.annotations[index.tag], animated: true)
     }
     
+    // 길안내 시작
     @IBAction private func navigateStart(_ sender: UIButton) {
         guard let katecX = lastKactecX?.roundTo(places: 0),
               let katecY = lastKactecY?.roundTo(places: 0) else { return }
@@ -148,6 +175,7 @@ class MainListViewController: UIViewController {
         }
     }
     
+    // 길안내 에러 발생
     func handleError(error: Error?) -> Void {
         if let error = error as NSError? {
             print(error)
@@ -161,7 +189,7 @@ class MainListViewController: UIViewController {
     }
     
     // 위치 관련 인증 확인
-    func configureLocationServices() {
+    @objc func configureLocationServices() {
         locationManager.delegate = self
         appleMapView.delegate = self
         let status = CLLocationManager.authorizationStatus() // 현재 인증상태 확인
@@ -317,7 +345,9 @@ extension MainListViewController: UITableViewDataSource {
         cell.stationView.annotationButton.addTarget(self,
                                                     action: #selector(self.viewMapAction(annotionIndex:)),
                                                     for: .touchUpInside)
-        //cell.stationView.favoriteButton.addTarget(self, action: <#T##Selector#>, for: .touchUpInside)
+        //cell.stationView.favoriteButton.addTarget(self,
+//                                                  action: <#T##Selector#>,
+//                                                  for: .touchUpInside)
         
         return cell
     }
@@ -329,8 +359,7 @@ extension MainListViewController: UITableViewDataSource {
             cell.selectionStyle = .none
             self.selectIndexPath = indexPath
             
-            tableView.beginUpdates()
-            tableView.endUpdates()
+            tableView.reloadData()
             return
         }
         
@@ -353,8 +382,7 @@ extension MainListViewController: UITableViewDataSource {
                 }
             }
         }
-        tableView.beginUpdates()
-        tableView.endUpdates()
+        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -423,7 +451,7 @@ extension MainListViewController: MKMapViewDelegate {
         self.lastKactecY = stationInfo.katecY
         
         self.distance.text = String(kmDistance.roundTo(places: 2)) + "km"
-        self.oilPrice.text = String(stationInfo.price) + "원"
+        self.oilPrice.text = Preferences.priceToWon(price: stationInfo.price)
         self.oilType.text = Preferences.oil(code: DefaultData.shared.oilType)
         markerView.firstImageView.image = UIImage(named: "SelectMapMarker")
         markerView.priceLabel.textColor = UIColor.white
