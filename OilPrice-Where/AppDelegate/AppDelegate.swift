@@ -17,7 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         DefaultData.shared.allPriceDataLoad()
-        // 지연 2초
+        
+        // 지연 1초
         sleep(1)
         
         return true
