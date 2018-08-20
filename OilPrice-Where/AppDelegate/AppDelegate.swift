@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func initialViewController() -> UIViewController {
         if DefaultData.shared.oilType == "" {
             return UIStoryboard(name: "Main",
-                                bundle: nil).instantiateViewController(withIdentifier: "TabBarController")
+                                bundle: nil).instantiateViewController(withIdentifier: "InitialSettingViewController")
         } else {
             return UIStoryboard(name: "Main",
                                 bundle: nil).instantiateViewController(withIdentifier: "MainListViewController")

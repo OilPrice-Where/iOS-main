@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-<<<<<<< HEAD
-		765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
-=======
 		29B226432121FDC60012B2F6 /* AverageCostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B226422121FDC60012B2F6 /* AverageCostData.swift */; };
 		29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */; };
 		29B2264B2122C2C40012B2F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29B2264A2122C2C30012B2F6 /* GoogleService-Info.plist */; };
@@ -17,7 +14,7 @@
 		29B226572126A8BF0012B2F6 /* NanumSquareRoundB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226532126A8BA0012B2F6 /* NanumSquareRoundB.ttf */; };
 		29B226582126A8BF0012B2F6 /* NanumSquareRoundEB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226542126A8BB0012B2F6 /* NanumSquareRoundEB.ttf */; };
 		29B226592126A8BF0012B2F6 /* NanumSquareRoundR.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226552126A8BD0012B2F6 /* NanumSquareRoundR.ttf */; };
->>>>>>> 51243a57cd1f51b1ca6820ddf4db8f0f64917810
+		765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
 		7658AB092112C26300723CF0 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7658AB082112C26300723CF0 /* NoticeViewController.swift */; };
 		7658AB0C2112C38A00723CF0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */; };
 		76E226332117EFED00D719A8 /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E226322117EFED00D719A8 /* FavoriteCollectionViewCell.swift */; };
@@ -48,6 +45,7 @@
 		8ECE0DA62122E11100FF2B46 /* MainHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0DA52122E11100FF2B46 /* MainHeaderView.swift */; };
 		8ECE0DA82123836E00FF2B46 /* AllOilAverageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0DA72123836E00FF2B46 /* AllOilAverageView.swift */; };
 		8ECE0DAA212385FB00FF2B46 /* AllPriceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */; };
+		8EDAF7D821295AEF00422552 /* InitialSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */; };
 		B633531A781457C90F211EA0 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +93,7 @@
 		8ECE0DA52122E11100FF2B46 /* MainHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHeaderView.swift; sourceTree = "<group>"; };
 		8ECE0DA72123836E00FF2B46 /* AllOilAverageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllOilAverageView.swift; sourceTree = "<group>"; };
 		8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllPriceData.swift; path = "OilPrice-Where/AllPriceData.swift"; sourceTree = SOURCE_ROOT; };
+		8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSettingViewController.swift; sourceTree = "<group>"; };
 		AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -251,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */,
+				8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */,
 				8E7FFE3A20F5EA36006CED48 /* FavoritesViewController.swift */,
 				8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */,
 				8ECE0D77211C330600FF2B46 /* SelectOilTypeTableViewController.swift */,
@@ -303,6 +303,7 @@
 				8E7FFE1F20F5E5FF006CED48 /* Resources */,
 				A1410BAAA832A712804BE11F /* [CP] Embed Pods Frameworks */,
 				8E167D3421007B620066A59E /* ShellScript */,
+				04F2FEC16E347DC10D7E2204 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -366,6 +367,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		04F2FEC16E347DC10D7E2204 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6BD9A5B08CFDBAC3BCE9A669 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -460,6 +476,7 @@
 				8E1BB8F12107F61E0065281B /* GasStationCell.swift in Sources */,
 				7658AB092112C26300723CF0 /* NoticeViewController.swift in Sources */,
 				8E167D3D2107AEA30066A59E /* API.swift in Sources */,
+				8EDAF7D821295AEF00422552 /* InitialSettingViewController.swift in Sources */,
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
 				8ECE0DA42122D62B00FF2B46 /* GasStationView.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
@@ -605,15 +622,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-<<<<<<< HEAD
-<<<<<<< HEAD
-				DEVELOPMENT_TEAM = 944595JNCH;
-=======
-				DEVELOPMENT_TEAM = Z339Z9FD2H;
->>>>>>> 51243a57cd1f51b1ca6820ddf4db8f0f64917810
-=======
 				DEVELOPMENT_TEAM = G4MM77V7NH;
->>>>>>> 777d7d65bcc3fe2f1147a2ef7bb34f3f60a9f5c1
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -641,15 +650,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-<<<<<<< HEAD
-<<<<<<< HEAD
-				DEVELOPMENT_TEAM = 944595JNCH;
-=======
-				DEVELOPMENT_TEAM = Z339Z9FD2H;
->>>>>>> 51243a57cd1f51b1ca6820ddf4db8f0f64917810
-=======
 				DEVELOPMENT_TEAM = G4MM77V7NH;
->>>>>>> 777d7d65bcc3fe2f1147a2ef7bb34f3f60a9f5c1
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

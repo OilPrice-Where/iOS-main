@@ -518,11 +518,10 @@
             </objects>
             <point key="canvasLocation" x="918.75" y="-638.02816901408448"/>
         </scene>
-        <!--FavoritesViewController-->
-        <!--View Controller-->
+        <!--InitialSettingViewController-->
         <scene sceneID="OaA-VS-98l">
             <objects>
-                <viewController id="duv-O6-adF" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InitialSettingViewController" title="InitialSettingViewController" id="duv-O6-adF" customClass="InitialSettingViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="i0z-7X-MUJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -640,6 +639,9 @@
                                     <constraint firstItem="bnL-4j-eeU" firstAttribute="leading" secondItem="oFV-0W-lLH" secondAttribute="trailing" id="vR3-eK-ZcP"/>
                                     <constraint firstAttribute="bottom" secondItem="hnH-qa-0ic" secondAttribute="bottom" id="z1i-tV-6Zd"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="duv-O6-adF" id="Cfn-8O-YyU"/>
+                                </connections>
                             </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="찾으시는 기름의 종류를 선택해주세요." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jD4-TR-dUC">
                                 <rect key="frame" x="40" y="86" width="240" height="22.5"/>
@@ -650,10 +652,16 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wx9-Rg-II8">
                                 <rect key="frame" x="20" y="168.5" width="50.5" height="250"/>
                                 <state key="normal" image="leftIcon"/>
+                                <connections>
+                                    <action selector="leftAction:" destination="duv-O6-adF" eventType="touchUpInside" id="ydG-QR-wcI"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iJt-DU-T0B">
                                 <rect key="frame" x="250.5" y="168.5" width="49.5" height="250"/>
                                 <state key="normal" image="rightIcon"/>
+                                <connections>
+                                    <action selector="rightAction:" destination="duv-O6-adF" eventType="touchUpInside" id="zP2-tp-Ws1"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GIe-Ts-Ts5">
                                 <rect key="frame" x="70" y="478" width="180" height="40"/>
@@ -666,6 +674,7 @@
                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
+                                    <action selector="okAction:" destination="duv-O6-adF" eventType="touchUpInside" id="8a5-ps-b9U"/>
                                     <segue destination="Yq5-Ft-N12" kind="show" id="YSj-DO-4pO"/>
                                 </connections>
                             </button>
@@ -692,12 +701,15 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ng6-k0-Aay"/>
                     </view>
+                    <connections>
+                        <outlet property="scrollView" destination="cMt-0J-lWt" id="X0L-3R-hQi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="diJ-ar-nVL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1088" y="32"/>
         </scene>
-        <!--Favorites View Controller-->
+        <!--FavoritesViewController-->
         <scene sceneID="3VI-dg-EPF">
             <objects>
                 <viewController storyboardIdentifier="FavoritesViewController" title="FavoritesViewController" id="l0L-td-NTd" customClass="FavoritesViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
@@ -1252,7 +1264,7 @@
                     <tabBarItem key="tabBarItem" title="설정" id="ZTm-eG-udE"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Ukt-N1-kXo">
-                        <rect key="frame" x="0.0" y="20" width="320" height="93"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.36862748861312866" green="0.50980401039123535" blue="0.99999994039535522" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
