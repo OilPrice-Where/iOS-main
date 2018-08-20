@@ -44,6 +44,7 @@
 		8ECE0DA62122E11100FF2B46 /* MainHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0DA52122E11100FF2B46 /* MainHeaderView.swift */; };
 		8ECE0DA82123836E00FF2B46 /* AllOilAverageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0DA72123836E00FF2B46 /* AllOilAverageView.swift */; };
 		8ECE0DAA212385FB00FF2B46 /* AllPriceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */; };
+		8EDAF7D821295AEF00422552 /* InitialSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */; };
 		B633531A781457C90F211EA0 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +91,7 @@
 		8ECE0DA52122E11100FF2B46 /* MainHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHeaderView.swift; sourceTree = "<group>"; };
 		8ECE0DA72123836E00FF2B46 /* AllOilAverageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllOilAverageView.swift; sourceTree = "<group>"; };
 		8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllPriceData.swift; path = "OilPrice-Where/AllPriceData.swift"; sourceTree = SOURCE_ROOT; };
+		8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSettingViewController.swift; sourceTree = "<group>"; };
 		AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -245,6 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */,
+				8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */,
 				8E7FFE3A20F5EA36006CED48 /* FavoritesViewController.swift */,
 				8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */,
 				8ECE0D77211C330600FF2B46 /* SelectOilTypeTableViewController.swift */,
@@ -470,6 +473,7 @@
 				8E1BB8F12107F61E0065281B /* GasStationCell.swift in Sources */,
 				7658AB092112C26300723CF0 /* NoticeViewController.swift in Sources */,
 				8E167D3D2107AEA30066A59E /* API.swift in Sources */,
+				8EDAF7D821295AEF00422552 /* InitialSettingViewController.swift in Sources */,
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
 				8ECE0DA42122D62B00FF2B46 /* GasStationView.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
@@ -621,7 +625,10 @@
 					"$(PROJECT_DIR)/Kakao",
 				);
 				INFOPLIST_FILE = "OilPrice-Where/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -649,7 +656,10 @@
 					"$(PROJECT_DIR)/Kakao",
 				);
 				INFOPLIST_FILE = "OilPrice-Where/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
