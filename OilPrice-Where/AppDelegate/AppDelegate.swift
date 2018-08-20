@@ -22,10 +22,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 
         DefaultData.shared.allPriceDataLoad()
-        // 지연 2초
+        
+        // 지연 1초
         sleep(1)
         
+        window?.rootViewController = initialViewController()
+        
         return true
+    }
+    
+    private func initialViewController() -> UIViewController {
+        if DefaultData.shared.oilType == "" {
+            return UIStoryboard(name: "Main",
+                                bundle: nil).instantiateViewController(withIdentifier: "InitialSettingViewController")
+        } else {
+            return UIStoryboard(name: "Main",
+                                bundle: nil).instantiateViewController(withIdentifier: "MainListViewController")
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

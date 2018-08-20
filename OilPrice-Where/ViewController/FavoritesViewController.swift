@@ -20,7 +20,6 @@ class FavoritesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         pager.currentPage = 0
 
         pager.numberOfPages = list.count
@@ -39,7 +38,7 @@ extension FavoritesViewController: UICollectionViewDataSource {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteCollectionViewCell.identifier, for: indexPath) as! FavoriteCollectionViewCell
 
-        cell.configure(with: gasStations![indexPath.item])
+//        cell.configure(with: gasStations![indexPath.item])
         
             return cell
         
@@ -56,10 +55,10 @@ extension FavoritesViewController: UICollectionViewDataSource {
 
 extension FavoritesViewController: UICollectionViewDelegateFlowLayout {
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return collectionView.bounds.size
-//    }
-//
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return collectionView.bounds.size
+    }
+
     
 }
 
