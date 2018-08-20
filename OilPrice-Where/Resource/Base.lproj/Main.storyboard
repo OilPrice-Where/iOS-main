@@ -702,10 +702,6 @@
                         <viewLayoutGuide key="safeArea" id="ng6-k0-Aay"/>
                     </view>
                     <connections>
-                        <outlet property="dieselView" destination="oFV-0W-lLH" id="EvI-lL-c2I"/>
-                        <outlet property="gasolinView" destination="hnH-qa-0ic" id="kfh-rZ-B36"/>
-                        <outlet property="lpgView" destination="bnL-4j-eeU" id="wrS-0Q-odc"/>
-                        <outlet property="premiumView" destination="TFu-yP-6Xd" id="KXE-Er-cZm"/>
                         <outlet property="scrollView" destination="cMt-0J-lWt" id="X0L-3R-hQi"/>
                     </connections>
                 </viewController>

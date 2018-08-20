@@ -10,10 +10,6 @@ import UIKit
 
 class InitialSettingViewController: UIViewController {
 
-    @IBOutlet private weak var gasolinView : UIView!
-    @IBOutlet private weak var dieselView : UIView!
-    @IBOutlet private weak var lpgView : UIView!
-    @IBOutlet private weak var premiumView : UIView!
     @IBOutlet private weak var scrollView : UIScrollView!
     lazy var scrollWidth = scrollView.bounds.size.width
     
