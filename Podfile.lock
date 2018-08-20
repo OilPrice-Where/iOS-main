@@ -61,6 +61,11 @@ DEPENDENCIES:
   - Firebase/Database
   - SwiftyPlistManager
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - SwiftyPlistManager
+
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Firebase: 75ea9e232eefa158c1049028030b8f661a2ccb62
@@ -76,4 +81,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: db07c6f5d13384c536e891b0f4d2a801f66b2d3e
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0

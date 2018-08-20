@@ -32,7 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        })
 
         DefaultData.shared.allPriceDataLoad()
-        // 지연 2초
+        
+        // 지연 1초
         sleep(1)
         
         window?.rootViewController = initialViewController()
