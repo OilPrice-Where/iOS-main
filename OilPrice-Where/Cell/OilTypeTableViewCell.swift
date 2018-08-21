@@ -8,7 +8,7 @@
 
 import UIKit
 
-// 설정 탭 내부의 오일 종류 관련 셀
+// 설정 -> 오일 타입 선택 리스트 셀
 class OilTypeTableViewCell: UITableViewCell {
 
     @IBOutlet private weak var oilTypeLabel : UILabel! // 오일 종류
@@ -19,7 +19,7 @@ class OilTypeTableViewCell: UITableViewCell {
     
     // 셀 설정
     func configure(typeName: String) {
-        oilTypeLabel.text = typeName // 오일의 종류에 따라 셀에 뿌린다
+        oilTypeLabel.text = typeName // 오일의 종류(휘발유, 경유, LPG 등..)를 셀에 표시
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
