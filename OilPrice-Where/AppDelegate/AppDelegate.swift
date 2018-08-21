@@ -19,17 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         FirebaseApp.configure()
-        
-//        var ref: DatabaseReference!
-//
-//        ref = Database.database().reference()
-//        var data = ref.child("test")
-//
-//        print("**************yy******************")
-//        data.observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
-//            let tempNum = snapshot.value as! Int
-//            print(tempNum, "******************ffff******************")
-//        })
+    
 
         DefaultData.shared.allPriceDataLoad() // 전국의 오일종류 별 저번주의 평균 값을 받아온다.
         
