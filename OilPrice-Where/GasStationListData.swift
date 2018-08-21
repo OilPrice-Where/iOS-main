@@ -8,6 +8,7 @@
 
 import Foundation
 
+// 주유소 리스트를 받아오는 API Decodable
 struct OilList: Decodable {
     let result: GasStations
     

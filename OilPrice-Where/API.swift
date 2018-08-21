@@ -72,27 +72,28 @@ enum API: APIProtocol {
         get {
             var tempString: String = ""
             switch self {
-            case .avgAll(let appKey):
+            case .avgAll(let appKey): // 전국 주유소 평균 가격
                 tempString = String(format: LIST.avgAll.rawValue, appKey)
-            case .avgSido(let prodcd, let sido, let appKey):
+            case .avgSido(let prodcd, let sido, let appKey): // 시도별 주유소 평균 가격
                 tempString = String(format: LIST.avgSido.rawValue, prodcd, sido, appKey)
-            case .avgSigun(let prodcd, let sigun, let sido, let appKey):
+            case .avgSigun(let prodcd, let sigun, let sido, let appKey): // 시군구별 주유소 평균 가격
                 tempString = String(format: LIST.avgSigun.rawValue, prodcd, sigun, sido, appKey)
-            case .avgRecent(let prodcd, let appKey):
+            case .avgRecent(let prodcd, let appKey): // 최근 7일간 전국 일일 평균 가격
                 tempString = String(format: LIST.avgRecent.rawValue, prodcd, appKey)
-            case .avgLastWeek(let prodcd, let appKey):
+            case .avgLastWeek(let prodcd, let appKey): // 최근 1주의 주간 평균 유가(전국/시도별)
                 tempString =  String(format: LIST.avgLastWeek.rawValue, prodcd, appKey)
-            case .lowTop10(let prodcd, let area, let appKey):
+            case .lowTop10(let prodcd, let area, let appKey): // 지역별 최저가 주유소(Top10)
                 tempString = String(format: LIST.lowTop10.rawValue, prodcd, area, appKey)
-            case .aroundAll(let x, let y, let radius, let prodcd, let sort, let appKey):
+            case .aroundAll(let x, let y, let radius, let prodcd, let sort, let appKey): // 반경내 주유소
                 tempString = String(format: LIST.aroundAll.rawValue, x, y, radius, prodcd, sort, appKey)
-            case .detailById(let appKey, let id):
+            case .detailById(let appKey, let id): // 주유소 상세 정보
                 tempString = String(format: LIST.detailById.rawValue, appKey, id)
-            case .areaCode(let area, let appKey):
+            case .areaCode(let area, let appKey): // 지역 코드
                 tempString = String(format: LIST.areaCode.rawValue, area, appKey)
-            case .searchByName(let appKey, let osnm):
+            case .searchByName(let appKey, let osnm): // 상호로 주유소 검색
                 tempString = String(format: LIST.searchByName.rawValue, appKey, osnm)
             }
+            //tempString URL로 변경
             return tempString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         }
     }

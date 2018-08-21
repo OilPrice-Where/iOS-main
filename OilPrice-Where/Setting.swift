@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 
+// 카텍 좌표 저장
 struct KatecPoint {
     let x: Double
     let y: Double
@@ -43,7 +44,8 @@ final class Converter {
 // App 기본 설정
 final class Preferences {
     
-    // App Key
+    // Random App Key
+    // 5개의 App Key중 랜덤하게 한 개의 App Key 반환
     static func getAppKey() -> String {
         var appKey = ""
         
@@ -64,7 +66,8 @@ final class Preferences {
         return appKey
     }
     
-    // 로고 이미지
+    // 받아오는 Logo Code값을 Image로 변환해주는 함수
+    // ex) SKE -> UIImage(named: "LogoSKEnergy") // SK 로고이미지
     static func logoImage(logoName name: String) -> UIImage? {
         switch name {
         case "SKE":
@@ -92,6 +95,8 @@ final class Preferences {
         }
     }
     
+    // Oil Type을 Oil Code로 변환 함수
+    // ex) 휘발유 -> B027
     static func oil(name: String) -> String {
         switch name {
         case "휘발유":
@@ -107,6 +112,8 @@ final class Preferences {
         }
     }
     
+    // Oil Code를 Oil Type으로 변환 함수
+    // ex) B027 -> 휘발유
     static func oil(code: String) -> String {
         switch code {
         case "B027":
@@ -122,6 +129,8 @@ final class Preferences {
         }
     }
     
+    // String으로 표시 된 거리를 Int값으로 반환
+    // ex) 1KM -> 1000
     static func distanceKM(KM: String) -> Int {
         switch KM {
         case "1KM":
@@ -133,6 +142,7 @@ final class Preferences {
         }
     }
     
+    // Int값을 원화 사이의 ','를 넣어주는 함수
     static func priceToWon(price: Int) -> String {
         var stringPrice = ""
         
@@ -147,5 +157,14 @@ final class Preferences {
         }
         
         return stringPrice
+    }
+}
+
+// 반올림
+extension Double {
+    /// Rounds the double to decimal places value
+    func roundTo(places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
     }
 }
