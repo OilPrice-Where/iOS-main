@@ -31,52 +31,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            print(tempNum, "******************ffff******************")
 //        })
 
-        DefaultData.shared.allPriceDataLoad()
+        DefaultData.shared.allPriceDataLoad() // 전국의 오일종류 별 저번주의 평균 값을 받아온다.
         
-        // 지연 1초
-        sleep(1)
+        sleep(1) // 지연 1초
         
-        window?.rootViewController = initialViewController()
+        window?.rootViewController = initialViewController() // 설정페이지 루트뷰 설정
         
         return true
     }
     
+    // initialViewController 초기 설정 페이지 관련 함수
+    // 처음 앱을 켰을 때 저장 되어있는 오일 타입이 설정 되어 있지 않을 시에
+    // 초기 설정 페이지(InitialSettingViewController)를 루트 뷰로 설정
+    // 오일 타입이 있다면 메인 리스트 페이지(TabBarController)를 루트뷰로 설정
     private func initialViewController() -> UIViewController {
         if DefaultData.shared.oilType == "" {
             return UIStoryboard(name: "Main",
                                 bundle: nil).instantiateViewController(withIdentifier: "InitialSettingViewController")
         } else {
             return UIStoryboard(name: "Main",
-                                bundle: nil).instantiateViewController(withIdentifier: "MainListViewController")
+                                bundle: nil).instantiateViewController(withIdentifier: "TabBarController")
         }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        // 앱 백드라운드로 갈 시 설정 데이터 저장
-        DefaultData.shared.save()
+        DefaultData.shared.save() // 앱 백드라운드로 갈 시 설정 데이터 저장
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        mainViewController?.configureLocationServices()
+        mainViewController?.configureLocationServices() // 앱이 포어 그라운드로 돌아 올 때 위치정보 리플레쉬
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        
-        // 앱 종료시 마지막 설정 데이터 저장
-        DefaultData.shared.save()
+        DefaultData.shared.save() // 앱 종료시 마지막 설정 데이터 저장
     }
 
 

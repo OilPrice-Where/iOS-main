@@ -9,46 +9,58 @@
 import UIKit
 import SwiftyPlistManager
 
+// 주유소 탐색 설정 페이지
+// 사용자 유종과 탐색 반경을 변경하면 메인페이지에 업데이트 되어 적용 된다.
+// 설정 저장 방식은 피리스트('UserInfo'에 저장)
+// ** 탐색반경 : 3KM, 유종 : nil **
 class SettingTableViewController: UITableViewController {
     
-    @IBOutlet private weak var oilTypeLabel : UILabel!
-    @IBOutlet private weak var findLabel : UILabel!
-    var oilTypeName = Preferences.oil(code: DefaultData.shared.oilType)
-    var findDistance = String(DefaultData.shared.radius / 1000) + "KM"
+    @IBOutlet private weak var oilTypeLabel : UILabel! // 현재 탐색 하고 있는 오일의 타입
+    @IBOutlet private weak var findLabel : UILabel! // 현재 탐색 하고 있는 탐색 반경
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        oilTypeLabel.text = oilTypeName
-        findLabel.text = findDistance
-        
+        settingDataLoad()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    // 이전 설정을 데이터를 불러와서
+    // oilTypeLabel, findLabel 업데이트
+    func settingDataLoad() {
+        oilTypeLabel.text = Preferences.oil(code: DefaultData.shared.oilType)
+        findLabel.text = String(DefaultData.shared.radius / 1000) + "KM"
     }
 
+    // 다른 페이지로 전환 시
+    // 현재 SettingTableViewController에 cell에 표시 된 설정 값을
+    // 넘겨 주는 페이지의 selected 설정 값의 이름을 전달한다.
+    // ex) oilType(휘발유) -> selectedOilTypeName(휘발유) 전달
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "SelectOilType" {
+        if segue.identifier == "SelectOilType", let oilType = oilTypeLabel.text {
             let controller = segue.destination as! SelectOilTypeTableViewController
-            controller.selectedOilTypeName = self.oilTypeName
-        } else if segue.identifier == "FindDistance" {
+            controller.selectedOilTypeName = oilType
+        } else if segue.identifier == "FindDistance", let findDistance = findLabel.text {
             let controller = segue.destination as! SelectFindDistanceTableViewController
-            controller.selectedDistance = self.findDistance
+            controller.selectedDistance = findDistance
         }
     }
     
+    // SelectOilTypeTableViewController에서 오일 타입 선택 시
+    // SettingTableViewController로 페이지가 전환(pop)되면서
+    // SettingTableViewController의 oilTypeLabel를 업데이트 해주고
+    // 앱의 기본정보 객체의(DefaultData) oilType을 Update 해준다.
     @IBAction private func didPickerOilType(_ segue: UIStoryboardSegue) {
         let controller = segue.source as! SelectOilTypeTableViewController
-        oilTypeName = controller.selectedOilTypeName
-        oilTypeLabel.text = oilTypeName
-        DefaultData.shared.oilType = Preferences.oil(name: oilTypeName)
+        oilTypeLabel.text = controller.selectedOilTypeName
+        DefaultData.shared.oilType = Preferences.oil(name: controller.selectedOilTypeName)
     }
     
+    // SelectFindDistanceTableViewController에서 탐색 반경 선택 시
+    // SettingTableViewController로 페이지가 전환(pop)되면서
+    // SettingTableViewController의 oilTypeLabel를 업데이트 해주고
+    // 앱의 기본정보 객체의(DefaultData) radius를 Update 해준다.
     @IBAction private func didPickerDistance(_ segue: UIStoryboardSegue) {
         let controller = segue.source as! SelectFindDistanceTableViewController
-        findDistance = controller.selectedDistance
-        findLabel.text = findDistance
-        DefaultData.shared.radius = Preferences.distanceKM(KM: findDistance)
+        findLabel.text = controller.selectedDistance
+        DefaultData.shared.radius = Preferences.distanceKM(KM: controller.selectedDistance)
     }
 }
