@@ -12,6 +12,7 @@ import UIKit
 class GasStationCell: UITableViewCell {
 
     @IBOutlet weak var stationView : GasStationView!
+    let path = UIBezierPath()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,10 +35,7 @@ class GasStationCell: UITableViewCell {
     //stationView의 외곽선 설정
     func configure(with gasStation: GasStation) {
         self.stationView.configure(with: gasStation) // 주유소 정보 설정
+        self.stationView.layer.cornerRadius = 10 // // 외곽선의 cornerRadius
         
-        // stationView의 외곽선 관련 설정
-        self.stationView.layer.borderColor = UIColor.lightGray.cgColor.copy(alpha: 0.5) // 외곽선의 색
-        self.stationView.layer.borderWidth = 1 // 외곽선의 두께
-        self.stationView.layer.cornerRadius = 6 // // 외곽선의 cornerRadius
     }
 }

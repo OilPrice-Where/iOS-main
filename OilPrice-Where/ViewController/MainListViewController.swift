@@ -12,10 +12,9 @@ import CoreLocation
 
 class MainListViewController: UIViewController {
     //CoreLocation
-    var locationManager = CLLocationManager()
-    var location: CLLocation?
-    var updatingLocation = false
-    var lastLocationError: Error?
+    var locationManager = CLLocationManager() // locationManager
+//    var location: CLLocation?
+    var lastLocationError: Error? // Location Error 확인
     
     //Reverse Geocoding
     let geocoder = CLGeocoder() // 지오코딩을 수행할 객체
@@ -23,42 +22,40 @@ class MainListViewController: UIViewController {
                                            // Bool변수로 받을 지 안받을 지 선택한다.
     var lastGeocodingError: Error? // 문제가 발생 했을 때 오류 저장 변수
     
-    //Detail View
-    @IBOutlet private weak var detailView : UIView!
-    @IBOutlet private weak var logoType : UIImageView!
-    @IBOutlet private weak var stationName : UILabel!
-    @IBOutlet private weak var distance : UILabel!
-    @IBOutlet private weak var oilPrice : UILabel!
-    @IBOutlet private weak var oilType : UILabel!
-    @IBOutlet weak var detailViewBottomConstraint: NSLayoutConstraint!
-    
     // Map
-    @IBOutlet private weak var appleMapView: MKMapView!
-    private var currentCoordinate: CLLocationCoordinate2D?
+    @IBOutlet private weak var appleMapView: MKMapView! // 맵 뷰
+    private var currentCoordinate: CLLocationCoordinate2D? // 현재 좌표
     var currentPlacemark: CLPlacemark? // 주소결과가 들어있는 객체
-    var annotations: [ImageAnnotation] = [] // 마커 배열 생성
+    var annotations: [CustomMarkerAnnotation] = [] // 마커 배열 생성
     @IBOutlet private weak var mapView : UIView!
     
+    // Detail View
+    @IBOutlet private weak var detailView : UIView! // Detail View
+    @IBOutlet private weak var logoType : UIImageView! // Logo
+    @IBOutlet private weak var stationName : UILabel! // 주유소 명
+    @IBOutlet private weak var distance : UILabel! // 거리
+    @IBOutlet private weak var oilPrice : UILabel! // 기름 가격
+    @IBOutlet private weak var oilType : UILabel! // 기름 타입
+    @IBOutlet weak var detailViewBottomConstraint: NSLayoutConstraint! // Detail View Bottom Constraint
+    
     // TableView
-    @IBOutlet private weak var tableView : UITableView!
-    @IBOutlet private weak var tableListView : UIView!
-    var selectIndexPath: IndexPath?
-    var refreshControl = UIRefreshControl()
+    @IBOutlet private weak var tableListView : UIView! // 테이블 뷰를 포함하고 있는 뷰
+    @IBOutlet private weak var tableView : UITableView! // 메인리스트 테이블 뷰
+    var selectIndexPath: IndexPath? // 선택된 인덱스 패스
+    var refreshControl = UIRefreshControl() // Refresh Controller
     
     // HeaderView
     @IBOutlet private weak var haderView : MainHeaderView!
     @IBOutlet weak var toListButton : UIButton!
     
     //Etc
-    let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-    private var lastKactecX: Double?
-    private var lastKactecY: Double?
+    let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate // 앱 델리게이트
+    private var lastKactecX: Double? // KatecX 좌표
+    private var lastKactecY: Double? // KatecY 좌표
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("OilType")
-        print(DefaultData.shared.oilType)
         setting()
     }
     
@@ -128,7 +125,7 @@ class MainListViewController: UIViewController {
         guard let gasStations = DefaultData.shared.data else { return }
         
         for i in 0 ..< gasStations.count {
-            annotations.append(ImageAnnotation()) // 마커 생성
+            annotations.append(CustomMarkerAnnotation()) // 마커 생성
             annotations[i].coordinate = Converter.convertKatecToWGS(katec: KatecPoint(x: gasStations[i].katecX, y: gasStations[i].katecY)) // 마커 위치 선점
             annotations[i].stationInfo = gasStations[i] // 주유소 정보 전달
             self.appleMapView.addAnnotation(annotations[i]) // 맵뷰에 마커 생성
@@ -411,7 +408,7 @@ extension MainListViewController: MKMapViewDelegate {
             return nil
         }
         
-        if !annotation.isKind(of: ImageAnnotation.self) {
+        if !annotation.isKind(of: CustomMarkerAnnotation.self) {
             var pinAnnotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "DefaultPinView")
             if pinAnnotationView == nil {
                 pinAnnotationView = MKPinAnnotationView(annotation: annotation,
@@ -420,13 +417,13 @@ extension MainListViewController: MKMapViewDelegate {
             return pinAnnotationView
         }
         
-        var view: ImageAnnotationView? = mapView.dequeueReusableAnnotationView(withIdentifier: "imageAnnotation") as? ImageAnnotationView
+        var view: CustomMarkerAnnotationView? = mapView.dequeueReusableAnnotationView(withIdentifier: "imageAnnotation") as? CustomMarkerAnnotationView
         if view == nil {
-            view = ImageAnnotationView(annotation: annotation,
+            view = CustomMarkerAnnotationView(annotation: annotation,
                                        reuseIdentifier: "imageAnnotation")
         }
         
-        let annotation = annotation as! ImageAnnotation
+        let annotation = annotation as! CustomMarkerAnnotation
         view?.annotation = annotation
         view?.stationInfo = annotation.stationInfo
         
@@ -441,7 +438,7 @@ extension MainListViewController: MKMapViewDelegate {
     
     // 마커 선택 Delegate
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        guard let markerView = view as? ImageAnnotationView else { return }
+        guard let markerView = view as? CustomMarkerAnnotationView else { return }
         guard let stationInfo = markerView.stationInfo else { return }
         
         self.logoType.image = markerView.image
@@ -453,7 +450,7 @@ extension MainListViewController: MKMapViewDelegate {
         self.distance.text = String(kmDistance.roundTo(places: 2)) + "km"
         self.oilPrice.text = Preferences.priceToWon(price: stationInfo.price)
         self.oilType.text = Preferences.oil(code: DefaultData.shared.oilType)
-        markerView.firstImageView.image = UIImage(named: "SelectMapMarker")
+        markerView.mapMarkerImageView.image = UIImage(named: "SelectMapMarker")
         markerView.priceLabel.textColor = UIColor.white
         
         UIView.animate(withDuration: 0.3) {
@@ -493,8 +490,8 @@ extension MainListViewController: MKMapViewDelegate {
     
     // 마커 선택해제 관련 Delegate
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        let markerView = view as? ImageAnnotationView
-        markerView?.firstImageView.image = UIImage(named: "NonMapMarker")
+        let markerView = view as? CustomMarkerAnnotationView
+        markerView?.mapMarkerImageView.image = UIImage(named: "NonMapMarker")
         markerView?.priceLabel.textColor = UIColor.black
         
         UIView.animate(withDuration: 0.3) {
