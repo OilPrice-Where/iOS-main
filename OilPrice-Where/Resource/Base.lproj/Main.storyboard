@@ -18,6 +18,9 @@
         <array key="NanumSquareRoundB.ttf">
             <string>NanumSquareRoundB</string>
         </array>
+        <array key="NanumSquareRoundEB.ttf">
+            <string>NanumSquareRoundEB</string>
+        </array>
     </customFonts>
     <scenes>
         <!--MainListViewController-->
@@ -344,19 +347,19 @@
                                                                                         <constraint firstAttribute="height" constant="30" id="twp-Bx-2gX"/>
                                                                                     </constraints>
                                                                                 </imageView>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="낙성대 행복 주유소" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMS-A2-1Dg">
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="낙성대 행복 주유소" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UMS-A2-1Dg">
                                                                                     <rect key="frame" x="36" y="0.0" width="176" height="30"/>
-                                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                                                    <nil key="textColor"/>
+                                                                                    <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="20"/>
+                                                                                    <color key="textColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8.88km" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9Y-Wn-6KV">
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8.88km" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="3" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y9Y-Wn-6KV">
                                                                                     <rect key="frame" x="218" y="0.0" width="46" height="30"/>
                                                                                     <constraints>
                                                                                         <constraint firstAttribute="width" constant="46" id="rZ3-bg-7J8"/>
                                                                                     </constraints>
-                                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
-                                                                                    <nil key="textColor"/>
+                                                                                    <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="10"/>
+                                                                                    <color key="textColor" red="0.43137254899999999" green="0.43137254899999999" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
                                                                             </subviews>
@@ -375,21 +378,21 @@
                                                                             <rect key="frame" x="0.0" y="43.5" width="264" height="32"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="휘발유" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="znY-LO-ynE">
-                                                                                    <rect key="frame" x="94.5" y="16.5" width="39" height="18"/>
-                                                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                                                    <rect key="frame" x="99.5" y="13" width="38.5" height="15.5"/>
+                                                                                    <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="14"/>
                                                                                     <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="8,888원" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.60000002384185791" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zkf-2s-2TT">
-                                                                                    <rect key="frame" x="138.5" y="-3.5" width="125.5" height="39.5"/>
-                                                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="33"/>
-                                                                                    <nil key="textColor"/>
+                                                                                    <rect key="frame" x="143" y="-1.5" width="121" height="36.5"/>
+                                                                                    <fontDescription key="fontDescription" name="NanumSquareRoundEB" family="NanumSquareRound" pointSize="33"/>
+                                                                                    <color key="textColor" red="0.2156862745" green="0.2156862745" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
                                                                             </subviews>
                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <constraints>
-                                                                                <constraint firstItem="znY-LO-ynE" firstAttribute="top" secondItem="Zkf-2s-2TT" secondAttribute="centerY" id="Get-bt-zqD"/>
+                                                                                <constraint firstItem="znY-LO-ynE" firstAttribute="top" secondItem="Zkf-2s-2TT" secondAttribute="centerY" constant="-4" id="Get-bt-zqD"/>
                                                                                 <constraint firstItem="Zkf-2s-2TT" firstAttribute="leading" secondItem="znY-LO-ynE" secondAttribute="trailing" constant="5" id="YMu-rb-seM"/>
                                                                                 <constraint firstItem="Zkf-2s-2TT" firstAttribute="centerY" secondItem="2i1-VV-YZM" secondAttribute="centerY" id="biT-9v-526"/>
                                                                                 <constraint firstAttribute="trailing" secondItem="Zkf-2s-2TT" secondAttribute="trailing" id="lC2-I7-ObS"/>
@@ -497,7 +500,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="메인" id="vIt-C4-1IF"/>
+                    <tabBarItem key="tabBarItem" title="주유 정보" image="oilTabIcon" selectedImage="oilTabIconSel" id="vIt-C4-1IF"/>
                     <connections>
                         <outlet property="appleMapView" destination="mkL-kO-zCA" id="nmk-hf-cLI"/>
                         <outlet property="detailView" destination="8eG-wx-yb6" id="fPp-tw-nd1"/>
@@ -911,7 +914,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wPf-Ca-eRM"/>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="favorites" id="rt0-S7-rBO"/>
+                    <tabBarItem key="tabBarItem" title="즐겨찾기" image="favoriteTabIcon" selectedImage="favoriteTabIconSel" id="rt0-S7-rBO"/>
                     <connections>
                         <outlet property="FavoritesCollectionView" destination="2JG-Qp-zaO" id="vsS-b7-kbH"/>
                         <outlet property="pager" destination="kA1-uz-41q" id="cgN-Y8-l6y"/>
@@ -1475,7 +1478,10 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jXn-na-fJp">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" name="MainColor"/>
                     </tabBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="nct-E1-JiD"/>
@@ -1491,10 +1497,10 @@
         <scene sceneID="toc-zO-hMS">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0Lq-Za-uin" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="설정" id="ZTm-eG-udE"/>
+                    <tabBarItem key="tabBarItem" title="설정" image="settingTabIcon" selectedImage="settingTabIconSel" id="ZTm-eG-udE"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Ukt-N1-kXo">
-                        <rect key="frame" x="0.0" y="20" width="320" height="96"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="93"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.36862748861312866" green="0.50980401039123535" blue="0.99999994039535522" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
@@ -1524,11 +1530,17 @@
         <image name="LogoEnergyOne" width="30" height="30"/>
         <image name="LogoGSCaltex" width="30" height="30"/>
         <image name="dieselImage" width="120" height="210"/>
+        <image name="favoriteTabIcon" width="25" height="25"/>
+        <image name="favoriteTabIconSel" width="25" height="25"/>
         <image name="gasolinImage" width="120" height="210"/>
         <image name="leftIcon" width="25" height="40"/>
         <image name="lpgImage" width="120" height="210"/>
+        <image name="oilTabIcon" width="25" height="25"/>
+        <image name="oilTabIconSel" width="25" height="25"/>
         <image name="premiumImage" width="120" height="210"/>
         <image name="rightIcon" width="25" height="40"/>
+        <image name="settingTabIcon" width="25" height="25"/>
+        <image name="settingTabIconSel" width="25" height="25"/>
         <namedColor name="MainColor">
             <color red="0.36800000071525574" green="0.50900000333786011" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
