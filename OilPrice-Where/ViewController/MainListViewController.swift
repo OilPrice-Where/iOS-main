@@ -13,7 +13,7 @@ import CoreLocation
 class MainListViewController: UIViewController {
     //CoreLocation
     var locationManager = CLLocationManager() // locationManager
-//    var location: CLLocation?
+    //var location: CLLocation?
     var lastLocationError: Error? // Location Error 확인
     
     //Reverse Geocoding
@@ -30,13 +30,7 @@ class MainListViewController: UIViewController {
     @IBOutlet private weak var mapView : UIView!
     
     // Detail View
-    @IBOutlet private weak var detailView : UIView! // Detail View
-    @IBOutlet private weak var logoType : UIImageView! // Logo
-    @IBOutlet private weak var stationName : UILabel! // 주유소 명
-    @IBOutlet private weak var distance : UILabel! // 거리
-    @IBOutlet private weak var oilPrice : UILabel! // 기름 가격
-    @IBOutlet private weak var oilType : UILabel! // 기름 타입
-    @IBOutlet weak var detailViewBottomConstraint: NSLayoutConstraint! // Detail View Bottom Constraint
+    @IBOutlet private weak var detailView : DetailView! // Detail View
     
     // TableView
     @IBOutlet private weak var tableListView : UIView! // 테이블 뷰를 포함하고 있는 뷰
@@ -46,13 +40,18 @@ class MainListViewController: UIViewController {
     
     // HeaderView
     @IBOutlet private weak var haderView : MainHeaderView!
-    @IBOutlet weak var toListButton : UIButton!
+    @IBOutlet weak var toListButton : UIView!
+    @IBOutlet private weak var toImageView : UIImageView!
+    @IBOutlet private weak var toLabel : UILabel!
+    var mainListPage = true
+    var tapGesture = UITapGestureRecognizer()
     
     //Etc
     let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate // 앱 델리게이트
     private var lastKactecX: Double? // KatecX 좌표
     private var lastKactecY: Double? // KatecY 좌표
-    
+    var selectMarker = false
+    var lastBottomConstant: CGFloat?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,6 +104,22 @@ class MainListViewController: UIViewController {
         UINavigationBar.appearance().barTintColor = self.view.backgroundColor
         appDelegate.mainViewController = self
         
+        self.toListButton.layer.cornerRadius = self.toListButton.bounds.height / 2
+        self.toImageView.image = toImageView.image!.withRenderingMode(.alwaysTemplate)
+        self.toImageView.tintColor = UIColor.white
+        
+        toListButton.clipsToBounds = false
+        toListButton.layer.shadowColor = UIColor.black.cgColor
+        toListButton.layer.shadowOpacity = 0.5
+        toListButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        toListButton.layer.shadowRadius = 2
+        
+        // Draw a shadow
+        toListButton.layer.shadowPath = UIBezierPath(roundedRect: toListButton.bounds, cornerRadius: self.toListButton.bounds.height / 2).cgPath
+        // Add image into container
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.toList(_:)))
+        toListButton.addGestureRecognizer(tap)
         // 테이블 뷰 헤더 경계 값 설정
         self.tableView.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0)
         
@@ -139,20 +154,37 @@ class MainListViewController: UIViewController {
         appleMapView.setRegion(zoomRegion, animated: true)
     }
     
-    // 리스트 전환 액션
-    @IBAction private func toList(_ sender: UIButton) {
-        self.view.sendSubview(toBack: self.mapView)
-    }
-    
-    // 지도 전환 액션
-    @IBAction private func toMap(_ sender: UIButton) {
-        self.view.sendSubview(toBack: self.tableListView)
+    // 전환 액션
+    @objc func toList(_ sender: UIView) {
+        if mainListPage {
+            self.view.sendSubview(toBack: self.tableListView)
+            toImageView.image = UIImage(named: "listButton")
+            toLabel.text = "목록"
+            self.detailView.detailViewBottomConstraint.constant = lastBottomConstant ?? self.detailView.detailViewBottomConstraint.constant
+            UIView.animate(withDuration: 0.3) {
+                self.view.layoutIfNeeded()
+            }
+            mainListPage = false
+        } else {
+            self.view.sendSubview(toBack: self.mapView)
+            toImageView.image = UIImage(named: "mapButton")
+            toLabel.text = "지도"
+            lastBottomConstant = self.detailView.detailViewBottomConstraint.constant
+            self.detailView.detailViewBottomConstraint.constant = -150
+            UIView.animate(withDuration: 0.3) {
+                self.view.layoutIfNeeded()
+            }
+            mainListPage = true
+        }
     }
     
     // 지도 보기
-    @objc func viewMapAction(annotionIndex index: UIButton) {
-        self.view.sendSubview(toBack: self.tableListView)
-        appleMapView.selectAnnotation(self.annotations[index.tag], animated: true)
+    @objc func viewMapAction(annotionIndex gesture: UITapGestureRecognizer) {
+        guard let index = self.selectIndexPath?.section else { return }
+ 
+        self.toList(self.toListButton)
+        
+        appleMapView.selectAnnotation(self.annotations[index], animated: true)
     }
     
     // 길안내 시작
@@ -160,7 +192,7 @@ class MainListViewController: UIViewController {
         guard let katecX = lastKactecX?.roundTo(places: 0),
               let katecY = lastKactecY?.roundTo(places: 0) else { return }
         
-        let destination = KNVLocation(name: stationName.text!,
+        let destination = KNVLocation(name: detailView.stationName.text!,
                                       x: NSNumber(value: katecX),
                                       y: NSNumber(value: katecY))
         let options = KNVOptions()
@@ -335,16 +367,9 @@ extension MainListViewController: UITableViewDataSource {
         if selectIndexPath?.section == indexPath.section {
             cell.stationView.stackView.isHidden = false
         }
-        
-        cell.selectionStyle = .none
+
+        cell.addGestureRecognize(self, action: #selector(self.viewMapAction(annotionIndex:)))
         cell.configure(with: gasStations[indexPath.section])
-        cell.stationView.annotationButton.tag = indexPath.section
-        cell.stationView.annotationButton.addTarget(self,
-                                                    action: #selector(self.viewMapAction(annotionIndex:)),
-                                                    for: .touchUpInside)
-        //cell.stationView.favoriteButton.addTarget(self,
-//                                                  action: <#T##Selector#>,
-//                                                  for: .touchUpInside)
         
         return cell
     }
@@ -383,11 +408,11 @@ extension MainListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let selectSection = self.selectIndexPath?.section else { return 100 }
+        guard let selectSection = self.selectIndexPath?.section else { return 110 }
         if indexPath.section == selectSection {
-            return 150
+            return 164
         } else {
-            return 100
+            return 110
         }
     }
     
@@ -402,6 +427,8 @@ extension MainListViewController: UITableViewDelegate {
 
 // MARK: - MKMapViewDelegate
 extension MainListViewController: MKMapViewDelegate {
+    
+    
     // 마커 뷰 관련 설정 Delegate
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation.isKind(of: MKUserLocation.self) {
@@ -441,22 +468,21 @@ extension MainListViewController: MKMapViewDelegate {
         guard let markerView = view as? CustomMarkerAnnotationView else { return }
         guard let stationInfo = markerView.stationInfo else { return }
         
-        self.logoType.image = markerView.image
+        detailView.logoType.image = markerView.image
         let kmDistance = stationInfo.distance / 1000
-        self.stationName.text = stationInfo.name
+        detailView.stationName.text = stationInfo.name
         self.lastKactecX = stationInfo.katecX
         self.lastKactecY = stationInfo.katecY
         
-        self.distance.text = String(kmDistance.roundTo(places: 2)) + "km"
-        self.oilPrice.text = Preferences.priceToWon(price: stationInfo.price)
-        self.oilType.text = Preferences.oil(code: DefaultData.shared.oilType)
+        detailView.distance.text = String(kmDistance.roundTo(places: 2)) + "km"
+        detailView.oilPrice.text = Preferences.priceToWon(price: stationInfo.price)
+        detailView.oilType.text = Preferences.oil(code: DefaultData.shared.oilType)
         markerView.mapMarkerImageView.image = UIImage(named: "SelectMapMarker")
         markerView.priceLabel.textColor = UIColor.white
         
+        self.detailView.detailViewBottomConstraint.constant = 10
         UIView.animate(withDuration: 0.3) {
-            self.detailView.frame.origin.y = self.appleMapView.frame.maxY - 160
-            self.toListButton.frame.origin.y = self.detailView.frame.minY - 70
-            self.detailView.alpha = 1
+            self.view.layoutIfNeeded()
         }
         
         self.currentPlacemark = MKPlacemark(coordinate: markerView.coordinate!)
@@ -494,14 +520,13 @@ extension MainListViewController: MKMapViewDelegate {
         markerView?.mapMarkerImageView.image = UIImage(named: "NonMapMarker")
         markerView?.priceLabel.textColor = UIColor.black
         
+        self.detailView.detailViewBottomConstraint.constant = -150
         UIView.animate(withDuration: 0.3) {
-            self.detailView.frame.origin.y = self.appleMapView.frame.maxY + 150
-            self.toListButton.frame.origin.y = self.appleMapView.frame.maxY - 70
-            self.detailView.alpha = 0
+            self.view.layoutIfNeeded()
         }
-        
         self.appleMapView.removeOverlays(self.appleMapView.overlays) // 경로 삭제
     }
+    
     
     // 경로관련 선 옵션 Delegate
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {

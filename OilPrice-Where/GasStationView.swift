@@ -22,7 +22,7 @@ class GasStationView: UIView {
     // Stack View
     @IBOutlet weak var stackView : UIStackView! // 내부 버튼(즐겨찾기, 경로 표시)을 가진 뷰(isHidden = true)
     @IBOutlet weak var favoriteButton : UIButton! // 즐겨 찾기 버튼
-    @IBOutlet weak var annotationButton : UIButton! // 경로 표시 버튼
+    @IBOutlet weak var annotationButtonView : UIView! // 경로 표시 버튼
     
     // 뷰 내부 설정
     func configure(with gasStation: GasStation) {
