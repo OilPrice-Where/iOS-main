@@ -67,6 +67,7 @@ enum API: APIProtocol {
     case areaCode(area: String, appKey: String) // 지역 코드
     case searchByName(appKey: String, osnm: String) // 상호로 주유소 검색
     
+    
     // endPoint에 파라미터 값을 반환하는 변수
     private var endpointString: String {
         get {

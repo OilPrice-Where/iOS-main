@@ -10,6 +10,7 @@ import UIKit
 
 class ScrollSlideView: UIView {
 
+    
     // 이미지
     @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var carWashImageView: UIImageView!
@@ -27,6 +28,7 @@ class ScrollSlideView: UIView {
     @IBOutlet weak var typeOfOilLabel: UILabel!
     @IBOutlet weak var oilPlice: UILabel!
     
+    
     // 버튼
     @IBAction func navigationButton(_ sender: UIButton) {
         let destination = KNVLocation(name: "Test", x: 321286, y: 533707)
@@ -36,16 +38,25 @@ class ScrollSlideView: UIView {
                                options: options)
         KNVNaviLauncher.shared().navigate(with: params)
     }
-    
-    func configure(with gasStation: GasStation) {
-        //        let distanceKM = gasStation.distance / 1000
-        
-        
-        self.gasStationNameLabel.text = gasStation.name
-        self.oilPlice.text = String(gasStation.price)
-        
-        //        self.distance.text = String(distanceKM.roundTo(places: 2)) + "km"
-    }
 
+    
+    func configure(with informaionGasStaion: InformationGasStaion) {
+//        self.gasStationNameLabel.text = informaionGasStaion.name // 주유소 이름
+//        
+//        self.addressLabel.text = informaionGasStaion.address // 주소
+//        self.phoneNumberLabel.text = informaionGasStaion.phoneNumber // 전화번호
+        
+//        // 품질인증확인
+//        if informaionGasStaion.qualityCertification == "Y" {
+//            self.qualityCertificationLabel.text = "인증"
+//        } else {
+//            self.qualityCertificationLabel.text = "미인증"
+//        }
+        
+//        self.logoImageView.image = Preferences.logoImage(logoName: informaionGasStaion.brand) // 로고 이미지 삽입
+//        self.typeOfOilLabel.text = Preferences.oil(code: informaionGasStaion.typeOfOil) // 오일 타입 설정
+//        self.oilPlice.text = Preferences.priceToWon(price: informaionGasStaion.price) // 기름 가격 설정
+        
+    }
 
 }

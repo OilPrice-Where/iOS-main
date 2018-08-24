@@ -46,3 +46,5 @@ struct GasStation: Decodable {
         case katecY = "GIS_Y_COOR"
     }
 }
+
+
