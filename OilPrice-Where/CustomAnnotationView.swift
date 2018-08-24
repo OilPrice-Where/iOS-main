@@ -9,14 +9,14 @@
 import Foundation
 import MapKit
 
-// 메인페이지의 지도부분에 표시되는 어노테이션의 말풍선의 표시,
-// 어노테이션의 위치와 스테이션 정보를 가지고 있는 커스텀 어노테이션
-class ImageAnnotation : NSObject, MKAnnotation {
+// 어노테이션의 말풍선의 표시나, 어노테이션의 위치와
+// 스테이션 정보를 가지고 있는 커스텀 어노테이션
+class CustomMarkerAnnotation : NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D // 어노테이션의 위치
     var title: String? // 클릭시 뜨는 말풍선
     var subtitle: String? // 말풍선 내부의 subTitle
     var colour: UIColor? // 어노테이션 컬러
-    var stationInfo: GasStation? // 어노테이션에 표시할 주유소 데이터
+    var stationInfo: GasStation? // 어노테이션에 표시할 주유소 정보
     
     override init() {
         self.coordinate = CLLocationCoordinate2D()
@@ -27,39 +27,42 @@ class ImageAnnotation : NSObject, MKAnnotation {
     }
 }
 
-// 어노테이션의 실질적인 모습을 가진 뷰
-class ImageAnnotationView: MKAnnotationView {
-    var firstImageView: UIImageView!
-    private var logoImageView: UIImageView!
-    var priceLabel: UILabel!
-    var coordinate: CLLocationCoordinate2D?
-    var stationInfo: GasStation?
+// 지도에서 실질적으로 표시 되는 뷰
+class CustomMarkerAnnotationView: MKAnnotationView {
+    var mapMarkerImageView: UIImageView! // 지도에 표시되는 맵 마커 이미지 뷰
+    private var logoImageView: UIImageView! // 맵 마커의 이미지 뷰 내부의 로고 이미지 뷰
+    var priceLabel: UILabel! //맵 마커의 이미지 뷰 내부의 가격 표시 레이블
+    var coordinate: CLLocationCoordinate2D? // 맵 마커의 위치
+    var stationInfo: GasStation? // 마커 내부의 주유소 정보
     
+    // 마커 기본 설정
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         
+        // markerView 설정
         self.frame = CGRect(x: 0, y: 0, width: 65, height: 32)
-        self.firstImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 60, height: 32))
-        self.firstImageView.image = UIImage(named: "NonMapMarker")
+        self.mapMarkerImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 60, height: 32))
+        self.mapMarkerImageView.image = UIImage(named: "NonMapMarker")
+        self.mapMarkerImageView.layer.masksToBounds = true
+        self.addSubview(self.mapMarkerImageView)
+        
+        // logoImageView 설정
         self.logoImageView = UIImageView(frame: CGRect(x: 5, y: 5, width: 15, height: 15))
-        
-        self.priceLabel = UILabel(frame: CGRect(x: 23, y: 3.5, width: 37, height: 18))
-        self.priceLabel.textAlignment = .left
-        self.priceLabel.textColor = UIColor.black
-        self.priceLabel.font = UIFont.boldSystemFont(ofSize: 13)
-        
-        self.addSubview(self.firstImageView)
-        self.addSubview(self.priceLabel)
         self.addSubview(self.logoImageView)
         
-        self.firstImageView.layer.masksToBounds = true
+        // priceLabel 설정
+        self.priceLabel = UILabel(frame: CGRect(x: 22, y: 4, width: 37, height: 18))
+        self.priceLabel.textAlignment = .left
+        self.priceLabel.textColor = UIColor.black
+        self.priceLabel.font = UIFont(name: "NanumSquareRoundEB", size: 13)
+        self.addSubview(self.priceLabel)
     }
     
+    // 로고 이미지 삽입
     override var image: UIImage? {
         get {
             return self.logoImageView.image
         }
-        
         set {
             self.logoImageView.image = newValue
         }

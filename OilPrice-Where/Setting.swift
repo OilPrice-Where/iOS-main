@@ -168,3 +168,18 @@ extension Double {
         return (self * divisor).rounded() / divisor
     }
 }
+
+extension UIView {
+    
+    func dropShadow(scale: Bool = true) {
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.darkGray.cgColor
+        layer.shadowOpacity = 0.8
+        layer.shadowOffset = CGSize(width: 2, height: 2)
+        layer.shadowRadius = 2
+        
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 10).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+    }
+}
