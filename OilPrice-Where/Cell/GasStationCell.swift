@@ -12,32 +12,37 @@ import UIKit
 class GasStationCell: UITableViewCell {
 
     @IBOutlet weak var stationView : GasStationView!
+    let path = UIBezierPath()
+    var tapGesture = UITapGestureRecognizer()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        stationView.favoriteButton.layer.cornerRadius = 6 // 즐겨찾기 버튼 외곽선 Radius 값 설정
-        stationView.annotationButton.layer.cornerRadius = 6 // 경로보기 버튼 외곽선 Radius 값 설정
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
+    
     // 셀이 재사용 될 때 stationView의 stackView 히든
     override func prepareForReuse() {
         super.prepareForReuse()
         self.stationView.stackView.isHidden = true
+        self.stationView.favoriteButton.isSelected = false
+        self.stationView.favoriteButton.backgroundColor = UIColor.white
+        self.stationView.favoriteButton.tintColor = UIColor(named: "MainColor")
+        
     }
     
     // 메뉴 명, 설명, 가격, 이미지 삽입
     //stationView의 외곽선 설정
     func configure(with gasStation: GasStation) {
         self.stationView.configure(with: gasStation) // 주유소 정보 설정
-        
-        // stationView의 외곽선 관련 설정
-        self.stationView.layer.borderColor = UIColor.lightGray.cgColor.copy(alpha: 0.5) // 외곽선의 색
-        self.stationView.layer.borderWidth = 1 // 외곽선의 두께
-        self.stationView.layer.cornerRadius = 6 // // 외곽선의 cornerRadius
+        self.stationView.layer.cornerRadius = 10 // // 외곽선의 cornerRadius
+    }
+    
+    func addGestureRecognize(_ target: Any?, action: Selector) {
+        tapGesture = UITapGestureRecognizer(target: target, action: action)
+        stationView.annotationButtonView.addGestureRecognizer(tapGesture)
     }
 }

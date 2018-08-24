@@ -6,7 +6,16 @@
 	<string></string>
 	<key>FindRadius</key>
 	<integer>3000</integer>
+	<key>CFBundleIdentifier</key>
+	<string></string>
 	<key>Favorites</key>
-	<array/>
+	<dict>
+		<key>New item</key>
+		<string>1</string>
+		<key>New item - 2</key>
+		<string>3</string>
+		<key>New item - 3</key>
+		<string>2</string>
+	</dict>
 </dict>
 </plist>
