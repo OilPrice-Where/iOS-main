@@ -780,23 +780,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Prl-dE-vZG">
-                                <rect key="frame" x="16" y="139" width="288" height="306"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Prl-dE-vZG">
+                                <rect key="frame" x="0.0" y="139" width="320" height="310"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="delegate" destination="d02-5S-oJ4" id="kZT-LV-zsL"/>
                                 </connections>
                             </scrollView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="자주 가는 주유소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gal-Bh-yfF">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자주 가는 주유소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gal-Bh-yfF">
                                 <rect key="frame" x="16" y="114" width="92" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="fu8-5t-wlI">
-                                <rect key="frame" x="141" y="466.5" width="39" height="37"/>
+                                <rect key="frame" x="141" y="467" width="39" height="37"/>
                                 <color key="pageIndicatorTintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="currentPageIndicatorTintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </pageControl>
@@ -804,7 +802,13 @@
                         <color key="backgroundColor" name="MainColor"/>
                         <constraints>
                             <constraint firstItem="fu8-5t-wlI" firstAttribute="centerX" secondItem="tUR-1i-2LW" secondAttribute="centerX" id="1tW-yG-SNO"/>
+                            <constraint firstItem="tUR-1i-2LW" firstAttribute="trailing" secondItem="Prl-dE-vZG" secondAttribute="trailing" id="5Hf-QO-0js"/>
+                            <constraint firstItem="gal-Bh-yfF" firstAttribute="leading" secondItem="tUR-1i-2LW" secondAttribute="leading" constant="16" id="5hi-xo-cc1"/>
+                            <constraint firstItem="tUR-1i-2LW" firstAttribute="bottom" secondItem="Prl-dE-vZG" secondAttribute="bottom" constant="70" id="FZY-bo-Cy1"/>
                             <constraint firstItem="fu8-5t-wlI" firstAttribute="centerY" secondItem="tUR-1i-2LW" secondAttribute="centerY" multiplier="1.8" id="HaU-nR-uoq"/>
+                            <constraint firstItem="gal-Bh-yfF" firstAttribute="top" secondItem="tUR-1i-2LW" secondAttribute="top" constant="94" id="KBb-mO-nWD"/>
+                            <constraint firstItem="Prl-dE-vZG" firstAttribute="top" secondItem="gal-Bh-yfF" secondAttribute="bottom" constant="8" id="OGX-sy-w5R"/>
+                            <constraint firstItem="Prl-dE-vZG" firstAttribute="leading" secondItem="tUR-1i-2LW" secondAttribute="leading" id="SYU-lr-Hcu"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tUR-1i-2LW"/>
                     </view>

@@ -32,6 +32,7 @@ class FavoritesGasStationViewController: UIViewController {
     func createSlides() -> [ScrollSlideView] {
         
         let slide1:ScrollSlideView = Bundle.main.loadNibNamed("ScrollSlideView", owner: self, options: nil)?.first as! ScrollSlideView
+//        slide1.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
         
         let slide2:ScrollSlideView = Bundle.main.loadNibNamed("ScrollSlideView", owner: self, options: nil)?.first as! ScrollSlideView
         
@@ -44,8 +45,10 @@ class FavoritesGasStationViewController: UIViewController {
     
     func setupSlideScrollView(slides : [ScrollSlideView]) {
         
-        scrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-        scrollView.contentSize = CGSize(width: view.frame.width * CGFloat(slides.count), height: view.frame.height)
+//        scrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        scrollView.contentSize = CGSize(width: view.frame.width * CGFloat(slides.count), height: scrollView.frame.height)
+        print("***************************스크롤뷰 세로높이 = \(scrollView.frame.height)")
+        print("***************************스크롤뷰 가로길이 = \(scrollView.frame.width)")
         scrollView.isPagingEnabled = true
         
         for i in 0 ..< slides.count {
@@ -54,10 +57,6 @@ class FavoritesGasStationViewController: UIViewController {
         }
         
     }
-    
-    
-    
-    
     
 }
 
