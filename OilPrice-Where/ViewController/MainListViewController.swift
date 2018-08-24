@@ -52,10 +52,15 @@ class MainListViewController: UIViewController {
     private var lastKactecY: Double? // KatecY 좌표
     var selectMarker = false
     var lastBottomConstant: CGFloat?
+    var priceSortButton: UIButton!
+    var distanceSortButton: UIButton!
+    var lastSelectedSortButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setting()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,7 +126,7 @@ class MainListViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.toList(_:)))
         toListButton.addGestureRecognizer(tap)
         // 테이블 뷰 헤더 경계 값 설정
-        self.tableView.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0)
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         // 새로 고침
         self.refreshControl.addTarget(self,
@@ -131,6 +136,49 @@ class MainListViewController: UIViewController {
             tableView.refreshControl = self.refreshControl
         } else {
             tableView.addSubview(refreshControl)
+        }
+    }
+    
+    @objc func isTableViewSort(_ sender: UIButton) {
+        guard let _ = lastSelectedSortButton else {
+            print("Open")
+            self.priceSortButton.isSelected = true
+            self.priceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
+            self.distanceSortButton.isSelected = false
+            self.distanceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
+            self.lastSelectedSortButton = self.priceSortButton
+            
+            return
+        }
+        guard lastSelectedSortButton != sender else {
+            if lastSelectedSortButton == priceSortButton {
+                self.priceSortButton.isSelected = true
+                self.priceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
+                self.distanceSortButton.isSelected = false
+                self.distanceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
+            } else {
+                self.distanceSortButton.isSelected = true
+                self.distanceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
+                self.priceSortButton.isSelected = false
+                self.priceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
+            }
+            
+            return
+        }
+        if priceSortButton != sender {
+            lastSelectedSortButton.isSelected = true
+            lastSelectedSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
+            lastSelectedSortButton = sender
+            sender.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
+            sender.isSelected = false
+            
+        } else {
+            lastSelectedSortButton.isSelected = false
+            lastSelectedSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
+            lastSelectedSortButton = sender
+            sender.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
+            sender.isSelected = true
+            
         }
     }
     
@@ -421,7 +469,47 @@ extension MainListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 12
+        if section == 0 {
+            return 30
+        } else {
+            return 12
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.00001
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 {
+            let sectionHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 20))
+            let priceSortButton = UIButton(frame: CGRect(x: 15, y: 0, width: 45, height: 30))
+            priceSortButton.setTitle("가격순", for: .normal)
+            priceSortButton.setTitleColor(UIColor.darkGray, for: .normal)
+            priceSortButton.setTitleColor(UIColor(named: "MainColor"), for: .selected)
+            priceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
+            priceSortButton.addTarget(self, action: #selector(self.isTableViewSort(_:)), for: .touchUpInside)
+            self.priceSortButton = priceSortButton
+            sectionHeaderView.addSubview(priceSortButton)
+            
+            let distanceSortButton = UIButton(frame: CGRect(x: 69, y: 0, width: 45, height: 30))
+            distanceSortButton.setTitle("거리순", for: .normal)
+            distanceSortButton.setTitleColor(UIColor.darkGray, for: .normal)
+            distanceSortButton.setTitleColor(UIColor(named: "MainColor"), for: .selected)
+            distanceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
+            distanceSortButton.addTarget(self, action: #selector(self.isTableViewSort(_:)), for: .touchUpInside)
+            self.distanceSortButton = distanceSortButton
+            sectionHeaderView.addSubview(distanceSortButton)
+            
+            if lastSelectedSortButton == nil {
+                self.isTableViewSort(priceSortButton)
+            } else {
+                self.isTableViewSort(lastSelectedSortButton)
+            }
+            
+            return sectionHeaderView
+        }
+        return nil
     }
 }
 
