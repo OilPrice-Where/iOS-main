@@ -11,12 +11,12 @@ import Alamofire
 protocol ServiceType {
     static func gasStationList(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String, completion: @escaping (Result<OilList>) -> ())
     static func allPriceList(appKey: String, completion: @escaping (Result<AllPriceResult>) -> ())
-    static func informationGasStaion(appKey: String, id: String, completion: @escaping (Result<InformationOilStationResult>) -> ())
+    static func informationGasStaion(appKey: String, id: String, completion: @escaping (Result<InformationGasStaion>) -> ())
     
 }
 
 struct ServiceList: ServiceType {
-    static func informationGasStaion(appKey: String, id: String, completion: @escaping (Result<InformationOilStationResult>) -> ()) {
+    static func informationGasStaion(appKey: String, id: String, completion: @escaping (Result<InformationGasStaion>) -> ()) {
         Alamofire
             .request(API.detailById(appKey: appKey, id: id).urlString)
             .validate()
@@ -24,13 +24,19 @@ struct ServiceList: ServiceType {
                 switch response.result {
                 case .success(let value):
                     do {
-                        let stationInfo = try value.decode(InformationOilStationResult.self)
+                        print(value)
+                        let stationInfo = try value.decode(InformationGasStaion.self)
+                        print("%%%%%%%%%%%%%%%%%%%%%%")
+                        print(stationInfo)
                         completion(.success(stationInfo))
+                                                print(API.detailById(appKey: appKey, id: id).urlString)
                     } catch {
                         completion(.error(error))
+                        
                     }
                 case .failure(let err):
                     completion(.error(err))
+                    
         }
         }
     }

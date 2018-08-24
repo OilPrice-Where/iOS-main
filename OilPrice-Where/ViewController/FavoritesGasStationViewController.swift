@@ -12,6 +12,9 @@ import CoreLocation
 class FavoritesGasStationViewController: UIViewController {
     
     var slides:[ScrollSlideView] = []
+    var informationGasStaions: [InformationGasStaion?] = []
+    
+    //    ["A0000015", "A0010167", "A0010172"]
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var pager: UIPageControl!
@@ -20,44 +23,56 @@ class FavoritesGasStationViewController: UIViewController {
         super.viewDidLoad()
         
         scrollView.delegate = self
-        slides = createSlides()
-        setupSlideScrollView(slides: slides)
         
         pager.currentPage = 0
-        pager.numberOfPages = slides.count
+        pager.numberOfPages = DefaultData.shared.favoriteArr.count
         
     }
     
-    // 슬라이드뷰 만들기
-    func createSlides() -> [ScrollSlideView] {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        let slide1:ScrollSlideView = Bundle.main.loadNibNamed("ScrollSlideView", owner: self, options: nil)?.first as! ScrollSlideView
-//        slide1.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
-        
-        let slide2:ScrollSlideView = Bundle.main.loadNibNamed("ScrollSlideView", owner: self, options: nil)?.first as! ScrollSlideView
-        
-        let slide3:ScrollSlideView = Bundle.main.loadNibNamed("ScrollSlideView", owner: self, options: nil)?.first as! ScrollSlideView
-        
-        
-        return [slide1, slide2, slide3]
-    }
-    
-    
-    func setupSlideScrollView(slides : [ScrollSlideView]) {
-        
-//        scrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        for index in 0 ..< DefaultData.shared.favoriteArr.count {
+            slides.append(ScrollSlideView(frame: CGRect(x: view.frame.width * CGFloat(index),
+                                                        y: 0,
+                                                        width: view.frame.width,
+                                                        height: view.frame.height)))
+            scrollView.addSubview(slides[index])
+        }
+        createSlides()
         scrollView.contentSize = CGSize(width: view.frame.width * CGFloat(slides.count), height: scrollView.frame.height)
         print("***************************스크롤뷰 세로높이 = \(scrollView.frame.height)")
         print("***************************스크롤뷰 가로길이 = \(scrollView.frame.width)")
         scrollView.isPagingEnabled = true
         
-        for i in 0 ..< slides.count {
-            slides[i].frame = CGRect(x: view.frame.width * CGFloat(i), y: 0, width: view.frame.width, height: view.frame.height)
-            scrollView.addSubview(slides[i])
-        }
-        
+        favoriteDataLoad()
     }
     
+    func favoriteDataLoad() {
+        for index in 0 ..< DefaultData.shared.favoriteArr.count {
+            ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
+                                             id: DefaultData.shared.favoriteArr[index]) { (result) in
+                                                switch result {
+                                                case .success(let favoriteData):
+//                                                    self.slides[index].configure(with: favoriteData.result.allPriceList)
+//                                                    self.informationGasStaions.append(favoriteData.result.allPriceList)
+                                                    self.slides[index].setNeedsLayout()
+                                                    self.slides[index].layoutIfNeeded()
+                                                case .error(let error):
+                                                    print("ERRRROROROROROROROR")
+                                                    print(error)
+                                                }
+            }
+        }
+    }
+    //     슬라이드뷰 만들기
+    func createSlides() {
+        var scrollSlides: [ScrollSlideView] = []
+        
+        for _ in 0 ..< DefaultData.shared.favoriteArr.count {
+            scrollSlides.append(Bundle.main.loadNibNamed("ScrollSlideView", owner: self, options: nil)?.first as! ScrollSlideView)
+        }
+    }
 }
 
 // PageControl 설정
