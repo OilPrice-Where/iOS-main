@@ -13,5 +13,7 @@ class AllOilAverageView: UIView {
     @IBOutlet private weak var gasolineLabel : UILabel!
     @IBOutlet private weak var dieselLabel : UILabel!
     @IBOutlet private weak var keroseneLabel : UILabel!
+    
 
 }
+
