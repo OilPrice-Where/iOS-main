@@ -17,23 +17,6 @@ class GasStationCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        stationView.favoriteButton.layer.cornerRadius = 6 // 즐겨찾기 버튼 외곽선 Radius 값 설정
-        stationView.annotationButtonView.layer.cornerRadius = 6 // 경로보기 버튼 외곽선 Radius 값 설정
-        stationView.annotationButtonView.layer.borderColor = UIColor(named: "MainColor")?.cgColor
-        stationView.annotationButtonView.layer.borderWidth = 1.5
-        stationView.layer.masksToBounds = false
-        stationView.layer.shadowColor = UIColor.darkGray.cgColor
-        stationView.layer.shadowOpacity = 0.8
-        stationView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        stationView.layer.shadowRadius = 2
-        
-        stationView.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: stationView.bounds.origin.x,
-                                                                             y: stationView.bounds.origin.y, width: stationView.bounds.size.width, height: 110), cornerRadius: 10).cgPath
-        stationView.layer.shouldRasterize = true
-        
-        stationView.layer.rasterizationScale = UIScreen.main.scale
-        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -45,18 +28,10 @@ class GasStationCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.stationView.stackView.isHidden = true
+        self.stationView.favoriteButton.isSelected = false
+        self.stationView.favoriteButton.backgroundColor = UIColor.white
+        self.stationView.favoriteButton.tintColor = UIColor(named: "MainColor")
         
-        stationView.layer.masksToBounds = false
-        stationView.layer.shadowColor = UIColor.darkGray.cgColor
-        stationView.layer.shadowOpacity = 0
-        stationView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        stationView.layer.shadowRadius = 0.1
-        
-        stationView.layer.shadowPath = UIBezierPath(roundedRect: stationView.bounds, cornerRadius: 10).cgPath
-        stationView.layer.shouldRasterize = true
-        
-        stationView.layer.rasterizationScale = UIScreen.main.scale
-        selectionStyle = .none
     }
     
     // 메뉴 명, 설명, 가격, 이미지 삽입
@@ -64,7 +39,6 @@ class GasStationCell: UITableViewCell {
     func configure(with gasStation: GasStation) {
         self.stationView.configure(with: gasStation) // 주유소 정보 설정
         self.stationView.layer.cornerRadius = 10 // // 외곽선의 cornerRadius
-        
     }
     
     func addGestureRecognize(_ target: Any?, action: Selector) {

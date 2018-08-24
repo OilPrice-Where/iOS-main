@@ -50,7 +50,6 @@
 		8ECE0DAA212385FB00FF2B46 /* AllPriceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */; };
 		8EDAF7D821295AEF00422552 /* InitialSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */; };
 		8EDAF7DA212D7EF300422552 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D9212D7EF300422552 /* DetailView.swift */; };
-		8EDAF7DC212EADB500422552 /* ListPageButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7DB212EADB500422552 /* ListPageButtonView.swift */; };
 		B633531A781457C90F211EA0 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */; };
 /* End PBXBuildFile section */
 
@@ -103,7 +102,6 @@
 		8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllPriceData.swift; path = "OilPrice-Where/AllPriceData.swift"; sourceTree = SOURCE_ROOT; };
 		8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSettingViewController.swift; sourceTree = "<group>"; };
 		8EDAF7D9212D7EF300422552 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
-		8EDAF7DB212EADB500422552 /* ListPageButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPageButtonView.swift; sourceTree = "<group>"; };
 		AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -289,7 +287,6 @@
 				8ECE0DA72123836E00FF2B46 /* AllOilAverageView.swift */,
 				8ECE0DA32122D62B00FF2B46 /* GasStationView.swift */,
 				8EDAF7D9212D7EF300422552 /* DetailView.swift */,
-				8EDAF7DB212EADB500422552 /* ListPageButtonView.swift */,
 				76F087FC212D098C0049EA60 /* ScrollSlideView.swift */,
 			);
 			name = View;
@@ -473,7 +470,6 @@
 				764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift in Sources */,
 				8EDAF7DA212D7EF300422552 /* DetailView.swift in Sources */,
 				8ECE0D7E211CB1F800FF2B46 /* FindDistanceTableViewCell.swift in Sources */,
-				8EDAF7DC212EADB500422552 /* ListPageButtonView.swift in Sources */,
 				8ECE0D7A211C332800FF2B46 /* SelectFindDistanceTableViewController.swift in Sources */,
 				8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */,
 				8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */,

@@ -176,6 +176,7 @@ class MainListViewController: UIViewController {
             }
             mainListPage = true
         }
+        tableView.reloadData()
     }
     
     // 지도 보기
@@ -188,7 +189,7 @@ class MainListViewController: UIViewController {
     }
     
     // 길안내 시작
-    @IBAction private func navigateStart(_ sender: UIButton) {
+    @objc func navigateStart(_ sender: UITapGestureRecognizer) {
         guard let katecX = lastKactecX?.roundTo(places: 0),
               let katecY = lastKactecY?.roundTo(places: 0) else { return }
         
@@ -364,12 +365,12 @@ extension MainListViewController: UITableViewDataSource {
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "GasStationCell") as! GasStationCell
         
+        cell.addGestureRecognize(self, action: #selector(self.viewMapAction(annotionIndex:)))
+        cell.configure(with: gasStations[indexPath.section])
+        
         if selectIndexPath?.section == indexPath.section {
             cell.stationView.stackView.isHidden = false
         }
-
-        cell.addGestureRecognize(self, action: #selector(self.viewMapAction(annotionIndex:)))
-        cell.configure(with: gasStations[indexPath.section])
         
         return cell
     }
@@ -378,6 +379,7 @@ extension MainListViewController: UITableViewDataSource {
         guard let selectPath = self.selectIndexPath else {
             let cell = tableView.cellForRow(at: indexPath) as! GasStationCell
             cell.stationView.stackView.isHidden = false
+            cell.stationView.favoriteButtonUpdateFrame()
             cell.selectionStyle = .none
             self.selectIndexPath = indexPath
             
@@ -389,6 +391,7 @@ extension MainListViewController: UITableViewDataSource {
             if let newCell = tableView.cellForRow(at: indexPath) as? GasStationCell {
                 newCell.selectionStyle = .none
                 newCell.stationView.stackView.isHidden = false
+                newCell.stationView.favoriteButtonUpdateFrame()
             }
             if let oldCell = tableView.cellForRow(at: selectPath) as? GasStationCell {
                 oldCell.stationView.stackView.isHidden = true
@@ -398,6 +401,7 @@ extension MainListViewController: UITableViewDataSource {
             if let cell = tableView.cellForRow(at: indexPath) as? GasStationCell {
                 if cell.stationView.stackView.isHidden {
                     cell.stationView.stackView.isHidden = false
+                    cell.stationView.favoriteButtonUpdateFrame()
                 } else {
                     cell.stationView.stackView.isHidden = true
                     selectIndexPath = nil
@@ -468,15 +472,12 @@ extension MainListViewController: MKMapViewDelegate {
         guard let markerView = view as? CustomMarkerAnnotationView else { return }
         guard let stationInfo = markerView.stationInfo else { return }
         
-        detailView.logoType.image = markerView.image
-        let kmDistance = stationInfo.distance / 1000
-        detailView.stationName.text = stationInfo.name
+
         self.lastKactecX = stationInfo.katecX
         self.lastKactecY = stationInfo.katecY
         
-        detailView.distance.text = String(kmDistance.roundTo(places: 2)) + "km"
-        detailView.oilPrice.text = Preferences.priceToWon(price: stationInfo.price)
-        detailView.oilType.text = Preferences.oil(code: DefaultData.shared.oilType)
+        detailView.configure(stationInfo)
+        detailView.detailViewTapGestureRecognizer(target: self, action: #selector(self.navigateStart(_:)))
         markerView.mapMarkerImageView.image = UIImage(named: "SelectMapMarker")
         markerView.priceLabel.textColor = UIColor.white
         

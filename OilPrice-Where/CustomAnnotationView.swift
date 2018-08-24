@@ -51,10 +51,10 @@ class CustomMarkerAnnotationView: MKAnnotationView {
         self.addSubview(self.logoImageView)
         
         // priceLabel 설정
-        self.priceLabel = UILabel(frame: CGRect(x: 23, y: 3.5, width: 37, height: 18))
+        self.priceLabel = UILabel(frame: CGRect(x: 22, y: 4, width: 37, height: 18))
         self.priceLabel.textAlignment = .left
         self.priceLabel.textColor = UIColor.black
-        self.priceLabel.font = UIFont.boldSystemFont(ofSize: 13)
+        self.priceLabel.font = UIFont(name: "NanumSquareRoundEB", size: 13)
         self.addSubview(self.priceLabel)
     }
     
