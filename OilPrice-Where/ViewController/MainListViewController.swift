@@ -46,6 +46,11 @@ class MainListViewController: UIViewController {
     var mainListPage = true
     var tapGesture = UITapGestureRecognizer()
     
+    // StatusBarBackView
+    @IBOutlet weak var statusBarBackView: UIView!
+    @IBOutlet weak var headerViewHeight: NSLayoutConstraint!
+    
+    
     //Etc
     let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate // 앱 델리게이트
     private var lastKactecX: Double? // KatecX 좌표
@@ -121,7 +126,7 @@ class MainListViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.toList(_:)))
         toListButton.addGestureRecognizer(tap)
         // 테이블 뷰 헤더 경계 값 설정
-        self.tableView.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0)
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         // 새로 고침
         self.refreshControl.addTarget(self,
@@ -164,6 +169,7 @@ class MainListViewController: UIViewController {
             UIView.animate(withDuration: 0.3) {
                 self.view.layoutIfNeeded()
             }
+            statusBarBackView.isHidden = true
             mainListPage = false
         } else {
             self.view.sendSubview(toBack: self.mapView)
@@ -174,6 +180,7 @@ class MainListViewController: UIViewController {
             UIView.animate(withDuration: 0.3) {
                 self.view.layoutIfNeeded()
             }
+            statusBarBackView.isHidden = false
             mainListPage = true
         }
         tableView.reloadData()
@@ -426,7 +433,13 @@ extension MainListViewController: UITableViewDataSource {
 }
 
 extension MainListViewController: UITableViewDelegate {
-    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == tableView {
+            print(scrollView.contentOffset.y)
+            scrollView.contentSize.height += scrollView.contentOffset.y
+        }
+        
+    }
 }
 
 // MARK: - MKMapViewDelegate
