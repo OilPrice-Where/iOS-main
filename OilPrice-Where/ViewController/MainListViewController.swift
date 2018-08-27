@@ -45,6 +45,7 @@ class MainListViewController: UIViewController {
     @IBOutlet private weak var toLabel : UILabel!
     var mainListPage = true
     var tapGesture = UITapGestureRecognizer()
+    var sortData: [GasStation] = []
     
     //Etc
     let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate // 앱 델리게이트
@@ -52,22 +53,39 @@ class MainListViewController: UIViewController {
     private var lastKactecY: Double? // KatecY 좌표
     var selectMarker = false
     var lastBottomConstant: CGFloat?
+    var priceSortButton: UIButton!
+    var distanceSortButton: UIButton!
+    var lastSelectedSortButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        createSortView()
         setting()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureLocationServices()
+        if mainListPage {
+            UIApplication.shared.statusBarStyle = .lightContent
+        } else {
+            UIApplication.shared.statusBarStyle = .default
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        appleMapView.removeAnnotations(annotations)
+        annotations = []
+        currentCoordinate = nil
+        selectIndexPath = nil
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        appleMapView.removeAnnotations(annotations)
-        annotations = []
-        currentCoordinate = nil
+        
+        
     }
     
     private func gasStationListData(katecPoint: KatecPoint){
@@ -81,6 +99,7 @@ class MainListViewController: UIViewController {
             switch result {
             case .success(let gasStationData):
                 DefaultData.shared.data = gasStationData.result.gasStations
+                self.sortData = gasStationData.result.gasStations.sorted(by: {$0.distance < $1.distance})
                 self.showMarker()
                 self.tableView.reloadData()
             case .error(let error):
@@ -95,13 +114,13 @@ class MainListViewController: UIViewController {
         annotations = []
         currentCoordinate = nil
         configureLocationServices()
-        
+        sleep(UInt32(1))
         refreshControl.endRefreshing()
     }
     
     func setting() {
         // Navigation Bar 색상 설정
-        UINavigationBar.appearance().barTintColor = self.view.backgroundColor
+        UINavigationBar.appearance().barTintColor = UIColor(named: "MainColor")
         appDelegate.mainViewController = self
         
         self.toListButton.layer.cornerRadius = self.toListButton.bounds.height / 2
@@ -121,7 +140,7 @@ class MainListViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.toList(_:)))
         toListButton.addGestureRecognizer(tap)
         // 테이블 뷰 헤더 경계 값 설정
-        self.tableView.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0)
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         // 새로 고침
         self.refreshControl.addTarget(self,
@@ -134,17 +153,73 @@ class MainListViewController: UIViewController {
         }
     }
     
+    func createSortView() {
+        let sectionHeaderView = UIView(frame: CGRect(x: 0, y: 215, width: tableView.frame.width, height: 30))
+        self.priceSortButton = UIButton(frame: CGRect(x: 15, y: 0, width: 45, height: 30))
+        self.priceSortButton.setTitle("가격순", for: .normal)
+        self.priceSortButton.setTitleColor(UIColor.darkGray, for: .normal)
+        self.priceSortButton.setTitleColor(UIColor(named: "MainColor"), for: .selected)
+        self.priceSortButton.addTarget(self, action: #selector(self.isTableViewSort(_:)), for: .touchUpInside)
+        self.priceSortButton.tag = 1
+        self.priceSortButton.isSelected = true
+        self.priceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
+        sectionHeaderView.addSubview(self.priceSortButton)
+        
+        distanceSortButton = UIButton(frame: CGRect(x: 69, y: 0, width: 45, height: 30))
+        self.distanceSortButton.setTitle("거리순", for: .normal)
+        self.distanceSortButton.setTitleColor(UIColor.darkGray, for: .normal)
+        self.distanceSortButton.setTitleColor(UIColor(named: "MainColor"), for: .selected)
+        self.distanceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
+        self.distanceSortButton.addTarget(self, action: #selector(self.isTableViewSort(_:)), for: .touchUpInside)
+        self.distanceSortButton.tag = 2
+        sectionHeaderView.addSubview(distanceSortButton)
+        
+        lastSelectedSortButton = priceSortButton
+        tableView.addSubview(sectionHeaderView)
+    }
+    
+    @objc func isTableViewSort(_ sender: UIButton) {
+        guard lastSelectedSortButton.tag != sender.tag else {
+            return
+        }
+        if sender.tag == priceSortButton.tag {
+            priceSortButton.isSelected = true
+            priceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
+            distanceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
+            distanceSortButton.isSelected = false
+            
+            lastSelectedSortButton = priceSortButton
+        } else {
+            distanceSortButton.isSelected = true
+            distanceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
+            priceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
+            priceSortButton.isSelected = false
+            
+            lastSelectedSortButton = distanceSortButton
+        }
+        selectIndexPath = nil
+        appleMapView.removeAnnotations(annotations)
+        annotations = []
+        showMarker()
+        tableView.reloadData()
+    }
+    
     //MARK: MapKit 관련
     // 마커 생성
     func showMarker() {
-        guard let gasStations = DefaultData.shared.data else { return }
+        guard var gasStations = DefaultData.shared.data else { return }
+        if distanceSortButton.isSelected {
+            gasStations = sortData
+        } else {
+            gasStations = DefaultData.shared.data!
+        }
         
         for i in 0 ..< gasStations.count {
             annotations.append(CustomMarkerAnnotation()) // 마커 생성
             annotations[i].coordinate = Converter.convertKatecToWGS(katec: KatecPoint(x: gasStations[i].katecX, y: gasStations[i].katecY)) // 마커 위치 선점
             annotations[i].stationInfo = gasStations[i] // 주유소 정보 전달
             self.appleMapView.addAnnotation(annotations[i]) // 맵뷰에 마커 생성
-            
+
         }
     }
     
@@ -157,15 +232,31 @@ class MainListViewController: UIViewController {
     // 전환 액션
     @objc func toList(_ sender: UIView) {
         if mainListPage {
+            UIApplication.shared.statusBarStyle = .default
             self.view.sendSubview(toBack: self.tableListView)
             toImageView.image = UIImage(named: "listButton")
             toLabel.text = "목록"
-            self.detailView.detailViewBottomConstraint.constant = lastBottomConstant ?? self.detailView.detailViewBottomConstraint.constant
-            UIView.animate(withDuration: 0.3) {
-                self.view.layoutIfNeeded()
+            if lastBottomConstant == 10 {
+                if let indexPath = selectIndexPath {
+                    let cell = tableView.cellForRow(at: indexPath) as! GasStationCell
+                    if cell.stationView.favoriteButton.isSelected != detailView.favoriteButton.isSelected {
+                        self.detailView.clickedEvent(detailView.favoriteButton)
+                    }
+                    self.detailView.detailViewBottomConstraint.constant = 10
+                    UIView.animate(withDuration: 0.3) {
+                        self.view.layoutIfNeeded()
+                    }
+                }
+            } else {
+                self.detailView.detailViewBottomConstraint.constant = -150
+                UIView.animate(withDuration: 0.3) {
+                    self.view.layoutIfNeeded()
+                }
             }
+            
             mainListPage = false
         } else {
+            UIApplication.shared.statusBarStyle = .lightContent
             self.view.sendSubview(toBack: self.mapView)
             toImageView.image = UIImage(named: "mapButton")
             toLabel.text = "지도"
@@ -360,9 +451,14 @@ extension MainListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let gasStations = DefaultData.shared.data else {
+        guard var gasStations = DefaultData.shared.data else {
             return UITableViewCell()
         }
+        
+        if distanceSortButton.isSelected {
+            gasStations = sortData
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "GasStationCell") as! GasStationCell
         
         cell.addGestureRecognize(self, action: #selector(self.viewMapAction(annotionIndex:)))
@@ -421,7 +517,15 @@ extension MainListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 12
+        if section == 0 {
+            return 30
+        } else {
+            return 12
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.00001
     }
 }
 

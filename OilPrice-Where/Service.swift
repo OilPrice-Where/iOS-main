@@ -11,12 +11,12 @@ import Alamofire
 protocol ServiceType {
     static func gasStationList(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String, completion: @escaping (Result<OilList>) -> ())
     static func allPriceList(appKey: String, completion: @escaping (Result<AllPriceResult>) -> ())
-    static func informationGasStaion(appKey: String, id: String, completion: @escaping (Result<InformationGasStaion>) -> ())
+    static func informationGasStaion(appKey: String, id: String, completion: @escaping (Result<InformationOilStationResult>) -> ())
     
 }
 
 struct ServiceList: ServiceType {
-    static func informationGasStaion(appKey: String, id: String, completion: @escaping (Result<InformationGasStaion>) -> ()) {
+    static func informationGasStaion(appKey: String, id: String, completion: @escaping (Result<InformationOilStationResult>) -> ()) {
         Alamofire
             .request(API.detailById(appKey: appKey, id: id).urlString)
             .validate()
@@ -24,12 +24,11 @@ struct ServiceList: ServiceType {
                 switch response.result {
                 case .success(let value):
                     do {
-                        print(value)
-                        let stationInfo = try value.decode(InformationGasStaion.self)
-                        print("%%%%%%%%%%%%%%%%%%%%%%")
-                        print(stationInfo)
+                        var dataToString = String(data: value, encoding: String.Encoding.utf8)
+                        dataToString = Preferences.stringByRemovingControlCharacters2(string: dataToString!)
+                        let nData = dataToString?.data(using: String.Encoding.utf8)
+                        let stationInfo = try nData!.decode(InformationOilStationResult.self)
                         completion(.success(stationInfo))
-                                                print(API.detailById(appKey: appKey, id: id).urlString)
                     } catch {
                         completion(.error(error))
                         

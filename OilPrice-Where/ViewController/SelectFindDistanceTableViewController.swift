@@ -21,7 +21,8 @@ class SelectFindDistanceTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: UIFont(name: "NanumSquareRoundEB", size: 18)!, NSAttributedStringKey.foregroundColor: UIColor.white]
+        
         for i in 0 ..< findDistaceArea.count {
             if selectedDistance == findDistaceArea[i] {
                 selectedIndexPath = IndexPath(row: i, section: 0)
