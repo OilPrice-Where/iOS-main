@@ -179,14 +179,9 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="vpo-wx-DUy">
                                         <rect key="frame" x="0.0" y="215" width="320" height="284"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                        <view key="tableHeaderView" contentMode="scaleToFill" id="99E-tK-Nog">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="10"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </view>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="GasStationCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="GasStationCell" rowHeight="120" id="Gef-cx-H2i" customClass="GasStationCell" customModule="OilPrice_Where" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="65.5" width="320" height="120"/>
+                                                <rect key="frame" x="0.0" y="55.5" width="320" height="120"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gef-cx-H2i" id="Spo-lo-kZM">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
@@ -246,7 +241,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="6js-LN-deg">
-                                                                            <rect key="frame" x="0.0" y="-69.5" width="258" height="40"/>
+                                                                            <rect key="frame" x="0.0" y="-59" width="258" height="40"/>
                                                                             <subviews>
                                                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="foN-uC-14b">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="64.5" height="40"/>
@@ -555,7 +550,7 @@
                         <outlet property="appleMapView" destination="mkL-kO-zCA" id="nmk-hf-cLI"/>
                         <outlet property="detailView" destination="8eG-wx-yb6" id="fPp-tw-nd1"/>
                         <outlet property="haderView" destination="6ZR-N8-BZE" id="v87-eO-Ya6"/>
-                        <outlet property="headerViewHeight" destination="wx2-mh-uMe" id="ibe-I5-XcK"/>
+                        <outlet property="headerViewConstraint" destination="HA7-DX-Nf2" id="2fO-U1-rDN"/>
                         <outlet property="mapView" destination="sHb-qf-EB7" id="fcy-8K-9d8"/>
                         <outlet property="statusBarBackView" destination="NSs-ch-YyO" id="aoF-eq-GMB"/>
                         <outlet property="tableListView" destination="mWi-kJ-sMC" id="ycA-3X-tfa"/>

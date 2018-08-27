@@ -48,7 +48,8 @@ class MainListViewController: UIViewController {
     
     // StatusBarBackView
     @IBOutlet weak var statusBarBackView: UIView!
-    @IBOutlet weak var headerViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var headerViewConstraint: NSLayoutConstraint!
+    
     
     
     //Etc
@@ -435,8 +436,12 @@ extension MainListViewController: UITableViewDataSource {
 extension MainListViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView == tableView {
-            print(scrollView.contentOffset.y)
-            scrollView.contentSize.height += scrollView.contentOffset.y
+            if headerViewConstraint.constant >= -215 {
+                headerViewConstraint.constant -= scrollView.contentOffset.y
+                tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+            }
+            print(scrollView.contentOffset.y, headerViewConstraint.constant)
+            
         }
         
     }
