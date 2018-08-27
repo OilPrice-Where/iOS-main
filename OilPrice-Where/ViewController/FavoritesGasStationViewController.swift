@@ -13,8 +13,12 @@ class FavoritesGasStationViewController: UIViewController {
     
     var slides:[ScrollSlideView] = []
     var informationGasStaions: [InformationGasStaion?] = []
+    var oldFavoriteArr: [String] = []
     
-    //    ["A0000015", "A0010167", "A0010172"]
+    @IBOutlet private weak var noneView : UIView!
+    @IBOutlet private weak var firstView : FavoriteView!
+    @IBOutlet private weak var secondView : FavoriteView!
+    @IBOutlet private weak var thirdView : FavoriteView!
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var pager: UIPageControl!
@@ -22,55 +26,66 @@ class FavoritesGasStationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scrollView.delegate = self
-        
+        pager.currentPageIndicatorTintColor = UIColor.white
         pager.currentPage = 0
-        pager.numberOfPages = DefaultData.shared.favoriteArr.count
         
+        scrollView.layer.cornerRadius = 6
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        for index in 0 ..< DefaultData.shared.favoriteArr.count {
-            slides.append(ScrollSlideView(frame: CGRect(x: view.frame.width * CGFloat(index),
-                                                        y: 0,
-                                                        width: view.frame.width,
-                                                        height: view.frame.height)))
-            scrollView.addSubview(slides[index])
+        UIApplication.shared.statusBarStyle = .lightContent
+        pager.numberOfPages = DefaultData.shared.favoriteArr.count
+        if oldFavoriteArr != DefaultData.shared.favoriteArr {
+            basicSetting()
+            setting()
         }
-        createSlides()
-        scrollView.contentSize = CGSize(width: view.frame.width * CGFloat(slides.count), height: scrollView.frame.height)
-        print("***************************스크롤뷰 세로높이 = \(scrollView.frame.height)")
-        print("***************************스크롤뷰 가로길이 = \(scrollView.frame.width)")
-        scrollView.isPagingEnabled = true
-        
-        favoriteDataLoad()
     }
     
-    func favoriteDataLoad() {
-        for index in 0 ..< DefaultData.shared.favoriteArr.count {
-            ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
-                                             id: DefaultData.shared.favoriteArr[index]) { (result) in
-                                                switch result {
-                                                case .success(let favoriteData):
-//                                                    self.slides[index].configure(with: favoriteData.result.allPriceList)
-//                                                    self.informationGasStaions.append(favoriteData.result.allPriceList)
-                                                    self.slides[index].setNeedsLayout()
-                                                    self.slides[index].layoutIfNeeded()
-                                                case .error(let error):
-                                                    print("ERRRROROROROROROROR")
-                                                    print(error)
-                                                }
-            }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        oldFavoriteArr = DefaultData.shared.favoriteArr
+    }
+    
+    func setting() {
+        switch DefaultData.shared.favoriteArr.count {
+        case 1:
+            favoriteDataLoad(viewArr: [firstView])
+        case 2:
+            favoriteDataLoad(viewArr: [firstView, secondView])
+        case 3:
+            favoriteDataLoad(viewArr: [firstView, secondView, thirdView])
+        default:
+            break
         }
     }
-    //     슬라이드뷰 만들기
-    func createSlides() {
-        var scrollSlides: [ScrollSlideView] = []
+    
+    func basicSetting() {
+        firstView.isHidden = true
+        secondView.isHidden = true
+        thirdView.isHidden = true
+        noneView.isHidden = false
+    }
+
+    func favoriteDataLoad(viewArr: [FavoriteView]) {
+        noneView.isHidden = true
         
-        for _ in 0 ..< DefaultData.shared.favoriteArr.count {
-            scrollSlides.append(Bundle.main.loadNibNamed("ScrollSlideView", owner: self, options: nil)?.first as! ScrollSlideView)
+        for index in 0 ..< viewArr.count {
+            ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
+                                             id: DefaultData.shared.favoriteArr[index]) {
+                (result) in
+                switch result {
+                case .success(let favoriteData):
+                    viewArr[index].isHidden = false
+                    viewArr[index].configure(with: favoriteData.result.allPriceList[0])
+                    if index == 0 {
+                        viewArr[0].alpha = 1
+                    }
+                case .error(let error):
+                    print(error)
+                }
+            }
         }
     }
 }

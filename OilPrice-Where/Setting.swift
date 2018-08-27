@@ -105,7 +105,7 @@ final class Preferences {
             return "B034"
         case "경유":
             return "D047"
-        case "자동차부탄":
+        case "LPG":
             return "K015"
         default:
             return ""
@@ -123,7 +123,7 @@ final class Preferences {
         case "D047":
             return "경유"
         case "K015":
-            return "자동차부탄"
+            return "LPG"
         default:
             return ""
         }
@@ -158,6 +158,17 @@ final class Preferences {
         
         return stringPrice
     }
+    
+    static func stringByRemovingControlCharacters2(string: String) -> String {
+        let controlChars = NSCharacterSet.controlCharacters
+        var range = string.rangeOfCharacter(from: controlChars)
+        var mutable = string
+        while let removeRange = range {
+            mutable.removeSubrange(removeRange)
+            range = mutable.rangeOfCharacter(from: controlChars)
+        }
+        return mutable
+    }
 }
 
 // 반올림
@@ -170,16 +181,10 @@ extension Double {
 }
 
 extension UIView {
-    
-    func dropShadow(scale: Bool = true) {
-        layer.masksToBounds = false
-        layer.shadowColor = UIColor.darkGray.cgColor
-        layer.shadowOpacity = 0.8
-        layer.shadowOffset = CGSize(width: 2, height: 2)
-        layer.shadowRadius = 2
-        
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 10).cgPath
-        layer.shouldRasterize = true
-        layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+    class func loadFromNibNamed(nibNamed: String, bundle: Bundle? = nil) -> ScrollSlideView? {
+        return UINib(
+            nibName: nibNamed,
+            bundle: bundle
+            ).instantiate(withOwner: nil, options: nil)[0] as? ScrollSlideView
     }
 }

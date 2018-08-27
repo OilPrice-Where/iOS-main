@@ -47,4 +47,10 @@ struct GasStation: Decodable {
     }
 }
 
+extension GasStation: Equatable {
+    public static func ==(lhs: GasStation, rhs: GasStation) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
 
