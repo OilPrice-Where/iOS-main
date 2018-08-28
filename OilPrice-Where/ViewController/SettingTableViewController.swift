@@ -66,6 +66,7 @@ class SettingTableViewController: UITableViewController {
         let controller = segue.source as! SelectOilTypeTableViewController
         oilTypeLabel.text = controller.selectedOilTypeName
         DefaultData.shared.oilType = Preferences.oil(name: controller.selectedOilTypeName)
+        DefaultData.shared.saveOil()
     }
     
     // SelectFindDistanceTableViewController에서 탐색 반경 선택 시
@@ -76,5 +77,6 @@ class SettingTableViewController: UITableViewController {
         let controller = segue.source as! SelectFindDistanceTableViewController
         findLabel.text = controller.selectedDistance
         DefaultData.shared.radius = Preferences.distanceKM(KM: controller.selectedDistance)
+        DefaultData.shared.saveDistance()
     }
 }

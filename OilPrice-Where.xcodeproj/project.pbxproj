@@ -18,8 +18,6 @@
 		765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
 		7658AB092112C26300723CF0 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7658AB082112C26300723CF0 /* NoticeViewController.swift */; };
 		7658AB0C2112C38A00723CF0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */; };
-		76F087FD212D098C0049EA60 /* ScrollSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F087FC212D098C0049EA60 /* ScrollSlideView.swift */; };
-		76F087FF212D09A60049EA60 /* ScrollSlideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76F087FE212D09A60049EA60 /* ScrollSlideView.xib */; };
 		8E167D3B2107AD480066A59E /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3A2107AD480066A59E /* Service.swift */; };
 		8E167D3D2107AEA30066A59E /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3C2107AEA30066A59E /* API.swift */; };
 		8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3E2107D95C0066A59E /* GeoConverter.swift */; };
@@ -67,8 +65,6 @@
 		765830AC212699FD006DFE2E /* InformationGasStaion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationGasStaion.swift; sourceTree = "<group>"; };
 		7658AB082112C26300723CF0 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		76F087FC212D098C0049EA60 /* ScrollSlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollSlideView.swift; sourceTree = "<group>"; };
-		76F087FE212D09A60049EA60 /* ScrollSlideView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScrollSlideView.xib; sourceTree = "<group>"; };
 		8E167D3A2107AD480066A59E /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		8E167D3C2107AEA30066A59E /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = API.swift; path = "OilPrice-Where/API.swift"; sourceTree = SOURCE_ROOT; };
 		8E167D3E2107D95C0066A59E /* GeoConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoConverter.swift; sourceTree = "<group>"; };
@@ -272,7 +268,6 @@
 			children = (
 				8E7FFE2820F5E5FF006CED48 /* Main.storyboard */,
 				7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */,
-				76F087FE212D09A60049EA60 /* ScrollSlideView.xib */,
 				8EED89572131CC670093B07A /* FavoriteView.xib */,
 			);
 			name = Main;
@@ -286,7 +281,6 @@
 				8ECE0DA72123836E00FF2B46 /* AllOilAverageView.swift */,
 				8ECE0DA32122D62B00FF2B46 /* GasStationView.swift */,
 				8EDAF7D9212D7EF300422552 /* DetailView.swift */,
-				76F087FC212D098C0049EA60 /* ScrollSlideView.swift */,
 				8EED89592131CC9F0093B07A /* FavoriteView.swift */,
 			);
 			name = View;
@@ -368,7 +362,6 @@
 				29B2264B2122C2C40012B2F6 /* GoogleService-Info.plist in Resources */,
 				29B226582126A8BF0012B2F6 /* NanumSquareRoundEB.ttf in Resources */,
 				29B226572126A8BF0012B2F6 /* NanumSquareRoundB.ttf in Resources */,
-				76F087FF212D09A60049EA60 /* ScrollSlideView.xib in Resources */,
 				29B226592126A8BF0012B2F6 /* NanumSquareRoundR.ttf in Resources */,
 				29B226562126A8BF0012B2F6 /* NanumSquareRoundL.ttf in Resources */,
 				8E7FFE2A20F5E5FF006CED48 /* Main.storyboard in Resources */,
@@ -457,7 +450,6 @@
 			files = (
 				8ECE0DA62122E11100FF2B46 /* MainHeaderView.swift in Sources */,
 				8ECE0D032118963000FF2B46 /* CustomAnnotationView.swift in Sources */,
-				76F087FD212D098C0049EA60 /* ScrollSlideView.swift in Sources */,
 				8ECE0DAA212385FB00FF2B46 /* AllPriceData.swift in Sources */,
 				8ECE0D52211AD42600FF2B46 /* Setting.swift in Sources */,
 				8E167D3B2107AD480066A59E /* Service.swift in Sources */,

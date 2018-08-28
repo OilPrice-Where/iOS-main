@@ -123,7 +123,9 @@ class FavoriteView: UIView {
     private func commitInit() {
         Bundle.main.loadNibNamed("FavoriteView", owner: self, options: nil)
         addSubview(containerView)
+        containerView.layer.cornerRadius = 6
         containerView.frame = self.bounds
         containerView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        containerView.clipsToBounds = false
     }
 }

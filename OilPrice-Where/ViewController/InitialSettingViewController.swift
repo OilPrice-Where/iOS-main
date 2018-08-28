@@ -21,7 +21,7 @@ class InitialSettingViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        UIApplication.shared.statusBarStyle = .default
+        UIApplication.shared.statusBarStyle = .default // Status Bar Color
     }
     
     // 확인 버튼 클릭 이벤트
