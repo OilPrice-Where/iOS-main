@@ -2,7 +2,7 @@
 //  DetailView.swift
 //  OilPrice-Where
 //
-//  Created by 박소정 on 2018. 8. 22..
+//  Created by 박상욱 on 2018. 8. 22..
 //  Copyright © 2018년 sangwook park. All rights reserved.
 //
 
@@ -10,49 +10,66 @@ import UIKit
 
 class DetailView: UIView {
 
+    var id: String! // Station ID
     @IBOutlet weak var logoType : UIImageView! // Logo
     @IBOutlet weak var stationName : UILabel! // 주유소 명
     @IBOutlet weak var distance : UILabel! // 거리
     @IBOutlet weak var oilPrice : UILabel! // 기름 가격
     @IBOutlet weak var oilType : UILabel! // 기름 타입
     @IBOutlet weak var detailViewBottomConstraint: NSLayoutConstraint! // Detail View Bottom Constraint
-    @IBOutlet weak var favoriteButton : UIButton!
-    @IBOutlet weak var navigationStartButtonView : UIView!
-    @IBOutlet weak var navigationImageView : UIImageView!
-    @IBOutlet weak var navigationLabel : UILabel!
-    var tapGesture: UITapGestureRecognizer!
-    var id: String!
+    @IBOutlet weak var favoriteButton : UIButton! // Favorite Button
+    @IBOutlet weak var navigationStartButtonView : UIView! // Navigation Start Button
+    @IBOutlet weak var navigationImageView : UIImageView! // Navigation Start Button 내부 Image View
+    @IBOutlet weak var navigationLabel : UILabel! // Navigation Start Button 내부 Label
+    var tapGesture: UITapGestureRecognizer! // Navigation Start Button Tap Gesture
     
+    // Detail View 기본 설정
     func configure(_ info: GasStation) {
-        let kmDistance = info.distance / 1000
+        let kmDistance = info.distance / 1000 // M -> KM (단위 계산)
         
-        self.id = info.id
-        self.logoType.image = Preferences.logoImage(logoName: info.brand)
+        self.id = info.id // 주유소 ID 설정
+        self.logoType.image = Preferences.logoImage(logoName: info.brand) // 로고이미지 설정
+        
+        // 주유소명 설정
         self.stationName.text = info.name
         self.stationName.font = UIFont(name: "NanumSquareRoundB", size: 20)
+        
+        // 거리 설정
         self.distance.text = String(kmDistance.roundTo(places: 2)) + "km"
         self.distance.font = UIFont(name: "NanumSquareRoundB", size: 10)
+        
+        // 오일 가격 설정
         self.oilPrice.text = Preferences.priceToWon(price: info.price)
         self.oilPrice.font = UIFont(name: "NanumSquareRoundEB", size: 33)
+        
+        // 오일 타입 설정
         self.oilType.text = Preferences.oil(code: DefaultData.shared.oilType)
         self.oilType.font = UIFont(name: "NanumSquareRoundB", size: 14)
         
+        // Detail View & Navigation Start Button View 외곽선 설정
         self.layer.cornerRadius = 6
-        
-        navigationStartButtonView.layer.cornerRadius = 6 // 경로보기 버튼 외곽선 Radius 값 설정
+        navigationStartButtonView.layer.cornerRadius = 6
         navigationStartButtonView.layer.borderColor = UIColor(named: "MainColor")?.cgColor
         navigationStartButtonView.layer.borderWidth = 1.5
         
+        // Favorite Button 외곽서 설정
         favoriteButton.layer.borderWidth = 1.5
         favoriteButton.layer.cornerRadius = 6 // 즐겨찾기 버튼 외곽선 Radius 값 설정
+        favoriteButton.layer.borderColor = UIColor(named: "MainColor")!.cgColor
+        
+        // Favorite Button 선택/비선택 Image
         favoriteButton.setImage(UIImage(named: "favoriteOffIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
         favoriteButton.setImage(UIImage(named: "favoriteOnIcon")?.withRenderingMode(.alwaysTemplate), for: .selected)
-        favoriteButton.layer.borderColor = UIColor(named: "MainColor")!.cgColor
-        favoriteButton.addTarget(self, action: #selector(self.clickedEvent(_:)), for: .touchUpInside)
-        self.favoriteButton.isSelected = false
+        
+        // Favorite Button Background Color & 내부 ImageView TintColor 설정₩
         self.favoriteButton.backgroundColor = UIColor.white
         favoriteButton.imageView!.tintColor = UIColor(named: "MainColor")
         
+        // Favorite Button Event
+        favoriteButton.addTarget(self, action: #selector(self.clickedEvent(_:)), for: .touchUpInside)
+        favoriteButton.isSelected = false
+        
+        // 즐겨찾기 목록의 StationID 값과 StationView의 StationID 값이 동일 하면 선택 상태로 변경
         for index in 0..<DefaultData.shared.favoriteArr.count {
             if self.id == DefaultData.shared.favoriteArr[index] {
                 self.favoriteButton.isSelected = true
@@ -63,14 +80,16 @@ class DetailView: UIView {
         }
     }
     
+    // Navigation Start Button View Tap Gesture
     func detailViewTapGestureRecognizer(target: Any, action: Selector) {
         tapGesture = UITapGestureRecognizer(target: target, action: action)
         navigationStartButtonView.addGestureRecognizer(tapGesture)
     }
     
+    // Favorite Button Clicked Event
     @objc func clickedEvent(_ sender: UIButton) {
-        guard DefaultData.shared.favoriteArr.count < 3 else {
-            if sender.isSelected {
+        guard DefaultData.shared.favoriteArr.count < 3 else { // 즐겨 찾기의 수가 3개 이하 일 경우 Event 실행
+            if sender.isSelected { // 3개 이상일 때 isSelect 상태 true 일 시 즐겨찾기 상태를 해제
                 favoriteButton.imageView!.tintColor = UIColor(named: "MainColor")
                 favoriteButton.backgroundColor = UIColor.white
                 for index in 0..<DefaultData.shared.favoriteArr.count {
@@ -83,7 +102,8 @@ class DetailView: UIView {
             }
             return
         }
-        if sender.isSelected {
+        // 즐겨찾기 설정 및 해제
+        if sender.isSelected { // 즐겨찾기 설정
             favoriteButton.imageView!.tintColor = UIColor(named: "MainColor")
             favoriteButton.backgroundColor = UIColor.white
             for index in 0..<DefaultData.shared.favoriteArr.count {
@@ -93,7 +113,7 @@ class DetailView: UIView {
                 }
             }
             sender.isSelected = false
-        } else {
+        } else { // 즐겨찾기 해제
             DefaultData.shared.favoriteArr.append(self.id!)
             favoriteButton.imageView!.tintColor = UIColor.white
             favoriteButton.backgroundColor = UIColor(named: "MainColor")

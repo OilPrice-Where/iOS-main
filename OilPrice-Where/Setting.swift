@@ -179,12 +179,3 @@ extension Double {
         return (self * divisor).rounded() / divisor
     }
 }
-
-extension UIView {
-    class func loadFromNibNamed(nibNamed: String, bundle: Bundle? = nil) -> ScrollSlideView? {
-        return UINib(
-            nibName: nibNamed,
-            bundle: bundle
-            ).instantiate(withOwner: nil, options: nil)[0] as? ScrollSlideView
-    }
-}

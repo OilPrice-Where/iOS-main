@@ -13,7 +13,7 @@ import CoreLocation
 class MainListViewController: UIViewController {
     //CoreLocation
     var locationManager = CLLocationManager() // locationManager
-    //var location: CLLocation?
+    var oldLocation: CLLocation?
     var lastLocationError: Error? // Location Error 확인
     
     //Reverse Geocoding
@@ -51,6 +51,8 @@ class MainListViewController: UIViewController {
     let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate // 앱 델리게이트
     private var lastKactecX: Double? // KatecX 좌표
     private var lastKactecY: Double? // KatecY 좌표
+    var lastOilType = DefaultData.shared.oilType
+    var lastFindRadius = DefaultData.shared.radius
     var selectMarker = false
     var lastBottomConstant: CGFloat?
     var priceSortButton: UIButton!
@@ -98,9 +100,11 @@ class MainListViewController: UIViewController {
             
             switch result {
             case .success(let gasStationData):
+                print("DataLoad")
                 DefaultData.shared.data = gasStationData.result.gasStations
                 self.sortData = gasStationData.result.gasStations.sorted(by: {$0.distance < $1.distance})
                 self.showMarker()
+                self.refreshControl.endRefreshing()
                 self.tableView.reloadData()
             case .error(let error):
                 print(error)
@@ -110,12 +114,11 @@ class MainListViewController: UIViewController {
     }
     
     @objc func refresh() {
+        oldLocation = nil
+        currentCoordinate = nil
         appleMapView.removeAnnotations(annotations)
         annotations = []
-        currentCoordinate = nil
         configureLocationServices()
-        sleep(UInt32(1))
-        refreshControl.endRefreshing()
     }
     
     func setting() {
@@ -239,8 +242,10 @@ class MainListViewController: UIViewController {
             if lastBottomConstant == 10 {
                 if let indexPath = selectIndexPath {
                     let cell = tableView.cellForRow(at: indexPath) as! GasStationCell
-                    if cell.stationView.favoriteButton.isSelected != detailView.favoriteButton.isSelected {
-                        self.detailView.clickedEvent(detailView.favoriteButton)
+                    if cell.stationView.id == detailView.id {
+                        if detailView.favoriteButton.isSelected != cell.stationView.favoriteButton.isSelected {
+                            self.detailView.clickedEvent(detailView.favoriteButton)
+                        }
                     }
                     self.detailView.detailViewBottomConstraint.constant = 10
                     UIView.animate(withDuration: 0.3) {
@@ -424,9 +429,24 @@ extension MainListViewController: CLLocationManagerDelegate {
                     self.haderView.configure(with: self.string(from: self.currentPlacemark!))
                 })
             }
-            
-            gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
-            stopLocationManager()
+            if let lastLocation = oldLocation {
+                let distance: CLLocationDistance = newLocation!.distance(from: lastLocation)
+                if distance < 50.0 &&
+                   lastOilType == DefaultData.shared.oilType &&
+                   lastFindRadius == DefaultData.shared.radius {
+                    stopLocationManager()
+                } else {
+                    gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
+                    stopLocationManager()
+                    oldLocation = newLocation
+                    lastOilType = DefaultData.shared.oilType
+                    lastFindRadius = DefaultData.shared.radius
+                }
+            } else {
+                gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
+                stopLocationManager()
+                oldLocation = newLocation
+            }
         }
         
         // 인증 상태가 변경 되었을 때
