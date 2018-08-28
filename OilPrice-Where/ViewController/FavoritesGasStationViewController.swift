@@ -11,29 +11,43 @@ import CoreLocation
 
 class FavoritesGasStationViewController: UIViewController {
     
-    var slides:[ScrollSlideView] = []
-    var informationGasStaions: [InformationGasStaion?] = []
     var oldFavoriteArr: [String] = []
+    lazy var contentViewArr: [UIView] = [firstContentView,
+                                         secondContentView,
+                                         thirdContentView,
+                                         noneContentView]
     
     @IBOutlet private weak var noneView : UIView!
     @IBOutlet private weak var firstView : FavoriteView!
     @IBOutlet private weak var secondView : FavoriteView!
     @IBOutlet private weak var thirdView : FavoriteView!
     
+    @IBOutlet weak var firstContentView: UIView!
+    @IBOutlet weak var secondContentView: UIView!
+    @IBOutlet weak var thirdContentView: UIView!
+    @IBOutlet weak var noneContentView: UIView!
+    
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var pager: UIPageControl!
+    
+    @IBAction func pageChanged(_ sender: UIPageControl) {
+        
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         pager.currentPageIndicatorTintColor = UIColor.white
+        pager.pageIndicatorTintColor = UIColor.lightGray
         pager.currentPage = 0
-        
-        scrollView.layer.cornerRadius = 6
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         
         UIApplication.shared.statusBarStyle = .lightContent
         pager.numberOfPages = DefaultData.shared.favoriteArr.count
@@ -62,14 +76,14 @@ class FavoritesGasStationViewController: UIViewController {
     }
     
     func basicSetting() {
-        firstView.isHidden = true
-        secondView.isHidden = true
-        thirdView.isHidden = true
-        noneView.isHidden = false
+        firstContentView.isHidden = true
+        secondContentView.isHidden = true
+        thirdContentView.isHidden = true
+        noneContentView.isHidden = false
     }
 
     func favoriteDataLoad(viewArr: [FavoriteView]) {
-        noneView.isHidden = true
+        noneContentView.isHidden = true
         
         for index in 0 ..< viewArr.count {
             ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
@@ -77,7 +91,7 @@ class FavoritesGasStationViewController: UIViewController {
                 (result) in
                 switch result {
                 case .success(let favoriteData):
-                    viewArr[index].isHidden = false
+                    self.contentViewArr[index].isHidden = false
                     viewArr[index].configure(with: favoriteData.result.allPriceList[0])
                     if index == 0 {
                         viewArr[0].alpha = 1
@@ -94,7 +108,13 @@ class FavoritesGasStationViewController: UIViewController {
 extension FavoritesGasStationViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let width = scrollView.bounds.size.width
-        let page = Int((scrollView.contentOffset.x + width / 2) / width)
-        pager.currentPage = page
+        let x = scrollView.contentOffset.x + (width / 2.0)
+        let newPage = Int(x / width)
+        
+        if pager.currentPage != newPage {
+            pager.currentPage = newPage
+        }
+//        let page = Int((scrollView.contentOffset.x + width / 2) / width)
+//        pager.currentPage = newPage
     }
 }
