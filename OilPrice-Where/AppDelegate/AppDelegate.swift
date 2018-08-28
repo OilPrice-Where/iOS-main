@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-import SwiftyPlistManager
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -45,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        DefaultData.shared.save() // 앱 백드라운드로 갈 시 설정 데이터 저장
+        DefaultData.shared.saveFavorite() // 앱 백드라운드로 갈 시 설정 데이터 저장
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -56,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        DefaultData.shared.save() // 앱 종료시 마지막 설정 데이터 저장
+        DefaultData.shared.saveFavorite() // 앱 종료시 마지막 설정 데이터 저장
     }
 
 

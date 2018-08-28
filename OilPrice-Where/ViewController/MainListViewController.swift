@@ -13,7 +13,7 @@ import CoreLocation
 class MainListViewController: UIViewController {
     //CoreLocation
     var locationManager = CLLocationManager() // locationManager
-    //var location: CLLocation?
+    var oldLocation: CLLocation?
     var lastLocationError: Error? // Location Error 확인
     
     //Reverse Geocoding
@@ -21,6 +21,8 @@ class MainListViewController: UIViewController {
     var performingReverseGeocoding = false // 아직 위치가 없거나 주소가 일치 하지 않을 때는 주소를 받지 않을 것이므로
                                            // Bool변수로 받을 지 안받을 지 선택한다.
     var lastGeocodingError: Error? // 문제가 발생 했을 때 오류 저장 변수
+    
+    private var lastContentOffset: CGFloat = 0 // 테이블 뷰 스크롤의 현재 위치 저장함수
     
     // Map
     @IBOutlet private weak var appleMapView: MKMapView! // 맵 뷰
@@ -47,10 +49,19 @@ class MainListViewController: UIViewController {
     var tapGesture = UITapGestureRecognizer()
     var sortData: [GasStation] = []
     
+    // StatusBarBackView
+    @IBOutlet weak var statusBarBackView: UIView!
+    @IBOutlet weak var headerViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var headerView: MainHeaderView!
+    
+    
+    
     //Etc
     let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate // 앱 델리게이트
     private var lastKactecX: Double? // KatecX 좌표
     private var lastKactecY: Double? // KatecY 좌표
+    var lastOilType = DefaultData.shared.oilType
+    var lastFindRadius = DefaultData.shared.radius
     var selectMarker = false
     var lastBottomConstant: CGFloat?
     var priceSortButton: UIButton!
@@ -107,24 +118,26 @@ class MainListViewController: UIViewController {
             
             switch result {
             case .success(let gasStationData):
+                print("DataLoad")
                 DefaultData.shared.data = gasStationData.result.gasStations
                 self.sortData = gasStationData.result.gasStations.sorted(by: {$0.distance < $1.distance})
                 self.showMarker()
+                self.refreshControl.endRefreshing()
                 self.tableView.reloadData()
             case .error(let error):
                 print(error)
-//                
             }
         }
     }
     
+    
+    /// tableView refreshControll 함수
     @objc func refresh() {
+        oldLocation = nil
+        currentCoordinate = nil
         appleMapView.removeAnnotations(annotations)
         annotations = []
-        currentCoordinate = nil
         configureLocationServices()
-        sleep(UInt32(1))
-        refreshControl.endRefreshing()
     }
     
     func setting() {
@@ -163,7 +176,7 @@ class MainListViewController: UIViewController {
     }
     
     func createSortView() {
-        let sectionHeaderView = UIView(frame: CGRect(x: 0, y: 215, width: tableView.frame.width, height: 30))
+        let sectionHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 30))
         self.priceSortButton = UIButton(frame: CGRect(x: 15, y: 0, width: 45, height: 30))
         self.priceSortButton.setTitle("가격순", for: .normal)
         self.priceSortButton.setTitleColor(UIColor.darkGray, for: .normal)
@@ -248,8 +261,10 @@ class MainListViewController: UIViewController {
             if lastBottomConstant == 10 {
                 if let indexPath = selectIndexPath {
                     let cell = tableView.cellForRow(at: indexPath) as! GasStationCell
-                    if cell.stationView.favoriteButton.isSelected != detailView.favoriteButton.isSelected {
-                        self.detailView.clickedEvent(detailView.favoriteButton)
+                    if cell.stationView.id == detailView.id {
+                        if detailView.favoriteButton.isSelected != cell.stationView.favoriteButton.isSelected {
+                            self.detailView.clickedEvent(detailView.favoriteButton)
+                        }
                     }
                     self.detailView.detailViewBottomConstraint.constant = 10
                     UIView.animate(withDuration: 0.3) {
@@ -262,7 +277,7 @@ class MainListViewController: UIViewController {
                     self.view.layoutIfNeeded()
                 }
             }
-            
+            statusBarBackView.isHidden = true
             mainListPage = false
         } else {
             UIApplication.shared.statusBarStyle = .lightContent
@@ -274,6 +289,7 @@ class MainListViewController: UIViewController {
             UIView.animate(withDuration: 0.3) {
                 self.view.layoutIfNeeded()
             }
+            statusBarBackView.isHidden = false
             mainListPage = true
         }
         tableView.reloadData()
@@ -433,9 +449,24 @@ extension MainListViewController: CLLocationManagerDelegate {
                     self.haderView.configure(with: self.string(from: self.currentPlacemark!))
                 })
             }
-            
-            gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
-            stopLocationManager()
+            if let lastLocation = oldLocation {
+                let distance: CLLocationDistance = newLocation!.distance(from: lastLocation)
+                if distance < 50.0 &&
+                   lastOilType == DefaultData.shared.oilType &&
+                   lastFindRadius == DefaultData.shared.radius {
+                    stopLocationManager()
+                } else {
+                    gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
+                    stopLocationManager()
+                    oldLocation = newLocation
+                    lastOilType = DefaultData.shared.oilType
+                    lastFindRadius = DefaultData.shared.radius
+                }
+            } else {
+                gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
+                stopLocationManager()
+                oldLocation = newLocation
+            }
         }
         
         // 인증 상태가 변경 되었을 때
@@ -538,8 +569,42 @@ extension MainListViewController: UITableViewDataSource {
     }
 }
 
+
+// MARK: - UITableViewDelegate
 extension MainListViewController: UITableViewDelegate {
     
+    /// 스크롤 옵셋에 따른 헤더뷰 위치 변경
+    ///
+    /// - 코드 리펙토링 필요
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == tableView {
+            let setHeaderViewConstraint = headerViewConstraint.constant - scrollView.contentOffset.y
+            if (self.lastContentOffset > scrollView.contentOffset.y) {
+                if scrollView.contentOffset.y <= 0 {
+                    if -(setHeaderViewConstraint) >= 0 {
+                        headerViewConstraint.constant = setHeaderViewConstraint
+                        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+                    }else {
+                        headerViewConstraint.constant = 0
+                    }
+                }
+            }
+            else if (self.lastContentOffset < scrollView.contentOffset.y) {
+                if -(setHeaderViewConstraint) >= haderView.frame.size.height {
+                    headerViewConstraint.constant = -(haderView.frame.size.height)
+                }else if -(setHeaderViewConstraint) >= 0{
+                    headerViewConstraint.constant = setHeaderViewConstraint
+                    scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+                }else{
+                    headerViewConstraint.constant = 0
+                    scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+                }
+            }
+
+            // 현재 테이블 뷰 컨텐츠 옵션의 위치 저장
+            self.lastContentOffset = scrollView.contentOffset.y
+        }
+    }
 }
 
 // MARK: - MKMapViewDelegate
