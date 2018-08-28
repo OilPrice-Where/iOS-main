@@ -30,7 +30,7 @@ class DefaultData {
     var favoriteArr: [String] = [] // 즐겨 찾기
     
     // Plist에 값 저장
-    func save() {
+    func saveOil() {
         // Oil Type Save
         SwiftyPlistManager.shared.save(DefaultData.shared.oilType,
                                        forKey: "OilType",
@@ -39,6 +39,9 @@ class DefaultData {
                                             print("Success Save Oil Type !!")
                                         }
         }
+    }
+    
+    func saveDistance() {
         // Find Radius Value Save
         SwiftyPlistManager.shared.save(DefaultData.shared.radius,
                                        forKey: "FindRadius",
@@ -47,7 +50,9 @@ class DefaultData {
                                             print("Success Save Distance !!")
                                         }
         }
-        
+    }
+    
+    func saveFavorite() {
         // Favorites Array Save
         SwiftyPlistManager.shared.save(DefaultData.shared.favoriteArr,
                                        forKey: "Favorites",
