@@ -10,6 +10,9 @@ import UIKit
 
 class FavoriteView: UIView {
     
+    // Xib view 연결
+    @IBOutlet weak var mainView: UIView!
+    
     // 이미지
     @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var carWashImageView: UIImageView!
@@ -45,8 +48,15 @@ class FavoriteView: UIView {
         KNVNaviLauncher.shared().navigate(with: params)
     }
     
+    // 즐겨찾기 취소 버튼
+    @IBAction func favoriteDeleteButton(_ sender: UIButton) {
+        
+    }
+    
     
     func configure(with informaionGasStaion: InformationGasStaion) {
+        
+        mainView.layer.cornerRadius = 6
         
         var count = 0
         self.katecX = informaionGasStaion.katecX.roundTo(places: 0)
@@ -111,6 +121,7 @@ class FavoriteView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         commitInit()
     }
     

@@ -68,10 +68,18 @@ class MainListViewController: UIViewController {
     var distanceSortButton: UIButton!
     var lastSelectedSortButton: UIButton!
     
+    func setStatusBarBackgroundColor(color: UIColor) {
+        
+        guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
+        statusBar.backgroundColor = color
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         createSortView()
         setting()
+        setStatusBarBackgroundColor(color: .clear)
         
     }
     
@@ -83,6 +91,7 @@ class MainListViewController: UIViewController {
         } else {
             UIApplication.shared.statusBarStyle = .default
         }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

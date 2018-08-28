@@ -11,26 +11,65 @@ import CoreLocation
 
 class FavoritesGasStationViewController: UIViewController {
     
+<<<<<<< HEAD
+    var oldFavoriteArr: [String] = []
+    lazy var contentViewArr: [UIView] = [firstContentView,
+                                         secondContentView,
+                                         thirdContentView,
+                                         noneContentView]
+=======
     var oldFavoriteArr: [String] = [] // 이전 Favorites
     var oldOilType = "" // 이전 Oil Type
+>>>>>>> e43cecadd8fa682b9b27cd418380527d32eb9389
     
     @IBOutlet private weak var noneView : UIView! // None View
     @IBOutlet private weak var firstView : FavoriteView! // 1st Favorite View
     @IBOutlet private weak var secondView : FavoriteView! // 2nd Favorite View
     @IBOutlet private weak var thirdView : FavoriteView! // 3rd Favorite View
     
+<<<<<<< HEAD
+    @IBOutlet weak var firstContentView: UIView!
+    @IBOutlet weak var secondContentView: UIView!
+    @IBOutlet weak var thirdContentView: UIView!
+    @IBOutlet weak var noneContentView: UIView!
+    
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var pager: UIPageControl!
+=======
     @IBOutlet weak var scrollView: UIScrollView! // Scroll View
     @IBOutlet weak var pager: UIPageControl! // Page Controller
+>>>>>>> e43cecadd8fa682b9b27cd418380527d32eb9389
+    
+    @IBAction func pageChanged(_ sender: UIPageControl) {
+        
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+<<<<<<< HEAD
+        pager.currentPageIndicatorTintColor = UIColor.white
+        pager.pageIndicatorTintColor = UIColor.lightGray
+        pager.currentPage = 0
+
+=======
         defaultSetting() // 초기 설정
+>>>>>>> e43cecadd8fa682b9b27cd418380527d32eb9389
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+<<<<<<< HEAD
+        
+        UIApplication.shared.statusBarStyle = .lightContent
+        pager.numberOfPages = DefaultData.shared.favoriteArr.count
+        if oldFavoriteArr != DefaultData.shared.favoriteArr {
+            basicSetting()
+            setting()
+=======
         UIApplication.shared.statusBarStyle = .lightContent // Status Bar Color
         pager.numberOfPages = DefaultData.shared.favoriteArr.count // Page Number
         
@@ -38,6 +77,7 @@ class FavoritesGasStationViewController: UIViewController {
         if oldFavoriteArr != DefaultData.shared.favoriteArr || oldOilType != DefaultData.shared.oilType {
             viewHiddenSetting() // 처음 뷰의 isHidden 상태로 돌린다.
             setting() // 즐겨 찾기 된 주유소의 데이터를 셋팅 해준다.
+>>>>>>> e43cecadd8fa682b9b27cd418380527d32eb9389
         }
     }
     
@@ -80,9 +120,21 @@ class FavoritesGasStationViewController: UIViewController {
         }
     }
     
+<<<<<<< HEAD
+    func basicSetting() {
+        firstContentView.isHidden = true
+        secondContentView.isHidden = true
+        thirdContentView.isHidden = true
+        noneContentView.isHidden = false
+    }
+
+    func favoriteDataLoad(viewArr: [FavoriteView]) {
+        noneContentView.isHidden = true
+=======
     // 상세정보를 뷰에 입력
     func favoriteDataLoad(viewArr: [FavoriteView]) {
         noneView.isHidden = true // 데이터를 호출 하면 즐겨찾기가 있다는 뜻이므로 noneView를 hidden 시켜준다.
+>>>>>>> e43cecadd8fa682b9b27cd418380527d32eb9389
         
         for index in 0 ..< viewArr.count { // 뷰의 카운트 값(즐겨찾기 수)만큼 데이터를 읽어 온다.
             ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
@@ -90,8 +142,16 @@ class FavoritesGasStationViewController: UIViewController {
                 (result) in
                 switch result {
                 case .success(let favoriteData):
+<<<<<<< HEAD
+                    self.contentViewArr[index].isHidden = false
+                    viewArr[index].configure(with: favoriteData.result.allPriceList[0])
+                    if index == 0 {
+                        viewArr[0].alpha = 1
+                    }
+=======
                     viewArr[index].isHidden = false // 생성되는 뷰의 isHidden값을 false로 변경
                     viewArr[index].configure(with: favoriteData.result.allPriceList[0]) // 뷰 정보 입력
+>>>>>>> e43cecadd8fa682b9b27cd418380527d32eb9389
                 case .error(let error):
                     print(error)
                 }
@@ -104,7 +164,13 @@ class FavoritesGasStationViewController: UIViewController {
 extension FavoritesGasStationViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let width = scrollView.bounds.size.width
-        let page = Int((scrollView.contentOffset.x + width / 2) / width)
-        pager.currentPage = page
+        let x = scrollView.contentOffset.x + (width / 2.0)
+        let newPage = Int(x / width)
+        
+        if pager.currentPage != newPage {
+            pager.currentPage = newPage
+        }
+//        let page = Int((scrollView.contentOffset.x + width / 2) / width)
+//        pager.currentPage = newPage
     }
 }
