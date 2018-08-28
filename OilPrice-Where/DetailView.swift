@@ -42,9 +42,6 @@ class DetailView: UIView {
         navigationStartButtonView.layer.cornerRadius = 6 // 경로보기 버튼 외곽선 Radius 값 설정
         navigationStartButtonView.layer.borderColor = UIColor(named: "MainColor")?.cgColor
         navigationStartButtonView.layer.borderWidth = 1.5
-        navigationStartButtonView.backgroundColor = UIColor(named: "MainColor")
-        navigationImageView.image?.withRenderingMode(.alwaysTemplate)
-        navigationImageView.tintColor = UIColor.white
         
         favoriteButton.layer.borderWidth = 1.5
         favoriteButton.layer.cornerRadius = 6 // 즐겨찾기 버튼 외곽선 Radius 값 설정

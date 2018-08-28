@@ -46,3 +46,11 @@ struct GasStation: Decodable {
         case katecY = "GIS_Y_COOR"
     }
 }
+
+extension GasStation: Equatable {
+    public static func ==(lhs: GasStation, rhs: GasStation) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
+

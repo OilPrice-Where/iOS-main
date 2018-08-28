@@ -18,6 +18,12 @@ class InitialSettingViewController: UIViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        UIApplication.shared.statusBarStyle = .default
+    }
+    
     // 확인 버튼 클릭 이벤트
     @IBAction private func okAction(_ sender: UIButton) {
         let selectedOil = scrollView.bounds.origin.x / scrollWidth // 선택한 오일 종류

@@ -24,13 +24,18 @@ struct ServiceList: ServiceType {
                 switch response.result {
                 case .success(let value):
                     do {
-                        let stationInfo = try value.decode(InformationOilStationResult.self)
+                        var dataToString = String(data: value, encoding: String.Encoding.utf8)
+                        dataToString = Preferences.stringByRemovingControlCharacters2(string: dataToString!)
+                        let nData = dataToString?.data(using: String.Encoding.utf8)
+                        let stationInfo = try nData!.decode(InformationOilStationResult.self)
                         completion(.success(stationInfo))
                     } catch {
                         completion(.error(error))
+                        
                     }
                 case .failure(let err):
                     completion(.error(err))
+                    
         }
         }
     }

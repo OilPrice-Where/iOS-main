@@ -12,6 +12,13 @@ import CoreLocation
 class FavoritesGasStationViewController: UIViewController {
     
     var slides:[ScrollSlideView] = []
+    var informationGasStaions: [InformationGasStaion?] = []
+    var oldFavoriteArr: [String] = []
+    
+    @IBOutlet private weak var noneView : UIView!
+    @IBOutlet private weak var firstView : FavoriteView!
+    @IBOutlet private weak var secondView : FavoriteView!
+    @IBOutlet private weak var thirdView : FavoriteView!
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var pager: UIPageControl!
@@ -19,45 +26,68 @@ class FavoritesGasStationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scrollView.delegate = self
-        slides = createSlides()
-        setupSlideScrollView(slides: slides)
-        
+        pager.currentPageIndicatorTintColor = UIColor.white
         pager.currentPage = 0
-        pager.numberOfPages = slides.count
         
+        scrollView.layer.cornerRadius = 6
     }
     
-    // 슬라이드뷰 만들기
-    func createSlides() -> [ScrollSlideView] {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        let slide1:ScrollSlideView = Bundle.main.loadNibNamed("ScrollSlideView", owner: self, options: nil)?.first as! ScrollSlideView
-//        slide1.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
-        
-        let slide2:ScrollSlideView = Bundle.main.loadNibNamed("ScrollSlideView", owner: self, options: nil)?.first as! ScrollSlideView
-        
-        let slide3:ScrollSlideView = Bundle.main.loadNibNamed("ScrollSlideView", owner: self, options: nil)?.first as! ScrollSlideView
-        
-        
-        return [slide1, slide2, slide3]
-    }
-    
-    
-    func setupSlideScrollView(slides : [ScrollSlideView]) {
-        
-//        scrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-        scrollView.contentSize = CGSize(width: view.frame.width * CGFloat(slides.count), height: scrollView.frame.height)
-        print("***************************스크롤뷰 세로높이 = \(scrollView.frame.height)")
-        print("***************************스크롤뷰 가로길이 = \(scrollView.frame.width)")
-        scrollView.isPagingEnabled = true
-        
-        for i in 0 ..< slides.count {
-            slides[i].frame = CGRect(x: view.frame.width * CGFloat(i), y: 0, width: view.frame.width, height: view.frame.height)
-            scrollView.addSubview(slides[i])
+        UIApplication.shared.statusBarStyle = .lightContent
+        pager.numberOfPages = DefaultData.shared.favoriteArr.count
+        if oldFavoriteArr != DefaultData.shared.favoriteArr {
+            basicSetting()
+            setting()
         }
-        
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        oldFavoriteArr = DefaultData.shared.favoriteArr
+    }
+    
+    func setting() {
+        switch DefaultData.shared.favoriteArr.count {
+        case 1:
+            favoriteDataLoad(viewArr: [firstView])
+        case 2:
+            favoriteDataLoad(viewArr: [firstView, secondView])
+        case 3:
+            favoriteDataLoad(viewArr: [firstView, secondView, thirdView])
+        default:
+            break
+        }
+    }
+    
+    func basicSetting() {
+        firstView.isHidden = true
+        secondView.isHidden = true
+        thirdView.isHidden = true
+        noneView.isHidden = false
+    }
+
+    func favoriteDataLoad(viewArr: [FavoriteView]) {
+        noneView.isHidden = true
+        
+        for index in 0 ..< viewArr.count {
+            ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
+                                             id: DefaultData.shared.favoriteArr[index]) {
+                (result) in
+                switch result {
+                case .success(let favoriteData):
+                    viewArr[index].isHidden = false
+                    viewArr[index].configure(with: favoriteData.result.allPriceList[0])
+                    if index == 0 {
+                        viewArr[0].alpha = 1
+                    }
+                case .error(let error):
+                    print(error)
+                }
+            }
+        }
+    }
 }
 
 // PageControl 설정

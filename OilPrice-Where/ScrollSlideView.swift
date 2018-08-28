@@ -36,16 +36,27 @@ class ScrollSlideView: UIView {
                                options: options)
         KNVNaviLauncher.shared().navigate(with: params)
     }
+
     
-    func configure(with gasStation: GasStation) {
-        //        let distanceKM = gasStation.distance / 1000
+    func configure(with informaionGasStaion: InformationGasStaion) {
+        self.gasStationNameLabel.text = informaionGasStaion.name // 주유소 이름
         
+        self.addressLabel.text = informaionGasStaion.address // 주소
+        self.phoneNumberLabel.text = informaionGasStaion.phoneNumber // 전화번호
         
-        self.gasStationNameLabel.text = gasStation.name
-        self.oilPlice.text = String(gasStation.price)
+        // 품질인증확인
+        if informaionGasStaion.qualityCertification == "Y" {
+            self.qualityCertificationLabel.text = "인증"
+        } else {
+            self.qualityCertificationLabel.text = "미인증"
+        }
         
-        //        self.distance.text = String(distanceKM.roundTo(places: 2)) + "km"
+        self.logoImageView.image = Preferences.logoImage(logoName: informaionGasStaion.brand) // 로고 이미지 삽입
+        for index in 0 ..< informaionGasStaion.price.count {
+            if informaionGasStaion.price[index].type == "B027" {
+                self.typeOfOilLabel.text = "휘발유" // 오일 타입 설정
+                self.oilPlice.text = Preferences.priceToWon(price: informaionGasStaion.price[index].price) // 기름 가격 설정
+            }
+        }
     }
-
-
 }

@@ -19,12 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         FirebaseApp.configure()
-    
-
         DefaultData.shared.allPriceDataLoad() // 전국의 오일종류 별 저번주의 평균 값을 받아온다.
-        
-        sleep(1) // 지연 1초
-        
         window?.rootViewController = initialViewController() // 설정페이지 루트뷰 설정
         
         return true
@@ -43,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 bundle: nil).instantiateViewController(withIdentifier: "TabBarController")
         }
     }
-
+    
     func applicationWillResignActive(_ application: UIApplication) {
     }
 
