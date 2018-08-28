@@ -12,6 +12,7 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Self referencing constraints of the same attribute" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -241,7 +242,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="6js-LN-deg">
-                                                                            <rect key="frame" x="0.0" y="-69.5" width="258" height="40"/>
+                                                                            <rect key="frame" x="0.0" y="-59" width="258" height="40"/>
                                                                             <subviews>
                                                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="foN-uC-14b">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="65" height="40"/>
@@ -679,40 +680,36 @@
                                 <rect key="frame" x="0.0" y="107" width="320" height="355"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4OD-tG-b00" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="355"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="1280" height="355"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xMT-WY-8lf">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="355"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="1280" height="355"/>
                                                 <subviews>
-<<<<<<< HEAD
-                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6cU-Hx-yiS" userLabel="firstView">
-                                                        <rect key="frame" x="-40" y="0.0" width="320" height="355"/>
+                                                    <view contentMode="scaleToFill" restorationIdentifier="FirstFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="dJw-as-NIF">
+                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="355"/>
                                                         <subviews>
-                                                            <view alpha="0.0" contentMode="scaleToFill" ambiguous="YES" restorationIdentifier="FirstFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="dJw-as-NIF" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Opu-od-LcU" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
                                                                 <rect key="frame" x="40" y="0.0" width="240" height="355"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </view>
                                                         </subviews>
+                                                        <color key="backgroundColor" name="MainColor"/>
                                                         <constraints>
-                                                            <constraint firstItem="dJw-as-NIF" firstAttribute="width" secondItem="6cU-Hx-yiS" secondAttribute="width" multiplier="3/4" id="BEA-dI-IDN"/>
-                                                            <constraint firstItem="dJw-as-NIF" firstAttribute="centerY" secondItem="6cU-Hx-yiS" secondAttribute="centerY" id="gcH-Be-ncN"/>
-                                                            <constraint firstItem="dJw-as-NIF" firstAttribute="height" secondItem="6cU-Hx-yiS" secondAttribute="height" id="kEm-Oh-uON"/>
-                                                            <constraint firstItem="dJw-as-NIF" firstAttribute="centerX" secondItem="6cU-Hx-yiS" secondAttribute="centerX" id="qd6-Wt-USr"/>
+                                                            <constraint firstItem="Opu-od-LcU" firstAttribute="height" secondItem="dJw-as-NIF" secondAttribute="height" id="Kpn-8X-Sw4"/>
+                                                            <constraint firstItem="Opu-od-LcU" firstAttribute="centerY" secondItem="dJw-as-NIF" secondAttribute="centerY" id="k5C-4H-fgd"/>
+                                                            <constraint firstItem="Opu-od-LcU" firstAttribute="width" secondItem="dJw-as-NIF" secondAttribute="width" multiplier="3/4" id="qNt-Ck-mVn"/>
+                                                            <constraint firstItem="Opu-od-LcU" firstAttribute="centerX" secondItem="dJw-as-NIF" secondAttribute="centerX" id="sww-sS-oOw"/>
                                                         </constraints>
-=======
-                                                    <view hidden="YES" contentMode="scaleToFill" restorationIdentifier="FirstFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="dJw-as-NIF" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
-                                                        <rect key="frame" x="-40" y="0.0" width="240" height="355"/>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
->>>>>>> e43cecadd8fa682b9b27cd418380527d32eb9389
                                                     </view>
-                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="auf-y4-SDT" userLabel="secondView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="355"/>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="auf-y4-SDT" userLabel="secondView">
+                                                        <rect key="frame" x="320" y="0.0" width="320" height="355"/>
                                                         <subviews>
-                                                            <view contentMode="scaleToFill" ambiguous="YES" restorationIdentifier="SecondFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="0Vg-uo-Fho" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="355"/>
+                                                            <view contentMode="scaleToFill" restorationIdentifier="SecondFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="0Vg-uo-Fho" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
+                                                                <rect key="frame" x="40" y="0.0" width="240" height="355"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </view>
                                                         </subviews>
+                                                        <color key="backgroundColor" name="MainColor"/>
                                                         <constraints>
                                                             <constraint firstItem="0Vg-uo-Fho" firstAttribute="centerX" secondItem="auf-y4-SDT" secondAttribute="centerX" id="0L8-H7-ele"/>
                                                             <constraint firstItem="0Vg-uo-Fho" firstAttribute="height" secondItem="auf-y4-SDT" secondAttribute="height" id="2VF-uf-nEO"/>
@@ -720,14 +717,15 @@
                                                             <constraint firstItem="0Vg-uo-Fho" firstAttribute="centerY" secondItem="auf-y4-SDT" secondAttribute="centerY" id="nbq-mg-szD"/>
                                                         </constraints>
                                                     </view>
-                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ovG-vt-viP" userLabel="thirdView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="355"/>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ovG-vt-viP" userLabel="thirdView">
+                                                        <rect key="frame" x="640" y="0.0" width="320" height="355"/>
                                                         <subviews>
-                                                            <view contentMode="scaleToFill" ambiguous="YES" restorationIdentifier="ThirdFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="eiy-LK-8lH" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
+                                                            <view contentMode="scaleToFill" restorationIdentifier="ThirdFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="eiy-LK-8lH" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
                                                                 <rect key="frame" x="40" y="0.0" width="240" height="355"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </view>
                                                         </subviews>
+                                                        <color key="backgroundColor" name="MainColor"/>
                                                         <constraints>
                                                             <constraint firstItem="eiy-LK-8lH" firstAttribute="centerX" secondItem="ovG-vt-viP" secondAttribute="centerX" id="7C4-RA-vMy"/>
                                                             <constraint firstItem="eiy-LK-8lH" firstAttribute="width" secondItem="ovG-vt-viP" secondAttribute="width" multiplier="3/4" id="FRy-rn-OfG"/>
@@ -736,7 +734,7 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QiS-1f-8Bf" userLabel="NoneView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="355"/>
+                                                        <rect key="frame" x="960" y="0.0" width="320" height="355"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="06X-IW-mXN" userLabel="none">
                                                                 <rect key="frame" x="40" y="0.0" width="240" height="355"/>
@@ -755,6 +753,7 @@
                                                                 </constraints>
                                                             </view>
                                                         </subviews>
+                                                        <color key="backgroundColor" name="MainColor"/>
                                                         <constraints>
                                                             <constraint firstItem="06X-IW-mXN" firstAttribute="centerY" secondItem="QiS-1f-8Bf" secondAttribute="centerY" id="8DB-8u-OIT"/>
                                                             <constraint firstItem="06X-IW-mXN" firstAttribute="height" secondItem="QiS-1f-8Bf" secondAttribute="height" id="dHE-iU-bUm"/>
@@ -763,6 +762,10 @@
                                                         </constraints>
                                                     </view>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="QiS-1f-8Bf" secondAttribute="trailing" id="7gb-px-awG"/>
+                                                    <constraint firstItem="dJw-as-NIF" firstAttribute="leading" secondItem="xMT-WY-8lf" secondAttribute="leading" id="7iw-GV-cvO"/>
+                                                </constraints>
                                             </stackView>
                                         </subviews>
                                         <color key="backgroundColor" name="MainColor"/>
@@ -778,13 +781,15 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="4OD-tG-b00" secondAttribute="bottom" id="864-bj-OTs"/>
                                     <constraint firstItem="QiS-1f-8Bf" firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" id="8I6-FK-vTV"/>
+                                    <constraint firstItem="dJw-as-NIF" firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" id="8Tb-3S-H7v"/>
                                     <constraint firstItem="4OD-tG-b00" firstAttribute="top" secondItem="eMs-pJ-RNF" secondAttribute="top" id="Cpc-T7-aLM"/>
                                     <constraint firstItem="4OD-tG-b00" firstAttribute="centerY" secondItem="eMs-pJ-RNF" secondAttribute="centerY" id="L48-Ot-dyz"/>
-                                    <constraint firstItem="6cU-Hx-yiS" firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="U9s-mh-1eF"/>
+                                    <constraint firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="U9s-mh-1eF"/>
                                     <constraint firstItem="4OD-tG-b00" firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="ZLg-te-EFU"/>
-                                    <constraint firstItem="6cU-Hx-yiS" firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" id="b9U-TG-Aek"/>
+                                    <constraint firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" id="b9U-TG-Aek"/>
                                     <constraint firstItem="QiS-1f-8Bf" firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="bDe-ik-C1Y"/>
                                     <constraint firstAttribute="trailing" secondItem="4OD-tG-b00" secondAttribute="trailing" id="g1f-ck-bbI"/>
+                                    <constraint firstItem="dJw-as-NIF" firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="gGo-jB-SKU"/>
                                     <constraint firstItem="4OD-tG-b00" firstAttribute="leading" secondItem="eMs-pJ-RNF" secondAttribute="leading" id="mck-Fr-Kod"/>
                                 </constraints>
                                 <connections>
@@ -807,8 +812,8 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="즐겨찾기" image="favoriteTabIcon" selectedImage="favoriteTabIconSel" id="CvX-bA-MQy"/>
                     <connections>
-                        <outlet property="firstContentView" destination="6cU-Hx-yiS" id="pHx-Fn-M05"/>
-                        <outlet property="firstView" destination="dJw-as-NIF" id="BYY-Az-yTu"/>
+                        <outlet property="firstContentView" destination="dJw-as-NIF" id="gch-Gy-xIV"/>
+                        <outlet property="firstView" destination="Opu-od-LcU" id="7yA-Vp-gQP"/>
                         <outlet property="noneContentView" destination="QiS-1f-8Bf" id="1T6-rT-2Bf"/>
                         <outlet property="noneView" destination="06X-IW-mXN" id="M1v-ei-W5L"/>
                         <outlet property="pager" destination="fu8-5t-wlI" id="mvT-Ex-g1x"/>

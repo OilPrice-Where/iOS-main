@@ -248,13 +248,8 @@
                                 <constraint firstAttribute="height" constant="1" id="A3o-u1-zA4"/>
                             </constraints>
                         </view>
-<<<<<<< HEAD
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="고급휘발유" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.60000002384185791" translatesAutoresizingMaskIntoConstraints="NO" id="adZ-55-NPm">
-                            <rect key="frame" x="70.5" y="363" width="86.5" height="21"/>
-=======
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="고급휘발유" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.60000002384185791" translatesAutoresizingMaskIntoConstraints="NO" id="adZ-55-NPm">
                             <rect key="frame" x="71" y="363.5" width="86.5" height="21"/>
->>>>>>> e43cecadd8fa682b9b27cd418380527d32eb9389
                             <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="19"/>
                             <color key="textColor" red="0.47058823529999999" green="0.47058823529999999" blue="0.47058823529999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -264,13 +259,8 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </label>
-<<<<<<< HEAD
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,572원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.60000002384185791" translatesAutoresizingMaskIntoConstraints="NO" id="b6u-cY-vjG">
-                            <rect key="frame" x="157" y="337.5" width="139" height="51.5"/>
-=======
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,572원" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.60000002384185791" translatesAutoresizingMaskIntoConstraints="NO" id="b6u-cY-vjG">
                             <rect key="frame" x="157.5" y="338" width="139" height="51.5"/>
->>>>>>> e43cecadd8fa682b9b27cd418380527d32eb9389
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="43"/>
                             <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
