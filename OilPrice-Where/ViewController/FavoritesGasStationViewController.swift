@@ -10,7 +10,10 @@ import UIKit
 import CoreLocation
 
 class FavoritesGasStationViewController: UIViewController {
-    
+
+    lazy var contentViewArr: [UIView] = [firstContentView,
+                                         secondContentView,
+                                         thirdContentView]
     var oldFavoriteArr: [String] = [] // 이전 Favorites
     var oldOilType = "" // 이전 Oil Type
     
@@ -19,12 +22,17 @@ class FavoritesGasStationViewController: UIViewController {
     @IBOutlet private weak var secondView : FavoriteView! // 2nd Favorite View
     @IBOutlet private weak var thirdView : FavoriteView! // 3rd Favorite View
     
+    @IBOutlet weak var firstContentView: UIView!
+    @IBOutlet weak var secondContentView: UIView!
+    @IBOutlet weak var thirdContentView: UIView!
+    @IBOutlet weak var noneContentView: UIView!
+    
     @IBOutlet weak var scrollView: UIScrollView! // Scroll View
     @IBOutlet weak var pager: UIPageControl! // Page Controller
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         defaultSetting() // 초기 설정
     }
     
@@ -60,10 +68,10 @@ class FavoritesGasStationViewController: UIViewController {
     
     // 처음 뷰의 isHidden 상태로 돌린다.
     func viewHiddenSetting() {
-        firstView.isHidden = true
-        secondView.isHidden = true
-        thirdView.isHidden = true
-        noneView.isHidden = false
+        firstContentView.isHidden = true
+        secondContentView.isHidden = true
+        thirdContentView.isHidden = true
+        noneContentView.isHidden = false
     }
     
     // 즐겨찾기 수 만큼 뷰를 설정
@@ -82,7 +90,7 @@ class FavoritesGasStationViewController: UIViewController {
     
     // 상세정보를 뷰에 입력
     func favoriteDataLoad(viewArr: [FavoriteView]) {
-        noneView.isHidden = true // 데이터를 호출 하면 즐겨찾기가 있다는 뜻이므로 noneView를 hidden 시켜준다.
+        noneContentView.isHidden = true // 데이터를 호출 하면 즐겨찾기가 있다는 뜻이므로 noneView를 hidden 시켜준다.
         
         for index in 0 ..< viewArr.count { // 뷰의 카운트 값(즐겨찾기 수)만큼 데이터를 읽어 온다.
             ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
@@ -90,7 +98,10 @@ class FavoritesGasStationViewController: UIViewController {
                 (result) in
                 switch result {
                 case .success(let favoriteData):
-                    viewArr[index].isHidden = false // 생성되는 뷰의 isHidden값을 false로 변경
+                    print("index")
+                    print(DefaultData.shared.favoriteArr)
+                    self.contentViewArr[index].isHidden = false
+                    print(self.contentViewArr[index].isHidden)
                     viewArr[index].configure(with: favoriteData.result.allPriceList[0]) // 뷰 정보 입력
                 case .error(let error):
                     print(error)
@@ -104,7 +115,11 @@ class FavoritesGasStationViewController: UIViewController {
 extension FavoritesGasStationViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let width = scrollView.bounds.size.width
-        let page = Int((scrollView.contentOffset.x + width / 2) / width)
-        pager.currentPage = page
+        let x = scrollView.contentOffset.x + (width / 2.0)
+        let newPage = Int(x / width)
+        
+        if pager.currentPage != newPage {
+            pager.currentPage = newPage
+        }
     }
 }

@@ -12,6 +12,7 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Self referencing constraints of the same attribute" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -662,75 +663,133 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자주 가는 주유소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gal-Bh-yfF">
-                                <rect key="frame" x="25" y="79.5" width="92" height="17"/>
+                                <rect key="frame" x="25" y="80" width="92" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="fu8-5t-wlI">
-                                <rect key="frame" x="140.5" y="466.5" width="39" height="37"/>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="fu8-5t-wlI">
+                                <rect key="frame" x="141" y="467" width="39" height="37"/>
                                 <color key="pageIndicatorTintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="currentPageIndicatorTintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="pageChanged:" destination="d02-5S-oJ4" eventType="valueChanged" id="8fP-r3-RRJ"/>
+                                </connections>
                             </pageControl>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eMs-pJ-RNF">
-                                <rect key="frame" x="40" y="106.5" width="240" height="355"/>
+                                <rect key="frame" x="0.0" y="107" width="320" height="355"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4OD-tG-b00" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.5" width="240" height="355"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="1280" height="355"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xMT-WY-8lf">
-                                                <rect key="frame" x="0.0" y="0.0" width="240" height="355"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="1280" height="355"/>
                                                 <subviews>
-                                                    <view hidden="YES" contentMode="scaleToFill" restorationIdentifier="FirstFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="dJw-as-NIF" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
-                                                        <rect key="frame" x="-40" y="0.0" width="240" height="355"/>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </view>
-                                                    <view hidden="YES" contentMode="scaleToFill" restorationIdentifier="SecondFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="0Vg-uo-Fho" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
-                                                        <rect key="frame" x="-40" y="0.0" width="0.0" height="355"/>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </view>
-                                                    <view hidden="YES" contentMode="scaleToFill" restorationIdentifier="ThirdFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="eiy-LK-8lH" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
-                                                        <rect key="frame" x="-40" y="0.0" width="0.0" height="355"/>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="06X-IW-mXN" userLabel="none">
-                                                        <rect key="frame" x="0.0" y="0.0" width="240" height="355"/>
+                                                    <view contentMode="scaleToFill" restorationIdentifier="FirstFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="dJw-as-NIF">
+                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="355"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="즐겨찾기가 없습니다!  자주 가는 주유소를 찾아서 즐겨찾기 추가를 해주세요~" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RSZ-RT-vI4">
-                                                                <rect key="frame" x="15" y="135.5" width="211.5" height="84"/>
-                                                                <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="19"/>
-                                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Opu-od-LcU" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
+                                                                <rect key="frame" x="40" y="0.0" width="240" height="355"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            </view>
                                                         </subviews>
                                                         <color key="backgroundColor" name="MainColor"/>
                                                         <constraints>
-                                                            <constraint firstItem="RSZ-RT-vI4" firstAttribute="centerX" secondItem="06X-IW-mXN" secondAttribute="centerX" id="oQw-pu-chM"/>
-                                                            <constraint firstItem="RSZ-RT-vI4" firstAttribute="centerY" secondItem="06X-IW-mXN" secondAttribute="centerY" id="ycT-Sq-BRs"/>
+                                                            <constraint firstItem="Opu-od-LcU" firstAttribute="height" secondItem="dJw-as-NIF" secondAttribute="height" id="Kpn-8X-Sw4"/>
+                                                            <constraint firstItem="Opu-od-LcU" firstAttribute="centerY" secondItem="dJw-as-NIF" secondAttribute="centerY" id="k5C-4H-fgd"/>
+                                                            <constraint firstItem="Opu-od-LcU" firstAttribute="width" secondItem="dJw-as-NIF" secondAttribute="width" multiplier="3/4" id="qNt-Ck-mVn"/>
+                                                            <constraint firstItem="Opu-od-LcU" firstAttribute="centerX" secondItem="dJw-as-NIF" secondAttribute="centerX" id="sww-sS-oOw"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="auf-y4-SDT" userLabel="secondView">
+                                                        <rect key="frame" x="320" y="0.0" width="320" height="355"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" restorationIdentifier="SecondFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="0Vg-uo-Fho" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
+                                                                <rect key="frame" x="40" y="0.0" width="240" height="355"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            </view>
+                                                        </subviews>
+                                                        <color key="backgroundColor" name="MainColor"/>
+                                                        <constraints>
+                                                            <constraint firstItem="0Vg-uo-Fho" firstAttribute="centerX" secondItem="auf-y4-SDT" secondAttribute="centerX" id="0L8-H7-ele"/>
+                                                            <constraint firstItem="0Vg-uo-Fho" firstAttribute="height" secondItem="auf-y4-SDT" secondAttribute="height" id="2VF-uf-nEO"/>
+                                                            <constraint firstItem="0Vg-uo-Fho" firstAttribute="width" secondItem="auf-y4-SDT" secondAttribute="width" multiplier="3/4" id="7vN-oH-fVp"/>
+                                                            <constraint firstItem="0Vg-uo-Fho" firstAttribute="centerY" secondItem="auf-y4-SDT" secondAttribute="centerY" id="nbq-mg-szD"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ovG-vt-viP" userLabel="thirdView">
+                                                        <rect key="frame" x="640" y="0.0" width="320" height="355"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" restorationIdentifier="ThirdFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="eiy-LK-8lH" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
+                                                                <rect key="frame" x="40" y="0.0" width="240" height="355"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            </view>
+                                                        </subviews>
+                                                        <color key="backgroundColor" name="MainColor"/>
+                                                        <constraints>
+                                                            <constraint firstItem="eiy-LK-8lH" firstAttribute="centerX" secondItem="ovG-vt-viP" secondAttribute="centerX" id="7C4-RA-vMy"/>
+                                                            <constraint firstItem="eiy-LK-8lH" firstAttribute="width" secondItem="ovG-vt-viP" secondAttribute="width" multiplier="3/4" id="FRy-rn-OfG"/>
+                                                            <constraint firstItem="eiy-LK-8lH" firstAttribute="centerY" secondItem="ovG-vt-viP" secondAttribute="centerY" id="U8G-xk-hLf"/>
+                                                            <constraint firstItem="eiy-LK-8lH" firstAttribute="height" secondItem="ovG-vt-viP" secondAttribute="height" id="YqU-oF-oHV"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QiS-1f-8Bf" userLabel="NoneView">
+                                                        <rect key="frame" x="960" y="0.0" width="320" height="355"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="06X-IW-mXN" userLabel="none">
+                                                                <rect key="frame" x="40" y="0.0" width="240" height="355"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="즐겨찾기가 없습니다!  자주 가는 주유소를 찾아서 즐겨찾기 추가를 해주세요~" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RSZ-RT-vI4">
+                                                                        <rect key="frame" x="14.5" y="136" width="211.5" height="84"/>
+                                                                        <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="19"/>
+                                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                                <color key="backgroundColor" name="MainColor"/>
+                                                                <constraints>
+                                                                    <constraint firstItem="RSZ-RT-vI4" firstAttribute="centerX" secondItem="06X-IW-mXN" secondAttribute="centerX" id="oQw-pu-chM"/>
+                                                                    <constraint firstItem="RSZ-RT-vI4" firstAttribute="centerY" secondItem="06X-IW-mXN" secondAttribute="centerY" id="ycT-Sq-BRs"/>
+                                                                </constraints>
+                                                            </view>
+                                                        </subviews>
+                                                        <color key="backgroundColor" name="MainColor"/>
+                                                        <constraints>
+                                                            <constraint firstItem="06X-IW-mXN" firstAttribute="centerY" secondItem="QiS-1f-8Bf" secondAttribute="centerY" id="8DB-8u-OIT"/>
+                                                            <constraint firstItem="06X-IW-mXN" firstAttribute="height" secondItem="QiS-1f-8Bf" secondAttribute="height" id="dHE-iU-bUm"/>
+                                                            <constraint firstItem="06X-IW-mXN" firstAttribute="width" secondItem="QiS-1f-8Bf" secondAttribute="width" multiplier="3/4" id="joe-bZ-Md0"/>
+                                                            <constraint firstItem="06X-IW-mXN" firstAttribute="centerX" secondItem="QiS-1f-8Bf" secondAttribute="centerX" id="rO5-Mx-msO"/>
                                                         </constraints>
                                                     </view>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="QiS-1f-8Bf" secondAttribute="trailing" id="7gb-px-awG"/>
+                                                    <constraint firstItem="dJw-as-NIF" firstAttribute="leading" secondItem="xMT-WY-8lf" secondAttribute="leading" id="7iw-GV-cvO"/>
+                                                </constraints>
                                             </stackView>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" name="MainColor"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="xMT-WY-8lf" secondAttribute="bottom" id="9Fb-A9-1UF"/>
+                                            <constraint firstItem="xMT-WY-8lf" firstAttribute="leading" secondItem="4OD-tG-b00" secondAttribute="leading" id="BvQ-Si-3YI"/>
+                                            <constraint firstAttribute="trailing" secondItem="xMT-WY-8lf" secondAttribute="trailing" id="Ff2-bs-ujj"/>
                                             <constraint firstAttribute="width" secondItem="xMT-WY-8lf" secondAttribute="width" id="GBi-OB-qI0"/>
                                             <constraint firstItem="xMT-WY-8lf" firstAttribute="top" secondItem="4OD-tG-b00" secondAttribute="top" id="nIG-zE-Vmn"/>
-                                            <constraint firstItem="xMT-WY-8lf" firstAttribute="leading" secondItem="4OD-tG-b00" secondAttribute="leading" id="xXo-x6-nLY"/>
                                         </constraints>
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="06X-IW-mXN" firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="32B-Lw-2sg"/>
                                     <constraint firstAttribute="bottom" secondItem="4OD-tG-b00" secondAttribute="bottom" id="864-bj-OTs"/>
+                                    <constraint firstItem="QiS-1f-8Bf" firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" id="8I6-FK-vTV"/>
+                                    <constraint firstItem="dJw-as-NIF" firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" id="8Tb-3S-H7v"/>
                                     <constraint firstItem="4OD-tG-b00" firstAttribute="top" secondItem="eMs-pJ-RNF" secondAttribute="top" id="Cpc-T7-aLM"/>
-                                    <constraint firstItem="06X-IW-mXN" firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" id="J1I-CY-g8o"/>
                                     <constraint firstItem="4OD-tG-b00" firstAttribute="centerY" secondItem="eMs-pJ-RNF" secondAttribute="centerY" id="L48-Ot-dyz"/>
-                                    <constraint firstItem="dJw-as-NIF" firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" id="LLO-yL-eay"/>
-                                    <constraint firstItem="dJw-as-NIF" firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="Mjt-Gr-MFH"/>
+                                    <constraint firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="U9s-mh-1eF"/>
                                     <constraint firstItem="4OD-tG-b00" firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="ZLg-te-EFU"/>
+                                    <constraint firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" id="b9U-TG-Aek"/>
+                                    <constraint firstItem="QiS-1f-8Bf" firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="bDe-ik-C1Y"/>
                                     <constraint firstAttribute="trailing" secondItem="4OD-tG-b00" secondAttribute="trailing" id="g1f-ck-bbI"/>
+                                    <constraint firstItem="dJw-as-NIF" firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="gGo-jB-SKU"/>
                                     <constraint firstItem="4OD-tG-b00" firstAttribute="leading" secondItem="eMs-pJ-RNF" secondAttribute="leading" id="mck-Fr-Kod"/>
                                 </constraints>
                                 <connections>
@@ -747,17 +806,21 @@
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="top" secondItem="gal-Bh-yfF" secondAttribute="bottom" constant="10" id="NGH-kO-HEu"/>
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="centerX" secondItem="bWz-Ql-BWg" secondAttribute="centerX" id="T8b-3L-78k"/>
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="height" secondItem="bWz-Ql-BWg" secondAttribute="height" multiplier="5/8" id="ah6-Qc-kxh"/>
-                            <constraint firstItem="eMs-pJ-RNF" firstAttribute="width" secondItem="bWz-Ql-BWg" secondAttribute="width" multiplier="3/4" id="lfQ-3Y-dUW"/>
+                            <constraint firstItem="eMs-pJ-RNF" firstAttribute="width" secondItem="bWz-Ql-BWg" secondAttribute="width" id="lfQ-3Y-dUW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tUR-1i-2LW"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="즐겨찾기" image="favoriteTabIcon" selectedImage="favoriteTabIconSel" id="CvX-bA-MQy"/>
                     <connections>
-                        <outlet property="firstView" destination="dJw-as-NIF" id="BYY-Az-yTu"/>
+                        <outlet property="firstContentView" destination="dJw-as-NIF" id="gch-Gy-xIV"/>
+                        <outlet property="firstView" destination="Opu-od-LcU" id="7yA-Vp-gQP"/>
+                        <outlet property="noneContentView" destination="QiS-1f-8Bf" id="1T6-rT-2Bf"/>
                         <outlet property="noneView" destination="06X-IW-mXN" id="M1v-ei-W5L"/>
                         <outlet property="pager" destination="fu8-5t-wlI" id="mvT-Ex-g1x"/>
                         <outlet property="scrollView" destination="eMs-pJ-RNF" id="0uK-FI-eKM"/>
+                        <outlet property="secondContentView" destination="auf-y4-SDT" id="gbg-6k-I0R"/>
                         <outlet property="secondView" destination="0Vg-uo-Fho" id="3ou-bc-r0I"/>
+                        <outlet property="thirdContentView" destination="ovG-vt-viP" id="ndU-Zv-7te"/>
                         <outlet property="thirdView" destination="eiy-LK-8lH" id="rLU-aI-07k"/>
                     </connections>
                 </viewController>
