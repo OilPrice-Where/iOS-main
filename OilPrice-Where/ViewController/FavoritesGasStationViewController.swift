@@ -43,6 +43,7 @@ class FavoritesGasStationViewController: UIViewController {
         super.viewDidLoad()
 
         defaultSetting() // 초기 설정
+        viewHiddenSetting() // 초기 설정
         
         pager.defersCurrentPageDisplay = true // 페이지 컨트롤 defer 설정
         pager.hidesForSinglePage = true // 페이지 컨트롤이 1개일때 숨김
@@ -111,8 +112,7 @@ class FavoritesGasStationViewController: UIViewController {
                 (result) in
                 switch result {
                 case .success(let favoriteData):
-                    print("index")
-                    print(DefaultData.shared.favoriteArr)
+                    viewArr[index].navigationTapGesture(target: self, action: #selector(self.navigationButton(_:)))
                     self.contentViewArr[index].isHidden = false
                     print(self.contentViewArr[index].isHidden)
                     viewArr[index].configure(with: favoriteData.result.allPriceList[0]) // 뷰 정보 입력
@@ -121,6 +121,21 @@ class FavoritesGasStationViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    // 길 안내
+    @objc func navigationButton(_ sender: UIButton) {
+        guard let katecX = self.katecX,
+            let katecY = self.katecY,
+            let name = gasStationNameLabel.text else { return }
+        let destination = KNVLocation(name: name,
+                                      x: NSNumber(value: katecX),
+                                      y: NSNumber(value: katecY))
+        let options = KNVOptions()
+        
+        let params = KNVParams(destination: destination,
+                               options: options)
+        KNVNaviLauncher.shared().navigate(with: params)
     }
 }
 
@@ -135,7 +150,6 @@ extension FavoritesGasStationViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard !fromeTap else { return }
         
-        print("박힘찬 \(pager.currentPage)")
         let width = scrollView.bounds.size.width
         let x = scrollView.contentOffset.x + (width / 2.0)
         let newPage = Int(x / width)
