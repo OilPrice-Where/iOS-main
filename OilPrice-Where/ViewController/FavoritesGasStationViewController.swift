@@ -33,6 +33,7 @@ class FavoritesGasStationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        viewHiddenSetting() // 처음 뷰의 isHidden 상태로 돌린다.
         defaultSetting() // 초기 설정
     }
     

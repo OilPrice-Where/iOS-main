@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 // 메인페이지의 리스트의 셀 내부(ContentView)에 표시되는 뷰
 // 스택뷰는 기본적으로 숨겨져 있으며 클릭시 스택뷰가 나타난다.
@@ -100,6 +101,19 @@ class GasStationView: UIView {
                     }
                 }
                 sender.isSelected = false
+            } else {
+                let appearance = SCLAlertView.SCLAppearance(
+                    kWindowWidth: 300,
+                    kTitleFont: UIFont(name: "NanumSquareRoundB", size: 18)!,
+                    kTextFont: UIFont(name: "NanumSquareRoundR", size: 15)!,
+                    showCloseButton: false
+                )
+                
+                let alert = SCLAlertView(appearance: appearance)
+                alert.iconTintColor = UIColor.white
+                let timeOut = SCLAlertView.SCLTimeoutConfiguration(timeoutValue: 1.5, timeoutAction: {})
+                
+                alert.showWarning("최대 3개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !", timeout: timeOut, colorStyle: 0x5E82FF)
             }
             return
         }

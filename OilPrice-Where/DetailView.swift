@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class DetailView: UIView {
 
@@ -99,6 +100,20 @@ class DetailView: UIView {
                     }
                 }
                 sender.isSelected = false
+            } else {
+                let appearance = SCLAlertView.SCLAppearance(
+                    kWindowWidth: 300,
+                    kTitleFont: UIFont(name: "NanumSquareRoundB", size: 18)!,
+                    kTextFont: UIFont(name: "NanumSquareRoundR", size: 15)!,
+                    showCloseButton: false
+                )
+                
+                let alert = SCLAlertView(appearance: appearance)
+                alert.iconTintColor = UIColor.white
+                let timeOut = SCLAlertView.SCLTimeoutConfiguration(timeoutValue: 1.5, timeoutAction: {})
+                
+                alert.showWarning("최대 3개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !", timeout: timeOut, colorStyle: 0x5E82FF)
+                
             }
             return
         }
