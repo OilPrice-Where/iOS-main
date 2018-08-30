@@ -18,6 +18,7 @@ class FavoriteView: UIView {
     @IBOutlet weak var carWashImageView: UIImageView!
     @IBOutlet weak var repairShopImageView: UIImageView!
     @IBOutlet weak var convenienceStoreImageView: UIImageView!
+    @IBOutlet weak var naviImageView: UIImageView!
     
     // 레이블
     @IBOutlet weak var gasStationNameLabel: UILabel!
@@ -27,30 +28,20 @@ class FavoriteView: UIView {
     @IBOutlet weak var typeOfOilLabel: UILabel!
     @IBOutlet weak var oilPlice: UILabel!
     @IBOutlet var containerView: UIView!
-    @IBOutlet private weak var naviButton : UIButton!
+    @IBOutlet var navigationView: UIView!
+    @IBOutlet var navigationLabel: UILabel!
+    @IBOutlet var deleteFavoriteButton: UIButton!
+    
+    var tapGesture = UITapGestureRecognizer()
+    var id: String!
     
     // KatecX, KatecY
     var katecX: Double?
-    var katecY: Double?
-    
-    // 길 안내
-    @IBAction func navigationButton(_ sender: UIButton) {
-        guard let katecX = self.katecX,
-              let katecY = self.katecY,
-              let name = gasStationNameLabel.text else { return }
-        let destination = KNVLocation(name: name,
-                                      x: NSNumber(value: katecX),
-                                      y: NSNumber(value: katecY))
-        let options = KNVOptions()
-        
-        let params = KNVParams(destination: destination,
-                               options: options)
-        KNVNaviLauncher.shared().navigate(with: params)
-    }
-    
+    var katecY: Double?    
     
     func configure(with informaionGasStaion: InformationGasStaion) {
         
+        self.id = informaionGasStaion.id
         mainView.layer.cornerRadius = 6
         
         var count = 0
@@ -61,9 +52,20 @@ class FavoriteView: UIView {
         self.gasStationNameLabel.font = UIFont(name: "NanumSquareRoundB", size: 26)
         self.addressLabel.text = informaionGasStaion.address // 주소
         self.phoneNumberLabel.text = informaionGasStaion.phoneNumber // 전화번호
-        self.naviButton.titleLabel?.font = UIFont(name: "NanumSquareRoundB", size: 18)
-        self.naviButton.layer.cornerRadius = 6
+        self.navigationLabel.font = UIFont(name: "NanumSquareRoundB", size: 18)
+        self.navigationLabel.textAlignment = .center
         
+        self.deleteFavoriteButton.layer.cornerRadius = 6
+        self.deleteFavoriteButton.layer.borderColor = UIColor(named: "MainColor")?.cgColor
+        self.deleteFavoriteButton.layer.borderWidth = 1.5
+        self.deleteFavoriteButton.setImage(UIImage(named: "favoriteOnIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        self.deleteFavoriteButton.imageView?.tintColor = .white
+        
+        self.navigationView.layer.cornerRadius = 6
+        self.navigationView.layer.borderColor = UIColor(named: "MainColor")?.cgColor
+        self.navigationView.layer.borderWidth = 1.5
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.navigationButton))
+        navigationView.addGestureRecognizer(tapGesture)
         
         self.carWashImageView.image = UIImage(named: "IconWash")?.withRenderingMode(.alwaysTemplate)
         self.repairShopImageView.image = UIImage(named: "IconRepair")?.withRenderingMode(.alwaysTemplate)
@@ -112,6 +114,21 @@ class FavoriteView: UIView {
             self.oilPlice.text = Preferences.priceToWon(price: informaionGasStaion.price[0].price) // 가격 설정
             self.oilPlice.font = UIFont(name: "NanumSquareRoundEB", size: 43)
         }
+    }
+    
+     // 길 안내
+    @objc func navigationButton(_ sender: UIButton) {
+        guard let katecX = self.katecX,
+            let katecY = self.katecY,
+            let name = gasStationNameLabel.text else { return }
+        let destination = KNVLocation(name: name,
+                                      x: NSNumber(value: katecX),
+                                      y: NSNumber(value: katecY))
+        let options = KNVOptions()
+
+        let params = KNVParams(destination: destination,
+                               options: options)
+        KNVNaviLauncher.shared().navigate(with: params)
     }
     
     override init(frame: CGRect) {

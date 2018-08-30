@@ -24,10 +24,13 @@
                 <outlet property="carWashImageView" destination="O8p-Bf-hph" id="e5R-8c-kwI"/>
                 <outlet property="containerView" destination="6kM-GS-d5O" id="dhY-sB-3qj"/>
                 <outlet property="convenienceStoreImageView" destination="rbK-Jf-gnL" id="cS0-7X-uyY"/>
+                <outlet property="deleteFavoriteButton" destination="crp-Pw-0mk" id="8hk-tr-zLc"/>
                 <outlet property="gasStationNameLabel" destination="QFd-Ls-mPi" id="L0z-sT-d6W"/>
                 <outlet property="logoImageView" destination="HBI-23-aLY" id="tcO-Hh-lRk"/>
                 <outlet property="mainView" destination="jm6-mb-Ome" id="HfA-h3-lgU"/>
-                <outlet property="naviButton" destination="6Eq-Ys-dUL" id="icL-vI-7Fh"/>
+                <outlet property="naviImageView" destination="lmQ-Lj-kt7" id="kqE-ao-lF7"/>
+                <outlet property="navigationLabel" destination="WYv-hL-oQQ" id="qN6-cO-sJM"/>
+                <outlet property="navigationView" destination="UhF-mC-oio" id="SUH-Pg-GEB"/>
                 <outlet property="oilPlice" destination="b6u-cY-vjG" id="iY3-XQ-Uuk"/>
                 <outlet property="phoneNumberLabel" destination="AAE-df-xhr" id="P0G-Pj-2VM"/>
                 <outlet property="qualityCertificationLabel" destination="Uao-ph-H9Y" id="Vmf-nf-YdV"/>
@@ -249,7 +252,7 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="고급휘발유" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.60000002384185791" translatesAutoresizingMaskIntoConstraints="NO" id="adZ-55-NPm">
-                            <rect key="frame" x="75" y="362" width="82.5" height="22.5"/>
+                            <rect key="frame" x="70.5" y="363.5" width="86.5" height="21"/>
                             <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="19"/>
                             <color key="textColor" red="0.47058823529999999" green="0.47058823529999999" blue="0.47058823529999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -260,51 +263,80 @@
                             </userDefinedRuntimeAttributes>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,572원" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.60000002384185791" translatesAutoresizingMaskIntoConstraints="NO" id="b6u-cY-vjG">
-                            <rect key="frame" x="157.5" y="338" width="139" height="51.5"/>
+                            <rect key="frame" x="157" y="338" width="139" height="51.5"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="43"/>
                             <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Eq-Ys-dUL">
-                            <rect key="frame" x="14" y="401" width="282" height="39"/>
-                            <color key="backgroundColor" name="MainColor"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                            <state key="normal" title="길 찾기">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </state>
-                            <connections>
-                                <action selector="navigationButton:" destination="-1" eventType="touchUpInside" id="qFs-dJ-ORh"/>
-                            </connections>
-                        </button>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="qBC-vr-WZ8">
+                            <rect key="frame" x="14" y="401.5" width="282" height="38.5"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="crp-Pw-0mk">
+                                    <rect key="frame" x="0.0" y="0.0" width="71" height="38.5"/>
+                                    <color key="backgroundColor" name="MainColor"/>
+                                    <state key="normal" image="favoriteOnIcon">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                </button>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UhF-mC-oio">
+                                    <rect key="frame" x="86" y="0.0" width="196" height="38.5"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="길찾기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WYv-hL-oQQ">
+                                            <rect key="frame" x="73" y="10" width="49.5" height="20"/>
+                                            <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="18"/>
+                                            <color key="textColor" name="MainColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="navigationIcon" translatesAutoresizingMaskIntoConstraints="NO" id="lmQ-Lj-kt7">
+                                            <rect key="frame" x="44" y="8.5" width="22" height="22"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstItem="WYv-hL-oQQ" firstAttribute="centerY" secondItem="UhF-mC-oio" secondAttribute="centerY" id="E4C-mj-jnQ"/>
+                                        <constraint firstItem="WYv-hL-oQQ" firstAttribute="leading" secondItem="lmQ-Lj-kt7" secondAttribute="trailing" constant="7" id="Yw0-NJ-Nw7"/>
+                                        <constraint firstItem="lmQ-Lj-kt7" firstAttribute="centerY" secondItem="UhF-mC-oio" secondAttribute="centerY" id="jK0-oa-o7k"/>
+                                        <constraint firstItem="lmQ-Lj-kt7" firstAttribute="centerX" secondItem="UhF-mC-oio" secondAttribute="centerX" constant="-43" id="za7-ap-0yD"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="crp-Pw-0mk" firstAttribute="top" secondItem="qBC-vr-WZ8" secondAttribute="top" id="9f3-4R-UTq"/>
+                                <constraint firstItem="crp-Pw-0mk" firstAttribute="centerY" secondItem="qBC-vr-WZ8" secondAttribute="centerY" id="BhW-zk-xIe"/>
+                                <constraint firstItem="crp-Pw-0mk" firstAttribute="leading" secondItem="qBC-vr-WZ8" secondAttribute="leading" id="P8g-tc-eYc"/>
+                                <constraint firstAttribute="bottom" secondItem="crp-Pw-0mk" secondAttribute="bottom" id="Rww-c8-3Zi"/>
+                                <constraint firstAttribute="bottom" secondItem="UhF-mC-oio" secondAttribute="bottom" id="lOV-bJ-MoC"/>
+                                <constraint firstItem="crp-Pw-0mk" firstAttribute="width" secondItem="qBC-vr-WZ8" secondAttribute="width" multiplier="1/4" id="rJI-QV-gcX"/>
+                                <constraint firstItem="UhF-mC-oio" firstAttribute="top" secondItem="qBC-vr-WZ8" secondAttribute="top" id="z7o-lo-Pcl"/>
+                                <constraint firstAttribute="trailing" secondItem="UhF-mC-oio" secondAttribute="trailing" id="zlw-cC-MUb"/>
+                            </constraints>
+                        </stackView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstAttribute="bottom" secondItem="qBC-vr-WZ8" secondAttribute="bottom" constant="20" id="3QD-eW-De5"/>
                         <constraint firstItem="tk8-bW-en1" firstAttribute="top" secondItem="DY5-mD-6eK" secondAttribute="bottom" constant="10" id="501-Eq-9HN"/>
-                        <constraint firstItem="6Eq-Ys-dUL" firstAttribute="centerX" secondItem="jm6-mb-Ome" secondAttribute="centerX" id="69p-Sc-m8R"/>
-                        <constraint firstItem="6Eq-Ys-dUL" firstAttribute="height" secondItem="jm6-mb-Ome" secondAttribute="height" multiplier="1/12" id="8jG-E4-pAJ"/>
                         <constraint firstItem="Qd0-Kw-cSa" firstAttribute="top" secondItem="jya-ls-zv3" secondAttribute="bottom" constant="15" id="A4R-bl-I2y"/>
-                        <constraint firstItem="6Eq-Ys-dUL" firstAttribute="top" secondItem="b6u-cY-vjG" secondAttribute="bottom" constant="12" id="CRE-pp-jPX"/>
+                        <constraint firstItem="b6u-cY-vjG" firstAttribute="trailing" secondItem="qBC-vr-WZ8" secondAttribute="trailing" id="Ioz-zP-uCQ"/>
                         <constraint firstItem="jya-ls-zv3" firstAttribute="centerX" secondItem="jm6-mb-Ome" secondAttribute="centerX" id="J0u-SX-fhw"/>
                         <constraint firstItem="Qmw-dq-6EB" firstAttribute="centerX" secondItem="jm6-mb-Ome" secondAttribute="centerX" id="LUl-Sk-A24"/>
-                        <constraint firstItem="b6u-cY-vjG" firstAttribute="trailing" secondItem="6Eq-Ys-dUL" secondAttribute="trailing" id="O9N-xw-cfx"/>
                         <constraint firstItem="Qmw-dq-6EB" firstAttribute="top" secondItem="Qd0-Kw-cSa" secondAttribute="bottom" constant="15" id="QAg-al-jrf"/>
-                        <constraint firstItem="6Eq-Ys-dUL" firstAttribute="width" secondItem="jm6-mb-Ome" secondAttribute="width" multiplier="10/11" id="QDr-UF-tdl"/>
                         <constraint firstItem="adZ-55-NPm" firstAttribute="bottom" secondItem="b6u-cY-vjG" secondAttribute="bottom" constant="-5" id="Rse-3o-KRp"/>
                         <constraint firstItem="tk8-bW-en1" firstAttribute="centerX" secondItem="jm6-mb-Ome" secondAttribute="centerX" id="Rzm-A1-Msi"/>
                         <constraint firstItem="jya-ls-zv3" firstAttribute="top" secondItem="jm6-mb-Ome" secondAttribute="top" constant="20" id="S5A-AC-aUW"/>
-                        <constraint firstAttribute="bottom" secondItem="6Eq-Ys-dUL" secondAttribute="bottom" constant="20" id="Vrr-sp-ZGE"/>
                         <constraint firstItem="DY5-mD-6eK" firstAttribute="top" secondItem="Qmw-dq-6EB" secondAttribute="bottom" constant="10" id="WQ5-o1-2pm"/>
-                        <constraint firstItem="DY5-mD-6eK" firstAttribute="trailing" secondItem="6Eq-Ys-dUL" secondAttribute="trailing" id="Xir-vS-awe"/>
                         <constraint firstItem="Qmw-dq-6EB" firstAttribute="width" secondItem="jm6-mb-Ome" secondAttribute="width" multiplier="10/11" id="cx7-CT-rpL"/>
                         <constraint firstItem="Qd0-Kw-cSa" firstAttribute="leading" secondItem="jya-ls-zv3" secondAttribute="leading" id="d0c-Ui-pNO"/>
                         <constraint firstItem="b6u-cY-vjG" firstAttribute="leading" secondItem="adZ-55-NPm" secondAttribute="trailing" id="ejM-MN-jW0"/>
                         <constraint firstItem="DY5-mD-6eK" firstAttribute="centerX" secondItem="jm6-mb-Ome" secondAttribute="centerX" id="if7-g6-a5C"/>
-                        <constraint firstItem="DY5-mD-6eK" firstAttribute="leading" secondItem="6Eq-Ys-dUL" secondAttribute="leading" id="pgO-rV-hC8"/>
+                        <constraint firstItem="qBC-vr-WZ8" firstAttribute="centerX" secondItem="jm6-mb-Ome" secondAttribute="centerX" id="o0K-xT-9JG"/>
+                        <constraint firstItem="qBC-vr-WZ8" firstAttribute="top" secondItem="b6u-cY-vjG" secondAttribute="bottom" constant="12" id="uk2-34-biY"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" name="MainColor"/>
             <constraints>
+                <constraint firstItem="qBC-vr-WZ8" firstAttribute="width" secondItem="6kM-GS-d5O" secondAttribute="width" multiplier="10/11" id="9pu-Xa-ky5"/>
                 <constraint firstItem="DY5-mD-6eK" firstAttribute="height" secondItem="6kM-GS-d5O" secondAttribute="height" multiplier="1/3.4" id="ICm-2A-Qgg"/>
                 <constraint firstItem="DY5-mD-6eK" firstAttribute="width" secondItem="6kM-GS-d5O" secondAttribute="width" multiplier="10/11" id="OIc-5u-3P4"/>
                 <constraint firstItem="b6u-cY-vjG" firstAttribute="width" secondItem="6kM-GS-d5O" secondAttribute="height" multiplier="74:245" id="PCS-xe-hSo"/>
@@ -316,6 +348,7 @@
                 <constraint firstItem="jm6-mb-Ome" firstAttribute="top" secondItem="6kM-GS-d5O" secondAttribute="top" id="n17-Sx-29j"/>
                 <constraint firstItem="jya-ls-zv3" firstAttribute="height" secondItem="6kM-GS-d5O" secondAttribute="height" multiplier="1/12" id="oAL-VX-tbW"/>
                 <constraint firstItem="OIE-pG-YCt" firstAttribute="bottom" secondItem="jm6-mb-Ome" secondAttribute="bottom" id="sh2-Wt-N5U"/>
+                <constraint firstItem="qBC-vr-WZ8" firstAttribute="height" secondItem="6kM-GS-d5O" secondAttribute="height" multiplier="1/12" id="uRT-84-byi"/>
                 <constraint firstItem="jm6-mb-Ome" firstAttribute="leading" secondItem="OIE-pG-YCt" secondAttribute="leading" id="wBX-l8-3PI"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -328,8 +361,13 @@
         <image name="IconRepair" width="25" height="25"/>
         <image name="IconWash" width="25" height="25"/>
         <image name="LogoGSCaltex" width="30" height="30"/>
+        <image name="favoriteOnIcon" width="22" height="22"/>
+        <image name="navigationIcon" width="22" height="22"/>
         <namedColor name="MainColor">
             <color red="0.36800000071525574" green="0.50900000333786011" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="MainColor">
+            <color red="0.3680000007" green="0.50900000329999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
