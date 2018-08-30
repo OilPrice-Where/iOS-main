@@ -21,7 +21,6 @@ class MainListViewController: UIViewController {
     var performingReverseGeocoding = false // 아직 위치가 없거나 주소가 일치 하지 않을 때는 주소를 받지 않을 것이므로
                                            // Bool변수로 받을 지 안받을 지 선택한다.
     var lastGeocodingError: Error? // 문제가 발생 했을 때 오류 저장 변수
-    
     private var lastContentOffset: CGFloat = 0 // 테이블 뷰 스크롤의 현재 위치 저장함수
     
     // Map
@@ -105,21 +104,13 @@ class MainListViewController: UIViewController {
         }
         
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+
+    func reset() {
         appleMapView.removeAnnotations(annotations)
         annotations = []
         currentCoordinate = nil
         selectIndexPath = nil
     }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        
-    }
-    
     private func gasStationListData(katecPoint: KatecPoint){
         ServiceList.gasStationList(x: katecPoint.x,
                                    y: katecPoint.y,
@@ -146,9 +137,7 @@ class MainListViewController: UIViewController {
     /// tableView refreshControll 함수
     @objc func refresh() {
         oldLocation = nil
-        currentCoordinate = nil
-        appleMapView.removeAnnotations(annotations)
-        annotations = []
+        reset()
         configureLocationServices()
     }
     
@@ -214,7 +203,7 @@ class MainListViewController: UIViewController {
             self.thirdProductTitleLabel.text = data["productName"] as? String ?? ""
             if data["difference"] as? Bool ?? true {
                 self.thirdProductImageView.image = #imageLiteral(resourceName: "priceUpIcon")
-            }else {
+            } else {
                 self.thirdProductImageView.image = #imageLiteral(resourceName: "priceDownIcon")
             }
 
@@ -438,9 +427,6 @@ class MainListViewController: UIViewController {
             address += s + " "
         }
         if let s = placemark.thoroughfare {
-            address += s + " "
-        }
-        if let s = placemark.subThoroughfare {
             address += s
         }
         return address
@@ -500,8 +486,10 @@ extension MainListViewController: CLLocationManagerDelegate {
                 if distance < 50.0 &&
                    lastOilType == DefaultData.shared.oilType &&
                    lastFindRadius == DefaultData.shared.radius {
-                    stopLocationManager()
+                   
+                   stopLocationManager()
                 } else {
+                    reset()
                     gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
                     stopLocationManager()
                     oldLocation = newLocation

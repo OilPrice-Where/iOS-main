@@ -14,7 +14,12 @@ class FavoritesGasStationViewController: UIViewController {
     lazy var contentViewArr: [UIView] = [firstContentView,
                                          secondContentView,
                                          thirdContentView]
+    lazy var favoriteViewArr: [FavoriteView] = [firstView,
+                                                secondView,
+                                                thirdView]
+    let exampleArr = ["A0028590","A0028591","A0028593"]
     var oldFavoriteArr: [String] = [] // 이전 Favorites
+    var favoriteDataList: [InformationGasStaion] = []
     var oldOilType = "" // 이전 Oil Type
     
     @IBOutlet private weak var noneView : UIView! // None View
@@ -42,8 +47,9 @@ class FavoritesGasStationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        viewHiddenSetting() // 처음 뷰의 isHidden 상태로 돌린다.
         defaultSetting() // 초기 설정
-        viewHiddenSetting() // 초기 설정
+        favoriteDataLoad()
         
         pager.defersCurrentPageDisplay = true // 페이지 컨트롤 defer 설정
         pager.hidesForSinglePage = true // 페이지 컨트롤이 1개일때 숨김
@@ -58,7 +64,7 @@ class FavoritesGasStationViewController: UIViewController {
         // 이전 데이터와 중복 되거나, 새로운 오일 타입 설정 시 데이터를 다시 받아서 업데이트 시켜준다.
         if oldFavoriteArr != DefaultData.shared.favoriteArr || oldOilType != DefaultData.shared.oilType {
             viewHiddenSetting() // 처음 뷰의 isHidden 상태로 돌린다.
-            setting() // 즐겨 찾기 된 주유소의 데이터를 셋팅 해준다.
+            favoriteDataLoad()
         }
     }
     
@@ -88,34 +94,23 @@ class FavoritesGasStationViewController: UIViewController {
         noneContentView.isHidden = false
     }
     
-    // 즐겨찾기 수 만큼 뷰를 설정
-    func setting() {
-        switch DefaultData.shared.favoriteArr.count {
-        case 1:
-            favoriteDataLoad(viewArr: [firstView])
-        case 2:
-            favoriteDataLoad(viewArr: [firstView, secondView])
-        case 3:
-            favoriteDataLoad(viewArr: [firstView, secondView, thirdView])
-        default:
-            break
-        }
-    }
-    
     // 상세정보를 뷰에 입력
-    func favoriteDataLoad(viewArr: [FavoriteView]) {
+    func favoriteDataLoad() {
         noneContentView.isHidden = true // 데이터를 호출 하면 즐겨찾기가 있다는 뜻이므로 noneView를 hidden 시켜준다.
         
-        for index in 0 ..< viewArr.count { // 뷰의 카운트 값(즐겨찾기 수)만큼 데이터를 읽어 온다.
+        for index in 0 ..< exampleArr.count { // 뷰의 카운트 값(즐겨찾기 수)만큼 데이터를 읽어 온다.
             ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
-                                             id: DefaultData.shared.favoriteArr[index]) {
+                                             id: exampleArr[index]) {
                 (result) in
                 switch result {
                 case .success(let favoriteData):
-                    viewArr[index].navigationTapGesture(target: self, action: #selector(self.navigationButton(_:)))
                     self.contentViewArr[index].isHidden = false
-                    print(self.contentViewArr[index].isHidden)
-                    viewArr[index].configure(with: favoriteData.result.allPriceList[0]) // 뷰 정보 입력
+                    self.favoriteDataList.append(favoriteData.result.allPriceList[0])
+                    self.favoriteViewArr[index].configure(with: favoriteData.result.allPriceList[0]) // 뷰 정보 입력
+                    self.favoriteViewArr[index].deleteFavoriteButton.tag = index
+                    self.favoriteViewArr[index].deleteFavoriteButton.addTarget(self,
+                                                                               action: #selector(self.deleteFavoriteView(_:)),
+                                                                               for: .touchUpInside)
                 case .error(let error):
                     print(error)
                 }
@@ -123,20 +118,23 @@ class FavoritesGasStationViewController: UIViewController {
         }
     }
     
-    // 길 안내
-    @objc func navigationButton(_ sender: UIButton) {
-        guard let katecX = self.katecX,
-            let katecY = self.katecY,
-            let name = gasStationNameLabel.text else { return }
-        let destination = KNVLocation(name: name,
-                                      x: NSNumber(value: katecX),
-                                      y: NSNumber(value: katecY))
-        let options = KNVOptions()
+    @objc func deleteFavoriteView(_ sender: UIButton) {
+        var count = 0
         
-        let params = KNVParams(destination: destination,
-                               options: options)
-        KNVNaviLauncher.shared().navigate(with: params)
+        self.contentViewArr[sender.tag].isHidden = true
+        for favorite in favoriteDataList {
+            if favorite.id == favoriteViewArr[sender.tag].id {
+                self.favoriteDataList.remove(at: count)
+                //        DefaultData.shared.favoriteArr.remove(at: count)
+            }
+            count += 1
+        }
+        if firstContentView.isHidden && secondContentView.isHidden && thirdContentView.isHidden {
+            noneContentView.isHidden = false
+        }
     }
+    
+
 }
 
 // PageControl 설정
