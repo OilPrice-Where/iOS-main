@@ -30,11 +30,23 @@ class FavoritesGasStationViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView! // Scroll View
     @IBOutlet weak var pager: UIPageControl! // Page Controller
     
+    @IBAction func pageChanged(_ sender: UIPageControl) {
+        fromeTap = true
+        let width = scrollView.bounds.size.width
+        let x = CGFloat(pager.currentPage) * width
+        scrollView.setContentOffset(CGPoint(x:x, y:0), animated: true)
+    }
+    
+    var fromeTap = false // 페이지 컨트롤 defer를 위한 플레그
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         viewHiddenSetting() // 처음 뷰의 isHidden 상태로 돌린다.
         defaultSetting() // 초기 설정
+        
+        pager.defersCurrentPageDisplay = true // 페이지 컨트롤 defer 설정
+        pager.hidesForSinglePage = true // 페이지 컨트롤이 1개일때 숨김
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,11 +71,12 @@ class FavoritesGasStationViewController: UIViewController {
     
     // 초기 설정
     func defaultSetting() {
+        
         // Page Controller 설정
-        pager.currentPageIndicatorTintColor = UIColor.white // Page Controller Color
+        pager.currentPageIndicatorTintColor = UIColor.white // Page Controller Current Color
+        pager.pageIndicatorTintColor = UIColor.lightGray // Page Controller Color
         pager.currentPage = 0 // 초기 Current Page
         
-//        scrollView.layer.cornerRadius = 6 // ScrollView Coner Radius
         oldOilType = DefaultData.shared.oilType // Oil Type
     }
     
@@ -114,11 +127,19 @@ class FavoritesGasStationViewController: UIViewController {
 
 // PageControl 설정
 extension FavoritesGasStationViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        fromeTap = false
+        pager.updateCurrentPageDisplay()
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !fromeTap else { return }
+        
+        print("박힘찬 \(pager.currentPage)")
         let width = scrollView.bounds.size.width
         let x = scrollView.contentOffset.x + (width / 2.0)
         let newPage = Int(x / width)
-        
         if pager.currentPage != newPage {
             pager.currentPage = newPage
         }
