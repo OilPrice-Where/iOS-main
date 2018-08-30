@@ -53,12 +53,14 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - SCLAlertView (0.8)
   - SwiftyPlistManager (1.0.2)
 
 DEPENDENCIES:
   - Alamofire
   - Firebase/Core
   - Firebase/Database
+  - SCLAlertView
   - SwiftyPlistManager
 
 SPEC REPOS:
@@ -73,6 +75,7 @@ SPEC REPOS:
     - GoogleUtilities
     - leveldb-library
     - nanopb
+    - SCLAlertView
     - SwiftyPlistManager
 
 SPEC CHECKSUMS:
@@ -86,8 +89,9 @@ SPEC CHECKSUMS:
   GoogleUtilities: 06b66f9567769a7958db20a92f0128b2843e49d5
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
   SwiftyPlistManager: 5895924cccb7fe28deccbe14890e8aed78ae78ae
 
-PODFILE CHECKSUM: db07c6f5d13384c536e891b0f4d2a801f66b2d3e
+PODFILE CHECKSUM: 3c7e071c3eb87c150023b9da8b278f93df6bb73d
 
 COCOAPODS: 1.5.3
