@@ -4,7 +4,6 @@
 //
 //  Created by 박상욱 on 2018. 7. 11..
 //  Copyright © 2018년 sangwook park. All rights reserved.
-//
 
 import UIKit
 import MapKit
@@ -15,6 +14,7 @@ class MainListViewController: UIViewController {
     var locationManager = CLLocationManager() // locationManager
     var oldLocation: CLLocation?
     var lastLocationError: Error? // Location Error 확인
+    let firebaseUtility = FirebaseUtility()
     
     //Reverse Geocoding
     let geocoder = CLGeocoder() // 지오코딩을 수행할 객체
@@ -41,20 +41,31 @@ class MainListViewController: UIViewController {
     var refreshControl = UIRefreshControl() // Refresh Controller
     
     // HeaderView
-    @IBOutlet private weak var haderView : MainHeaderView!
     @IBOutlet weak var toListButton : UIView!
     @IBOutlet private weak var toImageView : UIImageView!
     @IBOutlet private weak var toLabel : UILabel!
+    @IBOutlet weak var headerViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var headerView: MainHeaderView!
+    @IBOutlet weak var priceView: UIView!
+    
+    @IBOutlet private weak var mainProductTitleLabel : UILabel!
+    @IBOutlet private weak var mainProductCostLabel : UILabel!
+    @IBOutlet private weak var mainProductImageView : UIImageView!
+    
+    @IBOutlet private weak var secondProductTitleLabel : UILabel!
+    @IBOutlet private weak var secondProductCostLabel : UILabel!
+    @IBOutlet private weak var secondProductImageView : UIImageView!
+    
+    @IBOutlet private weak var thirdProductTitleLabel : UILabel!
+    @IBOutlet private weak var thirdProductCostLabel : UILabel!
+    @IBOutlet private weak var thirdProductImageView : UIImageView!
+    
     var mainListPage = true
     var tapGesture = UITapGestureRecognizer()
     var sortData: [GasStation] = []
     
     // StatusBarBackView
     @IBOutlet weak var statusBarBackView: UIView!
-    @IBOutlet weak var headerViewConstraint: NSLayoutConstraint!
-    @IBOutlet weak var headerView: MainHeaderView!
-    
-    
     
     //Etc
     let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate // 앱 델리게이트
@@ -79,6 +90,7 @@ class MainListViewController: UIViewController {
         super.viewDidLoad()
         createSortView()
         setting()
+        setAverageCosts()
         setStatusBarBackgroundColor(color: .clear)
         
     }
@@ -141,6 +153,8 @@ class MainListViewController: UIViewController {
     }
     
     func setting() {
+        priceView.layer.cornerRadius = 10
+        
         // Navigation Bar 색상 설정
         UINavigationBar.appearance().barTintColor = UIColor(named: "MainColor")
         appDelegate.mainViewController = self
@@ -172,6 +186,38 @@ class MainListViewController: UIViewController {
             tableView.refreshControl = self.refreshControl
         } else {
             tableView.addSubview(refreshControl)
+        }
+    }
+    
+    func setAverageCosts() {
+        firebaseUtility.getAverageCost(productName: "gasolinCost") { (data) in
+            self.mainProductCostLabel.text = data["price"] as? String ?? ""
+            self.mainProductTitleLabel.text = data["productName"] as? String ?? ""
+            if data["difference"] as? Bool ?? true {
+                self.mainProductImageView.image = #imageLiteral(resourceName: "priceUpIcon")
+            }else {
+                self.mainProductImageView.image = #imageLiteral(resourceName: "priceDownIcon")
+            }
+        }
+        firebaseUtility.getAverageCost(productName: "dieselCost") { (data) in
+            self.secondProductCostLabel.text = data["price"] as? String ?? ""
+            self.secondProductTitleLabel.text = data["productName"] as? String ?? ""
+            if data["difference"] as? Bool ?? true {
+                self.secondProductImageView.image = #imageLiteral(resourceName: "priceUpIcon")
+            }else {
+                self.secondProductImageView.image = #imageLiteral(resourceName: "priceDownIcon")
+            }
+
+        }
+        firebaseUtility.getAverageCost(productName: "lpgCost") { (data) in
+            self.thirdProductCostLabel.text = data["price"] as? String ?? ""
+            self.thirdProductTitleLabel.text = data["productName"] as? String ?? ""
+            if data["difference"] as? Bool ?? true {
+                self.thirdProductImageView.image = #imageLiteral(resourceName: "priceUpIcon")
+            }else {
+                self.thirdProductImageView.image = #imageLiteral(resourceName: "priceDownIcon")
+            }
+
         }
     }
     
@@ -446,7 +492,7 @@ extension MainListViewController: CLLocationManagerDelegate {
                     }
                     
                     self.performingReverseGeocoding = false
-                    self.haderView.configure(with: self.string(from: self.currentPlacemark!))
+                    self.headerView.configure(with: self.string(from: self.currentPlacemark!))
                 })
             }
             if let lastLocation = oldLocation {
@@ -590,8 +636,8 @@ extension MainListViewController: UITableViewDelegate {
                 }
             }
             else if (self.lastContentOffset < scrollView.contentOffset.y) {
-                if -(setHeaderViewConstraint) >= haderView.frame.size.height {
-                    headerViewConstraint.constant = -(haderView.frame.size.height)
+                if -(setHeaderViewConstraint) >= headerView.frame.size.height {
+                    headerViewConstraint.constant = -(headerView.frame.size.height)
                 }else if -(setHeaderViewConstraint) >= 0{
                     headerViewConstraint.constant = setHeaderViewConstraint
                     scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
