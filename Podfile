@@ -6,8 +6,10 @@ target 'OilPrice-Where' do
   use_frameworks!
 
   pod 'Alamofire'
+  pod 'Firebase/Core'
+  pod 'Firebase/Database'
   pod 'SwiftyPlistManager'
-
+  pod 'SCLAlertView'
   # Pods for OilPrice-Where
 
 end
