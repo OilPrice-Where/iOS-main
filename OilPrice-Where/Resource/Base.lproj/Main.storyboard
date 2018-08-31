@@ -242,7 +242,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="6js-LN-deg">
-                                                                            <rect key="frame" x="0.0" y="-69.5" width="258" height="40"/>
+                                                                            <rect key="frame" x="0.0" y="-59" width="258" height="40"/>
                                                                             <subviews>
                                                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="foN-uC-14b">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="65" height="40"/>
@@ -978,7 +978,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="9FK-2d-Te7" kind="show" id="3iG-Oc-nXT"/>
+                                            <segue destination="8xt-Du-ztk" kind="show" id="Hlz-XR-Gsm"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -1236,53 +1236,6 @@
             <point key="canvasLocation" x="1847" y="1758"/>
         </scene>
         <!--공지사항-->
-        <scene sceneID="zIu-z6-HR4">
-            <objects>
-                <tableViewController title="공지사항" id="9FK-2d-Te7" customClass="NoticeTableViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ReN-dS-DoS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" id="0qY-KY-M6y" customClass="NoticeTableViewCell" customModule="OilPrice_Where" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0qY-KY-M6y" id="Tbu-U3-ypT">
-                                    <rect key="frame" x="0.0" y="0.0" width="286" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pIO-7z-78Z">
-                                            <rect key="frame" x="16" y="11" width="254" height="22"/>
-                                            <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="pIO-7z-78Z" firstAttribute="top" secondItem="Tbu-U3-ypT" secondAttribute="topMargin" id="EyI-ja-dlb"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="pIO-7z-78Z" secondAttribute="trailing" constant="8" id="ltW-iR-GQJ"/>
-                                        <constraint firstItem="pIO-7z-78Z" firstAttribute="leading" secondItem="Tbu-U3-ypT" secondAttribute="leadingMargin" id="vw3-71-bsj"/>
-                                        <constraint firstItem="pIO-7z-78Z" firstAttribute="bottom" secondItem="Tbu-U3-ypT" secondAttribute="bottomMargin" id="zli-KH-myY"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="titleLabel" destination="pIO-7z-78Z" id="pVo-73-0fa"/>
-                                    <segue destination="8xt-Du-ztk" kind="push" identifier="NoticeSegue" id="uB7-G9-DF6"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="9FK-2d-Te7" id="DwN-nJ-pkX"/>
-                            <outlet property="delegate" destination="9FK-2d-Te7" id="ASp-qN-jIG"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="공지사항" leftItemsSupplementBackButton="YES" largeTitleDisplayMode="never" id="79w-xp-G8Y"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aTN-ip-CC8" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1963" y="898"/>
-        </scene>
-        <!--공지사항-->
         <scene sceneID="W9f-HT-cW6">
             <objects>
                 <viewController id="8xt-Du-ztk" customClass="NoticeDetailViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
@@ -1290,42 +1243,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="공지사항 제목" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="323-cO-fVK">
-                                <rect key="frame" x="30" y="104" width="260" height="24.5"/>
-                                <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="22"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="contentLable" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10h-Qk-Keb">
+                                <rect key="frame" x="30" y="104" width="260" height="300"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="공지사항 내용" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FAM-di-aYh">
-                                <rect key="frame" x="30" y="148.5" width="260" height="271"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                         </subviews>
                         <color key="backgroundColor" name="MainColor"/>
                         <constraints>
-                            <constraint firstItem="323-cO-fVK" firstAttribute="leading" secondItem="7dH-me-kqH" secondAttribute="leading" constant="30" id="1gw-SC-Qqm"/>
-                            <constraint firstItem="7dH-me-kqH" firstAttribute="trailing" secondItem="FAM-di-aYh" secondAttribute="trailing" constant="30" id="9By-eK-vnI"/>
-                            <constraint firstItem="FAM-di-aYh" firstAttribute="centerY" secondItem="4aV-a5-Xo0" secondAttribute="centerY" id="GZW-iy-T5W"/>
-                            <constraint firstItem="FAM-di-aYh" firstAttribute="centerX" secondItem="4aV-a5-Xo0" secondAttribute="centerX" id="KE0-Pc-Z2Q"/>
-                            <constraint firstItem="FAM-di-aYh" firstAttribute="top" secondItem="323-cO-fVK" secondAttribute="bottom" constant="20" id="beg-Yw-6WU"/>
-                            <constraint firstItem="323-cO-fVK" firstAttribute="width" secondItem="FAM-di-aYh" secondAttribute="width" id="ca1-hd-c7t"/>
-                            <constraint firstItem="323-cO-fVK" firstAttribute="leading" secondItem="FAM-di-aYh" secondAttribute="leading" id="gwI-nL-KCz"/>
-                            <constraint firstItem="323-cO-fVK" firstAttribute="top" secondItem="7dH-me-kqH" secondAttribute="top" constant="40" id="piw-Ki-c88"/>
-                            <constraint firstItem="FAM-di-aYh" firstAttribute="leading" secondItem="7dH-me-kqH" secondAttribute="leading" constant="30" id="qs7-2e-sCn"/>
+                            <constraint firstItem="7dH-me-kqH" firstAttribute="bottom" secondItem="10h-Qk-Keb" secondAttribute="bottom" constant="115" id="C9S-Oh-o7h"/>
+                            <constraint firstItem="10h-Qk-Keb" firstAttribute="leading" secondItem="7dH-me-kqH" secondAttribute="leading" constant="30" id="CBr-b6-Msm"/>
+                            <constraint firstItem="7dH-me-kqH" firstAttribute="trailing" secondItem="10h-Qk-Keb" secondAttribute="trailing" constant="30" id="YpR-I1-SOc"/>
+                            <constraint firstItem="10h-Qk-Keb" firstAttribute="top" secondItem="7dH-me-kqH" secondAttribute="top" constant="40" id="l2h-7k-z6C"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7dH-me-kqH"/>
                     </view>
                     <navigationItem key="navigationItem" title="공지사항" id="lUo-GH-yDa"/>
                     <connections>
-                        <outlet property="contentTextView" destination="FAM-di-aYh" id="TgU-fi-eqD"/>
-                        <outlet property="detailTitleLabel" destination="323-cO-fVK" id="4Wk-ap-bJK"/>
+                        <outlet property="contentLable" destination="10h-Qk-Keb" id="ai3-y8-dct"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OJJ-hY-fga" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2705" y="898"/>
+            <point key="canvasLocation" x="1942.5" y="848.23943661971828"/>
         </scene>
         <!--TabBarController-->
         <scene sceneID="5Mn-s0-oH5">
