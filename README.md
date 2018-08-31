@@ -46,8 +46,14 @@
 <br>
 
 ## Preview
+<p align="left">
+<a href=""> 어플 실행 영상 </a> <br><br>
 
-<br>
+<img src="screenList/p55-1-resize.png" />
+<img src="screenMap/p55-2-resize.png" />
+<img src="screenFavorite/p55-3-resize.png" />
+<img src="screenSetting/p55-4-resize.png" />
+</p>
 
 ## Version History
 - ver 1.0.0 : App Store release(미정)
