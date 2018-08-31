@@ -1,6 +1,8 @@
 ## 어디주유 App 소개
-
-
+<img src="https://img.shields.io/badge/swift-4.1-blue.svg" />
+<img src="https://img.shields.io/badge/xcode-9.4.1-green.svg" />
+<img src="https://img.shields.io/badge/ios-11.4-yellow.svg" />
+<img src="https://img.shields.io/badge/licence-MIT-lightgrey.svg" /> <br><br>
 
 아직도 운전하다가 아무곳에서 기름을 넣으시나요?
 
