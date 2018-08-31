@@ -242,7 +242,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="6js-LN-deg">
-                                                                            <rect key="frame" x="0.0" y="-59" width="258" height="40"/>
+                                                                            <rect key="frame" x="0.0" y="-69.5" width="258" height="40"/>
                                                                             <subviews>
                                                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="foN-uC-14b">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="65" height="40"/>
@@ -260,7 +260,7 @@
                                                                                             <color key="textColor" name="MainColor"/>
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
-                                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="navigationIcon" translatesAutoresizingMaskIntoConstraints="NO" id="lk2-II-gid">
+                                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="findMapIcon" translatesAutoresizingMaskIntoConstraints="NO" id="lk2-II-gid">
                                                                                             <rect key="frame" x="35" y="9" width="22" height="22"/>
                                                                                         </imageView>
                                                                                     </subviews>
@@ -1385,6 +1385,7 @@
         <image name="favoriteOffIcon" width="22" height="22"/>
         <image name="favoriteTabIcon" width="25" height="25"/>
         <image name="favoriteTabIconSel" width="25" height="25"/>
+        <image name="findMapIcon" width="22" height="22"/>
         <image name="gasMachineImage" width="70" height="120"/>
         <image name="gasolinImage" width="120" height="210"/>
         <image name="geoIcon" width="20" height="20"/>
