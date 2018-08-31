@@ -242,7 +242,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="6js-LN-deg">
-                                                                            <rect key="frame" x="0.0" y="-69.5" width="258" height="40"/>
+                                                                            <rect key="frame" x="0.0" y="-59" width="258" height="40"/>
                                                                             <subviews>
                                                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="foN-uC-14b">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="65" height="40"/>
@@ -986,7 +986,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="ZAY-uA-wWk" kind="push" id="hqg-zF-Ai0"/>
+                                            <segue destination="8xt-Du-ztk" kind="show" id="Hlz-XR-Gsm"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -1241,39 +1241,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eMy-Yh-C1U" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="zQ9-SL-3CG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1663" y="1544"/>
+            <point key="canvasLocation" x="1847" y="1758"/>
         </scene>
         <!--공지사항-->
-        <scene sceneID="YJg-Wv-0TD">
+        <scene sceneID="W9f-HT-cW6">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="ZAY-uA-wWk" customClass="NoticeViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8Hh-4N-I7j">
+                <viewController id="8xt-Du-ztk" customClass="NoticeDetailViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4aV-a5-Xo0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="공지사항" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3vh-LL-NcI">
-                                <rect key="frame" x="39" y="146" width="240" height="359"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="contentLable" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10h-Qk-Keb">
+                                <rect key="frame" x="30" y="104" width="260" height="300"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.39833971858024597" green="0.50583392381668091" blue="0.96803933382034302" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <viewLayoutGuide key="safeArea" id="d9S-3n-2UQ"/>
+                        <color key="backgroundColor" name="MainColor"/>
+                        <constraints>
+                            <constraint firstItem="7dH-me-kqH" firstAttribute="bottom" secondItem="10h-Qk-Keb" secondAttribute="bottom" constant="115" id="C9S-Oh-o7h"/>
+                            <constraint firstItem="10h-Qk-Keb" firstAttribute="leading" secondItem="7dH-me-kqH" secondAttribute="leading" constant="30" id="CBr-b6-Msm"/>
+                            <constraint firstItem="7dH-me-kqH" firstAttribute="trailing" secondItem="10h-Qk-Keb" secondAttribute="trailing" constant="30" id="YpR-I1-SOc"/>
+                            <constraint firstItem="10h-Qk-Keb" firstAttribute="top" secondItem="7dH-me-kqH" secondAttribute="top" constant="40" id="l2h-7k-z6C"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="7dH-me-kqH"/>
                     </view>
-                    <navigationItem key="navigationItem" title="공지사항" largeTitleDisplayMode="never" id="orp-z7-sju">
-                        <barButtonItem key="backBarButtonItem" title="설정" id="ZAr-W7-hKm"/>
-                        <barButtonItem key="leftBarButtonItem" title="설정" id="yje-DN-4Fm">
-                            <connections>
-                                <action selector="leftBarButton" destination="ZAY-uA-wWk" id="tXE-lw-zUS"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="공지사항" id="lUo-GH-yDa"/>
+                    <connections>
+                        <outlet property="contentLable" destination="10h-Qk-Keb" id="ai3-y8-dct"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iRJ-W0-uGe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OJJ-hY-fga" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2280" y="898"/>
+            <point key="canvasLocation" x="1942.5" y="848.23943661971828"/>
         </scene>
         <!--TabBarController-->
         <scene sceneID="5Mn-s0-oH5">
