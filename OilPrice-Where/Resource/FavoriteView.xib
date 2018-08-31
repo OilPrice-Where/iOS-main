@@ -75,20 +75,20 @@
                                 <constraint firstAttribute="trailing" secondItem="QFd-Ls-mPi" secondAttribute="trailing" id="qIX-9X-9le"/>
                             </constraints>
                         </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Qd0-Kw-cSa">
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Qd0-Kw-cSa">
                             <rect key="frame" x="14.5" y="73.5" width="129" height="57.5"/>
                             <subviews>
                                 <stackView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="QST-95-XEN">
-                                    <rect key="frame" x="0.0" y="0.0" width="39" height="57.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="36.5" height="57.5"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IconWash" translatesAutoresizingMaskIntoConstraints="NO" id="O8p-Bf-hph">
-                                            <rect key="frame" x="0.0" y="0.0" width="39" height="39"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="36.5" height="36.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="O8p-Bf-hph" secondAttribute="height" multiplier="1:1" id="PIM-8b-2rZ"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="세차" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BxQ-Sf-f0U">
-                                            <rect key="frame" x="0.0" y="42" width="39" height="15.5"/>
+                                            <rect key="frame" x="0.0" y="39.5" width="36.5" height="18"/>
                                             <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="11"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -102,13 +102,13 @@
                                     </constraints>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="4sx-4g-cM6">
-                                    <rect key="frame" x="45" y="0.0" width="39" height="57.5"/>
+                                    <rect key="frame" x="46.5" y="0.0" width="36" height="57.5"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IconRepair" translatesAutoresizingMaskIntoConstraints="NO" id="oy7-oG-ZIm">
-                                            <rect key="frame" x="0.0" y="0.0" width="39" height="39"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="36" height="36.5"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="수리" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R9v-4b-dBA">
-                                            <rect key="frame" x="0.0" y="42" width="39" height="15.5"/>
+                                            <rect key="frame" x="0.0" y="39.5" width="36" height="18"/>
                                             <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="11"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -121,13 +121,13 @@
                                     </constraints>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="CqV-Bo-cn3">
-                                    <rect key="frame" x="90" y="0.0" width="39" height="57.5"/>
+                                    <rect key="frame" x="92.5" y="0.0" width="36.5" height="57.5"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IconConvenience" translatesAutoresizingMaskIntoConstraints="NO" id="rbK-Jf-gnL">
-                                            <rect key="frame" x="0.0" y="0.0" width="39" height="39"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="36.5" height="36.5"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="편의점" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.60000002384185791" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CCm-Sf-2G9">
-                                            <rect key="frame" x="0.0" y="42" width="39" height="15.5"/>
+                                            <rect key="frame" x="0.0" y="39.5" width="36.5" height="18"/>
                                             <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="11"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -259,7 +259,7 @@
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="고급휘발유" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.60000002384185791" translatesAutoresizingMaskIntoConstraints="NO" id="adZ-55-NPm">
                             <rect key="frame" x="70.5" y="363.5" width="86.5" height="21"/>
-                            <fontDescription key="fontDescription" name="NanumSquareRoundEB" family="NanumSquareRound" pointSize="19"/>
+                            <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="19"/>
                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                             <userDefinedRuntimeAttributes>
@@ -363,9 +363,9 @@
         </view>
     </objects>
     <resources>
-        <image name="IconConvenience" width="25" height="25"/>
-        <image name="IconRepair" width="25" height="25"/>
-        <image name="IconWash" width="25" height="25"/>
+        <image name="IconConvenience" width="30" height="30"/>
+        <image name="IconRepair" width="30" height="30"/>
+        <image name="IconWash" width="30" height="30"/>
         <image name="LogoGSCaltex" width="30" height="30"/>
         <image name="favoriteOnIcon" width="22" height="22"/>
         <image name="navigationIcon" width="22" height="22"/>
