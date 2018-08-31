@@ -13,10 +13,12 @@ class InitialSettingViewController: UIViewController {
 
     @IBOutlet private weak var scrollView : UIScrollView! // 페이지 표시 스크롤 뷰
     lazy var scrollWidth = scrollView.bounds.size.width // 스크롤 뷰의 Width값 저장
+    @IBOutlet private weak var okButton : UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        okButton.layer.cornerRadius = 6
     }
     
     override func viewWillAppear(_ animated: Bool) {
