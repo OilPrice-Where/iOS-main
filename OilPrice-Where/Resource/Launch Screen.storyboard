@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina3_5" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -16,20 +16,20 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="ttW-Ng-GZg">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright 2018. 'team ATP' all rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="obG-Y5-kRd">
-                                <rect key="frame" x="16.5" y="439" width="288" height="21.5"/>
+                                <rect key="frame" x="24.5" y="526.5" width="272" height="21.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashLogo" translatesAutoresizingMaskIntoConstraints="NO" id="Uzk-h8-pYN">
-                                <rect key="frame" x="105" y="140" width="110" height="200"/>
+                                <rect key="frame" x="105" y="184" width="110" height="200"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.36862745098039218" green="0.50980392156862742" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -37,7 +37,7 @@
                             <constraint firstItem="ttW-Ng-GZg" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="0aj-Xx-u9L"/>
                             <constraint firstItem="ttW-Ng-GZg" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="3us-eV-seh"/>
                             <constraint firstItem="Bcu-3y-fUS" firstAttribute="centerX" secondItem="obG-Y5-kRd" secondAttribute="centerX" id="5cz-MP-9tL"/>
-                            <constraint firstItem="obG-Y5-kRd" firstAttribute="width" secondItem="ttW-Ng-GZg" secondAttribute="width" multiplier="0.9" id="Flu-Nz-2F1"/>
+                            <constraint firstItem="obG-Y5-kRd" firstAttribute="width" secondItem="ttW-Ng-GZg" secondAttribute="width" multiplier="0.85" id="Flu-Nz-2F1"/>
                             <constraint firstItem="ttW-Ng-GZg" firstAttribute="trailing" secondItem="Bcu-3y-fUS" secondAttribute="trailing" id="L4E-hd-V44"/>
                             <constraint firstItem="ttW-Ng-GZg" firstAttribute="bottom" secondItem="Bcu-3y-fUS" secondAttribute="bottom" id="R02-1i-1Bb"/>
                             <constraint firstItem="Uzk-h8-pYN" firstAttribute="centerX" secondItem="ttW-Ng-GZg" secondAttribute="centerX" id="TAM-A5-YXX"/>
