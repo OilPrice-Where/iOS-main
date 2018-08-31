@@ -50,10 +50,10 @@
 <p align="left">
 <a href=""> 어플 실행 영상 </a> <br><br>
 
-<img src="screenList.png" width="220" />
-<img src="screenMap.png" width="220" />
-<img src="screenFavorite.png" width="220" />
-<img src="screenSetting.png" width="220" />
+<img src="screenList.png" width="210" />
+<img src="screenMap.png" width="210" />
+<img src="screenFavorite.png" width="210" />
+<img src="screenSetting.png" width="210" />
 </p>
 
 ## Version History
