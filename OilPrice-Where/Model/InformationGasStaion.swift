@@ -26,6 +26,7 @@ struct InformationGasStaions: Decodable {
 
 
 struct InformationGasStaion: Decodable {
+    let id: String
     let brand: String
     //     브랜드(SKE:SK에너지, GSC:GS칼텍스, HDO:현대오일뱅크, SOL:S-OIL, RTO:자영알뜰,
     //          RTX:고속도로알뜰, NHO:농협알뜰, ETC:자가상표, E1G: E1, SKG:SK가스
@@ -41,6 +42,7 @@ struct InformationGasStaion: Decodable {
     let katecY: Double
     
     private enum CodingKeys: String, CodingKey {
+        case id = "UNI_ID"
         case brand = "POLL_DIV_CO"
         case name = "OS_NM"
         case address = "VAN_ADR"

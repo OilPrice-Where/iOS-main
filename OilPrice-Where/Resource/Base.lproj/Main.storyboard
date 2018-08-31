@@ -242,7 +242,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="6js-LN-deg">
-                                                                            <rect key="frame" x="0.0" y="-59" width="258" height="40"/>
+                                                                            <rect key="frame" x="0.0" y="-69.5" width="258" height="40"/>
                                                                             <subviews>
                                                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="foN-uC-14b">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="65" height="40"/>
@@ -900,21 +900,25 @@
                                     <constraint firstItem="QiS-1f-8Bf" firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" id="8I6-FK-vTV"/>
                                     <constraint firstItem="dJw-as-NIF" firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" id="8Tb-3S-H7v"/>
                                     <constraint firstItem="4OD-tG-b00" firstAttribute="top" secondItem="eMs-pJ-RNF" secondAttribute="top" id="Cpc-T7-aLM"/>
+                                    <constraint firstItem="ovG-vt-viP" firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" id="D4z-VI-3i8"/>
                                     <constraint firstItem="4OD-tG-b00" firstAttribute="centerY" secondItem="eMs-pJ-RNF" secondAttribute="centerY" id="L48-Ot-dyz"/>
                                     <constraint firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="U9s-mh-1eF"/>
                                     <constraint firstItem="4OD-tG-b00" firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="ZLg-te-EFU"/>
+                                    <constraint firstItem="auf-y4-SDT" firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="aeF-Xc-bOn"/>
                                     <constraint firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" id="b9U-TG-Aek"/>
                                     <constraint firstItem="QiS-1f-8Bf" firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="bDe-ik-C1Y"/>
                                     <constraint firstAttribute="trailing" secondItem="4OD-tG-b00" secondAttribute="trailing" id="g1f-ck-bbI"/>
                                     <constraint firstItem="dJw-as-NIF" firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="gGo-jB-SKU"/>
+                                    <constraint firstItem="ovG-vt-viP" firstAttribute="height" secondItem="eMs-pJ-RNF" secondAttribute="height" id="gJk-qP-1HQ"/>
                                     <constraint firstItem="4OD-tG-b00" firstAttribute="leading" secondItem="eMs-pJ-RNF" secondAttribute="leading" id="mck-Fr-Kod"/>
+                                    <constraint firstItem="auf-y4-SDT" firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" id="wgk-mS-svt"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="d02-5S-oJ4" id="ruB-wW-4lD"/>
                                 </connections>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" name="MainColor"/>
+                        <color key="backgroundColor" red="0.36862745098039218" green="0.50980392156862742" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="fu8-5t-wlI" firstAttribute="centerX" secondItem="tUR-1i-2LW" secondAttribute="centerX" id="1tW-yG-SNO"/>
                             <constraint firstItem="gal-Bh-yfF" firstAttribute="leading" secondItem="tUR-1i-2LW" secondAttribute="leading" constant="25" id="5hi-xo-cc1"/>
@@ -1238,11 +1242,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3vh-LL-NcI">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="공지사항" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3vh-LL-NcI">
                                 <rect key="frame" x="39" y="146" width="240" height="359"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
