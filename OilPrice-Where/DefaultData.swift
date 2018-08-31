@@ -63,8 +63,6 @@ class DefaultData {
         }
     }
     
-   
-    
     // 전군 평균 기름 값 로드 함수
     func allPriceDataLoad() {
         ServiceList.allPriceList(appKey: Preferences.getAppKey()) { (result) in

@@ -726,10 +726,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GIe-Ts-Ts5">
-                                <rect key="frame" x="70" y="478" width="180" height="40"/>
+                                <rect key="frame" x="70" y="473" width="180" height="45"/>
                                 <color key="backgroundColor" name="MainColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="tr5-db-Bvd"/>
+                                    <constraint firstAttribute="height" constant="45" id="tr5-db-Bvd"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="20"/>
                                 <state key="normal" title="확인">
@@ -764,6 +764,7 @@
                         <viewLayoutGuide key="safeArea" id="ng6-k0-Aay"/>
                     </view>
                     <connections>
+                        <outlet property="okButton" destination="GIe-Ts-Ts5" id="g6v-MI-obj"/>
                         <outlet property="scrollView" destination="cMt-0J-lWt" id="X0L-3R-hQi"/>
                     </connections>
                 </viewController>

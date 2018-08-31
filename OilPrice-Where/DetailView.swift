@@ -96,6 +96,7 @@ class DetailView: UIView {
                 for index in 0..<DefaultData.shared.favoriteArr.count {
                     if self.id == DefaultData.shared.favoriteArr[index] {
                         DefaultData.shared.favoriteArr.remove(at: index)
+                        DefaultData.shared.saveFavorite()
                         break
                     }
                 }
@@ -118,18 +119,20 @@ class DetailView: UIView {
             return
         }
         // 즐겨찾기 설정 및 해제
-        if sender.isSelected { // 즐겨찾기 설정
+        if sender.isSelected { // 즐겨찾기 해제
             favoriteButton.imageView!.tintColor = UIColor(named: "MainColor")
             favoriteButton.backgroundColor = UIColor.white
             for index in 0..<DefaultData.shared.favoriteArr.count {
                 if self.id == DefaultData.shared.favoriteArr[index] {
                     DefaultData.shared.favoriteArr.remove(at: index)
+                    DefaultData.shared.saveFavorite()
                     break
                 }
             }
             sender.isSelected = false
-        } else { // 즐겨찾기 해제
+        } else { // 즐겨찾기 설정
             DefaultData.shared.favoriteArr.append(self.id!)
+            DefaultData.shared.saveFavorite()
             favoriteButton.imageView!.tintColor = UIColor.white
             favoriteButton.backgroundColor = UIColor(named: "MainColor")
             sender.isSelected = true
