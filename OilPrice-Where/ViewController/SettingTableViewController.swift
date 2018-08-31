@@ -43,11 +43,11 @@ class SettingTableViewController: UITableViewController {
         oilTypeLabel.text = Preferences.oil(code: DefaultData.shared.oilType)
         findLabel.text = String(DefaultData.shared.radius / 1000) + "KM"
     }
-
+    
     // 다른 페이지로 전환 시
     // 현재 SettingTableViewController에 cell에 표시 된 설정 값을
     // 넘겨 주는 페이지의 selected 설정 값의 이름을 전달한다.
-    // ex) oilType(휘발유) -> selectedOilTypeName(휘발유) 전달
+    // ex) oilType(휘발유) -> selectedOilTypeName(휘발유) 전달    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SelectOilType", let oilType = oilTypeLabel.text {
             let controller = segue.destination as! SelectOilTypeTableViewController
@@ -79,4 +79,35 @@ class SettingTableViewController: UITableViewController {
         DefaultData.shared.radius = Preferences.distanceKM(KM: controller.selectedDistance)
         DefaultData.shared.saveDistance()
     }
+    
+    // 앱스토어 연결
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let urlString = "https://itunes.apple.com/kr/app/%EB%8F%84%EB%AF%B8%EB%85%B8%ED%94%BC%EC%9E%90-dominos-pizza/id371008429?mt=8"
+        
+        if indexPath.section == 2 && indexPath.row == 1 {
+            
+            if let appStoreURL = URL(string: urlString), UIApplication.shared.canOpenURL(appStoreURL) {
+                // 유효한 URL인지 검사
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(appStoreURL, options: [:], completionHandler: nil)
+                    
+                } else { UIApplication.shared.openURL(appStoreURL) }
+                
+            }
+            
+            
+            //            let id = "tt"
+            //            if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) {
+            //                // 유효한 URL인지 검사
+            //                if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
+            //                    UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil) } else { UIApplication.shared.openURL(reviewURL) } }
+        }
+        
+        
+        
+    }
+    
+    
 }
+
