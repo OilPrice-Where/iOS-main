@@ -5,10 +5,22 @@
 <img src="https://img.shields.io/badge/ios-11.4-yellow.svg" />
 <img src="https://img.shields.io/badge/licence-MIT-lightgrey.svg" /> <br><br>
 <br>
-    
+
+## Member
+- 안솔찬
+    - mail: perudot@gmail.com  
+    - github: https://github.com/solchan87
+- 박상욱
+    - mail: wkahdla12346@gmail.com 
+    - github: https://github.com/wargi
+- 박힘찬
+    - mail: ting1099@gmail.com 
+    - github: https://github.com/himchanPark
+
+<br>
+
 ## Content
 - [About Applications](#About-Applications)
-- [Member](#Member)
 - [Preview](#Preview)
 - [Version History](#Version-History)
 - [Download](#Download)
@@ -33,25 +45,16 @@
 
 <br>
 
-## Member
-- 안솔찬
-    - mail: perudot@gmail.com  
-    - github: https://github.com/solchan87
-- 박상욱
-    - mail: wkahdla12346@gmail.com 
-    - github: https://github.com/wargi
-- 박힘찬
-    - mail: ting1099@gmail.com 
-    - github: https://github.com/himchanPark
-
-<br>
-
 ## Preview
 
 <br>
 
 ## Version History
 - ver 1.0.0 : App Store release(미정)
+
+<br>
+
+## Download
 
 <br>
 
