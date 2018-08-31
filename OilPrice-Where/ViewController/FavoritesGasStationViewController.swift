@@ -122,9 +122,13 @@ class FavoritesGasStationViewController: UIViewController {
         self.contentViewArr[sender.tag].isHidden = true
         for favorite in favoriteDataList {
             if favorite.id == favoriteViewArr[sender.tag].id {
-                self.favoriteDataList.remove(at: count)
-                DefaultData.shared.favoriteArr.remove(at: count)
-                DefaultData.shared.saveFavorite()
+                if count <= favoriteDataList.count &&
+                    favoriteDataList.count == DefaultData.shared.favoriteArr.count {
+                    self.favoriteDataList.remove(at: count)
+                    DefaultData.shared.favoriteArr.remove(at: count)
+                    DefaultData.shared.saveFavorite()
+                    pager.numberOfPages = DefaultData.shared.favoriteArr.count // Page Number
+                }
             }
             count += 1
         }

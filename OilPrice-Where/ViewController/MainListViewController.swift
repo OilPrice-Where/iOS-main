@@ -73,6 +73,7 @@ class MainListViewController: UIViewController {
     private var lastKactecY: Double? // KatecY 좌표
     var lastOilType = DefaultData.shared.oilType
     var lastFindRadius = DefaultData.shared.radius
+    var lastFavorites = DefaultData.shared.favoriteArr
     var selectMarker = false
     var lastBottomConstant: CGFloat?
     var priceSortButton: UIButton!
@@ -504,18 +505,23 @@ extension MainListViewController: CLLocationManagerDelegate {
                 let distance: CLLocationDistance = newLocation!.distance(from: lastLocation)
                 if distance < 50.0 &&
                    lastOilType == DefaultData.shared.oilType &&
-                   lastFindRadius == DefaultData.shared.radius {
-                   
+                   lastFindRadius == DefaultData.shared.radius &&
+                   lastFavorites == DefaultData.shared.favoriteArr {
+                    print("IF Distance")
                    stopLocationManager()
+                   self.tableView.reloadData()
                 } else {
+                    print("Else Distance")
                     reset()
                     gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
                     stopLocationManager()
                     oldLocation = newLocation
                     lastOilType = DefaultData.shared.oilType
                     lastFindRadius = DefaultData.shared.radius
+                    lastFavorites = DefaultData.shared.favoriteArr
                 }
             } else {
+                print("Else")
                 gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
                 stopLocationManager()
                 oldLocation = newLocation
@@ -625,7 +631,6 @@ extension MainListViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension MainListViewController: UITableViewDelegate {
-    
     /// 스크롤 옵셋에 따른 헤더뷰 위치 변경
     ///
     /// - 코드 리펙토링 필요
@@ -662,8 +667,6 @@ extension MainListViewController: UITableViewDelegate {
 
 // MARK: - MKMapViewDelegate
 extension MainListViewController: MKMapViewDelegate {
-    
-    
     // 마커 뷰 관련 설정 Delegate
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation.isKind(of: MKUserLocation.self) {
@@ -702,7 +705,6 @@ extension MainListViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         guard let markerView = view as? CustomMarkerAnnotationView else { return }
         guard let stationInfo = markerView.stationInfo else { return }
-        
 
         self.lastKactecX = stationInfo.katecX
         self.lastKactecY = stationInfo.katecY
