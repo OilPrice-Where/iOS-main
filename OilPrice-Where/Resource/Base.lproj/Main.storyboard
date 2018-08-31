@@ -242,7 +242,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="6js-LN-deg">
-                                                                            <rect key="frame" x="0.0" y="-69.5" width="258" height="40"/>
+                                                                            <rect key="frame" x="0.0" y="-59" width="258" height="40"/>
                                                                             <subviews>
                                                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="foN-uC-14b">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="65" height="40"/>
@@ -780,13 +780,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자주 가는 주유소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gal-Bh-yfF">
-                                <rect key="frame" x="25" y="80" width="92" height="17"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                <rect key="frame" x="98" y="71.5" width="124" height="20"/>
+                                <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="fu8-5t-wlI">
-                                <rect key="frame" x="141" y="467" width="39" height="37"/>
+                                <rect key="frame" x="141" y="466.5" width="39" height="37"/>
                                 <color key="pageIndicatorTintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="currentPageIndicatorTintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
@@ -794,7 +794,7 @@
                                 </connections>
                             </pageControl>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eMs-pJ-RNF">
-                                <rect key="frame" x="0.0" y="107" width="320" height="355"/>
+                                <rect key="frame" x="0.0" y="106.5" width="320" height="355"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4OD-tG-b00" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="0.0" width="1280" height="355"/>
@@ -806,7 +806,7 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="320" height="355"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Opu-od-LcU" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
-                                                                <rect key="frame" x="40" y="0.0" width="240" height="355"/>
+                                                                <rect key="frame" x="32" y="0.0" width="256" height="355"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </view>
                                                         </subviews>
@@ -814,7 +814,7 @@
                                                         <constraints>
                                                             <constraint firstItem="Opu-od-LcU" firstAttribute="height" secondItem="dJw-as-NIF" secondAttribute="height" id="Kpn-8X-Sw4"/>
                                                             <constraint firstItem="Opu-od-LcU" firstAttribute="centerY" secondItem="dJw-as-NIF" secondAttribute="centerY" id="k5C-4H-fgd"/>
-                                                            <constraint firstItem="Opu-od-LcU" firstAttribute="width" secondItem="dJw-as-NIF" secondAttribute="width" multiplier="3/4" id="qNt-Ck-mVn"/>
+                                                            <constraint firstItem="Opu-od-LcU" firstAttribute="width" secondItem="dJw-as-NIF" secondAttribute="width" multiplier="0.8" id="qNt-Ck-mVn"/>
                                                             <constraint firstItem="Opu-od-LcU" firstAttribute="centerX" secondItem="dJw-as-NIF" secondAttribute="centerX" id="sww-sS-oOw"/>
                                                         </constraints>
                                                     </view>
@@ -822,7 +822,7 @@
                                                         <rect key="frame" x="320" y="0.0" width="320" height="355"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" restorationIdentifier="SecondFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="0Vg-uo-Fho" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
-                                                                <rect key="frame" x="40" y="0.0" width="240" height="355"/>
+                                                                <rect key="frame" x="32" y="0.0" width="256" height="355"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </view>
                                                         </subviews>
@@ -830,7 +830,7 @@
                                                         <constraints>
                                                             <constraint firstItem="0Vg-uo-Fho" firstAttribute="centerX" secondItem="auf-y4-SDT" secondAttribute="centerX" id="0L8-H7-ele"/>
                                                             <constraint firstItem="0Vg-uo-Fho" firstAttribute="height" secondItem="auf-y4-SDT" secondAttribute="height" id="2VF-uf-nEO"/>
-                                                            <constraint firstItem="0Vg-uo-Fho" firstAttribute="width" secondItem="auf-y4-SDT" secondAttribute="width" multiplier="3/4" id="7vN-oH-fVp"/>
+                                                            <constraint firstItem="0Vg-uo-Fho" firstAttribute="width" secondItem="auf-y4-SDT" secondAttribute="width" multiplier="0.8" id="7vN-oH-fVp"/>
                                                             <constraint firstItem="0Vg-uo-Fho" firstAttribute="centerY" secondItem="auf-y4-SDT" secondAttribute="centerY" id="nbq-mg-szD"/>
                                                         </constraints>
                                                     </view>
@@ -838,14 +838,14 @@
                                                         <rect key="frame" x="640" y="0.0" width="320" height="355"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" restorationIdentifier="ThirdFavoriteView" translatesAutoresizingMaskIntoConstraints="NO" id="eiy-LK-8lH" customClass="FavoriteView" customModule="OilPrice_Where" customModuleProvider="target">
-                                                                <rect key="frame" x="40" y="0.0" width="240" height="355"/>
+                                                                <rect key="frame" x="32" y="0.0" width="256" height="355"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </view>
                                                         </subviews>
                                                         <color key="backgroundColor" name="MainColor"/>
                                                         <constraints>
                                                             <constraint firstItem="eiy-LK-8lH" firstAttribute="centerX" secondItem="ovG-vt-viP" secondAttribute="centerX" id="7C4-RA-vMy"/>
-                                                            <constraint firstItem="eiy-LK-8lH" firstAttribute="width" secondItem="ovG-vt-viP" secondAttribute="width" multiplier="3/4" id="FRy-rn-OfG"/>
+                                                            <constraint firstItem="eiy-LK-8lH" firstAttribute="width" secondItem="ovG-vt-viP" secondAttribute="width" multiplier="0.8" id="FRy-rn-OfG"/>
                                                             <constraint firstItem="eiy-LK-8lH" firstAttribute="centerY" secondItem="ovG-vt-viP" secondAttribute="centerY" id="U8G-xk-hLf"/>
                                                             <constraint firstItem="eiy-LK-8lH" firstAttribute="height" secondItem="ovG-vt-viP" secondAttribute="height" id="YqU-oF-oHV"/>
                                                         </constraints>
@@ -854,19 +854,27 @@
                                                         <rect key="frame" x="960" y="0.0" width="320" height="355"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="06X-IW-mXN" userLabel="none">
-                                                                <rect key="frame" x="40" y="0.0" width="240" height="355"/>
+                                                                <rect key="frame" x="32" y="0.0" width="256" height="355"/>
                                                                 <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="즐겨찾기가 없습니다!  자주 가는 주유소를 찾아서 즐겨찾기 추가를 해주세요~" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RSZ-RT-vI4">
-                                                                        <rect key="frame" x="14.5" y="136" width="211.5" height="84"/>
-                                                                        <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="19"/>
-                                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
+                                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="5of-Uw-KL2">
+                                                                        <rect key="frame" x="15" y="62" width="226.5" height="231"/>
+                                                                        <subviews>
+                                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nonePageImage" translatesAutoresizingMaskIntoConstraints="NO" id="TPP-FH-P2m">
+                                                                                <rect key="frame" x="23.5" y="0.0" width="180" height="200"/>
+                                                                            </imageView>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="즐겨 찾는 주유소가 없습니다." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RSZ-RT-vI4">
+                                                                                <rect key="frame" x="0.0" y="210" width="226.5" height="21"/>
+                                                                                <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="19"/>
+                                                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                        </subviews>
+                                                                    </stackView>
                                                                 </subviews>
                                                                 <color key="backgroundColor" name="MainColor"/>
                                                                 <constraints>
-                                                                    <constraint firstItem="RSZ-RT-vI4" firstAttribute="centerX" secondItem="06X-IW-mXN" secondAttribute="centerX" id="oQw-pu-chM"/>
-                                                                    <constraint firstItem="RSZ-RT-vI4" firstAttribute="centerY" secondItem="06X-IW-mXN" secondAttribute="centerY" id="ycT-Sq-BRs"/>
+                                                                    <constraint firstItem="5of-Uw-KL2" firstAttribute="centerY" secondItem="06X-IW-mXN" secondAttribute="centerY" id="Sjp-gq-3jx"/>
+                                                                    <constraint firstItem="5of-Uw-KL2" firstAttribute="centerX" secondItem="06X-IW-mXN" secondAttribute="centerX" id="gD9-Hu-MrY"/>
                                                                 </constraints>
                                                             </view>
                                                         </subviews>
@@ -874,7 +882,7 @@
                                                         <constraints>
                                                             <constraint firstItem="06X-IW-mXN" firstAttribute="centerY" secondItem="QiS-1f-8Bf" secondAttribute="centerY" id="8DB-8u-OIT"/>
                                                             <constraint firstItem="06X-IW-mXN" firstAttribute="height" secondItem="QiS-1f-8Bf" secondAttribute="height" id="dHE-iU-bUm"/>
-                                                            <constraint firstItem="06X-IW-mXN" firstAttribute="width" secondItem="QiS-1f-8Bf" secondAttribute="width" multiplier="3/4" id="joe-bZ-Md0"/>
+                                                            <constraint firstItem="06X-IW-mXN" firstAttribute="width" secondItem="QiS-1f-8Bf" secondAttribute="width" multiplier="0.8" id="joe-bZ-Md0"/>
                                                             <constraint firstItem="06X-IW-mXN" firstAttribute="centerX" secondItem="QiS-1f-8Bf" secondAttribute="centerX" id="rO5-Mx-msO"/>
                                                         </constraints>
                                                     </view>
@@ -921,10 +929,10 @@
                         <color key="backgroundColor" red="0.36862745098039218" green="0.50980392156862742" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="fu8-5t-wlI" firstAttribute="centerX" secondItem="tUR-1i-2LW" secondAttribute="centerX" id="1tW-yG-SNO"/>
-                            <constraint firstItem="gal-Bh-yfF" firstAttribute="leading" secondItem="tUR-1i-2LW" secondAttribute="leading" constant="25" id="5hi-xo-cc1"/>
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="centerY" secondItem="bWz-Ql-BWg" secondAttribute="centerY" id="6tG-9W-fmx"/>
+                            <constraint firstItem="gal-Bh-yfF" firstAttribute="centerX" secondItem="tUR-1i-2LW" secondAttribute="centerX" id="78i-Cw-BOq"/>
                             <constraint firstItem="fu8-5t-wlI" firstAttribute="centerY" secondItem="tUR-1i-2LW" secondAttribute="centerY" multiplier="1.8" id="HaU-nR-uoq"/>
-                            <constraint firstItem="eMs-pJ-RNF" firstAttribute="top" secondItem="gal-Bh-yfF" secondAttribute="bottom" constant="10" id="NGH-kO-HEu"/>
+                            <constraint firstItem="eMs-pJ-RNF" firstAttribute="top" secondItem="gal-Bh-yfF" secondAttribute="bottom" constant="15" id="NGH-kO-HEu"/>
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="centerX" secondItem="bWz-Ql-BWg" secondAttribute="centerX" id="T8b-3L-78k"/>
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="height" secondItem="bWz-Ql-BWg" secondAttribute="height" multiplier="5/8" id="ah6-Qc-kxh"/>
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="width" secondItem="bWz-Ql-BWg" secondAttribute="width" id="lfQ-3Y-dUW"/>
@@ -1333,6 +1341,7 @@
         <image name="lpgImage" width="120" height="210"/>
         <image name="mapButton" width="60" height="60"/>
         <image name="navigationIcon" width="22" height="22"/>
+        <image name="nonePageImage" width="180" height="200"/>
         <image name="oilTabIcon" width="25" height="25"/>
         <image name="oilTabIconSel" width="25" height="25"/>
         <image name="premiumImage" width="120" height="210"/>
