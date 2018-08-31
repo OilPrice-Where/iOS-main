@@ -4,6 +4,7 @@
 <img src="https://img.shields.io/badge/xcode-9.4.1-green.svg" />
 <img src="https://img.shields.io/badge/ios-11.4-yellow.svg" />
 <img src="https://img.shields.io/badge/licence-MIT-lightgrey.svg" /> <br><br>
+
 <br>
 
 ## Member
@@ -49,10 +50,10 @@
 <p align="left">
 <a href=""> 어플 실행 영상 </a> <br><br>
 
-<img src="screenList.png"width="55" />
-<img src="screenMap.png" width="55" />
-<img src="screenFavorite.png" width="55" />
-<img src="screenSetting.png" width="55" />
+<img src="screenList.png" width="150" />
+<img src="screenMap.png" width="150" />
+<img src="screenFavorite.png" width="150" />
+<img src="screenSetting.png" width="150" />
 </p>
 
 ## Version History
