@@ -49,10 +49,10 @@
 <p align="left">
 <a href=""> 어플 실행 영상 </a> <br><br>
 
-<img src="screenList/p55-1-resize.png" />
-<img src="screenMap/p55-2-resize.png" />
-<img src="screenFavorite/p55-3-resize.png" />
-<img src="screenSetting/p55-4-resize.png" />
+<img src="screenList.png" />
+<img src="screenMap.png" />
+<img src="screenFavorite.png" />
+<img src="screenSetting.png" />
 </p>
 
 ## Version History
