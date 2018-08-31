@@ -8,6 +8,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import SCLAlertView
 
 class MainListViewController: UIViewController {
     //CoreLocation
@@ -91,18 +92,36 @@ class MainListViewController: UIViewController {
         setting()
         setAverageCosts()
         setStatusBarBackgroundColor(color: .clear)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureLocationServices()
+        if Reachability.isConnectedToNetwork(){
+            configureLocationServices()
+        }
         if mainListPage {
             UIApplication.shared.statusBarStyle = .lightContent
         } else {
             UIApplication.shared.statusBarStyle = .default
         }
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !Reachability.isConnectedToNetwork() {
+            let appearance = SCLAlertView.SCLAppearance(
+                kWindowWidth: 300,
+                kTitleFont: UIFont(name: "NanumSquareRoundB", size: 18)!,
+                kTextFont: UIFont(name: "NanumSquareRoundR", size: 15)!,
+                showCloseButton: true
+            )
+
+            let alert = SCLAlertView(appearance: appearance)
+
+            alert.showError("네트워크 오류 발생", subTitle: "인터넷 연결이 오프라인 상태입니다.", closeButtonTitle: "확인", colorStyle: 0x5E82FF)
+            alert.iconTintColor = UIColor.white
+        }
     }
 
     func reset() {
