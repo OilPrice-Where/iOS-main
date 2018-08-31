@@ -16,6 +16,7 @@ class InitialSettingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,6 +39,7 @@ class InitialSettingViewController: UIViewController {
         default:
             DefaultData.shared.oilType = "B027" // 첫번째 페이지 선택 휘발유
         }
+        DefaultData.shared.saveOil()
     }
     
     // 왼쪽 버튼 클릭 이벤트

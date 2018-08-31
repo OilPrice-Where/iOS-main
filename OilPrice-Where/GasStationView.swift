@@ -131,6 +131,7 @@ class GasStationView: UIView {
             sender.isSelected = false
         } else { // 즐겨찾기 해제
             DefaultData.shared.favoriteArr.append(self.id!)
+            DefaultData.shared.saveFavorite()
             favoriteButton.imageView!.tintColor = UIColor.white
             favoriteButton.backgroundColor = UIColor(named: "MainColor")
             sender.isSelected = true

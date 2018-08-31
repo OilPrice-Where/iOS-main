@@ -17,7 +17,6 @@ class FavoritesGasStationViewController: UIViewController {
     lazy var favoriteViewArr: [FavoriteView] = [firstView,
                                                 secondView,
                                                 thirdView]
-    let exampleArr = ["A0028590","A0028591","A0028593"]
     var oldFavoriteArr: [String] = [] // 이전 Favorites
     var favoriteDataList: [InformationGasStaion] = []
     var oldOilType = "" // 이전 Oil Type
@@ -49,7 +48,6 @@ class FavoritesGasStationViewController: UIViewController {
 
         viewHiddenSetting() // 처음 뷰의 isHidden 상태로 돌린다.
         defaultSetting() // 초기 설정
-        favoriteDataLoad()
         
         pager.defersCurrentPageDisplay = true // 페이지 컨트롤 defer 설정
         pager.hidesForSinglePage = true // 페이지 컨트롤이 1개일때 숨김
@@ -98,9 +96,9 @@ class FavoritesGasStationViewController: UIViewController {
     func favoriteDataLoad() {
         noneContentView.isHidden = true // 데이터를 호출 하면 즐겨찾기가 있다는 뜻이므로 noneView를 hidden 시켜준다.
         
-        for index in 0 ..< exampleArr.count { // 뷰의 카운트 값(즐겨찾기 수)만큼 데이터를 읽어 온다.
+        for index in 0 ..< DefaultData.shared.favoriteArr.count { // 뷰의 카운트 값(즐겨찾기 수)만큼 데이터를 읽어 온다.
             ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
-                                             id: exampleArr[index]) {
+                                             id: DefaultData.shared.favoriteArr[index]) {
                 (result) in
                 switch result {
                 case .success(let favoriteData):
@@ -125,7 +123,8 @@ class FavoritesGasStationViewController: UIViewController {
         for favorite in favoriteDataList {
             if favorite.id == favoriteViewArr[sender.tag].id {
                 self.favoriteDataList.remove(at: count)
-                //        DefaultData.shared.favoriteArr.remove(at: count)
+                DefaultData.shared.favoriteArr.remove(at: count)
+                DefaultData.shared.saveFavorite()
             }
             count += 1
         }
