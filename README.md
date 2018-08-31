@@ -21,11 +21,11 @@
 <br>
 
 ## Content
-- [About Applications](#About-Applications)
-- [Preview](#Preview)
-- [Version History](#Version-History)
-- [Download](#Download)
-- [What we learned on this project](#What-we-learned-on-this-project)
+- [About Applications](#about-applications)
+- [Preview](#preview)
+- [Version History](#version-history)
+- [Download](#download)
+- [What we learned on this project](#what-we-learned-on-this-project)
 
 <br>
 
