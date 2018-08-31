@@ -1,5 +1,5 @@
 ## 어디주유 App 소개
-<p align="center">
+<p align="left">
 <img src="https://img.shields.io/badge/swift-4.1-blue.svg" />
 <img src="https://img.shields.io/badge/xcode-9.4.1-green.svg" />
 <img src="https://img.shields.io/badge/ios-11.4-yellow.svg" />
