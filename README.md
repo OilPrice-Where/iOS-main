@@ -31,20 +31,30 @@
 >- 오일타입별로 주유소 탐색 기능(휘발유,경유,LPG,고급휘발유 중 선택)
 >- 실시간 전국 평균가 정보 표시(휘발유,경유,LPG)
 
+<br>
+
 ## Member
 - 안솔찬
-    - Mail: perudot@gmail.com  
-    - GitHub: https://github.com/solchan87
+    - mail: perudot@gmail.com  
+    - github: https://github.com/solchan87
 - 박상욱
-    - Mail: wkahdla12346@gmail.com 
-    - GitHub: https://github.com/wargi
+    - mail: wkahdla12346@gmail.com 
+    - github: https://github.com/wargi
 - 박힘찬
-    - Mail: ting1099@gmail.com 
-    - GitHub: https://github.com/himchanPark
+    - mail: ting1099@gmail.com 
+    - github: https://github.com/himchanPark
+
+<br>
 
 ## Preview
+
+<br>
 
 ## Version History
 - ver 1.0.0 : App Store release(미정)
 
+<br>
+
 ## What we learned on this project
+
+<br>
