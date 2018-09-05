@@ -72,7 +72,7 @@
 - App Delegate Life Cycle & When use App Delegate Function
 - Version management system collaboration between team members
 - Json Data Parsing(Codable)
-- Passing data between views using segue
+- Passing data between ViewControllers using segue
 - Reuse TableviewCell
 - Save user setting data(Plist)
 - Depending on the status of the network, the status of the application
