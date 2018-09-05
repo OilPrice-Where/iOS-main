@@ -75,8 +75,8 @@
 - Passing data between ViewControllers using segue
 - Reuse TableviewCell
 - Save user setting data(Plist)
-- Depending on the status of the network, the status of the application
-- Depending on whether or not the location permission is granted, the status of the application
+- Application state as network state changes
+- Depending on your location rights, the application state
 - Autolayout by device
 
 <br>
