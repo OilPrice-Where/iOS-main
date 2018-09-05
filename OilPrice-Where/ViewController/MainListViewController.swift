@@ -29,7 +29,8 @@ class MainListViewController: UIViewController {
     private var currentCoordinate: CLLocationCoordinate2D? // 현재 좌표
     var currentPlacemark: CLPlacemark? // 주소결과가 들어있는 객체
     var annotations: [CustomMarkerAnnotation] = [] // 마커 배열 생성
-    @IBOutlet private weak var mapView : UIView!
+    @IBOutlet private weak var mapView : UIView! // 애플맵을 포함시키고 있는 뷰
+    @IBOutlet private weak var currentLocationButton : UIButton! // 현재 위치 표시 버튼
     
     // Detail View
     @IBOutlet private weak var detailView : DetailView! // Detail View
@@ -41,7 +42,7 @@ class MainListViewController: UIViewController {
     var refreshControl = UIRefreshControl() // Refresh Controller
     
     // HeaderView
-    @IBOutlet weak var toListButton : UIView!
+    @IBOutlet weak var toListButton : UIView! //
     @IBOutlet private weak var toImageView : UIImageView!
     @IBOutlet private weak var toLabel : UILabel!
     @IBOutlet weak var headerViewConstraint: NSLayoutConstraint!
@@ -79,6 +80,7 @@ class MainListViewController: UIViewController {
     var priceSortButton: UIButton!
     var distanceSortButton: UIButton!
     var lastSelectedSortButton: UIButton!
+    @IBOutlet private weak var noneView: UIView!
     
     func setStatusBarBackgroundColor(color: UIColor) {
         
@@ -122,6 +124,10 @@ class MainListViewController: UIViewController {
 
             alert.showError("네트워크 오류 발생", subTitle: "인터넷 연결이 오프라인 상태입니다.", closeButtonTitle: "확인", colorStyle: 0x5E82FF)
             alert.iconTintColor = UIColor.white
+            reset()
+            DefaultData.shared.data = nil
+            sortData = []
+            tableView.reloadData()
         }
     }
 
@@ -141,10 +147,10 @@ class MainListViewController: UIViewController {
             
             switch result {
             case .success(let gasStationData):
-                print("DataLoad")
                 DefaultData.shared.data = gasStationData.result.gasStations
                 self.sortData = gasStationData.result.gasStations.sorted(by: {$0.distance < $1.distance})
                 self.showMarker()
+                self.isDisplayNoneView()
                 self.refreshControl.endRefreshing()
                 self.tableView.reloadData()
             case .error(let error):
@@ -153,6 +159,13 @@ class MainListViewController: UIViewController {
         }
     }
     
+    func isDisplayNoneView() {
+        if self.sortData.count == 0 {
+            self.noneView.isHidden = false
+        } else {
+            self.noneView.isHidden = true
+        }
+    }
     
     /// tableView refreshControll 함수
     @objc func refresh() {
@@ -163,6 +176,18 @@ class MainListViewController: UIViewController {
     
     func setting() {
         priceView.layer.cornerRadius = 10
+        
+        // currentLocationButton 설정
+        currentLocationButton.layer.cornerRadius = self.currentLocationButton.bounds.height / 2
+        currentLocationButton.clipsToBounds = false
+        currentLocationButton.layer.shadowColor = UIColor.black.cgColor
+        currentLocationButton.layer.shadowOpacity = 0.3
+        currentLocationButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+        currentLocationButton.layer.shadowRadius = 1.5
+        currentLocationButton.addTarget(self, action: #selector(self.currentLoaction(_:)), for: .touchUpInside)
+        
+        // Draw a shadow
+        currentLocationButton.layer.shadowPath = UIBezierPath(roundedRect: currentLocationButton.bounds, cornerRadius: self.currentLocationButton.bounds.height / 2).cgPath
         
         // Navigation Bar 색상 설정
         UINavigationBar.appearance().barTintColor = UIColor(named: "MainColor")
@@ -175,7 +200,7 @@ class MainListViewController: UIViewController {
         toListButton.clipsToBounds = false
         toListButton.layer.shadowColor = UIColor.black.cgColor
         toListButton.layer.shadowOpacity = 0.5
-        toListButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        toListButton.layer.shadowOffset = CGSize(width: 1, height: 1)
         toListButton.layer.shadowRadius = 2
         
         // Draw a shadow
@@ -226,7 +251,6 @@ class MainListViewController: UIViewController {
             } else {
                 self.thirdProductImageView.image = #imageLiteral(resourceName: "priceDownIcon")
             }
-
         }
     }
     
@@ -350,6 +374,26 @@ class MainListViewController: UIViewController {
         tableView.reloadData()
     }
     
+    //
+    @objc func currentLoaction(_ sender: UIButton) {
+        if Reachability.isConnectedToNetwork() {
+            guard let coordinate = self.currentCoordinate else { return }
+            zoomToLatestLocation(with: coordinate)
+        } else {
+            let appearance = SCLAlertView.SCLAppearance(
+                kWindowWidth: 300,
+                kTitleFont: UIFont(name: "NanumSquareRoundB", size: 18)!,
+                kTextFont: UIFont(name: "NanumSquareRoundR", size: 15)!,
+                showCloseButton: true
+            )
+            
+            let alert = SCLAlertView(appearance: appearance)
+            
+            alert.showError("네트워크 오류 발생", subTitle: "인터넷 연결이 오프라인 상태입니다.", closeButtonTitle: "확인", colorStyle: 0x5E82FF)
+            alert.iconTintColor = UIColor.white
+        }
+    }
+    
     // 지도 보기
     @objc func viewMapAction(annotionIndex gesture: UITapGestureRecognizer) {
         guard let index = self.selectIndexPath?.section else { return }
@@ -393,8 +437,9 @@ class MainListViewController: UIViewController {
     @objc func configureLocationServices() {
         locationManager.delegate = self
         appleMapView.delegate = self
-        let status = CLLocationManager.authorizationStatus() // 현재 인증상태 확인
         
+        let status = CLLocationManager.authorizationStatus() // 현재 인증상태 확인
+        print("Status: \(status)")
         if status == .notDetermined { // notDetermined일 시 AlwaysAuthorization 요청
             locationManager.requestWhenInUseAuthorization()
             startLocationUpdates(locationManager: locationManager)
@@ -437,16 +482,19 @@ class MainListViewController: UIViewController {
     }
     
     // 주소 한글 변환
-    func string(from placemark: CLPlacemark) -> String {
+    func string(from placemark: CLPlacemark?) -> String? {
+        guard let currentPlacemark = placemark else {
+            return nil
+        }
         // address
         var address = ""
-        if let s = placemark.administrativeArea {
+        if let s = currentPlacemark.administrativeArea {
             address += s + " "
         }
-        if let s = placemark.locality {
+        if let s = currentPlacemark.locality {
             address += s + " "
         }
-        if let s = placemark.thoroughfare {
+        if let s = currentPlacemark.thoroughfare {
             address += s
         }
         return address
@@ -498,7 +546,7 @@ extension MainListViewController: CLLocationManagerDelegate {
                     }
                     
                     self.performingReverseGeocoding = false
-                    self.headerView.configure(with: self.string(from: self.currentPlacemark!))
+                    self.headerView.configure(with: self.string(from: self.currentPlacemark))
                 })
             }
             if let lastLocation = oldLocation {
@@ -507,11 +555,9 @@ extension MainListViewController: CLLocationManagerDelegate {
                    lastOilType == DefaultData.shared.oilType &&
                    lastFindRadius == DefaultData.shared.radius &&
                    lastFavorites == DefaultData.shared.favoriteArr {
-                    print("IF Distance")
                    stopLocationManager()
                    self.tableView.reloadData()
                 } else {
-                    print("Else Distance")
                     reset()
                     gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
                     stopLocationManager()
@@ -521,7 +567,6 @@ extension MainListViewController: CLLocationManagerDelegate {
                     lastFavorites = DefaultData.shared.favoriteArr
                 }
             } else {
-                print("Else")
                 gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
                 stopLocationManager()
                 oldLocation = newLocation
