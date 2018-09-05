@@ -70,7 +70,7 @@
 - Core Location
 - MapKit
 - App Delegate Life Cycle & When use App Delegate Function
-- Version management system collaboration between team members
+- Collaboration using Git(VCS)
 - Json Data Parsing(Codable)
 - Passing data between ViewControllers using segue
 - Reuse TableviewCell
