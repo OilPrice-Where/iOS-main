@@ -67,4 +67,16 @@
 
 ## What we learned on this project
 
+- Core Location
+- MapKit
+- App Delegate Life Cycle & When use App Delegate Function
+- Version management system collaboration between team members
+- Json Data Parsing(Codable)
+- Passing data between views using segue
+- Reuse TableviewCell
+- Save user setting data(Plist)
+- Depending on the status of the network, the status of the application
+- Depending on whether or not the location permission is granted, the status of the application
+- Autolayout by device
+
 <br>
