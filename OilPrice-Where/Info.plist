@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIRequiresPersistentWiFi</key>
-	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -51,9 +49,9 @@
 		<true/>
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>주변의 주유소를 검색하기 위해 위치 정보를 사용합니다.</string>
+	<string>위치 서비스를 허용하시면 이 근처의 가장 저렴한 주유소를 확인할 수 있어요.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>주변의 주유소를 검색하기 위해 위치 정보를 사용합니다.</string>
+	<string>위치 서비스를 허용하시면 이 근처의 가장 저렴한 주유소를 확인할 수 있어요.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NanumSquareRoundB.ttf</string>
@@ -71,6 +69,10 @@
 	</array>
 	<key>UIRequiresFullScreen</key>
 	<false/>
+	<key>UIRequiresPersistentWiFi</key>
+	<true/>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

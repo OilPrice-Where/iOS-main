@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import SCLAlertView
 
 class FavoritesGasStationViewController: UIViewController {
 
@@ -21,15 +22,15 @@ class FavoritesGasStationViewController: UIViewController {
     var favoriteDataList: [InformationGasStaion] = []
     var oldOilType = "" // 이전 Oil Type
     
-    @IBOutlet private weak var noneView : UIView! // None View
-    @IBOutlet private weak var firstView : FavoriteView! // 1st Favorite View
-    @IBOutlet private weak var secondView : FavoriteView! // 2nd Favorite View
-    @IBOutlet private weak var thirdView : FavoriteView! // 3rd Favorite View
+    @IBOutlet private weak var firstView : FavoriteView! // 1st Stack Content View
+    @IBOutlet private weak var secondView : FavoriteView! // 2nd Stack Content View
+    @IBOutlet private weak var thirdView : FavoriteView! // 3rd Stack Content View
+    @IBOutlet private weak var noneView : UIView! // none Stack Content View
     
-    @IBOutlet weak var firstContentView: UIView!
-    @IBOutlet weak var secondContentView: UIView!
-    @IBOutlet weak var thirdContentView: UIView!
-    @IBOutlet weak var noneContentView: UIView!
+    @IBOutlet weak var firstContentView: UIView! // 1st Favorite View
+    @IBOutlet weak var secondContentView: UIView! // 2nd Favorite View
+    @IBOutlet weak var thirdContentView: UIView! // 3rd Favorite View
+    @IBOutlet weak var noneContentView: UIView! // // None View
     
     @IBOutlet weak var scrollView: UIScrollView! // Scroll View
     @IBOutlet weak var pager: UIPageControl! // Page Controller
@@ -57,13 +58,31 @@ class FavoritesGasStationViewController: UIViewController {
         super.viewWillAppear(animated)
         
         UIApplication.shared.statusBarStyle = .lightContent // Status Bar Color
-        pager.numberOfPages = DefaultData.shared.favoriteArr.count // Page Number
         
-        // 이전 데이터와 중복 되거나, 새로운 오일 타입 설정 시 데이터를 다시 받아서 업데이트 시켜준다.
-        if oldFavoriteArr != DefaultData.shared.favoriteArr || oldOilType != DefaultData.shared.oilType {
-            viewHiddenSetting() // 처음 뷰의 isHidden 상태로 돌린다.
-            favoriteDataLoad()
+        if Reachability.isConnectedToNetwork() {
+            pager.numberOfPages = DefaultData.shared.favoriteArr.count // Page Number
+            
+            // 이전 데이터와 중복 되거나, 새로운 오일 타입 설정 시 데이터를 다시 받아서 업데이트 시켜준다.
+            if oldFavoriteArr != DefaultData.shared.favoriteArr || oldOilType != DefaultData.shared.oilType {
+                viewHiddenSetting() // 처음 뷰의 isHidden 상태로 돌린다.
+                favoriteDataLoad()
+            }
+        } else {
+            pager.numberOfPages = 0 // Page Number
+            let appearance = SCLAlertView.SCLAppearance(
+                kWindowWidth: 300,
+                kTitleFont: UIFont(name: "NanumSquareRoundB", size: 18)!,
+                kTextFont: UIFont(name: "NanumSquareRoundR", size: 15)!,
+                showCloseButton: true
+            )
+            
+            let alert = SCLAlertView(appearance: appearance)
+            
+            alert.showError("네트워크 오류 발생", subTitle: "인터넷 연결이 오프라인 상태입니다.", closeButtonTitle: "확인", colorStyle: 0x5E82FF)
+            alert.iconTintColor = UIColor.white
         }
+        
+        
     }
     
     // 뷰가 없어 질 때 뷰의 이전 정보들을 저장 시킨다.
@@ -122,9 +141,14 @@ class FavoritesGasStationViewController: UIViewController {
         self.contentViewArr[sender.tag].isHidden = true
         for favorite in favoriteDataList {
             if favorite.id == favoriteViewArr[sender.tag].id {
-                self.favoriteDataList.remove(at: count)
-                DefaultData.shared.favoriteArr.remove(at: count)
-                DefaultData.shared.saveFavorite()
+                if count <= favoriteDataList.count &&
+                    favoriteDataList.count == DefaultData.shared.favoriteArr.count {
+                    self.favoriteDataList.remove(at: count)
+                    DefaultData.shared.favoriteArr.remove(at: count)
+                    DefaultData.shared.saveFavorite()
+                    print("DefaultData.shared.favoriteArr.count ")
+                    pager.numberOfPages = DefaultData.shared.favoriteArr.count // Page Number
+                }
             }
             count += 1
         }

@@ -162,10 +162,16 @@
                                             <outlet property="stationName" destination="sSZ-LS-lZw" id="O84-gx-4k2"/>
                                         </connections>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5P9-xF-U3B">
+                                        <rect key="frame" x="250" y="40" width="50" height="50"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="currentLocationButton"/>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="mkL-kO-zCA" firstAttribute="top" secondItem="sHb-qf-EB7" secondAttribute="top" id="A9p-Gj-WWX"/>
+                                    <constraint firstItem="5P9-xF-U3B" firstAttribute="top" secondItem="mkL-kO-zCA" secondAttribute="top" constant="40" id="GJL-Vk-Q1w"/>
                                     <constraint firstItem="mkL-kO-zCA" firstAttribute="leading" secondItem="sHb-qf-EB7" secondAttribute="leading" id="INF-on-Plt"/>
                                     <constraint firstAttribute="bottom" secondItem="8eG-wx-yb6" secondAttribute="bottom" constant="-150" id="K0O-em-5Jb"/>
                                     <constraint firstAttribute="trailing" secondItem="mkL-kO-zCA" secondAttribute="trailing" id="NI8-gL-Rwr"/>
@@ -449,7 +455,7 @@
                                                 <rect key="frame" x="20" y="0.0" width="280" height="37.5"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Ohf-CV-boG">
-                                                        <rect key="frame" x="103" y="-5.5" width="75" height="50"/>
+                                                        <rect key="frame" x="44" y="-5.5" width="193.5" height="50"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="geoIcon" translatesAutoresizingMaskIntoConstraints="NO" id="LQT-gX-7AD">
                                                                 <rect key="frame" x="0.0" y="15" width="20" height="20"/>
@@ -459,12 +465,15 @@
                                                                 </constraints>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T7e-un-Myh">
-                                                                <rect key="frame" x="25" y="0.0" width="50" height="50"/>
+                                                                <rect key="frame" x="25" y="0.0" width="168.5" height="50"/>
                                                                 <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="16"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="T7e-un-Myh" firstAttribute="leading" secondItem="LQT-gX-7AD" secondAttribute="trailing" constant="5" id="OHD-Ms-hEX"/>
+                                                        </constraints>
                                                     </stackView>
                                                 </subviews>
                                                 <constraints>
@@ -475,6 +484,7 @@
                                         </subviews>
                                         <color key="backgroundColor" name="MainColor"/>
                                         <constraints>
+                                            <constraint firstItem="Ohf-CV-boG" firstAttribute="width" relation="lessThanOrEqual" secondItem="RVb-Ha-2CD" secondAttribute="width" id="Iqi-9b-D9f"/>
                                             <constraint firstAttribute="trailing" secondItem="RVb-Ha-2CD" secondAttribute="trailing" constant="20" id="Knq-90-cKW"/>
                                             <constraint firstItem="lwR-NJ-GDQ" firstAttribute="trailing" secondItem="RVb-Ha-2CD" secondAttribute="trailing" id="NKQ-y8-MH7"/>
                                             <constraint firstItem="lwR-NJ-GDQ" firstAttribute="leading" secondItem="RVb-Ha-2CD" secondAttribute="leading" id="T15-bd-qfM"/>
@@ -485,8 +495,12 @@
                                             <constraint firstItem="lwR-NJ-GDQ" firstAttribute="top" secondItem="6ZR-N8-BZE" secondAttribute="top" id="yrd-HV-kw2"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="geoLabel" destination="T7e-un-Myh" id="GX5-zT-GtG"/>
+                                            <outlet property="geoLabel" destination="T7e-un-Myh" id="z6B-bj-Fa2"/>
                                         </connections>
+                                    </view>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FeH-tc-DtE" userLabel="noneView">
+                                        <rect key="frame" x="0.0" y="192" width="320" height="307"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -494,9 +508,13 @@
                                     <constraint firstItem="6ZR-N8-BZE" firstAttribute="leading" secondItem="mWi-kJ-sMC" secondAttribute="leading" id="658-Po-1Jc"/>
                                     <constraint firstItem="6ZR-N8-BZE" firstAttribute="height" secondItem="mWi-kJ-sMC" secondAttribute="width" multiplier="0.6" id="AP2-YK-IT8"/>
                                     <constraint firstItem="vpo-wx-DUy" firstAttribute="top" secondItem="6ZR-N8-BZE" secondAttribute="bottom" id="Jw2-Zy-PcQ"/>
+                                    <constraint firstItem="FeH-tc-DtE" firstAttribute="height" secondItem="vpo-wx-DUy" secondAttribute="height" id="QvE-9i-4kM"/>
                                     <constraint firstAttribute="trailing" secondItem="vpo-wx-DUy" secondAttribute="trailing" id="Wtr-ib-Lw2"/>
                                     <constraint firstItem="vpo-wx-DUy" firstAttribute="leading" secondItem="mWi-kJ-sMC" secondAttribute="leading" id="dSd-nc-1yY"/>
+                                    <constraint firstItem="FeH-tc-DtE" firstAttribute="leading" secondItem="vpo-wx-DUy" secondAttribute="leading" id="jYo-nz-lw8"/>
                                     <constraint firstAttribute="trailing" secondItem="6ZR-N8-BZE" secondAttribute="trailing" id="qSv-Qx-jVl"/>
+                                    <constraint firstItem="FeH-tc-DtE" firstAttribute="width" secondItem="vpo-wx-DUy" secondAttribute="width" id="ryx-t6-HrM"/>
+                                    <constraint firstItem="FeH-tc-DtE" firstAttribute="top" secondItem="vpo-wx-DUy" secondAttribute="top" id="th4-lh-FQ2"/>
                                     <constraint firstAttribute="bottom" secondItem="vpo-wx-DUy" secondAttribute="bottom" id="uKs-Cg-1qG"/>
                                     <constraint firstItem="6ZR-N8-BZE" firstAttribute="top" secondItem="mWi-kJ-sMC" secondAttribute="top" id="yAH-w1-ZG9"/>
                                 </constraints>
@@ -542,6 +560,7 @@
                             <constraint firstItem="sHb-qf-EB7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Krh-tt-mXE"/>
                             <constraint firstItem="sHb-qf-EB7" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="PmN-Ou-xIg"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="mWi-kJ-sMC" secondAttribute="bottom" id="c7k-5v-Ihn"/>
+                            <constraint firstItem="5P9-xF-U3B" firstAttribute="trailing" secondItem="JoX-Ar-dK2" secondAttribute="trailing" id="e5n-ud-nhu"/>
                             <constraint firstItem="s9Q-aK-qwZ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="gP8-GF-GrB"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="sHb-qf-EB7" secondAttribute="bottom" id="kLX-an-dgC"/>
                             <constraint firstAttribute="trailing" secondItem="s9Q-aK-qwZ" secondAttribute="trailing" id="lo0-up-5Bb"/>
@@ -554,6 +573,7 @@
                     <tabBarItem key="tabBarItem" title="주유 정보" image="oilTabIcon" selectedImage="oilTabIconSel" id="vIt-C4-1IF"/>
                     <connections>
                         <outlet property="appleMapView" destination="mkL-kO-zCA" id="nmk-hf-cLI"/>
+                        <outlet property="currentLocationButton" destination="5P9-xF-U3B" id="Uvt-ur-avV"/>
                         <outlet property="detailView" destination="8eG-wx-yb6" id="fPp-tw-nd1"/>
                         <outlet property="headerView" destination="6ZR-N8-BZE" id="3NF-U0-x3q"/>
                         <outlet property="headerViewConstraint" destination="yAH-w1-ZG9" id="hiG-kM-en5"/>
@@ -561,6 +581,7 @@
                         <outlet property="mainProductImageView" destination="wWi-ku-GNU" id="wJd-MQ-myI"/>
                         <outlet property="mainProductTitleLabel" destination="CDr-uC-t0W" id="Rfl-ZB-eo7"/>
                         <outlet property="mapView" destination="sHb-qf-EB7" id="fcy-8K-9d8"/>
+                        <outlet property="noneView" destination="FeH-tc-DtE" id="I3A-4S-UZi"/>
                         <outlet property="priceView" destination="RVb-Ha-2CD" id="vbP-7p-ALc"/>
                         <outlet property="secondProductCostLabel" destination="LPZ-eF-qzj" id="8z5-zc-yxW"/>
                         <outlet property="secondProductImageView" destination="tO4-dU-EQ4" id="0ws-wB-NaF"/>
@@ -780,8 +801,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자주 가는 주유소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gal-Bh-yfF">
-                                <rect key="frame" x="98" y="71.5" width="124" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자주 가는 주유소" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gal-Bh-yfF">
+                                <rect key="frame" x="32" y="71.5" width="256" height="20"/>
                                 <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -931,12 +952,13 @@
                         <constraints>
                             <constraint firstItem="fu8-5t-wlI" firstAttribute="centerX" secondItem="tUR-1i-2LW" secondAttribute="centerX" id="1tW-yG-SNO"/>
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="centerY" secondItem="bWz-Ql-BWg" secondAttribute="centerY" id="6tG-9W-fmx"/>
-                            <constraint firstItem="gal-Bh-yfF" firstAttribute="centerX" secondItem="tUR-1i-2LW" secondAttribute="centerX" id="78i-Cw-BOq"/>
                             <constraint firstItem="fu8-5t-wlI" firstAttribute="centerY" secondItem="tUR-1i-2LW" secondAttribute="centerY" multiplier="1.8" id="HaU-nR-uoq"/>
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="top" secondItem="gal-Bh-yfF" secondAttribute="bottom" constant="15" id="NGH-kO-HEu"/>
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="centerX" secondItem="bWz-Ql-BWg" secondAttribute="centerX" id="T8b-3L-78k"/>
+                            <constraint firstItem="gal-Bh-yfF" firstAttribute="width" secondItem="eMs-pJ-RNF" secondAttribute="width" multiplier="0.8" id="TBe-zB-iQH"/>
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="height" secondItem="bWz-Ql-BWg" secondAttribute="height" multiplier="5/8" id="ah6-Qc-kxh"/>
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="width" secondItem="bWz-Ql-BWg" secondAttribute="width" id="lfQ-3Y-dUW"/>
+                            <constraint firstItem="gal-Bh-yfF" firstAttribute="centerX" secondItem="bWz-Ql-BWg" secondAttribute="centerX" id="zGS-LJ-AHP"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tUR-1i-2LW"/>
                     </view>
@@ -1331,6 +1353,7 @@
     </scenes>
     <resources>
         <image name="LogoGSCaltex" width="30" height="30"/>
+        <image name="currentLocationButton" width="50" height="50"/>
         <image name="dieselImage" width="120" height="210"/>
         <image name="favoriteOffIcon" width="22" height="22"/>
         <image name="favoriteTabIcon" width="25" height="25"/>
