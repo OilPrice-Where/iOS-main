@@ -82,32 +82,17 @@ class SettingTableViewController: UITableViewController {
     
     // 앱스토어 연결
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let urlString = "https://itunes.apple.com/kr/app/%EB%8F%84%EB%AF%B8%EB%85%B8%ED%94%BC%EC%9E%90-dominos-pizza/id371008429?mt=8"
-        
         if indexPath.section == 2 && indexPath.row == 1 {
-            
-            if let appStoreURL = URL(string: urlString), UIApplication.shared.canOpenURL(appStoreURL) {
+            let id = "1435350344"
+            if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) {
                 // 유효한 URL인지 검사
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(appStoreURL, options: [:], completionHandler: nil)
-                    
-                } else { UIApplication.shared.openURL(appStoreURL) }
-                
+                if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
+                    UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(reviewURL)
+                }
             }
-            
-            
-            //            let id = "tt"
-            //            if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) {
-            //                // 유효한 URL인지 검사
-            //                if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
-            //                    UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil) } else { UIApplication.shared.openURL(reviewURL) } }
         }
-        
-        
-        
     }
-    
-    
 }
 

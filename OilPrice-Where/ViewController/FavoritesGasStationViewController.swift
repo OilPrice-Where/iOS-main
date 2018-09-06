@@ -18,8 +18,8 @@ class FavoritesGasStationViewController: UIViewController {
     lazy var favoriteViewArr: [FavoriteView] = [firstView,
                                                 secondView,
                                                 thirdView]
+    
     var oldFavoriteArr: [String] = [] // 이전 Favorites
-    var favoriteDataList: [InformationGasStaion] = []
     var oldOilType = "" // 이전 Oil Type
     
     @IBOutlet private weak var firstView : FavoriteView! // 1st Stack Content View
@@ -122,7 +122,6 @@ class FavoritesGasStationViewController: UIViewController {
                 switch result {
                 case .success(let favoriteData):
                     self.contentViewArr[index].isHidden = false
-                    self.favoriteDataList.append(favoriteData.result.allPriceList[0])
                     self.favoriteViewArr[index].configure(with: favoriteData.result.allPriceList[0]) // 뷰 정보 입력
                     self.favoriteViewArr[index].deleteFavoriteButton.tag = index
                     self.favoriteViewArr[index].deleteFavoriteButton.addTarget(self,
@@ -136,22 +135,14 @@ class FavoritesGasStationViewController: UIViewController {
     }
     
     @objc func deleteFavoriteView(_ sender: UIButton) {
-        var count = 0
         
         self.contentViewArr[sender.tag].isHidden = true
-        for favorite in favoriteDataList {
-            if favorite.id == favoriteViewArr[sender.tag].id {
-                if count <= favoriteDataList.count &&
-                    favoriteDataList.count == DefaultData.shared.favoriteArr.count {
-                    self.favoriteDataList.remove(at: count)
-                    DefaultData.shared.favoriteArr.remove(at: count)
-                    DefaultData.shared.saveFavorite()
-                    print("DefaultData.shared.favoriteArr.count ")
-                    pager.numberOfPages = DefaultData.shared.favoriteArr.count // Page Number
-                }
-            }
-            count += 1
+        DefaultData.shared.favoriteArr = DefaultData.shared.favoriteArr.filter {
+            $0 != favoriteViewArr[sender.tag].id
         }
+        DefaultData.shared.saveFavorite()
+        pager.numberOfPages = DefaultData.shared.favoriteArr.count // Page Number
+        
         if firstContentView.isHidden && secondContentView.isHidden && thirdContentView.isHidden {
             noneContentView.isHidden = false
         }

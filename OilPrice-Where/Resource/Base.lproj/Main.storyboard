@@ -208,7 +208,7 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="46" id="rZ3-bg-7J8"/>
                                                                     </constraints>
-                                                                    <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="11"/>
+                                                                    <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="12"/>
                                                                     <color key="textColor" red="0.43137254899999999" green="0.43137254899999999" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -498,23 +498,39 @@
                                             <outlet property="geoLabel" destination="T7e-un-Myh" id="z6B-bj-Fa2"/>
                                         </connections>
                                     </view>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FeH-tc-DtE" userLabel="noneView">
-                                        <rect key="frame" x="0.0" y="192" width="320" height="307"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FeH-tc-DtE" userLabel="noneView">
+                                        <rect key="frame" x="51" y="233" width="218.5" height="165"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noneListImage" translatesAutoresizingMaskIntoConstraints="NO" id="G6g-qh-pBe">
+                                                <rect key="frame" x="64" y="0.0" width="140" height="130"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="근처 주유소를 찾을 수 없습니다" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TkF-vD-sOB">
+                                                <rect key="frame" x="0.0" y="145" width="218.5" height="19"/>
+                                                <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
+                                                <color key="textColor" red="0.58823529411764708" green="0.58823529411764708" blue="0.58823529411764708" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="TkF-vD-sOB" firstAttribute="top" secondItem="G6g-qh-pBe" secondAttribute="bottom" constant="15" id="EJc-M5-PEi"/>
+                                            <constraint firstItem="TkF-vD-sOB" firstAttribute="centerX" secondItem="FeH-tc-DtE" secondAttribute="centerX" id="MnI-9p-kcw"/>
+                                            <constraint firstAttribute="width" secondItem="TkF-vD-sOB" secondAttribute="width" id="mdI-fA-Eo6"/>
+                                            <constraint firstItem="G6g-qh-pBe" firstAttribute="centerX" secondItem="FeH-tc-DtE" secondAttribute="centerX" constant="25" id="tdb-ds-YSa"/>
+                                            <constraint firstAttribute="height" secondItem="G6g-qh-pBe" secondAttribute="height" constant="35" id="xz1-VD-6Ko"/>
+                                            <constraint firstItem="G6g-qh-pBe" firstAttribute="top" secondItem="FeH-tc-DtE" secondAttribute="top" id="yqq-WU-mVj"/>
+                                        </constraints>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="6ZR-N8-BZE" firstAttribute="leading" secondItem="mWi-kJ-sMC" secondAttribute="leading" id="658-Po-1Jc"/>
                                     <constraint firstItem="6ZR-N8-BZE" firstAttribute="height" secondItem="mWi-kJ-sMC" secondAttribute="width" multiplier="0.6" id="AP2-YK-IT8"/>
+                                    <constraint firstItem="FeH-tc-DtE" firstAttribute="centerY" secondItem="vpo-wx-DUy" secondAttribute="centerY" constant="-30" id="JCM-TN-RIa"/>
                                     <constraint firstItem="vpo-wx-DUy" firstAttribute="top" secondItem="6ZR-N8-BZE" secondAttribute="bottom" id="Jw2-Zy-PcQ"/>
-                                    <constraint firstItem="FeH-tc-DtE" firstAttribute="height" secondItem="vpo-wx-DUy" secondAttribute="height" id="QvE-9i-4kM"/>
                                     <constraint firstAttribute="trailing" secondItem="vpo-wx-DUy" secondAttribute="trailing" id="Wtr-ib-Lw2"/>
+                                    <constraint firstItem="FeH-tc-DtE" firstAttribute="centerX" secondItem="vpo-wx-DUy" secondAttribute="centerX" id="aOb-6T-2UG"/>
                                     <constraint firstItem="vpo-wx-DUy" firstAttribute="leading" secondItem="mWi-kJ-sMC" secondAttribute="leading" id="dSd-nc-1yY"/>
-                                    <constraint firstItem="FeH-tc-DtE" firstAttribute="leading" secondItem="vpo-wx-DUy" secondAttribute="leading" id="jYo-nz-lw8"/>
                                     <constraint firstAttribute="trailing" secondItem="6ZR-N8-BZE" secondAttribute="trailing" id="qSv-Qx-jVl"/>
-                                    <constraint firstItem="FeH-tc-DtE" firstAttribute="width" secondItem="vpo-wx-DUy" secondAttribute="width" id="ryx-t6-HrM"/>
-                                    <constraint firstItem="FeH-tc-DtE" firstAttribute="top" secondItem="vpo-wx-DUy" secondAttribute="top" id="th4-lh-FQ2"/>
                                     <constraint firstAttribute="bottom" secondItem="vpo-wx-DUy" secondAttribute="bottom" id="uKs-Cg-1qG"/>
                                     <constraint firstItem="6ZR-N8-BZE" firstAttribute="top" secondItem="mWi-kJ-sMC" secondAttribute="top" id="yAH-w1-ZG9"/>
                                 </constraints>
@@ -581,7 +597,8 @@
                         <outlet property="mainProductImageView" destination="wWi-ku-GNU" id="wJd-MQ-myI"/>
                         <outlet property="mainProductTitleLabel" destination="CDr-uC-t0W" id="Rfl-ZB-eo7"/>
                         <outlet property="mapView" destination="sHb-qf-EB7" id="fcy-8K-9d8"/>
-                        <outlet property="noneView" destination="FeH-tc-DtE" id="I3A-4S-UZi"/>
+                        <outlet property="noneLabel" destination="TkF-vD-sOB" id="Jfs-f0-U94"/>
+                        <outlet property="noneView" destination="FeH-tc-DtE" id="tcz-8T-5um"/>
                         <outlet property="priceView" destination="RVb-Ha-2CD" id="vbP-7p-ALc"/>
                         <outlet property="secondProductCostLabel" destination="LPZ-eF-qzj" id="8z5-zc-yxW"/>
                         <outlet property="secondProductImageView" destination="tO4-dU-EQ4" id="0ws-wB-NaF"/>
@@ -1450,6 +1467,7 @@
         <image name="lpgImage" width="120" height="210"/>
         <image name="mapButton" width="60" height="60"/>
         <image name="navigationIcon" width="22" height="22"/>
+        <image name="noneListImage" width="140" height="130"/>
         <image name="nonePageImage" width="180" height="200"/>
         <image name="oilTabIcon" width="25" height="25"/>
         <image name="oilTabIconSel" width="25" height="25"/>
