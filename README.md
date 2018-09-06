@@ -1,4 +1,4 @@
-## 어디주유 Where gas stations(Team ATP)
+# 어디주유 Where Gas Stations
 <p align="left">
 <img src="https://img.shields.io/badge/swift-4.1-blue.svg" />
 <img src="https://img.shields.io/badge/xcode-9.4.1-green.svg" />
@@ -8,6 +8,7 @@
 <br>
 
 ## Member
+
 - 안솔찬
     - mail: perudot@gmail.com  
     - github: https://github.com/solchan87
@@ -21,15 +22,16 @@
 <br>
 
 ## Content
-- [About Applications](#About-Applications)
-- [Preview](#Preview)
-- [Version History](#Version-History)
-- [Download](#Download)
-- [What we learned on this project](#What-we-learned-on-this-project)
+
+- [1. About Applications](#1.-About-Applications)
+- [2. Preview](#2.-Preview)
+- [3. Version History](#3.-Version-History)
+- [4. Download](#4.-Download)
+- [5. What we learned on this project](#5.-What-we-learned-on-this-project)
 
 <br>
 
-## About ApplicationsContent
+## 1. About ApplicationsContent
 
 - 프로젝트 기간: 18.07 ~ 18.08
 - 사용자에게 가까운 거리의 주유소 중 합리적인 가격의 주유소를 찾아 안내해주는 어플
@@ -46,7 +48,7 @@
 
 <br>
 
-## Preview
+## 2. Preview
 <p align="left">
 <a href=""> 어플 실행 영상 </a> <br><br>
 
@@ -56,15 +58,15 @@
 <img src="screenSetting.png" width="220" />
 </p>
 
-## Version History
+## 3. Version History
 - ver 1.0.0 : App Store release(미정)
 
 <br>
 
-## Download
+## 4. Download
 
 <br>
 
-## What we learned on this project
+## 5. What we learned on this project
 
 <br>
