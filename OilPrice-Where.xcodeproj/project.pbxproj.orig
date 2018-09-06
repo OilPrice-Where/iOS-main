@@ -1,0 +1,715 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		29B226432121FDC60012B2F6 /* AverageCostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B226422121FDC60012B2F6 /* AverageCostData.swift */; };
+		29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */; };
+		29B2264B2122C2C40012B2F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29B2264A2122C2C30012B2F6 /* GoogleService-Info.plist */; };
+		29B226562126A8BF0012B2F6 /* NanumSquareRoundL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226522126A8B90012B2F6 /* NanumSquareRoundL.ttf */; };
+		29B226572126A8BF0012B2F6 /* NanumSquareRoundB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226532126A8BA0012B2F6 /* NanumSquareRoundB.ttf */; };
+		29B226582126A8BF0012B2F6 /* NanumSquareRoundEB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226542126A8BB0012B2F6 /* NanumSquareRoundEB.ttf */; };
+		29B226592126A8BF0012B2F6 /* NanumSquareRoundR.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226552126A8BD0012B2F6 /* NanumSquareRoundR.ttf */; };
+		7639D9332138423B00C1B79E /* NoticeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639D9322138423B00C1B79E /* NoticeTableViewController.swift */; };
+		7639D93521385E4300C1B79E /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639D93421385E4300C1B79E /* NoticeDetailViewController.swift */; };
+		764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift */; };
+		765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
+		7658AB0C2112C38A00723CF0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */; };
+		76760DFF213875DE00E27CA6 /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76760DFE213875DE00E27CA6 /* NoticeTableViewCell.swift */; };
+		8E167D3B2107AD480066A59E /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3A2107AD480066A59E /* Service.swift */; };
+		8E167D3D2107AEA30066A59E /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3C2107AEA30066A59E /* API.swift */; };
+		8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3E2107D95C0066A59E /* GeoConverter.swift */; };
+		8E167D412107E30F0066A59E /* GasStationListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D402107E30F0066A59E /* GasStationListData.swift */; };
+		8E1BB8ED2107E78D0065281B /* ServiceResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1BB8EC2107E78D0065281B /* ServiceResult.swift */; };
+		8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1BB8EE2107E9A60065281B /* DataUtility.swift */; };
+		8E1BB8F12107F61E0065281B /* GasStationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1BB8F02107F61E0065281B /* GasStationCell.swift */; };
+		8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */; };
+		8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */; };
+		8E7FFE2A20F5E5FF006CED48 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2820F5E5FF006CED48 /* Main.storyboard */; };
+		8E7FFE2C20F5E5FF006CED48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2B20F5E5FF006CED48 /* Assets.xcassets */; };
+		8E7FFE3920F5EA1C006CED48 /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */; };
+		8ECE0D032118963000FF2B46 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D022118963000FF2B46 /* CustomAnnotationView.swift */; };
+		8ECE0D4E21195F3600FF2B46 /* KakaoNavi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECE0D4C21195F3500FF2B46 /* KakaoNavi.framework */; };
+		8ECE0D4F21195F3600FF2B46 /* KakaoCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECE0D4D21195F3500FF2B46 /* KakaoCommon.framework */; };
+		8ECE0D52211AD42600FF2B46 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D51211AD42600FF2B46 /* Setting.swift */; };
+		8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */; };
+		8ECE0D76211C31F900FF2B46 /* UserInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8ECE0D75211C31F900FF2B46 /* UserInfo.plist */; };
+		8ECE0D78211C330600FF2B46 /* SelectOilTypeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D77211C330600FF2B46 /* SelectOilTypeTableViewController.swift */; };
+		8ECE0D7A211C332800FF2B46 /* SelectFindDistanceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D79211C332800FF2B46 /* SelectFindDistanceTableViewController.swift */; };
+		8ECE0D7C211C3CFC00FF2B46 /* OilTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */; };
+		8ECE0D7E211CB1F800FF2B46 /* FindDistanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */; };
+		8ECE0DA42122D62B00FF2B46 /* GasStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0DA32122D62B00FF2B46 /* GasStationView.swift */; };
+		8ECE0DA62122E11100FF2B46 /* MainHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0DA52122E11100FF2B46 /* MainHeaderView.swift */; };
+		8ECE0DA82123836E00FF2B46 /* AllOilAverageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0DA72123836E00FF2B46 /* AllOilAverageView.swift */; };
+		8ECE0DAA212385FB00FF2B46 /* AllPriceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */; };
+		8EDAF7D821295AEF00422552 /* InitialSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */; };
+		8EDAF7DA212D7EF300422552 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D9212D7EF300422552 /* DetailView.swift */; };
+		8EED89582131CC670093B07A /* FavoriteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EED89572131CC670093B07A /* FavoriteView.xib */; };
+		8EED895A2131CC9F0093B07A /* FavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EED89592131CC9F0093B07A /* FavoriteView.swift */; };
+		B633531A781457C90F211EA0 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		29B226422121FDC60012B2F6 /* AverageCostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AverageCostData.swift; path = "OilPrice-Where/AverageCostData.swift"; sourceTree = SOURCE_ROOT; };
+		29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtility.swift; sourceTree = "<group>"; };
+		29B2264A2122C2C30012B2F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		29B226522126A8B90012B2F6 /* NanumSquareRoundL.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundL.ttf; sourceTree = "<group>"; };
+		29B226532126A8BA0012B2F6 /* NanumSquareRoundB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundB.ttf; sourceTree = "<group>"; };
+		29B226542126A8BB0012B2F6 /* NanumSquareRoundEB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundEB.ttf; sourceTree = "<group>"; };
+		29B226552126A8BD0012B2F6 /* NanumSquareRoundR.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundR.ttf; sourceTree = "<group>"; };
+		5ADD44E371ADD94F9E7AFB44 /* Pods-OilPrice-Where.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.release.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.release.xcconfig"; sourceTree = "<group>"; };
+		74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OilPrice_Where.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7639D9322138423B00C1B79E /* NoticeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewController.swift; sourceTree = "<group>"; };
+		7639D93421385E4300C1B79E /* NoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewController.swift; sourceTree = "<group>"; };
+		764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesGasStationViewController.swift; sourceTree = "<group>"; };
+		765830AC212699FD006DFE2E /* InformationGasStaion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationGasStaion.swift; sourceTree = "<group>"; };
+		7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		76760DFE213875DE00E27CA6 /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
+		8E167D3A2107AD480066A59E /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		8E167D3C2107AEA30066A59E /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = API.swift; path = "OilPrice-Where/API.swift"; sourceTree = SOURCE_ROOT; };
+		8E167D3E2107D95C0066A59E /* GeoConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoConverter.swift; sourceTree = "<group>"; };
+		8E167D402107E30F0066A59E /* GasStationListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GasStationListData.swift; path = "OilPrice-Where/GasStationListData.swift"; sourceTree = SOURCE_ROOT; };
+		8E1BB8EC2107E78D0065281B /* ServiceResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceResult.swift; sourceTree = "<group>"; };
+		8E1BB8EE2107E9A60065281B /* DataUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUtility.swift; sourceTree = "<group>"; };
+		8E1BB8F02107F61E0065281B /* GasStationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationCell.swift; sourceTree = "<group>"; };
+		8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OilPrice-Where.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
+		8E7FFE2920F5E5FF006CED48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8E7FFE2B20F5E5FF006CED48 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8E7FFE3020F5E600006CED48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
+		8ECE0D022118963000FF2B46 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
+		8ECE0D4C21195F3500FF2B46 /* KakaoNavi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoNavi.framework; path = Kakao/KakaoNavi.framework; sourceTree = "<group>"; };
+		8ECE0D4D21195F3500FF2B46 /* KakaoCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoCommon.framework; path = Kakao/KakaoCommon.framework; sourceTree = "<group>"; };
+		8ECE0D502119607300FF2B46 /* KakaoNavi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KakaoNavi-Bridging-Header.h"; sourceTree = "<group>"; };
+		8ECE0D51211AD42600FF2B46 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Setting.swift; path = "OilPrice-Where/Setting.swift"; sourceTree = SOURCE_ROOT; };
+		8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DefaultData.swift; path = "OilPrice-Where/DefaultData.swift"; sourceTree = SOURCE_ROOT; };
+		8ECE0D75211C31F900FF2B46 /* UserInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = UserInfo.plist; sourceTree = "<group>"; };
+		8ECE0D77211C330600FF2B46 /* SelectOilTypeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectOilTypeTableViewController.swift; sourceTree = "<group>"; };
+		8ECE0D79211C332800FF2B46 /* SelectFindDistanceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFindDistanceTableViewController.swift; sourceTree = "<group>"; };
+		8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OilTypeTableViewCell.swift; sourceTree = "<group>"; };
+		8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindDistanceTableViewCell.swift; sourceTree = "<group>"; };
+		8ECE0DA32122D62B00FF2B46 /* GasStationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationView.swift; sourceTree = "<group>"; };
+		8ECE0DA52122E11100FF2B46 /* MainHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHeaderView.swift; sourceTree = "<group>"; };
+		8ECE0DA72123836E00FF2B46 /* AllOilAverageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllOilAverageView.swift; sourceTree = "<group>"; };
+		8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllPriceData.swift; path = "OilPrice-Where/AllPriceData.swift"; sourceTree = SOURCE_ROOT; };
+		8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSettingViewController.swift; sourceTree = "<group>"; };
+		8EDAF7D9212D7EF300422552 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		8EED89572131CC670093B07A /* FavoriteView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteView.xib; sourceTree = "<group>"; };
+		8EED89592131CC9F0093B07A /* FavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteView.swift; sourceTree = "<group>"; };
+		AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8E7FFE1E20F5E5FF006CED48 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8ECE0D4E21195F3600FF2B46 /* KakaoNavi.framework in Frameworks */,
+				8ECE0D4F21195F3600FF2B46 /* KakaoCommon.framework in Frameworks */,
+				B633531A781457C90F211EA0 /* Pods_OilPrice_Where.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0311CDC564670164F66F0F16 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8ECE0D4D21195F3500FF2B46 /* KakaoCommon.framework */,
+				8ECE0D4C21195F3500FF2B46 /* KakaoNavi.framework */,
+				74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		29B2264C2126A1210012B2F6 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				29B226532126A8BA0012B2F6 /* NanumSquareRoundB.ttf */,
+				29B226542126A8BB0012B2F6 /* NanumSquareRoundEB.ttf */,
+				29B226522126A8B90012B2F6 /* NanumSquareRoundL.ttf */,
+				29B226552126A8BD0012B2F6 /* NanumSquareRoundR.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		2C306C2524FE261E511F8C37 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */,
+				5ADD44E371ADD94F9E7AFB44 /* Pods-OilPrice-Where.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7658AB0A2112C28100723CF0 /* Setting ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7639D9322138423B00C1B79E /* NoticeTableViewController.swift */,
+				7639D93421385E4300C1B79E /* NoticeDetailViewController.swift */,
+			);
+			name = "Setting ViewController";
+			sourceTree = "<group>";
+		};
+		76E226312117EFAD00D719A8 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8E1BB8F02107F61E0065281B /* GasStationCell.swift */,
+				8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */,
+				8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */,
+				76760DFE213875DE00E27CA6 /* NoticeTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		8E167D422107E7240066A59E /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		8E4DAF0920F5EC2400E4FD92 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8E167D3C2107AEA30066A59E /* API.swift */,
+				765830AC212699FD006DFE2E /* InformationGasStaion.swift */,
+				8E167D402107E30F0066A59E /* GasStationListData.swift */,
+				29B226422121FDC60012B2F6 /* AverageCostData.swift */,
+				8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */,
+				8ECE0D51211AD42600FF2B46 /* Setting.swift */,
+				8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8E4DAF0A20F5EC2700E4FD92 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8E167D3A2107AD480066A59E /* Service.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		8E7FFE1820F5E5FF006CED48 = {
+			isa = PBXGroup;
+			children = (
+				8E7FFE2320F5E5FF006CED48 /* OilPrice-Where */,
+				8E7FFE2220F5E5FF006CED48 /* Products */,
+				2C306C2524FE261E511F8C37 /* Pods */,
+				0311CDC564670164F66F0F16 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		8E7FFE2220F5E5FF006CED48 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8E7FFE2320F5E5FF006CED48 /* OilPrice-Where */ = {
+			isa = PBXGroup;
+			children = (
+				8E167D422107E7240066A59E /* AppDelegate */,
+				8EE7E34720F5EDA400F35473 /* Utility */,
+				8E4DAF0920F5EC2400E4FD92 /* Model */,
+				8E4DAF0A20F5EC2700E4FD92 /* Services */,
+				8E7FFE3F20F5EB46006CED48 /* ViewController */,
+				8E7FFE4120F5EBD2006CED48 /* View */,
+				76E226312117EFAD00D719A8 /* Cell */,
+				8E7FFE3D20F5EABE006CED48 /* Resource */,
+				8E7FFE3E20F5EB17006CED48 /* Supporting File */,
+			);
+			path = "OilPrice-Where";
+			sourceTree = "<group>";
+		};
+		8E7FFE3D20F5EABE006CED48 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				8E7FFE4020F5EB69006CED48 /* Main */,
+				8E7FFE2B20F5E5FF006CED48 /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		8E7FFE3E20F5EB17006CED48 /* Supporting File */ = {
+			isa = PBXGroup;
+			children = (
+				29B2264C2126A1210012B2F6 /* Font */,
+				29B2264A2122C2C30012B2F6 /* GoogleService-Info.plist */,
+				8E7FFE3020F5E600006CED48 /* Info.plist */,
+				8ECE0D75211C31F900FF2B46 /* UserInfo.plist */,
+				8ECE0D502119607300FF2B46 /* KakaoNavi-Bridging-Header.h */,
+				8E167D3E2107D95C0066A59E /* GeoConverter.swift */,
+			);
+			name = "Supporting File";
+			sourceTree = "<group>";
+		};
+		8E7FFE3F20F5EB46006CED48 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */,
+				8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */,
+				8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */,
+				8ECE0D77211C330600FF2B46 /* SelectOilTypeTableViewController.swift */,
+				8ECE0D79211C332800FF2B46 /* SelectFindDistanceTableViewController.swift */,
+				764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift */,
+				7658AB0A2112C28100723CF0 /* Setting ViewController */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		8E7FFE4020F5EB69006CED48 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				8E7FFE2820F5E5FF006CED48 /* Main.storyboard */,
+				7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */,
+				8EED89572131CC670093B07A /* FavoriteView.xib */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		8E7FFE4120F5EBD2006CED48 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8ECE0D022118963000FF2B46 /* CustomAnnotationView.swift */,
+				8ECE0DA52122E11100FF2B46 /* MainHeaderView.swift */,
+				8ECE0DA72123836E00FF2B46 /* AllOilAverageView.swift */,
+				8ECE0DA32122D62B00FF2B46 /* GasStationView.swift */,
+				8EDAF7D9212D7EF300422552 /* DetailView.swift */,
+				8EED89592131CC9F0093B07A /* FavoriteView.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		8EE7E34720F5EDA400F35473 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				8E1BB8EC2107E78D0065281B /* ServiceResult.swift */,
+				8E1BB8EE2107E9A60065281B /* DataUtility.swift */,
+				29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8E7FFE2020F5E5FF006CED48 /* OilPrice-Where */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8E7FFE3320F5E600006CED48 /* Build configuration list for PBXNativeTarget "OilPrice-Where" */;
+			buildPhases = (
+				6BD9A5B08CFDBAC3BCE9A669 /* [CP] Check Pods Manifest.lock */,
+				8E7FFE1D20F5E5FF006CED48 /* Sources */,
+				8E7FFE1E20F5E5FF006CED48 /* Frameworks */,
+				8E7FFE1F20F5E5FF006CED48 /* Resources */,
+				A1410BAAA832A712804BE11F /* [CP] Embed Pods Frameworks */,
+				8E167D3421007B620066A59E /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "OilPrice-Where";
+			productName = "OilPrice-Where";
+			productReference = 8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8E7FFE1920F5E5FF006CED48 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "sangwook park";
+				TargetAttributes = {
+					8E7FFE2020F5E5FF006CED48 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 8E7FFE1C20F5E5FF006CED48 /* Build configuration list for PBXProject "OilPrice-Where" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8E7FFE1820F5E5FF006CED48;
+			productRefGroup = 8E7FFE2220F5E5FF006CED48 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8E7FFE2020F5E5FF006CED48 /* OilPrice-Where */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8E7FFE1F20F5E5FF006CED48 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7658AB0C2112C38A00723CF0 /* Launch Screen.storyboard in Resources */,
+				8E7FFE2C20F5E5FF006CED48 /* Assets.xcassets in Resources */,
+				29B2264B2122C2C40012B2F6 /* GoogleService-Info.plist in Resources */,
+				29B226582126A8BF0012B2F6 /* NanumSquareRoundEB.ttf in Resources */,
+				29B226572126A8BF0012B2F6 /* NanumSquareRoundB.ttf in Resources */,
+				29B226592126A8BF0012B2F6 /* NanumSquareRoundR.ttf in Resources */,
+				29B226562126A8BF0012B2F6 /* NanumSquareRoundL.ttf in Resources */,
+				8E7FFE2A20F5E5FF006CED48 /* Main.storyboard in Resources */,
+				8EED89582131CC670093B07A /* FavoriteView.xib in Resources */,
+				8ECE0D76211C31F900FF2B46 /* UserInfo.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6BD9A5B08CFDBAC3BCE9A669 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OilPrice-Where-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8E167D3421007B620066A59E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyPlistManager/SwiftyPlistManager.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyPlistManager.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
+		};
+		A1410BAAA832A712804BE11F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/SCLAlertView/SCLAlertView.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyPlistManager/SwiftyPlistManager.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCLAlertView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyPlistManager.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8E7FFE1D20F5E5FF006CED48 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8ECE0DA62122E11100FF2B46 /* MainHeaderView.swift in Sources */,
+				8ECE0D032118963000FF2B46 /* CustomAnnotationView.swift in Sources */,
+				8ECE0DAA212385FB00FF2B46 /* AllPriceData.swift in Sources */,
+				8ECE0D52211AD42600FF2B46 /* Setting.swift in Sources */,
+				8E167D3B2107AD480066A59E /* Service.swift in Sources */,
+				8E1BB8ED2107E78D0065281B /* ServiceResult.swift in Sources */,
+				8E167D412107E30F0066A59E /* GasStationListData.swift in Sources */,
+				8ECE0D78211C330600FF2B46 /* SelectOilTypeTableViewController.swift in Sources */,
+				8ECE0DA82123836E00FF2B46 /* AllOilAverageView.swift in Sources */,
+				8E7FFE3920F5EA1C006CED48 /* SettingTableViewController.swift in Sources */,
+				764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift in Sources */,
+				8EDAF7DA212D7EF300422552 /* DetailView.swift in Sources */,
+				8ECE0D7E211CB1F800FF2B46 /* FindDistanceTableViewCell.swift in Sources */,
+				8ECE0D7A211C332800FF2B46 /* SelectFindDistanceTableViewController.swift in Sources */,
+				8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */,
+				7639D9332138423B00C1B79E /* NoticeTableViewController.swift in Sources */,
+				8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */,
+				8E1BB8F12107F61E0065281B /* GasStationCell.swift in Sources */,
+				8E167D3D2107AEA30066A59E /* API.swift in Sources */,
+				8EDAF7D821295AEF00422552 /* InitialSettingViewController.swift in Sources */,
+				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
+				8ECE0DA42122D62B00FF2B46 /* GasStationView.swift in Sources */,
+				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
+				29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */,
+				7639D93521385E4300C1B79E /* NoticeDetailViewController.swift in Sources */,
+				29B226432121FDC60012B2F6 /* AverageCostData.swift in Sources */,
+				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,
+				76760DFF213875DE00E27CA6 /* NoticeTableViewCell.swift in Sources */,
+				8ECE0D7C211C3CFC00FF2B46 /* OilTypeTableViewCell.swift in Sources */,
+				8EED895A2131CC9F0093B07A /* FavoriteView.swift in Sources */,
+				765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8E7FFE2820F5E5FF006CED48 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8E7FFE2920F5E5FF006CED48 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8E7FFE3120F5E600006CED48 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8E7FFE3220F5E600006CED48 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8E7FFE3420F5E600006CED48 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+<<<<<<< HEAD
+				DEVELOPMENT_TEAM = 944595JNCH;
+=======
+				DEVELOPMENT_TEAM = Z339Z9FD2H;
+>>>>>>> de581f24243787f8496698d204bb19dbcecfe6c3
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Kakao",
+				);
+				INFOPLIST_FILE = "OilPrice-Where/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-all_load",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/OilPrice-Where/KakaoNavi-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8E7FFE3520F5E600006CED48 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5ADD44E371ADD94F9E7AFB44 /* Pods-OilPrice-Where.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+<<<<<<< HEAD
+				DEVELOPMENT_TEAM = 944595JNCH;
+=======
+				DEVELOPMENT_TEAM = Z339Z9FD2H;
+>>>>>>> de581f24243787f8496698d204bb19dbcecfe6c3
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Kakao",
+				);
+				INFOPLIST_FILE = "OilPrice-Where/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-all_load",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/OilPrice-Where/KakaoNavi-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8E7FFE1C20F5E5FF006CED48 /* Build configuration list for PBXProject "OilPrice-Where" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8E7FFE3120F5E600006CED48 /* Debug */,
+				8E7FFE3220F5E600006CED48 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8E7FFE3320F5E600006CED48 /* Build configuration list for PBXNativeTarget "OilPrice-Where" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8E7FFE3420F5E600006CED48 /* Debug */,
+				8E7FFE3520F5E600006CED48 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8E7FFE1920F5E5FF006CED48 /* Project object */;
+}

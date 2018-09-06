@@ -2,94 +2,112 @@
 //  SettingTableViewController.swift
 //  OilPrice-Where
 //
-//  Created by 박소정 on 2018. 7. 11..
+//  Created by 박상욱 on 2018. 7. 11..
 //  Copyright © 2018년 sangwook park. All rights reserved.
 //
 
 import UIKit
 
+// 주유소 탐색 설정 페이지
+// 사용자 유종과 탐색 반경을 변경하면 메인페이지에 업데이트 되어 적용 된다.
+// 설정 저장 방식은 피리스트('UserInfo'에 저장)
+// ** 탐색반경 : 3KM, 유종 : nil **
 class SettingTableViewController: UITableViewController {
-
+    
+    @IBOutlet private weak var oilTypeLabel : UILabel! // 현재 탐색 하고 있는 오일의 타입
+    @IBOutlet private weak var findLabel : UILabel! // 현재 탐색 하고 있는 탐색 반경
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        navigationSetting()
+        settingDataLoad()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.statusBarStyle = .lightContent
     }
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+    
+    func navigationSetting() {
+        let backButtonItem = UIBarButtonItem()
+        backButtonItem.title = ""
+        backButtonItem.tintColor = UIColor.white
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButtonItem
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: UIFont(name: "NanumSquareRoundEB", size: 18)!, NSAttributedStringKey.foregroundColor: UIColor.white]
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+    
+    // 이전 설정을 데이터를 불러와서
+    // oilTypeLabel, findLabel 업데이트
+    func settingDataLoad() {
+        oilTypeLabel.text = Preferences.oil(code: DefaultData.shared.oilType)
+        findLabel.text = String(DefaultData.shared.radius / 1000) + "KM"
     }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
+    // 다른 페이지로 전환 시
+    // 현재 SettingTableViewController에 cell에 표시 된 설정 값을
+    // 넘겨 주는 페이지의 selected 설정 값의 이름을 전달한다.
+    // ex) oilType(휘발유) -> selectedOilTypeName(휘발유) 전달    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "SelectOilType", let oilType = oilTypeLabel.text {
+            let controller = segue.destination as! SelectOilTypeTableViewController
+            controller.selectedOilTypeName = oilType
+        } else if segue.identifier == "FindDistance", let findDistance = findLabel.text {
+            let controller = segue.destination as! SelectFindDistanceTableViewController
+            controller.selectedDistance = findDistance
+        }
     }
-    */
-
+    
+    // SelectOilTypeTableViewController에서 오일 타입 선택 시
+    // SettingTableViewController로 페이지가 전환(pop)되면서
+    // SettingTableViewController의 oilTypeLabel를 업데이트 해주고
+    // 앱의 기본정보 객체의(DefaultData) oilType을 Update 해준다.
+    @IBAction private func didPickerOilType(_ segue: UIStoryboardSegue) {
+        let controller = segue.source as! SelectOilTypeTableViewController
+        oilTypeLabel.text = controller.selectedOilTypeName
+        DefaultData.shared.oilType = Preferences.oil(name: controller.selectedOilTypeName)
+        DefaultData.shared.saveOil()
+    }
+    
+    // SelectFindDistanceTableViewController에서 탐색 반경 선택 시
+    // SettingTableViewController로 페이지가 전환(pop)되면서
+    // SettingTableViewController의 oilTypeLabel를 업데이트 해주고
+    // 앱의 기본정보 객체의(DefaultData) radius를 Update 해준다.
+    @IBAction private func didPickerDistance(_ segue: UIStoryboardSegue) {
+        let controller = segue.source as! SelectFindDistanceTableViewController
+        findLabel.text = controller.selectedDistance
+        DefaultData.shared.radius = Preferences.distanceKM(KM: controller.selectedDistance)
+        DefaultData.shared.saveDistance()
+    }
+    
+    // 앱스토어 연결
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let urlString = "https://itunes.apple.com/kr/app/%EB%8F%84%EB%AF%B8%EB%85%B8%ED%94%BC%EC%9E%90-dominos-pizza/id371008429?mt=8"
+        
+        if indexPath.section == 2 && indexPath.row == 1 {
+            
+            if let appStoreURL = URL(string: urlString), UIApplication.shared.canOpenURL(appStoreURL) {
+                // 유효한 URL인지 검사
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(appStoreURL, options: [:], completionHandler: nil)
+                    
+                } else { UIApplication.shared.openURL(appStoreURL) }
+                
+            }
+            
+            
+            //            let id = "tt"
+            //            if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) {
+            //                // 유효한 URL인지 검사
+            //                if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
+            //                    UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil) } else { UIApplication.shared.openURL(reviewURL) } }
+        }
+        
+        
+        
+    }
+    
+    
 }
+
