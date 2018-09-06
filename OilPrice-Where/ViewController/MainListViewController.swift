@@ -72,65 +72,187 @@ class MainListViewController: UIViewController {
     let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate // 앱 델리게이트
     private var lastKactecX: Double? // KatecX 좌표
     private var lastKactecY: Double? // KatecY 좌표
-    var lastOilType = DefaultData.shared.oilType
-    var lastFindRadius = DefaultData.shared.radius
-    var lastFavorites = DefaultData.shared.favoriteArr
-    var selectMarker = false
-    var lastBottomConstant: CGFloat?
-    var priceSortButton: UIButton!
-    var distanceSortButton: UIButton!
-    var lastSelectedSortButton: UIButton!
-    @IBOutlet private weak var noneView: UIView!
+    var lastOilType = DefaultData.shared.oilType // 마지막 오일 타입
+    var lastFindRadius = DefaultData.shared.radius // 마지막 탐색 범위
+    var lastFavorites = DefaultData.shared.favoriteArr // 마지막 즐겨 찾기 목록
+    var selectMarker = false // 마커 선택 여부
+    var lastBottomConstant: CGFloat? // 전환 버튼 애니메이션 관련 Bottom Constraint
+    var priceSortButton: UIButton! // 가격 순으로 정렬 해주는 버튼
+    var distanceSortButton: UIButton! // 거리 순으로 정렬 해주는 버튼
+    var lastSelectedSortButton: UIButton! // 마지막 정렬
+    @IBOutlet private weak var noneView: UIView! // 리스트가 아무 것도 없을 때 보여주는 뷰
+    @IBOutlet private weak var noneLabel : UILabel! // NoneView에 보여줄 Label
     
     func setStatusBarBackgroundColor(color: UIColor) {
-        
         guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
         statusBar.backgroundColor = color
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createSortView()
-        setting()
-        setAverageCosts()
-        setStatusBarBackgroundColor(color: .clear)
+        setStatusBarBackgroundColor(color: .clear) // StatusBar 배경색 설정
+        createSortView() // 가격순, 거리순 버튼 생성 및 설정
+        setting() // 기본 설정
+        setAverageCosts() // HeaderView 설정
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if Reachability.isConnectedToNetwork(){
-            configureLocationServices()
-        }
+        
+        // 메인리스트 / 맵 일때 StatusBarStyle 설정
         if mainListPage {
             UIApplication.shared.statusBarStyle = .lightContent
         } else {
             UIApplication.shared.statusBarStyle = .default
         }
         
+        // ViewWillAppear시 네트워크 연결 확인
+        if Reachability.isConnectedToNetwork() { // 네트워크 연결 시 로케이션 서비스 시작
+            configureLocationServices()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        // 네트워크 연결이 되어 있지 않을 때 Alert 호출
         if !Reachability.isConnectedToNetwork() {
+            // Alert 설정
             let appearance = SCLAlertView.SCLAppearance(
-                kWindowWidth: 300,
-                kTitleFont: UIFont(name: "NanumSquareRoundB", size: 18)!,
-                kTextFont: UIFont(name: "NanumSquareRoundR", size: 15)!,
-                showCloseButton: true
+                kWindowWidth: 300, // Alert Width
+                kTitleFont: UIFont(name: "NanumSquareRoundB", size: 18)!, // Alert Title Font
+                kTextFont: UIFont(name: "NanumSquareRoundR", size: 15)!, // Alert Content Font
+                showCloseButton: true // CloseButton isHidden = True
             )
 
             let alert = SCLAlertView(appearance: appearance)
-
             alert.showError("네트워크 오류 발생", subTitle: "인터넷 연결이 오프라인 상태입니다.", closeButtonTitle: "확인", colorStyle: 0x5E82FF)
             alert.iconTintColor = UIColor.white
+            
+            // 네트워크 연결이 안 되어 있으므로 초기화
             reset()
             DefaultData.shared.data = nil
             sortData = []
             tableView.reloadData()
         }
     }
-
+    
+    //Mark: 기본 설정 (viewDidLoad)
+    // 가격순, 거리순 버튼 생성
+    func createSortView() {
+        let sectionHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 30))
+        
+        // 가격순 버튼 설정
+        self.priceSortButton = UIButton(frame: CGRect(x: 15, y: 0, width: 45, height: 30))
+        self.priceSortButton.setTitle("가격순", for: .normal)
+        self.priceSortButton.setTitleColor(UIColor.darkGray, for: .normal)
+        self.priceSortButton.setTitleColor(UIColor(named: "MainColor"), for: .selected)
+        self.priceSortButton.addTarget(self, action: #selector(self.isTableViewSort(_:)), for: .touchUpInside)
+        self.priceSortButton.tag = 1
+        self.priceSortButton.isSelected = true
+        self.priceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
+        sectionHeaderView.addSubview(self.priceSortButton)
+        
+        // 거리순 버튼 설정
+        distanceSortButton = UIButton(frame: CGRect(x: 69, y: 0, width: 45, height: 30))
+        self.distanceSortButton.setTitle("거리순", for: .normal)
+        self.distanceSortButton.setTitleColor(UIColor.darkGray, for: .normal)
+        self.distanceSortButton.setTitleColor(UIColor(named: "MainColor"), for: .selected)
+        self.distanceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
+        self.distanceSortButton.addTarget(self, action: #selector(self.isTableViewSort(_:)), for: .touchUpInside)
+        self.distanceSortButton.tag = 2
+        sectionHeaderView.addSubview(distanceSortButton)
+        
+        // 기본 설정 버튼(가격순)
+        lastSelectedSortButton = priceSortButton
+        
+        tableView.addSubview(sectionHeaderView)
+    }
+    
+    // 기본 세팅
+    func setting() {
+        self.noneLabel.font = UIFont(name: "NanumSquareRoundB", size: 17) //NoneView 내의 NoneLabel 설정
+        priceView.layer.cornerRadius = 10
+        
+        // currentLocationButton 설정
+        currentLocationButton.layer.cornerRadius = self.currentLocationButton.bounds.height / 2
+        currentLocationButton.clipsToBounds = false
+        currentLocationButton.layer.shadowColor = UIColor.black.cgColor
+        currentLocationButton.layer.shadowOpacity = 0.3
+        currentLocationButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+        currentLocationButton.layer.shadowRadius = 1.5
+        currentLocationButton.addTarget(self, action: #selector(self.currentLoaction(_:)), for: .touchUpInside)
+        
+        // Draw a shadow
+        currentLocationButton.layer.shadowPath = UIBezierPath(roundedRect: currentLocationButton.bounds,
+                                                              cornerRadius: self.currentLocationButton.bounds.height / 2).cgPath
+        
+        // Navigation Bar 색상 설정
+        UINavigationBar.appearance().barTintColor = UIColor(named: "MainColor")
+        appDelegate.mainViewController = self
+        
+        // 전환 버튼 설정
+        self.toListButton.layer.cornerRadius = self.toListButton.bounds.height / 2
+        self.toImageView.image = toImageView.image!.withRenderingMode(.alwaysTemplate)
+        self.toImageView.tintColor = UIColor.white
+        // 전환 버튼 그림자 설정
+        toListButton.clipsToBounds = false
+        toListButton.layer.shadowColor = UIColor.black.cgColor
+        toListButton.layer.shadowOpacity = 0.5
+        toListButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+        toListButton.layer.shadowRadius = 2
+        
+        // Draw a shadow
+        toListButton.layer.shadowPath = UIBezierPath(roundedRect: toListButton.bounds, cornerRadius: self.toListButton.bounds.height / 2).cgPath
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.toList(_:)))
+        toListButton.addGestureRecognizer(tap)
+        
+        // 테이블 뷰 헤더 경계 값 설정
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
+        // 테이블뷰내에 Refresh 설정
+        self.refreshControl.addTarget(self,
+                                      action: #selector(refresh),
+                                      for: UIControlEvents.valueChanged)
+        if #available(iOS 10.0, *) { // iOS 버전 별 설정
+            tableView.refreshControl = self.refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+    }
+    
+    // HeaderView 설정
+    func setAverageCosts() {
+        firebaseUtility.getAverageCost(productName: "gasolinCost") { (data) in
+            self.mainProductCostLabel.text = data["price"] as? String ?? ""
+            self.mainProductTitleLabel.text = data["productName"] as? String ?? ""
+            if data["difference"] as? Bool ?? true {
+                self.mainProductImageView.image = #imageLiteral(resourceName: "priceUpIcon")
+            }else {
+                self.mainProductImageView.image = #imageLiteral(resourceName: "priceDownIcon")
+            }
+        }
+        firebaseUtility.getAverageCost(productName: "dieselCost") { (data) in
+            self.secondProductCostLabel.text = data["price"] as? String ?? ""
+            self.secondProductTitleLabel.text = data["productName"] as? String ?? ""
+            if data["difference"] as? Bool ?? true {
+                self.secondProductImageView.image = #imageLiteral(resourceName: "priceUpIcon")
+            }else {
+                self.secondProductImageView.image = #imageLiteral(resourceName: "priceDownIcon")
+            }
+            
+        }
+        firebaseUtility.getAverageCost(productName: "lpgCost") { (data) in
+            self.thirdProductCostLabel.text = data["price"] as? String ?? ""
+            self.thirdProductTitleLabel.text = data["productName"] as? String ?? ""
+            if data["difference"] as? Bool ?? true {
+                self.thirdProductImageView.image = #imageLiteral(resourceName: "priceUpIcon")
+            } else {
+                self.thirdProductImageView.image = #imageLiteral(resourceName: "priceDownIcon")
+            }
+        }
+    }
+    
     func reset() {
         appleMapView.removeAnnotations(annotations)
         annotations = []
@@ -167,130 +289,28 @@ class MainListViewController: UIViewController {
         }
     }
     
-    /// tableView refreshControll 함수
+    //Mark: Display 관련 설정
+    // Reload
     @objc func refresh() {
         oldLocation = nil
         reset()
         configureLocationServices()
     }
     
-    func setting() {
-        priceView.layer.cornerRadius = 10
-        
-        // currentLocationButton 설정
-        currentLocationButton.layer.cornerRadius = self.currentLocationButton.bounds.height / 2
-        currentLocationButton.clipsToBounds = false
-        currentLocationButton.layer.shadowColor = UIColor.black.cgColor
-        currentLocationButton.layer.shadowOpacity = 0.3
-        currentLocationButton.layer.shadowOffset = CGSize(width: 1, height: 1)
-        currentLocationButton.layer.shadowRadius = 1.5
-        currentLocationButton.addTarget(self, action: #selector(self.currentLoaction(_:)), for: .touchUpInside)
-        
-        // Draw a shadow
-        currentLocationButton.layer.shadowPath = UIBezierPath(roundedRect: currentLocationButton.bounds, cornerRadius: self.currentLocationButton.bounds.height / 2).cgPath
-        
-        // Navigation Bar 색상 설정
-        UINavigationBar.appearance().barTintColor = UIColor(named: "MainColor")
-        appDelegate.mainViewController = self
-        
-        self.toListButton.layer.cornerRadius = self.toListButton.bounds.height / 2
-        self.toImageView.image = toImageView.image!.withRenderingMode(.alwaysTemplate)
-        self.toImageView.tintColor = UIColor.white
-        
-        toListButton.clipsToBounds = false
-        toListButton.layer.shadowColor = UIColor.black.cgColor
-        toListButton.layer.shadowOpacity = 0.5
-        toListButton.layer.shadowOffset = CGSize(width: 1, height: 1)
-        toListButton.layer.shadowRadius = 2
-        
-        // Draw a shadow
-        toListButton.layer.shadowPath = UIBezierPath(roundedRect: toListButton.bounds, cornerRadius: self.toListButton.bounds.height / 2).cgPath
-        // Add image into container
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.toList(_:)))
-        toListButton.addGestureRecognizer(tap)
-        // 테이블 뷰 헤더 경계 값 설정
-        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
-        // 새로 고침
-        self.refreshControl.addTarget(self,
-                                 action: #selector(refresh),
-                                 for: UIControlEvents.valueChanged)
-        if #available(iOS 10.0, *) {
-            tableView.refreshControl = self.refreshControl
-        } else {
-            tableView.addSubview(refreshControl)
-        }
-    }
-    
-    func setAverageCosts() {
-        firebaseUtility.getAverageCost(productName: "gasolinCost") { (data) in
-            self.mainProductCostLabel.text = data["price"] as? String ?? ""
-            self.mainProductTitleLabel.text = data["productName"] as? String ?? ""
-            if data["difference"] as? Bool ?? true {
-                self.mainProductImageView.image = #imageLiteral(resourceName: "priceUpIcon")
-            }else {
-                self.mainProductImageView.image = #imageLiteral(resourceName: "priceDownIcon")
-            }
-        }
-        firebaseUtility.getAverageCost(productName: "dieselCost") { (data) in
-            self.secondProductCostLabel.text = data["price"] as? String ?? ""
-            self.secondProductTitleLabel.text = data["productName"] as? String ?? ""
-            if data["difference"] as? Bool ?? true {
-                self.secondProductImageView.image = #imageLiteral(resourceName: "priceUpIcon")
-            }else {
-                self.secondProductImageView.image = #imageLiteral(resourceName: "priceDownIcon")
-            }
-
-        }
-        firebaseUtility.getAverageCost(productName: "lpgCost") { (data) in
-            self.thirdProductCostLabel.text = data["price"] as? String ?? ""
-            self.thirdProductTitleLabel.text = data["productName"] as? String ?? ""
-            if data["difference"] as? Bool ?? true {
-                self.thirdProductImageView.image = #imageLiteral(resourceName: "priceUpIcon")
-            } else {
-                self.thirdProductImageView.image = #imageLiteral(resourceName: "priceDownIcon")
-            }
-        }
-    }
-    
-    func createSortView() {
-        let sectionHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 30))
-        self.priceSortButton = UIButton(frame: CGRect(x: 15, y: 0, width: 45, height: 30))
-        self.priceSortButton.setTitle("가격순", for: .normal)
-        self.priceSortButton.setTitleColor(UIColor.darkGray, for: .normal)
-        self.priceSortButton.setTitleColor(UIColor(named: "MainColor"), for: .selected)
-        self.priceSortButton.addTarget(self, action: #selector(self.isTableViewSort(_:)), for: .touchUpInside)
-        self.priceSortButton.tag = 1
-        self.priceSortButton.isSelected = true
-        self.priceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
-        sectionHeaderView.addSubview(self.priceSortButton)
-        
-        distanceSortButton = UIButton(frame: CGRect(x: 69, y: 0, width: 45, height: 30))
-        self.distanceSortButton.setTitle("거리순", for: .normal)
-        self.distanceSortButton.setTitleColor(UIColor.darkGray, for: .normal)
-        self.distanceSortButton.setTitleColor(UIColor(named: "MainColor"), for: .selected)
-        self.distanceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
-        self.distanceSortButton.addTarget(self, action: #selector(self.isTableViewSort(_:)), for: .touchUpInside)
-        self.distanceSortButton.tag = 2
-        sectionHeaderView.addSubview(distanceSortButton)
-        
-        lastSelectedSortButton = priceSortButton
-        tableView.addSubview(sectionHeaderView)
-    }
-    
+    // TableView List Sort Func(가격, 거리)
     @objc func isTableViewSort(_ sender: UIButton) {
         guard lastSelectedSortButton.tag != sender.tag else {
             return
         }
-        if sender.tag == priceSortButton.tag {
+        
+        if sender.tag == priceSortButton.tag { // Sender와 priceButton과 같을 시에 가격순 정렬
             priceSortButton.isSelected = true
             priceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
             distanceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
             distanceSortButton.isSelected = false
             
             lastSelectedSortButton = priceSortButton
-        } else {
+        } else { // 거리순 정렬
             distanceSortButton.isSelected = true
             distanceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
             priceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
@@ -302,6 +322,53 @@ class MainListViewController: UIViewController {
         appleMapView.removeAnnotations(annotations)
         annotations = []
         showMarker()
+        tableView.reloadData()
+    }
+    
+    // 전환 액션
+    @objc func toList(_ sender: UIView) {
+        if mainListPage { // 메인리스트 페이지 일시 맵뷰로 전환
+            UIApplication.shared.statusBarStyle = .default // 맵뷰로 전환 시 statusBarStyle
+            self.view.sendSubview(toBack: self.tableListView)
+            
+            // 전환 버튼 애니메이션 관련
+            if lastBottomConstant == 10 {
+                if let indexPath = selectIndexPath {
+                    let cell = tableView.cellForRow(at: indexPath) as! GasStationCell
+                    if cell.stationView.id == detailView.id {
+                        if detailView.favoriteButton.isSelected != cell.stationView.favoriteButton.isSelected {
+                            self.detailView.clickedEvent(detailView.favoriteButton)
+                        }
+                    }
+                    self.detailView.detailViewBottomConstraint.constant = 10
+                    UIView.animate(withDuration: 0.3) {
+                        self.view.layoutIfNeeded()
+                    }
+                }
+            } else {
+                self.detailView.detailViewBottomConstraint.constant = -150
+                UIView.animate(withDuration: 0.3) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+            
+            toLabel.text = "목록"
+            toImageView.image = UIImage(named: "listButton")
+            statusBarBackView.isHidden = true
+            mainListPage = false
+        } else {
+            UIApplication.shared.statusBarStyle = .lightContent
+            self.view.sendSubview(toBack: self.mapView)
+            toImageView.image = UIImage(named: "mapButton")
+            toLabel.text = "지도"
+            lastBottomConstant = self.detailView.detailViewBottomConstraint.constant
+            self.detailView.detailViewBottomConstraint.constant = -150
+            UIView.animate(withDuration: 0.3) {
+                self.view.layoutIfNeeded()
+            }
+            statusBarBackView.isHidden = false
+            mainListPage = true
+        }
         tableView.reloadData()
     }
     
@@ -330,51 +397,7 @@ class MainListViewController: UIViewController {
         appleMapView.setRegion(zoomRegion, animated: true)
     }
     
-    // 전환 액션
-    @objc func toList(_ sender: UIView) {
-        if mainListPage {
-            UIApplication.shared.statusBarStyle = .default
-            self.view.sendSubview(toBack: self.tableListView)
-            toImageView.image = UIImage(named: "listButton")
-            toLabel.text = "목록"
-            if lastBottomConstant == 10 {
-                if let indexPath = selectIndexPath {
-                    let cell = tableView.cellForRow(at: indexPath) as! GasStationCell
-                    if cell.stationView.id == detailView.id {
-                        if detailView.favoriteButton.isSelected != cell.stationView.favoriteButton.isSelected {
-                            self.detailView.clickedEvent(detailView.favoriteButton)
-                        }
-                    }
-                    self.detailView.detailViewBottomConstraint.constant = 10
-                    UIView.animate(withDuration: 0.3) {
-                        self.view.layoutIfNeeded()
-                    }
-                }
-            } else {
-                self.detailView.detailViewBottomConstraint.constant = -150
-                UIView.animate(withDuration: 0.3) {
-                    self.view.layoutIfNeeded()
-                }
-            }
-            statusBarBackView.isHidden = true
-            mainListPage = false
-        } else {
-            UIApplication.shared.statusBarStyle = .lightContent
-            self.view.sendSubview(toBack: self.mapView)
-            toImageView.image = UIImage(named: "mapButton")
-            toLabel.text = "지도"
-            lastBottomConstant = self.detailView.detailViewBottomConstraint.constant
-            self.detailView.detailViewBottomConstraint.constant = -150
-            UIView.animate(withDuration: 0.3) {
-                self.view.layoutIfNeeded()
-            }
-            statusBarBackView.isHidden = false
-            mainListPage = true
-        }
-        tableView.reloadData()
-    }
-    
-    //
+    // 맵의 현재위치 버튼
     @objc func currentLoaction(_ sender: UIButton) {
         if Reachability.isConnectedToNetwork() {
             guard let coordinate = self.currentCoordinate else { return }
@@ -439,7 +462,6 @@ class MainListViewController: UIViewController {
         appleMapView.delegate = self
         
         let status = CLLocationManager.authorizationStatus() // 현재 인증상태 확인
-        print("Status: \(status)")
         if status == .notDetermined { // notDetermined일 시 AlwaysAuthorization 요청
             locationManager.requestWhenInUseAuthorization()
             startLocationUpdates(locationManager: locationManager)
@@ -481,7 +503,7 @@ class MainListViewController: UIViewController {
         locationManager.delegate = nil
     }
     
-    // 주소 한글 변환
+    // 주소 설정
     func string(from placemark: CLPlacemark?) -> String? {
         guard let currentPlacemark = placemark else {
             return nil
@@ -651,8 +673,10 @@ extension MainListViewController: UITableViewDataSource {
         tableView.reloadData()
     }
     
+    // cell의 높이 설정
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let selectSection = self.selectIndexPath?.section else { return 110 }
+        // 선택된 셀의 높이와 비선택 셀의 높이 설정
         if indexPath.section == selectSection {
             return 164
         } else {
@@ -660,7 +684,9 @@ extension MainListViewController: UITableViewDataSource {
         }
     }
     
+    // 섹션 사이의 값 설정
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        // 처음 섹션일 때 가격순, 거리순 정렬 버튼 삽입을 위해 조금 더 높게 설정
         if section == 0 {
             return 30
         } else {
@@ -668,6 +694,7 @@ extension MainListViewController: UITableViewDataSource {
         }
     }
     
+    // heightForFooterInSection
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.00001
     }
@@ -748,17 +775,20 @@ extension MainListViewController: MKMapViewDelegate {
     
     // 마커 선택 Delegate
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        guard let markerView = view as? CustomMarkerAnnotationView else { return }
-        guard let stationInfo = markerView.stationInfo else { return }
+        guard let markerView = view as? CustomMarkerAnnotationView else { return } // MarkerView 확인
+        guard let stationInfo = markerView.stationInfo else { return } // 주유소 Data 확인
 
+        // 선택된 주유소의 Katec 좌표 전달
         self.lastKactecX = stationInfo.katecX
         self.lastKactecY = stationInfo.katecY
         
+        // 디테일 뷰 설정
         detailView.configure(stationInfo)
         detailView.detailViewTapGestureRecognizer(target: self, action: #selector(self.navigateStart(_:)))
         markerView.mapMarkerImageView.image = UIImage(named: "SelectMapMarker")
         markerView.priceLabel.textColor = UIColor.white
         
+        // 마커 선택 시 디테일 뷰 애니메이션
         self.detailView.detailViewBottomConstraint.constant = 10
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
@@ -789,7 +819,7 @@ extension MainListViewController: MKMapViewDelegate {
                 self.appleMapView.add(route.polyline, level: .aboveRoads) // 경로 추가
             }
         }
-        zoomToLatestLocation(with: markerView.coordinate!)
+        zoomToLatestLocation(with: markerView.coordinate!) // 마커 선택 시 마커 위치를 맵의 가운데로 표시
         
     }
     
@@ -799,18 +829,19 @@ extension MainListViewController: MKMapViewDelegate {
         markerView?.mapMarkerImageView.image = UIImage(named: "NonMapMarker")
         markerView?.priceLabel.textColor = UIColor.black
         
+        // 디테일 뷰 하단으로 변경
         self.detailView.detailViewBottomConstraint.constant = -150
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
-        self.appleMapView.removeOverlays(self.appleMapView.overlays) // 경로 삭제
+        self.appleMapView.removeOverlays(self.appleMapView.overlays) // 경로 선 삭제
     }
     
     
     // 경로관련 선 옵션 Delegate
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        // 경로 선 옵션
         let renderer = MKPolylineRenderer(overlay: overlay)
-        
         renderer.strokeColor = UIColor(named: "MainColor")?.withAlphaComponent(0.8)
         renderer.lineWidth = 5.0
         

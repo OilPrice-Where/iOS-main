@@ -93,13 +93,8 @@ class GasStationView: UIView {
             if sender.isSelected { // 3개 이상일 때 isSelect 상태 true 일 시 즐겨찾기 상태를 해제
                 favoriteButton.imageView!.tintColor = UIColor(named: "MainColor")
                 favoriteButton.backgroundColor = UIColor.white
-                for index in 0..<DefaultData.shared.favoriteArr.count {
-                    if self.id == DefaultData.shared.favoriteArr[index] {
-                        DefaultData.shared.favoriteArr.remove(at: index)
-                        DefaultData.shared.saveFavorite()
-                        break
-                    }
-                }
+                DefaultData.shared.favoriteArr = DefaultData.shared.favoriteArr.filter { $0 != self.id }
+                DefaultData.shared.saveFavorite()
                 sender.isSelected = false
             } else {
                 let appearance = SCLAlertView.SCLAppearance(
@@ -121,13 +116,8 @@ class GasStationView: UIView {
         if sender.isSelected { // 즐겨찾기 설정
             favoriteButton.imageView!.tintColor = UIColor(named: "MainColor")
             favoriteButton.backgroundColor = UIColor.white
-            for index in 0..<DefaultData.shared.favoriteArr.count {
-                if self.id == DefaultData.shared.favoriteArr[index] {
-                    DefaultData.shared.favoriteArr.remove(at: index)
-                    DefaultData.shared.saveFavorite()
-                    break
-                }
-            }
+            DefaultData.shared.favoriteArr = DefaultData.shared.favoriteArr.filter { $0 != self.id }
+            DefaultData.shared.saveFavorite()
             sender.isSelected = false
         } else { // 즐겨찾기 해제
             DefaultData.shared.favoriteArr.append(self.id!)
