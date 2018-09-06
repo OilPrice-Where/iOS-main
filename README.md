@@ -52,10 +52,10 @@
 <p align="left">
 <a href=""> 어플 실행 영상 </a> <br><br>
 
-<img src="screenList.png" width="220" />
-<img src="screenMap.png" width="220" />
-<img src="screenFavorite.png" width="220" />
-<img src="screenSetting.png" width="220" />
+<img src="screenList.png" width="210" />
+<img src="screenMap.png" width="210" />
+<img src="screenFavorite.png" width="210" />
+<img src="screenSetting.png" width="210" />
 </p>
 
 ## 3. Version History
@@ -68,5 +68,17 @@
 <br>
 
 ## 5. What we learned on this project
+
+- Core Location
+- MapKit
+- App Delegate Life Cycle & When use App Delegate Function
+- Collaboration using Git(VCS)
+- Json Data Parsing(Codable)
+- Passing data between ViewControllers using segue
+- Reuse TableviewCell
+- Save user setting data(Plist)
+- Application state as network state changes
+- Depending on your location rights, the application state
+- Autolayout by device
 
 <br>
