@@ -31,7 +31,7 @@
 
 <br>
 
-## About ApplicationsContent
+## About Applications
 
 - 프로젝트 기간: 18.07 ~ 18.08
 - 사용자에게 가까운 거리의 주유소 중 합리적인 가격의 주유소를 찾아 안내해주는 어플
@@ -50,21 +50,23 @@
 
 ## Preview
 <p align="left">
-<a href=""> 어플 실행 영상 </a> <br><br>
+<a href="https://vimeo.com/288497922"> 어플 실행 영상 </a> <br><br>
 
-<img src="screenList.png" width="210" />
-<img src="screenMap.png" width="210" />
-<img src="screenFavorite.png" width="210" />
-<img src="screenSetting.png" width="210" />
+<img src="IntroduceImage/screenList.png" width="210" />
+<img src="IntroduceImage/screenMap.png" width="210" />
+<img src="IntroduceImage/screenFavorite.png" width="210" />
+<img src="IntroduceImage/screenSetting.png" width="210" />
 </p>
 
 ## Version History
-- ver 1.0.0 : App Store release(미정)
+
+- ver 1.0.0 : App Store release(18.09.07)
 
 <br>
 
 ## Download
-
+<a href="https://itunes.apple.com/kr/app/%EC%96%B4%EB%94%94%EC%A3%BC%EC%9C%A0/id1435350344?mt=8"> ![Available](IntroduceImage/Download_on_the_App_Store_Badge_US-UK_blk.png)
+</a>
 <br>
 
 ## What we learned on this project
