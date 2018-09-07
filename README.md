@@ -59,7 +59,7 @@
 </p>
 
 ## Version History
-- ver 1.0.0 : App Store release(미정)
+- ver 1.0.0 : App Store release(18.09.07)
 
 <br>
 
