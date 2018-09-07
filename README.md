@@ -50,7 +50,7 @@
 
 ## Preview
 <p align="left">
-<a href=""> 어플 실행 영상 </a> <br><br>
+<a href="https://vimeo.com/288497922"> 어플 실행 영상 </a> <br><br>
 
 <img src="screenList.png" width="210" />
 <img src="screenMap.png" width="210" />
