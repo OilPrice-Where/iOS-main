@@ -23,15 +23,15 @@
 
 ## Content
 
-- [1. About Applications](#1.-About-Applications)
-- [2. Preview](#2.-Preview)
-- [3. Version History](#3.-Version-History)
-- [4. Download](#4.-Download)
-- [5. What we learned on this project](#5.-What-we-learned-on-this-project)
+- [About Applications](#About-Applications)
+- [Preview](#Preview)
+- [Version History](#Version-History)
+- [Download](#Download)
+- [What we learned on this project](#What-we-learned-on-this-project)
 
 <br>
 
-## 1. About ApplicationsContent
+## About ApplicationsContent
 
 - 프로젝트 기간: 18.07 ~ 18.08
 - 사용자에게 가까운 거리의 주유소 중 합리적인 가격의 주유소를 찾아 안내해주는 어플
@@ -48,7 +48,7 @@
 
 <br>
 
-## 2. Preview
+## Preview
 <p align="left">
 <a href=""> 어플 실행 영상 </a> <br><br>
 
@@ -58,16 +58,16 @@
 <img src="screenSetting.png" width="210" />
 </p>
 
-## 3. Version History
+## Version History
 - ver 1.0.0 : App Store release(미정)
 
 <br>
 
-## 4. Download
+## Download
 
 <br>
 
-## 5. What we learned on this project
+## What we learned on this project
 
 - Core Location
 - MapKit
