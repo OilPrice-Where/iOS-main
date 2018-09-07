@@ -3,8 +3,8 @@
 <img src="https://img.shields.io/badge/swift-4.1-blue.svg" />
 <img src="https://img.shields.io/badge/xcode-9.4.1-green.svg" />
 <img src="https://img.shields.io/badge/ios-11.4-yellow.svg" />
-<img src="https://img.shields.io/badge/licence-MIT-lightgrey.svg" /> <br><br>
-
+<img src="https://img.shields.io/badge/licence-MIT-lightgrey.svg" /> 
+</p> <br><br>
 <br>
 
 ## Member
@@ -23,11 +23,11 @@
 
 ## Content
 
-- [About Applications](#About-Applications)
-- [Preview](#Preview)
-- [Version History](#Version-History)
-- [Download](#Download)
-- [What we learned on this project](#What-we-learned-on-this-project)
+- [About Applications](#about-applications)
+- [Preview](#preview)
+- [Version History](#version-history)
+- [Download](#download)
+- [What we learned on this project](#what-we-learned-on-this-project)
 
 <br>
 
@@ -48,7 +48,7 @@
 
 <br>
 
-## Preview
+##Preview
 <p align="left">
 <a href="https://vimeo.com/288497922"> 어플 실행 영상 </a> <br><br>
 
