@@ -24,9 +24,9 @@ class DefaultData {
         if let brandName = SwiftyPlistManager.shared.fetchValue(for: "BrandType", fromPlistWithName: "UserInfo") as? String {
             self.brandType = brandName
         } else {
-            SwiftyPlistManager.shared.addNew("전체", key: "BrandType", toPlistWithName: "UserInfo", completion: { (err) in
+            SwiftyPlistManager.shared.addNew("ALL", key: "BrandType", toPlistWithName: "UserInfo", completion: { (err) in
                 if err != nil {
-                    self.brandType = "전체"
+                    self.brandType = "ALL"
                     print("Success")
                 }
             })

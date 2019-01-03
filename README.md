@@ -60,7 +60,9 @@
 
 ## Version History
 
-- ver 1.0.0 : App Store release(18.09.07)
+- ver 1.0.0 : App Store Release(18.09.07)
+- ver 1.0.1 : App Store release(18.09.07)
+- ver 1.1.0 : Add Function Release(18.09.07)
 
 <br>
 

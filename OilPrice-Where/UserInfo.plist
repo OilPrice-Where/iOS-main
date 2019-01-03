@@ -7,7 +7,7 @@
 	<key>FindRadius</key>
 	<integer>3000</integer>
 	<key>BrandType</key>
-	<string>SKE</string>
+	<string>ALL</string>
 	<key>CFBundleIdentifier</key>
 	<string></string>
 	<key>Favorites</key>
