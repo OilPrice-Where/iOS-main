@@ -1,8 +1,8 @@
 # 어디주유 Where Gas Stations
 <p align="left">
-<img src="https://img.shields.io/badge/swift-4.1-blue.svg" />
-<img src="https://img.shields.io/badge/xcode-9.4.1-green.svg" />
-<img src="https://img.shields.io/badge/ios-11.4-yellow.svg" />
+<img src="https://img.shields.io/badge/swift-4.2-blue.svg" />
+<img src="https://img.shields.io/badge/xcode-10.1-green.svg" />
+<img src="https://img.shields.io/badge/ios-12.1-yellow.svg" />
 <img src="https://img.shields.io/badge/licence-MIT-lightgrey.svg" /> 
 </p>
 <br>
