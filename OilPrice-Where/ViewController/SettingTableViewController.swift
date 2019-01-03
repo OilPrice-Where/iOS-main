@@ -92,7 +92,7 @@ class SettingTableViewController: UITableViewController {
     @IBAction private func didPickerBrandType(_ segue: UIStoryboardSegue) {
         let controller = segue.source as! SelectGasstationTableViewController
         findBrandType.text = controller.selectedBrand
-        DefaultData.shared.brandType = Preferences.brand(code: DefaultData.shared.brandType)
+        DefaultData.shared.brandType = Preferences.brand(name: controller.selectedBrand)
         DefaultData.shared.saveBrand()
     }
     

@@ -21,7 +21,16 @@ class DefaultData {
                                                              fromPlistWithName: "UserInfo") as! Int
         self.oilType = SwiftyPlistManager.shared.fetchValue(for: "OilType", // 탐색 오일 설정
                                                             fromPlistWithName: "UserInfo") as! String
-        self.brandType = SwiftyPlistManager.shared.fetchValue(for: "BrandType", fromPlistWithName: "UserInfo") as! String
+        if let brandName = SwiftyPlistManager.shared.fetchValue(for: "BrandType", fromPlistWithName: "UserInfo") as? String {
+            self.brandType = brandName
+        } else {
+            SwiftyPlistManager.shared.addNew("전체", key: "BrandType", toPlistWithName: "UserInfo", completion: { (err) in
+                if err != nil {
+                    self.brandType = "전체"
+                    print("Success")
+                }
+            })
+        }
         self.favoriteArr = SwiftyPlistManager.shared.fetchValue(for: "Favorites", fromPlistWithName: "UserInfo") as! [String]
         
     }

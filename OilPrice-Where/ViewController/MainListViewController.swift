@@ -73,6 +73,7 @@ class MainListViewController: UIViewController {
     private var lastKactecY: Double? // KatecY 좌표
     var lastOilType = DefaultData.shared.oilType
     var lastFindRadius = DefaultData.shared.radius
+    var lastBrandType = DefaultData.shared.brandType
     var selectMarker = false
     var lastBottomConstant: CGFloat?
     var priceSortButton: UIButton!
@@ -98,6 +99,7 @@ class MainListViewController: UIViewController {
         super.viewWillAppear(animated)
         if Reachability.isConnectedToNetwork(){
             configureLocationServices()
+            print("WillAppear")
         }
         if mainListPage {
             UIApplication.shared.statusBarStyle = .lightContent
@@ -141,8 +143,13 @@ class MainListViewController: UIViewController {
             switch result {
             case .success(let gasStationData):
                 print("DataLoad")
-                DefaultData.shared.data = gasStationData.result.gasStations
-                self.sortData = gasStationData.result.gasStations.sorted(by: {$0.distance < $1.distance})
+                if DefaultData.shared.brandType == "ALL" {
+                    DefaultData.shared.data = gasStationData.result.gasStations
+                } else {
+                    DefaultData.shared.data = gasStationData.result.gasStations
+                                                                    .filter { $0.brand == DefaultData.shared.brandType }
+                }
+                self.sortData = DefaultData.shared.data!.sorted(by: {$0.distance < $1.distance})
                 self.showMarker()
                 self.refreshControl.endRefreshing()
                 self.tableView.reloadData()
@@ -504,8 +511,9 @@ extension MainListViewController: CLLocationManagerDelegate {
                 let distance: CLLocationDistance = newLocation!.distance(from: lastLocation)
                 if distance < 50.0 &&
                    lastOilType == DefaultData.shared.oilType &&
-                   lastFindRadius == DefaultData.shared.radius {
-                   
+                   lastFindRadius == DefaultData.shared.radius &&
+                   lastBrandType == DefaultData.shared.brandType {
+
                    stopLocationManager()
                 } else {
                     reset()
@@ -514,6 +522,7 @@ extension MainListViewController: CLLocationManagerDelegate {
                     oldLocation = newLocation
                     lastOilType = DefaultData.shared.oilType
                     lastFindRadius = DefaultData.shared.radius
+                    lastBrandType = DefaultData.shared.brandType
                 }
             } else {
                 gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))

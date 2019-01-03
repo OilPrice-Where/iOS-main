@@ -154,7 +154,7 @@ final class Preferences {
         case "SK가스":
             return "SKG"
         default:
-            return ""
+            return "ALL"
         }
     }
     
@@ -183,7 +183,7 @@ final class Preferences {
         case "SKG":
             return "SK가스"
         default:
-            return ""
+            return "전체"
         }
     }
     
