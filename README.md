@@ -50,7 +50,7 @@
 
 ## Preview
 <p align="left">
-<a href="https://vimeo.com/288497922"> 어플 실행 영상 </a> <br><br>
+<a href="https://vimeo.com/288497922"> 어플 실행 영상 </a> <br>기능 추가<br>
 
 <img src="IntroduceImage/screenList.png" width="210" />
 <img src="IntroduceImage/screenMap.png" width="210" />
@@ -60,9 +60,9 @@
 
 ## Version History
 
-- ver 1.0.0 : App Store Release(18.09.07)
-- ver 1.0.1 : App Store release(18.09.07)
-- ver 1.1.0 : Add Function Release(18.09.07)
+- ver 1.0.0 : App Store Release(18.09.06)
+- ver 1.0.1 : Bug fixes Debug(18.09.08)
+- ver 1.1.0 : Add Function Release(19.01.03)
 
 <br>
 

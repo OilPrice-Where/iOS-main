@@ -651,7 +651,7 @@
 					"\"Alamofire\"",
 					"-all_load",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere;
+				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasonline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/OilPrice-Where/KakaoNavi-Bridging-Header.h";
@@ -685,7 +685,7 @@
 					"\"Alamofire\"",
 					"-all_load",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere;
+				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasonline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/OilPrice-Where/KakaoNavi-Bridging-Header.h";
