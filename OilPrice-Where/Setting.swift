@@ -129,6 +129,64 @@ final class Preferences {
         }
     }
     
+    // Brand Type을 Brand Code로 변환 함수
+    // ex) SK에너지 -> SKE
+    static func brand(name: String) -> String {
+        switch name {
+        case "SK에너지":
+            return "SKE"
+        case "GS칼텍스":
+            return "GSC"
+        case "현대오일뱅크":
+            return "HDO"
+        case "S-OIL":
+            return "SOL"
+        case "자영알뜰":
+            return "RTO"
+        case "고속도로알뜰":
+            return "RTX"
+        case "농협알뜰":
+            return "NHO"
+        case "자가상표":
+            return "ETC"
+        case "E1":
+            return "E1G"
+        case "SK가스":
+            return "SKG"
+        default:
+            return ""
+        }
+    }
+    
+    // Brand Code를 Brand Type으로 변환 함수
+    // ex) B027 -> 휘발유
+    static func brand(code: String) -> String {
+        switch code {
+        case "SKE":
+            return "SK에너지"
+        case "GSC":
+            return "GS칼텍스"
+        case "HDO":
+            return "현대오일뱅크"
+        case "SOL":
+            return "S-OIL"
+        case "RTO":
+            return "자영알뜰"
+        case "RTX":
+            return "고속도로알뜰"
+        case "NHO":
+            return "농협알뜰"
+        case "ETC":
+            return "자가상표"
+        case "E1G":
+            return "E1"
+        case "SKG":
+            return "SK가스"
+        default:
+            return ""
+        }
+    }
+    
     // String으로 표시 된 거리를 Int값으로 반환
     // ex) 1KM -> 1000
     static func distanceKM(KM: String) -> Int {

@@ -6,6 +6,8 @@
 	<string></string>
 	<key>FindRadius</key>
 	<integer>3000</integer>
+	<key>BrandType</key>
+	<string>SKE</string>
 	<key>CFBundleIdentifier</key>
 	<string></string>
 	<key>Favorites</key>

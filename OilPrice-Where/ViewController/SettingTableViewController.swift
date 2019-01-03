@@ -16,6 +16,7 @@ class SettingTableViewController: UITableViewController {
     
     @IBOutlet private weak var oilTypeLabel : UILabel! // 현재 탐색 하고 있는 오일의 타입
     @IBOutlet private weak var findLabel : UILabel! // 현재 탐색 하고 있는 탐색 반경
+    @IBOutlet private weak var findBrandType : UILabel! // 현재 탐색 하고 있는 브랜드
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,10 +39,11 @@ class SettingTableViewController: UITableViewController {
     }
     
     // 이전 설정을 데이터를 불러와서
-    // oilTypeLabel, findLabel 업데이트
+    // oilTypeLabel, findLabel, findBrandType 업데이트
     func settingDataLoad() {
         oilTypeLabel.text = Preferences.oil(code: DefaultData.shared.oilType)
         findLabel.text = String(DefaultData.shared.radius / 1000) + "KM"
+        findBrandType.text = Preferences.brand(code: DefaultData.shared.brandType)
     }
     
     // 다른 페이지로 전환 시
@@ -55,6 +57,9 @@ class SettingTableViewController: UITableViewController {
         } else if segue.identifier == "FindDistance", let findDistance = findLabel.text {
             let controller = segue.destination as! SelectFindDistanceTableViewController
             controller.selectedDistance = findDistance
+        } else if segue.identifier == "SelectBrandType", let findBrand = findBrandType.text {
+            let controller = segue.destination as! SelectGasstationTableViewController
+            controller.selectedBrand = findBrand
         }
     }
     
@@ -71,13 +76,24 @@ class SettingTableViewController: UITableViewController {
     
     // SelectFindDistanceTableViewController에서 탐색 반경 선택 시
     // SettingTableViewController로 페이지가 전환(pop)되면서
-    // SettingTableViewController의 oilTypeLabel를 업데이트 해주고
+    // SettingTableViewController의 findLabel를 업데이트 해주고
     // 앱의 기본정보 객체의(DefaultData) radius를 Update 해준다.
     @IBAction private func didPickerDistance(_ segue: UIStoryboardSegue) {
         let controller = segue.source as! SelectFindDistanceTableViewController
         findLabel.text = controller.selectedDistance
         DefaultData.shared.radius = Preferences.distanceKM(KM: controller.selectedDistance)
         DefaultData.shared.saveDistance()
+    }
+    
+    // SelectGasstationTableViewController에서 브랜드 선택 시
+    // SettingTableViewController로 페이지가 전환(pop)되면서
+    // SettingTableViewController의 findBrandType를 업데이트 해주고
+    // 앱의 기본정보 객체의(DefaultData) brandType를 Update 해준다.
+    @IBAction private func didPickerBrandType(_ segue: UIStoryboardSegue) {
+        let controller = segue.source as! SelectGasstationTableViewController
+        findBrandType.text = controller.selectedBrand
+        DefaultData.shared.brandType = Preferences.brand(code: DefaultData.shared.brandType)
+        DefaultData.shared.saveBrand()
     }
     
     // 앱스토어 연결

@@ -21,12 +21,15 @@ class DefaultData {
                                                              fromPlistWithName: "UserInfo") as! Int
         self.oilType = SwiftyPlistManager.shared.fetchValue(for: "OilType", // 탐색 오일 설정
                                                             fromPlistWithName: "UserInfo") as! String
+        self.brandType = SwiftyPlistManager.shared.fetchValue(for: "BrandType", fromPlistWithName: "UserInfo") as! String
         self.favoriteArr = SwiftyPlistManager.shared.fetchValue(for: "Favorites", fromPlistWithName: "UserInfo") as! [String]
+        
     }
     var data: [GasStation]? // 반경 주유소 리스트
     var priceData: [AllPrice] = [] // 전국 평균 기름 값
     var radius = 3000 // 탐색 반경
     var oilType = "" // 오일 종류
+    var brandType = "" // 설정 브랜드
     var favoriteArr: [String] = [] // 즐겨 찾기
     
     // Plist에 값 저장
@@ -59,6 +62,17 @@ class DefaultData {
                                        toPlistWithName: "UserInfo") { (err) in
                                         if err != nil {
                                             print("Success Save Favorites !!")
+                                        }
+        }
+    }
+    
+    func saveBrand() {
+        // Brand Array Save
+        SwiftyPlistManager.shared.save(DefaultData.shared.brandType,
+                                       forKey: "BrandType",
+                                       toPlistWithName: "UserInfo") { (err) in
+                                        if err != nil {
+                                            print("Success Save BrandType !!")
                                         }
         }
     }
