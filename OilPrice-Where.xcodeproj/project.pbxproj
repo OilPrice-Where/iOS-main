@@ -627,8 +627,8 @@
 			baseConfigurationReference = AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -636,7 +636,7 @@
 					"$(PROJECT_DIR)/Kakao",
 				);
 				INFOPLIST_FILE = "OilPrice-Where/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -649,8 +649,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb3c2094-3845-4134-94f5-f069c0892d60";
-				PROVISIONING_PROFILE_SPECIFIER = "where gasoline";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/OilPrice-Where/KakaoNavi-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -662,8 +662,8 @@
 			baseConfigurationReference = 5ADD44E371ADD94F9E7AFB44 /* Pods-OilPrice-Where.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -671,7 +671,7 @@
 					"$(PROJECT_DIR)/Kakao",
 				);
 				INFOPLIST_FILE = "OilPrice-Where/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -684,8 +684,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb3c2094-3845-4134-94f5-f069c0892d60";
-				PROVISIONING_PROFILE_SPECIFIER = "where gasoline";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/OilPrice-Where/KakaoNavi-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
