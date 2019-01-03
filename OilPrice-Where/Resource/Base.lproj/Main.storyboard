@@ -611,7 +611,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="918.75" y="-638.02816901408448"/>
+            <point key="canvasLocation" x="919" y="-721"/>
         </scene>
         <!--InitialSettingViewController-->
         <scene sceneID="OaA-VS-98l">
@@ -990,7 +990,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MJy-rE-lPE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1170" y="80"/>
+            <point key="canvasLocation" x="919" y="32"/>
         </scene>
         <!--설정-->
         <scene sceneID="2az-Vw-67D">
@@ -1260,7 +1260,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dnw-wq-UBh" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Kvq-27-efp" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="141" y="1689"/>
+            <point key="canvasLocation" x="32" y="1688"/>
         </scene>
         <!--검색 반경-->
         <scene sceneID="H6V-MR-gxV">
@@ -1306,7 +1306,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SFi-Rq-JTz" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="WzB-Jn-mdJ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="919" y="1688"/>
+            <point key="canvasLocation" x="919" y="1687"/>
         </scene>
         <!--관심 유종-->
         <scene sceneID="N6p-14-gCB">
@@ -1352,7 +1352,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eMy-Yh-C1U" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="zQ9-SL-3CG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1718" y="1689"/>
+            <point key="canvasLocation" x="1834" y="1687"/>
         </scene>
         <!--About us-->
         <scene sceneID="Ume-2H-oq2">

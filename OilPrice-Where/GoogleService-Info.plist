@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>570507572138-51dutimp64m8atar6ncrgema8ldpjviq.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.570507572138-51dutimp64m8atar6ncrgema8ldpjviq</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA1MLwEX2iATCBOUNI0sPzBifU_8Xv7kvs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>570507572138</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.OilPriceWhere.wheregasoline</string>
+	<key>PROJECT_ID</key>
+	<string>oilpricewhere-e0886</string>
+	<key>STORAGE_BUCKET</key>
+	<string>oilpricewhere-e0886.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:570507572138:ios:2856588f8ebe77e3</string>
+	<key>DATABASE_URL</key>
+	<string>https://oilpricewhere-e0886.firebaseio.com</string>
+</dict>
+</plist>

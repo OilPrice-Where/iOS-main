@@ -294,6 +294,7 @@ class MainListViewController: UIViewController {
                 self.showMarker()
                 self.refreshControl.endRefreshing()
                 self.tableView.reloadData()
+                self.isDisplayNoneView()
             case .error(let error):
                 print(error)
             }
@@ -301,7 +302,7 @@ class MainListViewController: UIViewController {
     }
     
     func isDisplayNoneView() {
-        if self.sortData.count == 0 {
+        if DefaultData.shared.data?.count == 0 {
             self.noneView.isHidden = false
         } else {
             self.noneView.isHidden = true
