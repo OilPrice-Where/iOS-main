@@ -66,6 +66,8 @@ class FavoritesGasStationViewController: UIViewController {
             if oldFavoriteArr != DefaultData.shared.favoriteArr || oldOilType != DefaultData.shared.oilType {
                 viewHiddenSetting() // 처음 뷰의 isHidden 상태로 돌린다.
                 favoriteDataLoad()
+                print(firstContentView.isHidden)
+                print(noneContentView.isHidden)
             }
         } else {
             pager.numberOfPages = 0 // Page Number
@@ -113,6 +115,7 @@ class FavoritesGasStationViewController: UIViewController {
     
     // 상세정보를 뷰에 입력
     func favoriteDataLoad() {
+        guard DefaultData.shared.favoriteArr.count > 0 else { return }
         noneContentView.isHidden = true // 데이터를 호출 하면 즐겨찾기가 있다는 뜻이므로 noneView를 hidden 시켜준다.
         
         for index in 0 ..< DefaultData.shared.favoriteArr.count { // 뷰의 카운트 값(즐겨찾기 수)만큼 데이터를 읽어 온다.

@@ -136,6 +136,14 @@ class MainListViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        lastOilType = DefaultData.shared.oilType
+        lastFindRadius = DefaultData.shared.radius
+        lastFavorites = DefaultData.shared.favoriteArr
+    }
+    
     //Mark: 기본 설정 (viewDidLoad)
     // 가격순, 거리순 버튼 생성
     func createSortView() {
@@ -584,9 +592,6 @@ extension MainListViewController: CLLocationManagerDelegate {
                     gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
                     stopLocationManager()
                     oldLocation = newLocation
-                    lastOilType = DefaultData.shared.oilType
-                    lastFindRadius = DefaultData.shared.radius
-                    lastFavorites = DefaultData.shared.favoriteArr
                 }
             } else {
                 gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))

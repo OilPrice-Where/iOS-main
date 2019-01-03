@@ -35,7 +35,7 @@ class NoticeDetailViewController: UIViewController {
         super.viewDidLoad()
         
         contentLable.text = content
-        contentLable.font = UIFont(name: "NanumSquareRoundEB", size: 17)
+        contentLable.font = UIFont(name: "NanumSquareRoundB", size: 17)
         navigationItem.leftBarButtonItem?.tintColor = UIColor.white
         navigationSetting()
         contentLable.layer.cornerRadius = 6
