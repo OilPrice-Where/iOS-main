@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import SCLAlertView
 
 class FavoritesGasStationViewController: UIViewController {
 
@@ -17,19 +18,19 @@ class FavoritesGasStationViewController: UIViewController {
     lazy var favoriteViewArr: [FavoriteView] = [firstView,
                                                 secondView,
                                                 thirdView]
+    
     var oldFavoriteArr: [String] = [] // 이전 Favorites
-    var favoriteDataList: [InformationGasStaion] = []
     var oldOilType = "" // 이전 Oil Type
     
-    @IBOutlet private weak var noneView : UIView! // None View
-    @IBOutlet private weak var firstView : FavoriteView! // 1st Favorite View
-    @IBOutlet private weak var secondView : FavoriteView! // 2nd Favorite View
-    @IBOutlet private weak var thirdView : FavoriteView! // 3rd Favorite View
+    @IBOutlet private weak var firstView : FavoriteView! // 1st Stack Content View
+    @IBOutlet private weak var secondView : FavoriteView! // 2nd Stack Content View
+    @IBOutlet private weak var thirdView : FavoriteView! // 3rd Stack Content View
+    @IBOutlet private weak var noneView : UIView! // none Stack Content View
     
-    @IBOutlet weak var firstContentView: UIView!
-    @IBOutlet weak var secondContentView: UIView!
-    @IBOutlet weak var thirdContentView: UIView!
-    @IBOutlet weak var noneContentView: UIView!
+    @IBOutlet weak var firstContentView: UIView! // 1st Favorite View
+    @IBOutlet weak var secondContentView: UIView! // 2nd Favorite View
+    @IBOutlet weak var thirdContentView: UIView! // 3rd Favorite View
+    @IBOutlet weak var noneContentView: UIView! // // None View
     
     @IBOutlet weak var scrollView: UIScrollView! // Scroll View
     @IBOutlet weak var pager: UIPageControl! // Page Controller
@@ -57,13 +58,33 @@ class FavoritesGasStationViewController: UIViewController {
         super.viewWillAppear(animated)
         
         UIApplication.shared.statusBarStyle = .lightContent // Status Bar Color
-        pager.numberOfPages = DefaultData.shared.favoriteArr.count // Page Number
         
-        // 이전 데이터와 중복 되거나, 새로운 오일 타입 설정 시 데이터를 다시 받아서 업데이트 시켜준다.
-        if oldFavoriteArr != DefaultData.shared.favoriteArr || oldOilType != DefaultData.shared.oilType {
-            viewHiddenSetting() // 처음 뷰의 isHidden 상태로 돌린다.
-            favoriteDataLoad()
+        if Reachability.isConnectedToNetwork() {
+            pager.numberOfPages = DefaultData.shared.favoriteArr.count // Page Number
+            
+            // 이전 데이터와 중복 되거나, 새로운 오일 타입 설정 시 데이터를 다시 받아서 업데이트 시켜준다.
+            if oldFavoriteArr != DefaultData.shared.favoriteArr || oldOilType != DefaultData.shared.oilType {
+                viewHiddenSetting() // 처음 뷰의 isHidden 상태로 돌린다.
+                favoriteDataLoad()
+                print(firstContentView.isHidden)
+                print(noneContentView.isHidden)
+            }
+        } else {
+            pager.numberOfPages = 0 // Page Number
+            let appearance = SCLAlertView.SCLAppearance(
+                kWindowWidth: 300,
+                kTitleFont: UIFont(name: "NanumSquareRoundB", size: 18)!,
+                kTextFont: UIFont(name: "NanumSquareRoundR", size: 15)!,
+                showCloseButton: true
+            )
+            
+            let alert = SCLAlertView(appearance: appearance)
+            
+            alert.showError("네트워크 오류 발생", subTitle: "인터넷 연결이 오프라인 상태입니다.", closeButtonTitle: "확인", colorStyle: 0x5E82FF)
+            alert.iconTintColor = UIColor.white
         }
+        
+        
     }
     
     // 뷰가 없어 질 때 뷰의 이전 정보들을 저장 시킨다.
@@ -94,6 +115,7 @@ class FavoritesGasStationViewController: UIViewController {
     
     // 상세정보를 뷰에 입력
     func favoriteDataLoad() {
+        guard DefaultData.shared.favoriteArr.count > 0 else { return }
         noneContentView.isHidden = true // 데이터를 호출 하면 즐겨찾기가 있다는 뜻이므로 noneView를 hidden 시켜준다.
         
         for index in 0 ..< DefaultData.shared.favoriteArr.count { // 뷰의 카운트 값(즐겨찾기 수)만큼 데이터를 읽어 온다.
@@ -103,7 +125,6 @@ class FavoritesGasStationViewController: UIViewController {
                 switch result {
                 case .success(let favoriteData):
                     self.contentViewArr[index].isHidden = false
-                    self.favoriteDataList.append(favoriteData.result.allPriceList[0])
                     self.favoriteViewArr[index].configure(with: favoriteData.result.allPriceList[0]) // 뷰 정보 입력
                     self.favoriteViewArr[index].deleteFavoriteButton.tag = index
                     self.favoriteViewArr[index].deleteFavoriteButton.addTarget(self,
@@ -117,17 +138,14 @@ class FavoritesGasStationViewController: UIViewController {
     }
     
     @objc func deleteFavoriteView(_ sender: UIButton) {
-        var count = 0
         
         self.contentViewArr[sender.tag].isHidden = true
-        for favorite in favoriteDataList {
-            if favorite.id == favoriteViewArr[sender.tag].id {
-                self.favoriteDataList.remove(at: count)
-                DefaultData.shared.favoriteArr.remove(at: count)
-                DefaultData.shared.saveFavorite()
-            }
-            count += 1
+        DefaultData.shared.favoriteArr = DefaultData.shared.favoriteArr.filter {
+            $0 != favoriteViewArr[sender.tag].id
         }
+        DefaultData.shared.saveFavorite()
+        pager.numberOfPages = DefaultData.shared.favoriteArr.count // Page Number
+        
         if firstContentView.isHidden && secondContentView.isHidden && thirdContentView.isHidden {
             noneContentView.isHidden = false
         }

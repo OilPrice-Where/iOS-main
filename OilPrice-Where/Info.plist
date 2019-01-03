@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>1.0.0.3</string>
 	<key>KAKAO_APP_KEY</key>
 	<string>b8e7f9ac5bf3c19414515867205f92aa</string>
 	<key>LSApplicationCategoryType</key>
@@ -49,9 +49,9 @@
 		<true/>
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>주변의 주유소를 검색하기 위해 위치 정보를 사용합니다.</string>
+	<string>위치 서비스를 허용하시면 이 근처의 가장 저렴한 주유소를 확인할 수 있어요.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>주변의 주유소를 검색하기 위해 위치 정보를 사용합니다.</string>
+	<string>위치 서비스를 허용하시면 이 근처의 가장 저렴한 주유소를 확인할 수 있어요.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NanumSquareRoundB.ttf</string>
@@ -71,6 +71,8 @@
 	<false/>
 	<key>UIRequiresPersistentWiFi</key>
 	<true/>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
