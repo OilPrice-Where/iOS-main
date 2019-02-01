@@ -31,6 +31,8 @@ class MainListViewController: UIViewController {
     var annotations: [CustomMarkerAnnotation] = [] // 마커 배열 생성
     @IBOutlet private weak var mapView : UIView! // 애플맵을 포함시키고 있는 뷰
     @IBOutlet private weak var currentLocationButton : UIButton! // 현재 위치 표시 버튼
+    @IBOutlet weak var currentLocationButtonTop: NSLayoutConstraint! // 현재 위치 Top Layout
+    @IBOutlet private weak var popupView : PopupView!
     
     // Detail View
     @IBOutlet private weak var detailView : DetailView! // Detail View
@@ -139,6 +141,7 @@ class MainListViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        lastBrandType = DefaultData.shared.brandType
         lastOilType = DefaultData.shared.oilType
         lastFindRadius = DefaultData.shared.radius
         lastFavorites = DefaultData.shared.favoriteArr
@@ -194,6 +197,18 @@ class MainListViewController: UIViewController {
         currentLocationButton.layer.shadowPath = UIBezierPath(roundedRect: currentLocationButton.bounds,
                                                               cornerRadius: self.currentLocationButton.bounds.height / 2).cgPath
         
+        // popupView 설정
+        popupView.layer.cornerRadius = 7
+        popupView.clipsToBounds = true
+        popupView.layer.shadowColor = UIColor.black.cgColor
+        popupView.layer.shadowOpacity = 0.3
+        popupView.layer.shadowOffset = CGSize(width: 1, height: 1)
+        popupView.layer.shadowRadius = 1.5
+        
+        // Draw a shadow
+        popupView.layer.shadowPath = UIBezierPath(roundedRect: currentLocationButton.bounds,
+                                                  cornerRadius: 10).cgPath
+        
         // Navigation Bar 색상 설정
         UINavigationBar.appearance().barTintColor = UIColor(named: "MainColor")
         appDelegate.mainViewController = self
@@ -226,6 +241,13 @@ class MainListViewController: UIViewController {
             tableView.refreshControl = self.refreshControl
         } else {
             tableView.addSubview(refreshControl)
+        }
+        
+        // 현재 위치 버튼 기종별 설정
+        if UIDevice.current.isiPhoneX {
+            currentLocationButtonTop.constant = 55
+        } else {
+            currentLocationButtonTop.constant = 35
         }
     }
     
@@ -264,7 +286,6 @@ class MainListViewController: UIViewController {
     func reset() {
         appleMapView.removeAnnotations(annotations)
         annotations = []
-        currentCoordinate = nil
         selectIndexPath = nil
     }
     private func gasStationListData(katecPoint: KatecPoint){
@@ -285,6 +306,7 @@ class MainListViewController: UIViewController {
                         .filter { $0.brand == DefaultData.shared.brandType }
                 }
                 self.sortData = DefaultData.shared.data!.sorted(by: {$0.distance < $1.distance})
+                self.popupView.configure()
                 self.showMarker()
                 self.refreshControl.endRefreshing()
                 self.tableView.reloadData()
@@ -413,22 +435,8 @@ class MainListViewController: UIViewController {
     
     // 맵의 현재위치 버튼
     @objc func currentLoaction(_ sender: UIButton) {
-        if Reachability.isConnectedToNetwork() {
-            guard let coordinate = self.currentCoordinate else { return }
-            zoomToLatestLocation(with: coordinate)
-        } else {
-            let appearance = SCLAlertView.SCLAppearance(
-                kWindowWidth: 300,
-                kTitleFont: UIFont(name: "NanumSquareRoundB", size: 18)!,
-                kTextFont: UIFont(name: "NanumSquareRoundR", size: 15)!,
-                showCloseButton: true
-            )
-            
-            let alert = SCLAlertView(appearance: appearance)
-            
-            alert.showError("네트워크 오류 발생", subTitle: "인터넷 연결이 오프라인 상태입니다.", closeButtonTitle: "확인", colorStyle: 0x5E82FF)
-            alert.iconTintColor = UIColor.white
-        }
+        guard Reachability.isConnectedToNetwork() else { return }
+        zoomToLatestLocation(with: currentCoordinate!)
     }
     
     // 지도 보기
@@ -561,10 +569,6 @@ extension MainListViewController: CLLocationManagerDelegate {
         let newLocation = locations.last
         
         if newLocation != nil {
-            if currentCoordinate == nil {
-                zoomToLatestLocation(with: newLocation!.coordinate)
-            }
-            
             currentCoordinate = newLocation!.coordinate
             
             let katecPoint = Converter.convertWGS84ToKatec(coordinate: newLocation!.coordinate)
@@ -602,8 +606,10 @@ extension MainListViewController: CLLocationManagerDelegate {
                     lastOilType = DefaultData.shared.oilType
                     lastFindRadius = DefaultData.shared.radius
                     lastBrandType = DefaultData.shared.brandType
+                    zoomToLatestLocation(with: currentCoordinate!)
                 }
             } else {
+                zoomToLatestLocation(with: currentCoordinate!)
                 gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
                 stopLocationManager()
                 oldLocation = newLocation
@@ -780,6 +786,14 @@ extension MainListViewController: MKMapViewDelegate {
         view?.annotation = annotation
         view?.stationInfo = annotation.stationInfo
         
+        if view?.stationInfo?.price == DefaultData.shared.data![0].price {
+            view?.mapMarkerImageView.image = UIImage(named: "MinMapMarker")
+            view?.priceLabel.textColor = UIColor.white
+        } else {
+            view?.mapMarkerImageView.image = UIImage(named: "NonMapMarker")
+            view?.priceLabel.textColor = UIColor.black
+        }
+        
         if let stationInfo = annotation.stationInfo {
             view?.priceLabel.text = String(stationInfo.price)
             view?.coordinate = annotation.coordinate
@@ -842,8 +856,14 @@ extension MainListViewController: MKMapViewDelegate {
     // 마커 선택해제 관련 Delegate
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         let markerView = view as? CustomMarkerAnnotationView
-        markerView?.mapMarkerImageView.image = UIImage(named: "NonMapMarker")
-        markerView?.priceLabel.textColor = UIColor.black
+        
+        if markerView?.stationInfo?.price == DefaultData.shared.data![0].price {
+            markerView?.mapMarkerImageView.image = UIImage(named: "MinMapMarker")
+            markerView?.priceLabel.textColor = UIColor.white
+        } else {
+            markerView?.mapMarkerImageView.image = UIImage(named: "NonMapMarker")
+            markerView?.priceLabel.textColor = UIColor.black
+        }
         
         // 디테일 뷰 하단으로 변경
         self.detailView.detailViewBottomConstraint.constant = -150
