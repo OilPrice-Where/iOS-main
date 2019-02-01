@@ -72,6 +72,7 @@ class MainListViewController: UIViewController {
     let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate // 앱 델리게이트
     private var lastKactecX: Double? // KatecX 좌표
     private var lastKactecY: Double? // KatecY 좌표
+    var lastBrandType = DefaultData.shared.brandType
     var lastOilType = DefaultData.shared.oilType // 마지막 오일 타입
     var lastFindRadius = DefaultData.shared.radius // 마지막 탐색 범위
     var lastFavorites = DefaultData.shared.favoriteArr // 마지막 즐겨 찾기 목록
@@ -98,6 +99,8 @@ class MainListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // 메인리스트 / 맵 일때 StatusBarStyle 설정
         if mainListPage {
             UIApplication.shared.statusBarStyle = .lightContent
         } else {
@@ -125,7 +128,6 @@ class MainListViewController: UIViewController {
             let alert = SCLAlertView(appearance: appearance)
             alert.showError("네트워크 오류 발생", subTitle: "인터넷 연결이 오프라인 상태입니다.", closeButtonTitle: "확인", colorStyle: 0x5E82FF)
             alert.iconTintColor = UIColor.white
-
             // 네트워크 연결이 안 되어 있으므로 초기화
             reset()
             DefaultData.shared.data = nil
@@ -275,12 +277,18 @@ class MainListViewController: UIViewController {
             
             switch result {
             case .success(let gasStationData):
-                DefaultData.shared.data = gasStationData.result.gasStations
-                self.sortData = gasStationData.result.gasStations.sorted(by: {$0.distance < $1.distance})
+                print("DataLoad")
+                if DefaultData.shared.brandType == "ALL" {
+                    DefaultData.shared.data = gasStationData.result.gasStations
+                } else {
+                    DefaultData.shared.data = gasStationData.result.gasStations
+                        .filter { $0.brand == DefaultData.shared.brandType }
+                }
+                self.sortData = DefaultData.shared.data!.sorted(by: {$0.distance < $1.distance})
                 self.showMarker()
-                self.isDisplayNoneView()
                 self.refreshControl.endRefreshing()
                 self.tableView.reloadData()
+                self.isDisplayNoneView()
             case .error(let error):
                 print(error)
             }
@@ -288,7 +296,7 @@ class MainListViewController: UIViewController {
     }
     
     func isDisplayNoneView() {
-        if self.sortData.count == 0 {
+        if DefaultData.shared.data?.count == 0 {
             self.noneView.isHidden = false
         } else {
             self.noneView.isHidden = true
@@ -582,14 +590,18 @@ extension MainListViewController: CLLocationManagerDelegate {
                 if distance < 50.0 &&
                    lastOilType == DefaultData.shared.oilType &&
                    lastFindRadius == DefaultData.shared.radius &&
+                   lastBrandType == DefaultData.shared.brandType &&
                    lastFavorites == DefaultData.shared.favoriteArr {
-                   stopLocationManager()
-                   self.tableView.reloadData()
+                    stopLocationManager()
+                    self.tableView.reloadData()
                 } else {
                     reset()
                     gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
                     stopLocationManager()
                     oldLocation = newLocation
+                    lastOilType = DefaultData.shared.oilType
+                    lastFindRadius = DefaultData.shared.radius
+                    lastBrandType = DefaultData.shared.brandType
                 }
             } else {
                 gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
@@ -606,6 +618,7 @@ extension MainListViewController: CLLocationManagerDelegate {
         }
     }
 }
+    
 
 // MARK: - UITableView
 extension MainListViewController: UITableViewDataSource {
