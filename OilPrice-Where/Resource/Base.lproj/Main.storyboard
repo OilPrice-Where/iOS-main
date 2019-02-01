@@ -776,7 +776,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자주 가는 주유소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gal-Bh-yfF">
-                                <rect key="frame" x="98" y="71.5" width="124" height="20"/>
+                                <rect key="frame" x="32" y="71.5" width="256" height="20"/>
                                 <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -927,6 +927,7 @@
                             <constraint firstItem="fu8-5t-wlI" firstAttribute="centerX" secondItem="tUR-1i-2LW" secondAttribute="centerX" id="1tW-yG-SNO"/>
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="centerY" secondItem="bWz-Ql-BWg" secondAttribute="centerY" id="6tG-9W-fmx"/>
                             <constraint firstItem="gal-Bh-yfF" firstAttribute="centerX" secondItem="tUR-1i-2LW" secondAttribute="centerX" id="78i-Cw-BOq"/>
+                            <constraint firstItem="gal-Bh-yfF" firstAttribute="leading" secondItem="Opu-od-LcU" secondAttribute="leading" id="DcW-Zn-NZn"/>
                             <constraint firstItem="fu8-5t-wlI" firstAttribute="centerY" secondItem="tUR-1i-2LW" secondAttribute="centerY" multiplier="1.8" id="HaU-nR-uoq"/>
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="top" secondItem="gal-Bh-yfF" secondAttribute="bottom" constant="15" id="NGH-kO-HEu"/>
                             <constraint firstItem="eMs-pJ-RNF" firstAttribute="centerX" secondItem="bWz-Ql-BWg" secondAttribute="centerX" id="T8b-3L-78k"/>
@@ -1145,7 +1146,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="1.1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="x2c-39-mdZ">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="1.2" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="x2c-39-mdZ">
                                                     <rect key="frame" x="279.5" y="13" width="24.5" height="19"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
