@@ -217,6 +217,18 @@ final class Preferences {
         return stringPrice
     }
     
+    // 거리계산
+    static func getDistance(user to: CLLocationCoordinate2D, stationKatec: KatecPoint) -> Double {
+        let from = Converter.convertKatecToWGS(katec: KatecPoint(x: stationKatec.x,
+                                                                 y: stationKatec.y))
+        let userLocation = CLLocation(latitude: to.latitude,
+                                      longitude: to.longitude)
+        let stationLocation = CLLocation(latitude: from.latitude,
+                                         longitude: from.longitude)
+        
+        return userLocation.distance(from: stationLocation)
+    }
+    
     static func stringByRemovingControlCharacters2(string: String) -> String {
         let controlChars = NSCharacterSet.controlCharacters
         var range = string.rangeOfCharacter(from: controlChars)
@@ -235,5 +247,15 @@ extension Double {
     func roundTo(places:Int) -> Double {
         let divisor = pow(10.0, Double(places))
         return (self * divisor).rounded() / divisor
+    }
+}
+
+extension UIDevice {
+    public var isiPhoneX: Bool {
+        if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.phone &&
+            (UIScreen.main.bounds.size.height > 736 || UIScreen.main.bounds.size.width > 414) {
+            return true
+        }
+        return false
     }
 }

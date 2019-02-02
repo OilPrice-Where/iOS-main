@@ -6,6 +6,7 @@
 //  Copyright © 2018년 sangwook park. All rights reserved.
 //
 import UIKit
+import CoreLocation
 
 // 메인페이지의 리스트 부분에서 받아오는 주유소 목록을 나타내는 셀
 // Cell의 ContentView내부에 stationView를 보여준다.
@@ -36,8 +37,10 @@ class GasStationCell: UITableViewCell {
     
     // 메뉴 명, 설명, 가격, 이미지 삽입
     //stationView의 외곽선 설정
-    func configure(with gasStation: GasStation) {
-        self.stationView.configure(with: gasStation) // 주유소 정보 설정
+    func configure(with gasStation: GasStation, currentCoordinate: CLLocationCoordinate2D) {
+        self.stationView.configure(with: gasStation,
+                                   currentCoordinate: currentCoordinate) // 주유소 정보 설정
+
         self.stationView.layer.cornerRadius = 10 // // 외곽선의 cornerRadius
     }
     

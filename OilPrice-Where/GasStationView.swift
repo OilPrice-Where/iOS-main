@@ -8,6 +8,7 @@
 
 import UIKit
 import SCLAlertView
+import CoreLocation
 
 // 메인페이지의 리스트의 셀 내부(ContentView)에 표시되는 뷰
 // 스택뷰는 기본적으로 숨겨져 있으며 클릭시 스택뷰가 나타난다.
@@ -20,6 +21,7 @@ class GasStationView: UIView {
     @IBOutlet private weak var oilType : UILabel! // 기름 타입
     @IBOutlet private weak var logo : UIImageView! // 로고(SK, GS, 알뜰 등..)
     var id: String?
+    var dis: Double?
     
     // Stack View
     @IBOutlet weak var stackView : UIStackView! // 내부 버튼(즐겨찾기, 경로 표시)을 가진 뷰(isHidden = true)
@@ -27,8 +29,11 @@ class GasStationView: UIView {
     @IBOutlet weak var annotationButtonView : UIView! // 경로 표시 버튼
     
     // 뷰 내부 설정
-    func configure(with gasStation: GasStation) {
-        let distanceKM = gasStation.distance / 1000 // m -> km 거리 계산
+    func configure(with gasStation: GasStation, currentCoordinate: CLLocationCoordinate2D) {
+        self.dis = Preferences.getDistance(user: currentCoordinate,
+                                                       stationKatec: KatecPoint(x: gasStation.katecX,
+                                                                                y: gasStation.katecY))
+        let distanceKM = dis! / 1000 // m -> km 거리 계산
         
         self.id = gasStation.id // 주유소 ID 값 설정
         self.name.text = gasStation.name // 주유소 명 설정

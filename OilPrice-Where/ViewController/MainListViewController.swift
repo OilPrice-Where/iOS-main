@@ -14,6 +14,8 @@ class MainListViewController: UIViewController {
     //CoreLocation
     var locationManager = CLLocationManager() // locationManager
     var oldLocation: CLLocation?
+    var currentCenterCoordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+    var oldCenterCoordinate: CLLocationCoordinate2D?
     var lastLocationError: Error? // Location Error 확인
     let firebaseUtility = FirebaseUtility()
     
@@ -31,6 +33,9 @@ class MainListViewController: UIViewController {
     var annotations: [CustomMarkerAnnotation] = [] // 마커 배열 생성
     @IBOutlet private weak var mapView : UIView! // 애플맵을 포함시키고 있는 뷰
     @IBOutlet private weak var currentLocationButton : UIButton! // 현재 위치 표시 버튼
+    @IBOutlet private weak var refreshLocationButton : UIButton! // 위치 재검색 버튼
+    @IBOutlet weak var refreshLocationTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var currentLocationTopConstraint: NSLayoutConstraint!
     
     // Detail View
     @IBOutlet private weak var detailView : DetailView! // Detail View
@@ -83,6 +88,7 @@ class MainListViewController: UIViewController {
     var lastSelectedSortButton: UIButton! // 마지막 정렬
     @IBOutlet private weak var noneView: UIView! // 리스트가 아무 것도 없을 때 보여주는 뷰
     @IBOutlet private weak var noneLabel : UILabel! // NoneView에 보여줄 Label
+    var isMoveCenterCoordinate = true
     
     func setStatusBarBackgroundColor(color: UIColor) {
         guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
@@ -95,6 +101,7 @@ class MainListViewController: UIViewController {
         createSortView() // 가격순, 거리순 버튼 생성 및 설정
         setting() // 기본 설정
         setAverageCosts() // HeaderView 설정
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,11 +117,6 @@ class MainListViewController: UIViewController {
             UIApplication.shared.statusBarStyle = .lightContent
         } else {
             UIApplication.shared.statusBarStyle = .default
-        }
-        
-        // ViewWillAppear시 네트워크 연결 확인
-        if Reachability.isConnectedToNetwork() { // 네트워크 연결 시 로케이션 서비스 시작
-            configureLocationServices()
         }
     }
     
@@ -196,9 +198,32 @@ class MainListViewController: UIViewController {
         currentLocationButton.layer.shadowRadius = 1.5
         currentLocationButton.addTarget(self, action: #selector(self.currentLoaction(_:)), for: .touchUpInside)
         
+        if UIDevice.current.isiPhoneX {
+            refreshLocationTopConstraint.constant = 55
+            currentLocationTopConstraint.constant = 55
+        } else {
+            refreshLocationTopConstraint.constant = 35
+            currentLocationTopConstraint.constant = 35
+        }
+        
         // Draw a shadow
         currentLocationButton.layer.shadowPath = UIBezierPath(roundedRect: currentLocationButton.bounds,
                                                               cornerRadius: self.currentLocationButton.bounds.height / 2).cgPath
+        
+        // Refresh
+        refreshLocationButton.layer.cornerRadius = 13
+        refreshLocationButton.clipsToBounds = false
+        refreshLocationButton.layer.shadowColor = UIColor.black.cgColor
+        refreshLocationButton.layer.shadowOpacity = 0.3
+        refreshLocationButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+        refreshLocationButton.layer.shadowRadius = 1.5
+        refreshLocationButton.addTarget(self, action: #selector(self.refreshLocation(_:)), for: .touchUpInside)
+        
+        // Draw a shadow
+        refreshLocationButton.layer.shadowPath = UIBezierPath(roundedRect: refreshLocationButton.bounds,
+                                                              cornerRadius: 13).cgPath
+        
+//        UIDevice.
         
         // Navigation Bar 색상 설정
         UINavigationBar.appearance().barTintColor = UIColor(named: "MainColor")
@@ -270,7 +295,6 @@ class MainListViewController: UIViewController {
     func reset() {
         appleMapView.removeAnnotations(annotations)
         annotations = []
-        currentCoordinate = nil
         selectIndexPath = nil
     }
     private func gasStationListData(katecPoint: KatecPoint){
@@ -315,6 +339,11 @@ class MainListViewController: UIViewController {
         oldLocation = nil
         reset()
         configureLocationServices()
+    }
+    
+    @objc func refreshLocation(_ sender: UIButton) {
+        refreshLocationTopConstraint.constant = -30
+        refresh()
     }
     
     // TableView List Sort Func(가격, 거리)
@@ -419,22 +448,8 @@ class MainListViewController: UIViewController {
     
     // 맵의 현재위치 버튼
     @objc func currentLoaction(_ sender: UIButton) {
-        if Reachability.isConnectedToNetwork() {
-            guard let coordinate = self.currentCoordinate else { return }
-            zoomToLatestLocation(with: coordinate)
-        } else {
-            let appearance = SCLAlertView.SCLAppearance(
-                kWindowWidth: 300,
-                kTitleFont: UIFont(name: "NanumSquareRoundB", size: 18)!,
-                kTextFont: UIFont(name: "NanumSquareRoundR", size: 15)!,
-                showCloseButton: true
-            )
-            
-            let alert = SCLAlertView(appearance: appearance)
-            
-            alert.showError("네트워크 오류 발생", subTitle: "인터넷 연결이 오프라인 상태입니다.", closeButtonTitle: "확인", colorStyle: 0x5E82FF)
-            alert.iconTintColor = UIColor.white
-        }
+        guard Reachability.isConnectedToNetwork() else { return }
+        zoomToLatestLocation(with: currentCoordinate!)
     }
     
     // 지도 보기
@@ -567,13 +582,14 @@ extension MainListViewController: CLLocationManagerDelegate {
         let newLocation = locations.last
         
         if newLocation != nil {
-            if currentCoordinate == nil {
-                zoomToLatestLocation(with: newLocation!.coordinate)
-            }
             
             currentCoordinate = newLocation!.coordinate
             
-            let katecPoint = Converter.convertWGS84ToKatec(coordinate: newLocation!.coordinate)
+            var katecPoint = Converter.convertWGS84ToKatec(coordinate: currentCenterCoordinate)
+            
+            if oldCenterCoordinate == nil {
+                katecPoint = Converter.convertWGS84ToKatec(coordinate: newLocation!.coordinate)
+            }
             
             if !performingReverseGeocoding {
                 performingReverseGeocoding = true
@@ -591,29 +607,30 @@ extension MainListViewController: CLLocationManagerDelegate {
                     self.headerView.configure(with: self.string(from: self.currentPlacemark))
                 })
             }
-            if let lastLocation = oldLocation {
-                let distance: CLLocationDistance = newLocation!.distance(from: lastLocation)
-                if distance < 50.0 &&
-                   lastOilType == DefaultData.shared.oilType &&
-                   lastFindRadius == DefaultData.shared.radius &&
-                   lastBrandType == DefaultData.shared.brandType &&
-                   lastFavorites == DefaultData.shared.favoriteArr {
-                    stopLocationManager()
-                    self.tableView.reloadData()
+            if let oldCoordinate = oldCenterCoordinate {
+                if currentCenterCoordinate.latitude == oldCoordinate.latitude &&
+                    currentCenterCoordinate.longitude == oldCoordinate.longitude &&
+                     lastOilType == DefaultData.shared.oilType &&
+                      lastFindRadius == DefaultData.shared.radius &&
+                       lastBrandType == DefaultData.shared.brandType &&
+                        lastFavorites == DefaultData.shared.favoriteArr {
+                            stopLocationManager()
+                            self.tableView.reloadData()
                 } else {
                     reset()
                     gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
                     stopLocationManager()
-                    oldLocation = newLocation
+                    oldCenterCoordinate = currentCenterCoordinate
                     lastOilType = DefaultData.shared.oilType
                     lastFindRadius = DefaultData.shared.radius
                     lastBrandType = DefaultData.shared.brandType
 
                 }
             } else {
+                zoomToLatestLocation(with: currentCoordinate!)
                 gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
                 stopLocationManager()
-                oldLocation = newLocation
+                oldCenterCoordinate = currentCenterCoordinate
             }
         }
         
@@ -650,7 +667,8 @@ extension MainListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GasStationCell") as! GasStationCell
         
         cell.addGestureRecognize(self, action: #selector(self.viewMapAction(annotionIndex:)))
-        cell.configure(with: gasStations[indexPath.section])
+        cell.configure(with: gasStations[indexPath.section],
+                       currentCoordinate: self.currentCoordinate!)
         
         if selectIndexPath?.section == indexPath.section {
             cell.stationView.stackView.isHidden = false
@@ -799,7 +817,9 @@ extension MainListViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         guard let markerView = view as? CustomMarkerAnnotationView else { return } // MarkerView 확인
         guard let stationInfo = markerView.stationInfo else { return } // 주유소 Data 확인
-
+        
+//        self.isMoveCenterCoordinate = false
+        
         // 선택된 주유소의 Katec 좌표 전달
         self.lastKactecX = stationInfo.katecX
         self.lastKactecY = stationInfo.katecY
@@ -842,7 +862,6 @@ extension MainListViewController: MKMapViewDelegate {
             }
         }
         zoomToLatestLocation(with: markerView.coordinate!) // 마커 선택 시 마커 위치를 맵의 가운데로 표시
-        
     }
     
     // 마커 선택해제 관련 Delegate
@@ -868,5 +887,17 @@ extension MainListViewController: MKMapViewDelegate {
         renderer.lineWidth = 5.0
         
         return renderer
+    }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        print("Move")
+        if isMoveCenterCoordinate {
+            self.currentCenterCoordinate = mapView.centerCoordinate
+            if oldCenterCoordinate != nil &&
+                currentCenterCoordinate.latitude != oldCenterCoordinate!.latitude &&
+                 currentCenterCoordinate.longitude != oldCenterCoordinate!.longitude {
+                refreshLocationTopConstraint.constant = UIDevice.current.isiPhoneX ? 55 : 35
+            }
+        }
     }
 }
