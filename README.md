@@ -1,8 +1,8 @@
 # 어디주유 Where Gas Stations
 <p align="left">
-<img src="https://img.shields.io/badge/swift-4.1-blue.svg" />
-<img src="https://img.shields.io/badge/xcode-9.4.1-green.svg" />
-<img src="https://img.shields.io/badge/ios-11.4-yellow.svg" />
+<img src="https://img.shields.io/badge/swift-4.2-blue.svg" />
+<img src="https://img.shields.io/badge/xcode-10.1-green.svg" />
+<img src="https://img.shields.io/badge/ios-12.1-yellow.svg" />
 <img src="https://img.shields.io/badge/licence-MIT-lightgrey.svg" /> 
 </p>
 <br>
@@ -42,6 +42,7 @@
 >- 길안내시 카카오네비게이션 연동 기능
 >- 즐겨찾기 설정
 >- 즐겨찾기 설정한 주유소의 상세정보 표시
+>- 주유소 브랜드별 검색 기능
 >- 거리별로 주유소 탐색 기능(1,3,5KM 중 선택)
 >- 오일타입별로 주유소 탐색 기능(휘발유,경유,LPG,고급휘발유 중 선택)
 >- 실시간 전국 평균가 정보 표시(휘발유,경유,LPG)
@@ -60,9 +61,9 @@
 
 ## Version History
 
-- ver 1.0.0 : App Store Release(18.09.06)
-- ver 1.0.1 : Bug fixes Debug(18.09.08)
-- ver 1.1.0 : Add Function Release(19.01.03)
+- ver 1.0.0 : App Store Release(18.09.07)
+- ver 1.0.1 : Bug fixes Debug(18.09.09)
+- ver 1.1.0 : Add Function Release(19.01.04)
 
 <br>
 
