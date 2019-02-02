@@ -64,6 +64,7 @@
 - ver 1.0.0 : App Store Release(18.09.07)
 - ver 1.0.1 : Bug fixes Debug(18.09.09)
 - ver 1.1.0 : Add Function Release(19.01.04)
+- ver 1.2.0 : Bug fixes Dubug & Add Function Release()
 
 <br>
 
