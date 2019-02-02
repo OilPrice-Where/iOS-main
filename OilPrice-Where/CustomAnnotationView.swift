@@ -42,7 +42,6 @@ class CustomMarkerAnnotationView: MKAnnotationView {
         // markerView 설정
         self.frame = CGRect(x: 0, y: 0, width: 65, height: 32)
         self.mapMarkerImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 60, height: 32))
-        self.mapMarkerImageView.image = UIImage(named: "NonMapMarker")
         self.mapMarkerImageView.layer.masksToBounds = true
         self.addSubview(self.mapMarkerImageView)
         
@@ -53,7 +52,6 @@ class CustomMarkerAnnotationView: MKAnnotationView {
         // priceLabel 설정
         self.priceLabel = UILabel(frame: CGRect(x: 22, y: 4, width: 37, height: 18))
         self.priceLabel.textAlignment = .left
-        self.priceLabel.textColor = UIColor.black
         self.priceLabel.font = UIFont(name: "NanumSquareRoundEB", size: 13)
         self.addSubview(self.priceLabel)
     }

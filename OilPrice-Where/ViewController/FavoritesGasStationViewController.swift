@@ -66,8 +66,6 @@ class FavoritesGasStationViewController: UIViewController {
             if oldFavoriteArr != DefaultData.shared.favoriteArr || oldOilType != DefaultData.shared.oilType {
                 viewHiddenSetting() // 처음 뷰의 isHidden 상태로 돌린다.
                 favoriteDataLoad()
-                print(firstContentView.isHidden)
-                print(noneContentView.isHidden)
             }
         } else {
             pager.numberOfPages = 0 // Page Number

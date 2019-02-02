@@ -237,3 +237,14 @@ extension Double {
         return (self * divisor).rounded() / divisor
     }
 }
+
+// 기종 확인
+extension UIDevice {
+    public var isiPhoneX: Bool {
+        if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.phone &&
+            (UIScreen.main.bounds.size.height > 736 || UIScreen.main.bounds.size.width > 414) {
+            return true
+        }
+        return false
+    }
+}
