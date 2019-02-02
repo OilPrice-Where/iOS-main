@@ -33,6 +33,7 @@ class MainListViewController: UIViewController {
     @IBOutlet private weak var currentLocationButton : UIButton! // 현재 위치 표시 버튼
     @IBOutlet weak var currentLocationButtonTop: NSLayoutConstraint! // 현재 위치 Top Layout
     @IBOutlet private weak var popupView : PopupView!
+    var isSelectedAnnotion: Bool = false
     
     // Detail View
     @IBOutlet private weak var detailView : DetailView! // Detail View
@@ -41,6 +42,7 @@ class MainListViewController: UIViewController {
     @IBOutlet private weak var tableListView : UIView! // 테이블 뷰를 포함하고 있는 뷰
     @IBOutlet private weak var tableView : UITableView! // 메인리스트 테이블 뷰
     var selectIndexPath: IndexPath? // 선택된 인덱스 패스
+    var oldIndexPath = IndexPath()
     var refreshControl = UIRefreshControl() // Refresh Controller
     
     // HeaderView
@@ -380,6 +382,17 @@ class MainListViewController: UIViewController {
                     UIView.animate(withDuration: 0.3) {
                         self.view.layoutIfNeeded()
                     }
+                } else if oldIndexPath != IndexPath() && isSelectedAnnotion {
+                    let cell = tableView.cellForRow(at: oldIndexPath) as! GasStationCell
+                    if cell.stationView.id == detailView.id {
+                        if detailView.favoriteButton.isSelected != cell.stationView.favoriteButton.isSelected {
+                            self.detailView.clickedEvent(detailView.favoriteButton)
+                        }
+                    }
+                    self.detailView.detailViewBottomConstraint.constant = 10
+                    UIView.animate(withDuration: 0.3) {
+                        self.view.layoutIfNeeded()
+                    }
                 }
             } else {
                 self.detailView.detailViewBottomConstraint.constant = -150
@@ -670,7 +683,6 @@ extension MainListViewController: UITableViewDataSource {
             tableView.reloadData()
             return
         }
-        
         if indexPath.section != selectPath.section {
             if let newCell = tableView.cellForRow(at: indexPath) as? GasStationCell {
                 newCell.selectionStyle = .none
@@ -687,6 +699,7 @@ extension MainListViewController: UITableViewDataSource {
                     cell.stationView.stackView.isHidden = false
                     cell.stationView.favoriteButtonUpdateFrame()
                 } else {
+                    oldIndexPath = selectIndexPath!
                     cell.stationView.stackView.isHidden = true
                     selectIndexPath = nil
                 }
@@ -850,7 +863,7 @@ extension MainListViewController: MKMapViewDelegate {
             }
         }
         zoomToLatestLocation(with: markerView.coordinate!) // 마커 선택 시 마커 위치를 맵의 가운데로 표시
-        
+        isSelectedAnnotion = true
     }
     
     // 마커 선택해제 관련 Delegate
@@ -871,6 +884,7 @@ extension MainListViewController: MKMapViewDelegate {
             self.view.layoutIfNeeded()
         }
         self.appleMapView.removeOverlays(self.appleMapView.overlays) // 경로 선 삭제
+        isSelectedAnnotion = false
     }
     
     
