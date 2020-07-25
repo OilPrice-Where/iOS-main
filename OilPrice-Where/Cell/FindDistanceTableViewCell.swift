@@ -12,11 +12,7 @@ import UIKit
 class FindDistanceTableViewCell: UITableViewCell {
    static let identifier = "FindDistanceTableViewCell"
    @IBOutlet weak var distanceLabel: UILabel! // 탐색 반경 레이블
-   
-   override func awakeFromNib() {
-      super.awakeFromNib()
-   }
-   
+
    // 셀 설정
    func configure(distance: String) {
       distanceLabel.text = distance // 탐색 반경 리스트(1,3,5KM)를 셀에 표시

@@ -9,6 +9,7 @@
 import UIKit
 
 class SelectStationViewController: CommonViewController, ViewModelBindableType {
+   static let identifier = "SelectStationViewController"
    var viewModel: SelectStationViewModel!
    @IBOutlet private weak var tableView: UITableView!
    
