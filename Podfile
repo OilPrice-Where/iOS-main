@@ -5,11 +5,31 @@ target 'OilPrice-Where' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
+  # Pods for OilPrice-Where
+  pod 'SCLAlertView'
+
+  # Database
+  pod 'SwiftyPlistManager'
+
+  # Networking
   pod 'Alamofire'
+  pod 'RxAlamofire'
+
+  # add the Firebase pod for Google Analytics
   pod 'Firebase/Core'
   pod 'Firebase/Database'
-  pod 'SwiftyPlistManager'
-  pod 'SCLAlertView'
-  # Pods for OilPrice-Where
+
+  # RxSwift: Main Framework
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  
+  # RxSwift: Etc
+  pod 'NSObject+Rx'
+  pod 'RxSwiftExt'
+  pod 'Action'
+  pod 'RxDataSources'
+  pod "RxGesture"
+  pod 'RxReachability'
+  pod 'RxKeyboard'
 
 end

@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import RxSwift
+import NSObject_Rx
+import RxCocoa
 
 // 주유소 탐색 설정 페이지
 // 사용자 유종과 탐색 반경을 변경하면 메인페이지에 업데이트 되어 적용 된다.
@@ -18,16 +21,15 @@ class SettingTableViewController: UITableViewController {
     @IBOutlet private weak var findLabel : UILabel! // 현재 탐색 하고 있는 탐색 반경
     @IBOutlet private weak var findBrandType : UILabel! // 현재 탐색 하고 있는 브랜드
     
+   override var preferredStatusBarStyle: UIStatusBarStyle {
+      return .lightContent
+   }
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationSetting()
         settingDataLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        UIApplication.shared.statusBarStyle = .lightContent
     }
     
     func navigationSetting() {
@@ -41,9 +43,20 @@ class SettingTableViewController: UITableViewController {
     // 이전 설정을 데이터를 불러와서
     // oilTypeLabel, findLabel, findBrandType 업데이트
     func settingDataLoad() {
-        oilTypeLabel.text = Preferences.oil(code: DefaultData.shared.oilType)
-        findLabel.text = String(DefaultData.shared.radius / 1000) + "KM"
-        findBrandType.text = Preferences.brand(code: DefaultData.shared.brandType)
+      DefaultData.shared.oilSubject
+         .map { Preferences.oil(code: $0) }
+         .bind(to: oilTypeLabel.rx.text)
+         .disposed(by: rx.disposeBag)
+      
+      DefaultData.shared.radiusSubject
+         .map { String($0 / 1000) + "KM" }
+         .bind(to: findLabel.rx.text)
+         .disposed(by: rx.disposeBag)
+      
+      DefaultData.shared.brandSubject
+         .map { Preferences.brand(code: $0) }
+         .bind(to: findBrandType.rx.text)
+         .disposed(by: rx.disposeBag)
     }
     
     // 다른 페이지로 전환 시
@@ -71,7 +84,6 @@ class SettingTableViewController: UITableViewController {
         let controller = segue.source as! SelectOilTypeTableViewController
         oilTypeLabel.text = controller.selectedOilTypeName
         DefaultData.shared.oilType = Preferences.oil(name: controller.selectedOilTypeName)
-        DefaultData.shared.saveOil()
     }
     
     // SelectFindDistanceTableViewController에서 탐색 반경 선택 시
@@ -82,7 +94,6 @@ class SettingTableViewController: UITableViewController {
         let controller = segue.source as! SelectFindDistanceTableViewController
         findLabel.text = controller.selectedDistance
         DefaultData.shared.radius = Preferences.distanceKM(KM: controller.selectedDistance)
-        DefaultData.shared.saveDistance()
     }
     
     // SelectGasstationTableViewController에서 브랜드 선택 시
@@ -93,7 +104,6 @@ class SettingTableViewController: UITableViewController {
         let controller = segue.source as! SelectGasstationTableViewController
         findBrandType.text = controller.selectedBrand
         DefaultData.shared.brandType = Preferences.brand(name: controller.selectedBrand)
-        DefaultData.shared.saveBrand()
     }
     
     // 앱스토어 연결

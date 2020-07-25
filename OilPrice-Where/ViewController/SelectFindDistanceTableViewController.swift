@@ -21,10 +21,6 @@ class SelectFindDistanceTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // 네비게이션 타이틀 폰트와 폰트 컬러 변경
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: UIFont(name: "NanumSquareRoundEB", size: 18)!, NSAttributedStringKey.foregroundColor: UIColor.white]
-        
-        
         for i in 0 ..< findDistaceArea.count { // selectedDistance를 체크 하여 selectedIndexPath 입력
             if selectedDistance == findDistaceArea[i] {
                 selectedIndexPath = IndexPath(row: i, section: 0)
