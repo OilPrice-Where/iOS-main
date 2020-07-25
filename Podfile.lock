@@ -3,7 +3,10 @@ PODS:
     - RxCocoa (~> 5.0)
     - RxSwift (~> 5.0)
   - Alamofire (5.2.2)
+  - CenteredCollectionView (2.2.2)
   - Differentiator (4.0.1)
+  - Firebase/Analytics (6.28.1):
+    - Firebase/Core
   - Firebase/Core (6.28.1):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 6.6.2)
@@ -12,6 +15,9 @@ PODS:
   - Firebase/Database (6.28.1):
     - Firebase/CoreOnly
     - FirebaseDatabase (~> 6.4.0)
+  - Firebase/Storage (6.28.1):
+    - Firebase/CoreOnly
+    - FirebaseStorage (~> 3.8.0)
   - FirebaseAnalytics (6.6.2):
     - FirebaseCore (~> 6.8)
     - FirebaseInstallations (~> 1.4)
@@ -38,6 +44,9 @@ PODS:
     - GoogleUtilities/Environment (~> 6.7)
     - GoogleUtilities/UserDefaults (~> 6.7)
     - PromisesObjC (~> 1.2)
+  - FirebaseStorage (3.8.0):
+    - FirebaseCore (~> 6.8)
+    - GTMSessionFetcher/Core (~> 1.1)
   - GoogleAppMeasurement (6.6.2):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
@@ -65,6 +74,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.7.1):
     - GoogleUtilities/Logger
+  - GTMSessionFetcher/Core (1.4.0)
   - leveldb-library (1.22)
   - nanopb (1.30905.0):
     - nanopb/decode (= 1.30905.0)
@@ -114,8 +124,11 @@ PODS:
 DEPENDENCIES:
   - Action
   - Alamofire
+  - CenteredCollectionView
+  - Firebase/Analytics
   - Firebase/Core
   - Firebase/Database
+  - Firebase/Storage
   - "NSObject+Rx"
   - RxAlamofire
   - RxCocoa
@@ -132,6 +145,7 @@ SPEC REPOS:
   trunk:
     - Action
     - Alamofire
+    - CenteredCollectionView
     - Differentiator
     - Firebase
     - FirebaseAnalytics
@@ -139,9 +153,11 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseDatabase
     - FirebaseInstallations
+    - FirebaseStorage
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
+    - GTMSessionFetcher
     - leveldb-library
     - nanopb
     - "NSObject+Rx"
@@ -162,6 +178,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Action: 79e6c5dc91e13eea045ab6744b3e5609086671aa
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
+  CenteredCollectionView: a9217908a698c386cbb98af11b596da48900b908
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   Firebase: ed042590caa0029392257529a8003c25ee82bc18
   FirebaseAnalytics: 5fa308e1b13f838d0f6dc74719ac2a72e8c5afc4
@@ -169,9 +186,11 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: 7535fe695737f8c5b350584292a70b7f8ff0357b
   FirebaseDatabase: 55e69fe802ccb438d9c6ee51eb32fd425d5409d3
   FirebaseInstallations: 3c520c951305cbf9ca54eb891ff9e6d1fd384881
+  FirebaseStorage: 3ef81ca5fa7817f85451ca09d516a34d2c7542a7
   GoogleAppMeasurement: 8cd1f289d60e629cf16ab03363b9e89c776b9651
   GoogleDataTransport: 8a40cb194ad242b6f6dfe72c14fe40fc67c4dcd7
   GoogleUtilities: e121a3867449ce16b0e35ddf1797ea7a389ffdf2
+  GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   "NSObject+Rx": fa6bbcc1ab1faa06b01466bc09b1e0692bbc5946
@@ -189,6 +208,6 @@ SPEC CHECKSUMS:
   SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
   SwiftyPlistManager: 5895924cccb7fe28deccbe14890e8aed78ae78ae
 
-PODFILE CHECKSUM: 43d4a7f3a23a96e4f915dc8a2936508136f2b706
+PODFILE CHECKSUM: b93a01576512ce82403c5211461099aa2f70d772
 
 COCOAPODS: 1.9.3

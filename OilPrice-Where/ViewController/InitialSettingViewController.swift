@@ -27,19 +27,20 @@ class InitialSettingViewController: CommonViewController {
    
    // 확인 버튼 클릭 이벤트
    @IBAction private func okAction(_ sender: UIButton) {
-      let selectedOil = scrollView.bounds.origin.x / scrollWidth // 선택한 오일 종류
-      
-      switch selectedOil {
+      let selectedPage = scrollView.bounds.origin.x / scrollWidth // 선택한 오일 종류
+      var selectedOil = ""
+      switch selectedPage {
       case 1:
-         DefaultData.shared.oilType = "D047" // 두번째 페이지 선택 경유
+         selectedOil = "D047" // 두번째 페이지 선택 경유
       case 2:
-         DefaultData.shared.oilType = "K015" // 세번째 페이지 선택 LPG
+         selectedOil = "K015" // 세번째 페이지 선택 LPG
       case 3:
-         DefaultData.shared.oilType = "B034" // 네번째 페이지 선택 고급휘발유
+         selectedOil = "B034" // 네번째 페이지 선택 고급휘발유
       default:
-         DefaultData.shared.oilType = "B027" // 첫번째 페이지 선택 휘발유
+         selectedOil = "B027" // 첫번째 페이지 선택 휘발유
       }
-      DefaultData.shared.saveOil()
+      
+      DefaultData.shared.oilSubject.onNext(selectedOil)
    }
    
    // 왼쪽 버튼 클릭 이벤트
