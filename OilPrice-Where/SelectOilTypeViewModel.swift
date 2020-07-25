@@ -11,14 +11,14 @@ import RxSwift
 
 final class SelectOilTypeViewModel: CommonViewModel {
    private let OilType = [ // 선택 가능한 오일 종류
-   "휘발유",
-   "고급휘발유",
-   "경유",
-   "LPG"
+      "휘발유",
+      "고급휘발유",
+      "경유",
+      "LPG"
    ]
    var oilSubject: BehaviorSubject<[String]>
    
    override init() {
-      self.oilSubject.onNext(OilType)
+      self.oilSubject = BehaviorSubject<[String]>(value: OilType)
    }
 }

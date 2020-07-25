@@ -11,7 +11,7 @@ import UIKit
 // 설정 -> 탐색 반경 선택 리스트 셀
 class FindDistanceTableViewCell: UITableViewCell {
    static let identifier = "FindDistanceTableViewCell"
-   @IBOutlet private weak var distanceLabel: UILabel! // 탐색 반경 레이블
+   @IBOutlet weak var distanceLabel: UILabel! // 탐색 반경 레이블
    
    override func awakeFromNib() {
       super.awakeFromNib()
