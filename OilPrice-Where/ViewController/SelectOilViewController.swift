@@ -12,6 +12,7 @@ import RxCocoa
 import NSObject_Rx
 
 class SelectOilViewController: CommonViewController, ViewModelBindableType {
+   static let identifier = "SelectOilViewController"
    @IBOutlet private weak var tableView: UITableView!
    var viewModel: SelectOilTypeViewModel!
    

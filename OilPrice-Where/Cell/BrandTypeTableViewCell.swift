@@ -10,7 +10,7 @@ import UIKit
 
 class BrandTypeTableViewCell: UITableViewCell {
    static let identifier = "BrandTypeTableViewCell"
-   @IBOutlet private weak var brandTypeLable : UILabel!
+   @IBOutlet weak var brandTypeLable : UILabel!
    
    override func awakeFromNib() {
       super.awakeFromNib()

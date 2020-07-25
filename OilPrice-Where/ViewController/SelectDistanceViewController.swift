@@ -12,6 +12,7 @@ import RxCocoa
 import NSObject_Rx
 
 class SelectDistanceViewController: CommonViewController, ViewModelBindableType {
+   static let identifier = "SelectDistanceViewController"
    var viewModel: SelectDistanceViewModel!
    @IBOutlet private weak var tableView: UITableView!
    

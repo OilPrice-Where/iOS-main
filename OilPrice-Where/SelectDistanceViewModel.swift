@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 final class SelectDistanceViewModel: CommonViewModel {
-   let findDistaceArea = [ // 선택 가능한 탐색 반경
+   private let findDistaceArea = [ // 선택 가능한 탐색 반경
       "1KM",
       "3KM",
       "5KM"
