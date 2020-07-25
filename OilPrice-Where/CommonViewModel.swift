@@ -7,3 +7,7 @@
 //
 
 import Foundation
+
+class CommonViewModel: NSObject {
+   var storyboard = UIStoryboard(name: "Main", bundle: nil)
+}
