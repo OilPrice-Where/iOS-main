@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NoticeDetailViewController: UIViewController {
+class NoticeDetailViewController: CommonViewController {
     
     
     @IBOutlet weak var contentLable: UILabel!

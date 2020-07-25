@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SelectGasstationTableViewController: UITableViewController {
+class SelectGasstationTableViewController: CommonViewController {
 
     var selectedBrand = "" // 선택한 오일의 종류
     var selectIndexPath:IndexPath? // 선택한 테이블 뷰 셀의 인덱스패스 저장

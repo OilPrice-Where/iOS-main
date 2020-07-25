@@ -9,7 +9,7 @@
 import UIKit
 
 // 초기 설정 페이지
-class InitialSettingViewController: UIViewController {
+class InitialSettingViewController: CommonViewController {
    
    @IBOutlet private weak var scrollView : UIScrollView! // 페이지 표시 스크롤 뷰
    lazy var scrollWidth = scrollView.bounds.size.width // 스크롤 뷰의 Width값 저장

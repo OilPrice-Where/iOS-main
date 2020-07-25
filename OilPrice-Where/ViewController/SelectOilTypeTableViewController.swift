@@ -9,7 +9,7 @@
 import UIKit
 
 // 설정 -> 오일 타입 선택
-class SelectOilTypeTableViewController: UITableViewController {
+class SelectOilTypeTableViewController: CommonViewController {
 
     var selectedOilTypeName = "" // 선택한 오일의 종류
     var selectIndexPath:IndexPath? // 선택한 테이블 뷰 셀의 인덱스패스 저장

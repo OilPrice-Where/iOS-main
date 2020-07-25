@@ -9,7 +9,7 @@
 import UIKit
 
 // 설정 -> 탐색 반경 설정 페이지
-class SelectFindDistanceTableViewController: UITableViewController {
+class SelectFindDistanceTableViewController: CommonViewController {
 
     var selectedDistance = "" // 선택한 탐색 반경
     var selectedIndexPath: IndexPath? // 선택한 테이블 뷰 셀의 인덱스패스 저장

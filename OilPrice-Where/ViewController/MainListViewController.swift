@@ -10,7 +10,7 @@ import MapKit
 import CoreLocation
 import SCLAlertView
 
-class MainListViewController: UIViewController {
+class MainListViewController: CommonViewController {
     //CoreLocation
     var locationManager = CLLocationManager() // locationManager
     var oldLocation: CLLocation?

@@ -15,7 +15,7 @@ import RxCocoa
 // 사용자 유종과 탐색 반경을 변경하면 메인페이지에 업데이트 되어 적용 된다.
 // 설정 저장 방식은 피리스트('UserInfo'에 저장)
 // ** 탐색반경 : 3KM, 유종 : nil **
-class SettingTableViewController: UITableViewController {
+class SettingTableViewController: CommonViewController {
     
     @IBOutlet private weak var oilTypeLabel : UILabel! // 현재 탐색 하고 있는 오일의 타입
     @IBOutlet private weak var findLabel : UILabel! // 현재 탐색 하고 있는 탐색 반경

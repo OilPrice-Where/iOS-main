@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import SCLAlertView
 
-class FavoritesGasStationViewController: UIViewController {
+class FavoritesGasStationViewController: CommonViewController {
 
     lazy var contentViewArr: [UIView] = [firstContentView,
                                          secondContentView,
