@@ -11,12 +11,12 @@ import RxSwift
 import RxCocoa
 
 class FavoriteCollectionViewCell: UICollectionViewCell {
+   static let identifier = "FavoriteCollectionViewCell"
    // 이미지
    @IBOutlet weak var logoImageView: UIImageView!
    @IBOutlet weak var carWashImageView: UIImageView!
    @IBOutlet weak var repairShopImageView: UIImageView!
    @IBOutlet weak var convenienceStoreImageView: UIImageView!
-   @IBOutlet weak var naviImageView: UIImageView!
    
    // 레이블
    @IBOutlet weak var gasStationNameLabel: UILabel!
@@ -25,9 +25,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
    @IBOutlet weak var qualityCertificationLabel: UILabel!
    @IBOutlet weak var typeOfOilLabel: UILabel!
    @IBOutlet weak var oilPlice: UILabel!
-   @IBOutlet var containerView: UIView!
    @IBOutlet var navigationView: UIView!
-   @IBOutlet var navigationLabel: UILabel!
    @IBOutlet var deleteFavoriteButton: UIButton!
    
    var tapGesture = UITapGestureRecognizer()
@@ -74,6 +72,13 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             self.oilPlice.text = Preferences.priceToWon(price: price.price)
          })
          .disposed(by: rx.disposeBag)
+   }
+   
+   @IBAction private func deleteAction(_ sender: Any) {
+      guard let oldFavArr = try? DefaultData.shared.favoriteSubject.value() else { return }
+      
+      let newFavArr = oldFavArr.filter { self.id != $0 }
+      DefaultData.shared.favoriteSubject.onNext(newFavArr)
    }
    
    // 길 안내

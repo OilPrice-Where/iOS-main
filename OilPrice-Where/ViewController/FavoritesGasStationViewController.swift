@@ -17,9 +17,6 @@ class FavoritesGasStationViewController: CommonViewController {
    @IBOutlet private weak var collectionView: UICollectionView!
    @IBOutlet weak var pager: UIPageControl! // Page Controller
    
-   @IBAction func pageChanged(_ sender: UIPageControl) {
-   }
-   
    override func viewDidLoad() {
       super.viewDidLoad()
       
@@ -53,12 +50,28 @@ class FavoritesGasStationViewController: CommonViewController {
    
    // 초기 설정
    func defaultSetting() {
-      
-      // Page Controller 설정
-      pager.currentPageIndicatorTintColor = UIColor.white // Page Controller Current Color
-      pager.pageIndicatorTintColor = UIColor.lightGray // Page Controller Color
       pager.currentPage = 0 // 초기 Current Page
+      DefaultData.shared.favoriteSubject
+         .map { $0.count }
+         .bind(to: pager.rx.numberOfPages)
+         .disposed(by: rx.disposeBag)
       
-      //        oldOilType = DefaultData.shared.oilType // Oil Type
+      DefaultData.shared.favoriteSubject
+         .bind(to: collectionView.rx.items(cellIdentifier: FavoriteCollectionViewCell.identifier,
+                                           cellType: FavoriteCollectionViewCell.self)) { index, id, cell in
+         ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
+                                          id: id) { (result) in
+            switch result {
+            case .success(let info):
+               cell.configure(with: info.result.allPriceList[0])
+            case .error(let err):
+               print(err.localizedDescription)
+            }
+         }
+      }
+      .disposed(by: rx.disposeBag)
+   }
+   
+   @IBAction func pageChanged(_ sender: UIPageControl) {
    }
 }

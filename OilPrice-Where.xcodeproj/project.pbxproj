@@ -59,7 +59,6 @@
 		8EDAF7D821295AEF00422552 /* InitialSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */; };
 		8EDAF7DA212D7EF300422552 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D9212D7EF300422552 /* DetailView.swift */; };
 		8EE0A2FB21DDF49E00C159D0 /* BrandTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */; };
-		8EED89582131CC670093B07A /* FavoriteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EED89572131CC670093B07A /* FavoriteView.xib */; };
 		B633531A781457C90F211EA0 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */; };
 /* End PBXBuildFile section */
 
@@ -121,7 +120,6 @@
 		8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSettingViewController.swift; sourceTree = "<group>"; };
 		8EDAF7D9212D7EF300422552 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandTypeTableViewCell.swift; sourceTree = "<group>"; };
-		8EED89572131CC670093B07A /* FavoriteView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteView.xib; sourceTree = "<group>"; };
 		AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -311,7 +309,6 @@
 			children = (
 				8E7FFE2820F5E5FF006CED48 /* Main.storyboard */,
 				7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */,
-				8EED89572131CC670093B07A /* FavoriteView.xib */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -409,7 +406,6 @@
 				29B226562126A8BF0012B2F6 /* NanumSquareRoundL.ttf in Resources */,
 				8E7FFE2A20F5E5FF006CED48 /* Main.storyboard in Resources */,
 				8E8C5AD9214109C300946FC4 /* GoogleService-Info.plist in Resources */,
-				8EED89582131CC670093B07A /* FavoriteView.xib in Resources */,
 				8ECE0D76211C31F900FF2B46 /* UserInfo.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
