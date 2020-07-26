@@ -397,7 +397,6 @@ class MainListViewController: CommonViewController {
          statusBarBackView.isHidden = true
          mainListPage = false
       } else {
-         UIApplication.shared.statusBarStyle = .lightContent
          self.view.sendSubview(toBack: self.mapView)
          toImageView.image = UIImage(named: "mapButton")
          toLabel.text = "지도"
@@ -660,7 +659,6 @@ extension MainListViewController: UITableViewDataSource {
       guard let selectPath = self.selectIndexPath else {
          let cell = tableView.cellForRow(at: indexPath) as! GasStationCell
          cell.stationView.stackView.isHidden = false
-         cell.stationView.favoriteButtonUpdateFrame()
          cell.selectionStyle = .none
          self.selectIndexPath = indexPath
          
@@ -671,7 +669,6 @@ extension MainListViewController: UITableViewDataSource {
          if let newCell = tableView.cellForRow(at: indexPath) as? GasStationCell {
             newCell.selectionStyle = .none
             newCell.stationView.stackView.isHidden = false
-            newCell.stationView.favoriteButtonUpdateFrame()
          }
          if let oldCell = tableView.cellForRow(at: selectPath) as? GasStationCell {
             oldCell.stationView.stackView.isHidden = true
@@ -681,7 +678,6 @@ extension MainListViewController: UITableViewDataSource {
          if let cell = tableView.cellForRow(at: indexPath) as? GasStationCell {
             if cell.stationView.stackView.isHidden {
                cell.stationView.stackView.isHidden = false
-               cell.stationView.favoriteButtonUpdateFrame()
             } else {
                oldIndexPath = selectIndexPath!
                cell.stationView.stackView.isHidden = true
