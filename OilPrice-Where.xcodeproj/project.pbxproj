@@ -29,7 +29,7 @@
 		8E68BA2124CCCD07004730D7 /* SelectDistanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2024CCCD07004730D7 /* SelectDistanceViewModel.swift */; };
 		8E68BA2324CCCF32004730D7 /* SelectStationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2224CCCF32004730D7 /* SelectStationViewModel.swift */; };
 		8E68BA2524CCCF95004730D7 /* SelectStationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2424CCCF95004730D7 /* SelectStationViewController.swift */; };
-		8E68BA2924CCD472004730D7 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2824CCD472004730D7 /* SettingViewModel.swift */; };
+		8E68BA2924CCD472004730D7 /* SelectNaviViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2824CCD472004730D7 /* SelectNaviViewModel.swift */; };
 		8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2A24CCDF92004730D7 /* FavoriteCollectionViewCell.swift */; };
 		8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */; };
 		8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */; };
@@ -68,6 +68,7 @@
 		8EE53E7F24CF150D008D8045 /* MainListVC+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E7E24CF150D008D8045 /* MainListVC+Header.swift */; };
 		8EE53E8924CF2448008D8045 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE53E8724CF23FC008D8045 /* TMapSDK.framework */; };
 		8EE53E8A24CF2448008D8045 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE53E8724CF23FC008D8045 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8EE53E8C24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -145,7 +146,7 @@
 		8E68BA2024CCCD07004730D7 /* SelectDistanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDistanceViewModel.swift; sourceTree = "<group>"; };
 		8E68BA2224CCCF32004730D7 /* SelectStationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStationViewModel.swift; sourceTree = "<group>"; };
 		8E68BA2424CCCF95004730D7 /* SelectStationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStationViewController.swift; sourceTree = "<group>"; };
-		8E68BA2824CCD472004730D7 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		8E68BA2824CCD472004730D7 /* SelectNaviViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNaviViewModel.swift; sourceTree = "<group>"; };
 		8E68BA2A24CCDF92004730D7 /* FavoriteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionViewCell.swift; sourceTree = "<group>"; };
 		8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OilPrice-Where.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -184,6 +185,7 @@
 		8EE53E7C24CF1427008D8045 /* MainListVC+CoreLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListVC+CoreLocation.swift"; sourceTree = "<group>"; };
 		8EE53E7E24CF150D008D8045 /* MainListVC+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListVC+Header.swift"; sourceTree = "<group>"; };
 		8EE53E8724CF23FC008D8045 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMapSDK.framework; sourceTree = "<group>"; };
+		8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigaionTypeTableViewCell.swift; sourceTree = "<group>"; };
 		8EFE1BDC24CD11C2009907D7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -287,9 +289,7 @@
 			children = (
 				8E1BB8F02107F61E0065281B /* GasStationCell.swift */,
 				8E68BA2A24CCDF92004730D7 /* FavoriteCollectionViewCell.swift */,
-				8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */,
-				8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */,
-				8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */,
+				8EE53E8D24CF3C05008D8045 /* Setting */,
 				76760DFE213875DE00E27CA6 /* NoticeTableViewCell.swift */,
 			);
 			path = Cell;
@@ -331,10 +331,10 @@
 				8E68BA1624CCC5F7004730D7 /* ViewModelBindableType.swift */,
 				8E68BA1824CCC61A004730D7 /* CommonViewModel.swift */,
 				8EE53E7324CEB7A3008D8045 /* FavoriteViewModel.swift */,
-				8E68BA2824CCD472004730D7 /* SettingViewModel.swift */,
 				8E68BA1424CCC560004730D7 /* SelectOilTypeViewModel.swift */,
 				8E68BA2024CCCD07004730D7 /* SelectDistanceViewModel.swift */,
 				8E68BA2224CCCF32004730D7 /* SelectStationViewModel.swift */,
+				8E68BA2824CCD472004730D7 /* SelectNaviViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -441,6 +441,17 @@
 				8EE53E7C24CF1427008D8045 /* MainListVC+CoreLocation.swift */,
 			);
 			name = MainListVC;
+			sourceTree = "<group>";
+		};
+		8EE53E8D24CF3C05008D8045 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */,
+				8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */,
+				8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */,
+				8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */,
+			);
+			path = Setting;
 			sourceTree = "<group>";
 		};
 		8EE7E34720F5EDA400F35473 /* Utility */ = {
@@ -598,13 +609,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EE53E7F24CF150D008D8045 /* MainListVC+Header.swift in Sources */,
-				8E68BA2924CCD472004730D7 /* SettingViewModel.swift in Sources */,
+				8E68BA2924CCD472004730D7 /* SelectNaviViewModel.swift in Sources */,
 				8ECE0DA62122E11100FF2B46 /* MainHeaderView.swift in Sources */,
 				8ECE0D032118963000FF2B46 /* CustomAnnotationView.swift in Sources */,
 				8ECE0DAA212385FB00FF2B46 /* AllPriceData.swift in Sources */,
 				8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */,
 				8ECE0D52211AD42600FF2B46 /* Setting.swift in Sources */,
 				8EE53E7424CEB7A3008D8045 /* FavoriteViewModel.swift in Sources */,
+				8EE53E8C24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift in Sources */,
 				8E167D3B2107AD480066A59E /* Service.swift in Sources */,
 				8E1BB8ED2107E78D0065281B /* ServiceResult.swift in Sources */,
 				8E167D412107E30F0066A59E /* GasStationListData.swift in Sources */,

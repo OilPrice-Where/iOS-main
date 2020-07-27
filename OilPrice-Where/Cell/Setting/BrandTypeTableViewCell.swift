@@ -2,7 +2,7 @@
 //  BrandTypeTableViewCell.swift
 //  OilPrice-Where
 //
-//  Created by 박소정 on 03/01/2019.
+//  Created by 박상욱 on 03/01/2019.
 //  Copyright © 2019 sangwook park. All rights reserved.
 //
 

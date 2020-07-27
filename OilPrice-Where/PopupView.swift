@@ -2,7 +2,7 @@
 //  PopupView.swift
 //  OilPrice-Where
 //
-//  Created by 박소정 on 01/02/2019.
+//  Created by 박상욱 on 01/02/2019.
 //  Copyright © 2019 sangwook park. All rights reserved.
 //
 

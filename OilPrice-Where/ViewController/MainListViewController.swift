@@ -372,33 +372,49 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    // 길안내 시작
    @objc func navigateStart(_ sender: UITapGestureRecognizer) {
       guard let katecX = lastKactecX?.roundTo(places: 0),
-         let katecY = lastKactecY?.roundTo(places: 0) else { return }
-//
-//      let destination = KNVLocation(name: detailView.stationName.text!,
-//                                    x: NSNumber(value: katecX),
-//                                    y: NSNumber(value: katecY))
-//      let options = KNVOptions()
-//      options.routeInfo = false
-//      let params = KNVParams(destination: destination,
-//                             options: options)
-//      KNVNaviLauncher.shared().navigate(with: params) { (error) in
-//         self.handleError(error: error)
-//      }
+         let katecY = lastKactecY?.roundTo(places: 0),
+         let navi = try? DefaultData.shared.naviSubject.value() else { return }
       
-      let coordinator = Converter.convertKatecToWGS(katec: KatecPoint(x: katecX, y: katecY))
-      print("TAP", TMapApi.isTmapApplicationInstalled())
-      
-      if TMapApi.isTmapApplicationInstalled() {
-         print("INSTALLED")
-         let result = TMapApi.invokeRoute(detailView.stationName.text!, coordinate: coordinator)
-         print(result)
+      switch navi {
+      case "tamp":
+         let coordinator = Converter.convertKatecToWGS(katec: KatecPoint(x: katecX, y: katecY))
+         print("TAP", TMapApi.isTmapApplicationInstalled())
          
+         if TMapApi.isTmapApplicationInstalled() {
+            let _ = TMapApi.invokeRoute(detailView.stationName.text!, coordinate: coordinator)
+         } else {
+            let alert = UIAlertController(title: "T Map이 없습니다.",
+                                          message: "다운로드 페이지로 이동하시겠습니까?",
+                                          preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK",
+                                         style: .default) { (_) in
+               guard let url = URL(string: TMapApi.getTMapDownUrl()) else {
+                  return
+               }
+                                          
+               if UIApplication.shared.canOpenURL(url) {
+                  UIApplication.shared.open(url, options: [:], completionHandler: nil)
+               }
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            
+            present(alert, animated: true, completion: nil)
+         }
+      default:
+         let destination = KNVLocation(name: detailView.stationName.text!,
+                                       x: NSNumber(value: katecX),
+                                       y: NSNumber(value: katecY))
+         let options = KNVOptions()
+         options.routeInfo = false
+         let params = KNVParams(destination: destination,
+                                options: options)
+         KNVNaviLauncher.shared().navigate(with: params) { (error) in
+            self.handleError(error: error)
+         }
       }
-      
-//      TMapApi.invokeRoute("신도림역", coordinate:mapView.getCenter())
-      
-      
-      
    }
    
    // 길안내 에러 발생

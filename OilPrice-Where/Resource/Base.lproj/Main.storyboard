@@ -743,7 +743,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="919" y="-721"/>
+            <point key="canvasLocation" x="1463" y="186"/>
         </scene>
         <!--InitialSettingViewController-->
         <scene sceneID="OaA-VS-98l">
@@ -935,7 +935,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="diJ-ar-nVL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1088" y="32"/>
+            <point key="canvasLocation" x="32" y="186"/>
         </scene>
         <!--즐겨찾기-->
         <scene sceneID="Ryb-Qb-8eV">
@@ -1258,7 +1258,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MJy-rE-lPE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="918.75" y="31.690140845070424"/>
+            <point key="canvasLocation" x="2153" y="186"/>
         </scene>
         <!--설정-->
         <scene sceneID="2az-Vw-67D">
@@ -1271,11 +1271,11 @@
                         <sections>
                             <tableViewSection id="WMH-ev-Pbc">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" textLabel="551-QB-3UX" detailTextLabel="o8f-oq-0Vy" style="IBUITableViewCellStyleValue1" id="C5q-Dg-oml">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="551-QB-3UX" detailTextLabel="o8f-oq-0Vy" style="IBUITableViewCellStyleValue1" id="C5q-Dg-oml">
                                         <rect key="frame" x="0.0" y="18" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="C5q-Dg-oml" id="XpJ-vM-oI5">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="293" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="내비게이션" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="551-QB-3UX">
@@ -1285,8 +1285,8 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="카카오네비" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="o8f-oq-0Vy">
-                                                    <rect key="frame" x="230" y="12" width="74" height="20"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="카카오내비" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="o8f-oq-0Vy">
+                                                    <rect key="frame" x="211" y="12" width="74" height="20"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1446,7 +1446,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cmh-P1-OO1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="919" y="874"/>
+            <point key="canvasLocation" x="744" y="874"/>
         </scene>
         <!--검색 브랜드-->
         <scene sceneID="8Tr-az-uVq">
@@ -1501,7 +1501,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VFr-0j-xbI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="32" y="1673"/>
+            <point key="canvasLocation" x="32" y="1580"/>
         </scene>
         <!--검색 반경-->
         <scene sceneID="o4m-n5-yvQ">
@@ -1557,7 +1557,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ve8-Dg-CUn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="919" y="1674"/>
+            <point key="canvasLocation" x="743" y="1579"/>
         </scene>
         <!--관심 유종-->
         <scene sceneID="pfY-hl-5Nu">
@@ -1613,7 +1613,56 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ux1-sO-Xe1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1834" y="1674"/>
+            <point key="canvasLocation" x="1463" y="1578"/>
+        </scene>
+        <!--네비게이션-->
+        <scene sceneID="D5l-3Z-bgZ">
+            <objects>
+                <viewController title="네비게이션" id="Hb1-2z-aE8" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9kI-g6-0Et">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RCv-Wg-5xL">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="lHa-XR-jxd">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lHa-XR-jxd" id="w5O-Ad-n71">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="네비게이션" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CgV-1V-FQj">
+                                                    <rect key="frame" x="15" y="11.5" width="74" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="CgV-1V-FQj" firstAttribute="centerY" secondItem="w5O-Ad-n71" secondAttribute="centerY" id="n8y-Oy-b9z"/>
+                                                <constraint firstItem="CgV-1V-FQj" firstAttribute="leading" secondItem="w5O-Ad-n71" secondAttribute="leadingMargin" id="rmm-98-6W9"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="RCv-Wg-5xL" firstAttribute="leading" secondItem="0uq-do-Lu6" secondAttribute="leading" id="GX2-4M-zRZ"/>
+                            <constraint firstItem="0uq-do-Lu6" firstAttribute="bottom" secondItem="RCv-Wg-5xL" secondAttribute="bottom" id="Kb8-OH-E5i"/>
+                            <constraint firstItem="RCv-Wg-5xL" firstAttribute="top" secondItem="0uq-do-Lu6" secondAttribute="top" id="jk3-gX-LzM"/>
+                            <constraint firstItem="0uq-do-Lu6" firstAttribute="trailing" secondItem="RCv-Wg-5xL" secondAttribute="trailing" id="oZ4-jo-9r9"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="0uq-do-Lu6"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yo0-HL-EV8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2153" y="1578"/>
         </scene>
         <!--About us-->
         <scene sceneID="Ume-2H-oq2">
@@ -1694,7 +1743,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TPy-7k-mLf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1834" y="874"/>
+            <point key="canvasLocation" x="1464" y="874"/>
         </scene>
         <!--TabBarController-->
         <scene sceneID="5Mn-s0-oH5">
@@ -1717,7 +1766,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TLa-se-GZk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="32.799999999999997" y="31.934032983508249"/>
+            <point key="canvasLocation" x="743" y="187"/>
         </scene>
         <!--설정-->
         <scene sceneID="toc-zO-hMS">
