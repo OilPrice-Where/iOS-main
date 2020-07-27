@@ -96,3 +96,4 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
       KNVNaviLauncher.shared().navigate(with: params)
    }
 }
+

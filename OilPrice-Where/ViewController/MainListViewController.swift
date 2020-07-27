@@ -87,11 +87,6 @@ class MainListViewController: CommonViewController {
    @IBOutlet private weak var noneView: UIView! // 리스트가 아무 것도 없을 때 보여주는 뷰
    @IBOutlet private weak var noneLabel : UILabel! // NoneView에 보여줄 Label
    
-   func setStatusBarBackgroundColor(color: UIColor) {
-      guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
-      statusBar.backgroundColor = color
-   }
-   
    // 메인리스트 / 맵 일때 StatusBarStyle 설정
    override var preferredStatusBarStyle: UIStatusBarStyle {
       return mainListPage ? .lightContent : .default
@@ -99,7 +94,6 @@ class MainListViewController: CommonViewController {
    
    override func viewDidLoad() {
       super.viewDidLoad()
-      setStatusBarBackgroundColor(color: .clear) // StatusBar 배경색 설정
       createSortView() // 가격순, 거리순 버튼 생성 및 설정
       setting() // 기본 설정
       setAverageCosts() // HeaderView 설정

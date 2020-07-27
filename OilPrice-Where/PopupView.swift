@@ -31,7 +31,7 @@ class PopupView: UIView {
       }
       
       DefaultData.shared.radiusSubject
-         .map { "\($0 / 1000) + KM" }
+         .map { "\($0 / 1000)KM" }
          .bind(to: radiusLabel.rx.text)
          .disposed(by: rx.disposeBag)
    }

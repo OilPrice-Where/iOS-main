@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import NSObject_Rx
 import SCLAlertView
 
 // 메인페이지의 리스트의 셀 내부(ContentView)에 표시되는 뷰
@@ -34,8 +37,12 @@ class GasStationView: UIView {
       self.name.text = gasStation.name // 주유소 명 설정
       self.distance.text = String(distanceKM.roundTo(places: 2)) + "km" // 거리 설정
       self.logo.image = Preferences.logoImage(logoName: gasStation.brand) // 로고 이미지 삽입
-      self.oilType.text = Preferences.oil(code: DefaultData.shared.oilType) // 오일 타입 설정
       self.price.text = Preferences.priceToWon(price: gasStation.price) // 기름 가격 설정
+      
+      DefaultData.shared.oilSubject
+         .map { Preferences.oil(code: $0) }
+         .bind(to: oilType.rx.text)
+         .disposed(by: rx.disposeBag)
       
       // annotationButtonView 외곽선 설정
       annotationButtonView.layer.cornerRadius = 6

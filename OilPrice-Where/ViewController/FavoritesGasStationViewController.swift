@@ -12,14 +12,24 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 import SCLAlertView
+import CenteredCollectionView
 
 class FavoritesGasStationViewController: CommonViewController {
    @IBOutlet private weak var collectionView: UICollectionView!
    @IBOutlet weak var pager: UIPageControl! // Page Controller
+   var centeredCollectionViewFlowLayout: CenteredCollectionViewFlowLayout!
+   var fromTap = false
    
    override func viewDidLoad() {
       super.viewDidLoad()
       
+      centeredCollectionViewFlowLayout = (collectionView.collectionViewLayout as! CenteredCollectionViewFlowLayout)
+      collectionView.decelerationRate = UIScrollViewDecelerationRateFast
+      
+      centeredCollectionViewFlowLayout.minimumLineSpacing = 25
+      centeredCollectionViewFlowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width - 20, height: 410)
+      
+      configure()
       defaultSetting() // 초기 설정
    }
    
@@ -72,6 +82,51 @@ class FavoritesGasStationViewController: CommonViewController {
       .disposed(by: rx.disposeBag)
    }
    
+   func configure() {
+      let scale: CGFloat = 0.6
+      pager.transform = CGAffineTransform(scaleX: scale, y: scale)
+      
+      for dot in pager.subviews {
+         dot.transform = CGAffineTransform(scaleX: scale, y: scale)
+      }
+   }
+   
    @IBAction func pageChanged(_ sender: UIPageControl) {
+      fromTap = true
+      
+      let indexPath = IndexPath(item: sender.currentPage, section: 0)
+      collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+   }
+}
+
+//MARK: Page Control / ScrollView Delegate
+extension FavoritesGasStationViewController: UIScrollViewDelegate {
+   func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+      fromTap = false
+      pager.updateCurrentPageDisplay()
+      
+   }
+   
+   func scrollViewDidScroll(_ scrollView: UIScrollView) {
+      guard !fromTap else { return }
+      if let currentCenteredPage = centeredCollectionViewFlowLayout.currentCenteredPage {
+         if pager.currentPage != currentCenteredPage {
+            pager.currentPage = currentCenteredPage
+         }
+      }
+   }
+}
+
+//MARK: UICollectionView Delegate
+extension FavoritesGasStationViewController: UICollectionViewDelegateFlowLayout {
+}
+
+extension FavoritesGasStationViewController: UICollectionViewDelegate {
+   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+     let currentCenteredPage = centeredCollectionViewFlowLayout.currentCenteredPage
+      
+     if currentCenteredPage != indexPath.item {
+       centeredCollectionViewFlowLayout.scrollToPage(index: indexPath.item, animated: true)
+     }
    }
 }
