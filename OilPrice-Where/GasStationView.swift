@@ -39,11 +39,6 @@ class GasStationView: UIView {
       self.logo.image = Preferences.logoImage(logoName: gasStation.brand) // 로고 이미지 삽입
       self.price.text = Preferences.priceToWon(price: gasStation.price) // 기름 가격 설정
       
-      DefaultData.shared.oilSubject
-         .map { Preferences.oil(code: $0) }
-         .bind(to: oilType.rx.text)
-         .disposed(by: rx.disposeBag)
-      
       // annotationButtonView 외곽선 설정
       annotationButtonView.layer.cornerRadius = 6
       annotationButtonView.layer.borderColor = UIColor(named: "MainColor")?.cgColor
@@ -53,31 +48,30 @@ class GasStationView: UIView {
       favoriteButton.layer.borderColor = UIColor(named: "MainColor")!.cgColor // 즐겨찾기 버튼 외곽선 컬러
       favoriteButton.layer.borderWidth = 1.5 // 즐겨찾기 버튼 외곽선 크기
       favoriteButton.layer.cornerRadius = 6 // 즐겨찾기 버튼 외곽선 Radius 값 설정
-      
-      // favoriteButton 기본 이미지 및 선택 이미지 설정
-      favoriteButton.setImage(UIImage(named: "favoriteOffIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
-      favoriteButton.setImage(UIImage(named: "favoriteOnIcon")?.withRenderingMode(.alwaysTemplate), for: .selected)
-      
+
       // favoriteButton Action 설정
       favoriteButton.addTarget(self, action: #selector(self.clickedEvent(_:)), for: .touchUpInside)
       
-      self.favoriteButton.backgroundColor = UIColor.white // 즐겨찾기 버튼의 기본 배경색
-      favoriteButton.imageView!.tintColor = UIColor(named: "MainColor") // 즐겨찾기 버튼 이미지 컬러
-      favoriteButton.isSelected = false
+      DefaultData.shared.oilSubject
+         .map { Preferences.oil(code: $0) }
+         .bind(to: oilType.rx.text)
+         .disposed(by: rx.disposeBag)
       
       // 즐겨찾기 목록의 StationID 값과 StationView의 StationID값이 동일 하면 선택 상태로 변경
       DefaultData.shared.favoriteSubject
          .subscribe(onNext: {
             guard let id = self.id else { return }
-            self.favoriteButton.imageView?.tintColor = $0.contains(id) ? UIColor(named: "MainColor") : .white
-            self.favoriteButton.backgroundColor = $0.contains(id) ? .white : UIColor(named: "MainColor")
+            let image = $0.contains(id) ? UIImage(named: "favoriteOnIcon") : UIImage(named: "favoriteOffIcon")
+            self.favoriteButton.setImage(image?.withRenderingMode(.alwaysTemplate), for: .normal)
+            self.favoriteButton.imageView?.tintColor = $0.contains(id) ? .white : UIColor(named: "MainColor")
+            self.favoriteButton.backgroundColor = $0.contains(id) ? UIColor(named: "MainColor") : .white
          })
          .disposed(by: rx.disposeBag)
    }
    
    // Favorite Button Clicked Event
    @objc func clickedEvent(_ sender: UIButton) {
-      guard var favArr = try? DefaultData.shared.favoriteSubject.value(), favArr.count < 3, let id = self.id else {
+      guard var favArr = try? DefaultData.shared.favoriteSubject.value(), favArr.count < 5, let id = self.id else {
          if let favArr = try? DefaultData.shared.favoriteSubject.value(), let id = self.id, favArr.contains(id) {
             let newFavArr = favArr.filter { $0 != id }
             DefaultData.shared.favoriteSubject.onNext(newFavArr)
@@ -93,7 +87,7 @@ class GasStationView: UIView {
             alert.iconTintColor = UIColor.white
             let timeOut = SCLAlertView.SCLTimeoutConfiguration(timeoutValue: 1.5, timeoutAction: {})
             
-            alert.showWarning("최대 3개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !", timeout: timeOut, colorStyle: 0x5E82FF)
+            alert.showWarning("최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !", timeout: timeOut, colorStyle: 0x5E82FF)
          }
          return
       }

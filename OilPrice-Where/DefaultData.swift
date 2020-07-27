@@ -79,6 +79,7 @@ class DefaultData {
       // Favorites Array Save
       favoriteSubject
          .subscribe(onNext: {
+            print($0)
             SwiftyPlistManager.shared.save($0,
                                            forKey: "Favorites",
                                            toPlistWithName: "UserInfo") { (err) in

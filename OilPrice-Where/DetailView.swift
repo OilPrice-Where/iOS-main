@@ -65,14 +65,6 @@ class DetailView: UIView {
       favoriteButton.layer.cornerRadius = 6 // 즐겨찾기 버튼 외곽선 Radius 값 설정
       favoriteButton.layer.borderColor = UIColor(named: "MainColor")!.cgColor
       
-      // Favorite Button 선택/비선택 Image
-      favoriteButton.setImage(UIImage(named: "favoriteOffIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
-      favoriteButton.setImage(UIImage(named: "favoriteOnIcon")?.withRenderingMode(.alwaysTemplate), for: .selected)
-      
-      // Favorite Button Background Color & 내부 ImageView TintColor 설정₩
-      self.favoriteButton.backgroundColor = UIColor.white
-      favoriteButton.imageView!.tintColor = UIColor(named: "MainColor")
-      
       // Favorite Button Event
       favoriteButton.addTarget(self, action: #selector(self.clickedEvent(_:)), for: .touchUpInside)
       favoriteButton.isSelected = false
@@ -81,8 +73,10 @@ class DetailView: UIView {
       DefaultData.shared.favoriteSubject
          .subscribe(onNext: {
             guard let id = self.id else { return }
-            self.favoriteButton.imageView?.tintColor = $0.contains(id) ? UIColor(named: "MainColor") : .white
-            self.favoriteButton.backgroundColor = $0.contains(id) ? .white : UIColor(named: "MainColor")
+            let image = $0.contains(id) ? UIImage(named: "favoriteOnIcon") : UIImage(named: "favoriteOffIcon")
+            self.favoriteButton.setImage(image?.withRenderingMode(.alwaysTemplate), for: .normal)
+            self.favoriteButton.imageView?.tintColor = $0.contains(id) ? .white : UIColor(named: "MainColor")
+            self.favoriteButton.backgroundColor = $0.contains(id) ? UIColor(named: "MainColor") : .white
          })
          .disposed(by: rx.disposeBag)
    }
@@ -95,7 +89,7 @@ class DetailView: UIView {
    
    // Favorite Button Clicked Event
    @objc func clickedEvent(_ sender: UIButton) {
-      guard var favArr = try? DefaultData.shared.favoriteSubject.value(), favArr.count < 3, let id = self.id else {
+      guard var favArr = try? DefaultData.shared.favoriteSubject.value(), favArr.count < 5, let id = self.id else {
          if let favArr = try? DefaultData.shared.favoriteSubject.value(), let id = self.id, favArr.contains(id) {
             let newFavArr = favArr.filter { $0 != id }
             DefaultData.shared.favoriteSubject.onNext(newFavArr)
@@ -111,7 +105,7 @@ class DetailView: UIView {
             alert.iconTintColor = UIColor.white
             let timeOut = SCLAlertView.SCLTimeoutConfiguration(timeoutValue: 1.5, timeoutAction: {})
             
-            alert.showWarning("최대 3개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !", timeout: timeOut, colorStyle: 0x5E82FF)
+            alert.showWarning("최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !", timeout: timeOut, colorStyle: 0x5E82FF)
          }
          return
       }

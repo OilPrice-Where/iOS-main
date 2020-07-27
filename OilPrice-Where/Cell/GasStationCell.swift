@@ -15,15 +15,6 @@ class GasStationCell: UITableViewCell {
     let path = UIBezierPath()
     var tapGesture = UITapGestureRecognizer()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    
-    
     // 셀이 재사용 될 때 stationView의 stackView 히든
     override func prepareForReuse() {
         super.prepareForReuse()

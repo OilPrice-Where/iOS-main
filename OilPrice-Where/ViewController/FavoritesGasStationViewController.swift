@@ -15,6 +15,7 @@ import SCLAlertView
 import CenteredCollectionView
 
 class FavoritesGasStationViewController: CommonViewController {
+   var viewModel = FavoriteViewModel()
    @IBOutlet private weak var collectionView: UICollectionView!
    @IBOutlet weak var pager: UIPageControl! // Page Controller
    var centeredCollectionViewFlowLayout: CenteredCollectionViewFlowLayout!
@@ -27,10 +28,8 @@ class FavoritesGasStationViewController: CommonViewController {
       collectionView.decelerationRate = UIScrollViewDecelerationRateFast
       
       centeredCollectionViewFlowLayout.minimumLineSpacing = 25
-      centeredCollectionViewFlowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width - 20, height: 410)
-      
-      configure()
-      defaultSetting() // 초기 설정
+      centeredCollectionViewFlowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width - 75, height: 410)
+      bindViewModel()
    }
    
    // Status Bar Color
@@ -58,37 +57,20 @@ class FavoritesGasStationViewController: CommonViewController {
       }
    }
    
-   // 초기 설정
-   func defaultSetting() {
+   func bindViewModel() {
       pager.currentPage = 0 // 초기 Current Page
-      DefaultData.shared.favoriteSubject
+      viewModel.favoriteArrSubject
          .map { $0.count }
          .bind(to: pager.rx.numberOfPages)
          .disposed(by: rx.disposeBag)
       
-      DefaultData.shared.favoriteSubject
+      viewModel.favoriteArrSubject
          .bind(to: collectionView.rx.items(cellIdentifier: FavoriteCollectionViewCell.identifier,
-                                           cellType: FavoriteCollectionViewCell.self)) { index, id, cell in
-         ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
-                                          id: id) { (result) in
-            switch result {
-            case .success(let info):
-               cell.configure(with: info.result.allPriceList[0])
-            case .error(let err):
-               print(err.localizedDescription)
-            }
-         }
+                                           cellType: FavoriteCollectionViewCell.self)) { index, info, cell in
+                                             cell.configure(with: info)
+                                             cell.layer.cornerRadius = 35
       }
       .disposed(by: rx.disposeBag)
-   }
-   
-   func configure() {
-      let scale: CGFloat = 0.6
-      pager.transform = CGAffineTransform(scaleX: scale, y: scale)
-      
-      for dot in pager.subviews {
-         dot.transform = CGAffineTransform(scaleX: scale, y: scale)
-      }
    }
    
    @IBAction func pageChanged(_ sender: UIPageControl) {
