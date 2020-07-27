@@ -65,7 +65,24 @@
 		8EE53E7924CF0D72008D8045 /* CustomTabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E7824CF0D72008D8045 /* CustomTabbarViewController.swift */; };
 		8EE53E7B24CF1294008D8045 /* MainListVC+MapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E7A24CF1294008D8045 /* MainListVC+MapKit.swift */; };
 		8EE53E7D24CF1427008D8045 /* MainListVC+CoreLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E7C24CF1427008D8045 /* MainListVC+CoreLocation.swift */; };
+		8EE53E7F24CF150D008D8045 /* MainListVC+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E7E24CF150D008D8045 /* MainListVC+Header.swift */; };
+		8EE53E8924CF2448008D8045 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE53E8724CF23FC008D8045 /* TMapSDK.framework */; };
+		8EE53E8A24CF2448008D8045 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE53E8724CF23FC008D8045 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8EE53E8624CF1FF4008D8045 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8EE53E8A24CF2448008D8045 /* TMapSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		29B226422121FDC60012B2F6 /* AverageCostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AverageCostData.swift; path = "OilPrice-Where/AverageCostData.swift"; sourceTree = SOURCE_ROOT; };
@@ -165,6 +182,8 @@
 		8EE53E7824CF0D72008D8045 /* CustomTabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabbarViewController.swift; sourceTree = "<group>"; };
 		8EE53E7A24CF1294008D8045 /* MainListVC+MapKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListVC+MapKit.swift"; sourceTree = "<group>"; };
 		8EE53E7C24CF1427008D8045 /* MainListVC+CoreLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListVC+CoreLocation.swift"; sourceTree = "<group>"; };
+		8EE53E7E24CF150D008D8045 /* MainListVC+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListVC+Header.swift"; sourceTree = "<group>"; };
+		8EE53E8724CF23FC008D8045 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMapSDK.framework; sourceTree = "<group>"; };
 		8EFE1BDC24CD11C2009907D7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -175,6 +194,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EA4283F24CE9CA600164E31 /* Pods_OilPrice_Where.framework in Frameworks */,
+				8EE53E8924CF2448008D8045 /* TMapSDK.framework in Frameworks */,
 				8ECE0D4E21195F3600FF2B46 /* KakaoNavi.framework in Frameworks */,
 				8ECE0D4F21195F3600FF2B46 /* KakaoCommon.framework in Frameworks */,
 			);
@@ -186,6 +206,7 @@
 		0311CDC564670164F66F0F16 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8EE53E8724CF23FC008D8045 /* TMapSDK.framework */,
 				8ECE154E24CE92C600B03BA9 /* FirebaseCore.framework */,
 				8ECE154F24CE92C600B03BA9 /* FirebaseCoreDiagnostics.framework */,
 				8ECE155024CE92C600B03BA9 /* FirebaseDatabase.framework */,
@@ -414,6 +435,7 @@
 			isa = PBXGroup;
 			children = (
 				8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */,
+				8EE53E7E24CF150D008D8045 /* MainListVC+Header.swift */,
 				8EE53E7624CF06B2008D8045 /* MainListVC+TableView.swift */,
 				8EE53E7A24CF1294008D8045 /* MainListVC+MapKit.swift */,
 				8EE53E7C24CF1427008D8045 /* MainListVC+CoreLocation.swift */,
@@ -445,6 +467,7 @@
 				8E7FFE1F20F5E5FF006CED48 /* Resources */,
 				A1410BAAA832A712804BE11F /* [CP] Embed Pods Frameworks */,
 				8E167D3421007B620066A59E /* ShellScript */,
+				8EE53E8624CF1FF4008D8045 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -574,6 +597,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EE53E7F24CF150D008D8045 /* MainListVC+Header.swift in Sources */,
 				8E68BA2924CCD472004730D7 /* SettingViewModel.swift in Sources */,
 				8ECE0DA62122E11100FF2B46 /* MainHeaderView.swift in Sources */,
 				8ECE0D032118963000FF2B46 /* CustomAnnotationView.swift in Sources */,

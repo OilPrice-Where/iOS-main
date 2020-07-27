@@ -11,8 +11,12 @@ import CoreLocation
 import RxSwift
 import RxCocoa
 import NSObject_Rx
+import TMapSDK
 
-class MainListViewController: CommonViewController {
+class MainListViewController: CommonViewController, TMapTapiDelegate {
+   //Network
+   var reachability: Reachability? = Reachability()
+   
    //CoreLocation
    var locationManager = CLLocationManager() // locationManager
    var oldLocation: CLLocation?
@@ -91,32 +95,19 @@ class MainListViewController: CommonViewController {
       return mainListPage ? .lightContent : .default
    }
    
+   deinit {
+      reachability = nil
+      reachability?.stopNotifier()
+   }
+   
    override func viewDidLoad() {
+      TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "219c2c34-cdd2-45d3-867b-e08c2ea97810")
       super.viewDidLoad()
       createSortView() // 가격순, 거리순 버튼 생성 및 설정
       setting() // 기본 설정
       setAverageCosts() // HeaderView 설정
+      isDisplayNoneView()
       configureLocationServices()
-   }
-   
-   override func viewWillAppear(_ animated: Bool) {
-      super.viewWillAppear(animated)
-      
-      // ViewWillAppear시 네트워크 연결 확인
-      DefaultData.shared.reachability?.whenReachable = { _ in // 네트워크 연결 시 로케이션 서비스 시작
-         self.configureLocationServices()
-      }
-   }
-   
-   override func viewDidAppear(_ animated: Bool) {
-      super.viewDidAppear(animated)
-      // 네트워크 연결이 되어 있지 않을 때 Alert 호출
-      DefaultData.shared.reachability?.whenUnreachable = { _ in
-         self.reset()
-         DefaultData.shared.data = nil
-         self.sortData = []
-         self.tableView.reloadData()
-      }
    }
    
    //Mark: 기본 설정 (viewDidLoad)
@@ -153,6 +144,26 @@ class MainListViewController: CommonViewController {
    
    // 기본 세팅
    func setting() {
+      do {
+         try reachability?.startNotifier()
+      } catch {
+         print(error.localizedDescription)
+      }
+      
+      reachability?.whenReachable = { _ in // 네트워크 연결 시 로케이션 서비스 시작
+         self.configureLocationServices()
+         self.refresh()
+      }
+      
+      reachability?.whenUnreachable = { _ in // 네트워크 연결 시 로케이션 서비스 시작
+         Preferences.notConnect()
+         DefaultData.shared.data = nil
+         self.reset()
+         self.sortData = []
+         self.isDisplayNoneView()
+         self.tableView.reloadData()
+      }
+      
       self.noneLabel.font = UIFont(name: "NanumSquareRoundB", size: 17) //NoneView 내의 NoneLabel 설정
       priceView.layer.cornerRadius = 10
       
@@ -209,8 +220,6 @@ class MainListViewController: CommonViewController {
                                     for: UIControlEvents.valueChanged)
       if #available(iOS 10.0, *) { // iOS 버전 별 설정
          tableView.refreshControl = self.refreshControl
-      } else {
-         tableView.addSubview(refreshControl)
       }
       
       // 현재 위치 버튼 기종별 설정
@@ -221,45 +230,13 @@ class MainListViewController: CommonViewController {
       }
    }
    
-   // HeaderView 설정
-   func setAverageCosts() {
-      firebaseUtility.getAverageCost(productName: "gasolinCost") { (data) in
-         self.mainProductCostLabel.text = data["price"] as? String ?? ""
-         self.mainProductTitleLabel.text = data["productName"] as? String ?? ""
-         if data["difference"] as? Bool ?? true {
-            self.mainProductImageView.image = #imageLiteral(resourceName: "priceUpIcon")
-         }else {
-            self.mainProductImageView.image = #imageLiteral(resourceName: "priceDownIcon")
-         }
-      }
-      firebaseUtility.getAverageCost(productName: "dieselCost") { (data) in
-         self.secondProductCostLabel.text = data["price"] as? String ?? ""
-         self.secondProductTitleLabel.text = data["productName"] as? String ?? ""
-         if data["difference"] as? Bool ?? true {
-            self.secondProductImageView.image = #imageLiteral(resourceName: "priceUpIcon")
-         }else {
-            self.secondProductImageView.image = #imageLiteral(resourceName: "priceDownIcon")
-         }
-         
-      }
-      firebaseUtility.getAverageCost(productName: "lpgCost") { (data) in
-         self.thirdProductCostLabel.text = data["price"] as? String ?? ""
-         self.thirdProductTitleLabel.text = data["productName"] as? String ?? ""
-         if data["difference"] as? Bool ?? true {
-            self.thirdProductImageView.image = #imageLiteral(resourceName: "priceUpIcon")
-         } else {
-            self.thirdProductImageView.image = #imageLiteral(resourceName: "priceDownIcon")
-         }
-      }
-   }
-   
    func reset() {
       appleMapView.removeAnnotations(annotations)
       annotations = []
       selectIndexPath = nil
    }
    
-   func gasStationListData(katecPoint: KatecPoint){
+   func gasStationListData(katecPoint: KatecPoint) {
       guard let radius = try? DefaultData.shared.radiusSubject.value(),
          let oilSubject = try? DefaultData.shared.oilSubject.value() else { return }
       let brand = try? DefaultData.shared.brandSubject.value()
@@ -293,7 +270,7 @@ class MainListViewController: CommonViewController {
    }
    
    func isDisplayNoneView() {
-      if DefaultData.shared.data?.count == 0 {
+      if DefaultData.shared.data == nil || DefaultData.shared.data?.count == 0 {
          self.noneView.isHidden = false
       } else {
          self.noneView.isHidden = true
@@ -392,60 +369,36 @@ class MainListViewController: CommonViewController {
       tableView.reloadData()
    }
    
-   //MARK: MapKit 관련
-   // 마커 생성
-   func showMarker() {
-      guard var gasStations = DefaultData.shared.data else { return }
-      if distanceSortButton.isSelected {
-         gasStations = sortData
-      } else {
-         gasStations = DefaultData.shared.data!
-      }
-      
-      for i in 0 ..< gasStations.count {
-         annotations.append(CustomMarkerAnnotation()) // 마커 생성
-         annotations[i].coordinate = Converter.convertKatecToWGS(katec: KatecPoint(x: gasStations[i].katecX, y: gasStations[i].katecY)) // 마커 위치 선점
-         annotations[i].stationInfo = gasStations[i] // 주유소 정보 전달
-         self.appleMapView.addAnnotation(annotations[i]) // 맵뷰에 마커 생성
-         
-      }
-   }
-   
-   // 화면 포커스
-   func zoomToLatestLocation(with coordinate: CLLocationCoordinate2D) {
-      let zoomRegion = MKCoordinateRegionMakeWithDistance(coordinate, 3000, 3000) // 2km, 2km
-      appleMapView.setRegion(zoomRegion, animated: true)
-   }
-   
-   // 맵의 현재위치 버튼
-   @objc func currentLoaction(_ sender: UIButton) {
-      zoomToLatestLocation(with: currentCoordinate!)
-   }
-   
-   // 지도 보기
-   @objc func viewMapAction(annotionIndex gesture: UITapGestureRecognizer) {
-      guard let index = self.selectIndexPath?.section else { return }
-      
-      self.toList(self.toListButton)
-      
-      appleMapView.selectAnnotation(self.annotations[index], animated: true)
-   }
-   
    // 길안내 시작
    @objc func navigateStart(_ sender: UITapGestureRecognizer) {
       guard let katecX = lastKactecX?.roundTo(places: 0),
          let katecY = lastKactecY?.roundTo(places: 0) else { return }
+//
+//      let destination = KNVLocation(name: detailView.stationName.text!,
+//                                    x: NSNumber(value: katecX),
+//                                    y: NSNumber(value: katecY))
+//      let options = KNVOptions()
+//      options.routeInfo = false
+//      let params = KNVParams(destination: destination,
+//                             options: options)
+//      KNVNaviLauncher.shared().navigate(with: params) { (error) in
+//         self.handleError(error: error)
+//      }
       
-      let destination = KNVLocation(name: detailView.stationName.text!,
-                                    x: NSNumber(value: katecX),
-                                    y: NSNumber(value: katecY))
-      let options = KNVOptions()
-      options.routeInfo = false
-      let params = KNVParams(destination: destination,
-                             options: options)
-      KNVNaviLauncher.shared().navigate(with: params) { (error) in
-         self.handleError(error: error)
+      let coordinator = Converter.convertKatecToWGS(katec: KatecPoint(x: katecX, y: katecY))
+      print("TAP", TMapApi.isTmapApplicationInstalled())
+      
+      if TMapApi.isTmapApplicationInstalled() {
+         print("INSTALLED")
+         let result = TMapApi.invokeRoute(detailView.stationName.text!, coordinate: coordinator)
+         print(result)
+         
       }
+      
+//      TMapApi.invokeRoute("신도림역", coordinate:mapView.getCenter())
+      
+      
+      
    }
    
    // 길안내 에러 발생
@@ -460,108 +413,4 @@ class MainListViewController: CommonViewController {
          self.present(alert, animated: true, completion: nil)
       }
    }
-   
-   // 위치 관련 인증 확인
-   @objc func configureLocationServices() {
-      locationManager.delegate = self
-      appleMapView.delegate = self
-      
-      let status = CLLocationManager.authorizationStatus() // 현재 인증상태 확인
-      if status == .notDetermined { // notDetermined일 시 AlwaysAuthorization 요청
-         locationManager.requestWhenInUseAuthorization()
-         startLocationUpdates(locationManager: locationManager)
-      } else if status == .authorizedAlways || status == .authorizedWhenInUse { // 인증시 위치 정보 받아오기 시작
-         startLocationUpdates(locationManager: locationManager)
-      } else if status == .restricted || status == .denied {
-         let alert = UIAlertController(title: "위치정보를 불러올 수 없습니다.",
-                                       message: "위치정보를 사용해 주변 주유소의 정보를 불러오기 때문에 위치정보 사용이 꼭 필요합니다. 설정으로 이동하여 위치 정보 접근을 허용해 주세요.",
-                                       preferredStyle: .alert)
-         let cancelAction = UIAlertAction(title: "취소",
-                                          style: .cancel,
-                                          handler: nil)
-         
-         let openAction = UIAlertAction(title: "설정으로 이동",
-                                        style: .default) { (action) in
-                                          if let url = URL(string: UIApplicationOpenSettingsURLString) {
-                                             UIApplication.shared.open(url,
-                                                                       options: [String : Any](), completionHandler: nil)
-                                          }
-         }
-         
-         alert.addAction(cancelAction)
-         alert.addAction(openAction)
-         
-         self.present(alert, animated: true, completion: nil)
-      }
-   }
-   
-   // 위치 요청 시작
-   func startLocationUpdates(locationManager: CLLocationManager) {
-      appleMapView.showsUserLocation = true
-      locationManager.desiredAccuracy = kCLLocationAccuracyBest
-      locationManager.startUpdatingLocation()
-   }
-   
-   // 위치 검색 중지
-   func stopLocationManager() {
-      locationManager.stopUpdatingLocation()
-      locationManager.delegate = nil
-   }
-   
-   // 주소 설정
-   func string(from placemark: CLPlacemark?) -> String? {
-      guard let currentPlacemark = placemark else {
-         return nil
-      }
-      // address
-      var address = ""
-      if let s = currentPlacemark.administrativeArea {
-         address += s + " "
-      }
-      if let s = currentPlacemark.locality {
-         address += s + " "
-      }
-      if let s = currentPlacemark.thoroughfare {
-         address += s
-      }
-      return address
-   }
 }
-
-// MARK: - UITableViewDelegate
-extension MainListViewController: UIScrollViewDelegate {
-   /// 스크롤 옵셋에 따른 헤더뷰 위치 변경
-   ///
-   /// - 코드 리펙토링 필요
-   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-      if scrollView == tableView {
-         let setHeaderViewConstraint = headerViewConstraint.constant - scrollView.contentOffset.y
-         if (self.lastContentOffset > scrollView.contentOffset.y) {
-            if scrollView.contentOffset.y <= 0 {
-               if -(setHeaderViewConstraint) >= 0 {
-                  headerViewConstraint.constant = setHeaderViewConstraint
-                  scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
-               }else {
-                  headerViewConstraint.constant = 0
-               }
-            }
-         }
-         else if (self.lastContentOffset < scrollView.contentOffset.y) {
-            if -(setHeaderViewConstraint) >= headerView.frame.size.height {
-               headerViewConstraint.constant = -(headerView.frame.size.height)
-            }else if -(setHeaderViewConstraint) >= 0{
-               headerViewConstraint.constant = setHeaderViewConstraint
-               scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
-            }else{
-               headerViewConstraint.constant = 0
-               scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
-            }
-         }
-         
-         // 현재 테이블 뷰 컨텐츠 옵션의 위치 저장
-         self.lastContentOffset = scrollView.contentOffset.y
-      }
-   }
-}
-
-

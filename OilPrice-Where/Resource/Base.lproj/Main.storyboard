@@ -1699,7 +1699,7 @@
         <!--TabBarController-->
         <scene sceneID="5Mn-s0-oH5">
             <objects>
-                <tabBarController storyboardIdentifier="TabBarController" title="TabBarController" automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="Yq5-Ft-N12" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarController" title="TabBarController" automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="Yq5-Ft-N12" customClass="CustomTabbarViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jXn-na-fJp">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>

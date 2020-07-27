@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SCLAlertView
 import CoreLocation
 
 // 카텍 좌표 저장
@@ -43,6 +44,20 @@ final class Converter {
 
 // App 기본 설정
 final class Preferences {
+   static func notConnect() {
+      // Alert 설정
+      let appearance = SCLAlertView.SCLAppearance(
+         kWindowWidth: 300, // Alert Width
+         kTitleFont: UIFont(name: "NanumSquareRoundB", size: 18)!, // Alert Title Font
+         kTextFont: UIFont(name: "NanumSquareRoundR", size: 15)!, // Alert Content Font
+         showCloseButton: true // CloseButton isHidden = True
+      )
+      
+      let alert = SCLAlertView(appearance: appearance)
+      alert.showError("네트워크 오류 발생", subTitle: "인터넷 연결이 오프라인 상태입니다.", closeButtonTitle: "확인", colorStyle: 0x5E82FF)
+      alert.iconTintColor = UIColor.white
+   }
+   
    // Random App Key
    // 5개의 App Key중 랜덤하게 한 개의 App Key 반환
    static func getAppKey() -> String {

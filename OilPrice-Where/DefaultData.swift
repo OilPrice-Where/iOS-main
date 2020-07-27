@@ -14,16 +14,9 @@ import SwiftyPlistManager
 class DefaultData {
    static let shared = DefaultData() // 싱글톤 객체 생성
    private let bag = DisposeBag()
-   var reachability: Reachability? = Reachability()
    
    // 기본 설정
    private init() {
-      do {
-         try reachability?.startNotifier()
-      } catch {
-         print(error.localizedDescription)
-      }
-      
       setData()
    }
    var data: [GasStation]? // 반경 주유소 리스트
@@ -32,6 +25,7 @@ class DefaultData {
    var oilSubject = BehaviorSubject<String>(value: "") // 오일 종류
    var brandSubject = BehaviorSubject<String>(value: "") // 설정 브랜드
    var favoriteSubject = BehaviorSubject<[String]>(value: []) // 즐겨 찾기
+   var naviSubject = BehaviorSubject<String>(value: "kakao")
    
    // 전군 평균 기름 값 로드 함수
    func allPriceDataLoad() {
@@ -45,19 +39,31 @@ class DefaultData {
       }
    }
    
+   private func getValue<T>(defaultValue: T, for key: String, _ fromPlistWithName: String = "UserInfo") -> T {
+      guard let v = SwiftyPlistManager.shared.fetchValue(for: key, fromPlistWithName: fromPlistWithName) as? T else {
+         SwiftyPlistManager.shared.addNew(defaultValue, key: key,
+                                          toPlistWithName: fromPlistWithName,
+                                          completion: { _ in })
+         
+         return defaultValue
+      }
+      
+      return v
+   }
+   
    func setData() {
       SwiftyPlistManager.shared.start(plistNames: ["UserInfo"], logging: true) // Plist 불러오기
-      // 탐색 반경 설정
-      // 탐색 오일 설정
-      guard let radius = SwiftyPlistManager.shared.fetchValue(for: "FindRadius", fromPlistWithName: "UserInfo") as? Int,
-         let oilType = SwiftyPlistManager.shared.fetchValue(for: "OilType", fromPlistWithName: "UserInfo") as? String,
-         let brandName = SwiftyPlistManager.shared.fetchValue(for: "BrandType", fromPlistWithName: "UserInfo") as? String,
-         let favArr = SwiftyPlistManager.shared.fetchValue(for: "Favorites", fromPlistWithName: "UserInfo") as? [String] else { fatalError() }
+      let radius = getValue(defaultValue: 3000, for: "FindRadius")
+      let oilType = getValue(defaultValue: "", for: "OilType")
+      let brandName = getValue(defaultValue: "ALL", for: "BrandType")
+      let favArr = getValue(defaultValue: [String](), for: "Favorites")
+      let naviType = getValue(defaultValue: "kakao", for: "NaviType")
       
       oilSubject.onNext(oilType)
       radiusSubject.onNext(radius)
       favoriteSubject.onNext(favArr)
       brandSubject.onNext(brandName)
+      naviSubject.onNext(naviType)
       
       // Plist에 값 저장
       // Oil Type Save
@@ -108,10 +114,16 @@ class DefaultData {
                                              }}
          })
          .disposed(by: bag)
-   }
-   
-   deinit {
-      reachability?.stopNotifier()
-      reachability = nil
+      
+      naviSubject
+         .subscribe(onNext: {
+            SwiftyPlistManager.shared.save($0,
+                                           forKey: "NaviType",
+                                           toPlistWithName: "UserInfo") { (err) in
+                                             if err != nil {
+                                                print("Success Save BrandType !!")
+                                             }}
+         })
+         .disposed(by: bag)
    }
 }

@@ -41,6 +41,7 @@
 	<string>NSLocationWhenInUseUsageDescription</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>tmap</string>
 		<string>kakaonavi-sdk</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
