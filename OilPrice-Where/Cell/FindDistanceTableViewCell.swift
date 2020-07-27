@@ -7,18 +7,25 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import NSObject_Rx
 
 // 설정 -> 탐색 반경 선택 리스트 셀
 class FindDistanceTableViewCell: UITableViewCell {
    static let identifier = "FindDistanceTableViewCell"
    @IBOutlet weak var distanceLabel: UILabel! // 탐색 반경 레이블
-
+   
    // 셀 설정
    func configure(distance: String) {
+      selectionStyle = .none
       distanceLabel.text = distance // 탐색 반경 리스트(1,3,5KM)를 셀에 표시
-   }
-   
-   override func setSelected(_ selected: Bool, animated: Bool) {
-      super.setSelected(selected, animated: animated)
+      
+      DefaultData.shared.radiusSubject
+         .subscribe(onNext: {
+            let radius = Preferences.distanceKM(KM: distance)
+            self.accessoryType = $0 == radius ? .checkmark : .none
+         })
+         .disposed(by: rx.disposeBag)
    }
 }

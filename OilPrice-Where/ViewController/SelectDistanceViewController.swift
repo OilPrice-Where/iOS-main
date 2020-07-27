@@ -25,23 +25,12 @@ class SelectDistanceViewController: CommonViewController, ViewModelBindableType 
          .bind(to: tableView.rx.items(cellIdentifier: FindDistanceTableViewCell.identifier,
                                       cellType: FindDistanceTableViewCell.self)) { index, distance, cell in
                                        cell.configure(distance: distance)
-                                       
-                                       if let radius = try? DefaultData.shared.radiusSubject.value(),
-                                       radius == Preferences.distanceKM(KM: distance) {
-                                          cell.accessoryType = .checkmark
-                                       } else {
-                                          cell.accessoryType = .none
-                                       }
-                                       
       }
       .disposed(by: rx.disposeBag)
       
-      tableView.rx.itemSelected
+      tableView.rx.modelSelected(String.self)
          .subscribe(onNext: {
-            guard let selectCell = self.tableView.cellForRow(at: $0) as? FindDistanceTableViewCell,
-               let distance = selectCell.distanceLabel.text else { fatalError() }
-            let radius = Preferences.distanceKM(KM: distance)
-            
+            let radius = Preferences.distanceKM(KM: $0)
             DefaultData.shared.radiusSubject.onNext(radius)
          })
          .disposed(by: rx.disposeBag)

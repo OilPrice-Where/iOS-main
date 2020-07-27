@@ -15,6 +15,14 @@ class OilTypeTableViewCell: UITableViewCell {
 
    // 셀 설정
    func configure(typeName: String) {
+      selectionStyle = .none
       oilTypeLabel.text = typeName // 오일의 종류(휘발유, 경유, LPG 등..)를 셀에 표시
+      
+      DefaultData.shared.oilSubject
+         .subscribe(onNext: {
+            let type = Preferences.oil(code: $0)
+            self.accessoryType = type == typeName ? .checkmark : .none
+         })
+         .disposed(by: rx.disposeBag)
    }
 }

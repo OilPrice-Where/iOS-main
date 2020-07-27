@@ -1436,17 +1436,12 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="KzE-w1-FXK" id="EwS-YZ-PpG"/>
-                            <outlet property="delegate" destination="KzE-w1-FXK" id="8zB-AH-I5Y"/>
-                        </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="설정" leftItemsSupplementBackButton="YES" id="sdq-YP-0GR"/>
                     <connections>
                         <outlet property="findBrandType" destination="pMi-jB-jce" id="WS3-xS-7Fs"/>
                         <outlet property="findLabel" destination="3dg-zk-6og" id="6qm-OH-Ktd"/>
                         <outlet property="oilTypeLabel" destination="36B-Di-eph" id="Yk6-WU-f87"/>
-                        <outlet property="tableView" destination="RXr-W1-zVU" id="KKY-Xt-6xx"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cmh-P1-OO1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1489,9 +1484,6 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="delegate" destination="ui0-9w-EyN" id="gKq-1M-rjQ"/>
-                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -1523,7 +1515,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="FindDistanceTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="검색반경" id="vty-XD-66a" customClass="FindDistanceTableViewCell" customModule="OilPrice_Where" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="FindDistanceTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FindDistanceTableViewCell" id="vty-XD-66a" customClass="FindDistanceTableViewCell" customModule="OilPrice_Where" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vty-XD-66a" id="qAR-qB-V7e">
@@ -1548,9 +1540,6 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="delegate" destination="mFC-kN-8MI" id="esl-L8-KtY"/>
-                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -1607,9 +1596,6 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="delegate" destination="1Un-5P-U6X" id="Eg4-0J-aWt"/>
-                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>

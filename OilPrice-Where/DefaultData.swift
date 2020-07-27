@@ -14,8 +14,16 @@ import SwiftyPlistManager
 class DefaultData {
    static let shared = DefaultData() // 싱글톤 객체 생성
    private let bag = DisposeBag()
+   var reachability: Reachability? = Reachability()
+   
    // 기본 설정
    private init() {
+      do {
+         try reachability?.startNotifier()
+      } catch {
+         print(error.localizedDescription)
+      }
+      
       setData()
    }
    var data: [GasStation]? // 반경 주유소 리스트
@@ -100,5 +108,10 @@ class DefaultData {
                                              }}
          })
          .disposed(by: bag)
+   }
+   
+   deinit {
+      reachability?.stopNotifier()
+      reachability = nil
    }
 }

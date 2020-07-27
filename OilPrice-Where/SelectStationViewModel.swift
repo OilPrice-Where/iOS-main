@@ -8,6 +8,8 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
+import NSObject_Rx
 
 final class SelectStationViewModel: CommonViewModel {
    private let findBrand = [ // 선택 가능한 탐색 반경

@@ -7,11 +7,9 @@
 //
 
 import UIKit
-import CoreLocation
 import RxSwift
 import RxCocoa
 import NSObject_Rx
-import SCLAlertView
 import CenteredCollectionView
 
 class FavoritesGasStationViewController: CommonViewController {
@@ -35,26 +33,6 @@ class FavoritesGasStationViewController: CommonViewController {
    // Status Bar Color
    override var preferredStatusBarStyle: UIStatusBarStyle {
       return .lightContent
-   }
-   
-   override func viewWillAppear(_ animated: Bool) {
-      super.viewWillAppear(animated)
-      
-      if Reachability.isConnectedToNetwork() {
-      } else {
-         pager.numberOfPages = 0 // Page Number
-         let appearance = SCLAlertView.SCLAppearance(
-            kWindowWidth: 300,
-            kTitleFont: UIFont(name: "NanumSquareRoundB", size: 18)!,
-            kTextFont: UIFont(name: "NanumSquareRoundR", size: 15)!,
-            showCloseButton: true
-         )
-         
-         let alert = SCLAlertView(appearance: appearance)
-         
-         alert.showError("네트워크 오류 발생", subTitle: "인터넷 연결이 오프라인 상태입니다.", closeButtonTitle: "확인", colorStyle: 0x5E82FF)
-         alert.iconTintColor = UIColor.white
-      }
    }
    
    func bindViewModel() {

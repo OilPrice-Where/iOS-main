@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import NSObject_Rx
 
 class SelectStationViewController: CommonViewController, ViewModelBindableType {
    static let identifier = "SelectStationViewController"
@@ -21,24 +24,13 @@ class SelectStationViewController: CommonViewController, ViewModelBindableType {
       viewModel.brandSubject
          .bind(to: tableView.rx.items(cellIdentifier: BrandTypeTableViewCell.identifier,
                                       cellType: BrandTypeTableViewCell.self)) { index, brand, cell in
-                                       cell.configure(typeName: brand)
-                                       
-                                       if let brand = try? DefaultData.shared.brandSubject.value(),
-                                       brand == Preferences.brand(name: brand) {
-                                          cell.accessoryType = .checkmark
-                                       } else {
-                                          cell.accessoryType = .none
-                                       }
-                                       
+                                       cell.bind(brandSubject: Observable.just(brand))
       }
       .disposed(by: rx.disposeBag)
       
-      tableView.rx.itemSelected
+      tableView.rx.modelSelected(String.self)
          .subscribe(onNext: {
-            guard let selectCell = self.tableView.cellForRow(at: $0) as? BrandTypeTableViewCell,
-               let brand = selectCell.brandTypeLable.text else { fatalError() }
-            let code = Preferences.brand(name: brand)
-            
+            let code = Preferences.brand(name: $0)
             DefaultData.shared.brandSubject.onNext(code)
          })
          .disposed(by: rx.disposeBag)
