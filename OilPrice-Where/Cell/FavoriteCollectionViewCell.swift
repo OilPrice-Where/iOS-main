@@ -12,6 +12,8 @@ import RxCocoa
 
 class FavoriteCollectionViewCell: UICollectionViewCell {
    static let identifier = "FavoriteCollectionViewCell"
+   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+   
    // 이미지
    @IBOutlet weak var logoImageView: UIImageView!
    @IBOutlet weak var carWashImageView: UIImageView!
@@ -29,45 +31,45 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
    @IBOutlet var deleteFavoriteButton: UIButton!
    
    var tapGesture = UITapGestureRecognizer()
-   var id: String!
+   var id: String?
+   let mainColor = UIColor(named: "MainColor")
+   let favImage = UIImage(named: "favoriteOnIcon")?.withRenderingMode(.alwaysTemplate)
    
    // KatecX, KatecY
    var katecX: Double?
    var katecY: Double?
    
-   func configure(with informaionGasStaion: InformationGasStaion) {
-      self.id = informaionGasStaion.id
-      self.katecX = informaionGasStaion.katecX.roundTo(places: 0)
-      self.katecY = informaionGasStaion.katecY.roundTo(places: 0)
+   func configure(with info: InformationGasStaion) {
       
-      logoImageView.image = Preferences.logoImage(logoName: informaionGasStaion.brand) // 로고 이미지 삽입
-      gasStationNameLabel.text = informaionGasStaion.name // 주유소 이름
+      id = info.id
+      katecX = info.katecX.roundTo(places: 0)
+      katecY = info.katecY.roundTo(places: 0)
       
-      // 세차장 여부
-      carWashImageView.tintColor = informaionGasStaion.carWash == "Y" ? UIColor(named: "MainColor") : .lightGray
-      // 카센터 여부
-      repairShopImageView.tintColor = informaionGasStaion.repairShop == "Y" ? UIColor(named: "MainColor") : .lightGray
-      // 편의점 여부
-      convenienceStoreImageView.tintColor = informaionGasStaion.convenienceStore == "Y" ? UIColor(named: "MainColor") : .lightGray
+      logoImageView.image = Preferences.logoImage(logoName: info.brand) // 로고 이미지 삽입
+      gasStationNameLabel.text = info.name // 주유소 이름
       
-      addressLabel.text = informaionGasStaion.address // 주소
-      phoneNumberLabel.text = informaionGasStaion.phoneNumber // 전화번호
-      qualityCertificationLabel.text = informaionGasStaion.qualityCertification == "Y" ? "인증" : "미인증" // 품질 인증
+      carWashImageView.tintColor = info.carWash == "Y" ? mainColor : .lightGray
+      repairShopImageView.tintColor = info.repairShop == "Y" ? mainColor : .lightGray
+      convenienceStoreImageView.tintColor = info.convenienceStore == "Y" ? mainColor : .lightGray
       
-      self.deleteFavoriteButton.layer.cornerRadius = 6
-      self.deleteFavoriteButton.setImage(UIImage(named: "favoriteOnIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
-      self.deleteFavoriteButton.imageView?.tintColor = .white
+      addressLabel.text = info.address // 주소
+      phoneNumberLabel.text = info.phoneNumber // 전화번호
+      qualityCertificationLabel.text = info.qualityCertification == "Y" ? "인증" : "미인증" // 품질 인증
       
-      self.navigationView.layer.cornerRadius = 6
-      self.navigationView.layer.borderColor = UIColor(named: "MainColor")?.cgColor
-      self.navigationView.layer.borderWidth = 1.5
-      tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.navigationButton))
+      deleteFavoriteButton.layer.cornerRadius = 6
+      deleteFavoriteButton.setImage(favImage, for: .normal)
+      deleteFavoriteButton.imageView?.tintColor = .white
+      
+      navigationView.layer.cornerRadius = 6
+      navigationView.layer.borderColor = mainColor?.cgColor
+      navigationView.layer.borderWidth = 1.5
+      tapGesture = UITapGestureRecognizer(target: self, action: #selector(navigationButton))
       
       navigationView.addGestureRecognizer(tapGesture)
       
       DefaultData.shared.oilSubject
          .subscribe(onNext: { type in
-            guard let price = informaionGasStaion.price.first(where: { $0.type == type }) else { return }
+            guard let price = info.price.first(where: { $0.type == type }) else { return }
             self.typeOfOilLabel.text = Preferences.oil(code: type)
             self.oilPlice.text = Preferences.priceToWon(price: price.price)
          })

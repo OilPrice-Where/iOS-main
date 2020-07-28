@@ -108,6 +108,15 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
       setAverageCosts() // HeaderView 설정
       isDisplayNoneView()
       configureLocationServices()
+      
+      let target = DefaultData.shared
+      
+      Observable.combineLatest(target.oilSubject, target.radiusSubject, target.brandSubject)
+         .subscribe(onNext: { _ in
+            self.configureLocationServices()
+            self.refresh()
+         })
+         .disposed(by: rx.disposeBag)
    }
    
    //Mark: 기본 설정 (viewDidLoad)
@@ -376,7 +385,7 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
          let navi = try? DefaultData.shared.naviSubject.value() else { return }
       
       switch navi {
-      case "tamp":
+      case "tmap":
          let coordinator = Converter.convertKatecToWGS(katec: KatecPoint(x: katecX, y: katecY))
          print("TAP", TMapApi.isTmapApplicationInstalled())
          
@@ -388,13 +397,13 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
                                           preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK",
                                          style: .default) { (_) in
-               guard let url = URL(string: TMapApi.getTMapDownUrl()) else {
-                  return
-               }
+                                          guard let url = URL(string: TMapApi.getTMapDownUrl()) else {
+                                             return
+                                          }
                                           
-               if UIApplication.shared.canOpenURL(url) {
-                  UIApplication.shared.open(url, options: [:], completionHandler: nil)
-               }
+                                          if UIApplication.shared.canOpenURL(url) {
+                                             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                          }
             }
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             

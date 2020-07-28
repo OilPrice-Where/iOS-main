@@ -48,7 +48,7 @@ class GasStationView: UIView {
       favoriteButton.layer.borderColor = UIColor(named: "MainColor")!.cgColor // 즐겨찾기 버튼 외곽선 컬러
       favoriteButton.layer.borderWidth = 1.5 // 즐겨찾기 버튼 외곽선 크기
       favoriteButton.layer.cornerRadius = 6 // 즐겨찾기 버튼 외곽선 Radius 값 설정
-
+      
       // favoriteButton Action 설정
       favoriteButton.addTarget(self, action: #selector(self.clickedEvent(_:)), for: .touchUpInside)
       

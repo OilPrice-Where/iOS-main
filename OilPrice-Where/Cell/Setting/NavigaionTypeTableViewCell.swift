@@ -26,8 +26,8 @@ class NavigaionTypeTableViewCell: UITableViewCell {
       
       DefaultData.shared.naviSubject
          .subscribe(onNext: {
-            let type = $0.lowercased()
-            self.accessoryType = type == self.naviTypeLabel.text?.lowercased() ?? "" ? .checkmark : .none
+            let type = Preferences.navigationType(name: $0)
+            self.accessoryType = type == self.naviTypeLabel.text ?? "" ? .checkmark : .none
          })
          .disposed(by: rx.disposeBag)
    }

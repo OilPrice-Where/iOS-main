@@ -147,14 +147,17 @@ extension MainListViewController: MKMapViewDelegate {
    // 마커 선택해제 관련 Delegate
    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
       let markerView = view as? CustomMarkerAnnotationView
-      
-      if markerView?.stationInfo?.price == DefaultData.shared.data![0].price {
-         markerView?.mapMarkerImageView.image = UIImage(named: "MinMapMarker")
-         markerView?.priceLabel.textColor = UIColor.white
-      } else {
-         markerView?.mapMarkerImageView.image = UIImage(named: "NonMapMarker")
-         markerView?.priceLabel.textColor = UIColor.black
+      if let target = DefaultData.shared.data?[0].price {
+         if markerView?.stationInfo?.price == target {
+            markerView?.mapMarkerImageView.image = UIImage(named: "MinMapMarker")
+            markerView?.priceLabel.textColor = UIColor.white
+         } else {
+            markerView?.mapMarkerImageView.image = UIImage(named: "NonMapMarker")
+            markerView?.priceLabel.textColor = UIColor.black
+         }
       }
+      
+
       
       // 디테일 뷰 하단으로 변경
       self.detailView.detailViewBottomConstraint.constant = -150

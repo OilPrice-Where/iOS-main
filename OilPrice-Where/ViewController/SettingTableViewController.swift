@@ -16,23 +16,23 @@ import RxCocoa
 // 설정 저장 방식은 피리스트('UserInfo'에 저장)
 // ** 탐색반경 : 3KM, 유종 : nil **
 class SettingTableViewController: UITableViewController {
-    @IBOutlet private weak var oilTypeLabel : UILabel! // 현재 탐색 하고 있는 오일의 타입
-    @IBOutlet private weak var findLabel : UILabel! // 현재 탐색 하고 있는 탐색 반경
-    @IBOutlet private weak var findBrandType : UILabel! // 현재 탐색 하고 있는 브랜드
-    
+   @IBOutlet private weak var oilTypeLabel : UILabel! // 현재 탐색 하고 있는 오일의 타입
+   @IBOutlet private weak var findLabel : UILabel! // 현재 탐색 하고 있는 탐색 반경
+   @IBOutlet private weak var findBrandType : UILabel! // 현재 탐색 하고 있는 브랜드
+   
    override var preferredStatusBarStyle: UIStatusBarStyle {
       return .lightContent
    }
    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+   override func viewDidLoad() {
+      super.viewDidLoad()
       
-        bindViewModel()
-    }
-    
-    // 이전 설정을 데이터를 불러와서
-    // oilTypeLabel, findLabel, findBrandType 업데이트
-    func bindViewModel() {
+      bindViewModel()
+   }
+   
+   // 이전 설정을 데이터를 불러와서
+   // oilTypeLabel, findLabel, findBrandType 업데이트
+   func bindViewModel() {
       DefaultData.shared.oilSubject
          .map { Preferences.oil(code: $0) }
          .bind(to: oilTypeLabel.rx.text)
@@ -47,7 +47,7 @@ class SettingTableViewController: UITableViewController {
          .map { Preferences.brand(code: $0) }
          .bind(to: findBrandType.rx.text)
          .disposed(by: rx.disposeBag)
-    }
+   }
 }
 
 extension SettingTableViewController {
@@ -57,7 +57,11 @@ extension SettingTableViewController {
       
       switch selectIndex {
       case (0, 0):
-         print("공지사항")
+         if var vc = storyboard.instantiateViewController(withIdentifier: SelectNavigationController.identifier) as? SelectNavigationController {
+            let viewModel = SelectNaviViewModel()
+            vc.bind(viewModel: viewModel)
+            self.navigationController?.pushViewController(vc, animated: true)
+         }
       case (1, 0):
          if var vc = storyboard.instantiateViewController(withIdentifier: SelectOilViewController.identifier) as? SelectOilViewController {
             let viewModel = SelectOilTypeViewModel()
@@ -83,12 +87,12 @@ extension SettingTableViewController {
       case (2, 1):
          let id = "1435350344"
          if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) {
-             // 유효한 URL인지 검사
-             if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
-                 UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
-             } else {
-                 UIApplication.shared.openURL(reviewURL)
-             }
+            // 유효한 URL인지 검사
+            if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
+               UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
+            } else {
+               UIApplication.shared.openURL(reviewURL)
+            }
          }
       default:
          break

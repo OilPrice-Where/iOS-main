@@ -214,6 +214,20 @@ final class Preferences {
       }
    }
    
+   // 네비게이션 타입
+   static func navigationType(name: String) -> String {
+      switch name {
+      case "카카오내비":
+         return "kakao"
+      case "kakao":
+         return "카카오내비"
+      case "tmap":
+         return "T map"
+      default:
+         return "tmap"
+      }
+   }
+   
    // Int값을 원화 사이의 ','를 넣어주는 함수
    static func priceToWon(price: Int) -> String {
       var stringPrice = ""

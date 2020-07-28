@@ -12,7 +12,7 @@ import NSObject_Rx
 
 final class SelectNaviViewModel: CommonViewModel {
    private let findNavi = [ // 선택 가능한 탐색 반경
-      "카카오네비",
+      "카카오내비",
       "T map"
    ]
    

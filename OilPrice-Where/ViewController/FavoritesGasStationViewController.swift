@@ -15,7 +15,6 @@ import CenteredCollectionView
 class FavoritesGasStationViewController: CommonViewController {
    var viewModel = FavoriteViewModel()
    @IBOutlet private weak var collectionView: UICollectionView!
-   @IBOutlet weak var pager: UIPageControl! // Page Controller
    var centeredCollectionViewFlowLayout: CenteredCollectionViewFlowLayout!
    var fromTap = false
    
@@ -36,17 +35,21 @@ class FavoritesGasStationViewController: CommonViewController {
    }
    
    func bindViewModel() {
-      pager.currentPage = 0 // 초기 Current Page
-      viewModel.favoriteArrSubject
-         .map { $0.count }
-         .bind(to: pager.rx.numberOfPages)
-         .disposed(by: rx.disposeBag)
-      
-      viewModel.favoriteArrSubject
+      DefaultData.shared.favoriteSubject
          .bind(to: collectionView.rx.items(cellIdentifier: FavoriteCollectionViewCell.identifier,
-                                           cellType: FavoriteCollectionViewCell.self)) { index, info, cell in
-                                             cell.configure(with: info)
+                                           cellType: FavoriteCollectionViewCell.self)) { index, id, cell in
                                              cell.layer.cornerRadius = 35
+                                             cell.activityIndicator.startAnimating()
+                                             if let info = DefaultData.shared.tempFavArr[id] {
+                                                cell.configure(with: info)
+                                                cell.activityIndicator.stopAnimating()
+                                             } else {
+                                                self.viewModel.getStationsInfo(id: id) {
+                                                   DefaultData.shared.tempFavArr[id] = $0
+                                                   cell.configure(with: $0)
+                                                   cell.activityIndicator.stopAnimating()
+                                                }
+                                             }
       }
       .disposed(by: rx.disposeBag)
    }
@@ -59,34 +62,16 @@ class FavoritesGasStationViewController: CommonViewController {
    }
 }
 
-//MARK: Page Control / ScrollView Delegate
-extension FavoritesGasStationViewController: UIScrollViewDelegate {
-   func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-      fromTap = false
-      pager.updateCurrentPageDisplay()
-      
-   }
-   
-   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-      guard !fromTap else { return }
-      if let currentCenteredPage = centeredCollectionViewFlowLayout.currentCenteredPage {
-         if pager.currentPage != currentCenteredPage {
-            pager.currentPage = currentCenteredPage
-         }
-      }
-   }
-}
-
 //MARK: UICollectionView Delegate
 extension FavoritesGasStationViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension FavoritesGasStationViewController: UICollectionViewDelegate {
    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-     let currentCenteredPage = centeredCollectionViewFlowLayout.currentCenteredPage
+      let currentCenteredPage = centeredCollectionViewFlowLayout.currentCenteredPage
       
-     if currentCenteredPage != indexPath.item {
-       centeredCollectionViewFlowLayout.scrollToPage(index: indexPath.item, animated: true)
-     }
+      if currentCenteredPage != indexPath.item {
+         centeredCollectionViewFlowLayout.scrollToPage(index: indexPath.item, animated: true)
+      }
    }
 }

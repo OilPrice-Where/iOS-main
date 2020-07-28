@@ -12,7 +12,7 @@ import UIKit
 class OilTypeTableViewCell: UITableViewCell {
    static let identifier = "OilTypeTableViewCell"
    @IBOutlet weak var oilTypeLabel : UILabel! // 오일 종류
-
+   
    // 셀 설정
    func configure(typeName: String) {
       selectionStyle = .none

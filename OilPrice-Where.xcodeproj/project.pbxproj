@@ -69,6 +69,7 @@
 		8EE53E8924CF2448008D8045 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE53E8724CF23FC008D8045 /* TMapSDK.framework */; };
 		8EE53E8A24CF2448008D8045 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE53E8724CF23FC008D8045 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8EE53E8C24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */; };
+		8EE53E8F24CF3CEC008D8045 /* SelectNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E8E24CF3CEC008D8045 /* SelectNavigationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -186,6 +187,7 @@
 		8EE53E7E24CF150D008D8045 /* MainListVC+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListVC+Header.swift"; sourceTree = "<group>"; };
 		8EE53E8724CF23FC008D8045 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMapSDK.framework; sourceTree = "<group>"; };
 		8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigaionTypeTableViewCell.swift; sourceTree = "<group>"; };
+		8EE53E8E24CF3CEC008D8045 /* SelectNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNavigationController.swift; sourceTree = "<group>"; };
 		8EFE1BDC24CD11C2009907D7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -276,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */,
+				8EE53E8E24CF3CEC008D8045 /* SelectNavigationController.swift */,
 				8E68BA1C24CCC863004730D7 /* SelectOilViewController.swift */,
 				8E68BA1E24CCCCE5004730D7 /* SelectDistanceViewController.swift */,
 				8E68BA2424CCCF95004730D7 /* SelectStationViewController.swift */,
@@ -637,6 +640,7 @@
 				8EE53E7724CF06B3008D8045 /* MainListVC+TableView.swift in Sources */,
 				8EE53E7B24CF1294008D8045 /* MainListVC+MapKit.swift in Sources */,
 				8E68BA1924CCC61A004730D7 /* CommonViewModel.swift in Sources */,
+				8EE53E8F24CF3CEC008D8045 /* SelectNavigationController.swift in Sources */,
 				8E1BB8F12107F61E0065281B /* GasStationCell.swift in Sources */,
 				8E167D3D2107AEA30066A59E /* API.swift in Sources */,
 				8EDAF7D821295AEF00422552 /* InitialSettingViewController.swift in Sources */,

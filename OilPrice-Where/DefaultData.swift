@@ -26,6 +26,7 @@ class DefaultData {
    var brandSubject = BehaviorSubject<String>(value: "") // 설정 브랜드
    var favoriteSubject = BehaviorSubject<[String]>(value: []) // 즐겨 찾기
    var naviSubject = BehaviorSubject<String>(value: "kakao")
+   var tempFavArr: [String: InformationGasStaion] = [:]
    
    // 전군 평균 기름 값 로드 함수
    func allPriceDataLoad() {
