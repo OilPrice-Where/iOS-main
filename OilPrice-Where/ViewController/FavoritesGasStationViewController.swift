@@ -14,13 +14,26 @@ import CenteredCollectionView
 
 class FavoritesGasStationViewController: CommonViewController {
    var viewModel = FavoriteViewModel()
+   var reachability: Reachability? = Reachability() //Network
    @IBOutlet private weak var collectionView: UICollectionView!
+   @IBOutlet private weak var noneFavoriteView: UIView!
    var centeredCollectionViewFlowLayout: CenteredCollectionViewFlowLayout!
    var fromTap = false
+   
+   // Status Bar Color
+   override var preferredStatusBarStyle: UIStatusBarStyle {
+      return .lightContent
+   }
+   
+   deinit {
+      reachability?.stopNotifier()
+      reachability = nil
+   }
    
    override func viewDidLoad() {
       super.viewDidLoad()
       
+      setNetworkSetting()
       centeredCollectionViewFlowLayout = (collectionView.collectionViewLayout as! CenteredCollectionViewFlowLayout)
       collectionView.decelerationRate = UIScrollViewDecelerationRateFast
       
@@ -29,36 +42,39 @@ class FavoritesGasStationViewController: CommonViewController {
       bindViewModel()
    }
    
-   // Status Bar Color
-   override var preferredStatusBarStyle: UIStatusBarStyle {
-      return .lightContent
+   func setNetworkSetting() {
+      do {
+         try reachability?.startNotifier()
+      } catch {
+         print(error.localizedDescription)
+      }
+      
+      reachability?.whenReachable = { _ in
+         if let favArr = try? DefaultData.shared.favoriteSubject.value() {
+            self.noneFavoriteView.isHidden = favArr.isEmpty
+            DefaultData.shared.favoriteSubject.onNext(favArr)
+         }
+      }
+      
+      reachability?.whenUnreachable = { _ in
+         self.noneFavoriteView.isHidden = false
+      }
    }
    
    func bindViewModel() {
       DefaultData.shared.favoriteSubject
+         .map { !$0.isEmpty }
+         .bind(to: noneFavoriteView.rx.isHidden)
+         .disposed(by: rx.disposeBag)
+      
+      DefaultData.shared.favoriteSubject
          .bind(to: collectionView.rx.items(cellIdentifier: FavoriteCollectionViewCell.identifier,
                                            cellType: FavoriteCollectionViewCell.self)) { index, id, cell in
                                              cell.layer.cornerRadius = 35
-                                             cell.activityIndicator.startAnimating()
-                                             if let info = DefaultData.shared.tempFavArr[id] {
-                                                cell.configure(with: info)
-                                                cell.activityIndicator.stopAnimating()
-                                             } else {
-                                                self.viewModel.getStationsInfo(id: id) {
-                                                   DefaultData.shared.tempFavArr[id] = $0
-                                                   cell.configure(with: $0)
-                                                   cell.activityIndicator.stopAnimating()
-                                                }
-                                             }
+                                             
+                                             cell.initialSetting(id: id)
       }
       .disposed(by: rx.disposeBag)
-   }
-   
-   @IBAction func pageChanged(_ sender: UIPageControl) {
-      fromTap = true
-      
-      let indexPath = IndexPath(item: sender.currentPage, section: 0)
-      collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
    }
 }
 

@@ -19,6 +19,7 @@ class SettingTableViewController: UITableViewController {
    @IBOutlet private weak var oilTypeLabel : UILabel! // 현재 탐색 하고 있는 오일의 타입
    @IBOutlet private weak var findLabel : UILabel! // 현재 탐색 하고 있는 탐색 반경
    @IBOutlet private weak var findBrandType : UILabel! // 현재 탐색 하고 있는 브랜드
+   @IBOutlet private weak var findNaviType: UILabel!
    
    override var preferredStatusBarStyle: UIStatusBarStyle {
       return .lightContent
@@ -46,6 +47,11 @@ class SettingTableViewController: UITableViewController {
       DefaultData.shared.brandSubject
          .map { Preferences.brand(code: $0) }
          .bind(to: findBrandType.rx.text)
+         .disposed(by: rx.disposeBag)
+      
+      DefaultData.shared.naviSubject
+         .map { Preferences.navigationType(name: $0) }
+         .bind(to: findNaviType.rx.text)
          .disposed(by: rx.disposeBag)
    }
 }

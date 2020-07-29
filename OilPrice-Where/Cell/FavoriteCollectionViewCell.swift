@@ -13,6 +13,7 @@ import RxCocoa
 class FavoriteCollectionViewCell: UICollectionViewCell {
    static let identifier = "FavoriteCollectionViewCell"
    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+   @IBOutlet private weak var loadingView: UIView!
    
    // 이미지
    @IBOutlet weak var logoImageView: UIImageView!
@@ -39,7 +40,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
    var katecX: Double?
    var katecY: Double?
    
-   func configure(with info: InformationGasStaion) {
+   private func configure(with info: InformationGasStaion) {
       
       id = info.id
       katecX = info.katecX.roundTo(places: 0)
@@ -74,6 +75,36 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             self.oilPlice.text = Preferences.priceToWon(price: price.price)
          })
          .disposed(by: rx.disposeBag)
+   }
+   
+   func initialSetting(id: String) {
+      activityIndicator.startAnimating()
+      loadingView.isHidden = false
+      
+      if let info = DefaultData.shared.tempFavArr[id] {
+         configure(with: info)
+         loadingView.isHidden = true
+         activityIndicator.stopAnimating()
+      } else {
+         getStationsInfo(id: id) {
+            DefaultData.shared.tempFavArr[id] = $0
+            self.configure(with: $0)
+            self.loadingView.isHidden = true
+            self.activityIndicator.stopAnimating()
+         }
+      }
+   }
+   
+   private func getStationsInfo(id: String, completion: @escaping (InformationGasStaion) -> ()) {
+      ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
+                                       id: id) { (result) in
+                                          switch result {
+                                          case .success(let infomation):
+                                             completion(infomation)
+                                          case .error(_):
+                                             break
+                                          }
+      }
    }
    
    @IBAction private func deleteAction(_ sender: Any) {
