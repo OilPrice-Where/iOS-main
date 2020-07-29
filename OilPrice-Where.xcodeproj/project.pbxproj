@@ -11,7 +11,6 @@
 		29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */; };
 		764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift */; };
 		765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
-		76760DFF213875DE00E27CA6 /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76760DFE213875DE00E27CA6 /* NoticeTableViewCell.swift */; };
 		8E167D3B2107AD480066A59E /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3A2107AD480066A59E /* Service.swift */; };
 		8E167D3D2107AEA30066A59E /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3C2107AEA30066A59E /* API.swift */; };
 		8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3E2107D95C0066A59E /* GeoConverter.swift */; };
@@ -100,7 +99,6 @@
 		764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesGasStationViewController.swift; sourceTree = "<group>"; };
 		765830AC212699FD006DFE2E /* InformationGasStaion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationGasStaion.swift; sourceTree = "<group>"; };
 		7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		76760DFE213875DE00E27CA6 /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
 		8E167D3A2107AD480066A59E /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		8E167D3C2107AEA30066A59E /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = API.swift; path = "OilPrice-Where/API.swift"; sourceTree = SOURCE_ROOT; };
 		8E167D3E2107D95C0066A59E /* GeoConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoConverter.swift; sourceTree = "<group>"; };
@@ -297,7 +295,6 @@
 				8E1BB8F02107F61E0065281B /* GasStationCell.swift */,
 				8E68BA2A24CCDF92004730D7 /* FavoriteCollectionViewCell.swift */,
 				8EE53E8D24CF3C05008D8045 /* Setting */,
-				76760DFE213875DE00E27CA6 /* NoticeTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -664,7 +661,6 @@
 				8ED7F9E822045A9100AB6626 /* PopupView.swift in Sources */,
 				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,
 				8E68BA2524CCCF95004730D7 /* SelectStationViewController.swift in Sources */,
-				76760DFF213875DE00E27CA6 /* NoticeTableViewCell.swift in Sources */,
 				8ECE0D7C211C3CFC00FF2B46 /* OilTypeTableViewCell.swift in Sources */,
 				765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */,
 				8E68BA1724CCC5F7004730D7 /* ViewModelBindableType.swift in Sources */,
