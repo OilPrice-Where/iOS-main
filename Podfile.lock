@@ -1,12 +1,4 @@
 PODS:
-<<<<<<< HEAD
-  - Action (3.11.0):
-    - RxCocoa (~> 4.0)
-    - RxSwift (~> 4.0)
-  - Alamofire (4.7.3)
-  - Differentiator (3.1.0)
-  - Firebase/Core (5.7.0):
-=======
   - Action (4.1.0):
     - RxCocoa (~> 5.0)
     - RxSwift (~> 5.0)
@@ -16,7 +8,6 @@ PODS:
   - Firebase/Analytics (6.28.1):
     - Firebase/Core
   - Firebase/Core (6.28.1):
->>>>>>> b889cc85f0ffe1c983bd12e4dfc3ff7958635395
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 6.6.2)
   - Firebase/CoreOnly (6.28.1):
@@ -83,46 +74,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.7.1):
     - GoogleUtilities/Logger
-<<<<<<< HEAD
-  - leveldb-library (1.20)
-  - nanopb (0.3.8):
-    - nanopb/decode (= 0.3.8)
-    - nanopb/encode (= 0.3.8)
-  - nanopb/decode (0.3.8)
-  - nanopb/encode (0.3.8)
-  - "NSObject+Rx (4.4.1)":
-    - RxSwift (~> 4.3)
-  - ReachabilitySwift (4.3.1)
-  - RxAlamofire (4.3.0):
-    - RxAlamofire/Core (= 4.3.0)
-  - RxAlamofire/Core (4.3.0):
-    - Alamofire (~> 4.5)
-    - RxSwift (~> 4)
-  - RxCocoa (4.5.0):
-    - RxSwift (>= 4.4.2, ~> 4.4)
-  - RxDataSources (3.1.0):
-    - Differentiator (~> 3.0)
-    - RxCocoa (~> 4.0)
-    - RxSwift (~> 4.0)
-  - RxGesture (2.2.0):
-    - RxCocoa (~> 4.5)
-    - RxSwift (~> 4.5)
-  - RxKeyboard (0.9.0):
-    - RxCocoa (>= 4.3.1)
-    - RxSwift (>= 4.3.1)
-  - RxReachability (0.1.8):
-    - ReachabilitySwift (~> 4.3.0)
-    - RxCocoa (~> 4)
-    - RxSwift (~> 4)
-  - RxSwift (4.5.0)
-  - RxSwiftExt (3.4.0):
-    - RxSwiftExt/Core (= 3.4.0)
-    - RxSwiftExt/RxCocoa (= 3.4.0)
-  - RxSwiftExt/Core (3.4.0):
-    - RxSwift (~> 4.0)
-  - RxSwiftExt/RxCocoa (3.4.0):
-    - RxCocoa (~> 4.0)
-=======
   - GTMSessionFetcher/Core (1.4.0)
   - leveldb-library (1.22)
   - nanopb (1.30905.0):
@@ -166,7 +117,6 @@ PODS:
     - RxSwift (~> 5.0)
   - RxSwiftExt/RxCocoa (5.2.0):
     - RxCocoa (~> 5.0)
->>>>>>> b889cc85f0ffe1c983bd12e4dfc3ff7958635395
     - RxSwiftExt/Core
   - SCLAlertView (0.8)
   - SwiftyPlistManager (1.0.2)
@@ -178,10 +128,7 @@ DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Core
   - Firebase/Database
-<<<<<<< HEAD
-=======
   - Firebase/Storage
->>>>>>> b889cc85f0ffe1c983bd12e4dfc3ff7958635395
   - "NSObject+Rx"
   - RxAlamofire
   - RxCocoa
@@ -195,12 +142,8 @@ DEPENDENCIES:
   - SwiftyPlistManager
 
 SPEC REPOS:
-<<<<<<< HEAD
-  https://github.com/CocoaPods/Specs.git:
-=======
   trunk:
     - Action
->>>>>>> b889cc85f0ffe1c983bd12e4dfc3ff7958635395
     - Alamofire
     - CenteredCollectionView
     - Differentiator
@@ -231,49 +174,8 @@ SPEC REPOS:
     - RxSwiftExt
     - SCLAlertView
     - SwiftyPlistManager
-  trunk:
-    - Action
-    - Differentiator
-    - "NSObject+Rx"
-    - ReachabilitySwift
-    - RxAlamofire
-    - RxCocoa
-    - RxDataSources
-    - RxGesture
-    - RxKeyboard
-    - RxReachability
-    - RxSwift
-    - RxSwiftExt
 
 SPEC CHECKSUMS:
-<<<<<<< HEAD
-  Action: 689181e4c3f6566844178d8a7da6fef39a9597fc
-  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
-  Differentiator: be49ca3408f0ecfc761e4c7763d20c62be01b9ad
-  Firebase: 734a4f92957aa6c40e7ae3fda3d9359e1890aa87
-  FirebaseAnalytics: 993577e91157feb40945abedd6ab346d8a4b6ac8
-  FirebaseCore: 3a97432acb324b439fbed338e642f9cbb516a63d
-  FirebaseDatabase: 27be5ac5bc75e0b17537b2bbfada8258addcc8cd
-  FirebaseInstanceID: ea5af6920d0a4a29b40459d055bebe4a6c1333c4
-  GoogleAppMeasurement: f7507b39b70ad0bd80b3d81518b2f43868974307
-  GoogleUtilities: 06b66f9567769a7958db20a92f0128b2843e49d5
-  leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
-  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
-  "NSObject+Rx": 9884a92f19b610795c431e10b4e601913b59c9e9
-  ReachabilitySwift: 4032e2f59586e11e3b0ebe15b167abdd587a388b
-  RxAlamofire: 09624d0f2d48ed8b686e4eb4cf68e28cbd2df556
-  RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
-  RxDataSources: a843bad90c29817f5923ec8163f4af2de084ceb3
-  RxGesture: c1b7bf17166b0ef9d642a9510f8bac5785f18990
-  RxKeyboard: 4f782303f499f41577b41c96c6a9a5d7acd51a47
-  RxReachability: 053f2d913db44998242ade488ccaef558f3ce7cb
-  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
-  RxSwiftExt: 01f8ecbeeb355698e9c75365ebe908b00dacf45d
-  SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
-  SwiftyPlistManager: 5895924cccb7fe28deccbe14890e8aed78ae78ae
-
-PODFILE CHECKSUM: 43d4a7f3a23a96e4f915dc8a2936508136f2b706
-=======
   Action: 79e6c5dc91e13eea045ab6744b3e5609086671aa
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
   CenteredCollectionView: a9217908a698c386cbb98af11b596da48900b908
@@ -307,6 +209,5 @@ PODFILE CHECKSUM: 43d4a7f3a23a96e4f915dc8a2936508136f2b706
   SwiftyPlistManager: 5895924cccb7fe28deccbe14890e8aed78ae78ae
 
 PODFILE CHECKSUM: ef300e80856d1ec5d209056e846a20f1a56b2c79
->>>>>>> b889cc85f0ffe1c983bd12e4dfc3ff7958635395
 
 COCOAPODS: 1.10.0.beta.1

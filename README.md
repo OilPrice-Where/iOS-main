@@ -1,8 +1,8 @@
 # 어디주유 Where Gas Stations
 <p align="left">
-<img src="https://img.shields.io/badge/swift-4.2-blue.svg" />
-<img src="https://img.shields.io/badge/xcode-10.1-green.svg" />
-<img src="https://img.shields.io/badge/ios-12.1-yellow.svg" />
+<img src="https://img.shields.io/badge/swift-5.0-blue.svg" />
+<img src="https://img.shields.io/badge/xcode-11.6-green.svg" />
+<img src="https://img.shields.io/badge/ios-12.0-yellow.svg" />
 <img src="https://img.shields.io/badge/licence-MIT-lightgrey.svg" /> 
 </p>
 <br>
@@ -62,10 +62,11 @@
 
 ## Version History
 
-- ver 1.0.0 : App Store Release(18.09.07)
-- ver 1.0.1 : Bug fixes Debug(18.09.09)
-- ver 1.1.0 : Add Function Release(19.01.04)
-- ver 1.2.0 : Bug fixes Dubug & Add Function Release()
+- ver 1.0.0 : App Store Release(18.09.07.)
+- ver 1.0.1 : Bug fixes Debug(18.09.09.)
+- ver 1.1.0 : Add Function Release(19.01.04.)
+- ver 1.2.0 : Bug fixes Dubug & Add Function Release(19.02.03.)
+- ver 1.3.0 : Bug fixes Dubug & Add Function Release(20.07.31.)
 
 <br>
 
@@ -78,6 +79,7 @@
 
 - Core Location
 - MapKit
+- RxSwift
 - App Delegate Life Cycle & When use App Delegate Function
 - Collaboration using Git(VCS)
 - Json Data Parsing(Codable)
