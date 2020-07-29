@@ -10,6 +10,7 @@
 build/
 DerivedData/
 TMapSDK/
+TMapSDK.framework
 
 ## Various settings
 *.pbxuser

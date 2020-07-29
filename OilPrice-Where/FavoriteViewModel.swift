@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
+import NSObject_Rx
 
 final class FavoriteViewModel {
    let bag = DisposeBag()
