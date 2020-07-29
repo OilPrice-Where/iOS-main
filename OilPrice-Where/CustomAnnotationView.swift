@@ -2,7 +2,7 @@
 //  CustomAnnotationView.swift
 //  OilPrice-Where
 //
-//  Created by 박상욱 on 2018. 8. 6..
+//  Created by 박상욱 on 2018. 8. 6.
 //  Copyright © 2018년 sangwook park. All rights reserved.
 //
 
