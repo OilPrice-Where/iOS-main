@@ -81,7 +81,7 @@ extension SettingTableViewController {
             self.navigationController?.pushViewController(vc, animated: true)
          }
       case (2, 0):
-         if let vc = storyboard.instantiateViewController(withIdentifier: AboutUsViewController.identifier) as? AboutUsViewController {
+         if let vc = storyboard.instantiateViewController(withIdentifier: SettingAboutUsViewController.identifier) as? SettingAboutUsViewController {
             self.navigationController?.pushViewController(vc, animated: true)
          }
       case (2, 1):

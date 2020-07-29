@@ -11,7 +11,6 @@
 		29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */; };
 		764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift */; };
 		765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
-		76714E132140E58E001A20D5 /* AboutUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76714E122140E58E001A20D5 /* AboutUsViewController.swift */; };
 		76760DFF213875DE00E27CA6 /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76760DFE213875DE00E27CA6 /* NoticeTableViewCell.swift */; };
 		8E167D3B2107AD480066A59E /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3A2107AD480066A59E /* Service.swift */; };
 		8E167D3D2107AEA30066A59E /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3C2107AEA30066A59E /* API.swift */; };
@@ -70,6 +69,9 @@
 		8EE53E8A24CF2448008D8045 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE53E8724CF23FC008D8045 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8EE53E8C24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */; };
 		8EE53E8F24CF3CEC008D8045 /* SelectNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E8E24CF3CEC008D8045 /* SelectNavigationController.swift */; };
+		8EE53E9324D016B4008D8045 /* SettingAboutUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E9224D016B4008D8045 /* SettingAboutUsViewController.swift */; };
+		8EE53E9524D01828008D8045 /* AboutUsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E9424D01828008D8045 /* AboutUsTableViewCell.swift */; };
+		8EE53E9924D177A4008D8045 /* AboutUsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E9824D177A4008D8045 /* AboutUsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -98,7 +100,6 @@
 		764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesGasStationViewController.swift; sourceTree = "<group>"; };
 		765830AC212699FD006DFE2E /* InformationGasStaion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationGasStaion.swift; sourceTree = "<group>"; };
 		7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		76714E122140E58E001A20D5 /* AboutUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsViewController.swift; sourceTree = "<group>"; };
 		76760DFE213875DE00E27CA6 /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
 		8E167D3A2107AD480066A59E /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		8E167D3C2107AEA30066A59E /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = API.swift; path = "OilPrice-Where/API.swift"; sourceTree = SOURCE_ROOT; };
@@ -188,6 +189,9 @@
 		8EE53E8724CF23FC008D8045 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMapSDK.framework; sourceTree = "<group>"; };
 		8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigaionTypeTableViewCell.swift; sourceTree = "<group>"; };
 		8EE53E8E24CF3CEC008D8045 /* SelectNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNavigationController.swift; sourceTree = "<group>"; };
+		8EE53E9224D016B4008D8045 /* SettingAboutUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAboutUsViewController.swift; sourceTree = "<group>"; };
+		8EE53E9424D01828008D8045 /* AboutUsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsTableViewCell.swift; sourceTree = "<group>"; };
+		8EE53E9824D177A4008D8045 /* AboutUsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsViewModel.swift; sourceTree = "<group>"; };
 		8EFE1BDC24CD11C2009907D7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -282,7 +286,7 @@
 				8E68BA1C24CCC863004730D7 /* SelectOilViewController.swift */,
 				8E68BA1E24CCCCE5004730D7 /* SelectDistanceViewController.swift */,
 				8E68BA2424CCCF95004730D7 /* SelectStationViewController.swift */,
-				76714E122140E58E001A20D5 /* AboutUsViewController.swift */,
+				8EE53E9224D016B4008D8045 /* SettingAboutUsViewController.swift */,
 			);
 			name = "Setting ViewController";
 			sourceTree = "<group>";
@@ -338,6 +342,7 @@
 				8E68BA2024CCCD07004730D7 /* SelectDistanceViewModel.swift */,
 				8E68BA2224CCCF32004730D7 /* SelectStationViewModel.swift */,
 				8E68BA2824CCD472004730D7 /* SelectNaviViewModel.swift */,
+				8EE53E9824D177A4008D8045 /* AboutUsViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -453,6 +458,7 @@
 				8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */,
 				8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */,
 				8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */,
+				8EE53E9424D01828008D8045 /* AboutUsTableViewCell.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -649,10 +655,12 @@
 				8E68BA1524CCC560004730D7 /* SelectOilTypeViewModel.swift in Sources */,
 				8E68BA1F24CCCCE5004730D7 /* SelectDistanceViewController.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
+				8EE53E9524D01828008D8045 /* AboutUsTableViewCell.swift in Sources */,
 				29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */,
 				8EE53E7924CF0D72008D8045 /* CustomTabbarViewController.swift in Sources */,
-				76714E132140E58E001A20D5 /* AboutUsViewController.swift in Sources */,
+				8EE53E9324D016B4008D8045 /* SettingAboutUsViewController.swift in Sources */,
 				29B226432121FDC60012B2F6 /* AverageCostData.swift in Sources */,
+				8EE53E9924D177A4008D8045 /* AboutUsViewModel.swift in Sources */,
 				8ED7F9E822045A9100AB6626 /* PopupView.swift in Sources */,
 				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,
 				8E68BA2524CCCF95004730D7 /* SelectStationViewController.swift in Sources */,
