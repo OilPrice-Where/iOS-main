@@ -173,8 +173,8 @@ extension MainListViewController: MKMapViewDelegate {
    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
       // 경로 선 옵션
       let renderer = MKPolylineRenderer(overlay: overlay)
-      renderer.strokeColor = UIColor(named: "MainColor")?.withAlphaComponent(0.8)
-      renderer.lineWidth = 5.0
+      renderer.strokeColor = UIColor(named: "DarkMain")?.withAlphaComponent(0.8)
+      renderer.lineWidth = 3.4
       
       return renderer
    }

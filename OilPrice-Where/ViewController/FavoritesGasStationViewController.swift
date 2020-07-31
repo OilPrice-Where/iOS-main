@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import TMapSDK
 import RxSwift
 import RxCocoa
 import NSObject_Rx
+import CoreLocation
 import CenteredCollectionView
 
 class FavoritesGasStationViewController: CommonViewController {
@@ -40,6 +42,11 @@ class FavoritesGasStationViewController: CommonViewController {
       centeredCollectionViewFlowLayout.minimumLineSpacing = 25
       centeredCollectionViewFlowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width - 75, height: 410)
       bindViewModel()
+      
+      NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
+                                             object: nil,
+                                             queue: .main) { self.naviClickEvenet(noti: $0) }
+      
    }
    
    func setNetworkSetting() {
@@ -75,6 +82,50 @@ class FavoritesGasStationViewController: CommonViewController {
                                              cell.initialSetting(id: id)
       }
       .disposed(by: rx.disposeBag)
+   }
+   
+   func naviClickEvenet(noti: Notification) {
+      guard let coordinator = noti.userInfo?["coordinator"] as? CLLocationCoordinate2D,
+         let stationName = noti.userInfo?["stationName"] as? String,
+         let navi = noti.userInfo?["naviType"] as? String else { return }
+      
+      switch navi {
+      case "tmap":
+         if TMapApi.isTmapApplicationInstalled() {
+            let _ = TMapApi.invokeRoute(stationName, coordinate: coordinator)
+         } else {
+            let alert = UIAlertController(title: "T Map이 없습니다.",
+                                          message: "다운로드 페이지로 이동하시겠습니까?",
+                                          preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK",
+                                         style: .default) { (_) in
+                                          guard let url = URL(string: TMapApi.getTMapDownUrl()) else {
+                                             return
+                                          }
+                                          
+                                          if UIApplication.shared.canOpenURL(url) {
+                                             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                          }
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            
+            present(alert, animated: true, completion: nil)
+         }
+      default:
+         let destination = KNVLocation(name: stationName,
+                                       x: NSNumber(value: katecX),
+                                       y: NSNumber(value: katecY))
+         let options = KNVOptions()
+         options.routeInfo = false
+         let params = KNVParams(destination: destination,
+                                options: options)
+         KNVNaviLauncher.shared().navigate(with: params) { (error) in
+            self.handleError(error: error)
+         }
+      }
    }
 }
 

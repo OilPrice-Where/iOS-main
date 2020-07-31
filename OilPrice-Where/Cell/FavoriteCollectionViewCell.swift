@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TMapSDK
 import RxSwift
 import RxCocoa
 
@@ -62,7 +63,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
       deleteFavoriteButton.imageView?.tintColor = .white
       
       navigationView.layer.cornerRadius = 6
-      navigationView.layer.borderColor = mainColor?.cgColor
+      navigationView.layer.borderColor = UIColor(named: "MainColor")?.cgColor
       navigationView.layer.borderWidth = 1.5
       tapGesture = UITapGestureRecognizer(target: self, action: #selector(navigationButton))
       
@@ -116,17 +117,16 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
    
    // 길 안내
    @objc func navigationButton(_ sender: UIButton) {
-      guard let katecX = self.katecX,
-         let katecY = self.katecY,
-         let name = gasStationNameLabel.text else { return }
-      let destination = KNVLocation(name: name,
-                                    x: NSNumber(value: katecX),
-                                    y: NSNumber(value: katecY))
-      let options = KNVOptions()
+      guard let katecX = katecX?.roundTo(places: 0),
+         let katecY = katecY?.roundTo(places: 0),
+         let stationName = gasStationNameLabel.text,
+         let navi = try? DefaultData.shared.naviSubject.value() else { return }
+      let coordinator = Converter.convertKatecToWGS(katec: KatecPoint(x: katecX, y: katecY))
       
-      let params = KNVParams(destination: destination,
-                             options: options)
-      KNVNaviLauncher.shared().navigate(with: params)
+      NotificationCenter.default.post(name: NSNotification.Name("navigationClickEvent"),
+                                      object: nil,
+                                      userInfo: ["coordinator": coordinator,
+                                                 "stationName": stationName,
+                                                 "naviType": navi])
    }
 }
-

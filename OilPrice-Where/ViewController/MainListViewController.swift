@@ -13,6 +13,7 @@ import RxCocoa
 import NSObject_Rx
 import TMapSDK
 
+
 class MainListViewController: CommonViewController, TMapTapiDelegate {
    //Network
    var reachability: Reachability? = Reachability()
@@ -127,8 +128,8 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
       // 가격순 버튼 설정
       self.priceSortButton = UIButton(frame: CGRect(x: 15, y: 0, width: 45, height: 30))
       self.priceSortButton.setTitle("가격순", for: .normal)
-      self.priceSortButton.setTitleColor(UIColor.darkGray, for: .normal)
-      self.priceSortButton.setTitleColor(UIColor(named: "MainColor"), for: .selected)
+      self.priceSortButton.setTitleColor(UIColor(named: "DefaultColor"), for: .normal)
+      self.priceSortButton.setTitleColor(UIColor(named: "DarkMain"), for: .selected)
       self.priceSortButton.addTarget(self, action: #selector(self.isTableViewSort(_:)), for: .touchUpInside)
       self.priceSortButton.tag = 1
       self.priceSortButton.isSelected = true
@@ -138,8 +139,8 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
       // 거리순 버튼 설정
       distanceSortButton = UIButton(frame: CGRect(x: 69, y: 0, width: 45, height: 30))
       self.distanceSortButton.setTitle("거리순", for: .normal)
-      self.distanceSortButton.setTitleColor(UIColor.darkGray, for: .normal)
-      self.distanceSortButton.setTitleColor(UIColor(named: "MainColor"), for: .selected)
+      self.distanceSortButton.setTitleColor(UIColor(named: "DefaultColor"), for: .normal)
+      self.distanceSortButton.setTitleColor(UIColor(named: "DarkMain"), for: .selected)
       self.distanceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
       self.distanceSortButton.addTarget(self, action: #selector(self.isTableViewSort(_:)), for: .touchUpInside)
       self.distanceSortButton.tag = 2
