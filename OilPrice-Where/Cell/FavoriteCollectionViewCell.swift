@@ -121,11 +121,11 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
          let katecY = katecY?.roundTo(places: 0),
          let stationName = gasStationNameLabel.text,
          let navi = try? DefaultData.shared.naviSubject.value() else { return }
-      let coordinator = Converter.convertKatecToWGS(katec: KatecPoint(x: katecX, y: katecY))
       
       NotificationCenter.default.post(name: NSNotification.Name("navigationClickEvent"),
                                       object: nil,
-                                      userInfo: ["coordinator": coordinator,
+                                      userInfo: ["katecX": katecX,
+                                                 "katecY": katecY,
                                                  "stationName": stationName,
                                                  "naviType": navi])
    }

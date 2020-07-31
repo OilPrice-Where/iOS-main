@@ -428,7 +428,7 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    }
    
    // 길안내 에러 발생
-   func handleError(error: Error?) -> Void {
+   func handleError(error: Error?) {
       if let error = error as NSError? {
          print(error)
          let alert = UIAlertController(title: self.title!,

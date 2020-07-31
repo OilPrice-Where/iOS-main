@@ -16,6 +16,7 @@ import CenteredCollectionView
 
 class FavoritesGasStationViewController: CommonViewController {
    var viewModel = FavoriteViewModel()
+   var notiObject: NSObjectProtocol?
    var reachability: Reachability? = Reachability() //Network
    @IBOutlet private weak var collectionView: UICollectionView!
    @IBOutlet private weak var noneFavoriteView: UIView!
@@ -28,6 +29,7 @@ class FavoritesGasStationViewController: CommonViewController {
    }
    
    deinit {
+      notiObject = nil
       reachability?.stopNotifier()
       reachability = nil
    }
@@ -43,9 +45,9 @@ class FavoritesGasStationViewController: CommonViewController {
       centeredCollectionViewFlowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width - 75, height: 410)
       bindViewModel()
       
-      NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
-                                             object: nil,
-                                             queue: .main) { self.naviClickEvenet(noti: $0) }
+      notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
+                                                          object: nil,
+                                                          queue: .main) { self.naviClickEvenet(noti: $0) }
       
    }
    
@@ -85,9 +87,12 @@ class FavoritesGasStationViewController: CommonViewController {
    }
    
    func naviClickEvenet(noti: Notification) {
-      guard let coordinator = noti.userInfo?["coordinator"] as? CLLocationCoordinate2D,
+      guard let katecX = noti.userInfo?["katecX"] as? Double,
+         let katecY = noti.userInfo?["katecY"] as? Double,
          let stationName = noti.userInfo?["stationName"] as? String,
          let navi = noti.userInfo?["naviType"] as? String else { return }
+      
+      let coordinator = Converter.convertKatecToWGS(katec: KatecPoint(x: katecX, y: katecY))
       
       switch navi {
       case "tmap":
@@ -125,6 +130,19 @@ class FavoritesGasStationViewController: CommonViewController {
          KNVNaviLauncher.shared().navigate(with: params) { (error) in
             self.handleError(error: error)
          }
+      }
+   }
+   
+   // 길안내 에러 발생
+   func handleError(error: Error?) {
+      if let error = error as NSError? {
+         print(error)
+         let alert = UIAlertController(title: self.title!,
+                                       message: error.localizedFailureReason,
+                                       preferredStyle: UIAlertControllerStyle.alert)
+         alert.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.cancel,
+                                       handler: nil))
+         self.present(alert, animated: true, completion: nil)
       }
    }
 }
