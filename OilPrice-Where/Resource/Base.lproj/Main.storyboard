@@ -1157,9 +1157,6 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="85.5" height="40"/>
                                                             <color key="backgroundColor" name="MainColor"/>
                                                             <state key="normal" image="favoriteOnIcon"/>
-                                                            <connections>
-                                                                <action selector="deleteAction:" destination="rGb-Iv-BIq" eventType="touchUpInside" id="8Qn-eg-bXt"/>
-                                                            </connections>
                                                         </button>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="btC-xP-CCw">
                                                             <rect key="frame" x="97.5" y="0.0" width="158.5" height="40"/>
@@ -1242,7 +1239,7 @@
                                             <outlet property="loadingView" destination="sQK-Kb-bvb" id="IVI-uD-hWz"/>
                                             <outlet property="logoImageView" destination="71z-6F-jGE" id="Kb3-o2-XoA"/>
                                             <outlet property="navigationView" destination="btC-xP-CCw" id="DRL-1Y-Ez2"/>
-                                            <outlet property="oilPlice" destination="XPe-Jc-3kc" id="V5u-Lf-XTi"/>
+                                            <outlet property="oilPriceLabel" destination="XPe-Jc-3kc" id="V5u-Lf-XTi"/>
                                             <outlet property="phoneNumberLabel" destination="P2b-P4-YZ1" id="kLv-Wk-uDy"/>
                                             <outlet property="qualityCertificationLabel" destination="qcQ-Mk-LS5" id="6tv-7h-5dv"/>
                                             <outlet property="repairShopImageView" destination="dWr-N6-SRt" id="qWW-dl-wQd"/>

@@ -80,18 +80,20 @@ class FavoritesGasStationViewController: CommonViewController {
          .bind(to: collectionView.rx.items(cellIdentifier: FavoriteCollectionViewCell.identifier,
                                            cellType: FavoriteCollectionViewCell.self)) { index, id, cell in
                                              cell.layer.cornerRadius = 35
-                                             
-                                             cell.initialSetting(id: id)
+                                             let viewModel = FavoriteCellViewModel(id: id)
+                                             cell.viewModel = viewModel
+                                             cell.bindViewModel()
       }
       .disposed(by: rx.disposeBag)
    }
    
    func naviClickEvenet(noti: Notification) {
-      guard let katecX = noti.userInfo?["katecX"] as? Double,
-         let katecY = noti.userInfo?["katecY"] as? Double,
-         let stationName = noti.userInfo?["stationName"] as? String,
-         let navi = noti.userInfo?["naviType"] as? String else { return }
-      
+      guard let userInfo = noti.userInfo,
+         let katecX = userInfo["katecX"] as? Double,
+         let katecY = userInfo["katecY"] as? Double,
+         let stationName = userInfo["stationName"] as? String,
+         let navi = userInfo["naviType"] as? String else { return }
+      print(katecX, katecY)
       let coordinator = Converter.convertKatecToWGS(katec: KatecPoint(x: katecX, y: katecY))
       
       switch navi {

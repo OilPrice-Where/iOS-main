@@ -88,8 +88,9 @@ final class Preferences {
    
    // 받아오는 Logo Code값을 Image로 변환해주는 함수
    // ex) SKE -> UIImage(named: "LogoSKEnergy") // SK 로고이미지
-   static func logoImage(logoName name: String) -> UIImage? {
-      switch name {
+   static func logoImage(logoName name: String?) -> UIImage? {
+      guard let logoName = name else { return nil }
+      switch logoName {
       case "SKE":
          return UIImage(named: "LogoSKEnergy")
       case "GSC":

@@ -49,6 +49,7 @@
 		8ED7F9E822045A9100AB6626 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED7F9E722045A9100AB6626 /* PopupView.swift */; };
 		8EDAF7D821295AEF00422552 /* InitialSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */; };
 		8EDAF7DA212D7EF300422552 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D9212D7EF300422552 /* DetailView.swift */; };
+		8EDE51B424D5C32C004590B6 /* FavoriteCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE51B324D5C32C004590B6 /* FavoriteCellViewModel.swift */; };
 		8EE0A2FB21DDF49E00C159D0 /* BrandTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */; };
 		8EE53E6A24CEA0EF008D8045 /* UserInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8ECE0D75211C31F900FF2B46 /* UserInfo.plist */; };
 		8EE53E6B24CEA0F2008D8045 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8EFE1BDC24CD11C2009907D7 /* GoogleService-Info.plist */; };
@@ -178,6 +179,7 @@
 		8ED7F9E722045A9100AB6626 /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
 		8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSettingViewController.swift; sourceTree = "<group>"; };
 		8EDAF7D9212D7EF300422552 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		8EDE51B324D5C32C004590B6 /* FavoriteCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCellViewModel.swift; sourceTree = "<group>"; };
 		8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandTypeTableViewCell.swift; sourceTree = "<group>"; };
 		8EE53E7324CEB7A3008D8045 /* FavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModel.swift; sourceTree = "<group>"; };
 		8EE53E7624CF06B2008D8045 /* MainListVC+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListVC+TableView.swift"; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 				8E68BA2224CCCF32004730D7 /* SelectStationViewModel.swift */,
 				8E68BA2824CCD472004730D7 /* SelectNaviViewModel.swift */,
 				8EE53E9824D177A4008D8045 /* AboutUsViewModel.swift */,
+				8EDE51B524D5C32E004590B6 /* Cell */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -436,6 +439,14 @@
 				8EDAF7D9212D7EF300422552 /* DetailView.swift */,
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		8EDE51B524D5C32E004590B6 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8EDE51B324D5C32C004590B6 /* FavoriteCellViewModel.swift */,
+			);
+			name = Cell;
 			sourceTree = "<group>";
 		};
 		8EE53E7524CF0699008D8045 /* MainListVC */ = {
@@ -657,6 +668,7 @@
 				8EE53E9524D01828008D8045 /* AboutUsTableViewCell.swift in Sources */,
 				29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */,
 				8EE53E7924CF0D72008D8045 /* CustomTabbarViewController.swift in Sources */,
+				8EDE51B424D5C32C004590B6 /* FavoriteCellViewModel.swift in Sources */,
 				8EE53E9324D016B4008D8045 /* SettingAboutUsViewController.swift in Sources */,
 				29B226432121FDC60012B2F6 /* AverageCostData.swift in Sources */,
 				8EE53E9924D177A4008D8045 /* AboutUsViewModel.swift in Sources */,
