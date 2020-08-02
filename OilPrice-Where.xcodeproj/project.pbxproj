@@ -311,6 +311,26 @@
 			path = AppDelegate;
 			sourceTree = "<group>";
 		};
+		8E24F50824D5E85D00B1B5A3 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				8E68BA1424CCC560004730D7 /* SelectOilTypeViewModel.swift */,
+				8E68BA2024CCCD07004730D7 /* SelectDistanceViewModel.swift */,
+				8E68BA2224CCCF32004730D7 /* SelectStationViewModel.swift */,
+				8E68BA2824CCD472004730D7 /* SelectNaviViewModel.swift */,
+				8EE53E9824D177A4008D8045 /* AboutUsViewModel.swift */,
+			);
+			name = Setting;
+			sourceTree = "<group>";
+		};
+		8E24F50924D5E88D00B1B5A3 /* Favorite */ = {
+			isa = PBXGroup;
+			children = (
+				764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift */,
+			);
+			name = Favorite;
+			sourceTree = "<group>";
+		};
 		8E4DAF0920F5EC2400E4FD92 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -338,13 +358,8 @@
 			children = (
 				8E68BA1624CCC5F7004730D7 /* ViewModelBindableType.swift */,
 				8E68BA1824CCC61A004730D7 /* CommonViewModel.swift */,
-				8EE53E7324CEB7A3008D8045 /* FavoriteViewModel.swift */,
-				8E68BA1424CCC560004730D7 /* SelectOilTypeViewModel.swift */,
-				8E68BA2024CCCD07004730D7 /* SelectDistanceViewModel.swift */,
-				8E68BA2224CCCF32004730D7 /* SelectStationViewModel.swift */,
-				8E68BA2824CCD472004730D7 /* SelectNaviViewModel.swift */,
-				8EE53E9824D177A4008D8045 /* AboutUsViewModel.swift */,
-				8EDE51B524D5C32E004590B6 /* Cell */,
+				8EDE51B524D5C32E004590B6 /* Favorite */,
+				8E24F50824D5E85D00B1B5A3 /* Setting */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -413,7 +428,7 @@
 				8E68BA1A24CCC645004730D7 /* CommonViewController.swift */,
 				8EDAF7D721295AEF00422552 /* InitialSettingViewController.swift */,
 				8EE53E7524CF0699008D8045 /* MainListVC */,
-				764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift */,
+				8E24F50924D5E88D00B1B5A3 /* Favorite */,
 				7658AB0A2112C28100723CF0 /* Setting ViewController */,
 			);
 			path = ViewController;
@@ -441,12 +456,13 @@
 			name = View;
 			sourceTree = "<group>";
 		};
-		8EDE51B524D5C32E004590B6 /* Cell */ = {
+		8EDE51B524D5C32E004590B6 /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
+				8EE53E7324CEB7A3008D8045 /* FavoriteViewModel.swift */,
 				8EDE51B324D5C32C004590B6 /* FavoriteCellViewModel.swift */,
 			);
-			name = Cell;
+			name = Favorite;
 			sourceTree = "<group>";
 		};
 		8EE53E7524CF0699008D8045 /* MainListVC */ = {
