@@ -36,8 +36,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          return UIStoryboard(name: "Main",
                              bundle: nil).instantiateViewController(withIdentifier: "TabBarController")
       } else {
-         return UIStoryboard(name: "Main",
-                             bundle: nil).instantiateViewController(withIdentifier: "InitialSettingViewController")
+         guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "InitialSettingViewController") as? InitialSettingViewController else { fatalError("Not Match VC") }
+         vc.viewModel = InitialViewModel()
+         
+         return vc
       }
    }
    

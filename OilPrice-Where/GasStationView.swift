@@ -15,7 +15,6 @@ import SCLAlertView
 // 메인페이지의 리스트의 셀 내부(ContentView)에 표시되는 뷰
 // 스택뷰는 기본적으로 숨겨져 있으며 클릭시 스택뷰가 나타난다.
 class GasStationView: UIView {
-   
    // 기본 설정 관련
    @IBOutlet private weak var name : UILabel! // 주유소 명
    @IBOutlet private weak var price : UILabel! // 기름 가격

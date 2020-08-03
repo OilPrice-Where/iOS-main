@@ -15,7 +15,6 @@ import CoreLocation
 import CenteredCollectionView
 
 class FavoritesGasStationViewController: CommonViewController {
-   var viewModel = FavoriteViewModel()
    var notiObject: NSObjectProtocol?
    var reachability: Reachability? = Reachability() //Network
    @IBOutlet private weak var collectionView: UICollectionView!

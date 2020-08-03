@@ -13,7 +13,6 @@ import NSObject_Rx
 import SCLAlertView
 
 class DetailView: UIView {
-   
    var id: String! // Station ID
    @IBOutlet weak var logoType : UIImageView! // Logo
    @IBOutlet weak var stationName : UILabel! // 주유소 명

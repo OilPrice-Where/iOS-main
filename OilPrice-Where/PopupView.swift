@@ -12,7 +12,6 @@ import RxCocoa
 import NSObject_Rx
 
 class PopupView: UIView {
-   
    @IBOutlet private weak var minPriceLabel : UILabel!
    @IBOutlet private weak var avePriceLabel : UILabel!
    @IBOutlet private weak var radiusLabel : UILabel!
