@@ -167,7 +167,7 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
       
       reachability?.whenUnreachable = { _ in // 네트워크 연결 시 로케이션 서비스 시작
          Preferences.notConnect()
-         DefaultData.shared.data = nil
+         DefaultData.shared.stationsSubject.onNext([])
          self.reset()
          self.sortData = []
          self.isDisplayNoneView()
@@ -261,13 +261,16 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
                                     switch result {
                                     case .success(let gasStationData):
                                        print("DataLoad")
-                                       if brand == "ALL" {
-                                          DefaultData.shared.data = gasStationData.result.gasStations
-                                       } else {
-                                          DefaultData.shared.data = gasStationData.result.gasStations
-                                             .filter { $0.brand == brand ?? "" }
+                                       
+                                       var target = gasStationData.result.gasStations
+                                       
+                                       if brand != "ALL" {
+                                          target = target.filter { $0.brand == brand ?? "" }
                                        }
-                                       self.sortData = DefaultData.shared.data!.sorted(by: {$0.distance < $1.distance})
+                                       
+                                       DefaultData.shared.stationsSubject.onNext(target)
+                                       
+                                       self.sortData = target.sorted(by: {$0.distance < $1.distance})
                                        self.popupView.configure()
                                        self.showMarker()
                                        self.refreshControl.endRefreshing()
@@ -280,11 +283,10 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    }
    
    func isDisplayNoneView() {
-      if DefaultData.shared.data == nil || DefaultData.shared.data?.count == 0 {
-         self.noneView.isHidden = false
-      } else {
-         self.noneView.isHidden = true
-      }
+      DefaultData.shared.stationsSubject
+         .map { !$0.isEmpty }
+         .bind(to: noneView.rx.isHidden)
+         .disposed(by: rx.disposeBag)
    }
    
    //Mark: Display 관련 설정

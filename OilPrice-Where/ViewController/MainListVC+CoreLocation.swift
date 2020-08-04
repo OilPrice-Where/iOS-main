@@ -5,10 +5,8 @@
 //  Created by 박상욱 on 2020/07/27.
 //  Copyright © 2020 sangwook park. All rights reserved.
 //
-
 import Foundation
 import CoreLocation
-
 
 // CoreLocation 관련 함수
 extension MainListViewController {
@@ -17,13 +15,14 @@ extension MainListViewController {
       locationManager.delegate = self
       appleMapView.delegate = self
       
-      let status = CLLocationManager.authorizationStatus() // 현재 인증상태 확인
-      if status == .notDetermined { // notDetermined일 시 AlwaysAuthorization 요청
+      // 현재 인증상태 확인
+      switch CLLocationManager.authorizationStatus() {
+      case .notDetermined: // notDetermined일 시 AlwaysAuthorization 요청
          locationManager.requestWhenInUseAuthorization()
          startLocationUpdates(locationManager: locationManager)
-      } else if status == .authorizedAlways || status == .authorizedWhenInUse { // 인증시 위치 정보 받아오기 시작
+      case .authorizedWhenInUse, .authorizedAlways: // 인증시 위치 정보 받아오기 시작
          startLocationUpdates(locationManager: locationManager)
-      } else if status == .restricted || status == .denied {
+      case .restricted, .denied:
          let alert = UIAlertController(title: "위치정보를 불러올 수 없습니다.",
                                        message: "위치정보를 사용해 주변 주유소의 정보를 불러오기 때문에 위치정보 사용이 꼭 필요합니다. 설정으로 이동하여 위치 정보 접근을 허용해 주세요.",
                                        preferredStyle: .alert)
@@ -32,10 +31,11 @@ extension MainListViewController {
                                           handler: nil)
          
          let openAction = UIAlertAction(title: "설정으로 이동",
-                                        style: .default) { (action) in
+                                        style: .default) { _ in
                                           if let url = URL(string: UIApplicationOpenSettingsURLString) {
                                              UIApplication.shared.open(url,
-                                                                       options: [String : Any](), completionHandler: nil)
+                                                                       options: [:],
+                                                                       completionHandler: nil)
                                           }
          }
          

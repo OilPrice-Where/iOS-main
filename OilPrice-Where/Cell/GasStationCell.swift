@@ -10,7 +10,6 @@ import UIKit
 // 메인페이지의 리스트 부분에서 받아오는 주유소 목록을 나타내는 셀
 // Cell의 ContentView내부에 stationView를 보여준다.
 class GasStationCell: UITableViewCell {
-   
    @IBOutlet weak var stationView : GasStationView!
    let path = UIBezierPath()
    var tapGesture = UITapGestureRecognizer()
