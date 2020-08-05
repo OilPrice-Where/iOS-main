@@ -20,7 +20,7 @@ extension MainListViewController {
       
       let stations = distanceSortButton.isSelected ? sortData : target
       
-      let annotations: [CustomMarkerAnnotation] = stations.map {
+      annotations = stations.map {
          let katec = KatecPoint(x: $0.katecX, y: $0.katecY)
          let coordinate = Converter.convertKatecToWGS(katec: katec)
          

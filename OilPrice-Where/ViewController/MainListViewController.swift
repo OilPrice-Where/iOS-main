@@ -385,10 +385,11 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    @objc func navigateStart(_ sender: UITapGestureRecognizer) {
       guard let katecX = lastKactecX?.roundTo(places: 0),
          let katecY = lastKactecY?.roundTo(places: 0),
-         let navi = try? DefaultData.shared.naviSubject.value() else { return }
+         let navi = try? DefaultData.shared.naviSubject.value(),
+         let type = NaviType(rawValue: navi) else { return }
       
-      switch navi {
-      case "tmap":
+      switch type {
+      case .tMap:
          let coordinator = Converter.convertKatecToWGS(katec: KatecPoint(x: katecX, y: katecY))
          print("TAP", TMapApi.isTmapApplicationInstalled())
          
@@ -415,7 +416,7 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
             
             present(alert, animated: true, completion: nil)
          }
-      default:
+      case .kakao:
          let destination = KNVLocation(name: detailView.stationName.text!,
                                        x: NSNumber(value: katecX),
                                        y: NSNumber(value: katecY))

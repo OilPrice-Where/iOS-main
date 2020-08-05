@@ -91,12 +91,12 @@ class FavoritesGasStationViewController: CommonViewController {
          let katecX = userInfo["katecX"] as? Double,
          let katecY = userInfo["katecY"] as? Double,
          let stationName = userInfo["stationName"] as? String,
-         let navi = userInfo["naviType"] as? String else { return }
-      print(katecX, katecY)
+         let navi = userInfo["naviType"] as? String,
+         let type = NaviType(rawValue: navi) else { return }
       let coordinator = Converter.convertKatecToWGS(katec: KatecPoint(x: katecX, y: katecY))
       
-      switch navi {
-      case "tmap":
+      switch type {
+      case .tMap:
          if TMapApi.isTmapApplicationInstalled() {
             let _ = TMapApi.invokeRoute(stationName, coordinate: coordinator)
          } else {
@@ -120,7 +120,7 @@ class FavoritesGasStationViewController: CommonViewController {
             
             present(alert, animated: true, completion: nil)
          }
-      default:
+      case .kakao:
          let destination = KNVLocation(name: stationName,
                                        x: NSNumber(value: katecX),
                                        y: NSNumber(value: katecY))

@@ -11,6 +11,37 @@ import RxSwift
 import NSObject_Rx
 import RxCocoa
 
+enum SelectCellType {
+   case selectNaviVC
+   case selectOilVC
+   case selectDistanceVC
+   case selectStationVC
+   case settingAboutUsVC
+   case review
+   case none
+}
+
+extension SelectCellType {
+   static func indexPath(at indexPath: IndexPath) -> SelectCellType {
+      switch (indexPath.section, indexPath.row) {
+      case (0, 0):
+         return .selectNaviVC
+      case (1, 0):
+         return .selectOilVC
+      case (1, 1):
+         return .selectDistanceVC
+      case (1, 2):
+         return .selectStationVC
+      case (2, 0):
+         return .settingAboutUsVC
+      case (2, 1):
+         return review
+      default:
+         return .none
+      }
+   }
+}
+
 // 주유소 탐색 설정 페이지
 // 사용자 유종과 탐색 반경을 변경하면 메인페이지에 업데이트 되어 적용 된다.
 // 설정 저장 방식은 피리스트('UserInfo'에 저장)
@@ -58,39 +89,38 @@ class SettingTableViewController: UITableViewController {
 
 extension SettingTableViewController {
    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      let selectIndex = (indexPath.section, indexPath.row)
       let storyboard = UIStoryboard(name: "Main", bundle: nil)
       
-      switch selectIndex {
-      case (0, 0):
+      switch SelectCellType.indexPath(at: indexPath) {
+      case .selectNaviVC:
          if var vc = storyboard.instantiateViewController(withIdentifier: SelectNavigationController.identifier) as? SelectNavigationController {
             let viewModel = SelectNaviViewModel()
             vc.bind(viewModel: viewModel)
             self.navigationController?.pushViewController(vc, animated: true)
          }
-      case (1, 0):
+      case .selectOilVC:
          if var vc = storyboard.instantiateViewController(withIdentifier: SelectOilViewController.identifier) as? SelectOilViewController {
             let viewModel = SelectOilTypeViewModel()
             vc.bind(viewModel: viewModel)
             self.navigationController?.pushViewController(vc, animated: true)
          }
-      case (1, 1):
+      case .selectDistanceVC:
          if var vc = storyboard.instantiateViewController(withIdentifier: SelectDistanceViewController.identifier) as? SelectDistanceViewController {
             let viewModel = SelectDistanceViewModel()
             vc.bind(viewModel: viewModel)
             self.navigationController?.pushViewController(vc, animated: true)
          }
-      case (1, 2):
+      case .selectStationVC:
          if var vc = storyboard.instantiateViewController(withIdentifier: SelectStationViewController.identifier) as? SelectStationViewController {
             let viewModel = SelectStationViewModel()
             vc.bind(viewModel: viewModel)
             self.navigationController?.pushViewController(vc, animated: true)
          }
-      case (2, 0):
+      case .settingAboutUsVC:
          if let vc = storyboard.instantiateViewController(withIdentifier: SettingAboutUsViewController.identifier) as? SettingAboutUsViewController {
             self.navigationController?.pushViewController(vc, animated: true)
          }
-      case (2, 1):
+      case .review:
          let id = "1435350344"
          if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) {
             // 유효한 URL인지 검사
@@ -100,7 +130,7 @@ extension SettingTableViewController {
                UIApplication.shared.openURL(reviewURL)
             }
          }
-      default:
+      case .none:
          break
       }
    }

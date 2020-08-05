@@ -86,6 +86,5 @@ class InitialSettingViewController: CommonViewController {
             self.viewModel.okAction(page: $0)
          })
          .disposed(by: rx.disposeBag)
-      
    }
 }
