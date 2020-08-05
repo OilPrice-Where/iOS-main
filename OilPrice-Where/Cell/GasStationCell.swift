@@ -17,10 +17,10 @@ class GasStationCell: UITableViewCell {
    // 셀이 재사용 될 때 stationView의 stackView 히든
    override func prepareForReuse() {
       super.prepareForReuse()
-      self.stationView.stackView.isHidden = true
-      self.stationView.favoriteButton.isSelected = false
-      self.stationView.favoriteButton.backgroundColor = UIColor.white
-      self.stationView.favoriteButton.tintColor = UIColor(named: "MainColor")
+      stationView.stackView.isHidden = true
+      stationView.favoriteButton.isSelected = false
+      stationView.favoriteButton.backgroundColor = UIColor.white
+      stationView.favoriteButton.tintColor = UIColor(named: "MainColor")
       
    }
    

@@ -138,12 +138,12 @@ class FavoritesGasStationViewController: CommonViewController {
    func handleError(error: Error?) {
       if let error = error as NSError? {
          print(error)
-         let alert = UIAlertController(title: self.title!,
+         let alert = UIAlertController(title: title!,
                                        message: error.localizedFailureReason,
                                        preferredStyle: UIAlertControllerStyle.alert)
          alert.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.cancel,
                                        handler: nil))
-         self.present(alert, animated: true, completion: nil)
+         present(alert, animated: true, completion: nil)
       }
    }
 }

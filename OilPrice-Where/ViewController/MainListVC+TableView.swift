@@ -26,7 +26,7 @@ extension MainListViewController: UITableViewDataSource {
       let stations = distanceSortButton.isSelected ? sortData : targetArr
       
       cell.stationView.stackView.isHidden = selectIndexPath?.section != indexPath.section
-      cell.addGestureRecognize(self, action: #selector(self.viewMapAction(annotionIndex:)))
+      cell.addGestureRecognize(self, action: #selector(viewMapAction(annotionIndex:)))
       cell.configure(with: stations[indexPath.section])
       
       return cell
@@ -36,11 +36,11 @@ extension MainListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension MainListViewController: UITableViewDelegate {
    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      guard let selectPath = self.selectIndexPath else {
+      guard let selectPath = selectIndexPath else {
          let cell = tableView.cellForRow(at: indexPath) as! GasStationCell
          cell.stationView.stackView.isHidden = false
          cell.selectionStyle = .none
-         self.selectIndexPath = indexPath
+         selectIndexPath = indexPath
          
          tableView.reloadData()
          return
@@ -53,7 +53,7 @@ extension MainListViewController: UITableViewDelegate {
          if let oldCell = tableView.cellForRow(at: selectPath) as? GasStationCell {
             oldCell.stationView.stackView.isHidden = true
          }
-         self.selectIndexPath = indexPath
+         selectIndexPath = indexPath
       } else {
          if let cell = tableView.cellForRow(at: indexPath) as? GasStationCell {
             if cell.stationView.stackView.isHidden {
@@ -70,7 +70,7 @@ extension MainListViewController: UITableViewDelegate {
    
    // cell의 높이 설정
    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-      guard let selectSection = self.selectIndexPath?.section else { return 110 }
+      guard let selectSection = selectIndexPath?.section else { return 110 }
       // 선택된 셀의 높이와 비선택 셀의 높이 설정
       return indexPath.section == selectSection ? 164 : 110
    }

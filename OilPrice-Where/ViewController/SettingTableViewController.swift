@@ -96,29 +96,29 @@ extension SettingTableViewController {
          if var vc = storyboard.instantiateViewController(withIdentifier: SelectNavigationController.identifier) as? SelectNavigationController {
             let viewModel = SelectNaviViewModel()
             vc.bind(viewModel: viewModel)
-            self.navigationController?.pushViewController(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
          }
       case .selectOilVC:
          if var vc = storyboard.instantiateViewController(withIdentifier: SelectOilViewController.identifier) as? SelectOilViewController {
             let viewModel = SelectOilTypeViewModel()
             vc.bind(viewModel: viewModel)
-            self.navigationController?.pushViewController(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
          }
       case .selectDistanceVC:
          if var vc = storyboard.instantiateViewController(withIdentifier: SelectDistanceViewController.identifier) as? SelectDistanceViewController {
             let viewModel = SelectDistanceViewModel()
             vc.bind(viewModel: viewModel)
-            self.navigationController?.pushViewController(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
          }
       case .selectStationVC:
          if var vc = storyboard.instantiateViewController(withIdentifier: SelectStationViewController.identifier) as? SelectStationViewController {
             let viewModel = SelectStationViewModel()
             vc.bind(viewModel: viewModel)
-            self.navigationController?.pushViewController(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
          }
       case .settingAboutUsVC:
          if let vc = storyboard.instantiateViewController(withIdentifier: SettingAboutUsViewController.identifier) as? SettingAboutUsViewController {
-            self.navigationController?.pushViewController(vc, animated: true)
+            navigationController?.pushViewController(vc, animated: true)
          }
       case .review:
          let id = "1435350344"

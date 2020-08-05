@@ -101,8 +101,6 @@ enum API: APIProtocol {
    
    // 기본 URL 주소와 Endpoint를 합쳐주는 변수
    var urlString: String {
-      get {
-         return baseURL + self.endpointString
-      }
+      return baseURL + self.endpointString
    }
 }

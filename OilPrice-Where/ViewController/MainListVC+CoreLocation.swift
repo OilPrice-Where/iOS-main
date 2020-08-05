@@ -42,7 +42,7 @@ extension MainListViewController {
          alert.addAction(cancelAction)
          alert.addAction(openAction)
          
-         self.present(alert, animated: true, completion: nil)
+         present(alert, animated: true, completion: nil)
       }
    }
    
@@ -126,7 +126,7 @@ extension MainListViewController: CLLocationManagerDelegate {
             let distance: CLLocationDistance = newLocation!.distance(from: lastLocation)
             if distance < 50.0 {
                stopLocationManager()
-               self.tableView.reloadData()
+               tableView.reloadData()
             } else {
                reset()
                gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))

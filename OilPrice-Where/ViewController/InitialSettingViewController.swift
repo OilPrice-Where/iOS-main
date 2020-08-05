@@ -82,9 +82,7 @@ class InitialSettingViewController: CommonViewController {
          .map { self.collectionView.contentOffset.x / self.collectionView.bounds.width }
          .map { Int($0) }
          .map { (SelectInitialPage(rawValue: $0) ?? SelectInitialPage.gasoline) }
-         .subscribe(onNext: {
-            self.viewModel.okAction(page: $0)
-         })
+         .subscribe(onNext: { self.viewModel.okAction(page: $0) })
          .disposed(by: rx.disposeBag)
    }
 }

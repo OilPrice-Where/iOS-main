@@ -43,11 +43,11 @@ extension MainListViewController {
    
    // 지도 보기
    @objc func viewMapAction(annotionIndex gesture: UITapGestureRecognizer) {
-      guard let index = self.selectIndexPath?.section else { return }
+      guard let index = selectIndexPath?.section else { return }
       
-      self.toList(self.toListButton)
+      toList(self.toListButton)
       
-      appleMapView.selectAnnotation(self.annotations[index], animated: true)
+      appleMapView.selectAnnotation(annotations[index], animated: true)
    }
 }
 
@@ -101,24 +101,24 @@ extension MainListViewController: MKMapViewDelegate {
       guard let stationInfo = markerView.stationInfo else { return } // 주유소 Data 확인
       
       // 선택된 주유소의 Katec 좌표 전달
-      self.lastKactecX = stationInfo.katecX
-      self.lastKactecY = stationInfo.katecY
+      lastKactecX = stationInfo.katecX
+      lastKactecY = stationInfo.katecY
       
       // 디테일 뷰 설정
       detailView.configure(stationInfo)
-      detailView.detailViewTapGestureRecognizer(target: self, action: #selector(self.navigateStart(_:)))
+      detailView.detailViewTapGestureRecognizer(target: self, action: #selector(navigateStart(_:)))
       markerView.mapMarkerImageView.image = UIImage(named: "SelectMapMarker")
       markerView.priceLabel.textColor = UIColor.white
       
       // 마커 선택 시 디테일 뷰 애니메이션
-      self.detailView.detailViewBottomConstraint.constant = 10
+      detailView.detailViewBottomConstraint.constant = 10
       UIView.animate(withDuration: 0.3) {
          self.view.layoutIfNeeded()
       }
       
-      self.currentPlacemark = MKPlacemark(coordinate: markerView.coordinate!)
+      currentPlacemark = MKPlacemark(coordinate: markerView.coordinate!)
       
-      if let currentPlacemark = self.currentPlacemark {
+      if let currentPlacemark = currentPlacemark {
          let directionRequest = MKDirectionsRequest()
          let destinationPlacemark = MKPlacemark(placemark: currentPlacemark)
          

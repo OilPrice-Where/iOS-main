@@ -30,20 +30,20 @@ class DetailView: UIView {
    func configure(_ info: GasStation) {
       let kmDistance = info.distance / 1000 // M -> KM (단위 계산)
       
-      self.id = info.id // 주유소 ID 설정
-      self.logoType.image = Preferences.logoImage(logoName: info.brand) // 로고이미지 설정
+      id = info.id // 주유소 ID 설정
+      logoType.image = Preferences.logoImage(logoName: info.brand) // 로고이미지 설정
       
       // 주유소명 설정
-      self.stationName.text = info.name
-      self.stationName.font = UIFont(name: "NanumSquareRoundB", size: 20)
+      stationName.text = info.name
+      stationName.font = UIFont(name: "NanumSquareRoundB", size: 20)
       
       // 거리 설정
-      self.distance.text = String(kmDistance.roundTo(places: 2)) + "km"
-      self.distance.font = UIFont(name: "NanumSquareRoundB", size: 10)
+      distance.text = String(kmDistance.roundTo(places: 2)) + "km"
+      distance.font = UIFont(name: "NanumSquareRoundB", size: 10)
       
       // 오일 가격 설정
-      self.oilPrice.text = Preferences.priceToWon(price: info.price)
-      self.oilPrice.font = UIFont(name: "NanumSquareRoundEB", size: 33)
+      oilPrice.text = Preferences.priceToWon(price: info.price)
+      oilPrice.font = UIFont(name: "NanumSquareRoundEB", size: 33)
       
       // 오일 타입 설정
       DefaultData.shared.oilSubject
@@ -51,10 +51,10 @@ class DetailView: UIView {
          .bind(to: oilType.rx.text)
          .disposed(by: rx.disposeBag)
       
-      self.oilType.font = UIFont(name: "NanumSquareRoundB", size: 14)
+      oilType.font = UIFont(name: "NanumSquareRoundB", size: 14)
       
       // Detail View & Navigation Start Button View 외곽선 설정
-      self.layer.cornerRadius = 6
+      layer.cornerRadius = 6
       navigationStartButtonView.layer.cornerRadius = 6
       navigationStartButtonView.layer.borderColor = UIColor(named: "MainColor")?.cgColor
       navigationStartButtonView.layer.borderWidth = 1.5
@@ -65,7 +65,7 @@ class DetailView: UIView {
       favoriteButton.layer.borderColor = UIColor(named: "MainColor")!.cgColor
       
       // Favorite Button Event
-      favoriteButton.addTarget(self, action: #selector(self.clickedEvent(_:)), for: .touchUpInside)
+      favoriteButton.addTarget(self, action: #selector(clickedEvent(_:)), for: .touchUpInside)
       favoriteButton.isSelected = false
       
       // 즐겨찾기 목록의 StationID 값과 StationView의 StationID 값이 동일 하면 선택 상태로 변경
@@ -88,7 +88,7 @@ class DetailView: UIView {
    
    // Favorite Button Clicked Event
    @objc func clickedEvent(_ sender: UIButton) {
-      guard var favArr = try? DefaultData.shared.favoriteSubject.value(), favArr.count < 5, let id = self.id else {
+      guard var favArr = try? DefaultData.shared.favoriteSubject.value(), favArr.count < 5, let id = id else {
          if let favArr = try? DefaultData.shared.favoriteSubject.value(), let id = self.id, favArr.contains(id) {
             let newFavArr = favArr.filter { $0 != id }
             DefaultData.shared.favoriteSubject.onNext(newFavArr)

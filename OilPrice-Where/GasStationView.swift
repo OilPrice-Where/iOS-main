@@ -32,11 +32,11 @@ class GasStationView: UIView {
    func configure(with gasStation: GasStation) {
       let distanceKM = gasStation.distance / 1000 // m -> km 거리 계산
       
-      self.id = gasStation.id // 주유소 ID 값 설정
-      self.name.text = gasStation.name // 주유소 명 설정
-      self.distance.text = String(distanceKM.roundTo(places: 2)) + "km" // 거리 설정
-      self.logo.image = Preferences.logoImage(logoName: gasStation.brand) // 로고 이미지 삽입
-      self.price.text = Preferences.priceToWon(price: gasStation.price) // 기름 가격 설정
+      id = gasStation.id // 주유소 ID 값 설정
+      name.text = gasStation.name // 주유소 명 설정
+      distance.text = String(distanceKM.roundTo(places: 2)) + "km" // 거리 설정
+      logo.image = Preferences.logoImage(logoName: gasStation.brand) // 로고 이미지 삽입
+      price.text = Preferences.priceToWon(price: gasStation.price) // 기름 가격 설정
       
       // annotationButtonView 외곽선 설정
       annotationButtonView.layer.cornerRadius = 6
@@ -49,7 +49,7 @@ class GasStationView: UIView {
       favoriteButton.layer.cornerRadius = 6 // 즐겨찾기 버튼 외곽선 Radius 값 설정
       
       // favoriteButton Action 설정
-      favoriteButton.addTarget(self, action: #selector(self.clickedEvent(_:)), for: .touchUpInside)
+      favoriteButton.addTarget(self, action: #selector(clickedEvent(_:)), for: .touchUpInside)
       
       DefaultData.shared.oilSubject
          .map { Preferences.oil(code: $0) }
@@ -70,7 +70,7 @@ class GasStationView: UIView {
    
    // Favorite Button Clicked Event
    @objc func clickedEvent(_ sender: UIButton) {
-      guard var favArr = try? DefaultData.shared.favoriteSubject.value(), favArr.count < 5, let id = self.id else {
+      guard var favArr = try? DefaultData.shared.favoriteSubject.value(), favArr.count < 5, let id = id else {
          if let favArr = try? DefaultData.shared.favoriteSubject.value(), let id = self.id, favArr.contains(id) {
             let newFavArr = favArr.filter { $0 != id }
             DefaultData.shared.favoriteSubject.onNext(newFavArr)

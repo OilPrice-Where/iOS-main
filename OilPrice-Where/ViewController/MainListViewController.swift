@@ -126,24 +126,24 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
       let sectionHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 30))
       
       // 가격순 버튼 설정
-      self.priceSortButton = UIButton(frame: CGRect(x: 15, y: 0, width: 45, height: 30))
-      self.priceSortButton.setTitle("가격순", for: .normal)
-      self.priceSortButton.setTitleColor(UIColor(named: "DefaultColor"), for: .normal)
-      self.priceSortButton.setTitleColor(UIColor(named: "DarkMain"), for: .selected)
-      self.priceSortButton.addTarget(self, action: #selector(self.isTableViewSort(_:)), for: .touchUpInside)
-      self.priceSortButton.tag = 1
-      self.priceSortButton.isSelected = true
-      self.priceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
-      sectionHeaderView.addSubview(self.priceSortButton)
+      priceSortButton = UIButton(frame: CGRect(x: 15, y: 0, width: 45, height: 30))
+      priceSortButton.setTitle("가격순", for: .normal)
+      priceSortButton.setTitleColor(UIColor(named: "DefaultColor"), for: .normal)
+      priceSortButton.setTitleColor(UIColor(named: "DarkMain"), for: .selected)
+      priceSortButton.addTarget(self, action: #selector(isTableViewSort(_:)), for: .touchUpInside)
+      priceSortButton.tag = 1
+      priceSortButton.isSelected = true
+      priceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundEB", size: 16)
+      sectionHeaderView.addSubview(priceSortButton)
       
       // 거리순 버튼 설정
       distanceSortButton = UIButton(frame: CGRect(x: 69, y: 0, width: 45, height: 30))
-      self.distanceSortButton.setTitle("거리순", for: .normal)
-      self.distanceSortButton.setTitleColor(UIColor(named: "DefaultColor"), for: .normal)
-      self.distanceSortButton.setTitleColor(UIColor(named: "DarkMain"), for: .selected)
-      self.distanceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
-      self.distanceSortButton.addTarget(self, action: #selector(self.isTableViewSort(_:)), for: .touchUpInside)
-      self.distanceSortButton.tag = 2
+      distanceSortButton.setTitle("거리순", for: .normal)
+      distanceSortButton.setTitleColor(UIColor(named: "DefaultColor"), for: .normal)
+      distanceSortButton.setTitleColor(UIColor(named: "DarkMain"), for: .selected)
+      distanceSortButton.titleLabel?.font = UIFont(name: "NanumSquareRoundR", size: 16)
+      distanceSortButton.addTarget(self, action: #selector(isTableViewSort(_:)), for: .touchUpInside)
+      distanceSortButton.tag = 2
       sectionHeaderView.addSubview(distanceSortButton)
       
       // 기본 설정 버튼(가격순)
@@ -174,21 +174,21 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
          self.tableView.reloadData()
       }
       
-      self.noneLabel.font = UIFont(name: "NanumSquareRoundB", size: 17) //NoneView 내의 NoneLabel 설정
+      noneLabel.font = UIFont(name: "NanumSquareRoundB", size: 17) //NoneView 내의 NoneLabel 설정
       priceView.layer.cornerRadius = 10
       
       // currentLocationButton 설정
-      currentLocationButton.layer.cornerRadius = self.currentLocationButton.bounds.height / 2
+      currentLocationButton.layer.cornerRadius = currentLocationButton.bounds.height / 2
       currentLocationButton.clipsToBounds = false
       currentLocationButton.layer.shadowColor = UIColor.black.cgColor
       currentLocationButton.layer.shadowOpacity = 0.3
       currentLocationButton.layer.shadowOffset = CGSize(width: 1, height: 1)
       currentLocationButton.layer.shadowRadius = 1.5
-      currentLocationButton.addTarget(self, action: #selector(self.currentLoaction(_:)), for: .touchUpInside)
+      currentLocationButton.addTarget(self, action: #selector(currentLoaction(_:)), for: .touchUpInside)
       
       // Draw a shadow
       currentLocationButton.layer.shadowPath = UIBezierPath(roundedRect: currentLocationButton.bounds,
-                                                            cornerRadius: self.currentLocationButton.bounds.height / 2).cgPath
+                                                            cornerRadius: currentLocationButton.bounds.height / 2).cgPath
       
       // popupView 설정
       popupView.layer.cornerRadius = 7
@@ -205,9 +205,9 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
       appDelegate.mainViewController = self
       
       // 전환 버튼 설정
-      self.toListButton.layer.cornerRadius = self.toListButton.bounds.height / 2
-      self.toImageView.image = toImageView.image!.withRenderingMode(.alwaysTemplate)
-      self.toImageView.tintColor = UIColor.white
+      toListButton.layer.cornerRadius = toListButton.bounds.height / 2
+      toImageView.image = toImageView.image!.withRenderingMode(.alwaysTemplate)
+      toImageView.tintColor = UIColor.white
       // 전환 버튼 그림자 설정
       toListButton.clipsToBounds = false
       toListButton.layer.shadowColor = UIColor.black.cgColor
@@ -216,20 +216,21 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
       toListButton.layer.shadowRadius = 2
       
       // Draw a shadow
-      toListButton.layer.shadowPath = UIBezierPath(roundedRect: toListButton.bounds, cornerRadius: self.toListButton.bounds.height / 2).cgPath
+      toListButton.layer.shadowPath = UIBezierPath(roundedRect: toListButton.bounds,
+                                                   cornerRadius: toListButton.bounds.height / 2).cgPath
       
-      let tap = UITapGestureRecognizer(target: self, action: #selector(self.toList(_:)))
+      let tap = UITapGestureRecognizer(target: self, action: #selector(toList(_:)))
       toListButton.addGestureRecognizer(tap)
       
       // 테이블 뷰 헤더 경계 값 설정
-      self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+      tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
       
       // 테이블뷰내에 Refresh 설정
-      self.refreshControl.addTarget(self,
-                                    action: #selector(refresh),
-                                    for: UIControlEvents.valueChanged)
+      refreshControl.addTarget(self,
+                               action: #selector(refresh),
+                               for: UIControlEvents.valueChanged)
       if #available(iOS 10.0, *) { // iOS 버전 별 설정
-         tableView.refreshControl = self.refreshControl
+         tableView.refreshControl = refreshControl
       }
       
       // 현재 위치 버튼 기종별 설정
@@ -328,7 +329,7 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    // 전환 액션
    @objc func toList(_ sender: UIView) {
       if mainListPage { // 메인리스트 페이지 일시 맵뷰로 전환
-         self.view.sendSubview(toBack: self.tableListView)
+         view.sendSubview(toBack: tableListView)
          
          // 전환 버튼 애니메이션 관련
          if lastBottomConstant == 10 {
@@ -336,10 +337,10 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
                let cell = tableView.cellForRow(at: indexPath) as! GasStationCell
                if cell.stationView.id == detailView.id {
                   if detailView.favoriteButton.isSelected != cell.stationView.favoriteButton.isSelected {
-                     self.detailView.clickedEvent(detailView.favoriteButton)
+                     detailView.clickedEvent(detailView.favoriteButton)
                   }
                }
-               self.detailView.detailViewBottomConstraint.constant = 10
+               detailView.detailViewBottomConstraint.constant = 10
                UIView.animate(withDuration: 0.3) {
                   self.view.layoutIfNeeded()
                }
@@ -347,16 +348,16 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
                let cell = tableView.cellForRow(at: oldIndexPath) as! GasStationCell
                if cell.stationView.id == detailView.id {
                   if detailView.favoriteButton.isSelected != cell.stationView.favoriteButton.isSelected {
-                     self.detailView.clickedEvent(detailView.favoriteButton)
+                     detailView.clickedEvent(detailView.favoriteButton)
                   }
                }
-               self.detailView.detailViewBottomConstraint.constant = 10
+               detailView.detailViewBottomConstraint.constant = 10
                UIView.animate(withDuration: 0.3) {
                   self.view.layoutIfNeeded()
                }
             }
          } else {
-            self.detailView.detailViewBottomConstraint.constant = -150
+            detailView.detailViewBottomConstraint.constant = -150
             UIView.animate(withDuration: 0.3) {
                self.view.layoutIfNeeded()
             }
@@ -367,11 +368,11 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
          statusBarBackView.isHidden = true
          mainListPage = false
       } else {
-         self.view.sendSubview(toBack: self.mapView)
+         view.sendSubview(toBack: mapView)
          toImageView.image = UIImage(named: "mapButton")
          toLabel.text = "지도"
-         lastBottomConstant = self.detailView.detailViewBottomConstraint.constant
-         self.detailView.detailViewBottomConstraint.constant = -150
+         lastBottomConstant = detailView.detailViewBottomConstraint.constant
+         detailView.detailViewBottomConstraint.constant = -150
          UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
          }
@@ -434,12 +435,12 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    func handleError(error: Error?) {
       if let error = error as NSError? {
          print(error)
-         let alert = UIAlertController(title: self.title!,
+         let alert = UIAlertController(title: title!,
                                        message: error.localizedFailureReason,
                                        preferredStyle: UIAlertControllerStyle.alert)
          alert.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.cancel,
                                        handler: nil))
-         self.present(alert, animated: true, completion: nil)
+         present(alert, animated: true, completion: nil)
       }
    }
 }
