@@ -43,20 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       }
    }
    
-   func applicationWillResignActive(_ application: UIApplication) {
-   }
-   
-   func applicationDidEnterBackground(_ application: UIApplication) {
-   }
-   
    func applicationWillEnterForeground(_ application: UIApplication) {
       mainViewController?.configureLocationServices() // 앱이 포어 그라운드로 돌아 올 때 위치정보 리플레쉬
-   }
-   
-   func applicationDidBecomeActive(_ application: UIApplication) {
-   }
-   
-   func applicationWillTerminate(_ application: UIApplication) {
    }
 }
 

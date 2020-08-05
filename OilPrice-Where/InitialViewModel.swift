@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-typealias InitialOilType = (String, UIImage?)
+typealias InitialOilType = (name: String, image: UIImage?)
 
 enum SelectInitialPage: Int {
    case gasoline = 0

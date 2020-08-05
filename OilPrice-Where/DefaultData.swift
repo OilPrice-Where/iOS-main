@@ -19,8 +19,7 @@ class DefaultData {
    private init() {
       setData()
    }
-   private var data: [GasStation]? // 반경 주유소 리스트
-   var stationsSubject = BehaviorSubject<[GasStation]>(value: [])
+   var stationsSubject = BehaviorSubject<[GasStation]>(value: []) // 반경 주유소 리스트
    var priceData: [AllPrice] = [] // 전국 평균 기름 값
    var radiusSubject = BehaviorSubject<Int>(value: 3000) // 탐색 반경
    var oilSubject = BehaviorSubject<String>(value: "") // 오일 종류
@@ -55,7 +54,6 @@ class DefaultData {
    
    func setData() {
       SwiftyPlistManager.shared.start(plistNames: ["UserInfo"], logging: true) // Plist 불러오기
-      
       let radius = getValue(defaultValue: 3000, for: "FindRadius")
       let oilType = getValue(defaultValue: "", for: "OilType")
       let brandName = getValue(defaultValue: "ALL", for: "BrandType")

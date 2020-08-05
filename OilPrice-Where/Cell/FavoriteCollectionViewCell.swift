@@ -33,18 +33,30 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
    @IBOutlet var navigationView: UIView!
    @IBOutlet var deleteFavoriteButton: UIButton!
    
-   var tapGesture = UITapGestureRecognizer()
-   
    let favImage = UIImage(named: "favoriteOnIcon")?.withRenderingMode(.alwaysTemplate)
-   
    var viewModel: FavoriteCellViewModel!
    
-   func bindViewModel() {
-      configure()
+   override func awakeFromNib() {
+      super.awakeFromNib()
       
+      cellLayoutSetUp()
+   }
+   
+   private func cellLayoutSetUp() {
+      deleteFavoriteButton.layer.cornerRadius = 6
+      deleteFavoriteButton.setImage(favImage, for: .normal)
+      deleteFavoriteButton.imageView?.tintColor = .white
+      
+      navigationView.layer.cornerRadius = 6
+      navigationView.layer.borderColor = UIColor(named: "MainColor")?.cgColor
+      navigationView.layer.borderWidth = 1.5
+   }
+   
+   func bindViewModel() {
       viewModel.isLoadingSubject
-         .do(onNext: {
-            $0 ? self.activityIndicator.stopAnimating() : self.activityIndicator.startAnimating()
+         .do(onNext: { [weak self] in
+            guard let strongSelf = self else { return }
+            $0 ? strongSelf.activityIndicator.stopAnimating() : strongSelf.activityIndicator.startAnimating()
          })
          .bind(to: loadingView.rx.isHidden)
          .disposed(by: rx.disposeBag)
@@ -63,10 +75,11 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
       
       // 주유소 편의시설 정보
       viewModel.infoSubject
-         .subscribe(onNext: {
-            self.carWashImageView.tintColor = self.viewModel.getActivatedColor(info: $0?.carWash)
-            self.repairShopImageView.tintColor = self.viewModel.getActivatedColor(info: $0?.repairShop)
-            self.convenienceStoreImageView.tintColor = self.viewModel.getActivatedColor(info: $0?.convenienceStore)
+         .subscribe(onNext: { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.carWashImageView.tintColor = strongSelf.viewModel.getActivatedColor(info: $0?.carWash)
+            strongSelf.repairShopImageView.tintColor = strongSelf.viewModel.getActivatedColor(info: $0?.repairShop)
+            strongSelf.convenienceStoreImageView.tintColor = strongSelf.viewModel.getActivatedColor(info: $0?.convenienceStore)
          })
          .disposed(by: rx.disposeBag)
       
@@ -95,7 +108,10 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
          .disposed(by: rx.disposeBag)
       
       Observable.combineLatest(viewModel.infoSubject, DefaultData.shared.oilSubject)
-         .map { self.viewModel.displayPriceInfomation(priceList: $0.0?.price) }
+         .map { [weak self] in
+            guard let strongSelf = self else { return "가격정보 없음" }
+            return strongSelf.viewModel.displayPriceInfomation(priceList: $0.0?.price)
+         }
          .bind(to: oilPriceLabel.rx.text)
          .disposed(by: rx.disposeBag)
       
@@ -103,27 +119,19 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
       navigationView.rx
          .tapGesture()
          .when(.recognized)
-         .subscribe(onNext: { _ in
-            self.viewModel.navigationButton()
+         .subscribe(onNext: { [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.viewModel.navigationButton()
          })
          .disposed(by: rx.disposeBag)
       
       // 즐겨찾기 삭제
       deleteFavoriteButton.rx.tap
          .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
-         .subscribe(onNext: {
-            self.viewModel.deleteAction()
+         .subscribe(onNext: {[weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.viewModel.deleteAction()
          })
          .disposed(by: rx.disposeBag)
-   }
-   
-   private func configure() {
-      deleteFavoriteButton.layer.cornerRadius = 6
-      deleteFavoriteButton.setImage(favImage, for: .normal)
-      deleteFavoriteButton.imageView?.tintColor = .white
-      
-      navigationView.layer.cornerRadius = 6
-      navigationView.layer.borderColor = UIColor(named: "MainColor")?.cgColor
-      navigationView.layer.borderWidth = 1.5
    }
 }

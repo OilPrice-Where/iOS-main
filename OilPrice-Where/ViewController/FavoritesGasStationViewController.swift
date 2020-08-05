@@ -47,7 +47,6 @@ class FavoritesGasStationViewController: CommonViewController {
       notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
                                                           object: nil,
                                                           queue: .main) { self.naviClickEvenet(noti: $0) }
-      
    }
    
    func setNetworkSetting() {

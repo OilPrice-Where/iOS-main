@@ -14,7 +14,7 @@ class InitialCollectionViewCell: UICollectionViewCell {
    @IBOutlet private weak var typeLabel: UILabel!
    
    func configure(initialOilType: InitialOilType) {
-      imageView.image = initialOilType.1
-      typeLabel.text = initialOilType.0
+      typeLabel.text = initialOilType.name
+      imageView.image = initialOilType.image
    }
 }
