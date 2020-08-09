@@ -152,6 +152,7 @@ final class Preferences {
    
    // Brand Type을 Brand Code로 변환 함수
    // ex) SK에너지 -> SKE
+   
    static func brand(name: String) -> String {
       switch name {
       case "SK에너지":

@@ -49,7 +49,6 @@ extension SelectCellType {
 class SettingTableViewController: UITableViewController {
    @IBOutlet private weak var oilTypeLabel : UILabel! // 현재 탐색 하고 있는 오일의 타입
    @IBOutlet private weak var findLabel : UILabel! // 현재 탐색 하고 있는 탐색 반경
-   @IBOutlet private weak var findBrandType : UILabel! // 현재 탐색 하고 있는 브랜드
    @IBOutlet private weak var findNaviType: UILabel!
    
    override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -63,7 +62,7 @@ class SettingTableViewController: UITableViewController {
    }
    
    // 이전 설정을 데이터를 불러와서
-   // oilTypeLabel, findLabel, findBrandType 업데이트
+   // oilTypeLabel, findLabel 업데이트
    func bindViewModel() {
       DefaultData.shared.oilSubject
          .map { Preferences.oil(code: $0) }
@@ -73,11 +72,6 @@ class SettingTableViewController: UITableViewController {
       DefaultData.shared.radiusSubject
          .map { String($0 / 1000) + "KM" }
          .bind(to: findLabel.rx.text)
-         .disposed(by: rx.disposeBag)
-      
-      DefaultData.shared.brandSubject
-         .map { Preferences.brand(code: $0) }
-         .bind(to: findBrandType.rx.text)
          .disposed(by: rx.disposeBag)
       
       DefaultData.shared.naviSubject

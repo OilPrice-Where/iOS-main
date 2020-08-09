@@ -112,7 +112,7 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
       
       let target = DefaultData.shared
       
-      Observable.combineLatest(target.oilSubject, target.radiusSubject, target.brandSubject)
+      Observable.combineLatest(target.oilSubject, target.radiusSubject, target.brandsSubject)
          .subscribe(onNext: { _ in
             self.configureLocationServices()
             self.refresh()
@@ -249,8 +249,8 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    
    func gasStationListData(katecPoint: KatecPoint) {
       guard let radius = try? DefaultData.shared.radiusSubject.value(),
-         let oilSubject = try? DefaultData.shared.oilSubject.value() else { return }
-      let brand = try? DefaultData.shared.brandSubject.value()
+         let oilSubject = try? DefaultData.shared.oilSubject.value(),
+         let brands = try? DefaultData.shared.brandsSubject.value() else { return }
       
       ServiceList.gasStationList(x: katecPoint.x,
                                  y: katecPoint.y,
@@ -265,8 +265,8 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
                                        
                                        var target = gasStationData.result.gasStations
                                        
-                                       if brand != "ALL" {
-                                          target = target.filter { $0.brand == brand ?? "" }
+                                       if brands.count != 10 {
+                                          target = target.filter { brands.contains($0.brand) }
                                        }
                                        
                                        DefaultData.shared.stationsSubject.onNext(target)

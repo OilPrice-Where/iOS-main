@@ -27,12 +27,8 @@ class SelectStationViewController: CommonViewController, ViewModelBindableType {
                                        cell.bind(brandSubject: Observable.just(brand))
       }
       .disposed(by: rx.disposeBag)
-      
-      tableView.rx.modelSelected(String.self)
-         .subscribe(onNext: {
-            let code = Preferences.brand(name: $0)
-            DefaultData.shared.brandSubject.onNext(code)
-         })
-         .disposed(by: rx.disposeBag)
    }
+}
+
+extension SelectStationViewController: UITableViewDelegate {
 }
