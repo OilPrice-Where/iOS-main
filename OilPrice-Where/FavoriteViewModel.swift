@@ -11,6 +11,4 @@ import RxSwift
 
 final class FavoriteViewModel {
    let bag = DisposeBag()
-   
-
 }
