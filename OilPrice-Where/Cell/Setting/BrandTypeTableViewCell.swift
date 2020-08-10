@@ -14,7 +14,7 @@ import NSObject_Rx
 class BrandTypeTableViewCell: UITableViewCell {
    static let identifier = "BrandTypeTableViewCell"
    @IBOutlet private weak var brandTypeLable : UILabel!
-   @IBOutlet private weak var brandSelectedSwitch: UISwitch!
+   @IBOutlet weak var brandSelectedSwitch: UISwitch!
    
    // 셀 설정
    func bind(brandSubject: Observable<String>) {
@@ -25,7 +25,7 @@ class BrandTypeTableViewCell: UITableViewCell {
          .bind(to: brandTypeLable.rx.text)
          .disposed(by: rx.disposeBag)
       
-      Observable.zip(brandSubject, DefaultData.shared.brandsSubject)
+      Observable.combineLatest(brandSubject, DefaultData.shared.brandsSubject)
          .map { $0.1.contains(Preferences.brand(name: $0.0)) }
          .bind(to: brandSelectedSwitch.rx.isOn)
          .disposed(by: rx.disposeBag)

@@ -13,15 +13,15 @@ final class SelectStationViewModel: CommonViewModel {
    private let findBrand = [ // 선택 가능한 탐색 반경
       "전체",
       "SK에너지",
-      "GS칼텍스",
       "현대오일뱅크",
+      "GS칼텍스",
       "S-OIL",
+      "SK가스",
       "자영알뜰",
-      "고속도로알뜰",
-      "농협알뜰",
-      "자가상표",
       "E1",
-      "SK가스"
+      "자가상표",
+      "농협알뜰",
+      "고속도로알뜰"
    ]
    
    var brandSubject: BehaviorSubject<[String]>
