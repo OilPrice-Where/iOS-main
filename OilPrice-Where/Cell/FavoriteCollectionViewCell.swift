@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import TMapSDK
 import RxSwift
 import RxCocoa
+import RxGesture
 
 class FavoriteCollectionViewCell: UICollectionViewCell {
    static let identifier = "FavoriteCollectionViewCell"
@@ -27,106 +29,109 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
    @IBOutlet weak var phoneNumberLabel: UILabel!
    @IBOutlet weak var qualityCertificationLabel: UILabel!
    @IBOutlet weak var typeOfOilLabel: UILabel!
-   @IBOutlet weak var oilPlice: UILabel!
+   @IBOutlet weak var oilPriceLabel: UILabel!
    @IBOutlet var navigationView: UIView!
    @IBOutlet var deleteFavoriteButton: UIButton!
    
-   var tapGesture = UITapGestureRecognizer()
-   var id: String?
-   let mainColor = UIColor(named: "MainColor")
    let favImage = UIImage(named: "favoriteOnIcon")?.withRenderingMode(.alwaysTemplate)
+   var viewModel: FavoriteCellViewModel!
    
-   // KatecX, KatecY
-   var katecX: Double?
-   var katecY: Double?
+   override func awakeFromNib() {
+      super.awakeFromNib()
+      
+      cellLayoutSetUp()
+   }
    
-   private func configure(with info: InformationGasStaion) {
-      
-      id = info.id
-      katecX = info.katecX.roundTo(places: 0)
-      katecY = info.katecY.roundTo(places: 0)
-      
-      logoImageView.image = Preferences.logoImage(logoName: info.brand) // 로고 이미지 삽입
-      gasStationNameLabel.text = info.name // 주유소 이름
-      
-      carWashImageView.tintColor = info.carWash == "Y" ? mainColor : .lightGray
-      repairShopImageView.tintColor = info.repairShop == "Y" ? mainColor : .lightGray
-      convenienceStoreImageView.tintColor = info.convenienceStore == "Y" ? mainColor : .lightGray
-      
-      addressLabel.text = info.address // 주소
-      phoneNumberLabel.text = info.phoneNumber // 전화번호
-      qualityCertificationLabel.text = info.qualityCertification == "Y" ? "인증" : "미인증" // 품질 인증
-      
+   private func cellLayoutSetUp() {
       deleteFavoriteButton.layer.cornerRadius = 6
       deleteFavoriteButton.setImage(favImage, for: .normal)
       deleteFavoriteButton.imageView?.tintColor = .white
       
       navigationView.layer.cornerRadius = 6
-      navigationView.layer.borderColor = mainColor?.cgColor
+      navigationView.layer.borderColor = UIColor(named: "MainColor")?.cgColor
       navigationView.layer.borderWidth = 1.5
-      tapGesture = UITapGestureRecognizer(target: self, action: #selector(navigationButton))
+   }
+   
+   func bindViewModel() {
+      viewModel.isLoadingSubject
+         .do(onNext: { [weak self] in
+            guard let strongSelf = self else { return }
+            $0 ? strongSelf.activityIndicator.stopAnimating() : strongSelf.activityIndicator.startAnimating()
+         })
+         .bind(to: loadingView.rx.isHidden)
+         .disposed(by: rx.disposeBag)
       
-      navigationView.addGestureRecognizer(tapGesture)
+      // 로고 이미지 삽입
+      viewModel.infoSubject
+         .map { Preferences.logoImage(logoName: $0?.brand) }
+         .bind(to: logoImageView.rx.image)
+         .disposed(by: rx.disposeBag)
       
+      // 주유소 이름
+      viewModel.infoSubject
+         .map { $0?.name }
+         .bind(to: gasStationNameLabel.rx.text)
+         .disposed(by: rx.disposeBag)
+      
+      // 주유소 편의시설 정보
+      viewModel.infoSubject
+         .subscribe(onNext: { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.carWashImageView.tintColor = strongSelf.viewModel.getActivatedColor(info: $0?.carWash)
+            strongSelf.repairShopImageView.tintColor = strongSelf.viewModel.getActivatedColor(info: $0?.repairShop)
+            strongSelf.convenienceStoreImageView.tintColor = strongSelf.viewModel.getActivatedColor(info: $0?.convenienceStore)
+         })
+         .disposed(by: rx.disposeBag)
+      
+      // 주소
+      viewModel.infoSubject
+         .map { $0?.address }
+         .bind(to: addressLabel.rx.text)
+         .disposed(by: rx.disposeBag)
+      
+      // 전화번호
+      viewModel.infoSubject
+         .map { $0?.phoneNumber }
+         .bind(to: phoneNumberLabel.rx.text)
+         .disposed(by: rx.disposeBag)
+      
+      // 품질 인증
+      viewModel.infoSubject
+         .map { $0?.qualityCertification == "Y" ? "인증" : "미인증" }
+         .bind(to: qualityCertificationLabel.rx.text)
+         .disposed(by: rx.disposeBag)
+      
+      // 오일 타입
       DefaultData.shared.oilSubject
-         .subscribe(onNext: { type in
-            guard let price = info.price.first(where: { $0.type == type }) else { return }
-            self.typeOfOilLabel.text = Preferences.oil(code: type)
-            self.oilPlice.text = Preferences.priceToWon(price: price.price)
+         .map { Preferences.oil(code: $0) }
+         .bind(to: typeOfOilLabel.rx.text)
+         .disposed(by: rx.disposeBag)
+      
+      Observable.combineLatest(viewModel.infoSubject, DefaultData.shared.oilSubject)
+         .map { [weak self] in
+            guard let strongSelf = self else { return "가격정보 없음" }
+            return strongSelf.viewModel.displayPriceInfomation(priceList: $0.0?.price)
+         }
+         .bind(to: oilPriceLabel.rx.text)
+         .disposed(by: rx.disposeBag)
+      
+      // 길 찾기
+      navigationView.rx
+         .tapGesture()
+         .when(.recognized)
+         .subscribe(onNext: { [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.viewModel.navigationButton()
+         })
+         .disposed(by: rx.disposeBag)
+      
+      // 즐겨찾기 삭제
+      deleteFavoriteButton.rx.tap
+         .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+         .subscribe(onNext: {[weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.viewModel.deleteAction()
          })
          .disposed(by: rx.disposeBag)
    }
-   
-   func initialSetting(id: String) {
-      activityIndicator.startAnimating()
-      loadingView.isHidden = false
-      
-      if let info = DefaultData.shared.tempFavArr[id] {
-         configure(with: info)
-         loadingView.isHidden = true
-         activityIndicator.stopAnimating()
-      } else {
-         getStationsInfo(id: id) {
-            DefaultData.shared.tempFavArr[id] = $0
-            self.configure(with: $0)
-            self.loadingView.isHidden = true
-            self.activityIndicator.stopAnimating()
-         }
-      }
-   }
-   
-   private func getStationsInfo(id: String, completion: @escaping (InformationGasStaion) -> ()) {
-      ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
-                                       id: id) { (result) in
-                                          switch result {
-                                          case .success(let infomation):
-                                             completion(infomation)
-                                          case .error(_):
-                                             break
-                                          }
-      }
-   }
-   
-   @IBAction private func deleteAction(_ sender: Any) {
-      guard let oldFavArr = try? DefaultData.shared.favoriteSubject.value() else { return }
-      
-      let newFavArr = oldFavArr.filter { self.id != $0 }
-      DefaultData.shared.favoriteSubject.onNext(newFavArr)
-   }
-   
-   // 길 안내
-   @objc func navigationButton(_ sender: UIButton) {
-      guard let katecX = self.katecX,
-         let katecY = self.katecY,
-         let name = gasStationNameLabel.text else { return }
-      let destination = KNVLocation(name: name,
-                                    x: NSNumber(value: katecX),
-                                    y: NSNumber(value: katecY))
-      let options = KNVOptions()
-      
-      let params = KNVParams(destination: destination,
-                             options: options)
-      KNVNaviLauncher.shared().navigate(with: params)
-   }
 }
-

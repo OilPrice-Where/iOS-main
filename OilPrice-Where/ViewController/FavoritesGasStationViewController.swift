@@ -7,13 +7,15 @@
 //
 
 import UIKit
+import TMapSDK
 import RxSwift
 import RxCocoa
 import NSObject_Rx
+import CoreLocation
 import CenteredCollectionView
 
 class FavoritesGasStationViewController: CommonViewController {
-   var viewModel = FavoriteViewModel()
+   var notiObject: NSObjectProtocol?
    var reachability: Reachability? = Reachability() //Network
    @IBOutlet private weak var collectionView: UICollectionView!
    @IBOutlet private weak var noneFavoriteView: UIView!
@@ -26,6 +28,7 @@ class FavoritesGasStationViewController: CommonViewController {
    }
    
    deinit {
+      notiObject = nil
       reachability?.stopNotifier()
       reachability = nil
    }
@@ -40,6 +43,10 @@ class FavoritesGasStationViewController: CommonViewController {
       centeredCollectionViewFlowLayout.minimumLineSpacing = 25
       centeredCollectionViewFlowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width - 75, height: 410)
       bindViewModel()
+      
+      notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
+                                                          object: nil,
+                                                          queue: .main) { self.naviClickEvenet(noti: $0) }
    }
    
    func setNetworkSetting() {
@@ -71,10 +78,72 @@ class FavoritesGasStationViewController: CommonViewController {
          .bind(to: collectionView.rx.items(cellIdentifier: FavoriteCollectionViewCell.identifier,
                                            cellType: FavoriteCollectionViewCell.self)) { index, id, cell in
                                              cell.layer.cornerRadius = 35
-                                             
-                                             cell.initialSetting(id: id)
+                                             let viewModel = FavoriteCellViewModel(id: id)
+                                             cell.viewModel = viewModel
+                                             cell.bindViewModel()
       }
       .disposed(by: rx.disposeBag)
+   }
+   
+   func naviClickEvenet(noti: Notification) {
+      guard let userInfo = noti.userInfo,
+         let katecX = userInfo["katecX"] as? Double,
+         let katecY = userInfo["katecY"] as? Double,
+         let stationName = userInfo["stationName"] as? String,
+         let navi = userInfo["naviType"] as? String,
+         let type = NaviType(rawValue: navi) else { return }
+      let coordinator = Converter.convertKatecToWGS(katec: KatecPoint(x: katecX, y: katecY))
+      
+      switch type {
+      case .tMap:
+         if TMapApi.isTmapApplicationInstalled() {
+            let _ = TMapApi.invokeRoute(stationName, coordinate: coordinator)
+         } else {
+            let alert = UIAlertController(title: "T Map이 없습니다.",
+                                          message: "다운로드 페이지로 이동하시겠습니까?",
+                                          preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK",
+                                         style: .default) { (_) in
+                                          guard let url = URL(string: TMapApi.getTMapDownUrl()) else {
+                                             return
+                                          }
+                                          
+                                          if UIApplication.shared.canOpenURL(url) {
+                                             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                          }
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            
+            present(alert, animated: true, completion: nil)
+         }
+      case .kakao:
+         let destination = KNVLocation(name: stationName,
+                                       x: NSNumber(value: katecX),
+                                       y: NSNumber(value: katecY))
+         let options = KNVOptions()
+         options.routeInfo = false
+         let params = KNVParams(destination: destination,
+                                options: options)
+         KNVNaviLauncher.shared().navigate(with: params) { (error) in
+            self.handleError(error: error)
+         }
+      }
+   }
+   
+   // 길안내 에러 발생
+   func handleError(error: Error?) {
+      if let error = error as NSError? {
+         print(error)
+         let alert = UIAlertController(title: title!,
+                                       message: error.localizedFailureReason,
+                                       preferredStyle: UIAlertControllerStyle.alert)
+         alert.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.cancel,
+                                       handler: nil))
+         present(alert, animated: true, completion: nil)
+      }
    }
 }
 

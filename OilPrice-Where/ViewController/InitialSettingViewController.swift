@@ -2,64 +2,87 @@
 //  InitialSettingViewController.swift
 //  OilPrice-Where
 //
-//  Created by 박상욱n 2018. 8. 19..
+//  Created by 박상욱 on 2018. 8. 19.
 //  Copyright © 2018년 sangwook park. All rights reserved.
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import NSObject_Rx
 
 // 초기 설정 페이지
 class InitialSettingViewController: CommonViewController {
-   
-   @IBOutlet private weak var scrollView : UIScrollView! // 페이지 표시 스크롤 뷰
-   lazy var scrollWidth = scrollView.bounds.size.width // 스크롤 뷰의 Width값 저장
+   var viewModel: InitialViewModel!
+   @IBOutlet private weak var collectionView: UICollectionView!
+   @IBOutlet private weak var leftButton: UIButton!
+   @IBOutlet private weak var rightButton: UIButton!
    @IBOutlet private weak var okButton : UIButton!
-   
-   override func viewDidLoad() {
-      super.viewDidLoad()
-      
-      okButton.layer.cornerRadius = 6
-   }
    
    override var preferredStatusBarStyle: UIStatusBarStyle {
       return .default
    }
    
-   // 확인 버튼 클릭 이벤트
-   @IBAction private func okAction(_ sender: UIButton) {
-      let selectedPage = scrollView.bounds.origin.x / scrollWidth // 선택한 오일 종류
-      var selectedOil = ""
-      switch selectedPage {
-      case 1:
-         selectedOil = "D047" // 두번째 페이지 선택 경유
-      case 2:
-         selectedOil = "K015" // 세번째 페이지 선택 LPG
-      case 3:
-         selectedOil = "B034" // 네번째 페이지 선택 고급휘발유
-      default:
-         selectedOil = "B027" // 첫번째 페이지 선택 휘발유
-      }
+   func viewLayoutSetUp() {
+      okButton.layer.cornerRadius = 6
       
-      DefaultData.shared.oilSubject.onNext(selectedOil)
-   }
-   
-   // 왼쪽 버튼 클릭 이벤트
-   // 왼쪽 버튼 클릭 시 이전 페이지로 이동
-   @IBAction private func leftAction(_ sender: UIButton) {
-      if scrollView.contentOffset.x > 0 {
-         UIView.animate(withDuration: 0.2) {
-            self.scrollView.contentOffset.x -= self.scrollWidth
-         }
+      if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+         layout.itemSize = collectionView.bounds.size
       }
    }
    
-   // 오른쪽 버튼 클릭 이벤트
-   // 오른쪽 버튼 클릭 시 다음 페이지로 이동
-   @IBAction private func rightAction(_ sender: UIButton) {
-      if scrollView.contentOffset.x < scrollWidth * 3 {
-         UIView.animate(withDuration: 0.2) {
-            self.scrollView.contentOffset.x += self.scrollWidth
+   override func viewDidLoad() {
+      super.viewDidLoad()
+      
+      viewLayoutSetUp()
+      bindViewModel()
+   }
+
+   func bindViewModel() {
+      viewModel.initialOilTypeSubject
+         .bind(to: collectionView.rx.items(cellIdentifier: InitialCollectionViewCell.identifier,
+                                           cellType: InitialCollectionViewCell.self)) { item, initialOilType, cell in
+                                             cell.configure(initialOilType: initialOilType)
          }
-      }
+         .disposed(by: rx.disposeBag)
+      
+      collectionView.rx.contentOffset
+         .map { $0.x }
+         .subscribe(onNext: {
+            self.leftButton.isEnabled = !($0 <= 0)
+            self.rightButton.isEnabled = !($0 >= self.collectionView.bounds.width * 3)
+         })
+         .disposed(by: rx.disposeBag)
+      
+      leftButton.rx.tap
+         .map { self.collectionView.contentOffset }
+         .map { CGPoint(x: $0.x - self.collectionView.bounds.width, y: $0.y) }
+         .map { self.collectionView.indexPathForItem(at: $0) }
+         .subscribe(onNext: {
+            if let indexPath = $0 {
+               self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            }
+         })
+         .disposed(by: rx.disposeBag)
+      
+      rightButton.rx.tap
+         .map { self.collectionView.contentOffset }
+         .map { CGPoint(x: $0.x + self.collectionView.bounds.width, y: $0.y) }
+         .map { self.collectionView.indexPathForItem(at: $0) }
+         .subscribe(onNext: {
+            if let indexPath = $0 {
+               self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            }
+         })
+         .disposed(by: rx.disposeBag)
+      
+      // 확인 버튼 클릭 이벤트
+      okButton.rx.tap
+         .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+         .map { self.collectionView.contentOffset.x / self.collectionView.bounds.width }
+         .map { Int($0) }
+         .map { (SelectInitialPage(rawValue: $0) ?? SelectInitialPage.gasoline) }
+         .subscribe(onNext: { self.viewModel.okAction(page: $0) })
+         .disposed(by: rx.disposeBag)
    }
 }

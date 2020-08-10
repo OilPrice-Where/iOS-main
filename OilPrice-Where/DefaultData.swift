@@ -19,11 +19,12 @@ class DefaultData {
    private init() {
       setData()
    }
-   var data: [GasStation]? // 반경 주유소 리스트
+   var stationsSubject = BehaviorSubject<[GasStation]>(value: []) // 반경 주유소 리스트
    var priceData: [AllPrice] = [] // 전국 평균 기름 값
    var radiusSubject = BehaviorSubject<Int>(value: 3000) // 탐색 반경
    var oilSubject = BehaviorSubject<String>(value: "") // 오일 종류
    var brandSubject = BehaviorSubject<String>(value: "") // 설정 브랜드
+   var brandsSubject = BehaviorSubject<[String]>(value: []) // 설정 브랜드
    var favoriteSubject = BehaviorSubject<[String]>(value: []) // 즐겨 찾기
    var naviSubject = BehaviorSubject<String>(value: "kakao")
    var tempFavArr: [String: InformationGasStaion] = [:]
@@ -53,10 +54,12 @@ class DefaultData {
    }
    
    func setData() {
+      let defaultBrands = ["SKE", "GSC", "HDO", "SOL", "RTO", "RTX", "NHO", "ETC", "E1G", "SKG"]
       SwiftyPlistManager.shared.start(plistNames: ["UserInfo"], logging: true) // Plist 불러오기
       let radius = getValue(defaultValue: 3000, for: "FindRadius")
       let oilType = getValue(defaultValue: "", for: "OilType")
       let brandName = getValue(defaultValue: "ALL", for: "BrandType")
+      let brands = getValue(defaultValue: defaultBrands, for: "Brands")
       let favArr = getValue(defaultValue: [String](), for: "Favorites")
       let naviType = getValue(defaultValue: "kakao", for: "NaviType")
       
@@ -64,6 +67,7 @@ class DefaultData {
       radiusSubject.onNext(radius)
       favoriteSubject.onNext(favArr)
       brandSubject.onNext(brandName)
+      brandsSubject.onNext(brands)
       naviSubject.onNext(naviType)
       
       // Plist에 값 저장
@@ -116,6 +120,19 @@ class DefaultData {
          })
          .disposed(by: bag)
       
+      // Brand Array Save
+      brandsSubject
+         .subscribe(onNext: {
+            SwiftyPlistManager.shared.save($0,
+                                           forKey: "Brands",
+                                           toPlistWithName: "UserInfo") { (err) in
+                                             if err != nil {
+                                                print("Success Save BrandType !!")
+                                             }}
+         })
+         .disposed(by: bag)
+      
+      // Navi Type Save
       naviSubject
          .subscribe(onNext: {
             SwiftyPlistManager.shared.save($0,

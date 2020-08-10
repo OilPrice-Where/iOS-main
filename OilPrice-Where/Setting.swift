@@ -69,7 +69,7 @@ final class Preferences {
    static func getAppKey() -> String {
       var appKey = ""
       
-      switch arc4random_uniform(6) {
+      switch Int.random(in: 0 ... 5) {
       case 0:
          appKey = "F302180619"
       case 1:
@@ -88,8 +88,9 @@ final class Preferences {
    
    // 받아오는 Logo Code값을 Image로 변환해주는 함수
    // ex) SKE -> UIImage(named: "LogoSKEnergy") // SK 로고이미지
-   static func logoImage(logoName name: String) -> UIImage? {
-      switch name {
+   static func logoImage(logoName name: String?) -> UIImage? {
+      guard let logoName = name else { return nil }
+      switch logoName {
       case "SKE":
          return UIImage(named: "LogoSKEnergy")
       case "GSC":
@@ -151,6 +152,7 @@ final class Preferences {
    
    // Brand Type을 Brand Code로 변환 함수
    // ex) SK에너지 -> SKE
+   
    static func brand(name: String) -> String {
       switch name {
       case "SK에너지":

@@ -18,7 +18,7 @@ class SelectOilViewController: CommonViewController, ViewModelBindableType {
    
    override func viewDidLoad() {
       super.viewDidLoad()
-      self.navigationController?.navigationItem.leftBarButtonItem?.tintColor = .white
+      navigationController?.navigationItem.leftBarButtonItem?.tintColor = .white
    }
    
    func bindViewModel() {

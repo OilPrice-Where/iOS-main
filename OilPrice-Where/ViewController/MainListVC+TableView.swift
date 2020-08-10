@@ -11,8 +11,8 @@ import Foundation
 // MARK: - UITableView
 extension MainListViewController: UITableViewDataSource {
    func numberOfSections(in tableView: UITableView) -> Int {
-      guard let stationCount = DefaultData.shared.data?.count else { return 0 }
-      return stationCount
+      guard let station = try? DefaultData.shared.stationsSubject.value() else { return 0 }
+      return station.count
    }
    
    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -20,20 +20,14 @@ extension MainListViewController: UITableViewDataSource {
    }
    
    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      guard var gasStations = DefaultData.shared.data else { return UITableViewCell() }
+      guard let cell = tableView.dequeueReusableCell(withIdentifier: "GasStationCell") as? GasStationCell,
+         let targetArr = try? DefaultData.shared.stationsSubject.value() else { return UITableViewCell() }
       
-      if distanceSortButton.isSelected {
-         gasStations = sortData
-      }
+      let stations = distanceSortButton.isSelected ? sortData : targetArr
       
-      let cell = tableView.dequeueReusableCell(withIdentifier: "GasStationCell") as! GasStationCell
-      
-      cell.addGestureRecognize(self, action: #selector(self.viewMapAction(annotionIndex:)))
-      cell.configure(with: gasStations[indexPath.section])
-      
-      if selectIndexPath?.section == indexPath.section {
-         cell.stationView.stackView.isHidden = false
-      }
+      cell.stationView.stackView.isHidden = selectIndexPath?.section != indexPath.section
+      cell.addGestureRecognize(self, action: #selector(viewMapAction(annotionIndex:)))
+      cell.configure(with: stations[indexPath.section])
       
       return cell
    }
@@ -42,11 +36,11 @@ extension MainListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension MainListViewController: UITableViewDelegate {
    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      guard let selectPath = self.selectIndexPath else {
+      guard let selectPath = selectIndexPath else {
          let cell = tableView.cellForRow(at: indexPath) as! GasStationCell
          cell.stationView.stackView.isHidden = false
          cell.selectionStyle = .none
-         self.selectIndexPath = indexPath
+         selectIndexPath = indexPath
          
          tableView.reloadData()
          return
@@ -59,7 +53,7 @@ extension MainListViewController: UITableViewDelegate {
          if let oldCell = tableView.cellForRow(at: selectPath) as? GasStationCell {
             oldCell.stationView.stackView.isHidden = true
          }
-         self.selectIndexPath = indexPath
+         selectIndexPath = indexPath
       } else {
          if let cell = tableView.cellForRow(at: indexPath) as? GasStationCell {
             if cell.stationView.stackView.isHidden {
@@ -76,15 +70,18 @@ extension MainListViewController: UITableViewDelegate {
    
    // cell의 높이 설정
    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-      guard let selectSection = self.selectIndexPath?.section else { return 110 }
+      guard let selectSection = selectIndexPath?.section else { return 110 }
       // 선택된 셀의 높이와 비선택 셀의 높이 설정
       return indexPath.section == selectSection ? 164 : 110
    }
    
    // 섹션 사이의 값 설정
    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+      let sortedViewHeight: CGFloat = 30
+      let defaultViewHeight: CGFloat = 12
+      
       // 처음 섹션일 때 가격순, 거리순 정렬 버튼 삽입을 위해 조금 더 높게 설정
-      return section == 0 ? 30 : 12
+      return section == 0 ? sortedViewHeight : defaultViewHeight
    }
    
    // heightForFooterInSection

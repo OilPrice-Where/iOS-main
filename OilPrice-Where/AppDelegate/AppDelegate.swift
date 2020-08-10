@@ -36,25 +36,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          return UIStoryboard(name: "Main",
                              bundle: nil).instantiateViewController(withIdentifier: "TabBarController")
       } else {
-         return UIStoryboard(name: "Main",
-                             bundle: nil).instantiateViewController(withIdentifier: "InitialSettingViewController")
+         guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "InitialSettingViewController") as? InitialSettingViewController else { fatalError("Not Match VC") }
+         vc.viewModel = InitialViewModel()
+         
+         return vc
       }
-   }
-   
-   func applicationWillResignActive(_ application: UIApplication) {
-   }
-   
-   func applicationDidEnterBackground(_ application: UIApplication) {
    }
    
    func applicationWillEnterForeground(_ application: UIApplication) {
       mainViewController?.configureLocationServices() // 앱이 포어 그라운드로 돌아 올 때 위치정보 리플레쉬
-   }
-   
-   func applicationDidBecomeActive(_ application: UIApplication) {
-   }
-   
-   func applicationWillTerminate(_ application: UIApplication) {
    }
 }
 

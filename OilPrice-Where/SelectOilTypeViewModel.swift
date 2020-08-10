@@ -8,8 +8,6 @@
 
 import Foundation
 import RxSwift
-import RxCocoa
-import NSObject_Rx
 
 final class SelectOilTypeViewModel: CommonViewModel {
    private let OilType = [ // 선택 가능한 오일 종류

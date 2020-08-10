@@ -8,8 +8,6 @@
 
 import Foundation
 import RxSwift
-import RxCocoa
-import NSObject_Rx
 
 final class AboutUsViewModel: CommonViewModel {
    private let findNavi = [ // 선택 가능한 탐색 반경

@@ -10,7 +10,6 @@ import UIKit
 // 메인페이지의 리스트 부분에서 받아오는 주유소 목록을 나타내는 셀
 // Cell의 ContentView내부에 stationView를 보여준다.
 class GasStationCell: UITableViewCell {
-   
    @IBOutlet weak var stationView : GasStationView!
    let path = UIBezierPath()
    var tapGesture = UITapGestureRecognizer()
@@ -18,10 +17,10 @@ class GasStationCell: UITableViewCell {
    // 셀이 재사용 될 때 stationView의 stackView 히든
    override func prepareForReuse() {
       super.prepareForReuse()
-      self.stationView.stackView.isHidden = true
-      self.stationView.favoriteButton.isSelected = false
-      self.stationView.favoriteButton.backgroundColor = UIColor.white
-      self.stationView.favoriteButton.tintColor = UIColor(named: "MainColor")
+      stationView.stackView.isHidden = true
+      stationView.favoriteButton.isSelected = false
+      stationView.favoriteButton.backgroundColor = UIColor.white
+      stationView.favoriteButton.tintColor = UIColor(named: "MainColor")
       
    }
    
