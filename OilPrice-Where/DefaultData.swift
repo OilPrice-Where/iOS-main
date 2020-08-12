@@ -23,7 +23,6 @@ class DefaultData {
    var priceData: [AllPrice] = [] // 전국 평균 기름 값
    var radiusSubject = BehaviorSubject<Int>(value: 3000) // 탐색 반경
    var oilSubject = BehaviorSubject<String>(value: "") // 오일 종류
-   var brandSubject = BehaviorSubject<String>(value: "") // 설정 브랜드
    var brandsSubject = BehaviorSubject<[String]>(value: []) // 설정 브랜드
    var favoriteSubject = BehaviorSubject<[String]>(value: []) // 즐겨 찾기
    var naviSubject = BehaviorSubject<String>(value: "kakao")
@@ -58,15 +57,13 @@ class DefaultData {
       SwiftyPlistManager.shared.start(plistNames: ["UserInfo"], logging: true) // Plist 불러오기
       let radius = getValue(defaultValue: 3000, for: "FindRadius")
       let oilType = getValue(defaultValue: "", for: "OilType")
-      let brandName = getValue(defaultValue: "ALL", for: "BrandType")
       let brands = getValue(defaultValue: defaultBrands, for: "Brands")
       let favArr = getValue(defaultValue: [String](), for: "Favorites")
       let naviType = getValue(defaultValue: "kakao", for: "NaviType")
-      
+      print(brands)
       oilSubject.onNext(oilType)
       radiusSubject.onNext(radius)
       favoriteSubject.onNext(favArr)
-      brandSubject.onNext(brandName)
       brandsSubject.onNext(brands)
       naviSubject.onNext(naviType)
       
@@ -104,18 +101,6 @@ class DefaultData {
                                            toPlistWithName: "UserInfo") { (err) in
                                              if err != nil {
                                                 print("Success Save Favorites !!")
-                                             }}
-         })
-         .disposed(by: bag)
-      
-      // Brand Array Save
-      brandSubject
-         .subscribe(onNext: {
-            SwiftyPlistManager.shared.save($0,
-                                           forKey: "BrandType",
-                                           toPlistWithName: "UserInfo") { (err) in
-                                             if err != nil {
-                                                print("Success Save BrandType !!")
                                              }}
          })
          .disposed(by: bag)

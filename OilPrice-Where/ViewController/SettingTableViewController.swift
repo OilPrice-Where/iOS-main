@@ -16,6 +16,7 @@ enum SelectCellType {
    case selectOilVC
    case selectDistanceVC
    case selectStationVC
+   case selectSalePriceVC
    case settingAboutUsVC
    case review
    case none
@@ -32,6 +33,8 @@ extension SelectCellType {
          return .selectDistanceVC
       case (1, 2):
          return .selectStationVC
+      case (1, 3):
+         return .selectSalePriceVC
       case (2, 0):
          return .settingAboutUsVC
       case (2, 1):
@@ -107,6 +110,12 @@ extension SettingTableViewController {
       case .selectStationVC:
          if var vc = storyboard.instantiateViewController(withIdentifier: SelectStationViewController.identifier) as? SelectStationViewController {
             let viewModel = SelectStationViewModel()
+            vc.bind(viewModel: viewModel)
+            navigationController?.pushViewController(vc, animated: true)
+         }
+      case .selectSalePriceVC:
+         if var vc = storyboard.instantiateViewController(withIdentifier: SettingEditSalePriceViewController.identifier) as? SettingEditSalePriceViewController {
+            let viewModel = EditSalePriceViewModel()
             vc.bind(viewModel: viewModel)
             navigationController?.pushViewController(vc, animated: true)
          }

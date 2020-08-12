@@ -14,7 +14,8 @@ import NSObject_Rx
 class SelectStationViewController: CommonViewController, ViewModelBindableType {
    static let identifier = "SelectStationViewController"
    var viewModel: SelectStationViewModel!
-   var isAllSwitchButton = BehaviorSubject<Bool?>(value: nil)
+   var isAllSwitchButton = PublishSubject<Bool>()
+   var isLauchSetting = false
    @IBOutlet private weak var tableView: UITableView!
    let allBrands = ["SOL", "RTX", "ETC", "SKE", "GSC", "HDO", "RTO", "NHO", "E1G", "SKG"]
    override func viewDidLoad() {
@@ -28,15 +29,20 @@ class SelectStationViewController: CommonViewController, ViewModelBindableType {
          cell.bind(brandSubject: Observable.just(brand))
          if brand == "전체" {
             cell.brandSelectedSwitch.rx.isOn
-               .subscribe(onNext: { self.isAllSwitchButton.onNext($0) })
+               .subscribe(onNext: {
+                  self.isAllSwitchButton.onNext($0)
+               })
                .disposed(by: self.rx.disposeBag)
          } else {
             self.isAllSwitchButton
                .subscribe(onNext: {
-                  if let isOn = $0 {
-                     cell.brandSelectedSwitch.isOn = isOn
-                     DefaultData.shared.brandsSubject.onNext(isOn ? self.allBrands : [])
+                  if self.isLauchSetting {
+                     cell.brandSelectedSwitch.isOn = $0
+                     DefaultData.shared.brandsSubject.onNext($0 ? self.allBrands : [])
+                  } else {
+                     self.isLauchSetting = true
                   }
+                  
                })
                .disposed(by: self.rx.disposeBag)
          }

@@ -3,15 +3,24 @@
 <plist version="1.0">
 <dict>
 	<key>Brands</key>
-	<array/>
+	<array>
+		<string>SOL</string>
+		<string>RTX</string>
+		<string>ETC</string>
+		<string>SKE</string>
+		<string>GSC</string>
+		<string>HDO</string>
+		<string>RTO</string>
+		<string>NHO</string>
+		<string>E1G</string>
+		<string>SKG</string>
+	</array>
 	<key>NaviType</key>
 	<string>kakao</string>
 	<key>OilType</key>
 	<string></string>
 	<key>FindRadius</key>
 	<integer>3000</integer>
-	<key>BrandType</key>
-	<string>ALL</string>
 	<key>CFBundleIdentifier</key>
 	<string></string>
 	<key>Favorites</key>
