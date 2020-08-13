@@ -2,6 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Sales</key>
+	<dict>
+		<key>SK</key>
+		<integer>0</integer>
+		<key>HDO</key>
+		<integer>0</integer>
+		<key>GSC</key>
+		<integer>0</integer>
+		<key>SOL</key>
+		<integer>0</integer>
+		<key>E1G</key>
+		<integer>0</integer>
+		<key>RTO</key>
+		<integer>0</integer>
+		<key>NHO</key>
+		<integer>0</integer>
+	</dict>
 	<key>Brands</key>
 	<array>
 		<string>SOL</string>

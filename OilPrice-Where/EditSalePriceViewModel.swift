@@ -9,21 +9,22 @@
 import Foundation
 import RxSwift
 
+typealias BrandInfomation = (logo: UIImage?, title: String)
+
 final class EditSalePriceViewModel: CommonViewModel {
-   private let showBrand = [ // 선택 가능한 탐색 반경
-      "SK 에너지/가스",
-      "현대오일뱅크",
-      "GS칼텍스",
-      "S-OIL",
-      "E1",
-      "알뜰주유소",
-      "농협",
-      "남해화학클린"
+   private let brandsInfo: [BrandInfomation] = [ // 선택 가능한 탐색 반경
+      (UIImage(named: "LogoSKEnergy"), "SK 에너지/가스"),
+      (UIImage(named: "LogoOilBank"), "현대오일뱅크"),
+      (UIImage(named: "LogoGSCaltex"), "GS칼텍스"),
+      (UIImage(named: "LogoSOil"), "S-OIL"),
+      (UIImage(named: "LogoEnergyOne"), "E1"),
+      (UIImage(named: "LogoFrugalOil"), "알뜰주유소"),
+      (UIImage(named: "LogoNHOil"), "농협")
    ]
    
-   var brandSubject: BehaviorSubject<[String]>
+   var brandsInfoSubject: BehaviorSubject<[BrandInfomation]>
    
    override init() {
-      self.brandSubject = BehaviorSubject<[String]>(value: showBrand)
+      self.brandsInfoSubject = BehaviorSubject<[BrandInfomation]>(value: brandsInfo)
    }
 }

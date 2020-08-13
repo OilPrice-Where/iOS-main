@@ -26,6 +26,7 @@ class DefaultData {
    var brandsSubject = BehaviorSubject<[String]>(value: []) // 설정 브랜드
    var favoriteSubject = BehaviorSubject<[String]>(value: []) // 즐겨 찾기
    var naviSubject = BehaviorSubject<String>(value: "kakao")
+   var salesSubject = BehaviorSubject<[String: Int]>(value: [:])
    var tempFavArr: [String: InformationGasStaion] = [:]
    
    // 전군 평균 기름 값 로드 함수
@@ -54,18 +55,21 @@ class DefaultData {
    
    func setData() {
       let defaultBrands = ["SKE", "GSC", "HDO", "SOL", "RTO", "RTX", "NHO", "ETC", "E1G", "SKG"]
+      let defaultSales = [ "SK": 0, "HDO": 0, "GSC": 0, "SOL": 0, "E1G": 0, "RTO": 0, "NHO": 0]
       SwiftyPlistManager.shared.start(plistNames: ["UserInfo"], logging: true) // Plist 불러오기
       let radius = getValue(defaultValue: 3000, for: "FindRadius")
       let oilType = getValue(defaultValue: "", for: "OilType")
       let brands = getValue(defaultValue: defaultBrands, for: "Brands")
       let favArr = getValue(defaultValue: [String](), for: "Favorites")
       let naviType = getValue(defaultValue: "kakao", for: "NaviType")
-      print(brands)
+      let sales = getValue(defaultValue: defaultSales, for: "Sales")
+      
       oilSubject.onNext(oilType)
       radiusSubject.onNext(radius)
       favoriteSubject.onNext(favArr)
       brandsSubject.onNext(brands)
       naviSubject.onNext(naviType)
+      salesSubject.onNext(sales)
       
       // Plist에 값 저장
       // Oil Type Save
@@ -122,6 +126,18 @@ class DefaultData {
          .subscribe(onNext: {
             SwiftyPlistManager.shared.save($0,
                                            forKey: "NaviType",
+                                           toPlistWithName: "UserInfo") { (err) in
+                                             if err != nil {
+                                                print("Success Save BrandType !!")
+                                             }}
+         })
+         .disposed(by: bag)
+      
+      // Navi Type Save
+      salesSubject
+         .subscribe(onNext: {
+            SwiftyPlistManager.shared.save($0,
+                                           forKey: "Sales",
                                            toPlistWithName: "UserInfo") { (err) in
                                              if err != nil {
                                                 print("Success Save BrandType !!")

@@ -209,6 +209,50 @@ final class Preferences {
       }
    }
    
+   static func saleBrand(name: String) -> String {
+      switch name {
+      case "GS칼텍스":
+         return "GSC"
+      case "현대오일뱅크":
+         return "HDO"
+      case "S-OIL":
+         return "SOL"
+      case "알뜰주유소":
+         return "RTO"
+      case "농협":
+         return "NHO"
+      case "E1":
+         return "E1G"
+      default:
+         return "SK"
+      }
+   }
+   
+   static func saleBrand(code: String) -> Int {
+      guard let sales = try? DefaultData.shared.salesSubject.value() else { return 0 }
+      var value: Int?
+      switch code {
+      case "GSC":
+         value = sales["GSC"]
+      case "HDO":
+         value = sales["HDO"]
+      case "SOL":
+         value = sales["SOL"]
+      case "RTO":
+         value = sales["RTO"]
+      case "NHO":
+         value = sales["NHO"]
+      case "E1G":
+         value = sales["E1G"]
+      case "SKG", "SKE":
+         value = sales["SK"]
+      default:
+         break
+      }
+      
+      return value ?? 0
+   }
+   
    // String으로 표시 된 거리를 Int값으로 반환
    // ex) 1KM -> 1000
    static func distanceKM(KM: String) -> Int {

@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import NSObject_Rx
 
 class SettingEditSalePriceViewController: CommonViewController, ViewModelBindableType {
    static let identifier = "SettingEditSalePriceViewController"
@@ -15,9 +18,24 @@ class SettingEditSalePriceViewController: CommonViewController, ViewModelBindabl
    
    override func viewDidLoad() {
       super.viewDidLoad()
+      
+      tableView.keyboardDismissMode = .onDrag
+      
+      let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapAction))
+      tableView.addGestureRecognizer(tap)
+   }
+   
+   @objc func handleTapAction() {
+      tableView.endEditing(true)
    }
    
    func bindViewModel() {
-      
+      viewModel.brandsInfoSubject
+         .bind(to: tableView.rx.items(cellIdentifier: SalePriceTableViewCell.identifier,
+                                      cellType: SalePriceTableViewCell.self)) { item, info, cell in
+                                       cell.bind(targetSubject: Observable.just(info))
+                                       cell.selectionStyle = .none
+      }
+      .disposed(by: rx.disposeBag)
    }
 }

@@ -112,7 +112,7 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
       
       let target = DefaultData.shared
       
-      Observable.combineLatest(target.oilSubject, target.radiusSubject, target.brandsSubject)
+      Observable.combineLatest(target.oilSubject, target.radiusSubject, target.brandsSubject, target.salesSubject)
          .subscribe(onNext: { _ in
             self.configureLocationServices()
             self.refresh()
@@ -264,6 +264,15 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
                                        print("DataLoad")
                                        
                                        var target = gasStationData.result.gasStations
+                                       
+                                       target = target.map { info -> GasStation in
+                                          var newInfo = info
+                                          newInfo.price = newInfo.price - Preferences.saleBrand(code: info.brand)
+                                          
+                                          return newInfo
+                                       }
+                                       
+                                       target.sort { $0.price < $1.price }
                                        
                                        if brands.count != 10 {
                                           target = target.filter { brands.contains($0.brand) }
