@@ -69,6 +69,7 @@
 - ver 1.3.0 : Bug fixes Debug & Add Function Release(20.07.31.)
 - ver 1.3.1 : Bug fixes Debug(20.08.07.)
 - ver 1.4.0 : Add Function Release(20.08.14.)
+- ver 1.5.0 : Add Function Release(20.08.21.)
 
 <br>
 
