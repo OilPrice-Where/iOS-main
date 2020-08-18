@@ -586,35 +586,31 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lwR-NJ-GDQ">
                                                 <rect key="frame" x="20" y="0.0" width="280" height="37.5"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Ohf-CV-boG">
-                                                        <rect key="frame" x="8" y="9" width="272" height="20"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Ohf-CV-boG">
+                                                        <rect key="frame" x="43.5" y="-6" width="193" height="50"/>
                                                         <subviews>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="geoIcon" translatesAutoresizingMaskIntoConstraints="NO" id="LQT-gX-7AD">
-                                                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="geoIcon" translatesAutoresizingMaskIntoConstraints="NO" id="LQT-gX-7AD">
+                                                                <rect key="frame" x="0.0" y="15" width="20" height="20"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" constant="20" id="RXK-Jc-hqR"/>
+                                                                    <constraint firstAttribute="height" constant="20" id="I7q-p1-Jdu"/>
+                                                                    <constraint firstAttribute="width" constant="20" id="iCH-LA-rEH"/>
                                                                 </constraints>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T7e-un-Myh">
-                                                                <rect key="frame" x="25" y="0.0" width="209" height="20"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T7e-un-Myh">
+                                                                <rect key="frame" x="25" y="0.0" width="168" height="50"/>
                                                                 <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="16"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yLC-de-Bvu">
-                                                                <rect key="frame" x="239" y="0.0" width="33" height="20"/>
-                                                                <state key="normal" image="search"/>
-                                                            </button>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="20" id="xJb-uU-7vj"/>
+                                                            <constraint firstItem="T7e-un-Myh" firstAttribute="leading" secondItem="LQT-gX-7AD" secondAttribute="trailing" constant="5" id="OHD-Ms-hEX"/>
                                                         </constraints>
                                                     </stackView>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="Ohf-CV-boG" secondAttribute="trailing" id="5hu-zZ-BCl"/>
-                                                    <constraint firstItem="Ohf-CV-boG" firstAttribute="leading" secondItem="lwR-NJ-GDQ" secondAttribute="leading" constant="8" id="8gb-ZR-UIf"/>
-                                                    <constraint firstItem="Ohf-CV-boG" firstAttribute="centerY" secondItem="lwR-NJ-GDQ" secondAttribute="centerY" id="EBd-st-ffh"/>
+                                                    <constraint firstItem="Ohf-CV-boG" firstAttribute="centerY" secondItem="lwR-NJ-GDQ" secondAttribute="centerY" id="BTZ-CH-mCc"/>
+                                                    <constraint firstItem="Ohf-CV-boG" firstAttribute="centerX" secondItem="lwR-NJ-GDQ" secondAttribute="centerX" id="JOH-qZ-0SU"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -1939,7 +1935,6 @@
         <image name="oilTabIcon" width="25" height="25"/>
         <image name="oilTabIconSel" width="25" height="25"/>
         <image name="rightIcon" width="25" height="40"/>
-        <image name="search" width="33" height="33"/>
         <image name="settingTabIcon" width="25" height="25"/>
         <image name="settingTabIconSel" width="25" height="25"/>
         <namedColor name="DarkModeImageColor">
