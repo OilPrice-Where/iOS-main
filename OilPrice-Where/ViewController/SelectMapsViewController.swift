@@ -12,22 +12,27 @@ import RxCocoa
 import NSObject_Rx
 
 class SelectMapsViewController: CommonViewController, ViewModelBindableType {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+   static let identifier = "SelectMapsViewController"
+   @IBOutlet private weak var tableView: UITableView!
+   var viewModel: SelectMapsViewModel!
+   
+   override func viewDidLoad() {
+      super.viewDidLoad()
+   }
+   
+   func bindViewModel() {
+      viewModel.mapSubject
+         .bind(to: tableView.rx.items(cellIdentifier: MapTypeTableViewCell.identifier,
+                                      cellType: MapTypeTableViewCell.self)) { index, type, cell in
+                                       cell.bind(mapSubject: Observable.just(type))
+      }
+      .disposed(by: rx.disposeBag)
+      
+      tableView.rx.modelSelected(String.self)
+         .subscribe(onNext: {
+            let type = Preferences.mapsType(name: $0)
+            DefaultData.shared.mapsSubject.onNext(type)
+         })
+         .disposed(by: rx.disposeBag)
+   }
 }

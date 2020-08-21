@@ -12,7 +12,7 @@ import TMapSDK
 
 enum MapType: String {
    case appleMap = "AppleMap"
-   case googleMap = "googleMap"
+   case googleMap = "GoogleMap"
 }
 
 extension MapType {
@@ -85,5 +85,19 @@ extension MainListViewController: GMSMapViewDelegate {
    
    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
       deselectedMarker()
+   }
+   
+   func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+      guard let oldLocation = oldLocation else { return }
+      
+      let centerCoordinate = Converter.centerCoordinates(with: mapView)
+      let newLocation = CLLocation(latitude: centerCoordinate.latitude,
+                                     longitude: centerCoordinate.longitude)
+      
+      let distance = newLocation.distance(from: oldLocation)
+      
+      guard distance > 5000 else { return }
+      
+      researchButton.isHidden = false
    }
 }

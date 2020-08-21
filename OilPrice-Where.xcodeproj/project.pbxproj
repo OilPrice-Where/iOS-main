@@ -22,6 +22,7 @@
 		8E40DB1924D7E45400352F7E /* InitialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E40DB1824D7E45400352F7E /* InitialViewModel.swift */; };
 		8E40DB1E24D7F34400352F7E /* InitialCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E40DB1D24D7F34400352F7E /* InitialCollectionViewCell.swift */; };
 		8E4DBA4424E43492002E605C /* SalePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4DBA4324E43492002E605C /* SalePriceTableViewCell.swift */; };
+		8E5FD38E24EFEDA400C6EE35 /* MapTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5FD38D24EFEDA400C6EE35 /* MapTypeTableViewCell.swift */; };
 		8E68BA1524CCC560004730D7 /* SelectOilTypeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1424CCC560004730D7 /* SelectOilTypeViewModel.swift */; };
 		8E68BA1724CCC5F7004730D7 /* ViewModelBindableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1624CCC5F7004730D7 /* ViewModelBindableType.swift */; };
 		8E68BA1924CCC61A004730D7 /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1824CCC61A004730D7 /* CommonViewModel.swift */; };
@@ -149,6 +150,7 @@
 		8E40DB1824D7E45400352F7E /* InitialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewModel.swift; sourceTree = "<group>"; };
 		8E40DB1D24D7F34400352F7E /* InitialCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialCollectionViewCell.swift; sourceTree = "<group>"; };
 		8E4DBA4324E43492002E605C /* SalePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalePriceTableViewCell.swift; sourceTree = "<group>"; };
+		8E5FD38D24EFEDA400C6EE35 /* MapTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTypeTableViewCell.swift; sourceTree = "<group>"; };
 		8E68BA1424CCC560004730D7 /* SelectOilTypeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectOilTypeViewModel.swift; sourceTree = "<group>"; };
 		8E68BA1624CCC5F7004730D7 /* ViewModelBindableType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBindableType.swift; sourceTree = "<group>"; };
 		8E68BA1824CCC61A004730D7 /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
@@ -508,10 +510,11 @@
 		8EE53E8D24CF3C05008D8045 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				8E5FD38D24EFEDA400C6EE35 /* MapTypeTableViewCell.swift */,
+				8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */,
 				8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */,
 				8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */,
 				8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */,
-				8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */,
 				8EE53E9424D01828008D8045 /* AboutUsTableViewCell.swift */,
 				8E4DBA4324E43492002E605C /* SalePriceTableViewCell.swift */,
 			);
@@ -704,6 +707,7 @@
 				8E40DB1924D7E45400352F7E /* InitialViewModel.swift in Sources */,
 				8E167D412107E30F0066A59E /* GasStationListData.swift in Sources */,
 				8EB5C2E82139214700AB83BB /* Reachability.swift in Sources */,
+				8E5FD38E24EFEDA400C6EE35 /* MapTypeTableViewCell.swift in Sources */,
 				8EE53E7D24CF1427008D8045 /* MainListVC+CoreLocation.swift in Sources */,
 				8ECE0DA82123836E00FF2B46 /* AllOilAverageView.swift in Sources */,
 				8E7FFE3920F5EA1C006CED48 /* SettingTableViewController.swift in Sources */,
@@ -909,7 +913,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -949,7 +953,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

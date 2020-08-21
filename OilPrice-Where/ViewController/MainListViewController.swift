@@ -13,6 +13,7 @@ import RxCocoa
 import NSObject_Rx
 import TMapSDK
 import GoogleMaps
+import GooglePlaces
 
 class MainListViewController: CommonViewController, TMapTapiDelegate {
    //Network
@@ -108,6 +109,7 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    
    override func viewDidLoad() {
       super.viewDidLoad()
+
       configureLocationServices()
       createSortView() // 가격순, 거리순 버튼 생성 및 설정
       setting() // 기본 설정
@@ -119,7 +121,8 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    func observeTarget() {
       let target = DefaultData.shared
       
-      Observable.combineLatest(target.oilSubject, target.radiusSubject, target.brandsSubject, target.salesSubject)
+      Observable.combineLatest(target.oilSubject, target.radiusSubject, target.brandsSubject,
+                               target.salesSubject, target.mapsSubject)
          .subscribe(onNext: { _ in
             self.configureLocationServices()
             self.refresh()
@@ -131,8 +134,10 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
          .subscribe(onNext: {
             if $0 {
                self.appleMapView.isHidden = false
+               self.gMapView.isHidden = true
             } else {
                self.appleMapView.isHidden = true
+               self.gMapView.isHidden = false
             }
          })
          .disposed(by: rx.disposeBag)
@@ -277,6 +282,7 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
       case .googleMap:
          gMapMarkers.forEach { $0.map = nil }
          gMapMarkers = []
+         gMapView.clear()
       }
 
       selectIndexPath = nil

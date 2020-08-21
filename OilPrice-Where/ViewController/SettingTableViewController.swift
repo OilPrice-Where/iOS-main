@@ -56,6 +56,7 @@ class SettingTableViewController: UITableViewController {
    @IBOutlet private weak var oilTypeLabel : UILabel! // 현재 탐색 하고 있는 오일의 타입
    @IBOutlet private weak var findLabel : UILabel! // 현재 탐색 하고 있는 탐색 반경
    @IBOutlet private weak var findNaviType: UILabel!
+   @IBOutlet private weak var selectMapType: UILabel!
    
    override var preferredStatusBarStyle: UIStatusBarStyle {
       return .lightContent
@@ -70,6 +71,16 @@ class SettingTableViewController: UITableViewController {
    // 이전 설정을 데이터를 불러와서
    // oilTypeLabel, findLabel 업데이트
    func bindViewModel() {
+      DefaultData.shared.mapsSubject
+         .map { Preferences.mapsType(code: $0) }
+         .bind(to: selectMapType.rx.text)
+         .disposed(by: rx.disposeBag)
+      
+      DefaultData.shared.naviSubject
+         .map { Preferences.navigationType(name: $0) }
+         .bind(to: findNaviType.rx.text)
+         .disposed(by: rx.disposeBag)
+      
       DefaultData.shared.oilSubject
          .map { Preferences.oil(code: $0) }
          .bind(to: oilTypeLabel.rx.text)
@@ -78,11 +89,6 @@ class SettingTableViewController: UITableViewController {
       DefaultData.shared.radiusSubject
          .map { String($0 / 1000) + "KM" }
          .bind(to: findLabel.rx.text)
-         .disposed(by: rx.disposeBag)
-      
-      DefaultData.shared.naviSubject
-         .map { Preferences.navigationType(name: $0) }
-         .bind(to: findNaviType.rx.text)
          .disposed(by: rx.disposeBag)
    }
 }
@@ -93,8 +99,8 @@ extension SettingTableViewController {
       
       switch SelectCellType.indexPath(at: indexPath) {
       case .selectMapVC:
-         if var vc = storyboard.instantiateViewController(withIdentifier: SelectNavigationController.identifier) as? SelectNavigationController {
-            let viewModel = SelectNaviViewModel()
+         if var vc = storyboard.instantiateViewController(withIdentifier: SelectMapsViewController.identifier) as? SelectMapsViewController {
+            let viewModel = SelectMapsViewModel()
             vc.bind(viewModel: viewModel)
             navigationController?.pushViewController(vc, animated: true)
          }

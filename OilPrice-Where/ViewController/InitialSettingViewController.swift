@@ -13,22 +13,34 @@ import NSObject_Rx
 
 // 초기 설정 페이지
 class InitialSettingViewController: CommonViewController {
+   typealias selectTypes = (oil: Int, navi: Int, map: Int)
+   
    var viewModel: InitialViewModel!
-   @IBOutlet private weak var collectionView: UICollectionView!
-   @IBOutlet private weak var leftButton: UIButton!
-   @IBOutlet private weak var rightButton: UIButton!
-   @IBOutlet private weak var okButton : UIButton!
+   @IBOutlet private weak var selectTypeView: UIView!
+   @IBOutlet private weak var oilTypeSegmentControl: UISegmentedControl!
+   @IBOutlet private weak var naviTypeSegmentControl: UISegmentedControl!
+   @IBOutlet private weak var mapTypeSegmentControl: UISegmentedControl!
+   @IBOutlet private weak var okButton: UIButton!
    
    override var preferredStatusBarStyle: UIStatusBarStyle {
       return .default
    }
    
    func viewLayoutSetUp() {
-      okButton.layer.cornerRadius = 6
+      selectTypeView.layer.cornerRadius = 7.5
+      okButton.layer.cornerRadius = 15
       
-      if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-         layout.itemSize = collectionView.bounds.size
-      }
+      let font = UIFont(name: "NanumSquareRoundR", size: 15) ?? UIFont.systemFont(ofSize: 17)
+
+      let normalAttribute: [NSAttributedString.Key: Any] = [.font: font, .foregroundColor: UIColor.black]
+      let selectedAttribute: [NSAttributedString.Key: Any] = [.font: font, .foregroundColor: UIColor.white]
+      
+      oilTypeSegmentControl.setTitleTextAttributes(normalAttribute, for: .normal)
+      oilTypeSegmentControl.setTitleTextAttributes(selectedAttribute, for: .selected)
+      naviTypeSegmentControl.setTitleTextAttributes(normalAttribute, for: .normal)
+      naviTypeSegmentControl.setTitleTextAttributes(selectedAttribute, for: .selected)
+      mapTypeSegmentControl.setTitleTextAttributes(normalAttribute, for: .normal)
+      mapTypeSegmentControl.setTitleTextAttributes(selectedAttribute, for: .selected)
    }
    
    override func viewDidLoad() {
@@ -39,50 +51,15 @@ class InitialSettingViewController: CommonViewController {
    }
 
    func bindViewModel() {
-      viewModel.initialOilTypeSubject
-         .bind(to: collectionView.rx.items(cellIdentifier: InitialCollectionViewCell.identifier,
-                                           cellType: InitialCollectionViewCell.self)) { item, initialOilType, cell in
-                                             cell.configure(initialOilType: initialOilType)
-         }
-         .disposed(by: rx.disposeBag)
-      
-      collectionView.rx.contentOffset
-         .map { $0.x }
-         .subscribe(onNext: {
-            self.leftButton.isEnabled = !($0 <= 0)
-            self.rightButton.isEnabled = !($0 >= self.collectionView.bounds.width * 3)
-         })
-         .disposed(by: rx.disposeBag)
-      
-      leftButton.rx.tap
-         .map { self.collectionView.contentOffset }
-         .map { CGPoint(x: $0.x - self.collectionView.bounds.width, y: $0.y) }
-         .map { self.collectionView.indexPathForItem(at: $0) }
-         .subscribe(onNext: {
-            if let indexPath = $0 {
-               self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            }
-         })
-         .disposed(by: rx.disposeBag)
-      
-      rightButton.rx.tap
-         .map { self.collectionView.contentOffset }
-         .map { CGPoint(x: $0.x + self.collectionView.bounds.width, y: $0.y) }
-         .map { self.collectionView.indexPathForItem(at: $0) }
-         .subscribe(onNext: {
-            if let indexPath = $0 {
-               self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            }
-         })
-         .disposed(by: rx.disposeBag)
-      
       // 확인 버튼 클릭 이벤트
       okButton.rx.tap
-         .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
-         .map { self.collectionView.contentOffset.x / self.collectionView.bounds.width }
-         .map { Int($0) }
-         .map { (SelectInitialPage(rawValue: $0) ?? SelectInitialPage.gasoline) }
-         .subscribe(onNext: { self.viewModel.okAction(page: $0) })
-         .disposed(by: rx.disposeBag)
+         .map { [weak self] _ -> selectTypes in
+            guard let strongSelf = self else { return (oil: 0, navi: 0, map: 0) }
+            return (oil: strongSelf.oilTypeSegmentControl.selectedSegmentIndex,
+                    navi: strongSelf.naviTypeSegmentControl.selectedSegmentIndex,
+                    map: strongSelf.mapTypeSegmentControl.selectedSegmentIndex)
+         }
+      .subscribe(onNext: { self.viewModel.okAction(oil: $0.oil, navi: $0.navi, map: $0.map) })
+      .disposed(by: rx.disposeBag)
    }
 }

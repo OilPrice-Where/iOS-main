@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>MapType</key>
-	<string>TMap</string>
+	<string>AppleMap</string>
 	<key>Sales</key>
 	<dict>
 		<key>SK</key>
@@ -39,7 +39,7 @@
 	<key>OilType</key>
 	<string></string>
 	<key>FindRadius</key>
-	<integer>3000</integer>
+	<integer>5000</integer>
 	<key>CFBundleIdentifier</key>
 	<string></string>
 	<key>Favorites</key>

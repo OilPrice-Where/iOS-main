@@ -274,6 +274,25 @@ final class Preferences {
       }
    }
    
+   // Map Type
+   static func mapsType(name: String) -> String {
+      switch name {
+      case "Apple Map":
+         return "AppleMap"
+      default:
+         return "GoogleMap"
+      }
+   }
+   
+   static func mapsType(code: String) -> String {
+      switch code {
+      case "AppleMap":
+         return "Apple Map"
+      default:
+         return "Google Map"
+      }
+   }
+   
    // 네비게이션 타입
    static func navigationType(name: String) -> String {
       switch name {

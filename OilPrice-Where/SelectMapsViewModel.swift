@@ -11,8 +11,8 @@ import RxSwift
 
 final class SelectMapsViewModel: CommonViewModel {
    private let mapsType = [ // 선택 가능한 탐색 반경
-      "Apple Maps",
-      "Google Maps"
+      "Apple Map",
+      "Google Map"
    ]
    
    var mapSubject: BehaviorSubject<[String]>
