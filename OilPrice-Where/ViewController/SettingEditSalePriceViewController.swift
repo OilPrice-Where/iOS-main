@@ -39,3 +39,22 @@ class SettingEditSalePriceViewController: CommonViewController, ViewModelBindabl
       .disposed(by: rx.disposeBag)
    }
 }
+
+extension SettingEditSalePriceViewController: UITableViewDelegate {
+   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+      return 60
+   }
+   
+   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+      let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 40))
+      let label = UILabel(frame: CGRect(x: 17, y: 35, width: tableView.bounds.width - 16, height: 20))
+      label.text = "소유한 카드의 리터당 할인정보 입력"
+      label.font = UIFont(name: "NanumSquareRoundR", size: 13)
+      label.textAlignment = .left
+      label.textColor = .darkGray
+      
+      view.addSubview(label)
+      
+      return view
+   }
+}

@@ -12,6 +12,7 @@ import NSObject_Rx
 import RxCocoa
 
 enum SelectCellType {
+   case selectMapVC
    case selectNaviVC
    case selectOilVC
    case selectDistanceVC
@@ -26,6 +27,8 @@ extension SelectCellType {
    static func indexPath(at indexPath: IndexPath) -> SelectCellType {
       switch (indexPath.section, indexPath.row) {
       case (0, 0):
+         return .selectMapVC
+      case (0, 1):
          return .selectNaviVC
       case (1, 0):
          return .selectOilVC
@@ -89,6 +92,12 @@ extension SettingTableViewController {
       let storyboard = UIStoryboard(name: "Main", bundle: nil)
       
       switch SelectCellType.indexPath(at: indexPath) {
+      case .selectMapVC:
+         if var vc = storyboard.instantiateViewController(withIdentifier: SelectNavigationController.identifier) as? SelectNavigationController {
+            let viewModel = SelectNaviViewModel()
+            vc.bind(viewModel: viewModel)
+            navigationController?.pushViewController(vc, animated: true)
+         }
       case .selectNaviVC:
          if var vc = storyboard.instantiateViewController(withIdentifier: SelectNavigationController.identifier) as? SelectNavigationController {
             let viewModel = SelectNaviViewModel()

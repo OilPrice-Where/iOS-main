@@ -13,7 +13,7 @@ typealias BrandInfomation = (logo: UIImage?, title: String)
 
 final class EditSalePriceViewModel: CommonViewModel {
    private let brandsInfo: [BrandInfomation] = [ // 선택 가능한 탐색 반경
-      (UIImage(named: "LogoSKEnergy"), "SK 에너지/가스"),
+      (UIImage(named: "LogoSKEnergy"), "SK"),
       (UIImage(named: "LogoOilBank"), "현대오일뱅크"),
       (UIImage(named: "LogoGSCaltex"), "GS칼텍스"),
       (UIImage(named: "LogoSOil"), "S-OIL"),

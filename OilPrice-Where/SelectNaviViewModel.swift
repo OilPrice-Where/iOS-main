@@ -1,5 +1,5 @@
 //
-//  SettingViewModel.swift
+//  SelectNaviViewModel.swift
 //  OilPrice-Where
 //
 //  Created by 박상욱 on 2020/07/26.

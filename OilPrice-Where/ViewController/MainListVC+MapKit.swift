@@ -7,6 +7,8 @@
 //
 
 import MapKit
+import GoogleMaps
+import CoreLocation
 import RxSwift
 import RxCocoa
 import NSObject_Rx
@@ -14,40 +16,118 @@ import Foundation
 
 //MARK: MapKit 관련
 extension MainListViewController {
+   func createMarkerView(to coordinate: CLLocationCoordinate2D, station info: GasStation) -> CustomMarkerAnnotationView {
+      let annotation = CustomMarkerAnnotation(coordinate: coordinate, info: info)
+      let view = CustomMarkerAnnotationView(annotation: annotation, reuseIdentifier: "imageAnnotation")
+      
+      view.annotation = annotation
+      view.stationInfo = annotation.stationInfo
+      view.priceLabel.text = "\(annotation.stationInfo.price)"
+      view.coordinate = annotation.coordinate
+      view.image = Preferences.logoImage(logoName: annotation.stationInfo.brand)
+      view.mapMarkerImageView.image = UIImage(named: "NonMapMarker")
+      view.priceLabel.textColor = .black
+      
+      if let lhs = view.stationInfo?.price,
+         let rhs = try? DefaultData.shared.stationsSubject.value().first?.price,
+         lhs == rhs {
+         view.mapMarkerImageView.image = UIImage(named: "MinMapMarker")
+         view.priceLabel.textColor = UIColor.white
+      }
+      
+      return view
+   }
+   
    // 마커 생성
    func showMarker() {
-      guard let target = try? DefaultData.shared.stationsSubject.value() else { return }
+      guard let target = try? DefaultData.shared.stationsSubject.value(),
+         let type = DefaultData.shared.currentType else { return }
       
       let stations = distanceSortButton.isSelected ? sortData : target
       
-      annotations = stations.map {
-         let katec = KatecPoint(x: $0.katecX, y: $0.katecY)
-         let coordinate = Converter.convertKatecToWGS(katec: katec)
+      switch type {
+      case .appleMap:
+         annotations = stations.map {
+            let katec = KatecPoint(x: $0.katecX, y: $0.katecY)
+            let coordinate = Converter.convertKatecToWGS(katec: katec)
+            
+            return CustomMarkerAnnotation(coordinate: coordinate, info: $0)
+         }
          
-         return CustomMarkerAnnotation(coordinate: coordinate, info: $0)
+         appleMapView.addAnnotations(annotations)
+      case .googleMap:
+         gMapMarkers = stations.map {
+            let katec = KatecPoint(x: $0.katecX, y: $0.katecY)
+            let position = Converter.convertKatecToWGS(katec: katec)
+            let marker = GMSMarker(position: position)
+            
+            marker.iconView = createMarkerView(to: position, station: $0)
+            marker.map = gMapView
+            
+            return marker
+         }
       }
-      
-      appleMapView.addAnnotations(annotations)
    }
    
    // 화면 포커스
-   func zoomToLatestLocation(with coordinate: CLLocationCoordinate2D) {
-      let zoomRegion = MKCoordinateRegionMakeWithDistance(coordinate, 3000, 3000) // 2km, 2km
-      appleMapView.setRegion(zoomRegion, animated: true)
+   func zoomToLatestLocation(with coordinate: CLLocationCoordinate2D?) {
+      guard let coordinate = coordinate,
+         let type = DefaultData.shared.currentType else { return }
+      
+      switch type {
+      case .appleMap:
+         let zoomRegion = MKCoordinateRegionMakeWithDistance(coordinate, 3000, 3000) // 3km, 3km
+         appleMapView.setRegion(zoomRegion, animated: true)
+      case .googleMap:
+         gMapView.animate(toLocation: coordinate)
+         gMapView.animate(toZoom: 14)
+      }
    }
    
    // 맵의 현재위치 버튼
-   @objc func currentLoaction(_ sender: UIButton) {
-      zoomToLatestLocation(with: currentCoordinate!)
+   @IBAction func currentLoaction(_ sender: UIButton?) {
+      zoomToLatestLocation(with: currentCoordinate)
    }
    
    // 지도 보기
    @objc func viewMapAction(annotionIndex gesture: UITapGestureRecognizer) {
-      guard let index = selectIndexPath?.section else { return }
+      guard let index = selectIndexPath?.section,
+         let type = DefaultData.shared.currentType else { return }
       
       toList(self.toListButton)
       
-      appleMapView.selectAnnotation(annotations[index], animated: true)
+      switch type {
+      case .appleMap:
+         appleMapView.selectAnnotation(annotations[index], animated: true)
+      case .googleMap:
+         selectedMarker(at: index)
+      }
+      
+   }
+   
+   @IBAction private func refreshAction(_ sender: UIButton) {
+      guard let type = DefaultData.shared.currentType else { return }
+      let newLocation: CLLocation
+      let katecPoint: KatecPoint
+      
+      switch type {
+      case .appleMap:
+         newLocation = CLLocation(latitude: appleMapView.centerCoordinate.latitude,
+                                  longitude: appleMapView.centerCoordinate.longitude)
+         katecPoint = Converter.convertWGS84ToKatec(coordinate: appleMapView.centerCoordinate)
+      case .googleMap:
+         let centerCoordinate = Converter.centerCoordinates(with: gMapView)
+         newLocation = CLLocation(latitude: centerCoordinate.latitude,
+                                  longitude: centerCoordinate.longitude)
+         katecPoint = Converter.convertWGS84ToKatec(coordinate: centerCoordinate)
+      }
+      
+      oldLocation = nil
+      reset()
+      gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
+      oldLocation = newLocation
+      zoomToLatestLocation(with: newLocation.coordinate)
+      sender.isHidden = true
    }
 }
 
@@ -141,7 +221,7 @@ extension MainListViewController: MKMapViewDelegate {
             self.appleMapView.add(route.polyline, level: .aboveRoads) // 경로 추가
          }
       }
-      zoomToLatestLocation(with: markerView.coordinate!) // 마커 선택 시 마커 위치를 맵의 가운데로 표시
+      zoomToLatestLocation(with: markerView.coordinate) // 마커 선택 시 마커 위치를 맵의 가운데로 표시
       isSelectedAnnotion = true
    }
    
@@ -161,12 +241,11 @@ extension MainListViewController: MKMapViewDelegate {
          
          if let target = try? DefaultData.shared.stationsSubject.value().first?.price,
             let lhs = target, let rhs = markerView.stationInfo?.price, lhs == rhs {
-               markerView.mapMarkerImageView.image = UIImage(named: "MinMapMarker")
-               markerView.priceLabel.textColor = UIColor.white
+            markerView.mapMarkerImageView.image = UIImage(named: "MinMapMarker")
+            markerView.priceLabel.textColor = UIColor.white
          }
       }
    }
-   
    
    // 경로관련 선 옵션 Delegate
    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -176,5 +255,17 @@ extension MainListViewController: MKMapViewDelegate {
       renderer.lineWidth = 3.4
       
       return renderer
+   }
+   
+   func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+      guard let oldLocation = oldLocation else { return }
+      let newLocation = CLLocation(latitude: mapView.centerCoordinate.latitude,
+                                   longitude: mapView.centerCoordinate.longitude)
+      
+      let distance = newLocation.distance(from: oldLocation)
+      
+      guard distance > 5000 else { return }
+      
+      researchButton.isHidden = false
    }
 }

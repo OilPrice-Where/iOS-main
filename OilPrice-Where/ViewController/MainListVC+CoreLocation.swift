@@ -5,7 +5,9 @@
 //  Created by 박상욱 on 2020/07/27.
 //  Copyright © 2020 sangwook park. All rights reserved.
 //
+
 import Foundation
+import GoogleMaps
 import CoreLocation
 
 // CoreLocation 관련 함수
@@ -13,7 +15,6 @@ extension MainListViewController {
    // 위치 관련 인증 확인
    @objc func configureLocationServices() {
       locationManager.delegate = self
-      appleMapView.delegate = self
       
       // 현재 인증상태 확인
       switch CLLocationManager.authorizationStatus() {
@@ -48,7 +49,11 @@ extension MainListViewController {
    
    // 위치 요청 시작
    func startLocationUpdates(locationManager: CLLocationManager) {
-      appleMapView.showsUserLocation = true
+      guard let type = DefaultData.shared.currentType else { return }
+      if type == .appleMap {
+         appleMapView.showsUserLocation = true
+      }
+      
       locationManager.desiredAccuracy = kCLLocationAccuracyBest
       locationManager.startUpdatingLocation()
    }
@@ -99,47 +104,47 @@ extension MainListViewController: CLLocationManagerDelegate {
    }
    
    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-      let newLocation = locations.last
+      guard let newLocation = locations.last else { return }
+      self.currentCoordinate = newLocation.coordinate
       
-      if newLocation != nil {
-         currentCoordinate = newLocation!.coordinate
-         
-         let katecPoint = Converter.convertWGS84ToKatec(coordinate: newLocation!.coordinate)
-         
-         if !performingReverseGeocoding {
-            performingReverseGeocoding = true
-            geocoder.reverseGeocodeLocation(newLocation!, completionHandler: {
-               placemarks, error in
-               self.lastGeocodingError = error
-               // 에러가 없고, 주소 정보가 있으며 주소가 공백이지 않을 시
-               if error == nil, let p = placemarks, !p.isEmpty {
-                  self.currentPlacemark = p.last!
-               } else {
-                  self.currentPlacemark = nil
-               }
-               
-               self.performingReverseGeocoding = false
-               self.headerView.configure(with: self.string(from: self.currentPlacemark))
-            })
-         }
-         if let lastLocation = oldLocation {
-            let distance: CLLocationDistance = newLocation!.distance(from: lastLocation)
-            if distance < 50.0 {
-               stopLocationManager()
-               tableView.reloadData()
+      let katecPoint = Converter.convertWGS84ToKatec(coordinate: newLocation.coordinate)
+      
+      if !performingReverseGeocoding {
+         performingReverseGeocoding = true
+         geocoder.reverseGeocodeLocation(newLocation, completionHandler: {
+            placemarks, error in
+            self.lastGeocodingError = error
+            // 에러가 없고, 주소 정보가 있으며 주소가 공백이지 않을 시
+            if error == nil, let p = placemarks, !p.isEmpty {
+               self.currentPlacemark = p.last!
             } else {
-               reset()
-               gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
-               stopLocationManager()
-               oldLocation = newLocation
-               zoomToLatestLocation(with: currentCoordinate!)
+               self.currentPlacemark = nil
             }
+            
+            self.performingReverseGeocoding = false
+            self.headerView.configure(with: self.string(from: self.currentPlacemark))
+         })
+      }
+      if let lastLocation = oldLocation {
+         let distance: CLLocationDistance = newLocation.distance(from: lastLocation)
+         if distance < 50.0 {
+            stopLocationManager()
+            tableView.reloadData()
          } else {
-            zoomToLatestLocation(with: currentCoordinate!)
+            reset()
             gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
             stopLocationManager()
             oldLocation = newLocation
+            zoomToLatestLocation(with: newLocation.coordinate)
          }
+      } else {
+         let camera = GMSCameraPosition(target: newLocation.coordinate, zoom: 12)
+         gMapView.camera = camera
+         
+         zoomToLatestLocation(with: newLocation.coordinate)
+         gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
+         stopLocationManager()
+         oldLocation = newLocation
       }
       
       // 인증 상태가 변경 되었을 때

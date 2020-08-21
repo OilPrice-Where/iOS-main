@@ -14,13 +14,21 @@ import SwiftyPlistManager
 class DefaultData {
    static let shared = DefaultData() // 싱글톤 객체 생성
    private let bag = DisposeBag()
+   var currentType: MapType?
    
    // 기본 설정
    private init() {
       setData()
+      
+      mapsSubject.subscribe(onNext: {
+         self.currentType = MapType.map(type: $0)
+      })
+      .disposed(by: bag)
    }
+   
    var stationsSubject = BehaviorSubject<[GasStation]>(value: []) // 반경 주유소 리스트
    var priceData: [AllPrice] = [] // 전국 평균 기름 값
+   var mapsSubject = BehaviorSubject<String>(value: "TMap")
    var radiusSubject = BehaviorSubject<Int>(value: 3000) // 탐색 반경
    var oilSubject = BehaviorSubject<String>(value: "") // 오일 종류
    var brandsSubject = BehaviorSubject<[String]>(value: []) // 설정 브랜드
@@ -56,7 +64,10 @@ class DefaultData {
    func setData() {
       let defaultBrands = ["SKE", "GSC", "HDO", "SOL", "RTO", "RTX", "NHO", "ETC", "E1G", "SKG"]
       let defaultSales = [ "SK": 0, "HDO": 0, "GSC": 0, "SOL": 0, "E1G": 0, "RTO": 0, "NHO": 0]
+      
       SwiftyPlistManager.shared.start(plistNames: ["UserInfo"], logging: true) // Plist 불러오기
+      
+      let map = getValue(defaultValue: "TMap", for: "MapType")
       let radius = getValue(defaultValue: 3000, for: "FindRadius")
       let oilType = getValue(defaultValue: "", for: "OilType")
       let brands = getValue(defaultValue: defaultBrands, for: "Brands")
@@ -64,6 +75,7 @@ class DefaultData {
       let naviType = getValue(defaultValue: "kakao", for: "NaviType")
       let sales = getValue(defaultValue: defaultSales, for: "Sales")
       
+      mapsSubject.onNext(map)
       oilSubject.onNext(oilType)
       radiusSubject.onNext(radius)
       favoriteSubject.onNext(favArr)
@@ -71,7 +83,18 @@ class DefaultData {
       naviSubject.onNext(naviType)
       salesSubject.onNext(sales)
       
-      // Plist에 값 저장
+      // Map Type Save
+      mapsSubject
+         .subscribe(onNext: {
+            SwiftyPlistManager.shared.save($0,
+                                           forKey: "MapType",
+                                           toPlistWithName: "UserInfo") { (err) in
+                                             if err != nil {
+                                                print("Success Save Oil Type !!")
+                                             }}
+         })
+         .disposed(by: bag)
+      
       // Oil Type Save
       oilSubject
          .subscribe(onNext: {
@@ -99,7 +122,6 @@ class DefaultData {
       // Favorites Array Save
       favoriteSubject
          .subscribe(onNext: {
-            print($0)
             SwiftyPlistManager.shared.save($0,
                                            forKey: "Favorites",
                                            toPlistWithName: "UserInfo") { (err) in
@@ -133,7 +155,7 @@ class DefaultData {
          })
          .disposed(by: bag)
       
-      // Navi Type Save
+      // Sales Save
       salesSubject
          .subscribe(onNext: {
             SwiftyPlistManager.shared.save($0,

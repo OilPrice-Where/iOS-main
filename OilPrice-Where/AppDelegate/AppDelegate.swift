@@ -8,6 +8,9 @@
 
 import UIKit
 import Firebase
+import TMapSDK
+import GoogleMaps
+import GooglePlaces
 import FirebaseCore
 
 @UIApplicationMain
@@ -18,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    
    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
       
+      GMSServices.provideAPIKey("AIzaSyBJz37Kcj1XPUacUyiWcNXjkz_6XtGBA5c")
+      GMSPlacesClient.provideAPIKey("AIzaSyBJz37Kcj1XPUacUyiWcNXjkz_6XtGBA5c")
       FirebaseApp.configure()
       firebaseUtility.checkUpdateTime()
       

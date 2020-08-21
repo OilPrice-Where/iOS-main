@@ -33,6 +33,9 @@
 		8E68BA2524CCCF95004730D7 /* SelectStationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2424CCCF95004730D7 /* SelectStationViewController.swift */; };
 		8E68BA2924CCD472004730D7 /* SelectNaviViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2824CCD472004730D7 /* SelectNaviViewModel.swift */; };
 		8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2A24CCDF92004730D7 /* FavoriteCollectionViewCell.swift */; };
+		8E73DC6F24EFEAC700D50C6A /* SelectMapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E73DC6E24EFEAC700D50C6A /* SelectMapsViewController.swift */; };
+		8E73DC7124EFEB0C00D50C6A /* SelectMapsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E73DC7024EFEB0C00D50C6A /* SelectMapsViewModel.swift */; };
+		8E74DFD924EE91C300CADDDC /* MainListVC+GoogleMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E74DFD824EE91C300CADDDC /* MainListVC+GoogleMap.swift */; };
 		8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */; };
 		8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */; };
 		8E7FFE3920F5EA1C006CED48 /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */; };
@@ -157,6 +160,9 @@
 		8E68BA2424CCCF95004730D7 /* SelectStationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStationViewController.swift; sourceTree = "<group>"; };
 		8E68BA2824CCD472004730D7 /* SelectNaviViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNaviViewModel.swift; sourceTree = "<group>"; };
 		8E68BA2A24CCDF92004730D7 /* FavoriteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionViewCell.swift; sourceTree = "<group>"; };
+		8E73DC6E24EFEAC700D50C6A /* SelectMapsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMapsViewController.swift; sourceTree = "<group>"; };
+		8E73DC7024EFEB0C00D50C6A /* SelectMapsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMapsViewModel.swift; sourceTree = "<group>"; };
+		8E74DFD824EE91C300CADDDC /* MainListVC+GoogleMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListVC+GoogleMap.swift"; sourceTree = "<group>"; };
 		8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OilPrice-Where.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
@@ -292,6 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */,
+				8E73DC6E24EFEAC700D50C6A /* SelectMapsViewController.swift */,
 				8EE53E8E24CF3CEC008D8045 /* SelectNavigationController.swift */,
 				8E68BA1C24CCC863004730D7 /* SelectOilViewController.swift */,
 				8E68BA1E24CCCCE5004730D7 /* SelectDistanceViewController.swift */,
@@ -324,10 +331,11 @@
 		8E24F50824D5E85D00B1B5A3 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				8E73DC7024EFEB0C00D50C6A /* SelectMapsViewModel.swift */,
+				8E68BA2824CCD472004730D7 /* SelectNaviViewModel.swift */,
 				8E68BA1424CCC560004730D7 /* SelectOilTypeViewModel.swift */,
 				8E68BA2024CCCD07004730D7 /* SelectDistanceViewModel.swift */,
 				8E68BA2224CCCF32004730D7 /* SelectStationViewModel.swift */,
-				8E68BA2824CCD472004730D7 /* SelectNaviViewModel.swift */,
 				8EF8481924E39B23009A32D8 /* EditSalePriceViewModel.swift */,
 				8EE53E9824D177A4008D8045 /* AboutUsViewModel.swift */,
 			);
@@ -491,6 +499,7 @@
 				8EE53E7E24CF150D008D8045 /* MainListVC+Header.swift */,
 				8EE53E7624CF06B2008D8045 /* MainListVC+TableView.swift */,
 				8EE53E7A24CF1294008D8045 /* MainListVC+MapKit.swift */,
+				8E74DFD824EE91C300CADDDC /* MainListVC+GoogleMap.swift */,
 				8EE53E7C24CF1427008D8045 /* MainListVC+CoreLocation.swift */,
 			);
 			name = MainListVC;
@@ -534,6 +543,7 @@
 				A1410BAAA832A712804BE11F /* [CP] Embed Pods Frameworks */,
 				8E167D3421007B620066A59E /* ShellScript */,
 				8EEBDD4E24D2307000C1318C /* Embed Frameworks */,
+				BC7AD7F2E8D2AD63626B83BC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -656,6 +666,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		BC7AD7F2E8D2AD63626B83BC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -710,11 +737,14 @@
 				8EE53E7924CF0D72008D8045 /* CustomTabbarViewController.swift in Sources */,
 				8EDE51B424D5C32C004590B6 /* FavoriteCellViewModel.swift in Sources */,
 				8EE53E9324D016B4008D8045 /* SettingAboutUsViewController.swift in Sources */,
+				8E73DC7124EFEB0C00D50C6A /* SelectMapsViewModel.swift in Sources */,
+				8E74DFD924EE91C300CADDDC /* MainListVC+GoogleMap.swift in Sources */,
 				29B226432121FDC60012B2F6 /* AverageCostData.swift in Sources */,
 				8EE53E9924D177A4008D8045 /* AboutUsViewModel.swift in Sources */,
 				8ED7F9E822045A9100AB6626 /* PopupView.swift in Sources */,
 				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,
 				8E68BA2524CCCF95004730D7 /* SelectStationViewController.swift in Sources */,
+				8E73DC6F24EFEAC700D50C6A /* SelectMapsViewController.swift in Sources */,
 				8ECE0D7C211C3CFC00FF2B46 /* OilTypeTableViewCell.swift in Sources */,
 				765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */,
 				8E68BA1724CCC5F7004730D7 /* ViewModelBindableType.swift in Sources */,
@@ -865,7 +895,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -879,7 +909,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.5.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -905,7 +935,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -919,7 +949,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.5.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

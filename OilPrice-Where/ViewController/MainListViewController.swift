@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 import TMapSDK
-
+import GoogleMaps
 
 class MainListViewController: CommonViewController, TMapTapiDelegate {
    //Network
@@ -32,14 +32,19 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    var lastContentOffset: CGFloat = 0 // 테이블 뷰 스크롤의 현재 위치 저장함수
    
    // Map
+   @IBOutlet weak var tmapView: UIView!
+   var gMapView = GMSMapView(frame: .zero)
+   var lastSelectedMarker: GMSMarker?
    @IBOutlet weak var appleMapView: MKMapView! // 맵 뷰
    var currentCoordinate: CLLocationCoordinate2D? // 현재 좌표
    var currentPlacemark: CLPlacemark? // 주소결과가 들어있는 객체
    var annotations: [CustomMarkerAnnotation] = [] // 마커 배열 생성
+   var gMapMarkers: [GMSMarker] = [] // 마커 배열 생성
    @IBOutlet weak var mapView : UIView! // 애플맵을 포함시키고 있는 뷰
    @IBOutlet weak var currentLocationButton : UIButton! // 현재 위치 표시 버튼
    @IBOutlet weak var currentLocationButtonTop: NSLayoutConstraint! // 현재 위치 Top Layout
    @IBOutlet weak var popupView : PopupView!
+   @IBOutlet weak var researchButton: UIButton!
    var isSelectedAnnotion: Bool = false
    
    // Detail View
@@ -102,20 +107,33 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    }
    
    override func viewDidLoad() {
-      TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "219c2c34-cdd2-45d3-867b-e08c2ea97810")
       super.viewDidLoad()
+      configureLocationServices()
       createSortView() // 가격순, 거리순 버튼 생성 및 설정
       setting() // 기본 설정
       setAverageCosts() // HeaderView 설정
       isDisplayNoneView()
-      configureLocationServices()
-      
+      observeTarget()
+   }
+   
+   func observeTarget() {
       let target = DefaultData.shared
       
       Observable.combineLatest(target.oilSubject, target.radiusSubject, target.brandsSubject, target.salesSubject)
          .subscribe(onNext: { _ in
             self.configureLocationServices()
             self.refresh()
+         })
+         .disposed(by: rx.disposeBag)
+      
+      DefaultData.shared.mapsSubject
+         .map { $0 == "AppleMap" }
+         .subscribe(onNext: {
+            if $0 {
+               self.appleMapView.isHidden = false
+            } else {
+               self.appleMapView.isHidden = true
+            }
          })
          .disposed(by: rx.disposeBag)
    }
@@ -154,6 +172,8 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    
    // 기본 세팅
    func setting() {
+      TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "219c2c34-cdd2-45d3-867b-e08c2ea97810")
+      
       do {
          try reachability?.startNotifier()
       } catch {
@@ -174,8 +194,16 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
          self.tableView.reloadData()
       }
       
+      gMapView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
+      gMapView.delegate = self
+      tmapView.addSubview(gMapView)
+
+      
       noneLabel.font = UIFont(name: "NanumSquareRoundB", size: 17) //NoneView 내의 NoneLabel 설정
       priceView.layer.cornerRadius = 10
+      
+      // researchButton 설정
+      researchButton.layer.cornerRadius = 15
       
       // currentLocationButton 설정
       currentLocationButton.layer.cornerRadius = currentLocationButton.bounds.height / 2
@@ -184,7 +212,6 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
       currentLocationButton.layer.shadowOpacity = 0.3
       currentLocationButton.layer.shadowOffset = CGSize(width: 1, height: 1)
       currentLocationButton.layer.shadowRadius = 1.5
-      currentLocationButton.addTarget(self, action: #selector(currentLoaction(_:)), for: .touchUpInside)
       
       // Draw a shadow
       currentLocationButton.layer.shadowPath = UIBezierPath(roundedRect: currentLocationButton.bounds,
@@ -242,8 +269,16 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    }
    
    func reset() {
-      appleMapView.removeAnnotations(annotations)
-      annotations = []
+      guard let type = DefaultData.shared.currentType else { return }
+      switch type {
+      case .appleMap:
+         appleMapView.removeAnnotations(annotations)
+         annotations = []
+      case .googleMap:
+         gMapMarkers.forEach { $0.map = nil }
+         gMapMarkers = []
+      }
+
       selectIndexPath = nil
    }
    
@@ -269,6 +304,18 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
                                           var newInfo = info
                                           newInfo.price = newInfo.price - Preferences.saleBrand(code: info.brand)
                                           
+                                          if let currentCoordinate = self.currentCoordinate {
+                                             let katecPoint = KatecPoint(x: newInfo.katecX, y: newInfo.katecY)
+                                             let stationCoordinate = Converter.convertKatecToWGS(katec: katecPoint)
+                                             
+                                             let station = CLLocation(latitude: stationCoordinate.latitude,
+                                                                      longitude: stationCoordinate.longitude)
+                                             
+                                             let current = CLLocation(latitude: currentCoordinate.latitude,
+                                                                      longitude: currentCoordinate.longitude)
+                                             
+                                             newInfo.distance = station.distance(from: current)
+                                          }
                                           return newInfo
                                        }
                                        
@@ -302,6 +349,7 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    //Mark: Display 관련 설정
    // Reload
    @objc func refresh() {
+      researchButton.isHidden = true
       oldLocation = nil
       reset()
       configureLocationServices()
@@ -390,6 +438,8 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
       }
       tableView.reloadData()
    }
+   
+   
    
    // 길안내 시작
    @objc func navigateStart(_ sender: UITapGestureRecognizer) {

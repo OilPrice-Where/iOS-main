@@ -33,9 +33,25 @@ class CustomMarkerAnnotationView: MKAnnotationView {
    var coordinate: CLLocationCoordinate2D? // 맵 마커의 위치
    var stationInfo: GasStation? // 마커 내부의 주유소 정보
    
+   // 로고 이미지 삽입
+   override var image: UIImage? {
+      get {
+         return logoImageView.image
+      }
+      set {
+         logoImageView.image = newValue
+      }
+   }
+   
+   required init?(coder aDecoder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+   }
+   
    // 마커 기본 설정
    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
       super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+      
+      isUserInteractionEnabled = true
       
       // markerView 설정
       frame = CGRect(x: 0, y: 0, width: 65, height: 32)
@@ -52,19 +68,10 @@ class CustomMarkerAnnotationView: MKAnnotationView {
       priceLabel.textAlignment = .left
       priceLabel.font = UIFont(name: "NanumSquareRoundEB", size: 13)
       addSubview(priceLabel)
+      
    }
-   
-   // 로고 이미지 삽입
-   override var image: UIImage? {
-      get {
-         return logoImageView.image
-      }
-      set {
-         logoImageView.image = newValue
-      }
-   }
-   
-   required init?(coder aDecoder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
-   }
+}
+
+extension Notification.Name {
+   static let handleSelectedMarkerAction = Notification.Name(rawValue: "handleSelectedMarkerAction")
 }

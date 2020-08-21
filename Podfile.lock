@@ -55,6 +55,13 @@ PODS:
     - nanopb (~> 1.30905.0)
   - GoogleDataTransport (7.0.0):
     - nanopb (~> 1.30905.0)
+  - GoogleMaps (3.10.0):
+    - GoogleMaps/Maps (= 3.10.0)
+  - GoogleMaps/Base (3.10.0)
+  - GoogleMaps/Maps (3.10.0):
+    - GoogleMaps/Base
+  - GooglePlaces (3.10.0):
+    - GoogleMaps/Base (= 3.10.0)
   - GoogleUtilities/AppDelegateSwizzler (6.7.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -129,6 +136,8 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Storage
+  - GoogleMaps
+  - GooglePlaces
   - "NSObject+Rx"
   - RxAlamofire
   - RxCocoa
@@ -156,6 +165,8 @@ SPEC REPOS:
     - FirebaseStorage
     - GoogleAppMeasurement
     - GoogleDataTransport
+    - GoogleMaps
+    - GooglePlaces
     - GoogleUtilities
     - GTMSessionFetcher
     - leveldb-library
@@ -189,6 +200,8 @@ SPEC CHECKSUMS:
   FirebaseStorage: 3ef81ca5fa7817f85451ca09d516a34d2c7542a7
   GoogleAppMeasurement: 8cd1f289d60e629cf16ab03363b9e89c776b9651
   GoogleDataTransport: 8a40cb194ad242b6f6dfe72c14fe40fc67c4dcd7
+  GoogleMaps: 8c080862ff2748ece9929471b30feb56a6c5079d
+  GooglePlaces: 9a6f5f3a0c88da2aa1bf7426a65d3e004f5e69a1
   GoogleUtilities: e121a3867449ce16b0e35ddf1797ea7a389ffdf2
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
@@ -208,6 +221,6 @@ SPEC CHECKSUMS:
   SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
   SwiftyPlistManager: 5895924cccb7fe28deccbe14890e8aed78ae78ae
 
-PODFILE CHECKSUM: ef300e80856d1ec5d209056e846a20f1a56b2c79
+PODFILE CHECKSUM: d6a8bfbe2a0cc7bf7cc244d6b5906a4250cdc5e8
 
 COCOAPODS: 1.10.0.beta.1

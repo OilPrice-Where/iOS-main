@@ -9,6 +9,8 @@ target 'OilPrice-Where' do
   # Pods for OilPrice-Where
   pod 'SCLAlertView'
   pod 'CenteredCollectionView'
+  pod 'GoogleMaps'
+  pod 'GooglePlaces'
 
   # Database
   pod 'SwiftyPlistManager'
