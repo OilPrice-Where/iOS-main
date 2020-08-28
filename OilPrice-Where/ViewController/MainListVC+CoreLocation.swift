@@ -140,7 +140,6 @@ extension MainListViewController: CLLocationManagerDelegate {
       } else {
          let camera = GMSCameraPosition(target: newLocation.coordinate, zoom: 12)
          gMapView.camera = camera
-         
          zoomToLatestLocation(with: newLocation.coordinate)
          gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
          stopLocationManager()

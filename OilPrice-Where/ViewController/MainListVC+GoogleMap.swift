@@ -2,7 +2,7 @@
 //  MainListVC+GoogleMap.swift
 //  OilPrice-Where
 //
-//  Created by 박소정 on 2020/08/20.
+//  Created by 박상욱 on 2020/08/20.
 //  Copyright © 2020 sangwook park. All rights reserved.
 //
 
@@ -96,7 +96,7 @@ extension MainListViewController: GMSMapViewDelegate {
       
       let distance = newLocation.distance(from: oldLocation)
       
-      guard distance > 5000 else { return }
+      guard distance > 3000 else { return }
       
       researchButton.isHidden = false
    }

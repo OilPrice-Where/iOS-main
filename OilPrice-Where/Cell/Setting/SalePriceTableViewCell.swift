@@ -2,7 +2,7 @@
 //  SalePriceTableViewCell.swift
 //  OilPrice-Where
 //
-//  Created by 박소정 on 2020/08/12.
+//  Created by 박상욱 on 2020/08/12.
 //  Copyright © 2020 sangwook park. All rights reserved.
 //
 

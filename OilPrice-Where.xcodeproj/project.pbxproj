@@ -40,7 +40,20 @@
 		8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */; };
 		8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */; };
 		8E7FFE3920F5EA1C006CED48 /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */; };
+		8E82E43224F901D200395CDD /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
+		8E82E43424F9468100395CDD /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3C2107AEA30066A59E /* API.swift */; };
 		8EA4283F24CE9CA600164E31 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */; };
+		8EAEB15024F41AFF00B5E6CE /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EAEB14F24F41AFF00B5E6CE /* NotificationCenter.framework */; };
+		8EAEB15324F41AFF00B5E6CE /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAEB15224F41AFF00B5E6CE /* TodayViewController.swift */; };
+		8EAEB15624F41AFF00B5E6CE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EAEB15424F41AFF00B5E6CE /* MainInterface.storyboard */; };
+		8EAEB15A24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8EAEB14E24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8EAEB15E24F41C5E00B5E6CE /* NanumSquareRoundB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226532126A8BA0012B2F6 /* NanumSquareRoundB.ttf */; };
+		8EAEB15F24F41C6100B5E6CE /* NanumSquareRoundEB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226542126A8BB0012B2F6 /* NanumSquareRoundEB.ttf */; };
+		8EAEB16024F41C6300B5E6CE /* NanumSquareRoundL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226522126A8B90012B2F6 /* NanumSquareRoundL.ttf */; };
+		8EAEB16124F41C6500B5E6CE /* NanumSquareRoundR.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226552126A8BD0012B2F6 /* NanumSquareRoundR.ttf */; };
+		8EAEB16324F4B31E00B5E6CE /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAEB16224F4B31E00B5E6CE /* FavoriteCollectionViewCell.swift */; };
+		8EAEB16424F4B36D00B5E6CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2B20F5E5FF006CED48 /* Assets.xcassets */; };
+		8EAEB16524F4B7D100B5E6CE /* UserInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8ECE0D75211C31F900FF2B46 /* UserInfo.plist */; };
 		8EB5C2E82139214700AB83BB /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB5C2E72139214700AB83BB /* Reachability.swift */; };
 		8ECE0D032118963000FF2B46 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D022118963000FF2B46 /* CustomAnnotationView.swift */; };
 		8ECE0D4E21195F3600FF2B46 /* KakaoNavi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECE0D4C21195F3500FF2B46 /* KakaoNavi.framework */; };
@@ -83,7 +96,28 @@
 		8EF8481C24E39C03009A32D8 /* SettingEditSalePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8481B24E39C03009A32D8 /* SettingEditSalePriceViewController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8EAEB15824F41AFF00B5E6CE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8E7FFE1920F5E5FF006CED48 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8EAEB14D24F41AFF00B5E6CE;
+			remoteInfo = FavoriteWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		8EAEB14624F4124900B5E6CE /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8EAEB15A24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8EEBDD4E24D2307000C1318C /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -172,6 +206,15 @@
 		8E7FFE2B20F5E5FF006CED48 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E7FFE3020F5E600006CED48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
+		8E82E42B24F9009A00395CDD /* SwiftyPlistManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyPlistManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EAEB14E24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FavoriteWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EAEB14F24F41AFF00B5E6CE /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		8EAEB15224F41AFF00B5E6CE /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		8EAEB15524F41AFF00B5E6CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		8EAEB15724F41AFF00B5E6CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8EAEB16224F4B31E00B5E6CE /* FavoriteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionViewCell.swift; sourceTree = "<group>"; };
+		8EAEB16624F4B9FC00B5E6CE /* OilPrice-Where.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "OilPrice-Where.entitlements"; sourceTree = "<group>"; };
+		8EAEB16724F4BA2200B5E6CE /* FavoriteWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FavoriteWidgetExtension.entitlements; sourceTree = "<group>"; };
 		8EB5C2E72139214700AB83BB /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		8ECE0D022118963000FF2B46 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
 		8ECE0D4C21195F3500FF2B46 /* KakaoNavi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoNavi.framework; path = Kakao/KakaoNavi.framework; sourceTree = "<group>"; };
@@ -226,12 +269,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8EAEB14B24F41AFF00B5E6CE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EAEB15024F41AFF00B5E6CE /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		0311CDC564670164F66F0F16 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8E82E42B24F9009A00395CDD /* SwiftyPlistManager.framework */,
 				8EEBDD5324D2353800C1318C /* TMapSDK.framework */,
 				8ECE154E24CE92C600B03BA9 /* FirebaseCore.framework */,
 				8ECE154F24CE92C600B03BA9 /* FirebaseCoreDiagnostics.framework */,
@@ -272,6 +324,7 @@
 				8ECE0D4D21195F3500FF2B46 /* KakaoCommon.framework */,
 				8ECE0D4C21195F3500FF2B46 /* KakaoNavi.framework */,
 				74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */,
+				8EAEB14F24F41AFF00B5E6CE /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -398,6 +451,7 @@
 			isa = PBXGroup;
 			children = (
 				8E7FFE2320F5E5FF006CED48 /* OilPrice-Where */,
+				8EAEB15124F41AFF00B5E6CE /* FavoriteWidgetExtension */,
 				8E7FFE2220F5E5FF006CED48 /* Products */,
 				2C306C2524FE261E511F8C37 /* Pods */,
 				0311CDC564670164F66F0F16 /* Frameworks */,
@@ -408,6 +462,7 @@
 			isa = PBXGroup;
 			children = (
 				8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */,
+				8EAEB14E24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -415,6 +470,7 @@
 		8E7FFE2320F5E5FF006CED48 /* OilPrice-Where */ = {
 			isa = PBXGroup;
 			children = (
+				8EAEB16624F4B9FC00B5E6CE /* OilPrice-Where.entitlements */,
 				8E167D422107E7240066A59E /* AppDelegate */,
 				8EE7E34720F5EDA400F35473 /* Utility */,
 				8E4DAF0920F5EC2400E4FD92 /* Model */,
@@ -486,6 +542,18 @@
 			name = View;
 			sourceTree = "<group>";
 		};
+		8EAEB15124F41AFF00B5E6CE /* FavoriteWidgetExtension */ = {
+			isa = PBXGroup;
+			children = (
+				8EAEB16724F4BA2200B5E6CE /* FavoriteWidgetExtension.entitlements */,
+				8EAEB16224F4B31E00B5E6CE /* FavoriteCollectionViewCell.swift */,
+				8EAEB15224F41AFF00B5E6CE /* TodayViewController.swift */,
+				8EAEB15424F41AFF00B5E6CE /* MainInterface.storyboard */,
+				8EAEB15724F41AFF00B5E6CE /* Info.plist */,
+			);
+			path = FavoriteWidgetExtension;
+			sourceTree = "<group>";
+		};
 		8EDE51B524D5C32E004590B6 /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
@@ -547,15 +615,34 @@
 				8E167D3421007B620066A59E /* ShellScript */,
 				8EEBDD4E24D2307000C1318C /* Embed Frameworks */,
 				BC7AD7F2E8D2AD63626B83BC /* [CP] Copy Pods Resources */,
+				8EAEB14624F4124900B5E6CE /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8EAEB15924F41AFF00B5E6CE /* PBXTargetDependency */,
 			);
 			name = "OilPrice-Where";
 			productName = "OilPrice-Where";
 			productReference = 8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */;
 			productType = "com.apple.product-type.application";
+		};
+		8EAEB14D24F41AFF00B5E6CE /* FavoriteWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EAEB15B24F41AFF00B5E6CE /* Build configuration list for PBXNativeTarget "FavoriteWidgetExtension" */;
+			buildPhases = (
+				8EAEB14A24F41AFF00B5E6CE /* Sources */,
+				8EAEB14B24F41AFF00B5E6CE /* Frameworks */,
+				8EAEB14C24F41AFF00B5E6CE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FavoriteWidgetExtension;
+			productName = FavoriteWidgetExtension;
+			productReference = 8EAEB14E24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -563,12 +650,16 @@
 		8E7FFE1920F5E5FF006CED48 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0940;
+				DefaultBuildSystemTypeForWorkspace = Original;
+				LastSwiftUpdateCheck = 1160;
 				LastUpgradeCheck = 1160;
 				ORGANIZATIONNAME = "sangwook park";
 				TargetAttributes = {
 					8E7FFE2020F5E5FF006CED48 = {
 						CreatedOnToolsVersion = 9.4.1;
+					};
+					8EAEB14D24F41AFF00B5E6CE = {
+						CreatedOnToolsVersion = 11.6;
 					};
 				};
 			};
@@ -586,6 +677,7 @@
 			projectRoot = "";
 			targets = (
 				8E7FFE2020F5E5FF006CED48 /* OilPrice-Where */,
+				8EAEB14D24F41AFF00B5E6CE /* FavoriteWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -604,6 +696,20 @@
 				8EE53E6C24CEA100008D8045 /* NanumSquareRoundB.ttf in Resources */,
 				8EE53E7224CEA484008D8045 /* Assets.xcassets in Resources */,
 				8EE53E6E24CEA106008D8045 /* NanumSquareRoundL.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EAEB14C24F41AFF00B5E6CE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EAEB15624F41AFF00B5E6CE /* MainInterface.storyboard in Resources */,
+				8EAEB16024F41C6300B5E6CE /* NanumSquareRoundL.ttf in Resources */,
+				8EAEB16124F41C6500B5E6CE /* NanumSquareRoundR.ttf in Resources */,
+				8EAEB15F24F41C6100B5E6CE /* NanumSquareRoundEB.ttf in Resources */,
+				8EAEB16424F4B36D00B5E6CE /* Assets.xcassets in Resources */,
+				8EAEB16524F4B7D100B5E6CE /* UserInfo.plist in Resources */,
+				8EAEB15E24F41C5E00B5E6CE /* NanumSquareRoundB.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -755,7 +861,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8EAEB14A24F41AFF00B5E6CE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EAEB16324F4B31E00B5E6CE /* FavoriteCollectionViewCell.swift in Sources */,
+				8EAEB15324F41AFF00B5E6CE /* TodayViewController.swift in Sources */,
+				8E82E43424F9468100395CDD /* API.swift in Sources */,
+				8E82E43224F901D200395CDD /* InformationGasStaion.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8EAEB15924F41AFF00B5E6CE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8EAEB14D24F41AFF00B5E6CE /* FavoriteWidgetExtension */;
+			targetProxy = 8EAEB15824F41AFF00B5E6CE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8E7FFE2820F5E5FF006CED48 /* Main.storyboard */ = {
@@ -764,6 +889,14 @@
 				8E7FFE2920F5E5FF006CED48 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8EAEB15424F41AFF00B5E6CE /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8EAEB15524F41AFF00B5E6CE /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -896,10 +1029,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "OilPrice-Where/OilPrice-Where.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -936,10 +1071,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5ADD44E371ADD94F9E7AFB44 /* Pods-OilPrice-Where.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "OilPrice-Where/OilPrice-Where.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -972,6 +1109,53 @@
 			};
 			name = Release;
 		};
+		8EAEB15C24F41AFF00B5E6CE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = FavoriteWidgetExtension/FavoriteWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3ZS2532XM8;
+				INFOPLIST_FILE = FavoriteWidgetExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FavoriteWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8EAEB15D24F41AFF00B5E6CE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = FavoriteWidgetExtension/FavoriteWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3ZS2532XM8;
+				INFOPLIST_FILE = FavoriteWidgetExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FavoriteWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -989,6 +1173,15 @@
 			buildConfigurations = (
 				8E7FFE3420F5E600006CED48 /* Debug */,
 				8E7FFE3520F5E600006CED48 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8EAEB15B24F41AFF00B5E6CE /* Build configuration list for PBXNativeTarget "FavoriteWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EAEB15C24F41AFF00B5E6CE /* Debug */,
+				8EAEB15D24F41AFF00B5E6CE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

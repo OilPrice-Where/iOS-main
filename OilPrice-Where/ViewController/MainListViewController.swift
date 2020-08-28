@@ -47,6 +47,7 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    @IBOutlet weak var popupView : PopupView!
    @IBOutlet weak var researchButton: UIButton!
    var isSelectedAnnotion: Bool = false
+   var isFirstToMaps = false
    
    // Detail View
    @IBOutlet weak var detailView : DetailView! // Detail View
@@ -391,6 +392,10 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
    
    // 전환 액션
    @objc func toList(_ sender: UIView) {
+      if !isFirstToMaps {
+         researchButton.isHidden = true
+         isFirstToMaps = true
+      }
       if mainListPage { // 메인리스트 페이지 일시 맵뷰로 전환
          view.sendSubview(toBack: tableListView)
          
@@ -444,8 +449,6 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
       }
       tableView.reloadData()
    }
-   
-   
    
    // 길안내 시작
    @objc func navigateStart(_ sender: UITapGestureRecognizer) {

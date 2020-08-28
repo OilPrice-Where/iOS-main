@@ -122,6 +122,10 @@ class DefaultData {
       // Favorites Array Save
       favoriteSubject
          .subscribe(onNext: {
+            let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere")
+            def?.set($0, forKey: "FavoriteArr")
+            def?.synchronize()
+            
             SwiftyPlistManager.shared.save($0,
                                            forKey: "Favorites",
                                            toPlistWithName: "UserInfo") { (err) in

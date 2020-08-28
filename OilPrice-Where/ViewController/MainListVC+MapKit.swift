@@ -264,7 +264,7 @@ extension MainListViewController: MKMapViewDelegate {
       
       let distance = newLocation.distance(from: oldLocation)
       
-      guard distance > 5000 else { return }
+      guard distance > 3000 else { return }
       
       researchButton.isHidden = false
    }
