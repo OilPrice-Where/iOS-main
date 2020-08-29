@@ -6,8 +6,13 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>http://www.opinet.co.kr/api/</key>
-			<string></string>
+			<key>opinet.co.kr</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 		</dict>
 	</dict>
 	<key>CFBundleDevelopmentRegion</key>

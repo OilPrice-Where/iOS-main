@@ -10,8 +10,7 @@ import UIKit
 
 class WidgetFavoriteCollectionViewCell: UICollectionViewCell {
    static let identifier = "WidgetFavoriteCollectionViewCell"
-   @IBOutlet private weak var brandImageView: UIImageView!
-   @IBOutlet private weak var oilTypeLabel: UILabel!
-   @IBOutlet private weak var oilPriceLabel: UILabel!
+   @IBOutlet weak var brandImageView: UIImageView!
+   @IBOutlet weak var oilPriceLabel: UILabel!
    @IBOutlet weak var backView: UIView!
 }
