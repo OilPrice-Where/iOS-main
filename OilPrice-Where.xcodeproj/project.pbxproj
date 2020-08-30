@@ -94,6 +94,8 @@
 		8EEBDD5624D2353B00C1318C /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8EEBDD5324D2353800C1318C /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8EF8481A24E39B23009A32D8 /* EditSalePriceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8481924E39B23009A32D8 /* EditSalePriceViewModel.swift */; };
 		8EF8481C24E39C03009A32D8 /* SettingEditSalePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8481B24E39C03009A32D8 /* SettingEditSalePriceViewController.swift */; };
+		8EFCDC7224FB0B950045AAC4 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EEBDD5324D2353800C1318C /* TMapSDK.framework */; };
+		8EFCDC7324FB0B950045AAC4 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8EEBDD5324D2353800C1318C /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +127,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 				8EEBDD5624D2353B00C1318C /* TMapSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EFCDC7424FB0B950045AAC4 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8EFCDC7324FB0B950045AAC4 /* TMapSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EAEB15024F41AFF00B5E6CE /* NotificationCenter.framework in Frameworks */,
+				8EFCDC7224FB0B950045AAC4 /* TMapSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -634,6 +648,7 @@
 				8EAEB14A24F41AFF00B5E6CE /* Sources */,
 				8EAEB14B24F41AFF00B5E6CE /* Frameworks */,
 				8EAEB14C24F41AFF00B5E6CE /* Resources */,
+				8EFCDC7424FB0B950045AAC4 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1116,6 +1131,10 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = FavoriteWidgetExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1140,6 +1159,10 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = FavoriteWidgetExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (

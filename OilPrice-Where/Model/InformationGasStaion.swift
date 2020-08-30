@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct InformationOilStationResult: Decodable {
+struct InformationOilStationResult: Codable {
    let result: InformationGasStaions
    
    private enum CodingKeys: String, CodingKey {
@@ -16,8 +16,8 @@ struct InformationOilStationResult: Decodable {
    }
 }
 
-struct InformationGasStaions: Decodable {
-   let allPriceList: [InformationGasStaion]
+struct InformationGasStaions: Codable {
+   var allPriceList: [InformationGasStaion]
    
    private enum CodingKeys: String, CodingKey {
       case allPriceList = "OIL"
@@ -25,7 +25,7 @@ struct InformationGasStaions: Decodable {
 }
 
 
-struct InformationGasStaion: Decodable {
+struct InformationGasStaion: Codable {
    let id: String
    let brand: String
    //     브랜드(SKE:SK에너지, GSC:GS칼텍스, HDO:현대오일뱅크, SOL:S-OIL, RTO:자영알뜰,
@@ -57,7 +57,7 @@ struct InformationGasStaion: Decodable {
    }
 }
 
-struct Price: Decodable {
+struct Price: Codable {
    let type: String
    let price: Int
    

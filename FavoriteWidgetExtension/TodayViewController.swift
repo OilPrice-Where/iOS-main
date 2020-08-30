@@ -29,45 +29,21 @@ class TodayViewController: UIViewController, NCWidgetProviding {
    
    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
       guard let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere"),
-         let data = def.value(forKey: "FavoriteArr") as? [String] else {
+         let data = def.value(forKey: "FavoriteArr") as? Data else {
             completionHandler(NCUpdateResult.noData)
             return
       }
       
-      data.forEach { [weak self] id in
-         guard let strongSelf = self else {
-            completionHandler(NCUpdateResult.noData)
-            return
-         }
-         let session = URLSession(configuration: .default)
-         let url = URL(string: API.detailById(appKey: strongSelf.getAppKey(), id: id).urlString)
-         
-         if let url = url {
-            let task = session.dataTask(with: url) { (infoData, res, err) in
-               if let error = err {
-                  print(error.localizedDescription)
-                  completionHandler(NCUpdateResult.noData)
-                  return
-               }
-               
-               if let data = infoData {
-                  do {
-                     let info = try JSONDecoder().decode(InformationOilStationResult.self, from: data)
-                     strongSelf.favArr.append(info.result.allPriceList[0])
-                     DispatchQueue.main.async {
-                        self?.collectionView.reloadData()
-                     }
-                     print(info)
-                  } catch {
-                     print(error.localizedDescription)
-                  }
-               }
-            }
-            
-            task.resume()
-         }
+      print(data)
+      
+      if let infomations = try? JSONDecoder().decode(InformationGasStaions.self, from: data) {
+         print(infomations)
+         favArr = infomations.allPriceList
+         collectionView.reloadData()
       }
       
+      print(favArr)
+
       completionHandler(NCUpdateResult.newData)
    }
    

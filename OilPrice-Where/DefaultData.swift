@@ -122,9 +122,18 @@ class DefaultData {
       // Favorites Array Save
       favoriteSubject
          .subscribe(onNext: {
-            let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere")
-            def?.set($0, forKey: "FavoriteArr")
-            def?.synchronize()
+            var favorites = InformationGasStaions(allPriceList: [])
+            for key in $0 {
+               if let fav = self.tempFavArr[key] {
+                  favorites.allPriceList.append(fav)
+               }
+            }
+            
+            if let encodeData = try? JSONEncoder().encode(favorites) {
+               let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere")
+               def?.set(encodeData, forKey: "FavoriteArr")
+               def?.synchronize()
+            }
             
             SwiftyPlistManager.shared.save($0,
                                            forKey: "Favorites",

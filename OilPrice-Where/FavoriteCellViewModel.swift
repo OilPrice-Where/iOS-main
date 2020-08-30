@@ -21,6 +21,7 @@ final class FavoriteCellViewModel {
                                        id: id) { (result) in
          switch result {
          case .success(let infomation):
+            DefaultData.shared.tempFavArr.updateValue(infomation, forKey: id)
             self.info = infomation
             self.infoSubject.onNext(infomation)
             self.isLoadingSubject.onNext(true)
