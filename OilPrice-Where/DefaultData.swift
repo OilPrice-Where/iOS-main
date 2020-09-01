@@ -23,7 +23,7 @@ class DefaultData {
       mapsSubject.subscribe(onNext: {
          self.currentType = MapType.map(type: $0)
       })
-      .disposed(by: bag)
+         .disposed(by: bag)
    }
    
    var stationsSubject = BehaviorSubject<[GasStation]>(value: []) // 반경 주유소 리스트
@@ -35,7 +35,7 @@ class DefaultData {
    var favoriteSubject = BehaviorSubject<[String]>(value: []) // 즐겨 찾기
    var naviSubject = BehaviorSubject<String>(value: "kakao")
    var salesSubject = BehaviorSubject<[String: Int]>(value: [:])
-   var tempFavArr: [String: InformationGasStaion] = [:]
+   var tempFavArr: [InformationGasStaion] = []
    
    // 전군 평균 기름 값 로드 함수
    func allPriceDataLoad() {
@@ -46,6 +46,17 @@ class DefaultData {
          case .error(let err):
             print(err)
          }
+      }
+   }
+   
+   func localSave(favorites: InformationGasStaions) {
+      if let encodeData = try? JSONEncoder().encode(favorites) {
+         let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere")
+         def?.set(encodeData, forKey: "FavoriteArr")
+         def?.synchronize()
+         
+         UserDefaults.standard.set(encodeData, forKey: "LocalFavorites")
+         UserDefaults.standard.synchronize()
       }
    }
    
@@ -121,26 +132,35 @@ class DefaultData {
       
       // Favorites Array Save
       favoriteSubject
-         .subscribe(onNext: {
-            var favorites = InformationGasStaions(allPriceList: [])
-            for key in $0 {
-               if let fav = self.tempFavArr[key] {
-                  favorites.allPriceList.append(fav)
-               }
-            }
-            
-            if let encodeData = try? JSONEncoder().encode(favorites) {
-               let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere")
-               def?.set(encodeData, forKey: "FavoriteArr")
-               def?.synchronize()
-            }
-            
-            SwiftyPlistManager.shared.save($0,
+         .subscribe(onNext: { infomations in
+            SwiftyPlistManager.shared.save(infomations,
                                            forKey: "Favorites",
                                            toPlistWithName: "UserInfo") { (err) in
                                              if err != nil {
                                                 print("Success Save Favorites !!")
                                              }}
+            
+            self.tempFavArr = self.tempFavArr.filter { infomations.contains($0.id) }
+            var favorites = InformationGasStaions(allPriceList: self.tempFavArr)
+            
+            
+            
+            for key in infomations {
+               guard self.tempFavArr.contains(where: { $0.id != key }) else { continue }
+               ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
+                                                id: key) { (result) in
+                  switch result {
+                  case .success(let info):
+                     self.tempFavArr.append(info)
+                     favorites.allPriceList.append(info)
+                     self.localSave(favorites: favorites)
+                  case .error(let error):
+                     print(error.localizedDescription)
+                  }
+               }
+            }
+            
+            
          })
          .disposed(by: bag)
       

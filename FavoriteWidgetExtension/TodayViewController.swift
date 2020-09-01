@@ -29,20 +29,19 @@ class TodayViewController: UIViewController, NCWidgetProviding {
    
    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
       guard let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere"),
-         let data = def.value(forKey: "FavoriteArr") as? Data else {
-            completionHandler(NCUpdateResult.noData)
-            return
-      }
-      
-      print(data)
+         let data = def.value(forKey: "FavoriteArr") as? Data else { return }
       
       if let infomations = try? JSONDecoder().decode(InformationGasStaions.self, from: data) {
-         print(infomations)
-         favArr = infomations.allPriceList
+         favArr = []
+         infomations.allPriceList.forEach { info in
+            if favArr.contains(where: { $0.id != info.id }) {
+               favArr.append(info)
+            }
+         }
          collectionView.reloadData()
       }
       
-      print(favArr)
+      favArr.forEach { print($0.name) }
 
       completionHandler(NCUpdateResult.newData)
    }
@@ -109,7 +108,7 @@ extension TodayViewController: UICollectionViewDataSource {
       cell.layer.cornerRadius = 10
       cell.oilPriceLabel.textColor = .white
       cell.brandImageView.image = logoImage(logoName: favArr[indexPath.row].brand)
-      cell.backView.backgroundColor = colors[indexPath.row]
+//      cell.backView.backgroundColor = colors[indexPath.row]
       
       return cell
    }
