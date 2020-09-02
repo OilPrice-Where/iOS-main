@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import TMapSDK
 import NotificationCenter
 
-class TodayViewController: UIViewController, NCWidgetProviding {
+class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate {
    @IBOutlet private weak var collectionView: UICollectionView!
+   @IBOutlet private weak var titleLabel: UILabel!
+   @IBOutlet private weak var contentLabel: UILabel!
+   
    var favArr: [InformationGasStaion] = []
    var colors: [UIColor?] = [UIColor(named: "MainColorAny"),
                             .systemOrange,
@@ -23,24 +27,33 @@ class TodayViewController: UIViewController, NCWidgetProviding {
    override func viewDidLoad() {
       super.viewDidLoad()
       
+      TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "219c2c34-cdd2-45d3-867b-e08c2ea97810")
       NCWidgetController().setHasContent(true,
                                          forWidgetWithBundleIdentifier: "com.OilPriceWhere.wheregasoline.FavoriteWidgetExtension")
    }
    
    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
       guard let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere"),
-         let data = def.value(forKey: "FavoriteArr") as? Data else { return }
+         let data = def.value(forKey: "FavoriteArr") as? Data else {
+             completionHandler(NCUpdateResult.newData)
+            return
+      }
+      print("#1")
+      
+      favArr = []
+      var tempArr = [String]()
       
       if let infomations = try? JSONDecoder().decode(InformationGasStaions.self, from: data) {
-         favArr = []
+         print("#2", infomations)
          infomations.allPriceList.forEach { info in
-            if favArr.contains(where: { $0.id != info.id }) {
+            if !tempArr.contains(info.id) {
                favArr.append(info)
+               tempArr.append(info.id)
             }
          }
-         collectionView.reloadData()
       }
       
+      collectionView.reloadData()
       favArr.forEach { print($0.name) }
 
       completionHandler(NCUpdateResult.newData)
@@ -99,6 +112,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 
 extension TodayViewController: UICollectionViewDataSource {
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+      titleLabel.isHidden = !favArr.isEmpty
+      contentLabel.isHidden = !favArr.isEmpty
+      
       return favArr.count
    }
    
@@ -107,8 +123,9 @@ extension TodayViewController: UICollectionViewDataSource {
       
       cell.layer.cornerRadius = 10
       cell.oilPriceLabel.textColor = .white
+      cell.oilPriceLabel.text = favArr[indexPath.row].name
       cell.brandImageView.image = logoImage(logoName: favArr[indexPath.row].brand)
-//      cell.backView.backgroundColor = colors[indexPath.row]
+      cell.backView.backgroundColor = colors[indexPath.row]
       
       return cell
    }
@@ -116,10 +133,12 @@ extension TodayViewController: UICollectionViewDataSource {
 
 extension TodayViewController: UICollectionViewDelegateFlowLayout {
    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-      let spacing = (favArr.count - 1) * 3 + 6
-      let width = (collectionView.bounds.width - CGFloat(spacing)) / CGFloat(favArr.count)
-      print(collectionView.bounds.width, width)
-      return CGSize(width: width, height: 59)
+      let cal = favArr.count.isMultiple(of: 2) ? 1 : 0
+      let spacing = CGFloat(cal * 3 + 6)
+      let width = (collectionView.bounds.width - spacing) / 2
+      let height = (collectionView.bounds.height - spacing) / 2
+      
+      return CGSize(width: width, height: height)
    }
    
    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

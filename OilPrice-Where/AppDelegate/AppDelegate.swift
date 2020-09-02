@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-import TMapSDK
 import GoogleMaps
 import GooglePlaces
 import FirebaseCore

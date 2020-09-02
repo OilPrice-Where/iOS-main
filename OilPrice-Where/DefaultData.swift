@@ -50,8 +50,14 @@ class DefaultData {
    }
    
    func localSave(favorites: InformationGasStaions) {
+//      UserDefaults.standard.removeObject(forKey: "LocalFavorites")
+//      UserDefaults.standard.synchronize()
+      
+      let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere")
+//      def?.removeObject(forKey: "FavoriteArr")
+//      def?.synchronize()
+      
       if let encodeData = try? JSONEncoder().encode(favorites) {
-         let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere")
          def?.set(encodeData, forKey: "FavoriteArr")
          def?.synchronize()
          
@@ -140,17 +146,27 @@ class DefaultData {
                                                 print("Success Save Favorites !!")
                                              }}
             
-            self.tempFavArr = self.tempFavArr.filter { infomations.contains($0.id) }
+            var tempArr = [String]()
+            self.tempFavArr = self.tempFavArr.compactMap { info in
+               if !tempArr.contains(info.id) && infomations.contains(info.id) {
+                  tempArr.append(info.id)
+                  return info
+               }
+               return nil
+            }
+            
             var favorites = InformationGasStaions(allPriceList: self.tempFavArr)
             
-            
-            
+            self.localSave(favorites: favorites)
+            print(tempArr)
             for key in infomations {
-               guard self.tempFavArr.contains(where: { $0.id != key }) else { continue }
+               guard !tempArr.contains(key) else { continue }
                ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
                                                 id: key) { (result) in
                   switch result {
                   case .success(let info):
+                     print("#1")
+                     tempArr.append(info.id)
                      self.tempFavArr.append(info)
                      favorites.allPriceList.append(info)
                      self.localSave(favorites: favorites)

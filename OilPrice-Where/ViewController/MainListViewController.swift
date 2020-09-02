@@ -460,7 +460,6 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
       switch type {
       case .tMap:
          let coordinator = Converter.convertKatecToWGS(katec: KatecPoint(x: katecX, y: katecY))
-         print("TAP", TMapApi.isTmapApplicationInstalled())
          
          if TMapApi.isTmapApplicationInstalled() {
             let _ = TMapApi.invokeRoute(detailView.stationName.text!, coordinate: coordinator)

@@ -12,9 +12,6 @@
         <array key="NanumSquareRoundB.ttf">
             <string>NanumSquareRoundB</string>
         </array>
-        <array key="NanumSquareRoundEB.ttf">
-            <string>NanumSquareRoundEB</string>
-        </array>
         <array key="NanumSquareRoundR.ttf">
             <string>NanumSquareRoundR</string>
         </array>
@@ -66,24 +63,25 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CK0-QM-NRb">
-                                                            <rect key="frame" x="8" y="6" width="30" height="30"/>
+                                                            <rect key="frame" x="8" y="37.5" width="25" height="25"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="30" id="nlt-7w-nCh"/>
-                                                                <constraint firstAttribute="height" constant="30" id="vCK-EF-3tb"/>
+                                                                <constraint firstAttribute="width" constant="25" id="nlt-7w-nCh"/>
+                                                                <constraint firstAttribute="height" constant="25" id="vCK-EF-3tb"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8,888원" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ob-Sh-Bf7">
-                                                            <rect key="frame" x="48" y="78.5" width="44" height="13.5"/>
-                                                            <fontDescription key="fontDescription" name="NanumSquareRoundEB" family="NanumSquareRound" pointSize="12"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8,888원" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ob-Sh-Bf7">
+                                                            <rect key="frame" x="36" y="44.5" width="56" height="11.5"/>
+                                                            <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="10"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                     <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
-                                                        <constraint firstItem="CK0-QM-NRb" firstAttribute="top" secondItem="xMT-9x-yBw" secondAttribute="top" constant="6" id="9Rg-7I-TEU"/>
                                                         <constraint firstAttribute="trailing" secondItem="9Ob-Sh-Bf7" secondAttribute="trailing" constant="8" id="Dqj-dR-3dJ"/>
-                                                        <constraint firstAttribute="bottom" secondItem="9Ob-Sh-Bf7" secondAttribute="bottom" constant="8" id="MQk-ON-Ab8"/>
+                                                        <constraint firstItem="CK0-QM-NRb" firstAttribute="centerY" secondItem="xMT-9x-yBw" secondAttribute="centerY" id="S76-a5-kQJ"/>
+                                                        <constraint firstItem="9Ob-Sh-Bf7" firstAttribute="centerY" secondItem="CK0-QM-NRb" secondAttribute="centerY" id="Xir-Jd-SMf"/>
+                                                        <constraint firstItem="9Ob-Sh-Bf7" firstAttribute="leading" secondItem="CK0-QM-NRb" secondAttribute="trailing" constant="3" id="bFZ-Eh-iic"/>
                                                         <constraint firstItem="CK0-QM-NRb" firstAttribute="leading" secondItem="xMT-9x-yBw" secondAttribute="leading" constant="8" id="e05-U6-L9z"/>
                                                     </constraints>
                                                 </view>
@@ -123,6 +121,8 @@
                     <size key="freeformSize" width="320" height="100"/>
                     <connections>
                         <outlet property="collectionView" destination="beA-2j-l4Z" id="wzj-i6-iXg"/>
+                        <outlet property="contentLabel" destination="IAu-Va-9Nc" id="pPB-du-cjH"/>
+                        <outlet property="titleLabel" destination="knD-Zg-Vvb" id="ixi-Fi-kNz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
