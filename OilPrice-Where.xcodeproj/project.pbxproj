@@ -22,6 +22,9 @@
 		8E40DB1924D7E45400352F7E /* InitialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E40DB1824D7E45400352F7E /* InitialViewModel.swift */; };
 		8E40DB1E24D7F34400352F7E /* InitialCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E40DB1D24D7F34400352F7E /* InitialCollectionViewCell.swift */; };
 		8E4DBA4424E43492002E605C /* SalePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4DBA4324E43492002E605C /* SalePriceTableViewCell.swift */; };
+		8E542E342500BF9D00562A59 /* GeoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3E2107D95C0066A59E /* GeoConverter.swift */; };
+		8E542E352500C31100562A59 /* KakaoCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECE0D4D21195F3500FF2B46 /* KakaoCommon.framework */; };
+		8E542E372500C31100562A59 /* KakaoNavi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECE0D4C21195F3500FF2B46 /* KakaoNavi.framework */; };
 		8E5FD38E24EFEDA400C6EE35 /* MapTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5FD38D24EFEDA400C6EE35 /* MapTypeTableViewCell.swift */; };
 		8E68BA1524CCC560004730D7 /* SelectOilTypeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1424CCC560004730D7 /* SelectOilTypeViewModel.swift */; };
 		8E68BA1724CCC5F7004730D7 /* ViewModelBindableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1624CCC5F7004730D7 /* ViewModelBindableType.swift */; };
@@ -95,7 +98,6 @@
 		8EF8481A24E39B23009A32D8 /* EditSalePriceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8481924E39B23009A32D8 /* EditSalePriceViewModel.swift */; };
 		8EF8481C24E39C03009A32D8 /* SettingEditSalePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8481B24E39C03009A32D8 /* SettingEditSalePriceViewController.swift */; };
 		8EFCDC7224FB0B950045AAC4 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EEBDD5324D2353800C1318C /* TMapSDK.framework */; };
-		8EFCDC7324FB0B950045AAC4 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8EEBDD5324D2353800C1318C /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,17 +129,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				8EEBDD5624D2353B00C1318C /* TMapSDK.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8EFCDC7424FB0B950045AAC4 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				8EFCDC7324FB0B950045AAC4 /* TMapSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,7 +277,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E542E372500C31100562A59 /* KakaoNavi.framework in Frameworks */,
 				8EAEB15024F41AFF00B5E6CE /* NotificationCenter.framework in Frameworks */,
+				8E542E352500C31100562A59 /* KakaoCommon.framework in Frameworks */,
 				8EFCDC7224FB0B950045AAC4 /* TMapSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -648,7 +641,6 @@
 				8EAEB14A24F41AFF00B5E6CE /* Sources */,
 				8EAEB14B24F41AFF00B5E6CE /* Frameworks */,
 				8EAEB14C24F41AFF00B5E6CE /* Resources */,
-				8EFCDC7424FB0B950045AAC4 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -880,6 +872,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E542E342500BF9D00562A59 /* GeoConverter.swift in Sources */,
 				8EAEB16324F4B31E00B5E6CE /* FavoriteCollectionViewCell.swift in Sources */,
 				8EAEB15324F41AFF00B5E6CE /* TodayViewController.swift in Sources */,
 				8E82E43424F9468100395CDD /* API.swift in Sources */,
@@ -1134,6 +1127,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Kakao",
 				);
 				INFOPLIST_FILE = FavoriteWidgetExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1162,6 +1156,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Kakao",
 				);
 				INFOPLIST_FILE = FavoriteWidgetExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;

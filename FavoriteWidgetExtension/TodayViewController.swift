@@ -8,6 +8,7 @@
 
 import UIKit
 import TMapSDK
+import KakaoNavi
 import NotificationCenter
 
 class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate {
@@ -30,6 +31,8 @@ class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate
       TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "219c2c34-cdd2-45d3-867b-e08c2ea97810")
       NCWidgetController().setHasContent(true,
                                          forWidgetWithBundleIdentifier: "com.OilPriceWhere.wheregasoline.FavoriteWidgetExtension")
+      
+      extensionContext?.widgetMaximumSize(for: .expanded)
    }
    
    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
@@ -57,6 +60,12 @@ class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate
       favArr.forEach { print($0.name) }
 
       completionHandler(NCUpdateResult.newData)
+   }
+   
+   
+   
+   func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
+      
    }
    
    func getAppKey() -> String {
@@ -108,10 +117,37 @@ class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate
          return nil
       }
    }
+   
+   // 위치 변환 ( Katec -> WGS84 )
+   func convertKatecToWGS(with station: InformationGasStaion) -> CLLocationCoordinate2D {
+      let convert = GeoConverter()
+      let katecPoint = GeographicPoint(x: station.katecX, y: station.katecY)
+      let wgsPoint = convert.convert(sourceType: .KATEC,
+                                     destinationType: .WGS_84,
+                                     geoPoint: katecPoint)
+      
+      return CLLocationCoordinate2D(latitude: wgsPoint!.y,
+                                    longitude: wgsPoint!.x)
+      
+   }
+   
+   // 길안내 에러 발생
+   func handleError(error: Error?) {
+      if let error = error as NSError? {
+         print(error)
+         let alert = UIAlertController(title: title!,
+                                       message: error.localizedFailureReason,
+                                       preferredStyle: .alert)
+         alert.addAction(UIAlertAction(title: "확인", style: .cancel, handler: nil))
+         present(alert, animated: true, completion: nil)
+      }
+   }
 }
 
 extension TodayViewController: UICollectionViewDataSource {
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+      extensionContext?.widgetLargestAvailableDisplayMode = favArr.count == 5 ? .expanded : .compact
+      
       titleLabel.isHidden = !favArr.isEmpty
       contentLabel.isHidden = !favArr.isEmpty
       
@@ -128,6 +164,57 @@ extension TodayViewController: UICollectionViewDataSource {
       cell.backView.backgroundColor = colors[indexPath.row]
       
       return cell
+   }
+}
+
+extension TodayViewController: UICollectionViewDelegate {
+   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+      let selectStation = favArr[indexPath.row]
+      let katecX = selectStation.katecX.rounded()
+      let katecY = selectStation.katecY.rounded()
+      print(selectStation.name, katecX, katecY)
+      guard let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere"),
+         let type = def.value(forKey: "NaviType") as? String else { return }
+      
+      print(type)
+      
+      switch type {
+      case "kakao":
+         let destination = KNVLocation(name: selectStation.name,
+                                       x: NSNumber(value: katecX),
+                                       y: NSNumber(value: katecY))
+         let options = KNVOptions()
+         options.routeInfo = false
+         let params = KNVParams(destination: destination,
+                                options: options)
+         KNVNaviLauncher.shared().navigate(with: params) { (error) in
+            self.handleError(error: error)
+         }
+      default:
+         let coordinator = convertKatecToWGS(with: selectStation)
+         
+         if TMapApi.isTmapApplicationInstalled() {
+            let _ = TMapApi.invokeRoute(selectStation.name, coordinate: coordinator)
+         } else {
+            let alert = UIAlertController(title: "T Map이 없습니다.",
+                                          message: "다운로드 페이지로 이동하시겠습니까?",
+                                          preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK",
+                                         style: .default) { (_) in
+                                          guard let url = URL(string: TMapApi.getTMapDownUrl()) else {
+                                             return
+                                          }
+                                          
+                                          self.extensionContext?.open(url, completionHandler: nil)
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            
+            present(alert, animated: true, completion: nil)
+         }
+      }
    }
 }
 

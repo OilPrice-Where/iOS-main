@@ -50,12 +50,7 @@ class DefaultData {
    }
    
    func localSave(favorites: InformationGasStaions) {
-//      UserDefaults.standard.removeObject(forKey: "LocalFavorites")
-//      UserDefaults.standard.synchronize()
-      
       let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere")
-//      def?.removeObject(forKey: "FavoriteArr")
-//      def?.synchronize()
       
       if let encodeData = try? JSONEncoder().encode(favorites) {
          def?.set(encodeData, forKey: "FavoriteArr")
@@ -158,14 +153,13 @@ class DefaultData {
             var favorites = InformationGasStaions(allPriceList: self.tempFavArr)
             
             self.localSave(favorites: favorites)
-            print(tempArr)
+            
             for key in infomations {
                guard !tempArr.contains(key) else { continue }
                ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
                                                 id: key) { (result) in
                   switch result {
                   case .success(let info):
-                     print("#1")
                      tempArr.append(info.id)
                      self.tempFavArr.append(info)
                      favorites.allPriceList.append(info)
@@ -195,6 +189,10 @@ class DefaultData {
       // Navi Type Save
       naviSubject
          .subscribe(onNext: {
+            let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere")
+            def?.set($0, forKey: "NaviType")
+            def?.synchronize()
+            
             SwiftyPlistManager.shared.save($0,
                                            forKey: "NaviType",
                                            toPlistWithName: "UserInfo") { (err) in
