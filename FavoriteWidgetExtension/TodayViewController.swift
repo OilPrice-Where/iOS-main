@@ -32,7 +32,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate
       NCWidgetController().setHasContent(true,
                                          forWidgetWithBundleIdentifier: "com.OilPriceWhere.wheregasoline.FavoriteWidgetExtension")
       
-      extensionContext?.widgetMaximumSize(for: .expanded)
+      
    }
    
    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
@@ -41,13 +41,11 @@ class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate
              completionHandler(NCUpdateResult.newData)
             return
       }
-      print("#1")
       
       favArr = []
       var tempArr = [String]()
       
       if let infomations = try? JSONDecoder().decode(InformationGasStaions.self, from: data) {
-         print("#2", infomations)
          infomations.allPriceList.forEach { info in
             if !tempArr.contains(info.id) {
                favArr.append(info)
@@ -65,7 +63,16 @@ class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate
    
    
    func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
+      guard let compactHeight = extensionContext?.widgetMaximumSize(for: .compact).height else { return }
       
+      switch activeDisplayMode {
+      case .compact:
+         preferredContentSize = maxSize
+      case .expanded:
+         preferredContentSize = CGSize(width: maxSize.width, height: compactHeight * 1.5)
+      default:
+         fatalError()
+      }
    }
    
    func getAppKey() -> String {
@@ -157,7 +164,7 @@ extension TodayViewController: UICollectionViewDataSource {
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
       guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WidgetFavoriteCollectionViewCell.identifier, for: indexPath) as? WidgetFavoriteCollectionViewCell else { fatalError() }
       
-      cell.layer.cornerRadius = 10
+      cell.layer.cornerRadius = 8
       cell.oilPriceLabel.textColor = .white
       cell.oilPriceLabel.text = favArr[indexPath.row].name
       cell.brandImageView.image = logoImage(logoName: favArr[indexPath.row].brand)
@@ -172,11 +179,9 @@ extension TodayViewController: UICollectionViewDelegate {
       let selectStation = favArr[indexPath.row]
       let katecX = selectStation.katecX.rounded()
       let katecY = selectStation.katecY.rounded()
-      print(selectStation.name, katecX, katecY)
+      
       guard let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere"),
          let type = def.value(forKey: "NaviType") as? String else { return }
-      
-      print(type)
       
       switch type {
       case "kakao":
@@ -220,20 +225,22 @@ extension TodayViewController: UICollectionViewDelegate {
 
 extension TodayViewController: UICollectionViewDelegateFlowLayout {
    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-      let cal = favArr.count.isMultiple(of: 2) ? 1 : 0
-      let spacing = CGFloat(cal * 3 + 6)
-      let width = (collectionView.bounds.width - spacing) / 2
-      let height = (collectionView.bounds.height - spacing) / 2
-      
+      guard var compactHeight = extensionContext?.widgetMaximumSize(for: .compact).height else { return .zero }
+      compactHeight -= 20
+      print(collectionView.bounds.width)
+      let spacing: CGFloat = 3
+      let width = (collectionView.bounds.width) / 2 - spacing
+      let height = (compactHeight) / 2 - spacing
+      print(width, height)
       return CGSize(width: width, height: height)
    }
    
    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-      return 3
+      return 6
    }
    
    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-      return 3
+      return 6
    }
 }
 
