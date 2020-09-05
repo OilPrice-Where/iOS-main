@@ -24,6 +24,8 @@ class DefaultData {
          self.currentType = MapType.map(type: $0)
       })
          .disposed(by: bag)
+      
+      readUserDefault()
    }
    
    var stationsSubject = BehaviorSubject<[GasStation]>(value: []) // 반경 주유소 리스트
@@ -49,14 +51,52 @@ class DefaultData {
       }
    }
    
+   func readUserDefault() {
+      if let data = UserDefaults.standard.value(forKey: "LocalFavorites") as? Data {
+         do {
+            let result = try JSONDecoder().decode(InformationGasStaions.self, from: data)
+            print(result)
+            tempFavArr = result.allPriceList
+            print("======================= #1")
+            print(result.allPriceList)
+         } catch {
+            print(error.localizedDescription)
+         }
+      } else {
+         let infomations = InformationGasStaions(allPriceList: [])
+         
+         if let favArr = try? DefaultData.shared.favoriteSubject.value() {
+            favArr.forEach { key in
+               ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
+                                                id: key) { (result) in
+                  switch result {
+                  case .success(let info):
+                     self.tempFavArr.append(info)
+                  case .error(let error):
+                     print(error.localizedDescription)
+                  }
+               }
+            }
+         }
+         
+         do {
+            let data = try JSONEncoder().encode(infomations)
+            UserDefaults.standard.set(data, forKey: "LocalFavorites")
+         } catch {
+            print(error.localizedDescription)
+         }
+      }
+   }
+   
    func localSave(favorites: InformationGasStaions) {
       let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere")
       
       if let encodeData = try? JSONEncoder().encode(favorites) {
+         print("SAVE DATA", encodeData)
          def?.set(encodeData, forKey: "FavoriteArr")
-         def?.synchronize()
-         
          UserDefaults.standard.set(encodeData, forKey: "LocalFavorites")
+         
+         def?.synchronize()
          UserDefaults.standard.synchronize()
       }
    }
@@ -160,6 +200,7 @@ class DefaultData {
                                                 id: key) { (result) in
                   switch result {
                   case .success(let info):
+                     print("================#2")
                      tempArr.append(info.id)
                      self.tempFavArr.append(info)
                      favorites.allPriceList.append(info)

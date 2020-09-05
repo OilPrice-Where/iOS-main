@@ -26,25 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       
       DefaultData.shared.allPriceDataLoad() // 전국의 오일종류 별 저번주의 평균 값을 받아온다.
       
-      if let data = UserDefaults.standard.value(forKey: "LocalFavorites") as? Data {
-         do {
-            let result = try JSONDecoder().decode(InformationGasStaions.self, from: data)
-            DefaultData.shared.tempFavArr = result.allPriceList
-            print(result.allPriceList)
-         } catch {
-            print(error.localizedDescription)
-         }
-      } else {
-         let infomations = InformationGasStaions(allPriceList: [])
-         
-         do {
-            let data = try JSONEncoder().encode(infomations)
-            UserDefaults.standard.set(data, forKey: "LocalFavorites")
-         } catch {
-            print(error.localizedDescription)
-         }
-      }
-      
       window?.rootViewController = initialViewController() // 설정페이지 루트뷰 설정
       
       return true
