@@ -37,6 +37,7 @@ class DefaultData {
    var favoriteSubject = BehaviorSubject<[String]>(value: []) // 즐겨 찾기
    var naviSubject = BehaviorSubject<String>(value: "kakao")
    var salesSubject = BehaviorSubject<[String: Int]>(value: [:])
+   var localFavoritesSubject = BehaviorSubject<[InformationGasStaion]>(value: [])
    var tempFavArr: [InformationGasStaion] = []
    
    // 전군 평균 기름 값 로드 함수
@@ -52,38 +53,33 @@ class DefaultData {
    }
    
    func readUserDefault() {
-      if let data = UserDefaults.standard.value(forKey: "LocalFavorites") as? Data {
-         do {
-            let result = try JSONDecoder().decode(InformationGasStaions.self, from: data)
-            print(result)
-            tempFavArr = result.allPriceList
-            print("======================= #1")
-            print(result.allPriceList)
-         } catch {
-            print(error.localizedDescription)
-         }
-      } else {
-         let infomations = InformationGasStaions(allPriceList: [])
+      guard let dataString =  SwiftyPlistManager.shared.fetchValue(for: "LocalFavorites",
+                                                          fromPlistWithName: "UserInfo") as? String,
+         let data = dataString.data(using: .utf8),
+         let result = try? JSONDecoder().decode(InformationGasStaions.self, from: data) else { return }
+      
+      var infomations = InformationGasStaions(allPriceList: [])
+
+      
+      if let favArr = try? DefaultData.shared.favoriteSubject.value() {
+         infomations.allPriceList = result.allPriceList.filter { favArr.contains($0.id) }
+         tempFavArr = infomations.allPriceList
          
-         if let favArr = try? DefaultData.shared.favoriteSubject.value() {
-            favArr.forEach { key in
-               ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
-                                                id: key) { (result) in
-                  switch result {
-                  case .success(let info):
-                     self.tempFavArr.append(info)
-                  case .error(let error):
-                     print(error.localizedDescription)
+         favArr.forEach { key in
+            
+            ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
+                                             id: key) { (result) in
+               switch result {
+               case .success(let info):
+                  infomations.allPriceList.append(info)
+                  self.tempFavArr.append(info)
+                  if favArr.last == key {
+                     self.localFavoritesSubject.onNext(infomations.allPriceList)
                   }
+               case .error(let error):
+                  print(error.localizedDescription)
                }
             }
-         }
-         
-         do {
-            let data = try JSONEncoder().encode(infomations)
-            UserDefaults.standard.set(data, forKey: "LocalFavorites")
-         } catch {
-            print(error.localizedDescription)
          }
       }
    }
@@ -92,12 +88,8 @@ class DefaultData {
       let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere")
       
       if let encodeData = try? JSONEncoder().encode(favorites) {
-         print("SAVE DATA", encodeData)
          def?.set(encodeData, forKey: "FavoriteArr")
-         UserDefaults.standard.set(encodeData, forKey: "LocalFavorites")
-         
          def?.synchronize()
-         UserDefaults.standard.synchronize()
       }
    }
    
@@ -126,6 +118,7 @@ class DefaultData {
       let favArr = getValue(defaultValue: [String](), for: "Favorites")
       let naviType = getValue(defaultValue: "kakao", for: "NaviType")
       let sales = getValue(defaultValue: defaultSales, for: "Sales")
+      let localFavorites = getValue(defaultValue: "", for: "LocalFavorites")
       
       mapsSubject.onNext(map)
       oilSubject.onNext(oilType)
@@ -134,6 +127,7 @@ class DefaultData {
       brandsSubject.onNext(brands)
       naviSubject.onNext(naviType)
       salesSubject.onNext(sales)
+      localFavoritesSubject.onNext([])
       
       // Map Type Save
       mapsSubject
@@ -248,6 +242,24 @@ class DefaultData {
          .subscribe(onNext: {
             SwiftyPlistManager.shared.save($0,
                                            forKey: "Sales",
+                                           toPlistWithName: "UserInfo") { (err) in
+                                             if err != nil {
+                                                print("Success Save BrandType !!")
+                                             }}
+         })
+         .disposed(by: bag)
+      
+      // Local Favorites
+      localFavoritesSubject
+         .subscribe(onNext: {
+            let value =  InformationGasStaions(allPriceList: $0)
+            self.tempFavArr = $0
+            
+            guard let encodeData = try? JSONEncoder().encode(value),
+               let dataString = String(data: encodeData, encoding: .utf8) else { return }
+            
+            SwiftyPlistManager.shared.save(dataString,
+                                           forKey: "LocalFavorites",
                                            toPlistWithName: "UserInfo") { (err) in
                                              if err != nil {
                                                 print("Success Save BrandType !!")
