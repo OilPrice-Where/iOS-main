@@ -12,6 +12,8 @@ import KakaoNavi
 import NotificationCenter
 
 class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate {
+   @IBOutlet private weak var popupView: UIView!
+   @IBOutlet private weak var popupTitleLabel: UILabel!
    @IBOutlet private weak var collectionView: UICollectionView!
    @IBOutlet private weak var titleLabel: UILabel!
    @IBOutlet private weak var contentLabel: UILabel!
@@ -27,7 +29,8 @@ class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate
    
    override func viewDidLoad() {
       super.viewDidLoad()
-      
+      popupView.layer.cornerRadius = 10
+      popupTitleLabel.textColor = .white
       TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "219c2c34-cdd2-45d3-867b-e08c2ea97810")
       NCWidgetController().setHasContent(true,
                                          forWidgetWithBundleIdentifier: "com.OilPriceWhere.wheregasoline.FavoriteWidgetExtension")
@@ -139,14 +142,13 @@ class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate
    }
    
    // 길안내 에러 발생
-   func handleError(error: Error?) {
-      if let error = error as NSError? {
-         print(error)
-         let alert = UIAlertController(title: title!,
-                                       message: error.localizedFailureReason,
-                                       preferredStyle: .alert)
-         alert.addAction(UIAlertAction(title: "확인", style: .cancel, handler: nil))
-         present(alert, animated: true, completion: nil)
+   func handleError(message: String) {
+      popupView.isHidden = false
+      
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+         self.popupTitleLabel.text = message
+         self.popupView.isHidden = true
+         print("complete")
       }
    }
 }
@@ -193,7 +195,9 @@ extension TodayViewController: UICollectionViewDelegate {
          let params = KNVParams(destination: destination,
                                 options: options)
          KNVNaviLauncher.shared().navigate(with: params) { (error) in
-            self.handleError(error: error)
+            if let _ = error {
+               self.handleError(message: "카카오내비가 설치되어 있지 않습니다.")
+            }
          }
       default:
          let coordinator = convertKatecToWGS(with: selectStation)
@@ -201,23 +205,7 @@ extension TodayViewController: UICollectionViewDelegate {
          if TMapApi.isTmapApplicationInstalled() {
             let _ = TMapApi.invokeRoute(selectStation.name, coordinate: coordinator)
          } else {
-            let alert = UIAlertController(title: "T Map이 없습니다.",
-                                          message: "다운로드 페이지로 이동하시겠습니까?",
-                                          preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK",
-                                         style: .default) { (_) in
-                                          guard let url = URL(string: TMapApi.getTMapDownUrl()) else {
-                                             return
-                                          }
-                                          
-                                          self.extensionContext?.open(url, completionHandler: nil)
-            }
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-            
-            present(alert, animated: true, completion: nil)
+            self.handleError(message: "티맵내비가 설치되어 있지 않습니다.")
          }
       }
    }

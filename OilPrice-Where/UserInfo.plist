@@ -42,8 +42,6 @@
 	<string></string>
 	<key>FindRadius</key>
 	<integer>5000</integer>
-	<key>CFBundleIdentifier</key>
-	<string></string>
 	<key>Favorites</key>
 	<array/>
 </dict>

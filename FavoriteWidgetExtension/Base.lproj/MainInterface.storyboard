@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="M4Y-Lb-cyx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="M4Y-Lb-cyx">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -105,14 +105,43 @@
                                     <outlet property="delegate" destination="M4Y-Lb-cyx" id="KvW-0a-ePY"/>
                                 </connections>
                             </collectionView>
+                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gIE-iQ-3Wo">
+                                <rect key="frame" x="54.5" y="25" width="211.5" height="50"/>
+                                <subviews>
+                                    <view clipsSubviews="YES" alpha="0.65000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1mm-Ml-ANW">
+                                        <rect key="frame" x="0.0" y="0.0" width="211.5" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="카카오내비가 설치되어있지 않습니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFp-Ta-WP0">
+                                        <rect key="frame" x="6" y="18" width="199.5" height="14.5"/>
+                                        <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="1mm-Ml-ANW" firstAttribute="top" secondItem="gIE-iQ-3Wo" secondAttribute="top" id="4yS-9Z-udr"/>
+                                    <constraint firstAttribute="height" constant="50" id="7xQ-nC-SJR"/>
+                                    <constraint firstItem="IFp-Ta-WP0" firstAttribute="centerX" secondItem="gIE-iQ-3Wo" secondAttribute="centerX" id="DtC-f7-Mgz"/>
+                                    <constraint firstAttribute="trailing" secondItem="IFp-Ta-WP0" secondAttribute="trailing" constant="6" id="FFc-GO-Z2j"/>
+                                    <constraint firstItem="IFp-Ta-WP0" firstAttribute="leading" secondItem="gIE-iQ-3Wo" secondAttribute="leading" constant="6" id="KCL-wP-deM"/>
+                                    <constraint firstAttribute="trailing" secondItem="1mm-Ml-ANW" secondAttribute="trailing" id="Mhh-Ex-tVG"/>
+                                    <constraint firstItem="1mm-Ml-ANW" firstAttribute="leading" secondItem="gIE-iQ-3Wo" secondAttribute="leading" id="Wyr-fE-eFj"/>
+                                    <constraint firstItem="IFp-Ta-WP0" firstAttribute="centerY" secondItem="gIE-iQ-3Wo" secondAttribute="centerY" id="YS1-bj-mPm"/>
+                                    <constraint firstAttribute="bottom" secondItem="1mm-Ml-ANW" secondAttribute="bottom" id="eMA-6G-iFx"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="gIE-iQ-3Wo" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="centerX" id="2k8-yC-VVv"/>
                             <constraint firstItem="ArQ-oJ-Ykh" firstAttribute="centerY" secondItem="S3S-Oj-5AN" secondAttribute="centerY" id="7AU-Pm-3gk"/>
                             <constraint firstAttribute="bottom" secondItem="beA-2j-l4Z" secondAttribute="bottom" constant="10" id="FCT-YF-gfH"/>
                             <constraint firstItem="ArQ-oJ-Ykh" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="centerX" id="aoY-uZ-Vac"/>
                             <constraint firstItem="beA-2j-l4Z" firstAttribute="leading" secondItem="ssy-KU-ocm" secondAttribute="leading" constant="10" id="fas-YF-ZcD"/>
                             <constraint firstItem="ssy-KU-ocm" firstAttribute="trailing" secondItem="beA-2j-l4Z" secondAttribute="trailing" constant="10" id="m6f-Dy-bqY"/>
                             <constraint firstItem="beA-2j-l4Z" firstAttribute="top" secondItem="S3S-Oj-5AN" secondAttribute="top" constant="10" id="rvR-96-81m"/>
+                            <constraint firstItem="gIE-iQ-3Wo" firstAttribute="centerY" secondItem="S3S-Oj-5AN" secondAttribute="centerY" id="xom-Ty-hye"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ssy-KU-ocm"/>
                     </view>
@@ -122,6 +151,8 @@
                     <connections>
                         <outlet property="collectionView" destination="beA-2j-l4Z" id="wzj-i6-iXg"/>
                         <outlet property="contentLabel" destination="IAu-Va-9Nc" id="pPB-du-cjH"/>
+                        <outlet property="popupTitleLabel" destination="IFp-Ta-WP0" id="pnb-FX-7H8"/>
+                        <outlet property="popupView" destination="gIE-iQ-3Wo" id="r4m-SK-n6J"/>
                         <outlet property="titleLabel" destination="knD-Zg-Vvb" id="ixi-Fi-kNz"/>
                     </connections>
                 </viewController>
