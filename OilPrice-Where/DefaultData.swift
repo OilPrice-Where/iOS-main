@@ -2,7 +2,7 @@
 //  Station.swift
 //  OilPrice-Where
 //
-//  Created by 박상욱 on 2018. 8. 8..
+//  Created by 박상욱 on 2018. 8. 8.
 //  Copyright © 2018년 sangwook park. All rights reserved.
 //
 
@@ -77,23 +77,23 @@ class DefaultData {
       
       SwiftyPlistManager.shared.start(plistNames: ["UserInfo"], logging: true) // Plist 불러오기
       
+      let localFavorites = getValue(defaultValue: "", for: "LocalFavorites")
       let map = getValue(defaultValue: "AppleMap", for: "MapType")
       let radius = getValue(defaultValue: 5000, for: "FindRadius")
       let oilType = getValue(defaultValue: "", for: "OilType")
       let brands = getValue(defaultValue: defaultBrands, for: "Brands")
-      let favArr = getValue(defaultValue: [String](), for: "Favorites")
       let naviType = getValue(defaultValue: "kakao", for: "NaviType")
       let sales = getValue(defaultValue: defaultSales, for: "Sales")
-      let localFavorites = getValue(defaultValue: "", for: "LocalFavorites")
+      let favArr = getValue(defaultValue: [String](), for: "Favorites")
       
+      localFavoritesSubject.onNext(localFavorites)
       mapsSubject.onNext(map)
       oilSubject.onNext(oilType)
       radiusSubject.onNext(radius)
-      localFavoritesSubject.onNext(localFavorites)
-      favoriteSubject.onNext(favArr)
       brandsSubject.onNext(brands)
       naviSubject.onNext(naviType)
       salesSubject.onNext(sales)
+      favoriteSubject.onNext(favArr)
       
       // Map Type Save
       mapsSubject
@@ -141,7 +141,17 @@ class DefaultData {
                                                 print("Success Save Favorites !!")
                                              }}
             
+            let group = DispatchGroup()
+            let queue = DispatchQueue(label: "wargi.dispatch.favorites")
             var tempArr = [String]()
+            
+            if let dataString = try? self.localFavoritesSubject.value(),
+               let data = dataString.data(using: .utf8),
+               let infomations = try? JSONDecoder().decode(InformationGasStaions.self,
+                                                           from: data) {
+               self.tempFavArr = infomations.allPriceList
+            }
+            
             self.tempFavArr = self.tempFavArr.filter { info in
                if !tempArr.contains(info.id) && infomations.contains(info.id) {
                   tempArr.append(info.id)
@@ -150,12 +160,30 @@ class DefaultData {
                return false
             }
             
-            let value = InformationGasStaions(allPriceList: self.tempFavArr)
-            if let encodeData = try? JSONEncoder().encode(value),
-               let dataString = String(data: encodeData, encoding: .utf8) {
-               self.localFavoritesSubject.onNext(dataString)
+            for id in infomations {
+               guard !tempArr.contains(id) else { continue }
+               group.enter()
+               ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
+                                                id: id) { (result) in
+                  switch result {
+                  case .success(let info):
+                     queue.async {
+                        self.tempFavArr.append(info)
+                        group.leave()
+                     }
+                  case .error(let error):
+                     print(error.localizedDescription)
+                  }
+               }
             }
             
+            group.notify(queue: queue) {
+               let value = InformationGasStaions(allPriceList: self.tempFavArr)
+               if let encodeData = try? JSONEncoder().encode(value),
+                  let dataString = String(data: encodeData, encoding: .utf8) {
+                  self.localFavoritesSubject.onNext(dataString)
+               }
+            }
          })
          .disposed(by: bag)
       
@@ -213,23 +241,20 @@ class DefaultData {
                                                  forKey: "LocalFavorites",
                                                  toPlistWithName: "UserInfo") { (err) in
                                                    if err != nil {
-                                                      print("Success Save BrandType !!")
+                                                      print("Success Save LocalFavorite !!")
                                                    }}
                }
                return
             }
-            
             SwiftyPlistManager.shared.save($0,
                                            forKey: "LocalFavorites",
                                            toPlistWithName: "UserInfo") { (err) in
                                              if err != nil {
-                                                print("Success Save BrandType !!")
+                                                print("Success Save LocalFavorite !!")
                                              }}
             
             value.allPriceList = self.tempFavArr
             self.tempFavArr = infomations.allPriceList
-            
-            
             self.localSave(favorites: value)
          })
          .disposed(by: bag)

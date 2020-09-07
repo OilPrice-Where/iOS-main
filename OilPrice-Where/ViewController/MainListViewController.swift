@@ -303,8 +303,6 @@ class MainListViewController: CommonViewController, TMapTapiDelegate {
                                     
                                     switch result {
                                     case .success(let gasStationData):
-                                       print("DataLoad")
-                                       
                                        var target = gasStationData.result.gasStations
                                        
                                        target = target.map { info -> GasStation in

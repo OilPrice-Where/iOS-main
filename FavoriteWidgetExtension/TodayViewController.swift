@@ -58,7 +58,6 @@ class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate
       }
       
       collectionView.reloadData()
-      favArr.forEach { print($0.name) }
 
       completionHandler(NCUpdateResult.newData)
    }
@@ -148,7 +147,6 @@ class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate
       DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
          self.popupTitleLabel.text = message
          self.popupView.isHidden = true
-         print("complete")
       }
    }
 }
@@ -215,11 +213,9 @@ extension TodayViewController: UICollectionViewDelegateFlowLayout {
    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
       guard var compactHeight = extensionContext?.widgetMaximumSize(for: .compact).height else { return .zero }
       compactHeight -= 20
-      print(collectionView.bounds.width)
       let spacing: CGFloat = 3
       let width = (collectionView.bounds.width) / 2 - spacing
       let height = (compactHeight) / 2 - spacing
-      print(width, height)
       return CGSize(width: width, height: height)
    }
    
