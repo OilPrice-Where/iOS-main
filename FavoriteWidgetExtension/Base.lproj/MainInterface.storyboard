@@ -12,6 +12,9 @@
         <array key="NanumSquareRoundB.ttf">
             <string>NanumSquareRoundB</string>
         </array>
+        <array key="NanumSquareRoundEB.ttf">
+            <string>NanumSquareRoundEB</string>
+        </array>
         <array key="NanumSquareRoundR.ttf">
             <string>NanumSquareRoundR</string>
         </array>
@@ -62,27 +65,35 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xMT-9x-yBw">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                     <subviews>
+                                                        <view alpha="0.01" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mOd-b3-TJj">
+                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </view>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CK0-QM-NRb">
-                                                            <rect key="frame" x="8" y="37.5" width="25" height="25"/>
+                                                            <rect key="frame" x="8" y="40" width="20" height="20"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="25" id="nlt-7w-nCh"/>
-                                                                <constraint firstAttribute="height" constant="25" id="vCK-EF-3tb"/>
+                                                                <constraint firstAttribute="width" constant="20" id="nlt-7w-nCh"/>
+                                                                <constraint firstAttribute="height" constant="20" id="vCK-EF-3tb"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8,888원" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ob-Sh-Bf7">
-                                                            <rect key="frame" x="36" y="44.5" width="56" height="11.5"/>
-                                                            <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="10"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8,888원" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Ob-Sh-Bf7">
+                                                            <rect key="frame" x="31" y="44.5" width="64" height="11.5"/>
+                                                            <fontDescription key="fontDescription" name="NanumSquareRoundEB" family="NanumSquareRound" pointSize="10"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="9Ob-Sh-Bf7" secondAttribute="trailing" constant="8" id="Dqj-dR-3dJ"/>
+                                                        <constraint firstAttribute="trailing" secondItem="9Ob-Sh-Bf7" secondAttribute="trailing" constant="5" id="Dqj-dR-3dJ"/>
                                                         <constraint firstItem="CK0-QM-NRb" firstAttribute="centerY" secondItem="xMT-9x-yBw" secondAttribute="centerY" id="S76-a5-kQJ"/>
                                                         <constraint firstItem="9Ob-Sh-Bf7" firstAttribute="centerY" secondItem="CK0-QM-NRb" secondAttribute="centerY" id="Xir-Jd-SMf"/>
                                                         <constraint firstItem="9Ob-Sh-Bf7" firstAttribute="leading" secondItem="CK0-QM-NRb" secondAttribute="trailing" constant="3" id="bFZ-Eh-iic"/>
                                                         <constraint firstItem="CK0-QM-NRb" firstAttribute="leading" secondItem="xMT-9x-yBw" secondAttribute="leading" constant="8" id="e05-U6-L9z"/>
+                                                        <constraint firstAttribute="trailing" secondItem="mOd-b3-TJj" secondAttribute="trailing" id="i2Q-T1-rcE"/>
+                                                        <constraint firstItem="mOd-b3-TJj" firstAttribute="top" secondItem="xMT-9x-yBw" secondAttribute="top" id="jZ7-3r-Jej"/>
+                                                        <constraint firstItem="mOd-b3-TJj" firstAttribute="leading" secondItem="xMT-9x-yBw" secondAttribute="leading" id="l93-9g-OwU"/>
+                                                        <constraint firstAttribute="bottom" secondItem="mOd-b3-TJj" secondAttribute="bottom" id="tsq-wI-F0y"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -124,7 +135,7 @@
                                     <constraint firstItem="1mm-Ml-ANW" firstAttribute="top" secondItem="gIE-iQ-3Wo" secondAttribute="top" id="4yS-9Z-udr"/>
                                     <constraint firstAttribute="height" constant="50" id="7xQ-nC-SJR"/>
                                     <constraint firstItem="IFp-Ta-WP0" firstAttribute="centerX" secondItem="gIE-iQ-3Wo" secondAttribute="centerX" id="DtC-f7-Mgz"/>
-                                    <constraint firstAttribute="trailing" secondItem="IFp-Ta-WP0" secondAttribute="trailing" constant="6" id="FFc-GO-Z2j"/>
+                                    <constraint firstAttribute="trailing" secondItem="IFp-Ta-WP0" secondAttribute="trailing" priority="999" constant="6" id="FFc-GO-Z2j"/>
                                     <constraint firstItem="IFp-Ta-WP0" firstAttribute="leading" secondItem="gIE-iQ-3Wo" secondAttribute="leading" constant="6" id="KCL-wP-deM"/>
                                     <constraint firstAttribute="trailing" secondItem="1mm-Ml-ANW" secondAttribute="trailing" id="Mhh-Ex-tVG"/>
                                     <constraint firstItem="1mm-Ml-ANW" firstAttribute="leading" secondItem="gIE-iQ-3Wo" secondAttribute="leading" id="Wyr-fE-eFj"/>

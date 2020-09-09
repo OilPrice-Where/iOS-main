@@ -19,18 +19,27 @@ class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate
    @IBOutlet private weak var contentLabel: UILabel!
    
    var favArr: [InformationGasStaion] = []
-   var colors: [UIColor?] = [UIColor(named: "MainColorAny"),
-                            .systemOrange,
-                            .systemPink,
-                            .systemTeal,
-                            .systemPurple
-   ]
+   var tColors: [UIColor] = [UIColor(hexString: "#FFCB52"),
+                            UIColor(hexString: "#5581F1"),
+                            UIColor(hexString: "#FFE324"),
+                            UIColor(hexString: "#FACD68"),
+                            UIColor(hexString: "#1DE5E2")]
+   
+   var bColors: [UIColor] = [UIColor(hexString: "#FF7B02"),
+                            UIColor(hexString: "#1153FC"),
+                            UIColor(hexString: "#FFB533"),
+                            UIColor(hexString: "#FC76B3"),
+                            UIColor(hexString: "#B588F7xx")]
+   
    
    
    override func viewDidLoad() {
       super.viewDidLoad()
       popupView.layer.cornerRadius = 10
       popupTitleLabel.textColor = .white
+      
+      
+      
       TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "219c2c34-cdd2-45d3-867b-e08c2ea97810")
       NCWidgetController().setHasContent(true,
                                          forWidgetWithBundleIdentifier: "com.OilPriceWhere.wheregasoline.FavoriteWidgetExtension")
@@ -164,11 +173,17 @@ extension TodayViewController: UICollectionViewDataSource {
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
       guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WidgetFavoriteCollectionViewCell.identifier, for: indexPath) as? WidgetFavoriteCollectionViewCell else { fatalError() }
       
+      let gradientLayer = CAGradientLayer()
+      gradientLayer.frame = cell.bounds
+      gradientLayer.colors = [tColors[indexPath.row].cgColor, bColors[indexPath.row].cgColor]
+      gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+      gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
+      cell.layer.insertSublayer(gradientLayer, at: 0)
+      
       cell.layer.cornerRadius = 8
       cell.oilPriceLabel.textColor = .white
       cell.oilPriceLabel.text = favArr[indexPath.row].name
       cell.brandImageView.image = logoImage(logoName: favArr[indexPath.row].brand)
-      cell.backView.backgroundColor = colors[indexPath.row]
       
       return cell
    }
