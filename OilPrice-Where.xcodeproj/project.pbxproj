@@ -98,6 +98,7 @@
 		8EF8481A24E39B23009A32D8 /* EditSalePriceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8481924E39B23009A32D8 /* EditSalePriceViewModel.swift */; };
 		8EF8481C24E39C03009A32D8 /* SettingEditSalePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8481B24E39C03009A32D8 /* SettingEditSalePriceViewController.swift */; };
 		8EFCDC7224FB0B950045AAC4 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EEBDD5324D2353800C1318C /* TMapSDK.framework */; };
+		F0CBFAA18BB733914B09AA88 /* Pods_FavoriteWidgetExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C351C1F67BF387632AA6A35 /* Pods_FavoriteWidgetExtension.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,17 +137,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0CA5D7D421E19FB61B55E40C /* Pods-FavoriteWidgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FavoriteWidgetExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FavoriteWidgetExtension/Pods-FavoriteWidgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		29B226422121FDC60012B2F6 /* AverageCostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AverageCostData.swift; path = "OilPrice-Where/AverageCostData.swift"; sourceTree = SOURCE_ROOT; };
 		29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtility.swift; sourceTree = "<group>"; };
 		29B226522126A8B90012B2F6 /* NanumSquareRoundL.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundL.ttf; sourceTree = "<group>"; };
 		29B226532126A8BA0012B2F6 /* NanumSquareRoundB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundB.ttf; sourceTree = "<group>"; };
 		29B226542126A8BB0012B2F6 /* NanumSquareRoundEB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundEB.ttf; sourceTree = "<group>"; };
 		29B226552126A8BD0012B2F6 /* NanumSquareRoundR.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumSquareRoundR.ttf; sourceTree = "<group>"; };
+		4C351C1F67BF387632AA6A35 /* Pods_FavoriteWidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FavoriteWidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ADD44E371ADD94F9E7AFB44 /* Pods-OilPrice-Where.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.release.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.release.xcconfig"; sourceTree = "<group>"; };
 		74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OilPrice_Where.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesGasStationViewController.swift; sourceTree = "<group>"; };
 		765830AC212699FD006DFE2E /* InformationGasStaion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationGasStaion.swift; sourceTree = "<group>"; };
 		7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		865E1877381F722FB0DBBE14 /* Pods-FavoriteWidgetExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FavoriteWidgetExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-FavoriteWidgetExtension/Pods-FavoriteWidgetExtension.release.xcconfig"; sourceTree = "<group>"; };
 		8E167D3A2107AD480066A59E /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		8E167D3C2107AEA30066A59E /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = API.swift; path = "OilPrice-Where/API.swift"; sourceTree = SOURCE_ROOT; };
 		8E167D3E2107D95C0066A59E /* GeoConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoConverter.swift; sourceTree = "<group>"; };
@@ -281,6 +285,7 @@
 				8EAEB15024F41AFF00B5E6CE /* NotificationCenter.framework in Frameworks */,
 				8E542E352500C31100562A59 /* KakaoCommon.framework in Frameworks */,
 				8EFCDC7224FB0B950045AAC4 /* TMapSDK.framework in Frameworks */,
+				F0CBFAA18BB733914B09AA88 /* Pods_FavoriteWidgetExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +337,7 @@
 				8ECE0D4C21195F3500FF2B46 /* KakaoNavi.framework */,
 				74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */,
 				8EAEB14F24F41AFF00B5E6CE /* NotificationCenter.framework */,
+				4C351C1F67BF387632AA6A35 /* Pods_FavoriteWidgetExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -352,6 +358,8 @@
 			children = (
 				AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */,
 				5ADD44E371ADD94F9E7AFB44 /* Pods-OilPrice-Where.release.xcconfig */,
+				0CA5D7D421E19FB61B55E40C /* Pods-FavoriteWidgetExtension.debug.xcconfig */,
+				865E1877381F722FB0DBBE14 /* Pods-FavoriteWidgetExtension.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -638,6 +646,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8EAEB15B24F41AFF00B5E6CE /* Build configuration list for PBXNativeTarget "FavoriteWidgetExtension" */;
 			buildPhases = (
+				4F97A13032084F528F20C5BF /* [CP] Check Pods Manifest.lock */,
 				8EAEB14A24F41AFF00B5E6CE /* Sources */,
 				8EAEB14B24F41AFF00B5E6CE /* Frameworks */,
 				8EAEB14C24F41AFF00B5E6CE /* Resources */,
@@ -723,6 +732,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4F97A13032084F528F20C5BF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FavoriteWidgetExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6BD9A5B08CFDBAC3BCE9A669 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1119,6 +1150,7 @@
 		};
 		8EAEB15C24F41AFF00B5E6CE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0CA5D7D421E19FB61B55E40C /* Pods-FavoriteWidgetExtension.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = FavoriteWidgetExtension/FavoriteWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -1150,6 +1182,7 @@
 		};
 		8EAEB15D24F41AFF00B5E6CE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 865E1877381F722FB0DBBE14 /* Pods-FavoriteWidgetExtension.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = FavoriteWidgetExtension/FavoriteWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";

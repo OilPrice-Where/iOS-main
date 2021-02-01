@@ -1,9 +1,16 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '9.0'
+
+target 'FavoriteWidgetExtension' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for FavoriteWidgetExtension
+
+end
 
 target 'OilPrice-Where' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
-
+  # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
   # Pods for OilPrice-Where
@@ -13,7 +20,7 @@ target 'OilPrice-Where' do
   pod 'GooglePlaces'
 
   # Database
-  pod 'SwiftyPlistManager'
+  #pod 'SwiftyPlistManager'
 
   # Networking
   pod 'Alamofire'
@@ -34,7 +41,7 @@ target 'OilPrice-Where' do
   pod 'RxSwiftExt'
   pod 'Action'
   pod 'RxDataSources'
-  pod "RxGesture"
+  pod 'RxGesture'
   pod 'RxReachability'
   pod 'RxKeyboard'
 
