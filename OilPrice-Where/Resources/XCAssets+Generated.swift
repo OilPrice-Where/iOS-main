@@ -28,6 +28,7 @@ internal enum Asset {
     internal static let defaultColor = ColorAsset(name: "DefaultColor")
     internal static let mainColor = ColorAsset(name: "MainColor")
     internal static let mainColorAny = ColorAsset(name: "MainColorAny")
+    internal static let tableViewBackground = ColorAsset(name: "TableViewBackground")
   }
   internal enum Images {
     internal static let _1pxDot = ImageAsset(name: "1px_dot")

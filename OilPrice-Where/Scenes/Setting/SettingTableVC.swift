@@ -123,17 +123,15 @@ extension SettingTableVC {
                 navigationController?.pushViewController(vc, animated: true)
             }
         case .selectStationVC:
-            if var vc = storyboard.instantiateViewController(withIdentifier: SelectStationViewController.identifier) as? SelectStationViewController {
-                let viewModel = SelectStationViewModel()
-                vc.bind(viewModel: viewModel)
-                navigationController?.pushViewController(vc, animated: true)
-            }
+            var vc = FindBrandVC()
+            let viewModel = FindBrandViewModel()
+            vc.bind(viewModel: viewModel)
+            navigationController?.pushViewController(vc, animated: true)
         case .selectSalePriceVC:
-            if var vc = storyboard.instantiateViewController(withIdentifier: SettingEditSalePriceViewController.identifier) as? SettingEditSalePriceViewController {
-                let viewModel = EditSalePriceViewModel()
-                vc.bind(viewModel: viewModel)
-                navigationController?.pushViewController(vc, animated: true)
-            }
+            var vc = SettingEditSalePriceVC()
+            let viewModel = EditSalePriceViewModel()
+            vc.bind(viewModel: viewModel)
+            navigationController?.pushViewController(vc, animated: true)
         case .settingAboutUsVC:
             let vc = SettingAboutUsVC()
             navigationController?.pushViewController(vc, animated: true)

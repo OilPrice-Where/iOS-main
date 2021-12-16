@@ -1,5 +1,5 @@
 //
-//  SelectStationViewController.swift
+//  FindBrandVC.swift
 //  OilPrice-Where
 //
 //  Created by 박상욱 on 2020/07/26.
@@ -11,9 +11,9 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-class SelectStationViewController: CommonViewController, ViewModelBindableType {
-   static let identifier = "SelectStationViewController"
-   var viewModel: SelectStationViewModel!
+class FindBrandVC: CommonViewController, ViewModelBindableType {
+   static let identifier = "FindBrandVC"
+   var viewModel: FindBrandViewModel!
    var isAllSwitchButton = PublishSubject<Bool>()
    var isLauchSetting = false
    @IBOutlet private weak var tableView: UITableView!
@@ -51,5 +51,5 @@ class SelectStationViewController: CommonViewController, ViewModelBindableType {
    }
 }
 
-extension SelectStationViewController: UITableViewDelegate {
+extension FindBrandVC: UITableViewDelegate {
 }

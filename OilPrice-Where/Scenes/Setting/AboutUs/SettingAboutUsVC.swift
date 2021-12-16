@@ -29,6 +29,7 @@ class SettingAboutUsVC: UIViewController {
         $0.alwaysBounceHorizontal = false
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
+        $0.backgroundColor = Asset.Colors.tableViewBackground.color
         AboutUsTableViewCell.register($0)
     }
     

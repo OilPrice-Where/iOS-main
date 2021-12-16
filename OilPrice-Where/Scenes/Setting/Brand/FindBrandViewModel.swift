@@ -1,5 +1,5 @@
 //
-//  SelectStationViewModel.swift
+//  FindBrandViewModel.swift
 //  OilPrice-Where
 //
 //  Created by 박상욱 on 2020/07/26.
@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-final class SelectStationViewModel: CommonViewModel {
+final class FindBrandViewModel: CommonViewModel {
    private let findBrand = [ // 선택 가능한 탐색 반경
       "전체",
       "SK에너지",
