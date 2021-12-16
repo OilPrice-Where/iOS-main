@@ -40,8 +40,15 @@ class FavoritesGasStationViewController: CommonViewController {
       centeredCollectionViewFlowLayout = (collectionView.collectionViewLayout as! CenteredCollectionViewFlowLayout)
       collectionView.decelerationRate = UIScrollViewDecelerationRateFast
       
-      centeredCollectionViewFlowLayout.minimumLineSpacing = 25
-      centeredCollectionViewFlowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width - 75, height: 410)
+    centeredCollectionViewFlowLayout.minimumLineSpacing = 25
+      let screenWidth = UIScreen.main.bounds.size.width
+    
+    if screenWidth >= 800 {
+        centeredCollectionViewFlowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width - 400, height: 410)
+    } else {
+        centeredCollectionViewFlowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width - 75, height: 410)
+    }
+      
       bindViewModel()
       
       notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
