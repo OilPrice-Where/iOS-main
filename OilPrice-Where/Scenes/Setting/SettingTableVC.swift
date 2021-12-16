@@ -86,15 +86,12 @@ final class SettingTableVC: UITableViewController {
 
 extension SettingTableVC {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
         switch SelectCellType.indexPath(at: indexPath) {
         case .selectNaviVC:
-            if var vc = storyboard.instantiateViewController(withIdentifier: SelectNavigationController.identifier) as? SelectNavigationController {
-                let viewModel = SelectNaviViewModel()
-                vc.bind(viewModel: viewModel)
-                navigationController?.pushViewController(vc, animated: true)
-            }
+            var vc = FindNavigationVC()
+            let viewModel = FindNavigationViewModel()
+            vc.bind(viewModel: viewModel)
+            navigationController?.pushViewController(vc, animated: true)
         case .selectOilVC:
             var vc = FindOilVC()
             let viewModel = FindOilTypeViewModel()

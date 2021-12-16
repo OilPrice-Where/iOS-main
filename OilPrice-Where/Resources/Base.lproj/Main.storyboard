@@ -1556,62 +1556,6 @@
             </objects>
             <point key="canvasLocation" x="744" y="874"/>
         </scene>
-        <!--내비게이션-->
-        <scene sceneID="D5l-3Z-bgZ">
-            <objects>
-                <viewController storyboardIdentifier="SelectNavigationController" title="내비게이션" id="Hb1-2z-aE8" customClass="SelectNavigationController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="9kI-g6-0Et">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RCv-Wg-5xL">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="NavigaionTypeTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NavigaionTypeTableViewCell" id="lHa-XR-jxd" customClass="NavigaionTypeTableViewCell" customModule="OilPrice_Where" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.666666030883789" width="414" height="43.666667938232422"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lHa-XR-jxd" id="w5O-Ad-n71">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내비게이션" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CgV-1V-FQj">
-                                                    <rect key="frame" x="20" y="12.333333333333336" width="366" height="19"/>
-                                                    <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="CgV-1V-FQj" secondAttribute="trailing" constant="8" id="bgZ-3h-S7N"/>
-                                                <constraint firstItem="CgV-1V-FQj" firstAttribute="centerY" secondItem="w5O-Ad-n71" secondAttribute="centerY" id="n8y-Oy-b9z"/>
-                                                <constraint firstItem="CgV-1V-FQj" firstAttribute="leading" secondItem="w5O-Ad-n71" secondAttribute="leadingMargin" id="rmm-98-6W9"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="naviTypeLabel" destination="CgV-1V-FQj" id="f10-ai-Mxq"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="0uq-do-Lu6"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="RCv-Wg-5xL" firstAttribute="leading" secondItem="0uq-do-Lu6" secondAttribute="leading" id="GX2-4M-zRZ"/>
-                            <constraint firstItem="0uq-do-Lu6" firstAttribute="bottom" secondItem="RCv-Wg-5xL" secondAttribute="bottom" id="Kb8-OH-E5i"/>
-                            <constraint firstItem="RCv-Wg-5xL" firstAttribute="top" secondItem="0uq-do-Lu6" secondAttribute="top" id="jk3-gX-LzM"/>
-                            <constraint firstItem="0uq-do-Lu6" firstAttribute="trailing" secondItem="RCv-Wg-5xL" secondAttribute="trailing" id="oZ4-jo-9r9"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="tableView" destination="RCv-Wg-5xL" id="RZI-gg-8ps"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Yo0-HL-EV8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1461" y="874"/>
-        </scene>
         <!--TabBarController-->
         <scene sceneID="5Mn-s0-oH5">
             <objects>

@@ -1,18 +1,20 @@
 //
-//  OilTypeTableViewCell.swift
+//  NavigaionTypeTableViewCell.swift
 //  OilPrice-Where
 //
-//  Created by 박상욱 on 2018. 8. 9..
-//  Copyright © 2018년 sangwook park. All rights reserved.
+//  Created by 박상욱 on 2020/07/28.
+//  Copyright © 2020 sangwook park. All rights reserved.
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import NSObject_Rx
 
-// 설정 -> 오일 타입 선택 리스트 셀
-final class OilTypeTableViewCell: UITableViewCell {
+class NavigaionTypeTableViewCell: UITableViewCell {
     //MARK: - Properties
-    // 오일 종류
-    let oilTypeLabel = UILabel().then {
+    // 내비게이션 title
+    let naviTypeLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 17)
     }
@@ -35,17 +37,18 @@ final class OilTypeTableViewCell: UITableViewCell {
     }
     
     //MARK: - Fetch Data
-    func fetch(oil type: String) {
-        oilTypeLabel.text = type // 오일의 종류(휘발유, 경유, LPG 등..)를 셀에 표시
+    func fetch(navigation type: String) {
+        // Navigation title
+        naviTypeLabel.text = type
     }
     
     //MARK: - Configure UI
     func configureUI() {
         selectionStyle = .none
         
-        contentView.addSubview(oilTypeLabel)
+        contentView.addSubview(naviTypeLabel)
         
-        oilTypeLabel.snp.makeConstraints {
+        naviTypeLabel.snp.makeConstraints {
             $0.left.right.equalToSuperview().inset(20)
             $0.centerY.equalToSuperview()
         }
