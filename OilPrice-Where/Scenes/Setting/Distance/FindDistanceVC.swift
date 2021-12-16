@@ -56,6 +56,8 @@ class FindDistanceVC: CommonViewController, ViewModelBindableType {
     
     //MARK: - Configure UI
     func configureUI() {
+        navigationItem.title = "검색 반경"
+        
         view.addSubview(tableView)
         
         tableView.snp.makeConstraints {

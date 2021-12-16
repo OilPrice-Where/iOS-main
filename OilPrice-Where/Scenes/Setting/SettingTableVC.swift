@@ -12,7 +12,6 @@ import NSObject_Rx
 import RxCocoa
 
 enum SelectCellType {
-    case selectMapVC
     case selectNaviVC
     case selectOilVC
     case selectDistanceVC
@@ -27,8 +26,6 @@ extension SelectCellType {
     static func indexPath(at indexPath: IndexPath) -> SelectCellType {
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
-            return .selectMapVC
-        case (0, 1):
             return .selectNaviVC
         case (1, 0):
             return .selectOilVC
@@ -56,7 +53,6 @@ class SettingTableVC: UITableViewController {
     @IBOutlet private weak var oilTypeLabel : UILabel! // 현재 탐색 하고 있는 오일의 타입
     @IBOutlet private weak var findLabel : UILabel! // 현재 탐색 하고 있는 탐색 반경
     @IBOutlet private weak var findNaviType: UILabel!
-    @IBOutlet private weak var selectMapType: UILabel!
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -70,12 +66,7 @@ class SettingTableVC: UITableViewController {
     
     // 이전 설정을 데이터를 불러와서
     // oilTypeLabel, findLabel 업데이트
-    func bindViewModel() {
-        DefaultData.shared.mapsSubject
-            .map { Preferences.mapsType(code: $0) }
-            .bind(to: selectMapType.rx.text)
-            .disposed(by: rx.disposeBag)
-        
+    func bindViewModel() {        
         DefaultData.shared.naviSubject
             .map { Preferences.navigationType(name: $0) }
             .bind(to: findNaviType.rx.text)
@@ -98,12 +89,6 @@ extension SettingTableVC {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         switch SelectCellType.indexPath(at: indexPath) {
-        case .selectMapVC:
-            if var vc = storyboard.instantiateViewController(withIdentifier: SelectMapsViewController.identifier) as? SelectMapsViewController {
-                let viewModel = SelectMapsViewModel()
-                vc.bind(viewModel: viewModel)
-                navigationController?.pushViewController(vc, animated: true)
-            }
         case .selectNaviVC:
             if var vc = storyboard.instantiateViewController(withIdentifier: SelectNavigationController.identifier) as? SelectNavigationController {
                 let viewModel = SelectNaviViewModel()
