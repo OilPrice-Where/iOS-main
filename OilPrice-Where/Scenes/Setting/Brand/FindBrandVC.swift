@@ -12,44 +12,69 @@ import RxCocoa
 import NSObject_Rx
 
 class FindBrandVC: CommonViewController, ViewModelBindableType {
-   static let identifier = "FindBrandVC"
-   var viewModel: FindBrandViewModel!
-   var isAllSwitchButton = PublishSubject<Bool>()
-   var isLauchSetting = false
-   @IBOutlet private weak var tableView: UITableView!
-   let allBrands = ["SOL", "RTX", "ETC", "SKE", "GSC", "HDO", "RTO", "NHO", "E1G", "SKG"]
-   override func viewDidLoad() {
-      super.viewDidLoad()
-   }
-   
-   func bindViewModel() {
-      viewModel.brandSubject
-         .bind(to: tableView.rx.items(cellIdentifier: BrandTypeTableViewCell.identifier,
-                                      cellType: BrandTypeTableViewCell.self)) { index, brand, cell in
-         cell.bind(brandSubject: Observable.just(brand))
-         if brand == "전체" {
-            cell.brandSelectedSwitch.rx.isOn
-               .subscribe(onNext: {
-                  self.isAllSwitchButton.onNext($0)
-               })
-               .disposed(by: self.rx.disposeBag)
-         } else {
-            self.isAllSwitchButton
-               .subscribe(onNext: {
-                  if self.isLauchSetting {
-                     cell.brandSelectedSwitch.isOn = $0
-                     DefaultData.shared.brandsSubject.onNext($0 ? self.allBrands : [])
-                  } else {
-                     self.isLauchSetting = true
-                  }
-                  
-               })
-               .disposed(by: self.rx.disposeBag)
-         }
-      }
-      .disposed(by: rx.disposeBag)
-   }
-}
-
-extension FindBrandVC: UITableViewDelegate {
+    //MARK: - Properties
+    var viewModel: FindBrandViewModel!
+    var isAllSwitchButton = PublishSubject<Bool>()
+    var isLauchSetting = false
+    
+    lazy var tableView = UITableView().then {
+        $0.alwaysBounceVertical = false
+        $0.alwaysBounceHorizontal = false
+        $0.showsVerticalScrollIndicator = false
+        $0.showsHorizontalScrollIndicator = false
+        $0.backgroundColor = Asset.Colors.tableViewBackground.color
+        BrandTypeTableViewCell.register($0)
+    }
+    
+    //MARK: - Life Cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configureUI()
+    }
+    
+    //MARK: - View Binding..
+    func bindViewModel() {
+        viewModel.brandSubject
+            .bind(to: tableView.rx.items(cellIdentifier: BrandTypeTableViewCell.id,
+                                         cellType: BrandTypeTableViewCell.self)) { index, brand, cell in
+                cell.fetchData(brand: brand)
+                guard brand != "전체" else {
+                    cell.brandSelectedSwitch
+                        .rx
+                        .isOn
+                        .subscribe(onNext: {
+                            self.isAllSwitchButton.onNext($0)
+                        })
+                        .disposed(by: self.rx.disposeBag)
+                    
+                    return
+                }
+                
+                self.isAllSwitchButton
+                    .subscribe(onNext: {
+                        guard !self.isLauchSetting else {
+                            cell.brandSelectedSwitch.isOn = $0
+                            DefaultData.shared.brandsSubject.onNext($0 ? self.viewModel.allBrands : [])
+                            return
+                        }
+                        
+                        self.isLauchSetting = true
+                    })
+                    .disposed(by: self.rx.disposeBag)
+                
+            }
+            .disposed(by: rx.disposeBag)
+    }
+    
+    //MARK: - Configure UI
+    func configureUI() {
+        navigationItem.title = "검색 브랜드"
+        
+        view.addSubview(tableView)
+        
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
 }

@@ -385,8 +385,17 @@
 			children = (
 				8E68BA2424CCCF95004730D7 /* FindBrandVC.swift */,
 				8E68BA2224CCCF32004730D7 /* FindBrandViewModel.swift */,
+				2C0C68D4276B477300945CEC /* Cell */,
 			);
 			path = Brand;
+			sourceTree = "<group>";
+		};
+		2C0C68D4276B477300945CEC /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		2C306C2524FE261E511F8C37 /* Pods */ = {
@@ -619,7 +628,6 @@
 				8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */,
 				8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */,
 				8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */,
-				8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -1112,7 +1120,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.9.0;
+				MARKETING_VERSION = 2.0.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1156,7 +1164,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.9.0;
+				MARKETING_VERSION = 2.0.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

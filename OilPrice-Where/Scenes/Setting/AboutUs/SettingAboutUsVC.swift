@@ -18,13 +18,9 @@ enum SelectGitCell: Int {
 
 class SettingAboutUsVC: UIViewController {
     //MARK: - Properties
-    static let identifier = "SettingAboutUsVC"
-    
     lazy var tableView = UITableView().then {
         $0.dataSource = self
         $0.delegate = self
-//        $0.separatorStyle = .none
-//        $0.separatorColor = .clear
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
         $0.showsVerticalScrollIndicator = false

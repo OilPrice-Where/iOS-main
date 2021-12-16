@@ -13,8 +13,6 @@ import NSObject_Rx
 
 class SettingEditSalePriceVC: CommonViewController, ViewModelBindableType {
     //MARK: - Properties
-    static let identifier = "SettingEditSalePriceVC"
-    
     var viewModel: EditSalePriceViewModel!
     
     lazy var tableView = UITableView().then {
@@ -37,10 +35,7 @@ class SettingEditSalePriceVC: CommonViewController, ViewModelBindableType {
         configureUI()
     }
     
-    @objc func handleTapAction() {
-        tableView.endEditing(true)
-    }
-    
+    //MARK: - View Binding..
     func bindViewModel() {
         viewModel.brandsInfoSubject
             .bind(to: tableView.rx.items(cellIdentifier: SalePriceTableViewCell.id,
@@ -48,7 +43,7 @@ class SettingEditSalePriceVC: CommonViewController, ViewModelBindableType {
                 cell.fetchData(brand: info)
                 cell.selectionStyle = .none
             }
-             .disposed(by: rx.disposeBag)
+                                         .disposed(by: rx.disposeBag)
         
         tableView
             .rx
@@ -56,6 +51,7 @@ class SettingEditSalePriceVC: CommonViewController, ViewModelBindableType {
             .disposed(by: rx.disposeBag)
     }
     
+    //MARK: - Configure UI
     func configureUI() {
         navigationItem.title = "카드 할인"
         
@@ -64,6 +60,11 @@ class SettingEditSalePriceVC: CommonViewController, ViewModelBindableType {
         tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+    
+    
+    @objc func handleTapAction() {
+        tableView.endEditing(true)
     }
 }
 
