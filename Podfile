@@ -13,12 +13,15 @@ target 'OilPrice-Where' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
+  # Make UI
+  pod 'Then'
+  pod 'SnapKit', '~> 5.0.0'
+  
   # Pods for OilPrice-Where
   pod 'SCLAlertView'
   pod 'CenteredCollectionView'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
-  pod 'SnapKit', '~> 5.0.0'
 
   # Database
   pod 'SwiftyPlistManager'
@@ -36,6 +39,9 @@ target 'OilPrice-Where' do
   # RxSwift: Main Framework
   pod 'RxSwift'
   pod 'RxCocoa'
+  
+  # Resources
+  pod 'SwiftGen', '~> 6.0'
   
   # RxSwift: Etc
   pod 'NSObject+Rx'

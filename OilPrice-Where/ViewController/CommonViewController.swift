@@ -9,11 +9,13 @@
 import UIKit
 
 class CommonViewController: UIViewController {
-   override func viewDidLoad() {
-      super.viewDidLoad()
-   }
-   
-   deinit {
-      print(self, #function)
-   }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = .white
+    }
+    
+    deinit {
+        print(self, #function)
+    }
 }
