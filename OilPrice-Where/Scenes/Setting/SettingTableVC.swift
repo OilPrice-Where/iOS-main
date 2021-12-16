@@ -117,11 +117,10 @@ extension SettingTableVC {
                 navigationController?.pushViewController(vc, animated: true)
             }
         case .selectDistanceVC:
-            if var vc = storyboard.instantiateViewController(withIdentifier: SelectDistanceViewController.identifier) as? SelectDistanceViewController {
-                let viewModel = SelectDistanceViewModel()
-                vc.bind(viewModel: viewModel)
-                navigationController?.pushViewController(vc, animated: true)
-            }
+            var vc = FindDistanceVC()
+            let viewModel = FindDistanceViewModel()
+            vc.bind(viewModel: viewModel)
+            navigationController?.pushViewController(vc, animated: true)
         case .selectStationVC:
             var vc = FindBrandVC()
             let viewModel = FindBrandViewModel()

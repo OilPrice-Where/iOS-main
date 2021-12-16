@@ -1636,7 +1636,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ve8-Dg-CUn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="743" y="1579"/>
+            <point key="canvasLocation" x="743" y="1578"/>
         </scene>
         <!--관심 유종-->
         <scene sceneID="pfY-hl-5Nu">
@@ -1692,7 +1692,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ux1-sO-Xe1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1463" y="1577"/>
+            <point key="canvasLocation" x="32" y="1578"/>
         </scene>
         <!--내비게이션-->
         <scene sceneID="D5l-3Z-bgZ">
@@ -1748,7 +1748,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yo0-HL-EV8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2153" y="1578"/>
+            <point key="canvasLocation" x="1461" y="874"/>
         </scene>
         <!--TabBarController-->
         <scene sceneID="5Mn-s0-oH5">
@@ -1806,62 +1806,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jce-dt-H79" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="32" y="874"/>
-        </scene>
-        <!--지도 설정-->
-        <scene sceneID="o1V-uI-3hd">
-            <objects>
-                <viewController storyboardIdentifier="SelectMapsViewController" title="지도 설정" id="Knk-uY-SkB" customClass="SelectMapsViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="hX8-Q2-Awi">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="78z-D3-2x6">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="MapTypeTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MapTypeTableViewCell" id="lax-Ek-Hca" customClass="MapTypeTableViewCell" customModule="OilPrice_Where" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.666666030883789" width="414" height="43.666667938232422"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lax-Ek-Hca" id="t1X-Ck-sae">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Apple Map" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xps-n7-8ih">
-                                                    <rect key="frame" x="20" y="12.333333333333336" width="366" height="19"/>
-                                                    <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="xps-n7-8ih" secondAttribute="trailing" constant="8" id="H4p-yS-W5p"/>
-                                                <constraint firstItem="xps-n7-8ih" firstAttribute="leading" secondItem="t1X-Ck-sae" secondAttribute="leadingMargin" id="cwJ-MU-wt1"/>
-                                                <constraint firstItem="xps-n7-8ih" firstAttribute="centerY" secondItem="t1X-Ck-sae" secondAttribute="centerY" id="z3V-7d-iMR"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="mapTypeLabel" destination="xps-n7-8ih" id="gvU-Ko-11y"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="bYs-63-67F"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="bYs-63-67F" firstAttribute="trailing" secondItem="78z-D3-2x6" secondAttribute="trailing" id="PTE-uZ-HwJ"/>
-                            <constraint firstItem="78z-D3-2x6" firstAttribute="top" secondItem="bYs-63-67F" secondAttribute="top" id="TTe-AI-J13"/>
-                            <constraint firstItem="bYs-63-67F" firstAttribute="bottom" secondItem="78z-D3-2x6" secondAttribute="bottom" id="UZU-YV-WkH"/>
-                            <constraint firstItem="78z-D3-2x6" firstAttribute="leading" secondItem="bYs-63-67F" secondAttribute="leading" id="YVR-2Y-3xF"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="tableView" destination="78z-D3-2x6" id="YdW-AH-WLN"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4bu-1s-8Uh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2153" y="874"/>
         </scene>
     </scenes>
     <resources>

@@ -44,8 +44,8 @@
 		8E68BA1924CCC61A004730D7 /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1824CCC61A004730D7 /* CommonViewModel.swift */; };
 		8E68BA1B24CCC645004730D7 /* CommonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1A24CCC645004730D7 /* CommonViewController.swift */; };
 		8E68BA1D24CCC863004730D7 /* SelectOilViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1C24CCC863004730D7 /* SelectOilViewController.swift */; };
-		8E68BA1F24CCCCE5004730D7 /* SelectDistanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1E24CCCCE5004730D7 /* SelectDistanceViewController.swift */; };
-		8E68BA2124CCCD07004730D7 /* SelectDistanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2024CCCD07004730D7 /* SelectDistanceViewModel.swift */; };
+		8E68BA1F24CCCCE5004730D7 /* FindDistanceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1E24CCCCE5004730D7 /* FindDistanceVC.swift */; };
+		8E68BA2124CCCD07004730D7 /* FindDistanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2024CCCD07004730D7 /* FindDistanceViewModel.swift */; };
 		8E68BA2324CCCF32004730D7 /* FindBrandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2224CCCF32004730D7 /* FindBrandViewModel.swift */; };
 		8E68BA2524CCCF95004730D7 /* FindBrandVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2424CCCF95004730D7 /* FindBrandVC.swift */; };
 		8E68BA2924CCD472004730D7 /* SelectNaviViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2824CCD472004730D7 /* SelectNaviViewModel.swift */; };
@@ -187,8 +187,8 @@
 		8E68BA1824CCC61A004730D7 /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
 		8E68BA1A24CCC645004730D7 /* CommonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewController.swift; sourceTree = "<group>"; };
 		8E68BA1C24CCC863004730D7 /* SelectOilViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectOilViewController.swift; sourceTree = "<group>"; };
-		8E68BA1E24CCCCE5004730D7 /* SelectDistanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDistanceViewController.swift; sourceTree = "<group>"; };
-		8E68BA2024CCCD07004730D7 /* SelectDistanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDistanceViewModel.swift; sourceTree = "<group>"; };
+		8E68BA1E24CCCCE5004730D7 /* FindDistanceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindDistanceVC.swift; sourceTree = "<group>"; };
+		8E68BA2024CCCD07004730D7 /* FindDistanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindDistanceViewModel.swift; sourceTree = "<group>"; };
 		8E68BA2224CCCF32004730D7 /* FindBrandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindBrandViewModel.swift; sourceTree = "<group>"; };
 		8E68BA2424CCCF95004730D7 /* FindBrandVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindBrandVC.swift; sourceTree = "<group>"; };
 		8E68BA2824CCD472004730D7 /* SelectNaviViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNaviViewModel.swift; sourceTree = "<group>"; };
@@ -338,6 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				8E7FFE3820F5EA1C006CED48 /* SettingTableVC.swift */,
+				2C0C68D5276B4EA100945CEC /* Distance */,
 				2C0C68D3276B43E800945CEC /* Brand */,
 				2C0C68D1276B337800945CEC /* Card */,
 				2C0C68CF276B331C00945CEC /* AboutUs */,
@@ -398,6 +399,24 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		2C0C68D5276B4EA100945CEC /* Distance */ = {
+			isa = PBXGroup;
+			children = (
+				8E68BA1E24CCCCE5004730D7 /* FindDistanceVC.swift */,
+				8E68BA2024CCCD07004730D7 /* FindDistanceViewModel.swift */,
+				2C0C68D6276B4FFA00945CEC /* Cell */,
+			);
+			path = Distance;
+			sourceTree = "<group>";
+		};
+		2C0C68D6276B4FFA00945CEC /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		2C306C2524FE261E511F8C37 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,7 +434,6 @@
 				8E73DC6E24EFEAC700D50C6A /* SelectMapsViewController.swift */,
 				8EE53E8E24CF3CEC008D8045 /* SelectNavigationController.swift */,
 				8E68BA1C24CCC863004730D7 /* SelectOilViewController.swift */,
-				8E68BA1E24CCCCE5004730D7 /* SelectDistanceViewController.swift */,
 			);
 			name = "Setting ViewController";
 			sourceTree = "<group>";
@@ -445,7 +463,6 @@
 				8E73DC7024EFEB0C00D50C6A /* SelectMapsViewModel.swift */,
 				8E68BA2824CCD472004730D7 /* SelectNaviViewModel.swift */,
 				8E68BA1424CCC560004730D7 /* SelectOilTypeViewModel.swift */,
-				8E68BA2024CCCD07004730D7 /* SelectDistanceViewModel.swift */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -627,7 +644,6 @@
 				8E5FD38D24EFEDA400C6EE35 /* MapTypeTableViewCell.swift */,
 				8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */,
 				8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */,
-				8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -883,7 +899,7 @@
 				8EE53E7D24CF1427008D8045 /* MainListVC+CoreLocation.swift in Sources */,
 				8ECE0DA82123836E00FF2B46 /* AllOilAverageView.swift in Sources */,
 				8E7FFE3920F5EA1C006CED48 /* SettingTableVC.swift in Sources */,
-				8E68BA2124CCCD07004730D7 /* SelectDistanceViewModel.swift in Sources */,
+				8E68BA2124CCCD07004730D7 /* FindDistanceViewModel.swift in Sources */,
 				764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift in Sources */,
 				8EDAF7DA212D7EF300422552 /* DetailView.swift in Sources */,
 				8ECE0D7E211CB1F800FF2B46 /* FindDistanceTableViewCell.swift in Sources */,
@@ -909,7 +925,7 @@
 				2C0C68C8276B25AB00945CEC /* UIReusable+Extension.swift in Sources */,
 				8ECE0DA42122D62B00FF2B46 /* GasStationView.swift in Sources */,
 				8E68BA1524CCC560004730D7 /* SelectOilTypeViewModel.swift in Sources */,
-				8E68BA1F24CCCCE5004730D7 /* SelectDistanceViewController.swift in Sources */,
+				8E68BA1F24CCCCE5004730D7 /* FindDistanceVC.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
 				8EE53E9524D01828008D8045 /* AboutUsTableViewCell.swift in Sources */,
 				29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */,
