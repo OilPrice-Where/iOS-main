@@ -9,7 +9,7 @@
 import UIKit
 
 // 설정 -> 탐색 반경 선택 리스트 셀
-class FindDistanceTableViewCell: UITableViewCell {
+final class FindDistanceTableViewCell: UITableViewCell {
     //MARK: - Properties
     // 탐색 반경 레이블
     let distanceLabel = UILabel().then {

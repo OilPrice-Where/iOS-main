@@ -16,7 +16,7 @@ enum SelectGitCell: Int {
     case solchan = 2
 }
 
-class SettingAboutUsVC: UIViewController {
+final class SettingAboutUsVC: UIViewController {
     //MARK: - Properties
     lazy var tableView = UITableView().then {
         $0.dataSource = self

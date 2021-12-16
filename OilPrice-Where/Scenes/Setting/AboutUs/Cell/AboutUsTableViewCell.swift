@@ -10,7 +10,7 @@ import UIKit
 import Then
 
 
-class AboutUsTableViewCell: UITableViewCell {
+final class AboutUsTableViewCell: UITableViewCell {
     //MARK: - Properties
     let jobTitleLabel = UILabel().then {
         $0.text = "iOS Developer"

@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-class BrandTypeTableViewCell: UITableViewCell {
+final class BrandTypeTableViewCell: UITableViewCell {
     private let brandTypeLable = UILabel().then {
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 17)

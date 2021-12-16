@@ -1556,62 +1556,6 @@
             </objects>
             <point key="canvasLocation" x="744" y="874"/>
         </scene>
-        <!--관심 유종-->
-        <scene sceneID="pfY-hl-5Nu">
-            <objects>
-                <viewController storyboardIdentifier="SelectOilViewController" title="관심 유종" id="1Un-5P-U6X" customClass="SelectOilViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="bwc-VE-yjF">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nCm-U9-2iP">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="OilTypeTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="OilTypeTableViewCell" id="MrJ-2o-1m9" customClass="OilTypeTableViewCell" customModule="OilPrice_Where" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.666666030883789" width="414" height="43.666667938232422"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MrJ-2o-1m9" id="wGZ-IN-ZAJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="휘발유" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QB6-8q-6iy">
-                                                    <rect key="frame" x="30" y="12.333333333333336" width="356" height="19"/>
-                                                    <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="QB6-8q-6iy" firstAttribute="centerY" secondItem="wGZ-IN-ZAJ" secondAttribute="centerY" id="7Y9-PX-z6S"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="QB6-8q-6iy" secondAttribute="trailing" constant="8" id="Wfd-Gv-grO"/>
-                                                <constraint firstItem="QB6-8q-6iy" firstAttribute="leading" secondItem="wGZ-IN-ZAJ" secondAttribute="leadingMargin" constant="10" id="Xa0-f0-heS"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="oilTypeLabel" destination="QB6-8q-6iy" id="ddn-9S-XaQ"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="ayr-hF-Y1c"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="nCm-U9-2iP" firstAttribute="leading" secondItem="ayr-hF-Y1c" secondAttribute="leading" id="Atk-SH-Ljs"/>
-                            <constraint firstItem="ayr-hF-Y1c" firstAttribute="trailing" secondItem="nCm-U9-2iP" secondAttribute="trailing" id="hSb-8u-rkH"/>
-                            <constraint firstItem="nCm-U9-2iP" firstAttribute="top" secondItem="ayr-hF-Y1c" secondAttribute="top" id="x3M-hX-u7d"/>
-                            <constraint firstItem="ayr-hF-Y1c" firstAttribute="bottom" secondItem="nCm-U9-2iP" secondAttribute="bottom" id="xKE-Q2-Fme"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="tableView" destination="nCm-U9-2iP" id="Pgn-kl-ZzY"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ux1-sO-Xe1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="32" y="1578"/>
-        </scene>
         <!--내비게이션-->
         <scene sceneID="D5l-3Z-bgZ">
             <objects>

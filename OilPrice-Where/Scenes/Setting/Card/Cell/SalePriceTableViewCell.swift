@@ -12,7 +12,7 @@ import RxCocoa
 import NSObject_Rx
 import Then
 
-class SalePriceTableViewCell: UITableViewCell {
+final class SalePriceTableViewCell: UITableViewCell {
     //MARK: - Properties
     let brandImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
