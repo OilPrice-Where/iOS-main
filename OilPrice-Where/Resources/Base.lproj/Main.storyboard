@@ -17,9 +17,6 @@
         <array key="NanumSquareRoundEB.ttf">
             <string>NanumSquareRoundEB</string>
         </array>
-        <array key="NanumSquareRoundL.ttf">
-            <string>NanumSquareRoundL</string>
-        </array>
         <array key="NanumSquareRoundR.ttf">
             <string>NanumSquareRoundR</string>
         </array>
@@ -989,7 +986,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1462.5" y="185.7421875"/>
+            <point key="canvasLocation" x="743" y="199"/>
         </scene>
         <!--즐겨찾기-->
         <scene sceneID="Ryb-Qb-8eV">
@@ -1351,14 +1348,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MJy-rE-lPE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2150.625" y="184.85915492957747"/>
+            <point key="canvasLocation" x="1462" y="199"/>
         </scene>
         <!--설정-->
         <scene sceneID="2az-Vw-67D">
             <objects>
-                <tableViewController modalPresentationStyle="pageSheet" id="KzE-w1-FXK" customClass="SettingTableViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController modalPresentationStyle="pageSheet" id="KzE-w1-FXK" customClass="SettingTableVC" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="RXr-W1-zVU">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -1841,7 +1838,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TLa-se-GZk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="743" y="187"/>
+            <point key="canvasLocation" x="32" y="199"/>
         </scene>
         <!--설정-->
         <scene sceneID="toc-zO-hMS">
@@ -1850,9 +1847,10 @@
                     <tabBarItem key="tabBarItem" title="설정" image="settingTabIcon" selectedImage="settingTabIconSel" id="ZTm-eG-udE"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Ukt-N1-kXo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="Ukt-N1-kXo">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" name="MainColor"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" name="MainColor"/>
                         <textAttributes key="titleTextAttributes">
@@ -2016,111 +2014,6 @@
             </objects>
             <point key="canvasLocation" x="2153" y="874"/>
         </scene>
-        <!--About Us-->
-        <scene sceneID="Qzp-Md-mBk">
-            <objects>
-                <viewController storyboardIdentifier="SettingAboutUsViewController" title="About Us" id="lti-Wz-kAy" customClass="SettingAboutUsViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="g1B-Ay-C9Z">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dCT-fG-Bku">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="AboutUsTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AboutUsTableViewCell" rowHeight="117" id="Lrr-Qf-fnL" customClass="AboutUsTableViewCell" customModule="OilPrice_Where" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.666666030883789" width="414" height="117"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Lrr-Qf-fnL" id="HJf-iH-zHA">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="117"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1i8-jz-OjE" userLabel="line">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="1"/>
-                                                    <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="1" id="das-cF-5Ah"/>
-                                                    </constraints>
-                                                </view>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="XXN-hw-i8A">
-                                                    <rect key="frame" x="20" y="21" width="374" height="74.666666666666671"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="iOS Developer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I1m-vU-zZD">
-                                                            <rect key="frame" x="0.0" y="0.0" width="374" height="20"/>
-                                                            <fontDescription key="fontDescription" name="NanumSquareRoundR" family="NanumSquareRound" pointSize="18"/>
-                                                            <color key="textColor" name="DefaultColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="rJ2-iP-OoB">
-                                                            <rect key="frame" x="0.0" y="27.999999999999996" width="374" height="46.666666666666657"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wargi" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gxq-tR-7Sx">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="19"/>
-                                                                    <fontDescription key="fontDescription" name="NanumSquareRoundB" family="NanumSquareRound" pointSize="17"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="a2t-IX-AKC">
-                                                                    <rect key="frame" x="0.0" y="24" width="374" height="22.666666666666671"/>
-                                                                    <subviews>
-                                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="github" translatesAutoresizingMaskIntoConstraints="NO" id="5ZN-sy-HIY">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="22.666666666666668" height="22.666666666666668"/>
-                                                                            <color key="tintColor" name="DarkModeImageColor"/>
-                                                                            <constraints>
-                                                                                <constraint firstAttribute="height" constant="22.5" id="4QU-xu-eTE"/>
-                                                                                <constraint firstAttribute="width" constant="22.5" id="eCN-lQ-l6L"/>
-                                                                            </constraints>
-                                                                        </imageView>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="github.com/wargi" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bjE-Tc-CCu">
-                                                                            <rect key="frame" x="25.666666666666657" y="2.3333333333333286" width="348.33333333333337" height="18"/>
-                                                                            <fontDescription key="fontDescription" name="NanumSquareRoundL" family="NanumSquareRound" pointSize="16"/>
-                                                                            <nil key="textColor"/>
-                                                                            <nil key="highlightedColor"/>
-                                                                        </label>
-                                                                    </subviews>
-                                                                </stackView>
-                                                            </subviews>
-                                                        </stackView>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="1i8-jz-OjE" firstAttribute="leading" secondItem="HJf-iH-zHA" secondAttribute="leading" constant="20" id="9Bt-1f-lfg"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="XXN-hw-i8A" secondAttribute="trailing" id="BSC-xA-hJh"/>
-                                                <constraint firstItem="XXN-hw-i8A" firstAttribute="leading" secondItem="HJf-iH-zHA" secondAttribute="leadingMargin" id="fL4-50-PzX"/>
-                                                <constraint firstItem="XXN-hw-i8A" firstAttribute="top" secondItem="1i8-jz-OjE" secondAttribute="bottom" constant="20" id="hgC-hK-g12"/>
-                                                <constraint firstAttribute="trailing" secondItem="1i8-jz-OjE" secondAttribute="trailing" constant="20" id="oUp-Fd-5Pe"/>
-                                                <constraint firstItem="1i8-jz-OjE" firstAttribute="top" secondItem="HJf-iH-zHA" secondAttribute="top" id="zk2-lC-fW9"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="linkLabel" destination="bjE-Tc-CCu" id="qFt-M2-HmN"/>
-                                            <outlet property="nameLabel" destination="Gxq-tR-7Sx" id="9NN-28-o84"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="lti-Wz-kAy" id="BBt-qv-dRY"/>
-                                    <outlet property="delegate" destination="lti-Wz-kAy" id="fBU-t8-quH"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="R3J-5q-MbO"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="R3J-5q-MbO" firstAttribute="trailing" secondItem="dCT-fG-Bku" secondAttribute="trailing" id="JI5-YB-lAk"/>
-                            <constraint firstItem="dCT-fG-Bku" firstAttribute="leading" secondItem="R3J-5q-MbO" secondAttribute="leading" id="g4I-YL-Df0"/>
-                            <constraint firstItem="dCT-fG-Bku" firstAttribute="top" secondItem="R3J-5q-MbO" secondAttribute="top" id="ig5-2v-E6m"/>
-                            <constraint firstItem="R3J-5q-MbO" firstAttribute="bottom" secondItem="dCT-fG-Bku" secondAttribute="bottom" id="rfH-xe-par"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="tableView" destination="dCT-fG-Bku" id="a8F-Zp-mXt"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ITa-gm-cib" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2833" y="874"/>
-        </scene>
     </scenes>
     <resources>
         <image name="IconConvenience" width="30" height="30"/>
@@ -2135,7 +2028,6 @@
         <image name="findMapIcon" width="22" height="22"/>
         <image name="gasMachineImage" width="70" height="120"/>
         <image name="geoIcon" width="20" height="20"/>
-        <image name="github" width="23.666666030883789" height="23.666666030883789"/>
         <image name="mapButton" width="60" height="60"/>
         <image name="navigationIcon" width="22" height="22"/>
         <image name="noneListImage" width="140" height="130"/>
@@ -2146,9 +2038,6 @@
         <image name="settingTabIconSel" width="25" height="25"/>
         <namedColor name="DarkMain">
             <color red="0.36800000071525574" green="0.50900000333786011" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="DarkModeImageColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="DarkRefresh">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2167,9 +2056,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

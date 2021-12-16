@@ -15,6 +15,8 @@
 		2C0C68C0276B0E3300945CEC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C0C68BF276B0E3300945CEC /* Colors.xcassets */; };
 		2C0C68C2276B0E8600945CEC /* XCAssets+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68C1276B0E8600945CEC /* XCAssets+Generated.swift */; };
 		2C0C68C4276B0EE200945CEC /* Fonts+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68C3276B0EE200945CEC /* Fonts+Generated.swift */; };
+		2C0C68C8276B25AB00945CEC /* UIReusable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68C7276B25AB00945CEC /* UIReusable+Extension.swift */; };
+		2C0C68CA276B31CA00945CEC /* Tabbar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68C9276B31CA00945CEC /* Tabbar+Extension.swift */; };
 		2C0E1CD726022F11006C2C3D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E1CD626022F11006C2C3D /* GoogleService-Info.plist */; };
 		2C1FBE1A276AE39000E57F8A /* SelectTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1FBE19276AE39000E57F8A /* SelectTypeView.swift */; };
 		2C48843E276AF23C007383C2 /* KakaoNavi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C48843C276AF23B007383C2 /* KakaoNavi.framework */; };
@@ -53,7 +55,7 @@
 		8E74DFD924EE91C300CADDDC /* MainListVC+GoogleMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E74DFD824EE91C300CADDDC /* MainListVC+GoogleMap.swift */; };
 		8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */; };
 		8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */; };
-		8E7FFE3920F5EA1C006CED48 /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */; };
+		8E7FFE3920F5EA1C006CED48 /* SettingTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3820F5EA1C006CED48 /* SettingTableVC.swift */; };
 		8E82E43224F901D200395CDD /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
 		8E82E43424F9468100395CDD /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3C2107AEA30066A59E /* API.swift */; };
 		8EA4283F24CE9CA600164E31 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */; };
@@ -98,7 +100,7 @@
 		8EE53E7F24CF150D008D8045 /* MainListVC+Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E7E24CF150D008D8045 /* MainListVC+Header.swift */; };
 		8EE53E8C24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */; };
 		8EE53E8F24CF3CEC008D8045 /* SelectNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E8E24CF3CEC008D8045 /* SelectNavigationController.swift */; };
-		8EE53E9324D016B4008D8045 /* SettingAboutUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E9224D016B4008D8045 /* SettingAboutUsViewController.swift */; };
+		8EE53E9324D016B4008D8045 /* SettingAboutUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E9224D016B4008D8045 /* SettingAboutUsVC.swift */; };
 		8EE53E9524D01828008D8045 /* AboutUsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E9424D01828008D8045 /* AboutUsTableViewCell.swift */; };
 		8EE53E9924D177A4008D8045 /* AboutUsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E9824D177A4008D8045 /* AboutUsViewModel.swift */; };
 		8EF8481A24E39B23009A32D8 /* EditSalePriceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8481924E39B23009A32D8 /* EditSalePriceViewModel.swift */; };
@@ -153,6 +155,8 @@
 		2C0C68BF276B0E3300945CEC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		2C0C68C1276B0E8600945CEC /* XCAssets+Generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCAssets+Generated.swift"; sourceTree = "<group>"; };
 		2C0C68C3276B0EE200945CEC /* Fonts+Generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fonts+Generated.swift"; sourceTree = "<group>"; };
+		2C0C68C7276B25AB00945CEC /* UIReusable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIReusable+Extension.swift"; sourceTree = "<group>"; };
+		2C0C68C9276B31CA00945CEC /* Tabbar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tabbar+Extension.swift"; sourceTree = "<group>"; };
 		2C0E1CD626022F11006C2C3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		2C1FBE19276AE39000E57F8A /* SelectTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTypeView.swift; sourceTree = "<group>"; };
 		2C48843C276AF23B007383C2 /* KakaoNavi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoNavi.framework; path = Kakao/KakaoNavi.framework; sourceTree = "<group>"; };
@@ -199,7 +203,7 @@
 		8E7FFE2920F5E5FF006CED48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8E7FFE2B20F5E5FF006CED48 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8E7FFE3020F5E600006CED48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
+		8E7FFE3820F5EA1C006CED48 /* SettingTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableVC.swift; sourceTree = "<group>"; };
 		8EAEB14E24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FavoriteWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAEB14F24F41AFF00B5E6CE /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		8EAEB15224F41AFF00B5E6CE /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -232,7 +236,7 @@
 		8EE53E7E24CF150D008D8045 /* MainListVC+Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListVC+Header.swift"; sourceTree = "<group>"; };
 		8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigaionTypeTableViewCell.swift; sourceTree = "<group>"; };
 		8EE53E8E24CF3CEC008D8045 /* SelectNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNavigationController.swift; sourceTree = "<group>"; };
-		8EE53E9224D016B4008D8045 /* SettingAboutUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAboutUsViewController.swift; sourceTree = "<group>"; };
+		8EE53E9224D016B4008D8045 /* SettingAboutUsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAboutUsVC.swift; sourceTree = "<group>"; };
 		8EE53E9424D01828008D8045 /* AboutUsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsTableViewCell.swift; sourceTree = "<group>"; };
 		8EE53E9824D177A4008D8045 /* AboutUsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsViewModel.swift; sourceTree = "<group>"; };
 		8EF8481924E39B23009A32D8 /* EditSalePriceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSalePriceViewModel.swift; sourceTree = "<group>"; };
@@ -305,20 +309,57 @@
 			name = SwiftGen;
 			sourceTree = "<group>";
 		};
-		2C1FBE16276AE15200E57F8A /* Scene */ = {
+		2C0C68CB276B32D900945CEC /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				8E40DB1724D7E44100352F7E /* Initial */,
+				2C0C68CC276B32F100945CEC /* Initial */,
+				2C0C68CE276B331100945CEC /* Setting */,
 			);
-			name = Scene;
+			path = Scenes;
 			sourceTree = "<group>";
 		};
-		2C1FBE18276AE37100E57F8A /* View */ = {
+		2C0C68CC276B32F100945CEC /* Initial */ = {
+			isa = PBXGroup;
+			children = (
+				8EDAF7D721295AEF00422552 /* InitialSettingVC.swift */,
+				8E40DB1824D7E45400352F7E /* InitialViewModel.swift */,
+				2C0C68CD276B330300945CEC /* View */,
+			);
+			path = Initial;
+			sourceTree = "<group>";
+		};
+		2C0C68CD276B330300945CEC /* View */ = {
 			isa = PBXGroup;
 			children = (
 				2C1FBE19276AE39000E57F8A /* SelectTypeView.swift */,
 			);
-			name = View;
+			path = View;
+			sourceTree = "<group>";
+		};
+		2C0C68CE276B331100945CEC /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				8E7FFE3820F5EA1C006CED48 /* SettingTableVC.swift */,
+				2C0C68CF276B331C00945CEC /* AboutUs */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		2C0C68CF276B331C00945CEC /* AboutUs */ = {
+			isa = PBXGroup;
+			children = (
+				8EE53E9224D016B4008D8045 /* SettingAboutUsVC.swift */,
+				2C0C68D0276B332D00945CEC /* Cell */,
+			);
+			path = AboutUs;
+			sourceTree = "<group>";
+		};
+		2C0C68D0276B332D00945CEC /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8EE53E9424D01828008D8045 /* AboutUsTableViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		2C306C2524FE261E511F8C37 /* Pods */ = {
@@ -335,13 +376,11 @@
 		7658AB0A2112C28100723CF0 /* Setting ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				8E7FFE3820F5EA1C006CED48 /* SettingTableViewController.swift */,
 				8E73DC6E24EFEAC700D50C6A /* SelectMapsViewController.swift */,
 				8EE53E8E24CF3CEC008D8045 /* SelectNavigationController.swift */,
 				8E68BA1C24CCC863004730D7 /* SelectOilViewController.swift */,
 				8E68BA1E24CCCCE5004730D7 /* SelectDistanceViewController.swift */,
 				8E68BA2424CCCF95004730D7 /* SelectStationViewController.swift */,
-				8EE53E9224D016B4008D8045 /* SettingAboutUsViewController.swift */,
 				8EF8481B24E39C03009A32D8 /* SettingEditSalePriceViewController.swift */,
 			);
 			name = "Setting ViewController";
@@ -386,16 +425,6 @@
 				764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift */,
 			);
 			name = Favorite;
-			sourceTree = "<group>";
-		};
-		8E40DB1724D7E44100352F7E /* Initial */ = {
-			isa = PBXGroup;
-			children = (
-				8EDAF7D721295AEF00422552 /* InitialSettingVC.swift */,
-				8E40DB1824D7E45400352F7E /* InitialViewModel.swift */,
-				2C1FBE18276AE37100E57F8A /* View */,
-			);
-			name = Initial;
 			sourceTree = "<group>";
 		};
 		8E4DAF0920F5EC2400E4FD92 /* Model */ = {
@@ -459,7 +488,7 @@
 				8EE7E34720F5EDA400F35473 /* Utility */,
 				8E4DAF0920F5EC2400E4FD92 /* Model */,
 				8E4DAF0A20F5EC2700E4FD92 /* Services */,
-				2C1FBE16276AE15200E57F8A /* Scene */,
+				2C0C68CB276B32D900945CEC /* Scenes */,
 				8E68BA1324CCC54B004730D7 /* ViewModel */,
 				8E7FFE3F20F5EB46006CED48 /* ViewController */,
 				8E7FFE4120F5EBD2006CED48 /* View */,
@@ -569,7 +598,6 @@
 				8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */,
 				8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */,
 				8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */,
-				8EE53E9424D01828008D8045 /* AboutUsTableViewCell.swift */,
 				8E4DBA4324E43492002E605C /* SalePriceTableViewCell.swift */,
 			);
 			path = Setting;
@@ -582,6 +610,8 @@
 				8E1BB8EE2107E9A60065281B /* DataUtility.swift */,
 				29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */,
 				8EB5C2E72139214700AB83BB /* Reachability.swift */,
+				2C0C68C7276B25AB00945CEC /* UIReusable+Extension.swift */,
+				2C0C68C9276B31CA00945CEC /* Tabbar+Extension.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -823,7 +853,7 @@
 				8E5FD38E24EFEDA400C6EE35 /* MapTypeTableViewCell.swift in Sources */,
 				8EE53E7D24CF1427008D8045 /* MainListVC+CoreLocation.swift in Sources */,
 				8ECE0DA82123836E00FF2B46 /* AllOilAverageView.swift in Sources */,
-				8E7FFE3920F5EA1C006CED48 /* SettingTableViewController.swift in Sources */,
+				8E7FFE3920F5EA1C006CED48 /* SettingTableVC.swift in Sources */,
 				8E68BA2124CCCD07004730D7 /* SelectDistanceViewModel.swift in Sources */,
 				764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift in Sources */,
 				8EDAF7DA212D7EF300422552 /* DetailView.swift in Sources */,
@@ -841,11 +871,13 @@
 				8EE53E7B24CF1294008D8045 /* MainListVC+MapKit.swift in Sources */,
 				8E68BA1924CCC61A004730D7 /* CommonViewModel.swift in Sources */,
 				8EE53E8F24CF3CEC008D8045 /* SelectNavigationController.swift in Sources */,
+				2C0C68CA276B31CA00945CEC /* Tabbar+Extension.swift in Sources */,
 				8E1BB8F12107F61E0065281B /* GasStationCell.swift in Sources */,
 				8E167D3D2107AEA30066A59E /* API.swift in Sources */,
 				8EF8481C24E39C03009A32D8 /* SettingEditSalePriceViewController.swift in Sources */,
 				8EDAF7D821295AEF00422552 /* InitialSettingVC.swift in Sources */,
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
+				2C0C68C8276B25AB00945CEC /* UIReusable+Extension.swift in Sources */,
 				8ECE0DA42122D62B00FF2B46 /* GasStationView.swift in Sources */,
 				8E68BA1524CCC560004730D7 /* SelectOilTypeViewModel.swift in Sources */,
 				8E68BA1F24CCCCE5004730D7 /* SelectDistanceViewController.swift in Sources */,
@@ -854,7 +886,7 @@
 				29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */,
 				8EE53E7924CF0D72008D8045 /* CustomTabbarViewController.swift in Sources */,
 				8EDE51B424D5C32C004590B6 /* FavoriteCellViewModel.swift in Sources */,
-				8EE53E9324D016B4008D8045 /* SettingAboutUsViewController.swift in Sources */,
+				8EE53E9324D016B4008D8045 /* SettingAboutUsVC.swift in Sources */,
 				8E73DC7124EFEB0C00D50C6A /* SelectMapsViewModel.swift in Sources */,
 				8E74DFD924EE91C300CADDDC /* MainListVC+GoogleMap.swift in Sources */,
 				29B226432121FDC60012B2F6 /* AverageCostData.swift in Sources */,

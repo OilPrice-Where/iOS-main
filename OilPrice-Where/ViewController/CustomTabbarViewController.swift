@@ -10,7 +10,14 @@ import UIKit
 import SCLAlertView
 
 class CustomTabbarViewController: UITabBarController {
-   override func viewDidLoad() {
-      super.viewDidLoad()
-   }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupStyle()
+    }
+    
+    func setupStyle() {
+        UITabBar.clearShadow()
+        tabBar.layer.applyShadow(color: .systemGray, alpha: 0.2, x: 0, y: 0, blur: 12)
+    }
 }
