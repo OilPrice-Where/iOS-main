@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -26,8 +26,14 @@
 		2C488440276AF23C007383C2 /* KakaoCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C48843D276AF23B007383C2 /* KakaoCommon.framework */; };
 		2C488441276AF23C007383C2 /* KakaoCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C48843D276AF23B007383C2 /* KakaoCommon.framework */; };
 		2C7394DF276B0AE30038C4A1 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7394DD276B0AE30038C4A1 /* TMapSDK.framework */; };
+		2CAC81DD276B948B00CC6096 /* CustomKVView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81DC276B948B00CC6096 /* CustomKVView.swift */; };
+		2CAC81DF276B966300CC6096 /* FavoritesGasStationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81DE276B966300CC6096 /* FavoritesGasStationViewModel.swift */; };
+		2CAC81E1276B9A7200CC6096 /* KVVStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81E0276B9A7200CC6096 /* KVVStackView.swift */; };
+		2CAC81E3276BA31D00CC6096 /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81E2276BA31D00CC6096 /* CustomNavigationView.swift */; };
+		2CAC81E5276BA63400CC6096 /* LodingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81E4276BA63400CC6096 /* LodingView.swift */; };
+		2CAC81E7276BAA9D00CC6096 /* NoneFavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81E6276BAA9C00CC6096 /* NoneFavoriteView.swift */; };
 		47C53D26198C1F26DB83A9F7 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C946524CD6AA6004E6777 /* Pods_OilPrice_Where.framework */; };
-		764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift */; };
+		764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift */; };
 		765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
 		8E167D3B2107AD480066A59E /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3A2107AD480066A59E /* Service.swift */; };
 		8E167D3D2107AEA30066A59E /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3C2107AEA30066A59E /* API.swift */; };
@@ -161,10 +167,16 @@
 		2C48843C276AF23B007383C2 /* KakaoNavi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoNavi.framework; path = Kakao/KakaoNavi.framework; sourceTree = "<group>"; };
 		2C48843D276AF23B007383C2 /* KakaoCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoCommon.framework; path = Kakao/KakaoCommon.framework; sourceTree = "<group>"; };
 		2C7394DD276B0AE30038C4A1 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMapSDK.framework; sourceTree = "<group>"; };
+		2CAC81DC276B948B00CC6096 /* CustomKVView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomKVView.swift; sourceTree = "<group>"; };
+		2CAC81DE276B966300CC6096 /* FavoritesGasStationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesGasStationViewModel.swift; sourceTree = "<group>"; };
+		2CAC81E0276B9A7200CC6096 /* KVVStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVVStackView.swift; sourceTree = "<group>"; };
+		2CAC81E2276BA31D00CC6096 /* CustomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
+		2CAC81E4276BA63400CC6096 /* LodingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LodingView.swift; sourceTree = "<group>"; };
+		2CAC81E6276BAA9C00CC6096 /* NoneFavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoneFavoriteView.swift; sourceTree = "<group>"; };
 		4C351C1F67BF387632AA6A35 /* Pods_FavoriteWidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FavoriteWidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ADD44E371ADD94F9E7AFB44 /* Pods-OilPrice-Where.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.release.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.release.xcconfig"; sourceTree = "<group>"; };
 		74FF622B16AC25811E63CF5A /* Pods_OilPrice_Where.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OilPrice_Where.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesGasStationViewController.swift; sourceTree = "<group>"; };
+		764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesGasStationVC.swift; sourceTree = "<group>"; };
 		765830AC212699FD006DFE2E /* InformationGasStaion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationGasStaion.swift; sourceTree = "<group>"; };
 		7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		865E1877381F722FB0DBBE14 /* Pods-FavoriteWidgetExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FavoriteWidgetExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-FavoriteWidgetExtension/Pods-FavoriteWidgetExtension.release.xcconfig"; sourceTree = "<group>"; };
@@ -466,7 +478,8 @@
 		2C0C68DC276B60A600945CEC /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
-				764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift */,
+				764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift */,
+				2CAC81DE276B966300CC6096 /* FavoritesGasStationViewModel.swift */,
 				2C0C68DD276B610700945CEC /* Cell */,
 			);
 			path = Favorite;
@@ -477,6 +490,11 @@
 			children = (
 				8E68BA2A24CCDF92004730D7 /* FavoriteCollectionViewCell.swift */,
 				8EDE51B324D5C32C004590B6 /* FavoriteCellViewModel.swift */,
+				2CAC81E2276BA31D00CC6096 /* CustomNavigationView.swift */,
+				2CAC81DC276B948B00CC6096 /* CustomKVView.swift */,
+				2CAC81E0276B9A7200CC6096 /* KVVStackView.swift */,
+				2CAC81E4276BA63400CC6096 /* LodingView.swift */,
+				2CAC81E6276BAA9C00CC6096 /* NoneFavoriteView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -738,7 +756,7 @@
 				};
 			};
 			buildConfigurationList = 8E7FFE1C20F5E5FF006CED48 /* Build configuration list for PBXProject "OilPrice-Where" */;
-			compatibilityVersion = "Xcode 11.4";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -896,6 +914,7 @@
 				8ECE0DA62122E11100FF2B46 /* MainHeaderView.swift in Sources */,
 				8EF8481A24E39B23009A32D8 /* EditSalePriceViewModel.swift in Sources */,
 				2C0C68E0276B633B00945CEC /* SettingTableViewCell.swift in Sources */,
+				2CAC81DD276B948B00CC6096 /* CustomKVView.swift in Sources */,
 				8ECE0D032118963000FF2B46 /* CustomAnnotationView.swift in Sources */,
 				8ECE0DAA212385FB00FF2B46 /* AllPriceData.swift in Sources */,
 				8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */,
@@ -910,7 +929,7 @@
 				8ECE0DA82123836E00FF2B46 /* AllOilAverageView.swift in Sources */,
 				8E7FFE3920F5EA1C006CED48 /* SettingVC.swift in Sources */,
 				8E68BA2124CCCD07004730D7 /* FindDistanceViewModel.swift in Sources */,
-				764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationViewController.swift in Sources */,
+				764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift in Sources */,
 				8EDAF7DA212D7EF300422552 /* DetailView.swift in Sources */,
 				8ECE0D7E211CB1F800FF2B46 /* FindDistanceTableViewCell.swift in Sources */,
 				8EE0A2FB21DDF49E00C159D0 /* BrandTypeTableViewCell.swift in Sources */,
@@ -926,12 +945,14 @@
 				8EE53E7B24CF1294008D8045 /* MainListVC+MapKit.swift in Sources */,
 				8E68BA1924CCC61A004730D7 /* CommonViewModel.swift in Sources */,
 				8EE53E8F24CF3CEC008D8045 /* FindNavigationVC.swift in Sources */,
+				2CAC81E3276BA31D00CC6096 /* CustomNavigationView.swift in Sources */,
 				2C0C68CA276B31CA00945CEC /* Tabbar+Extension.swift in Sources */,
 				8E1BB8F12107F61E0065281B /* GasStationCell.swift in Sources */,
 				8E167D3D2107AEA30066A59E /* API.swift in Sources */,
 				8EF8481C24E39C03009A32D8 /* SettingEditSalePriceVC.swift in Sources */,
 				8EDAF7D821295AEF00422552 /* InitialSettingVC.swift in Sources */,
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
+				2CAC81DF276B966300CC6096 /* FavoritesGasStationViewModel.swift in Sources */,
 				2C0C68C8276B25AB00945CEC /* UIReusable+Extension.swift in Sources */,
 				8ECE0DA42122D62B00FF2B46 /* GasStationView.swift in Sources */,
 				8E68BA1524CCC560004730D7 /* FindOilTypeViewModel.swift in Sources */,
@@ -940,15 +961,18 @@
 				8EE53E9524D01828008D8045 /* AboutUsTableViewCell.swift in Sources */,
 				29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */,
 				8EE53E7924CF0D72008D8045 /* CustomTabbarViewController.swift in Sources */,
+				2CAC81E1276B9A7200CC6096 /* KVVStackView.swift in Sources */,
 				8EDE51B424D5C32C004590B6 /* FavoriteCellViewModel.swift in Sources */,
 				8EE53E9324D016B4008D8045 /* SettingAboutUsVC.swift in Sources */,
 				8E74DFD924EE91C300CADDDC /* MainListVC+GoogleMap.swift in Sources */,
 				29B226432121FDC60012B2F6 /* AverageCostData.swift in Sources */,
 				8ED7F9E822045A9100AB6626 /* PopupView.swift in Sources */,
 				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,
+				2CAC81E5276BA63400CC6096 /* LodingView.swift in Sources */,
 				8E68BA2524CCCF95004730D7 /* FindBrandVC.swift in Sources */,
 				8ECE0D7C211C3CFC00FF2B46 /* OilTypeTableViewCell.swift in Sources */,
 				765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */,
+				2CAC81E7276BAA9D00CC6096 /* NoneFavoriteView.swift in Sources */,
 				8E68BA1724CCC5F7004730D7 /* ViewModelBindableType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
