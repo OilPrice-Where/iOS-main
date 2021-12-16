@@ -96,11 +96,10 @@ extension SettingTableVC {
                 navigationController?.pushViewController(vc, animated: true)
             }
         case .selectOilVC:
-            if var vc = storyboard.instantiateViewController(withIdentifier: SelectOilViewController.identifier) as? SelectOilViewController {
-                let viewModel = SelectOilTypeViewModel()
-                vc.bind(viewModel: viewModel)
-                navigationController?.pushViewController(vc, animated: true)
-            }
+            var vc = FindOilVC()
+            let viewModel = FindOilTypeViewModel()
+            vc.bind(viewModel: viewModel)
+            navigationController?.pushViewController(vc, animated: true)
         case .selectDistanceVC:
             var vc = FindDistanceVC()
             let viewModel = FindDistanceViewModel()

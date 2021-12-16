@@ -17,6 +17,7 @@ final class FindDistanceTableViewCell: UITableViewCell {
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 17)
     }
     
+    //MARK: - Initializer
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         

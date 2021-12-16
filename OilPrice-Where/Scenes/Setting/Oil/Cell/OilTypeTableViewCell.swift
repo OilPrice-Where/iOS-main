@@ -10,19 +10,44 @@ import UIKit
 
 // 설정 -> 오일 타입 선택 리스트 셀
 final class OilTypeTableViewCell: UITableViewCell {
-    static let identifier = "OilTypeTableViewCell"
-    @IBOutlet weak var oilTypeLabel : UILabel! // 오일 종류
+    //MARK: - Properties
+    // 오일 종류
+    let oilTypeLabel = UILabel().then {
+        $0.textAlignment = .left
+        $0.font = FontFamily.NanumSquareRound.regular.font(size: 17)
+    }
     
-    // 셀 설정
-    func configure(typeName: String) {
-        selectionStyle = .none
-        oilTypeLabel.text = typeName // 오일의 종류(휘발유, 경유, LPG 등..)를 셀에 표시
+    //MARK: - Initializer
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        DefaultData.shared.oilSubject
-            .subscribe(onNext: {
-                let type = Preferences.oil(code: $0)
-                self.accessoryType = type == typeName ? .checkmark : .none
-            })
-            .disposed(by: rx.disposeBag)
+        configureUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Fetch Data
+    func fetch(oil type: String) {
+        oilTypeLabel.text = type // 오일의 종류(휘발유, 경유, LPG 등..)를 셀에 표시
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        accessoryType = selected ? .checkmark : .none
+    }
+    
+    //MARK: - Configure UI
+    func configureUI() {
+        selectionStyle = .none
+        
+        contentView.addSubview(oilTypeLabel)
+        
+        oilTypeLabel.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(20)
+            $0.centerY.equalToSuperview()
+        }
     }
 }

@@ -38,11 +38,11 @@
 		8E40DB1E24D7F34400352F7E /* InitialCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E40DB1D24D7F34400352F7E /* InitialCollectionViewCell.swift */; };
 		8E4DBA4424E43492002E605C /* SalePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4DBA4324E43492002E605C /* SalePriceTableViewCell.swift */; };
 		8E542E342500BF9D00562A59 /* GeoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3E2107D95C0066A59E /* GeoConverter.swift */; };
-		8E68BA1524CCC560004730D7 /* SelectOilTypeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1424CCC560004730D7 /* SelectOilTypeViewModel.swift */; };
+		8E68BA1524CCC560004730D7 /* FindOilTypeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1424CCC560004730D7 /* FindOilTypeViewModel.swift */; };
 		8E68BA1724CCC5F7004730D7 /* ViewModelBindableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1624CCC5F7004730D7 /* ViewModelBindableType.swift */; };
 		8E68BA1924CCC61A004730D7 /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1824CCC61A004730D7 /* CommonViewModel.swift */; };
 		8E68BA1B24CCC645004730D7 /* CommonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1A24CCC645004730D7 /* CommonViewController.swift */; };
-		8E68BA1D24CCC863004730D7 /* SelectOilViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1C24CCC863004730D7 /* SelectOilViewController.swift */; };
+		8E68BA1D24CCC863004730D7 /* FindOilVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1C24CCC863004730D7 /* FindOilVC.swift */; };
 		8E68BA1F24CCCCE5004730D7 /* FindDistanceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1E24CCCCE5004730D7 /* FindDistanceVC.swift */; };
 		8E68BA2124CCCD07004730D7 /* FindDistanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2024CCCD07004730D7 /* FindDistanceViewModel.swift */; };
 		8E68BA2324CCCF32004730D7 /* FindBrandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2224CCCF32004730D7 /* FindBrandViewModel.swift */; };
@@ -178,11 +178,11 @@
 		8E40DB1824D7E45400352F7E /* InitialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewModel.swift; sourceTree = "<group>"; };
 		8E40DB1D24D7F34400352F7E /* InitialCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialCollectionViewCell.swift; sourceTree = "<group>"; };
 		8E4DBA4324E43492002E605C /* SalePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalePriceTableViewCell.swift; sourceTree = "<group>"; };
-		8E68BA1424CCC560004730D7 /* SelectOilTypeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectOilTypeViewModel.swift; sourceTree = "<group>"; };
+		8E68BA1424CCC560004730D7 /* FindOilTypeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindOilTypeViewModel.swift; sourceTree = "<group>"; };
 		8E68BA1624CCC5F7004730D7 /* ViewModelBindableType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBindableType.swift; sourceTree = "<group>"; };
 		8E68BA1824CCC61A004730D7 /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
 		8E68BA1A24CCC645004730D7 /* CommonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewController.swift; sourceTree = "<group>"; };
-		8E68BA1C24CCC863004730D7 /* SelectOilViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectOilViewController.swift; sourceTree = "<group>"; };
+		8E68BA1C24CCC863004730D7 /* FindOilVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindOilVC.swift; sourceTree = "<group>"; };
 		8E68BA1E24CCCCE5004730D7 /* FindDistanceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindDistanceVC.swift; sourceTree = "<group>"; };
 		8E68BA2024CCCD07004730D7 /* FindDistanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindDistanceViewModel.swift; sourceTree = "<group>"; };
 		8E68BA2224CCCF32004730D7 /* FindBrandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindBrandViewModel.swift; sourceTree = "<group>"; };
@@ -415,8 +415,8 @@
 		2C0C68D7276B56E200945CEC /* Oil */ = {
 			isa = PBXGroup;
 			children = (
-				8E68BA1C24CCC863004730D7 /* SelectOilViewController.swift */,
-				8E68BA1424CCC560004730D7 /* SelectOilTypeViewModel.swift */,
+				8E68BA1C24CCC863004730D7 /* FindOilVC.swift */,
+				8E68BA1424CCC560004730D7 /* FindOilTypeViewModel.swift */,
 				2C0C68D8276B56FF00945CEC /* Cell */,
 			);
 			path = Oil;
@@ -914,7 +914,7 @@
 				2C1FBE1A276AE39000E57F8A /* SelectTypeView.swift in Sources */,
 				8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */,
 				8E68BA1B24CCC645004730D7 /* CommonViewController.swift in Sources */,
-				8E68BA1D24CCC863004730D7 /* SelectOilViewController.swift in Sources */,
+				8E68BA1D24CCC863004730D7 /* FindOilVC.swift in Sources */,
 				8E68BA2324CCCF32004730D7 /* FindBrandViewModel.swift in Sources */,
 				8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */,
 				8E4DBA4424E43492002E605C /* SalePriceTableViewCell.swift in Sources */,
@@ -930,7 +930,7 @@
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
 				2C0C68C8276B25AB00945CEC /* UIReusable+Extension.swift in Sources */,
 				8ECE0DA42122D62B00FF2B46 /* GasStationView.swift in Sources */,
-				8E68BA1524CCC560004730D7 /* SelectOilTypeViewModel.swift in Sources */,
+				8E68BA1524CCC560004730D7 /* FindOilTypeViewModel.swift in Sources */,
 				8E68BA1F24CCCCE5004730D7 /* FindDistanceVC.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
 				8EE53E9524D01828008D8045 /* AboutUsTableViewCell.swift in Sources */,

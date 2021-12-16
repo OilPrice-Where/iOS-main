@@ -1,5 +1,5 @@
 //
-//  SelectOilViewController.swift
+//  FindOilVC.swift
 //  OilPrice-Where
 //
 //  Created by 박상욱 on 2020/07/26.
@@ -11,9 +11,9 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-final class SelectOilViewController: CommonViewController, ViewModelBindableType {
+final class FindOilVC: CommonViewController, ViewModelBindableType {
     //MARK: - Properties
-    var viewModel: SelectOilTypeViewModel!
+    var viewModel: FindOilTypeViewModel!
     lazy var tableView = UITableView().then {
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
@@ -23,6 +23,7 @@ final class SelectOilViewController: CommonViewController, ViewModelBindableType
         OilTypeTableViewCell.register($0)
     }
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,22 +34,43 @@ final class SelectOilViewController: CommonViewController, ViewModelBindableType
         viewModel.oilSubject
             .bind(to: tableView.rx.items(cellIdentifier: OilTypeTableViewCell.id,
                                          cellType: OilTypeTableViewCell.self)) { index, type, cell in
-                cell.configure(typeName: type)
+                cell.fetch(oil: type)
+                
+                let displayOilType = Preferences.oil(name: type)
+                guard let currentOilType = try? DefaultData.shared.oilSubject.value(),
+                    currentOilType == displayOilType else { return }
+                
+                self.tableView.selectRow(at: IndexPath(row: index, section: 0),
+                                         animated: false,
+                                         scrollPosition: .none)
             }
              .disposed(by: rx.disposeBag)
         
-        tableView.rx.modelSelected(String.self)
-            .subscribe(onNext: {
-                let type = Preferences.oil(name: $0)
-                DefaultData.shared.oilSubject.onNext(type)
-            })
+        tableView
+            .rx
+            .setDelegate(self)
             .disposed(by: rx.disposeBag)
     }
     
+    //MARK: - Configure UI
     func configureUI() {
         navigationItem.title = "관심 유종"
         navigationController?.navigationItem.leftBarButtonItem?.tintColor = .white
         
+        view.addSubview(tableView)
         
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+}
+
+//MARK: - UITableView Delegate
+extension FindOilVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let types = viewModel.oilSubject.value
+        let type = Preferences.oil(name: types[indexPath.row])
+        
+        DefaultData.shared.oilSubject.onNext(type)
     }
 }

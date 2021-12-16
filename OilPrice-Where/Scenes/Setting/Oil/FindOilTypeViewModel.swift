@@ -1,5 +1,5 @@
 //
-//  SelectOilType.swift
+//  FindOilTypeViewModel.swift
 //  OilPrice-Where
 //
 //  Created by 박상욱 on 2020/07/26.
@@ -8,17 +8,18 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 
-final class SelectOilTypeViewModel: CommonViewModel {
+final class FindOilTypeViewModel: CommonViewModel {
     private let OilType = [ // 선택 가능한 오일 종류
         "휘발유",
         "고급휘발유",
         "경유",
         "LPG"
     ]
-    var oilSubject: BehaviorSubject<[String]>
+    var oilSubject: BehaviorRelay<[String]>
     
     override init() {
-        self.oilSubject = BehaviorSubject<[String]>(value: OilType)
+        self.oilSubject = BehaviorRelay<[String]>(value: OilType)
     }
 }
