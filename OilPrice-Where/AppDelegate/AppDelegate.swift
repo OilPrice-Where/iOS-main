@@ -27,8 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DefaultData.shared.allPriceDataLoad() // 전국의 오일종류 별 저번주의 평균 값을 받아온다.
         
         window = UIWindow(frame: UIScreen.main.bounds)
-//        window?.rootViewController = initialViewController() // 설정페이지 루트뷰 설정
-        window?.rootViewController = FavoritesGasStationVC()
+        window?.rootViewController = initialViewController() // 설정페이지 루트뷰 설정
+//        window?.rootViewController = FavoritesGasStationVC()
         window?.makeKeyAndVisible()
         
         return true

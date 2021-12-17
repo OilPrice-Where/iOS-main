@@ -318,6 +318,7 @@
 		2C0C68CB276B32D900945CEC /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				8EE53E7824CF0D72008D8045 /* CustomTabbarViewController.swift */,
 				2C0C68CC276B32F100945CEC /* Initial */,
 				2C0C68DC276B60A600945CEC /* Favorite */,
 				2C0C68CE276B331100945CEC /* Setting */,
@@ -622,7 +623,6 @@
 		8E7FFE3F20F5EB46006CED48 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				8EE53E7824CF0D72008D8045 /* CustomTabbarViewController.swift */,
 				8EE53E7524CF0699008D8045 /* MainListVC */,
 			);
 			path = ViewController;

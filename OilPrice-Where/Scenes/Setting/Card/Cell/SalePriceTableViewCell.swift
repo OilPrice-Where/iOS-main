@@ -48,9 +48,9 @@ final class SalePriceTableViewCell: UITableViewCell {
     
     deinit {
         guard var dic = try? DefaultData.shared.salesSubject.value(),
-              let name = brandLabel.text,
-              let value = Int(salePriceTextField.text ?? "0") else { return }
+              let name = brandLabel.text else { return }
         
+        let value = Int(salePriceTextField.text ?? "0") ?? 0
         let code = Preferences.saleBrand(name: name)
         
         guard dic[code] != value else { return }
