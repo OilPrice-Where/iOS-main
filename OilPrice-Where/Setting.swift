@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import GoogleMaps
 import SCLAlertView
 import CoreLocation
 
@@ -18,14 +17,7 @@ struct KatecPoint {
 }
 
 // 위치 변환
-final class Converter {
-   static func centerCoordinates(with googleMaps: GMSMapView) -> CLLocationCoordinate2D {
-      let latitude = googleMaps.projection.coordinate(for: googleMaps.center).latitude
-      let longitude = googleMaps.projection.coordinate(for: googleMaps.center).longitude
-      
-      return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-   }
-   
+final class Converter {   
    // 위치 변환 ( WGS84 -> Katec )
    static func convertWGS84ToKatec(coordinate: CLLocationCoordinate2D) -> KatecPoint {
       let convert = GeoConverter()

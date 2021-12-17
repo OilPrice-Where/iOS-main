@@ -3,7 +3,6 @@ PODS:
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
   - Alamofire (5.5.0)
-  - CenteredCollectionView (2.2.2)
   - Differentiator (5.0.0)
   - Firebase/Analytics (8.10.0):
     - Firebase/Core
@@ -80,12 +79,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleMaps (6.0.1):
-    - GoogleMaps/Maps (= 6.0.1)
-  - GoogleMaps/Base (6.0.1)
-  - GoogleMaps/Maps (6.0.1):
-    - GoogleMaps/Base
-  - GooglePlaces (6.0.0)
   - GoogleUtilities/AppDelegateSwizzler (7.6.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -112,6 +105,7 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
+  - NMapsMap (3.14.0)
   - "NSObject+Rx (5.2.2)":
     - RxSwift (~> 6.2)
   - PromisesObjC (2.0.0)
@@ -158,13 +152,11 @@ PODS:
 DEPENDENCIES:
   - Action
   - Alamofire
-  - CenteredCollectionView
   - Firebase/Analytics
   - Firebase/Core
   - Firebase/Database
   - Firebase/Storage
-  - GoogleMaps
-  - GooglePlaces
+  - NMapsMap
   - "NSObject+Rx"
   - RxAlamofire
   - RxCocoa
@@ -184,7 +176,6 @@ SPEC REPOS:
   trunk:
     - Action
     - Alamofire
-    - CenteredCollectionView
     - Differentiator
     - Firebase
     - FirebaseAnalytics
@@ -195,12 +186,11 @@ SPEC REPOS:
     - FirebaseStorage
     - GoogleAppMeasurement
     - GoogleDataTransport
-    - GoogleMaps
-    - GooglePlaces
     - GoogleUtilities
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
+    - NMapsMap
     - "NSObject+Rx"
     - PromisesObjC
     - ReachabilitySwift
@@ -222,7 +212,6 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Action: 47f1825511907b4fcd79dd7a7db9526c20f78018
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
-  CenteredCollectionView: a9217908a698c386cbb98af11b596da48900b908
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseAnalytics: 319c9b3b1bdd400d60e2f415dff0c5f6959e6760
@@ -233,12 +222,11 @@ SPEC CHECKSUMS:
   FirebaseStorage: 815410224b548172c578f02554a86bbc8f817f50
   GoogleAppMeasurement: a3311dbcf3ea651e5a070fe8559b57c174ada081
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
-  GoogleMaps: c213fc2334b7374144cede914da779b99be0ab74
-  GooglePlaces: c97d96ae68594acb64035c9ca9f26fbfc1d23af1
   GoogleUtilities: 684ee790a24f73ebb2d1d966e9711c203f2a4237
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  NMapsMap: 61c2abfc409bbcdc91583ccc455a5b6f64c7414e
   "NSObject+Rx": 61cf1f7306a73dcef8b36649198af0813ec18dfd
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
@@ -257,6 +245,6 @@ SPEC CHECKSUMS:
   SwiftyPlistManager: 5895924cccb7fe28deccbe14890e8aed78ae78ae
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: c41b47aa101ba268b25f1547298649d16e190930
+PODFILE CHECKSUM: 3115083045d5df599ba34e9aaf9a9f69166a4f46
 
 COCOAPODS: 1.11.2

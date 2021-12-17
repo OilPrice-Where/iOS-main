@@ -56,7 +56,6 @@
 		8E68BA2524CCCF95004730D7 /* FindBrandVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2424CCCF95004730D7 /* FindBrandVC.swift */; };
 		8E68BA2924CCD472004730D7 /* FindNavigationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2824CCD472004730D7 /* FindNavigationViewModel.swift */; };
 		8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2A24CCDF92004730D7 /* FavoriteCollectionViewCell.swift */; };
-		8E74DFD924EE91C300CADDDC /* MainListVC+GoogleMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E74DFD824EE91C300CADDDC /* MainListVC+GoogleMap.swift */; };
 		8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */; };
 		8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */; };
 		8E7FFE3920F5EA1C006CED48 /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3820F5EA1C006CED48 /* SettingVC.swift */; };
@@ -203,7 +202,6 @@
 		8E68BA2424CCCF95004730D7 /* FindBrandVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindBrandVC.swift; sourceTree = "<group>"; };
 		8E68BA2824CCD472004730D7 /* FindNavigationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindNavigationViewModel.swift; sourceTree = "<group>"; };
 		8E68BA2A24CCDF92004730D7 /* FavoriteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionViewCell.swift; sourceTree = "<group>"; };
-		8E74DFD824EE91C300CADDDC /* MainListVC+GoogleMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListVC+GoogleMap.swift"; sourceTree = "<group>"; };
 		8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OilPrice-Where.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
@@ -320,6 +318,7 @@
 			children = (
 				8EE53E7824CF0D72008D8045 /* CustomTabbarViewController.swift */,
 				2C0C68CC276B32F100945CEC /* Initial */,
+				2CC1C7FC276C52E1007527C7 /* Main */,
 				2C0C68DC276B60A600945CEC /* Favorite */,
 				2C0C68CE276B331100945CEC /* Setting */,
 			);
@@ -481,12 +480,12 @@
 			children = (
 				764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift */,
 				2CAC81DE276B966300CC6096 /* FavoritesGasStationViewModel.swift */,
-				2C0C68DD276B610700945CEC /* Cell */,
+				2C0C68DD276B610700945CEC /* View */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
 		};
-		2C0C68DD276B610700945CEC /* Cell */ = {
+		2C0C68DD276B610700945CEC /* View */ = {
 			isa = PBXGroup;
 			children = (
 				8E68BA2A24CCDF92004730D7 /* FavoriteCollectionViewCell.swift */,
@@ -497,7 +496,7 @@
 				2CAC81E4276BA63400CC6096 /* LodingView.swift */,
 				2CAC81E6276BAA9C00CC6096 /* NoneFavoriteView.swift */,
 			);
-			path = Cell;
+			path = View;
 			sourceTree = "<group>";
 		};
 		2C0C68DE276B632000945CEC /* Cell */ = {
@@ -517,6 +516,13 @@
 				865E1877381F722FB0DBBE14 /* Pods-FavoriteWidgetExtension.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		2CC1C7FC276C52E1007527C7 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Main;
 			sourceTree = "<group>";
 		};
 		76E226312117EFAD00D719A8 /* Cell */ = {
@@ -669,7 +675,6 @@
 				8EE53E7E24CF150D008D8045 /* MainListVC+Header.swift */,
 				8EE53E7624CF06B2008D8045 /* MainListVC+TableView.swift */,
 				8EE53E7A24CF1294008D8045 /* MainListVC+MapKit.swift */,
-				8E74DFD824EE91C300CADDDC /* MainListVC+GoogleMap.swift */,
 				8EE53E7C24CF1427008D8045 /* MainListVC+CoreLocation.swift */,
 			);
 			name = MainListVC;
@@ -702,7 +707,6 @@
 				8E7FFE1F20F5E5FF006CED48 /* Resources */,
 				A1410BAAA832A712804BE11F /* [CP] Embed Pods Frameworks */,
 				8E167D3421007B620066A59E /* ShellScript */,
-				BC7AD7F2E8D2AD63626B83BC /* [CP] Copy Pods Resources */,
 				8EAEB14624F4124900B5E6CE /* Embed App Extensions */,
 				2CDA8B11260224EE00E9AA32 /* Embed Frameworks */,
 			);
@@ -712,8 +716,6 @@
 				8EAEB15924F41AFF00B5E6CE /* PBXTargetDependency */,
 			);
 			name = "OilPrice-Where";
-			packageProductDependencies = (
-			);
 			productName = "OilPrice-Where";
 			productReference = 8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */;
 			productType = "com.apple.product-type.application";
@@ -764,8 +766,6 @@
 				Base,
 			);
 			mainGroup = 8E7FFE1820F5E5FF006CED48;
-			packageReferences = (
-			);
 			productRefGroup = 8E7FFE2220F5E5FF006CED48 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -883,23 +883,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BC7AD7F2E8D2AD63626B83BC /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -964,7 +947,6 @@
 				2CAC81E1276B9A7200CC6096 /* KVVStackView.swift in Sources */,
 				8EDE51B424D5C32C004590B6 /* FavoriteCellViewModel.swift in Sources */,
 				8EE53E9324D016B4008D8045 /* SettingAboutUsVC.swift in Sources */,
-				8E74DFD924EE91C300CADDDC /* MainListVC+GoogleMap.swift in Sources */,
 				29B226432121FDC60012B2F6 /* AverageCostData.swift in Sources */,
 				8ED7F9E822045A9100AB6626 /* PopupView.swift in Sources */,
 				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,

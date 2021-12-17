@@ -786,10 +786,6 @@
                                                 <exclude reference="YkS-SY-P6N"/>
                                             </mask>
                                             <mask key="constraints">
-                                                <exclude reference="7rK-rG-a8h"/>
-                                                <exclude reference="LJl-7U-IHB"/>
-                                                <exclude reference="WLx-S5-1Jk"/>
-                                                <exclude reference="sLe-0M-Dtx"/>
                                                 <exclude reference="08f-hq-h60"/>
                                                 <exclude reference="GAq-QE-0w5"/>
                                                 <exclude reference="lOv-Ee-Glg"/>
@@ -802,6 +798,10 @@
                                                 <exclude reference="hTK-Yb-f1i"/>
                                                 <exclude reference="wOU-KX-dd7"/>
                                                 <exclude reference="zFF-Od-hCc"/>
+                                                <exclude reference="7rK-rG-a8h"/>
+                                                <exclude reference="LJl-7U-IHB"/>
+                                                <exclude reference="WLx-S5-1Jk"/>
+                                                <exclude reference="sLe-0M-Dtx"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=regular">
@@ -809,10 +809,6 @@
                                                 <include reference="YkS-SY-P6N"/>
                                             </mask>
                                             <mask key="constraints">
-                                                <exclude reference="7rK-rG-a8h"/>
-                                                <include reference="LJl-7U-IHB"/>
-                                                <exclude reference="WLx-S5-1Jk"/>
-                                                <include reference="sLe-0M-Dtx"/>
                                                 <include reference="08f-hq-h60"/>
                                                 <exclude reference="GAq-QE-0w5"/>
                                                 <exclude reference="NKQ-y8-MH7"/>
@@ -833,6 +829,10 @@
                                                 <include reference="wOU-KX-dd7"/>
                                                 <exclude reference="ykj-57-ozb"/>
                                                 <exclude reference="zFF-Od-hCc"/>
+                                                <exclude reference="7rK-rG-a8h"/>
+                                                <include reference="LJl-7U-IHB"/>
+                                                <exclude reference="WLx-S5-1Jk"/>
+                                                <include reference="sLe-0M-Dtx"/>
                                             </mask>
                                         </variation>
                                         <connections>
