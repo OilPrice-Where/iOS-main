@@ -13,7 +13,6 @@ import FirebaseCore
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
-    var mainViewController:MainListViewController?
     let firebaseUtility = FirebaseUtility()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -36,18 +35,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // 오일 타입이 있다면 메인 리스트 페이지(TabBarController)를 루트뷰로 설정
     private func initialViewController() -> UIViewController {
         if let oilType = try? DefaultData.shared.oilSubject.value(), oilType != "" {
-            return UIStoryboard(name: "Main",
-                                bundle: nil).instantiateViewController(withIdentifier: "TabBarController")
+            return CustomTabbarViewController()
         } else {
             let vc = InitialSettingVC()
             vc.viewModel = InitialViewModel()
             
             return vc
         }
-    }
-    
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        mainViewController?.configureLocationServices() // 앱이 포어 그라운드로 돌아 올 때 위치정보 리플레쉬
     }
 }
 
