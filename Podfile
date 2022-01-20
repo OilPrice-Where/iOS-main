@@ -25,6 +25,7 @@ target 'OilPrice-Where' do
   pod 'SwiftyPlistManager'
 
   # Networking
+  pod 'Moya' 
   pod 'Alamofire'
   pod 'RxAlamofire'
 

@@ -100,6 +100,10 @@ PODS:
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.7.0)
   - leveldb-library (1.22.1)
+  - Moya (15.0.0):
+    - Moya/Core (= 15.0.0)
+  - Moya/Core (15.0.0):
+    - Alamofire (~> 5.0)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -156,6 +160,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Storage
+  - Moya
   - NMapsMap
   - "NSObject+Rx"
   - RxAlamofire
@@ -189,6 +194,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMSessionFetcher
     - leveldb-library
+    - Moya
     - nanopb
     - NMapsMap
     - "NSObject+Rx"
@@ -225,6 +231,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 684ee790a24f73ebb2d1d966e9711c203f2a4237
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
+  Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   NMapsMap: 61c2abfc409bbcdc91583ccc455a5b6f64c7414e
   "NSObject+Rx": 61cf1f7306a73dcef8b36649198af0813ec18dfd
@@ -245,6 +252,6 @@ SPEC CHECKSUMS:
   SwiftyPlistManager: 5895924cccb7fe28deccbe14890e8aed78ae78ae
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: 3115083045d5df599ba34e9aaf9a9f69166a4f46
+PODFILE CHECKSUM: 5c6582cd1b77aae6c6205c663dc6283c842b0b57
 
 COCOAPODS: 1.11.2

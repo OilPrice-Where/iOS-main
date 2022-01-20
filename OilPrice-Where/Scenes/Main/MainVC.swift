@@ -8,31 +8,58 @@
 
 import CoreLocation
 import UIKit
+import RxSwift
+import RxCocoa
+
 
 final class MainVC: UIViewController {
+    let viewModel = MainViewModel()
 //    let mainListView = MainListView()
-    let mapView = MainMapView()
+    let mapContainerView = MainMapView()
     let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUI()
+        configure()
+        rxBind()
     }
     
     func configureUI() {
         view.backgroundColor = .white
         
-        view.addSubview(mapView)
+        view.addSubview(mapContainerView)
         
-        mapView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(view.safeAreaInsets.top)
-            $0.left.right.bottom.equalToSuperview()
+        mapContainerView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
     func configure() {
         locationManager.delegate = self
+        
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+                
+
+    }
+    
+    func rxBind() {
+        locationManager.rx.didUpdateLocations
+            .map { $0.last }
+            .subscribe(with: self, onNext: { owner, location in
+                owner.viewModel.currentLocation = location
+            })
+            .disposed(by: rx.disposeBag)
+        
+        mapContainerView
+            .currentLocationButton
+            .rx
+            .tap
+            .compactMap { self.viewModel.currentLocation }
+            .bind(to: mapContainerView.mapView.rx.center)
+            .disposed(by: rx.disposeBag)
     }
 }
 

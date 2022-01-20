@@ -26,6 +26,8 @@
 		2C488440276AF23C007383C2 /* KakaoCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C48843D276AF23B007383C2 /* KakaoCommon.framework */; };
 		2C488441276AF23C007383C2 /* KakaoCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C48843D276AF23B007383C2 /* KakaoCommon.framework */; };
 		2C7394DF276B0AE30038C4A1 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7394DD276B0AE30038C4A1 /* TMapSDK.framework */; };
+		2CA4726427992D0A00DB0DDD /* CLLocationManager+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA4726327992D0A00DB0DDD /* CLLocationManager+.swift */; };
+		2CA47266279931B500DB0DDD /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA47265279931B500DB0DDD /* MainViewModel.swift */; };
 		2CAC81DD276B948B00CC6096 /* CustomKVView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81DC276B948B00CC6096 /* CustomKVView.swift */; };
 		2CAC81DF276B966300CC6096 /* FavoritesGasStationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81DE276B966300CC6096 /* FavoritesGasStationViewModel.swift */; };
 		2CAC81E1276B9A7200CC6096 /* KVVStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81E0276B9A7200CC6096 /* KVVStackView.swift */; };
@@ -171,6 +173,8 @@
 		2C48843C276AF23B007383C2 /* KakaoNavi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoNavi.framework; path = Kakao/KakaoNavi.framework; sourceTree = "<group>"; };
 		2C48843D276AF23B007383C2 /* KakaoCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoCommon.framework; path = Kakao/KakaoCommon.framework; sourceTree = "<group>"; };
 		2C7394DD276B0AE30038C4A1 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMapSDK.framework; sourceTree = "<group>"; };
+		2CA4726327992D0A00DB0DDD /* CLLocationManager+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+.swift"; sourceTree = "<group>"; };
+		2CA47265279931B500DB0DDD /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		2CAC81DC276B948B00CC6096 /* CustomKVView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomKVView.swift; sourceTree = "<group>"; };
 		2CAC81DE276B966300CC6096 /* FavoritesGasStationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesGasStationViewModel.swift; sourceTree = "<group>"; };
 		2CAC81E0276B9A7200CC6096 /* KVVStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVVStackView.swift; sourceTree = "<group>"; };
@@ -532,6 +536,7 @@
 			isa = PBXGroup;
 			children = (
 				2CC1C80B276C8123007527C7 /* MainVC.swift */,
+				2CA47265279931B500DB0DDD /* MainViewModel.swift */,
 				2CC1C7FD276C5B3C007527C7 /* View */,
 			);
 			path = Main;
@@ -737,6 +742,7 @@
 				2C0C68C7276B25AB00945CEC /* UIReusable+Extension.swift */,
 				2C0C68E1276B6C9A00945CEC /* UIViewController+Extension.swift */,
 				2C0C68C9276B31CA00945CEC /* Tabbar+Extension.swift */,
+				2CA4726327992D0A00DB0DDD /* CLLocationManager+.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -966,6 +972,7 @@
 				2C1FBE1A276AE39000E57F8A /* SelectTypeView.swift in Sources */,
 				2C0C68E2276B6C9A00945CEC /* UIViewController+Extension.swift in Sources */,
 				8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */,
+				2CA4726427992D0A00DB0DDD /* CLLocationManager+.swift in Sources */,
 				2CC1C80E276C8610007527C7 /* MainMapView.swift in Sources */,
 				8E68BA1B24CCC645004730D7 /* CommonViewController.swift in Sources */,
 				8E68BA1D24CCC863004730D7 /* FindOilVC.swift in Sources */,
@@ -983,6 +990,7 @@
 				8E1BB8F12107F61E0065281B /* GasStationCell.swift in Sources */,
 				8E167D3D2107AEA30066A59E /* API.swift in Sources */,
 				8EF8481C24E39C03009A32D8 /* SettingEditSalePriceVC.swift in Sources */,
+				2CA47266279931B500DB0DDD /* MainViewModel.swift in Sources */,
 				8EDAF7D821295AEF00422552 /* InitialSettingVC.swift in Sources */,
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
 				2CAC81DF276B966300CC6096 /* FavoritesGasStationViewModel.swift in Sources */,
