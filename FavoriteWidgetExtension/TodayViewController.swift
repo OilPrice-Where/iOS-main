@@ -7,9 +7,10 @@
 //
 
 import UIKit
-import TMapSDK
 import KakaoNavi
 import NotificationCenter
+import TMapSDK
+
 
 class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate {
    @IBOutlet private weak var popupView: UIView!

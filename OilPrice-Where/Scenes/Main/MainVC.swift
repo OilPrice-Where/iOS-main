@@ -10,7 +10,7 @@ import CoreLocation
 import UIKit
 import RxSwift
 import RxCocoa
-
+import NMapsMap
 
 final class MainVC: UIViewController {
     let viewModel = MainViewModel()
@@ -37,19 +37,29 @@ final class MainVC: UIViewController {
     }
     
     func configure() {
+        mapContainerView.mapView.touchDelegate = self
         locationManager.delegate = self
         
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-                
-
     }
     
     func rxBind() {
         locationManager.rx.didUpdateLocations
-            .map { $0.last }
+            .compactMap { $0.last }
             .subscribe(with: self, onNext: { owner, location in
-                owner.viewModel.currentLocation = location
+                guard let oldLocation = owner.viewModel.currentLocation else {
+                    owner.mapContainerView.moveMap(with: location.coordinate)
+                    owner.viewModel.currentLocation = location
+                    owner.viewModel.input.requestStaions.accept(nil)
+                    return
+                }
+                
+                let distance = abs(location.distance(from: oldLocation))
+                if distance > 500 {
+                    owner.viewModel.currentLocation = location
+                    owner.viewModel.input.requestStaions.accept(nil)
+                }
             })
             .disposed(by: rx.disposeBag)
         
@@ -60,6 +70,12 @@ final class MainVC: UIViewController {
             .compactMap { self.viewModel.currentLocation }
             .bind(to: mapContainerView.mapView.rx.center)
             .disposed(by: rx.disposeBag)
+        
+        viewModel.output.staionResult
+            .bind(with: self, onNext: { owner, stations in
+                owner.mapContainerView.showMarker(list: stations)
+            })
+            .disposed(by: viewModel.bag)
     }
 }
 
@@ -118,5 +134,12 @@ extension MainVC: CLLocationManagerDelegate {
         // 인증 상태가 변경 되었을 때
         func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         }
+    }
+}
+
+extension MainVC: NMFMapViewTouchDelegate {
+    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+        mapContainerView.selectedMarker?.isSelected = false
+        mapContainerView.selectedMarker = nil
     }
 }
