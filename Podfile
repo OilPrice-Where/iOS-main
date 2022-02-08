@@ -19,6 +19,7 @@ target 'OilPrice-Where' do
   
   # Pods for OilPrice-Where
   pod 'SCLAlertView'
+  pod 'FloatingPanel'
   pod 'NMapsMap'
 
   # Database

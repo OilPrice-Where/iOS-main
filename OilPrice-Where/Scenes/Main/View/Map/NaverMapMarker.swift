@@ -9,7 +9,6 @@
 import NMapsMap
 
 class NaverMapMarker: NMFMarker {
-    
     var brand: String?
     var title: String? // 클릭시 뜨는 말풍선
     var isSelected: Bool = false { didSet { updatedLayout() } }

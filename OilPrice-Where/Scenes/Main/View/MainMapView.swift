@@ -36,6 +36,13 @@ final class MainMapView: UIView {
         $0.setImage(Asset.Images.currentLocationButton.image, for: .highlighted)
         $0.backgroundColor = .white
     }
+    let switchButton = UIButton().then {
+        $0.layer.cornerRadius = 25
+        $0.clipsToBounds = false
+        $0.setImage(Asset.Images.listButton.image, for: .normal)
+        $0.setImage(Asset.Images.listButton.image, for: .highlighted)
+        $0.backgroundColor = Asset.Colors.mainColor.color
+    }
     
     //MARK: - Initializer
     override init(frame: CGRect) {
@@ -53,6 +60,7 @@ final class MainMapView: UIView {
         addSubview(mapView)
         addSubview(currentLocationButton)
         addSubview(stationInfoView)
+        addSubview(switchButton)
         
         mapView.snp.makeConstraints {
             $0.top.left.right.equalToSuperview()
@@ -67,6 +75,11 @@ final class MainMapView: UIView {
             $0.top.equalToSuperview().offset(40)
             $0.right.equalToSuperview().offset(-20)
             $0.size.equalTo(50)
+        }
+        switchButton.snp.makeConstraints {
+            $0.size.equalTo(50)
+            $0.right.equalToSuperview().offset(-20)
+            $0.bottom.equalTo(stationInfoView.snp.top).offset(-12)
         }
         
         currentLocationButton.addShadow(offset: CGSize(width: 3, height: 3), color: .black, opacity: 0.3, radius: 4.0)

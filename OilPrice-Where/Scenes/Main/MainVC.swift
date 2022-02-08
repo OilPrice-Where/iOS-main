@@ -14,7 +14,7 @@ import NMapsMap
 
 final class MainVC: UIViewController {
     let viewModel = MainViewModel()
-//    let mainListView = MainListView()
+    let mainListView = MainListView()
     let mapContainerView = MainMapView()
     let locationManager = CLLocationManager()
     
