@@ -26,6 +26,7 @@ final class MainMapView: UIView {
             newValue?.isSelected = true
         }
     }
+    var stationInfoView = StationInfoView()
     
     // currentLocationButton 설정
     let currentLocationButton = UIButton().then {
@@ -51,23 +52,25 @@ final class MainMapView: UIView {
     func configureUI() {
         addSubview(mapView)
         addSubview(currentLocationButton)
+        addSubview(stationInfoView)
         
         mapView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.left.right.equalToSuperview()
+            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
         }
-        
+        stationInfoView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalTo(mapView.snp.bottom)
+            $0.height.equalTo(178)
+        }
         currentLocationButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(40)
             $0.right.equalToSuperview().offset(-20)
             $0.size.equalTo(50)
         }
         
-        currentLocationButton.layer.shadowColor = UIColor.black.cgColor
-        currentLocationButton.layer.shadowOpacity = 0.3
-        currentLocationButton.layer.shadowOffset = CGSize(width: 1, height: 1)
-        currentLocationButton.layer.shadowRadius = 1.5
-        currentLocationButton.layer.shadowPath = UIBezierPath(roundedRect: currentLocationButton.bounds,
-                                                              cornerRadius: 25).cgPath
+        currentLocationButton.addShadow(offset: CGSize(width: 3, height: 3), color: .black, opacity: 0.3, radius: 4.0)
+        stationInfoView.addShadow(offset: CGSize(width: 0, height: -3), color: .gray, opacity: 0.3, radius: 6.0)
     }
     
     func moveMap(with coordinate: CLLocationCoordinate2D) {
@@ -79,13 +82,13 @@ final class MainMapView: UIView {
     func showMarker(list: [GasStation]) {
         resetInfoWindows()
         
-        list.forEach {
-            let position = NMGTm128(x: $0.katecX, y: $0.katecY).toLatLng()
-            let marker = NaverMapMarker(brand: $0.brand, price: $0.price)
+        list.forEach { station in
+            let position = NMGTm128(x: station.katecX, y: station.katecY).toLatLng()
+            let marker = NaverMapMarker(brand: station.brand, price: station.price)
             
             marker.position = position
             marker.mapView = mapView
-            marker.userInfo = ["station": $0]
+            marker.userInfo = ["station": station]
             
             marker.touchHandler = { [weak self] overlay -> Bool in
                 self?.selectedMarker = marker
@@ -93,6 +96,8 @@ final class MainMapView: UIView {
                 let cameraUpdate = NMFCameraUpdate(scrollTo: marker.position)
                 cameraUpdate.animation = .easeIn
                 self?.mapView.moveCamera(cameraUpdate)
+                
+                self?.stationInfoView.configure(station)
                 
                 return true
             }
