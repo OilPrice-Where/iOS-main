@@ -6,7 +6,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -34,7 +33,7 @@
                                 <color key="backgroundColor" name="MainColor"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0c4-I0-jjT">
-                                <rect key="frame" x="240" y="239" width="60" height="60"/>
+                                <rect key="frame" x="240" y="288" width="60" height="60"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mapButton" translatesAutoresizingMaskIntoConstraints="NO" id="JoX-Ar-dK2">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
@@ -60,16 +59,16 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sHb-qf-EB7">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="mkL-kO-zCA">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <connections>
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="bAd-3c-dYH"/>
                                         </connections>
                                     </mapView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8eG-wx-yb6" userLabel="DetailView" customClass="DetailView" customModule="OilPrice_Where" customModuleProvider="target">
-                                        <rect key="frame" x="15" y="319" width="290" height="150"/>
+                                        <rect key="frame" x="15" y="368" width="290" height="150"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,572원" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.60000002384185791" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IZB-8c-PhT">
                                                 <rect key="frame" x="158" y="57.5" width="117" height="36.5"/>
@@ -360,7 +359,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mWi-kJ-sMC">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6ZR-N8-BZE" customClass="MainHeaderView" customModule="OilPrice_Where" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="192"/>
@@ -693,7 +692,7 @@
                                         </connections>
                                     </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="vpo-wx-DUy">
-                                        <rect key="frame" x="0.0" y="192" width="320" height="327"/>
+                                        <rect key="frame" x="0.0" y="192" width="320" height="376"/>
                                         <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="GasStationCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="GasStationCell" rowHeight="120" id="Gef-cx-H2i" customClass="GasStationCell" customModule="OilPrice_Where" customModuleProvider="target">
@@ -863,7 +862,7 @@
                                         </connections>
                                     </tableView>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FeH-tc-DtE" userLabel="noneView">
-                                        <rect key="frame" x="51" y="243" width="218.5" height="165"/>
+                                        <rect key="frame" x="51" y="267.5" width="218.5" height="165"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noneListImage" translatesAutoresizingMaskIntoConstraints="NO" id="G6g-qh-pBe">
                                                 <rect key="frame" x="64" y="0.0" width="140" height="130"/>
@@ -977,80 +976,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="743" y="199"/>
-        </scene>
-        <!--TabBarController-->
-        <scene sceneID="5Mn-s0-oH5">
-            <objects>
-                <tabBarController storyboardIdentifier="TabBarController" title="TabBarController" automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="Yq5-Ft-N12" customClass="CustomTabbarViewController" customModule="OilPrice_Where" customModuleProvider="target" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="ciL-Dk-cjO"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jXn-na-fJp">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="selectedImageTintColor" name="MainColor"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="nct-E1-JiD"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="TLa-se-GZk" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="32" y="199"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="bW7-C6-Qe0">
-            <objects>
-                <viewController id="LgA-UI-Cn8" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="M9w-GH-ovc">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="PQg-Zf-CMU">
-                                <rect key="frame" x="30" y="50" width="260" height="128"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="0xe-cZ-5cQ">
-                                        <rect key="frame" x="156" y="0.0" width="104" height="128"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Uc-8m-vmI">
-                                                <rect key="frame" x="0.0" y="0.0" width="41.5" height="128"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="beg-C8-5Cz">
-                                                <rect key="frame" x="51.5" y="0.0" width="1" height="128"/>
-                                                <color key="backgroundColor" systemColor="systemIndigoColor"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="1" id="55q-8o-TmX"/>
-                                                </constraints>
-                                            </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XWj-bJ-Quk">
-                                                <rect key="frame" x="62.5" y="0.0" width="41.5" height="128"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="Y1J-pE-yQp"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="Y1J-pE-yQp" firstAttribute="trailing" secondItem="PQg-Zf-CMU" secondAttribute="trailing" constant="30" id="0D7-K2-3wU"/>
-                            <constraint firstItem="PQg-Zf-CMU" firstAttribute="leading" secondItem="Y1J-pE-yQp" secondAttribute="leading" constant="30" id="Uv5-eD-nMS"/>
-                            <constraint firstItem="PQg-Zf-CMU" firstAttribute="top" secondItem="Y1J-pE-yQp" secondAttribute="top" constant="50" id="wdU-AE-Wus"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XGS-lP-0Mh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="262.5" y="897.88732394366195"/>
+            <point key="canvasLocation" x="180" y="144"/>
         </scene>
     </scenes>
     <resources>
@@ -1076,12 +1002,6 @@
         </namedColor>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemIndigoColor">
-            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
