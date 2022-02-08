@@ -28,7 +28,7 @@ final class FindNavigationVC: CommonViewController, ViewModelBindableType {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
+        makeUI()
     }
     
     func bindViewModel() {
@@ -54,7 +54,7 @@ final class FindNavigationVC: CommonViewController, ViewModelBindableType {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         navigationItem.title = "내비게이션"
         
         view.addSubview(tableView)

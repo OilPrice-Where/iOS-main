@@ -23,7 +23,7 @@ class NavigaionTypeTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
@@ -43,7 +43,7 @@ class NavigaionTypeTableViewCell: UITableViewCell {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         selectionStyle = .none
         
         contentView.addSubview(naviTypeLabel)

@@ -16,14 +16,14 @@ final class LodingView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
+    func makeUI() {
         addSubview(activityIndicator)
         
         activityIndicator.snp.makeConstraints {

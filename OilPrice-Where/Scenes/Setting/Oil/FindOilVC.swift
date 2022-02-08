@@ -27,7 +27,7 @@ final class FindOilVC: CommonViewController, ViewModelBindableType {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
+        makeUI()
     }
     
     func bindViewModel() {
@@ -53,7 +53,7 @@ final class FindOilVC: CommonViewController, ViewModelBindableType {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         navigationItem.title = "관심 유종"
         navigationController?.navigationItem.leftBarButtonItem?.tintColor = .white
         

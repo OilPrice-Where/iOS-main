@@ -59,7 +59,7 @@ final class FavoritesGasStationVC: CommonViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
+        makeUI()
         setNetworkSetting()
         bindViewModel()
         
@@ -69,7 +69,7 @@ final class FavoritesGasStationVC: CommonViewController {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         view.backgroundColor = Asset.Colors.mainColor.color
         
         view.addSubview(titleLabel)

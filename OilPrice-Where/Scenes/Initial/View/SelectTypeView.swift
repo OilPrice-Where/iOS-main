@@ -52,7 +52,7 @@ class SelectTypeView: UIView {
         super.init(frame: frame)
         
         viewLayoutSetUp()
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
@@ -74,7 +74,7 @@ class SelectTypeView: UIView {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         layer.cornerRadius = 5
         okButton.layer.cornerRadius = 20
         

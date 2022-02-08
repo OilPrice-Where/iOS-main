@@ -70,7 +70,7 @@ final class SettingVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
+        makeUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -82,7 +82,7 @@ final class SettingVC: UIViewController {
     
     
     //MARK: Configure UI
-    func configureUI() {
+    func makeUI() {
         UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
         
         navigationItem.title = "설정"

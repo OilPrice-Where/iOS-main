@@ -37,13 +37,11 @@ final class SalePriceTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        
-        configureUI()
+        fatalError("init(coder:) has not been implemented")
     }
     
     deinit {
@@ -73,7 +71,7 @@ final class SalePriceTableViewCell: UITableViewCell {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         contentView.addSubview(brandImageView)
         contentView.addSubview(brandLabel)
         contentView.addSubview(salePriceTextField)

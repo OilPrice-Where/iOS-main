@@ -26,14 +26,14 @@ final class CustomNavigationView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
+    func makeUI() {
         layer.cornerRadius = 6
         layer.borderColor = Asset.Colors.mainColor.color.cgColor
         layer.borderWidth = 1.5

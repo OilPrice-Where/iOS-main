@@ -23,7 +23,7 @@ final class BrandTypeTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
@@ -67,7 +67,7 @@ final class BrandTypeTableViewCell: UITableViewCell {
             .disposed(by: rx.disposeBag)
     }
     
-    func configureUI() {
+    func makeUI() {
         selectionStyle = .none
         
         contentView.addSubview(brandTypeLable)

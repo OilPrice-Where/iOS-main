@@ -21,7 +21,7 @@ final class FindDistanceTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
@@ -39,7 +39,7 @@ final class FindDistanceTableViewCell: UITableViewCell {
         distanceLabel.text = distance // 탐색 반경 리스트(1,3,5KM)를 셀에 표시
     }
     
-    func configureUI() {
+    func makeUI() {
         selectionStyle = .none
         
         contentView.addSubview(distanceLabel)

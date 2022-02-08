@@ -30,7 +30,7 @@ final class FindBrandVC: CommonViewController, ViewModelBindableType {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
+        makeUI()
     }
     
     //MARK: - View Binding..
@@ -68,7 +68,7 @@ final class FindBrandVC: CommonViewController, ViewModelBindableType {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         navigationItem.title = "검색 브랜드"
         
         view.addSubview(tableView)

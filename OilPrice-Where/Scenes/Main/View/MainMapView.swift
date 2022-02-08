@@ -41,7 +41,7 @@ final class MainMapView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
@@ -49,7 +49,7 @@ final class MainMapView: UIView {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         addSubview(mapView)
         addSubview(currentLocationButton)
         addSubview(stationInfoView)

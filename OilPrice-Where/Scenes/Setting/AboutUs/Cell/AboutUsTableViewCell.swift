@@ -35,7 +35,7 @@ final class AboutUsTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
@@ -43,7 +43,7 @@ final class AboutUsTableViewCell: UITableViewCell {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         contentView.addSubview(jobTitleLabel)
         contentView.addSubview(nameLabel)
         contentView.addSubview(githubImageView)

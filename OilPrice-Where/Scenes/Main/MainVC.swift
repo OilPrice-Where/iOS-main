@@ -21,12 +21,12 @@ final class MainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
+        makeUI()
         configure()
         rxBind()
     }
     
-    func configureUI() {
+    func makeUI() {
         view.backgroundColor = .white
         
         view.addSubview(mapContainerView)

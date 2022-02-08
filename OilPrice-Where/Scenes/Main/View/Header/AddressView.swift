@@ -26,7 +26,7 @@ final class AddressView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
@@ -34,7 +34,7 @@ final class AddressView: UIView {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         backgroundColor = Asset.Colors.mainColor.color
         
         addSubview(geoLogoImageView)

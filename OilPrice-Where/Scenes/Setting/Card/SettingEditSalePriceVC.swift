@@ -32,7 +32,7 @@ final class SettingEditSalePriceVC: CommonViewController, ViewModelBindableType 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
+        makeUI()
     }
     
     //MARK: - View Binding..
@@ -52,7 +52,7 @@ final class SettingEditSalePriceVC: CommonViewController, ViewModelBindableType 
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         navigationItem.title = "카드 할인"
         
         view.addSubview(tableView)

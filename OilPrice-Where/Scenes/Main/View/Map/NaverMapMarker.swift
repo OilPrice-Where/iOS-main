@@ -86,10 +86,10 @@ class CustomAnnotationView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureUI()
+        makeUI()
     }
     
-    func configureUI() {
+    func makeUI() {
         addSubview(mapMarkerImageView)
         addSubview(logoImageView)
         addSubview(priceLabel)

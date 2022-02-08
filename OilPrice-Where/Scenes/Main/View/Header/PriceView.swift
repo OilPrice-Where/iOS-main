@@ -72,7 +72,7 @@ final class PriceView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
@@ -80,7 +80,7 @@ final class PriceView: UIView {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         backgroundColor = .white
         layer.cornerRadius = 10
         

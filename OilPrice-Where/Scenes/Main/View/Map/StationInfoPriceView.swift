@@ -17,7 +17,7 @@ final class StationInfoPriceView: UIStackView {
         $0.axis = .horizontal
         $0.alignment = .fill
         $0.distribution = .fill
-        $0.spacing = 8
+        $0.spacing = 6
     }
     let oilTypeLabel = UILabel().then {
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 16)

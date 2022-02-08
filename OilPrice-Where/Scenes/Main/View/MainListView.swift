@@ -49,7 +49,7 @@ final class MainListView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
@@ -57,7 +57,7 @@ final class MainListView: UIView {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         backgroundColor = Asset.Colors.tableViewBackground.color
         
         addSubview(headerView)

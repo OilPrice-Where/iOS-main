@@ -36,7 +36,7 @@ class InitialSettingVC: CommonViewController {
         super.viewDidLoad()
         
         bindViewModel()
-        configureUI()
+        makeUI()
     }
     
     //MARK: - View Binging..
@@ -66,7 +66,7 @@ class InitialSettingVC: CommonViewController {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         view.addSubview(selectTypeView)
         
         selectTypeView.snp.makeConstraints {

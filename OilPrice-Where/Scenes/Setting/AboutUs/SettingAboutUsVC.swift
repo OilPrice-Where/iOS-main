@@ -33,11 +33,11 @@ final class SettingAboutUsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
+        makeUI()
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         navigationItem.title = "About Us"
         
         view.addSubview(tableView)

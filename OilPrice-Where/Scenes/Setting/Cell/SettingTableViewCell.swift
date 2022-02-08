@@ -24,7 +24,7 @@ class SettingTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
@@ -38,7 +38,7 @@ class SettingTableViewCell: UITableViewCell {
         subTitleLabel.text = nil
     }
     
-    func configureUI() {
+    func makeUI() {
         selectionStyle = .none
         accessoryType = .disclosureIndicator
         

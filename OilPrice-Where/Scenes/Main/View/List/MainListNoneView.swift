@@ -26,7 +26,7 @@ final class MainListNoneView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
@@ -34,7 +34,7 @@ final class MainListNoneView: UIView {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         addSubview(noneListImageView)
         addSubview(noneListLabel)
         

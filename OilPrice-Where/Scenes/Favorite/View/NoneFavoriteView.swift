@@ -26,14 +26,14 @@ final class NoneFavoriteView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureUI()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
+    func makeUI() {
         addSubview(emptyImageView)
         addSubview(emptyLabel)
         

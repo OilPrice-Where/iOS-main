@@ -28,7 +28,7 @@ final class FindDistanceVC: CommonViewController, ViewModelBindableType {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
+        makeUI()
     }
     
     //MARK: - View Binding..
@@ -55,7 +55,7 @@ final class FindDistanceVC: CommonViewController, ViewModelBindableType {
     }
     
     //MARK: - Configure UI
-    func configureUI() {
+    func makeUI() {
         navigationItem.title = "검색 반경"
         
         view.addSubview(tableView)
