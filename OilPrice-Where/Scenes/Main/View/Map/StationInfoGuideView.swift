@@ -23,18 +23,13 @@ final class StationInfoGuideView: UIView {
         $0.imageView?.tintColor = Asset.Colors.mainColor.color
         
     }
-    let directionView = UIView().then {
-        $0.backgroundColor = Asset.Colors.mainColor.color
-        $0.layer.cornerRadius = 5.0
-    }
-    let directionImageView = UIImageView().then {
-        let image = Asset.Images.navigationIcon.image.withRenderingMode(.alwaysTemplate)
-        $0.tintColor = .white
-        $0.image = image
-    }
     let directionLabel = UILabel().then {
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 18)
         $0.textColor = .white
+        $0.backgroundColor = Asset.Colors.mainColor.color
+        $0.layer.cornerRadius = 5.0
+        $0.clipsToBounds = true
+        $0.textAlignment = .center
         $0.text = "88.88km 안내 시작"
     }
     
@@ -52,9 +47,7 @@ final class StationInfoGuideView: UIView {
     //MARK: - Make UI
     func makeUI() {
         addSubview(favoriteButton)
-        addSubview(directionView)
-//        directionView.addSubview(directionImageView)
-        directionView.addSubview(directionLabel)
+        addSubview(directionLabel)
         
         favoriteButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(14)
@@ -62,15 +55,11 @@ final class StationInfoGuideView: UIView {
             $0.width.equalTo(60)
             $0.height.equalTo(50)
         }
-        directionView.snp.makeConstraints {
+        directionLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(14)
             $0.left.equalTo(favoriteButton.snp.right).offset(10)
             $0.right.equalToSuperview().offset(-14)
             $0.height.equalTo(50)
-        }
-        directionLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.centerX.equalToSuperview()
         }
     }
 }

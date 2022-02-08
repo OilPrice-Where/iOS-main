@@ -78,6 +78,14 @@ final class StationInfoView: UIView {
     }
     
     func configure(_ station: GasStation) {
+        guard let oilType = try? DefaultData.shared.oilSubject.value() else { return }
         
+        logoImageView.image = Preferences.logoImage(logoName: station.brand)
+        nameLabel.text = station.name
+        priceStackView.priceLabel.text = Preferences.priceToWon(price: station.price)
+        priceStackView.oilTypeLabel.text = Preferences.oil(code: oilType)
+        
+        let distance = station.distance < 1000 ? "\(Int(station.distance))m" : String(format: "%.1fkm", station.distance / 1000)
+        guideView.directionLabel.text = distance + " 안내시작"
     }
 }
