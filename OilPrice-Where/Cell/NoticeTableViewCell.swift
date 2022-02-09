@@ -9,18 +9,14 @@
 import UIKit
 
 class NoticeTableViewCell: UITableViewCell {
+<<<<<<< HEAD
 
     @IBOutlet weak var titleLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
+=======
+   @IBOutlet weak var titleLabel: UILabel!
+>>>>>>> b889cc85f0ffe1c983bd12e4dfc3ff7958635395
 }

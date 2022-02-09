@@ -2,14 +2,46 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LocalFavorites</key>
+	<string></string>
+	<key>MapType</key>
+	<string>AppleMap</string>
+	<key>Sales</key>
+	<dict>
+		<key>SK</key>
+		<integer>0</integer>
+		<key>HDO</key>
+		<integer>0</integer>
+		<key>GSC</key>
+		<integer>0</integer>
+		<key>SOL</key>
+		<integer>0</integer>
+		<key>E1G</key>
+		<integer>0</integer>
+		<key>RTO</key>
+		<integer>0</integer>
+		<key>NHO</key>
+		<integer>0</integer>
+	</dict>
+	<key>Brands</key>
+	<array>
+		<string>SOL</string>
+		<string>RTX</string>
+		<string>ETC</string>
+		<string>SKE</string>
+		<string>GSC</string>
+		<string>HDO</string>
+		<string>RTO</string>
+		<string>NHO</string>
+		<string>E1G</string>
+		<string>SKG</string>
+	</array>
+	<key>NaviType</key>
+	<string>kakao</string>
 	<key>OilType</key>
 	<string></string>
 	<key>FindRadius</key>
-	<integer>3000</integer>
-	<key>BrandType</key>
-	<string>ALL</string>
-	<key>CFBundleIdentifier</key>
-	<string></string>
+	<integer>5000</integer>
 	<key>Favorites</key>
 	<array/>
 </dict>
