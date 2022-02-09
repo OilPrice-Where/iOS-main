@@ -17,8 +17,8 @@ protocol ServiceType {
 
 struct ServiceList: ServiceType {
    static func informationGasStaion(appKey: String, id: String, completion: @escaping (Result<InformationGasStaion>) -> ()) {
-      AF
-         .request(API.detailById(appKey: appKey, id: id).urlString)
+       AF
+        .request(API.detailById(appKey: appKey, id: id).urlString)
          .validate()
          .responseData { (response) in
             switch response.result {
@@ -41,7 +41,7 @@ struct ServiceList: ServiceType {
    }
    
    static func allPriceList(appKey: String, completion: @escaping (Result<AllPriceResult>) -> ()) {
-      AF
+    AF
          .request(API.avgAll(appKey: appKey).urlString)
          .validate()
          .responseData { (response) in
@@ -60,7 +60,7 @@ struct ServiceList: ServiceType {
    }
    
    static func gasStationList(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String, completion: @escaping (Result<OilList>) -> ()) {
-      AF
+    AF
          .request(API.aroundAll(x: x, y: y, radius: radius, prodcd: prodcd, sort: sort, appKey: appKey).urlString)
          .validate()
          .responseData(completionHandler: { (response) in
@@ -79,7 +79,7 @@ struct ServiceList: ServiceType {
    }
    
    static func nationCostAverage(appKey: String, completion: @escaping (Result<NationCostList>) -> ()) {
-      AF
+    AF
          .request(API.avgAll(appKey: appKey).urlString)
          .validate()
          .responseData(completionHandler: { (response) in
