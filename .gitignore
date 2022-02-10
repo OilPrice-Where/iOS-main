@@ -13,6 +13,7 @@ TMapSDK/
 TMapSDK.framework
 
 ## Various settings
+*.xcworkspace
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -53,6 +54,7 @@ playground.xcworkspace
 # https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
 #
 Pods/
+*.lock
 
 # Carthage
 #
