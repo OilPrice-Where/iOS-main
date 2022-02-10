@@ -17,6 +17,7 @@ import RxCocoa
 final class StationInfoVC: UIViewController {
     //MARK: - Properties
     let bag = DisposeBag()
+    var stationInfoView = StationInfoView()
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -29,6 +30,13 @@ final class StationInfoVC: UIViewController {
     //MARK: - Make UI
     func makeUI() {
         view.backgroundColor = .white
+        view.addSubview(stationInfoView)
+        
+        stationInfoView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.height.equalTo(178)
+        }
     }
     
     //MARK: - Rx Binding..

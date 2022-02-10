@@ -14,13 +14,13 @@ class MyFloatingPanelLayout: FloatingPanelLayout {
         return .bottom
     }
     var initialState: FloatingPanelState {
-        return .hidden
+        return .tip
     }
     
     var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
         return [
-            .tip: FloatingPanelLayoutAnchor(absoluteInset: 44, edge: .bottom, referenceGuide: .safeArea),
-            .half: FloatingPanelLayoutAnchor(absoluteInset: 178, edge: .bottom, referenceGuide: .safeArea),
+            .tip: FloatingPanelLayoutAnchor(absoluteInset: 178, edge: .bottom, referenceGuide: .safeArea),
+            .half: FloatingPanelLayoutAnchor(absoluteInset: 300, edge: .top, referenceGuide: .safeArea),
             .hidden: FloatingPanelLayoutAnchor(absoluteInset: 0, edge: .bottom, referenceGuide: .superview)
         ]
     }
