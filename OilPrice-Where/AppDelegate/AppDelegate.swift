@@ -23,7 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = initialViewController() // 설정페이지 루트뷰 설정
-//        window?.rootViewController = FavoritesGasStationVC()
         window?.makeKeyAndVisible()
         
         return true

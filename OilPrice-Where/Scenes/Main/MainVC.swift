@@ -11,17 +11,21 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NMapsMap
+import FloatingPanel
 
 final class MainVC: UIViewController {
     let viewModel = MainViewModel()
     let mainListView = MainListView()
     let mapContainerView = MainMapView()
     let locationManager = CLLocationManager()
+    var fpc: FloatingPanelController!
+    var contentsVC = StationInfoVC() // 띄울 VC
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         makeUI()
+        setupView()
         configure()
         rxBind()
     }
@@ -141,5 +145,29 @@ extension MainVC: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
         mapContainerView.selectedMarker?.isSelected = false
         mapContainerView.selectedMarker = nil
+    }
+}
+
+//MARK: FloatingPanel
+extension MainVC: FloatingPanelControllerDelegate {
+    func setupView() {
+        fpc = FloatingPanelController()
+        fpc.contentMode = .fitToBounds
+        fpc.changePanelStyle() // panel 스타일 변경 (대신 bar UI가 사라지므로 따로 넣어주어야함)
+        fpc.delegate = self
+        fpc.set(contentViewController: contentsVC) // floating panel에 삽입할 것
+        fpc.addPanel(toParent: self) // fpc를 관리하는 UIViewController
+        fpc.layout = MyFloatingPanelLayout()
+        fpc.invalidateLayout() // if needed
+        fpc.move(to: .hidden, animated: false, completion: nil)
+    }
+    
+    //MARK: Delegate
+    func floatingPanel(_ fpc: FloatingPanelController, layoutFor size: CGSize) -> FloatingPanelLayout {
+        return MyFloatingPanelLayout()
+    }
+    
+    func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
+        print(fpc.state)
     }
 }

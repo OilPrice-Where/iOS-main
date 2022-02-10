@@ -120,6 +120,8 @@
 		E957E39827A03B8100031125 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E957E39627A03B8100031125 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E957E39A27A03BA600031125 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E957E39627A03B8100031125 /* TMapSDK.framework */; platformFilter = ios; };
 		E957E39B27A03BA600031125 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E957E39627A03B8100031125 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */; };
+		E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */; };
 		F362C63C0574D48555F1F335 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692C04AA68557BE6FEE04C04 /* Pods_OilPrice_Where.framework */; };
 /* End PBXBuildFile section */
 
@@ -279,6 +281,8 @@
 		E9400FE727B1146E003168C6 /* StationInfoGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoGuideView.swift; sourceTree = "<group>"; };
 		E9400FE927B11C76003168C6 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		E957E39627A03B8100031125 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMapSDK.framework; sourceTree = "<group>"; };
+		E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPanelController+.swift"; sourceTree = "<group>"; };
+		E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoVC.swift; sourceTree = "<group>"; };
 		EA270F4C9F8787CC0D069A8E /* Pods_FavoriteWidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FavoriteWidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -591,6 +595,7 @@
 		2CC1C808276C79E5007527C7 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */,
 				E9400FDD27B0A3E2003168C6 /* NaverMapMarker.swift */,
 				E9400FDF27B0A3F0003168C6 /* StationInfoView.swift */,
 				E9400FE527B0D719003168C6 /* StationInfoPriceView.swift */,
@@ -765,6 +770,7 @@
 				2C0C68C9276B31CA00945CEC /* Tabbar+Extension.swift */,
 				2CA4726327992D0A00DB0DDD /* CLLocationManager+.swift */,
 				E9400FE927B11C76003168C6 /* UIView+.swift */,
+				E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -994,6 +1000,7 @@
 				8EE0A2FB21DDF49E00C159D0 /* BrandTypeTableViewCell.swift in Sources */,
 				2C1FBE1A276AE39000E57F8A /* SelectTypeView.swift in Sources */,
 				2C0C68E2276B6C9A00945CEC /* UIViewController+Extension.swift in Sources */,
+				E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */,
 				8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */,
 				2CA4726427992D0A00DB0DDD /* CLLocationManager+.swift in Sources */,
 				2CC1C80E276C8610007527C7 /* MainMapView.swift in Sources */,
@@ -1009,6 +1016,7 @@
 				8E68BA1924CCC61A004730D7 /* CommonViewModel.swift in Sources */,
 				8EE53E8F24CF3CEC008D8045 /* FindNavigationVC.swift in Sources */,
 				2CAC81E3276BA31D00CC6096 /* CustomNavigationView.swift in Sources */,
+				E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */,
 				E9400FEA27B11C76003168C6 /* UIView+.swift in Sources */,
 				2C0C68CA276B31CA00945CEC /* Tabbar+Extension.swift in Sources */,
 				2CC1C80C276C8123007527C7 /* MainVC.swift in Sources */,
