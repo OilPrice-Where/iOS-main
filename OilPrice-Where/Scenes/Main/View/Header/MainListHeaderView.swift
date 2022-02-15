@@ -37,7 +37,7 @@ final class MainListHeaderView: UIView {
         addressView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.left.right.equalToSuperview().inset(20)
-            $0.height.equalTo(37.5)
+            $0.height.equalTo(57.5)
         }
         
         priceView.snp.makeConstraints {

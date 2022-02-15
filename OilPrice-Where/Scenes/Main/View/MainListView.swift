@@ -69,7 +69,7 @@ final class MainListView: UIView {
         headerView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.left.right.equalToSuperview()
-            $0.height.equalTo(219.5)
+            $0.height.equalTo(239.5)
         }
         
         priceSortedButton.snp.makeConstraints {
@@ -92,10 +92,8 @@ final class MainListView: UIView {
         }
         
         noneView.snp.makeConstraints {
-            $0.centerY.equalTo(tableView)
-            $0.centerX.equalTo(tableView)
-            $0.width.equalTo(140)
-            $0.height.equalTo(165)
+            $0.top.equalTo(headerView.snp.bottom)
+            $0.left.bottom.right.equalToSuperview()
         }
     }
 }

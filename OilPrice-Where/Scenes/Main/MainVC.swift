@@ -34,16 +34,15 @@ final class MainVC: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(mapContainerView)
+        view.addSubview(mainListView)
         
         mapContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
-//        mapContainerView.switchButton.snp.makeConstraints {
-//            $0.size.equalTo(50)
-//            $0.right.equalToSuperview().offset(-20)
-//            $0.bottom.equalTo(fpc.view.snp.top).offset(-12)
-//        }
+        mainListView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
     
     func configure() {
@@ -150,7 +149,7 @@ extension MainVC: CLLocationManagerDelegate {
 
 extension MainVC: MainMapViewDelegate {
     func marker(didTapMarker: NMGLatLng, info: GasStation) {
-        if fpc.state == .hidden { fpc.move(to: .tip, animated: true, completion: nil) }
+        if fpc.state == .hidden { fpc.move(to: .half, animated: true, completion: nil) }
         
         contentsVC.stationInfoView.configure(info)
     }
@@ -175,7 +174,7 @@ extension MainVC: FloatingPanelControllerDelegate {
         fpc.addPanel(toParent: self) // fpc를 관리하는 UIViewController
         fpc.layout = MyFloatingPanelLayout()
         fpc.invalidateLayout() // if needed
-        fpc.move(to: .tip, animated: false, completion: nil)
+        fpc.move(to: .hidden, animated: false, completion: nil)
     }
     
     //MARK: Delegate

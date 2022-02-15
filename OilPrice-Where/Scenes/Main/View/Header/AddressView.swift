@@ -41,7 +41,7 @@ final class AddressView: UIView {
         addSubview(valueLabel)
         
         valueLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-20)
             $0.centerX.equalToSuperview()
             $0.left.greaterThanOrEqualToSuperview().offset(25)
             $0.right.lessThanOrEqualToSuperview().offset(0)
