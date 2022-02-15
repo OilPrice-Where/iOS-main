@@ -52,6 +52,9 @@ final class MainVC: UIViewController {
         
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        
+        mainListView.tableView.dataSource = self
+        mainListView.tableView.delegate = self
     }
     
     func rxBind() {
@@ -147,6 +150,27 @@ extension MainVC: CLLocationManagerDelegate {
     }
 }
 
+//MARK: - TableViewDataSources & Delegate
+extension MainVC: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 13
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard
+            let cell = tableView.dequeueReusableCell(withIdentifier: GasStationCell.id,
+                                                     for: indexPath) as? GasStationCell
+        else { return UITableViewCell() }
+        
+        return cell
+    }
+}
+
+extension MainVC: UITableViewDelegate {
+    
+}
+
+//MARK: - Naver MapView 관련
 extension MainVC: MainMapViewDelegate {
     func marker(didTapMarker: NMGLatLng, info: GasStation) {
         if fpc.state == .hidden { fpc.move(to: .half, animated: true, completion: nil) }
@@ -164,7 +188,7 @@ extension MainVC: NMFMapViewTouchDelegate {
     }
 }
 
-//MARK: FloatingPanel
+//MARK: - FloatingPanel 관련
 extension MainVC: FloatingPanelControllerDelegate {
     func setupView() {
         fpc.contentMode = .fitToBounds

@@ -35,14 +35,13 @@ final class MainListView: UIView {
     lazy var tableView = UITableView().then {
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
-        $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
         $0.backgroundColor = Asset.Colors.tableViewBackground.color
         GasStationCell.register($0)
     }
     
     var noneView = MainListNoneView().then {
-        $0.isHidden = false
+        $0.isHidden = true
     }
     
     //MARK: - Initializer
