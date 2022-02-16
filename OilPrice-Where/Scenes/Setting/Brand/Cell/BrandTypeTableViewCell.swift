@@ -52,7 +52,7 @@ final class BrandTypeTableViewCell: UITableViewCell {
         
         brandSelectedSwitch.rx.isOn
             .subscribe(onNext: {
-                guard var brands = try? DefaultData.shared.brandsSubject.value() else { return }
+                var brands = DefaultData.shared.brandsSubject.value
                 
                 let code = Preferences.brand(name: name)
                 
@@ -62,7 +62,7 @@ final class BrandTypeTableViewCell: UITableViewCell {
                     brands = brands.filter { $0 != code }
                 }
                 
-                DefaultData.shared.brandsSubject.onNext(brands)
+                DefaultData.shared.brandsSubject.accept(brands)
             })
             .disposed(by: rx.disposeBag)
     }

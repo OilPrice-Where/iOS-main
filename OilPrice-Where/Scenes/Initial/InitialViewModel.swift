@@ -76,7 +76,7 @@ final class InitialViewModel {
    }
    
    func okAction(oil: Int, navi: Int) {
-      DefaultData.shared.oilSubject.onNext(select(oil: oil))
-      DefaultData.shared.naviSubject.onNext(select(navi: navi))
+      DefaultData.shared.oilSubject.accept(select(oil: oil))
+      DefaultData.shared.naviSubject.accept(select(navi: navi))
    }
 }

@@ -72,6 +72,6 @@ extension FindDistanceVC: UITableViewDelegate {
         let distances = viewModel.distanceSubject.value
         let radius = Preferences.distanceKM(KM: distances[indexPath.row])
         
-        DefaultData.shared.radiusSubject.onNext(radius)
+        DefaultData.shared.radiusSubject.accept(radius)
     }
 }

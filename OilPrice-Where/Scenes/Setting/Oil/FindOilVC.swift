@@ -37,8 +37,9 @@ final class FindOilVC: CommonViewController, ViewModelBindableType {
                 cell.fetch(oil: type)
                 
                 let displayOilType = Preferences.oil(name: type)
-                guard let currentOilType = try? DefaultData.shared.oilSubject.value(),
-                    currentOilType == displayOilType else { return }
+                let currentOilType = DefaultData.shared.oilSubject.value
+                
+                guard currentOilType == displayOilType else { return }
                 
                 self.tableView.selectRow(at: IndexPath(row: index, section: 0),
                                          animated: false,
@@ -71,6 +72,6 @@ extension FindOilVC: UITableViewDelegate {
         let types = viewModel.oilSubject.value
         let type = Preferences.oil(name: types[indexPath.row])
         
-        DefaultData.shared.oilSubject.onNext(type)
+        DefaultData.shared.oilSubject.accept(type)
     }
 }

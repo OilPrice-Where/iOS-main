@@ -101,18 +101,15 @@ final class SettingVC: UIViewController {
     // 이전 설정을 데이터를 불러와서
     // oilTypeLabel, findLabel 업데이트
     func fetchNavigationTitle() -> String? {
-        guard let title = try? DefaultData.shared.naviSubject.value() else { return nil }
-        return Preferences.navigationType(name: title)
+        return Preferences.navigationType(name: DefaultData.shared.naviSubject.value)
     }
     
     func fetchOilTypeString() -> String? {
-        guard let typeString = try? DefaultData.shared.oilSubject.value() else { return nil }
-        return Preferences.oil(code: typeString)
+        return Preferences.oil(code: DefaultData.shared.oilSubject.value)
     }
     
     func fetchDistanceString() -> String? {
-        guard let distance = try? DefaultData.shared.radiusSubject.value() else { return nil }
-        return String(distance / 1000) + "KM"
+        return String(DefaultData.shared.radiusSubject.value / 1000) + "KM"
     }
 }
 

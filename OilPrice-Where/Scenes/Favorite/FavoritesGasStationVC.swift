@@ -124,10 +124,9 @@ final class FavoritesGasStationVC: CommonViewController {
         }
         
         reachability?.whenReachable = { _ in
-            if let favArr = try? DefaultData.shared.favoriteSubject.value() {
-                self.noneFavoriteView.isHidden = favArr.isEmpty
-                DefaultData.shared.favoriteSubject.onNext(favArr)
-            }
+            let favArr = DefaultData.shared.favoriteSubject.value
+            self.noneFavoriteView.isHidden = favArr.isEmpty
+            DefaultData.shared.favoriteSubject.accept(favArr)
         }
         
         reachability?.whenUnreachable = { _ in

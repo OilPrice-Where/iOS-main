@@ -45,8 +45,8 @@ final class SalePriceTableViewCell: UITableViewCell {
     }
     
     deinit {
-        guard var dic = try? DefaultData.shared.salesSubject.value(),
-              let name = brandLabel.text else { return }
+        var dic = DefaultData.shared.salesSubject.value
+        guard let name = brandLabel.text else { return }
         
         let value = Int(salePriceTextField.text ?? "0") ?? 0
         let code = Preferences.saleBrand(name: name)
@@ -54,7 +54,7 @@ final class SalePriceTableViewCell: UITableViewCell {
         guard dic[code] != value else { return }
         
         dic[code] = value
-        DefaultData.shared.salesSubject.onNext(dic)
+        DefaultData.shared.salesSubject.accept(dic)
     }
     
     //MARK: - Fetch Data
@@ -62,10 +62,10 @@ final class SalePriceTableViewCell: UITableViewCell {
         brandImageView.image = brand.logo
         brandLabel.text = brand.title
         
+        let dic = DefaultData.shared.salesSubject.value
         let key = Preferences.saleBrand(name: brand.title)
         
-        guard let dic = try? DefaultData.shared.salesSubject.value(),
-              let value = dic[key] else { return }
+        guard let value = dic[key] else { return }
         
         salePriceTextField.text = value == 0 ? nil : "\(value)"
     }

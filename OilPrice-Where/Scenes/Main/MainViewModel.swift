@@ -60,10 +60,11 @@ extension MainViewModel {
 
 extension MainViewModel {
     private func requestSearch(sort: Int = 1) {
-        guard let radius = try? DefaultData.shared.radiusSubject.value(),
-              let oilSubject = try? DefaultData.shared.oilSubject.value(),
-              let brands = try? DefaultData.shared.brandsSubject.value(),
-              let coordinate = currentLocation?.coordinate else { return }
+        let radius = DefaultData.shared.radiusSubject.value
+        let oilSubject = DefaultData.shared.oilSubject.value
+        let brands = DefaultData.shared.brandsSubject.value
+        
+        guard let coordinate = currentLocation?.coordinate else { return }
         
         let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
         let tm = NMGTm128(from: latLng)

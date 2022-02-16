@@ -78,7 +78,7 @@ final class StationInfoView: UIView {
     }
     
     func configure(_ station: GasStation) {
-        guard let oilType = try? DefaultData.shared.oilSubject.value() else { return }
+        let oilType = DefaultData.shared.oilSubject.value
         
         logoImageView.image = Preferences.logoImage(logoName: station.brand)
         nameLabel.text = station.name

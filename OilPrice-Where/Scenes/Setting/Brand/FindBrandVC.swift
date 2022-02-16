@@ -55,7 +55,7 @@ final class FindBrandVC: CommonViewController, ViewModelBindableType {
                     .subscribe(onNext: {
                         guard !self.isLauchSetting else {
                             cell.brandSelectedSwitch.isOn = $0
-                            DefaultData.shared.brandsSubject.onNext($0 ? self.viewModel.allBrands : [])
+                            DefaultData.shared.brandsSubject.accept($0 ? self.viewModel.allBrands : [])
                             return
                         }
                         

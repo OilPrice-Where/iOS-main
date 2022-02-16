@@ -72,7 +72,6 @@ class DefaultData {
       SwiftyPlistManager.shared.start(plistNames: ["UserInfo"], logging: true) // Plist 불러오기
       
       let localFavorites = getValue(defaultValue: "", for: "LocalFavorites")
-      let map = getValue(defaultValue: "AppleMap", for: "MapType")
       let radius = getValue(defaultValue: 5000, for: "FindRadius")
       let oilType = getValue(defaultValue: "", for: "OilType")
       let brands = getValue(defaultValue: defaultBrands, for: "Brands")

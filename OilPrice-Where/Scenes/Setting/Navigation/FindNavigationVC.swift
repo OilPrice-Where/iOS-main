@@ -71,6 +71,6 @@ extension FindNavigationVC: UITableViewDelegate {
         let types = viewModel.naviSubject.value
         let type = Preferences.navigationType(name: types[indexPath.row])
         
-        DefaultData.shared.naviSubject.onNext(type)
+        DefaultData.shared.naviSubject.accept(type)
     }
 }

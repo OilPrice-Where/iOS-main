@@ -229,7 +229,8 @@ final class Preferences {
     }
     
     static func saleBrand(code: String) -> Int {
-        guard let sales = try? DefaultData.shared.salesSubject.value() else { return 0 }
+        let sales = DefaultData.shared.salesSubject.value
+        
         var value: Int?
         switch code {
         case "GSC":
