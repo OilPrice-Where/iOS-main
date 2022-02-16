@@ -39,8 +39,8 @@ final class FindDistanceVC: CommonViewController, ViewModelBindableType {
                 cell.fetch(distance: distance)
                 
                 let displayDistance = Preferences.distanceKM(KM: distance)
-                guard let currentDistance = try? DefaultData.shared.radiusSubject.value(),
-                    displayDistance == currentDistance else { return }
+                let currentDistance = DefaultData.shared.radiusSubject.value
+                guard displayDistance == currentDistance else { return }
                 
                 self.tableView.selectRow(at: IndexPath(row: index, section: 0),
                                          animated: false,

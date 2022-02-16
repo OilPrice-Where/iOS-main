@@ -318,6 +318,10 @@ final class Preferences {
         }
         return mutable
     }
+    
+    static func distance(km: Double) -> String {
+        return km < 1000 ? "\(Int(km))m" : String(format: "%.1fkm", km / 1000)
+    }
 }
 
 // 반올림

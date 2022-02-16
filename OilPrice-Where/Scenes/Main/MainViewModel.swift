@@ -20,7 +20,7 @@ final class MainViewModel {
     let staionProvider = MoyaProvider<StationAPI>()
     let bag = DisposeBag()
     var currentLocation: CLLocation? = nil
-    
+    var stations = [GasStation]()
     
     init() {
         rxBind()
@@ -30,6 +30,12 @@ final class MainViewModel {
         input.requestStaions
             .bind(with: self, onNext: { owner, _ in
                 owner.requestSearch()
+            })
+            .disposed(by: bag)
+        
+        output.staionResult
+            .bind(with: self, onNext: { owner, stations in
+                owner.stations = stations
             })
             .disposed(by: bag)
     }
@@ -62,8 +68,14 @@ extension MainViewModel {
         let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
         let tm = NMGTm128(from: latLng)
         
-        staionProvider.request(.stationList(x: tm.x, y: tm.y, radius: radius, prodcd: oilSubject, sort: sort, appKey: Preferences.getAppKey())) {
-            switch $0 {
+        staionProvider.request(.stationList(x: tm.x,
+                                            y: tm.y,
+                                            radius: radius,
+                                            prodcd: oilSubject,
+                                            sort: sort,
+                                            appKey: Preferences.getAppKey())) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
             case .success(let response):
                 guard let list = try? response.map(OilList.self) else {
                     self.output.error.accept(.stationList)
@@ -79,7 +91,6 @@ extension MainViewModel {
                 self.output.staionResult.accept(target)
             case .failure(let error):
                 print(error.localizedDescription)
-                
                 self.output.error.accept(.requestStation)
             }
         }

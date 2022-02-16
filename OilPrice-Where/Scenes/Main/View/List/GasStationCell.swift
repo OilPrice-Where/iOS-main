@@ -13,11 +13,7 @@ import UIKit
 //MARK: 메인페이지의 리스트 부분에서 받아오는 주유소 목록을 나타내는 셀
 final class GasStationCell: UITableViewCell {
     //MARK: - Properties
-    let titleView = GasStationTitleView()
-    let bottomView = GasStationBottomView()
-    let lineView = UIView().then {
-        $0.backgroundColor = .darkGray
-    }
+    let stationView = GasStationView()
     
     //MARK: - Initializer
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -32,25 +28,19 @@ final class GasStationCell: UITableViewCell {
     
     //MARK: - Make UI
     func makeUI() {
-        contentView.layer.cornerRadius = 5
+        backgroundColor = .systemGroupedBackground
+        contentView.addSubview(stationView)
         
-        addSubview(titleView)
-        addSubview(lineView)
-        addSubview(bottomView)
+        stationView.layer.cornerRadius = 5
         
-        titleView.snp.makeConstraints {
-            $0.top.left.equalToSuperview().offset(12)
-            $0.right.equalToSuperview().offset(-16)
-            $0.height.equalTo(30)
+        stationView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(16)
         }
-        lineView.snp.makeConstraints {
-            $0.top.equalTo(titleView.snp.bottom).offset(8)
-            $0.left.right.equalTo(titleView)
-            $0.height.equalTo(1.2)
-        }
-        bottomView.snp.makeConstraints {
-            $0.top.equalTo(lineView.snp.bottom).offset(8)
-            $0.left.bottom.right.equalToSuperview()
-        }
+    }
+    
+    func configure(station info: GasStation) {
+        stationView.titleView.configure(title: info)
+        stationView.bottomView.priceView.configure(price: info)
     }
 }

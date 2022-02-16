@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import SwiftyPlistManager
+import RxRelay
 
 // App 전체에서 사용하는 싱글톤
 class DefaultData {
@@ -22,13 +23,13 @@ class DefaultData {
    
    var stationsSubject = BehaviorSubject<[GasStation]>(value: []) // 반경 주유소 리스트
    var priceData: [AllPrice] = [] // 전국 평균 기름 값
-   var radiusSubject = BehaviorSubject<Int>(value: 3000) // 탐색 반경
-   var oilSubject = BehaviorSubject<String>(value: "") // 오일 종류
-   var brandsSubject = BehaviorSubject<[String]>(value: []) // 설정 브랜드
-   var favoriteSubject = BehaviorSubject<[String]>(value: []) // 즐겨 찾기
-   var naviSubject = BehaviorSubject<String>(value: "kakao")
-   var salesSubject = BehaviorSubject<[String: Int]>(value: [:])
-   var localFavoritesSubject = BehaviorSubject<String>(value: "")
+   var radiusSubject = BehaviorRelay<Int>(value: 3000) // 탐색 반경
+   var oilSubject = BehaviorRelay<String>(value: "") // 오일 종류
+   var brandsSubject = BehaviorRelay<[String]>(value: []) // 설정 브랜드
+   var favoriteSubject = BehaviorRelay<[String]>(value: []) // 즐겨 찾기
+   var naviSubject = BehaviorRelay<String>(value: "kakao")
+   var salesSubject = BehaviorRelay<[String: Int]>(value: [:])
+   var localFavoritesSubject = BehaviorRelay<String>(value: "")
    var tempFavArr: [InformationGasStaion] = []
    
    // 전군 평균 기름 값 로드 함수
@@ -79,13 +80,13 @@ class DefaultData {
       let sales = getValue(defaultValue: defaultSales, for: "Sales")
       let favArr = getValue(defaultValue: [String](), for: "Favorites")
       
-      localFavoritesSubject.onNext(localFavorites)
-      oilSubject.onNext(oilType)
-      radiusSubject.onNext(radius)
-      brandsSubject.onNext(brands)
-      naviSubject.onNext(naviType)
-      salesSubject.onNext(sales)
-      favoriteSubject.onNext(favArr)
+      localFavoritesSubject.accept(localFavorites)
+      oilSubject.accept(oilType)
+      radiusSubject.accept(radius)
+      brandsSubject.accept(brands)
+      naviSubject.accept(naviType)
+      salesSubject.accept(sales)
+      favoriteSubject.accept(favArr)
             
       // Oil Type Save
       oilSubject
@@ -125,11 +126,11 @@ class DefaultData {
             let queue = DispatchQueue(label: "wargi.dispatch.favorites")
             var tempArr = [String]()
             
-            if let dataString = try? self.localFavoritesSubject.value(),
-               let data = dataString.data(using: .utf8),
-               let infomations = try? JSONDecoder().decode(InformationGasStaions.self,
+             let dataString = self.localFavoritesSubject.value
+             if let data = dataString.data(using: .utf8),
+                let infomations = try? JSONDecoder().decode(InformationGasStaions.self,
                                                            from: data) {
-               self.tempFavArr = infomations.allPriceList
+                 self.tempFavArr = infomations.allPriceList
             }
             
             self.tempFavArr = self.tempFavArr.filter { info in
@@ -161,7 +162,7 @@ class DefaultData {
                let value = InformationGasStaions(allPriceList: self.tempFavArr)
                if let encodeData = try? JSONEncoder().encode(value),
                   let dataString = String(data: encodeData, encoding: .utf8) {
-                  self.localFavoritesSubject.onNext(dataString)
+                  self.localFavoritesSubject.accept(dataString)
                }
             }
          })

@@ -87,6 +87,7 @@ final class MainVC: UIViewController {
         viewModel.output.staionResult
             .bind(with: self, onNext: { owner, stations in
                 owner.mapContainerView.showMarker(list: stations)
+                owner.mainListView.tableView.reloadData()
             })
             .disposed(by: viewModel.bag)
     }
@@ -151,9 +152,13 @@ extension MainVC: CLLocationManagerDelegate {
 }
 
 //MARK: - TableViewDataSources & Delegate
-extension MainVC: UITableViewDataSource {
+extension MainVC: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return viewModel.stations.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 13
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -162,12 +167,24 @@ extension MainVC: UITableViewDataSource {
                                                      for: indexPath) as? GasStationCell
         else { return UITableViewCell() }
         
+        cell.configure(station: viewModel.stations[indexPath.section])
+        
         return cell
     }
-}
-
-extension MainVC: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 106.2
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 12
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 12))
+        view.backgroundColor = .systemGroupedBackground
+        return view
+    }
 }
 
 //MARK: - Naver MapView 관련

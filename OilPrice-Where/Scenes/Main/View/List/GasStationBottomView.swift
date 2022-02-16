@@ -14,6 +14,9 @@ import UIKit
 final class GasStationBottomView: UIStackView {
     //MARK: - Properties
     let priceView = GasStationPriceView()
+    let expandView = GasStationExpandView().then {
+        $0.isHidden = true
+    }
     
     //MARK: - Initializer
     override init(frame: CGRect) {
@@ -34,9 +37,10 @@ final class GasStationBottomView: UIStackView {
         distribution = .fill
         
         addArrangedSubview(priceView)
+        addArrangedSubview(expandView)
         
-        priceView.snp.makeConstraints {
-            $0.height.equalTo(47)
+        expandView.snp.makeConstraints {
+            $0.height.equalTo(40)
         }
     }
 }

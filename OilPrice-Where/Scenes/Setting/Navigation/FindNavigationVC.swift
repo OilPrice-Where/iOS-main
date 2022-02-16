@@ -38,8 +38,8 @@ final class FindNavigationVC: CommonViewController, ViewModelBindableType {
                 cell.fetch(navigation: type)
                 
                 let displayNaviType = Preferences.navigationType(name: type)
-                guard let currentNaviType = try? DefaultData.shared.naviSubject.value(),
-                      displayNaviType == currentNaviType else { return }
+                let currentNaviType = DefaultData.shared.naviSubject.value
+                guard displayNaviType == currentNaviType else { return }
                 
                 self.tableView.selectRow(at: IndexPath(row: index, section: 0),
                                          animated: false,

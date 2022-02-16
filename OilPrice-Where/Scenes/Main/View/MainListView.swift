@@ -20,7 +20,7 @@ final class MainListView: UIView {
         $0.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
         $0.setTitleColor(Asset.Colors.defaultColor.color, for: .normal)
         $0.setTitleColor(Asset.Colors.darkMain.color, for: .selected)
-        $0.backgroundColor = Asset.Colors.tableViewBackground.color
+        $0.backgroundColor = .systemGroupedBackground
     }
     let distanceSortedButton = UIButton().then {
         $0.tag = 2
@@ -29,10 +29,10 @@ final class MainListView: UIView {
         $0.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
         $0.setTitleColor(Asset.Colors.defaultColor.color, for: .normal)
         $0.setTitleColor(Asset.Colors.darkMain.color, for: .selected)
-        $0.backgroundColor = Asset.Colors.tableViewBackground.color
+        $0.backgroundColor = .systemGroupedBackground
     }
-    
     lazy var tableView = UITableView().then {
+        $0.separatorStyle = .none
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
         $0.showsHorizontalScrollIndicator = false
@@ -57,7 +57,7 @@ final class MainListView: UIView {
     
     //MARK: - Configure UI
     func makeUI() {
-        backgroundColor = Asset.Colors.tableViewBackground.color
+        backgroundColor = .systemGroupedBackground
         
         addSubview(headerView)
         addSubview(priceSortedButton)
