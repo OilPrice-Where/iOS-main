@@ -602,13 +602,7 @@
 			isa = PBXGroup;
 			children = (
 				2CC1C809276C79F5007527C7 /* MainListNoneView.swift */,
-				E94D0EFF27BB3DBC00BCB092 /* GasStationCell.swift */,
-				E94D0F0B27BB56D100BCB092 /* GasStationView.swift */,
-				E94D0F0127BB467600BCB092 /* GasStationTitleView.swift */,
-				E94D0F0327BB490C00BCB092 /* GasStationBottomView.swift */,
-				E94D0F0527BB4AE000BCB092 /* GasStationPriceView.swift */,
-				E94D0F0727BB4D5800BCB092 /* GasStationExpandView.swift */,
-				E94D0F0927BB50D000BCB092 /* GasStationDirectionView.swift */,
+				E94D0F0D27BB7A7100BCB092 /* GasStation */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -794,6 +788,20 @@
 				E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */,
 			);
 			name = Utility;
+			sourceTree = "<group>";
+		};
+		E94D0F0D27BB7A7100BCB092 /* GasStation */ = {
+			isa = PBXGroup;
+			children = (
+				E94D0EFF27BB3DBC00BCB092 /* GasStationCell.swift */,
+				E94D0F0B27BB56D100BCB092 /* GasStationView.swift */,
+				E94D0F0127BB467600BCB092 /* GasStationTitleView.swift */,
+				E94D0F0327BB490C00BCB092 /* GasStationBottomView.swift */,
+				E94D0F0527BB4AE000BCB092 /* GasStationPriceView.swift */,
+				E94D0F0727BB4D5800BCB092 /* GasStationExpandView.swift */,
+				E94D0F0927BB50D000BCB092 /* GasStationDirectionView.swift */,
+			);
+			path = GasStation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

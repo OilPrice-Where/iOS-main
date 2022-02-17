@@ -49,5 +49,7 @@ class CustomTabbarViewController: UITabBarController {
     func setupStyle() {
         UITabBar.clearShadow()
         tabBar.layer.applyShadow(color: .systemGray, alpha: 0.2, x: 0, y: 0, blur: 12)
+        tabBar.layer.shouldRasterize = true
+        tabBar.layer.rasterizationScale = UIScreen.main.scale
     }
 }

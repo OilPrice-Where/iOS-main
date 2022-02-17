@@ -28,6 +28,7 @@ final class MainVC: UIViewController {
         setupView()
         configure()
         rxBind()
+        print(sol())
     }
     
     func makeUI() {
@@ -85,11 +86,80 @@ final class MainVC: UIViewController {
             .disposed(by: rx.disposeBag)
         
         viewModel.output.staionResult
-            .bind(with: self, onNext: { owner, stations in
-                owner.mapContainerView.showMarker(list: stations)
+            .bind(with: self, onNext: { owner, _ in
+                owner.mapContainerView.showMarker(list: owner.viewModel.stations)
                 owner.mainListView.tableView.reloadData()
             })
             .disposed(by: viewModel.bag)
+    }
+    
+    func sol() -> Int {
+        var totalDays = [[Int]]()
+        var days = [Int](repeating: 0, count: 10)
+
+        func permutation(level: Int, sum: Int, levelLimit: Int, sumLimit: Int) {
+            if sum > sumLimit { return }
+            
+            if level == levelLimit {
+                if sum == sumLimit {
+                    totalDays.append(days)
+                }
+                
+                return
+            }
+            
+            for value in (0 ... sumLimit - sum) {
+                let nextSum = value + sum + 1
+                guard nextSum <= sumLimit else { return }
+                
+                days[level] = value + 1
+                permutation(level: level + 1, sum: nextSum, levelLimit: levelLimit, sumLimit: sumLimit)
+                days[level] = 0
+            }
+        }
+
+        func solution(_ jobs: [Int], _ d: Int) -> Int {
+            var answer = 1_000_000_000
+            
+            if d > jobs.count { return -1 }
+            
+            permutation(level: 0, sum: 0, levelLimit: d, sumLimit: jobs.count)
+            
+            for days in totalDays {
+                var sum = 0
+                var left = 0
+                
+                for day in days {
+                    if day <= 0 { break }
+                    
+                    var temp = -1
+                    let right = left + day
+                    for i in left ..< right {
+                        temp = max(temp, jobs[i])
+                    }
+                    
+                    sum += temp
+                    left += day
+                }
+                answer = min(answer, sum)
+            }
+            
+            return answer
+        }
+
+        return solution([380,302,102,681,863,
+                  676,243,671,651,612,
+                  162,561,394,856,601,
+                  30,6,257,921,405,
+                  716,126,158,476,889,
+                  699,668,930,139,164,
+                  641,801,480,756,797,
+                  915,275,709,161,358,
+                  461,938,914,557,121,
+                  964,315],
+                 10)
+
+
     }
 }
 
@@ -122,8 +192,12 @@ extension MainVC: CLLocationManagerDelegate {
             } else {
                 currentPlacemark = nil
             }
-
-//            self.mainListView.headerView.fetchData(getCode: self.string(from: self.currentPlacemark))
+            
+            var string = currentPlacemark?.locality ?? ""
+            
+            string += string.count > 0 ? " " + (currentPlacemark?.name ?? "") : currentPlacemark?.name ?? ""
+            
+            self.mainListView.headerView.fetchData(getCode: string)
         })
         
 //        if let lastLocation = oldLocation {
@@ -148,6 +222,7 @@ extension MainVC: CLLocationManagerDelegate {
         // 인증 상태가 변경 되었을 때
         func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         }
+        
     }
 }
 

@@ -20,7 +20,7 @@ final class MainViewModel {
     let staionProvider = MoyaProvider<StationAPI>()
     let bag = DisposeBag()
     var currentLocation: CLLocation? = nil
-    var stations = [GasStation]()
+    var stations = [GasStation]() { didSet { output.staionResult.accept(()) } }
     
     init() {
         rxBind()
@@ -33,9 +33,10 @@ final class MainViewModel {
             })
             .disposed(by: bag)
         
-        output.staionResult
-            .bind(with: self, onNext: { owner, stations in
-                owner.stations = stations
+        let set = DefaultData.shared
+        Observable.zip(set.oilSubject, set.radiusSubject, set.brandsSubject, set.salesSubject)
+            .bind(with: self, onNext: { owner, _ in
+                owner.requestSearch()
             })
             .disposed(by: bag)
     }
@@ -54,7 +55,7 @@ extension MainViewModel {
     
     struct Output {
         let error = PublishRelay<ErrorResult>() // => Error
-        let staionResult = PublishRelay<[GasStation]>() // => 검색 결과
+        let staionResult = PublishRelay<Void>() // => 검색 결과
     }
 }
 
@@ -89,7 +90,7 @@ extension MainViewModel {
                     target = target.filter { brands.contains($0.brand) }
                 }
                 
-                self.output.staionResult.accept(target)
+                self.stations = target
             case .failure(let error):
                 print(error.localizedDescription)
                 self.output.error.accept(.requestStation)

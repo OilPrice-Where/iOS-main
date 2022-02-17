@@ -36,7 +36,7 @@ final class MainListView: UIView {
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
         $0.showsHorizontalScrollIndicator = false
-        $0.backgroundColor = Asset.Colors.tableViewBackground.color
+        $0.backgroundColor = .systemGroupedBackground
         GasStationCell.register($0)
     }
     
