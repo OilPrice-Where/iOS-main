@@ -54,7 +54,17 @@ class DefaultData {
         }
     }
     
-    private func getValue<T>(defaultValue: T, for key: String, _ fromPlistWithName: String = "UserInfo") -> T {
+    private func swiftyPlistManager<T>(save type: T, forKey key: String, to name: String = "UserInfo") {
+        SwiftyPlistManager.shared.save(type, forKey: key, toPlistWithName: name) {
+            if let err = $0 {
+                print(err.localizedDescription)
+                return
+            }
+            completedRelay.accept(nil)
+        }
+    }
+    
+    private func fetchValue<T>(defaultValue: T, for key: String, _ fromPlistWithName: String = "UserInfo") -> T {
         guard let v = SwiftyPlistManager.shared.fetchValue(for: key, fromPlistWithName: fromPlistWithName) as? T else {
             SwiftyPlistManager.shared.addNew(defaultValue, key: key,
                                              toPlistWithName: fromPlistWithName,
@@ -72,13 +82,13 @@ class DefaultData {
         
         SwiftyPlistManager.shared.start(plistNames: ["UserInfo"], logging: true) // Plist 불러오기
         
-        let localFavorites = getValue(defaultValue: "", for: "LocalFavorites")
-        let radius = getValue(defaultValue: 5000, for: "FindRadius")
-        let oilType = getValue(defaultValue: "", for: "OilType")
-        let brands = getValue(defaultValue: defaultBrands, for: "Brands")
-        let naviType = getValue(defaultValue: "kakao", for: "NaviType")
-        let sales = getValue(defaultValue: defaultSales, for: "Sales")
-        let favArr = getValue(defaultValue: [String](), for: "Favorites")
+        let localFavorites = fetchValue(defaultValue: "", for: "LocalFavorites")
+        let radius = fetchValue(defaultValue: 5000, for: "FindRadius")
+        let oilType = fetchValue(defaultValue: "", for: "OilType")
+        let brands = fetchValue(defaultValue: defaultBrands, for: "Brands")
+        let naviType = fetchValue(defaultValue: "kakao", for: "NaviType")
+        let sales = fetchValue(defaultValue: defaultSales, for: "Sales")
+        let favArr = fetchValue(defaultValue: [String](), for: "Favorites")
         
         localFavoritesSubject.accept(localFavorites)
         oilSubject.accept(oilType)
@@ -91,38 +101,21 @@ class DefaultData {
         // Oil Type Save
         oilSubject
             .subscribe(with: self, onNext: { owner, type in
-                SwiftyPlistManager.shared.save(type, forKey: "OilType", toPlistWithName: "UserInfo") {
-                    if let err = $0 {
-                        print(err.localizedDescription)
-                        return
-                    }
-                    owner.completedRelay.accept(nil)
-                }
+                owner.swiftyPlistManager(save: type, forKey: "OilType")
             })
             .disposed(by: bag)
         
         // Find Radius Value Save
         radiusSubject
             .subscribe(with: self, onNext: { owner, type in
-                SwiftyPlistManager.shared.save(type, forKey: "FindRadius", toPlistWithName: "UserInfo") {
-                    if let err = $0 {
-                        print(err.localizedDescription)
-                        return
-                    }
-                    owner.completedRelay.accept(nil)
-                }
+                owner.swiftyPlistManager(save: type, forKey: "FindRadius")
             })
             .disposed(by: bag)
         
         // Favorites Array Save
         favoriteSubject
             .subscribe(with: self, onNext: { owner, infomations in
-                SwiftyPlistManager.shared.save(infomations, forKey: "Favorites", toPlistWithName: "UserInfo") {
-                    if let err = $0 {
-                        print(err.localizedDescription)
-                        return
-                    }
-                }
+                owner.swiftyPlistManager(save: infomations, forKey: "Favorites")
                 
                 let group = DispatchGroup()
                 let queue = DispatchQueue(label: "wargi.dispatch.favorites")
@@ -174,13 +167,7 @@ class DefaultData {
         // Brand Array Save
         brandsSubject
             .subscribe(with: self, onNext: { owner, type in
-                SwiftyPlistManager.shared.save(type, forKey: "Brands", toPlistWithName: "UserInfo")  {
-                    if let err = $0 {
-                        print(err.localizedDescription)
-                        return
-                    }
-                    owner.completedRelay.accept(nil)
-                }
+                owner.swiftyPlistManager(save: type, forKey: "Brands")
             })
             .disposed(by: bag)
         
@@ -190,27 +177,14 @@ class DefaultData {
                 let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere")
                 def?.set(type, forKey: "NaviType")
                 def?.synchronize()
-                
-                SwiftyPlistManager.shared.save(type, forKey: "NaviType", toPlistWithName: "UserInfo") {
-                    if let err = $0 {
-                        print(err.localizedDescription)
-                        return
-                    }
-                    owner.completedRelay.accept(nil)
-                }
+                owner.swiftyPlistManager(save: type, forKey: "NaviType")
             })
             .disposed(by: bag)
         
         // Sales Save
         salesSubject
             .subscribe(with: self, onNext: { owner, type in
-                SwiftyPlistManager.shared.save(type, forKey: "Sales", toPlistWithName: "UserInfo") {
-                    if let err = $0 {
-                        print(err.localizedDescription)
-                        return
-                    }
-                    owner.completedRelay.accept(nil)
-                }
+                owner.swiftyPlistManager(save: type, forKey: "Sales")
             })
             .disposed(by: bag)
         
@@ -224,27 +198,17 @@ class DefaultData {
                                                                   from: data) else {
                           if let encodeData = try? JSONEncoder().encode(value),
                              let dataString = String(data: encodeData, encoding: .utf8) {
-                              SwiftyPlistManager.shared.save(dataString, forKey: "LocalFavorites", toPlistWithName: "UserInfo") {
-                                  if let err = $0 {
-                                      print(err.localizedDescription)
-                                      return
-                                  }
-                              }
+                              owner.swiftyPlistManager(save: dataString, forKey: "LocalFavorites")
                           }
                           return
                       }
-                SwiftyPlistManager.shared.save(type, forKey: "LocalFavorites", toPlistWithName: "UserInfo") {
-                    if let err = $0 {
-                        print(err.localizedDescription)
-                        return
-                    }
-                    owner.completedRelay.accept(nil)
-                }
+                owner.swiftyPlistManager(save: type, forKey: "LocalFavorites")
                 
                 value.allPriceList = self.tempFavArr
                 owner.tempFavArr = infomations.allPriceList
                 owner.localSave(favorites: value)
             })
             .disposed(by: bag)
+        
     }
 }
