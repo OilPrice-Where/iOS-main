@@ -50,7 +50,8 @@ final class GasStationView: UIView {
         }
         bottomView.snp.makeConstraints {
             $0.top.equalTo(lineView.snp.bottom).offset(8)
-            $0.left.bottom.right.equalToSuperview()
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-12)
         }
     }
 }

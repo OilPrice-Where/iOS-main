@@ -21,6 +21,7 @@ final class MainViewModel {
     let bag = DisposeBag()
     var currentLocation: CLLocation? = nil
     var stations = [GasStation]() { didSet { output.staionResult.accept(()) } }
+    var isSortedByPrice = true
     
     init() {
         rxBind()
@@ -59,6 +60,11 @@ extension MainViewModel {
 }
 
 extension MainViewModel {
+    func sortedList(isPrice: Bool) {
+        isSortedByPrice = isPrice
+        stations = isPrice ? stations.sorted(by: { $0.price < $1.price }) : stations.sorted(by: { $0.distance < $1.distance })
+    }
+    
     private func requestSearch(sort: Int = 1) {
         let radius = DefaultData.shared.radiusSubject.value
         let oilSubject = DefaultData.shared.oilSubject.value
@@ -89,7 +95,7 @@ extension MainViewModel {
                     target = target.filter { brands.contains($0.brand) }
                 }
                 
-                self.stations = target
+                self.stations = self.isSortedByPrice ? target.sorted(by: { $0.price < $1.price }) : target.sorted(by: { $0.distance < $1.distance })
             case .failure(let error):
                 print(error.localizedDescription)
                 self.output.error.accept(.requestStation)

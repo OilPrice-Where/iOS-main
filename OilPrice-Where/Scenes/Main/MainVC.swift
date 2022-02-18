@@ -20,6 +20,7 @@ final class MainVC: UIViewController {
     let locationManager = CLLocationManager()
     var fpc = FloatingPanelController()
     var contentsVC = StationInfoVC() // 띄울 VC
+    let bag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,6 +91,26 @@ final class MainVC: UIViewController {
                 owner.mainListView.tableView.reloadData()
             })
             .disposed(by: viewModel.bag)
+        
+        //MARK: - List
+        // Sorted by Price/Distance
+        mainListView
+            .priceSortedButton
+            .rx
+            .tap
+            .bind(with: self, onNext: { owner, _ in
+                owner.viewModel.sortedList(isPrice: true)
+            })
+            .disposed(by: bag)
+        
+        mainListView
+            .distanceSortedButton
+            .rx
+            .tap
+            .bind(with: self, onNext: { owner, _ in
+                owner.viewModel.sortedList(isPrice: false)
+            })
+            .disposed(by: bag)
     }
 }
 
@@ -157,7 +178,7 @@ extension MainVC: CLLocationManagerDelegate {
 }
 
 //MARK: - TableViewDataSources & Delegate
-extension MainVC: UITableViewDataSource, UITableViewDelegate {
+extension MainVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.stations.count
     }
@@ -176,9 +197,13 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
-    
+}
+
+extension MainVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 106.2
+        guard let cell = tableView.cellForRow(at: indexPath) as? GasStationCell else { return 106.2 }
+        
+        return cell.isSelected ? 163.2 : 106.2
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -189,6 +214,22 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 12))
         view.backgroundColor = .systemGroupedBackground
         return view
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? GasStationCell else { return }
+
+        cell.selectionCell = true
+
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? GasStationCell else { return }
+
+        cell.selectionCell = false
+        
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
 

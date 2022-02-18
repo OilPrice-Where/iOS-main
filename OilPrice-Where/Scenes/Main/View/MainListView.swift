@@ -21,6 +21,7 @@ final class MainListView: UIView {
         $0.setTitleColor(Asset.Colors.defaultColor.color, for: .normal)
         $0.setTitleColor(Asset.Colors.darkMain.color, for: .selected)
         $0.backgroundColor = .systemGroupedBackground
+        $0.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
     }
     let distanceSortedButton = UIButton().then {
         $0.tag = 2
@@ -30,6 +31,7 @@ final class MainListView: UIView {
         $0.setTitleColor(Asset.Colors.defaultColor.color, for: .normal)
         $0.setTitleColor(Asset.Colors.darkMain.color, for: .selected)
         $0.backgroundColor = .systemGroupedBackground
+        $0.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
     }
     lazy var tableView = UITableView().then {
         $0.separatorStyle = .none
@@ -93,6 +95,24 @@ final class MainListView: UIView {
         noneView.snp.makeConstraints {
             $0.top.equalTo(headerView.snp.bottom)
             $0.left.bottom.right.equalToSuperview()
+        }
+    }
+    
+    @objc
+    func sortButtonTapped(btn: UIButton) {
+        guard let text = btn.titleLabel?.text else { return }
+        
+        let isPriceSorted = text == "가격순"
+        
+        priceSortedButton.isSelected = isPriceSorted
+        distanceSortedButton.isSelected = !isPriceSorted
+        
+        if isPriceSorted {
+            priceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
+            distanceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
+        } else {
+            priceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
+            distanceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
         }
     }
 }

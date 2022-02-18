@@ -14,7 +14,7 @@ import UIKit
 final class GasStationCell: UITableViewCell {
     //MARK: - Properties
     let stationView = GasStationView()
-    
+    var selectionCell: Bool = false
     //MARK: - Initializer
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -26,8 +26,15 @@ final class GasStationCell: UITableViewCell {
         fatalError("Not Created View")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        selectionCell = false
+    }
+    
     //MARK: - Make UI
     func makeUI() {
+        selectionStyle = .none
         backgroundColor = .systemGroupedBackground
         contentView.addSubview(stationView)
         
@@ -37,6 +44,8 @@ final class GasStationCell: UITableViewCell {
             $0.top.bottom.equalToSuperview()
             $0.left.right.equalToSuperview().inset(16)
         }
+        
+        stationView.bottomView.expandView.isHidden = !selectionCell
     }
     
     func configure(station info: GasStation) {

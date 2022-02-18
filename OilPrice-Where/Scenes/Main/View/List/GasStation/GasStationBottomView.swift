@@ -38,9 +38,5 @@ final class GasStationBottomView: UIStackView {
         
         addArrangedSubview(priceView)
         addArrangedSubview(expandView)
-        
-        expandView.snp.makeConstraints {
-            $0.height.equalTo(40)
-        }
     }
 }
