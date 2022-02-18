@@ -9,24 +9,29 @@
 import Foundation
 import UIKit
 import RxSwift
+import Moya
 
 final class FavoriteCellViewModel {
     let bag = DisposeBag()
     private var info: InformationGasStaion?
+    let stationAPI = MoyaProvider<StationAPI>()
     var infoSubject = BehaviorSubject<InformationGasStaion?>(value: nil)
     var isLoadingSubject = BehaviorSubject<Bool>(value: false)
     
-    private func getStationsInfo(id: String) {
-        ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
-                                         id: id) { (result) in
-            switch result {
-            case .success(let infomation):
-                DefaultData.shared.tempFavArr.append(infomation)
-                self.info = infomation
-                self.infoSubject.onNext(infomation)
+    func requestStationsInfo(id: String) {
+        print(DefaultData.shared.favoriteSubject.value)
+        stationAPI.request(.stationDetail(appKey: Preferences.getAppKey(), id: id)) {
+            switch $0 {
+            case .success(let resp):
+                guard let ret = try? resp.map(InformationOilStationResult.self),
+                      let information = ret.result.allPriceList.first else { return }
+                
+                DefaultData.shared.tempFavArr.append(information)
+                self.info = information
+                self.infoSubject.onNext(information)
                 self.isLoadingSubject.onNext(true)
-            case .error(_):
-                break
+            case .failure(let error):
+                print(error)
             }
         }
     }
@@ -36,25 +41,21 @@ final class FavoriteCellViewModel {
         let type = DefaultData.shared.oilSubject.value
         guard let displayInfo = priceList?.first(where: { $0.type == type }) else { return  "가격정보 없음" }
         
-        let price = Preferences.priceToWon(price: displayInfo.price)
+        let price = Preferences.priceToWon(price: displayInfo.price) + "원"
         
         return price
     }
     
     // 컬러 값 얻기
     func getActivatedColor(info: String?) -> UIColor {
-        guard let mainColor = UIColor(named: "MainColor") else { return .lightGray }
-        let isActive = info == "Y"
-        
-        return isActive ? mainColor : .lightGray
+        return info == "Y" ? Asset.Colors.mainColor.color : .lightGray
     }
     
     // 즐겨찾기 삭제
-    func deleteAction() {
+    func deleteAction(id: String) {
         let oldFavArr = DefaultData.shared.favoriteSubject.value
-        guard let info = info else { return }
         
-        let newFavArr = oldFavArr.filter { info.id != $0 }
+        let newFavArr = oldFavArr.filter { id != $0 }
         DefaultData.shared.favoriteSubject.accept(newFavArr)
     }
     
@@ -69,9 +70,5 @@ final class FavoriteCellViewModel {
                                                    "katecY": info.katecY.roundTo(places: 0),
                                                    "stationName": info.name,
                                                    "naviType": navi])
-    }
-    
-    init(id: String) {
-        self.getStationsInfo(id: id)
     }
 }

@@ -6,10 +6,12 @@
 //  Copyright © 2021 sangwook park. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import RxSwift
 import RxCocoa
+import Moya
 
+//MARK: FavoritesGasStationViewModel
 final class FavoritesGasStationViewModel {
     
     var infomationsSubject = BehaviorSubject<[InformationGasStaion?]>(value: [])

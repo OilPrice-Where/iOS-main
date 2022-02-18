@@ -33,8 +33,7 @@ final class MainViewModel {
             })
             .disposed(by: bag)
         
-        let set = DefaultData.shared
-        Observable.zip(set.oilSubject, set.radiusSubject, set.brandsSubject, set.salesSubject)
+        DefaultData.shared.completedRelay
             .bind(with: self, onNext: { owner, _ in
                 owner.requestSearch()
             })
