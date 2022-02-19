@@ -48,8 +48,8 @@ final class MainVC: UIViewController {
         }
         guideView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(5)
-            $0.height.equalTo(85)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(4)
+            $0.height.equalTo(70)
         }
         
 //        mainListView.snp.makeConstraints {

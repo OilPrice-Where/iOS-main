@@ -53,13 +53,13 @@ final class StationInfoGuideView: UIView {
             $0.top.equalToSuperview().offset(14)
             $0.left.equalToSuperview().offset(14)
             $0.width.equalTo(60)
-            $0.height.equalTo(50)
+            $0.height.equalTo(38)
         }
         directionLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(14)
             $0.left.equalTo(favoriteButton.snp.right).offset(10)
             $0.right.equalToSuperview().offset(-14)
-            $0.height.equalTo(50)
+            $0.height.equalTo(38)
         }
     }
 }
