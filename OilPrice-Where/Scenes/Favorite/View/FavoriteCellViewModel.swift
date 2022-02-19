@@ -19,7 +19,6 @@ final class FavoriteCellViewModel {
     var isLoadingSubject = BehaviorSubject<Bool>(value: false)
     
     func requestStationsInfo(id: String) {
-        print(DefaultData.shared.favoriteSubject.value)
         stationAPI.request(.stationDetail(appKey: Preferences.getAppKey(), id: id)) {
             switch $0 {
             case .success(let resp):

@@ -21,6 +21,7 @@ final class MainViewModel {
     let bag = DisposeBag()
     var currentLocation: CLLocation? = nil
     var stations = [GasStation]() { didSet { output.staionResult.accept(()) } }
+    var selectedStation: GasStation?
     var isSortedByPrice = true
     
     init() {
@@ -100,6 +101,12 @@ extension MainViewModel {
                 print(error.localizedDescription)
                 self.output.error.accept(.requestStation)
             }
+        }
+    }
+    
+    func requestStationsInfo(id: String, completion: @escaping Completion) {
+        staionProvider.request(.stationDetail(appKey: Preferences.getAppKey(), id: id)) {
+            completion($0)
         }
     }
 }

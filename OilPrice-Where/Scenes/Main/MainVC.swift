@@ -14,19 +14,22 @@ import NMapsMap
 import FloatingPanel
 
 final class MainVC: UIViewController {
+    let bag = DisposeBag()
     let viewModel = MainViewModel()
     let mainListView = MainListView()
     let mapContainerView = MainMapView()
     let locationManager = CLLocationManager()
     var fpc = FloatingPanelController()
     var contentsVC = StationInfoVC() // 띄울 VC
-    let bag = DisposeBag()
+    let guideView = StationInfoGuideView().then {
+        $0.layer.cornerRadius = 6.0
+        $0.backgroundColor = .white
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         makeUI()
-        setupView()
         configure()
         rxBind()
     }
@@ -35,15 +38,24 @@ final class MainVC: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(mapContainerView)
-        view.addSubview(mainListView)
+        setupView()
+        view.addSubview(guideView)
+        
+//        view.addSubview(mainListView)
         
         mapContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-        mainListView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        guideView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(5)
+            $0.height.equalTo(85)
         }
+        
+//        mainListView.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
+        guideView.addShadow(offset: CGSize(width: 0, height: 4), color: .black, opacity: 0.18, radius: 6.0)
     }
     
     func configure() {
@@ -239,6 +251,10 @@ extension MainVC: MainMapViewDelegate {
         if fpc.state == .hidden { fpc.move(to: .half, animated: true, completion: nil) }
         
         contentsVC.stationInfoView.configure(info)
+        viewModel.selectedStation = info
+        
+        let distance = info.distance < 1000 ? "\(Int(info.distance))m" : String(format: "%.1fkm", info.distance / 1000)
+        guideView.directionLabel.text = distance + " 안내시작"
     }
 }
 
@@ -270,6 +286,22 @@ extension MainVC: FloatingPanelControllerDelegate {
     }
     
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
-        print(fpc.state)
+        guard let station = viewModel.selectedStation,
+              station.id != contentsVC.station?.id else { return }
+        
+        if fpc.state == .full {
+            viewModel.requestStationsInfo(id: station.id) { [weak self] result in
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let resp):
+                    guard let ret = try? resp.map(InformationOilStationResult.self),
+                          let information = ret.result.allPriceList.first else { return }
+                    self.contentsVC.station = information
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
     }
 }

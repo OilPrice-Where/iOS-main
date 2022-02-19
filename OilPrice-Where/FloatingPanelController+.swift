@@ -19,8 +19,8 @@ class MyFloatingPanelLayout: FloatingPanelLayout {
     
     var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
         return [
-            .half: FloatingPanelLayoutAnchor(absoluteInset: 178, edge: .bottom, referenceGuide: .safeArea),
-            .full: FloatingPanelLayoutAnchor(absoluteInset: 300, edge: .top, referenceGuide: .safeArea),
+            .half: FloatingPanelLayoutAnchor(absoluteInset: 188, edge: .bottom, referenceGuide: .safeArea),
+            .full: FloatingPanelLayoutAnchor(absoluteInset: 400, edge: .bottom, referenceGuide: .safeArea),
             .hidden: FloatingPanelLayoutAnchor(absoluteInset: 0, edge: .bottom, referenceGuide: .superview)
         ]
     }
