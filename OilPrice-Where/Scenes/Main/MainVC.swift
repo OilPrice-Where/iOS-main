@@ -39,13 +39,27 @@ final class MainVC: UIViewController {
         
         view.addSubview(mapContainerView)
         setupView()
+        
         view.addSubview(guideView)
         
-//        view.addSubview(mainListView)
+        //        view.addSubview(mainListView)
         
         mapContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        mapContainerView.currentLocationButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            $0.right.equalToSuperview().offset(-20)
+            $0.size.equalTo(42)
+        }
+        
+        mapContainerView.switchButton.snp.makeConstraints {
+            $0.top.equalTo(mapContainerView.currentLocationButton.snp.top)
+            $0.left.equalToSuperview().offset(20)
+            $0.size.equalTo(42)
+        }
+        
         guideView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(4)
@@ -131,7 +145,7 @@ extension MainVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, // 위치 관리자가 위치를 얻을 수 없을 때
                          didFailWithError error: Error) {
         print("did Fail With Error \(error)")
-
+        
         // CLError.locationUnknown: 현재 위치를 알 수 없는데 Core Location이 계속 위치 정보를 요청할 때
         // CLError.denied: 사용자가 위치 서비스를 사용하기 위한 앱 권한을 거부
         // CLError.network: 네트워크 관련 오류
@@ -139,7 +153,7 @@ extension MainVC: CLLocationManagerDelegate {
             return
         }
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let newLocation = locations.last else { return }
         
@@ -163,25 +177,25 @@ extension MainVC: CLLocationManagerDelegate {
             self.mainListView.headerView.fetchData(getCode: string)
         })
         
-//        if let lastLocation = oldLocation {
-//            let distance: CLLocationDistance = newLocation.distance(from: lastLocation)
-//            if distance < 50.0 {
-//                stopLocationManager()
-//                mainListView.tableView.reloadData()
-//            } else {
-//                reset()
-//                gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
-//                stopLocationManager()
-//                oldLocation = newLocation
-//                zoomToLatestLocation(with: newLocation.coordinate)
-//            }
-//        } else {
-//            zoomToLatestLocation(with: newLocation.coordinate)
-//            gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
-//            stopLocationManager()
-//            oldLocation = newLocation
-//        }
-
+        //        if let lastLocation = oldLocation {
+        //            let distance: CLLocationDistance = newLocation.distance(from: lastLocation)
+        //            if distance < 50.0 {
+        //                stopLocationManager()
+        //                mainListView.tableView.reloadData()
+        //            } else {
+        //                reset()
+        //                gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
+        //                stopLocationManager()
+        //                oldLocation = newLocation
+        //                zoomToLatestLocation(with: newLocation.coordinate)
+        //            }
+        //        } else {
+        //            zoomToLatestLocation(with: newLocation.coordinate)
+        //            gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
+        //            stopLocationManager()
+        //            oldLocation = newLocation
+        //        }
+        
         // 인증 상태가 변경 되었을 때
         func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         }
@@ -230,15 +244,15 @@ extension MainVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? GasStationCell else { return }
-
+        
         cell.selectionCell = true
-
+        
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? GasStationCell else { return }
-
+        
         cell.selectionCell = false
         
         tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -277,7 +291,7 @@ extension MainVC: FloatingPanelControllerDelegate {
         fpc.addPanel(toParent: self) // fpc를 관리하는 UIViewController
         fpc.layout = MyFloatingPanelLayout()
         fpc.invalidateLayout() // if needed
-        fpc.move(to: .hidden, animated: false, completion: nil)
+        fpc.show()
     }
     
     //MARK: Delegate
@@ -285,7 +299,32 @@ extension MainVC: FloatingPanelControllerDelegate {
         return MyFloatingPanelLayout()
     }
     
+    func floatingPanelDidMove(_ fpc: FloatingPanelController) {
+        if fpc.state == .hidden {
+            UIView.animate(withDuration: 0.15) { [weak self] in
+                guard let self = self else { return }
+                self.guideView.snp.remakeConstraints {
+                    $0.left.right.equalToSuperview()
+                    $0.bottom.equalToSuperview().offset(70)
+                    $0.height.equalTo(70)
+                }
+            }
+        } else {
+            UIView.animate(withDuration: 0.15) { [weak self] in
+                guard let self = self else { return }
+                self.guideView.snp.remakeConstraints {
+                    $0.left.right.equalToSuperview()
+                    $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(4)
+                    $0.height.equalTo(70)
+                }
+            }
+        }
+    }
+    
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
+        mapContainerView.switchButton.isHidden = fpc.state == .full
+        mapContainerView.currentLocationButton.isHidden = fpc.state == .full
+        
         switch fpc.state {
         case .hidden:
             mapContainerView.mapView.contentInset.bottom = view.safeAreaInsets.bottom
@@ -293,21 +332,15 @@ extension MainVC: FloatingPanelControllerDelegate {
             mapContainerView.mapView.contentInset.bottom = 168
         case .full:
             mapContainerView.mapView.contentInset.bottom = 401
-        default:
-            break
-        }
-        
-        mapContainerView.switchButton.isHidden = fpc.state == .full
-        mapContainerView.currentLocationButton.isHidden = fpc.state == .full
-        
-        guard let station = viewModel.selectedStation,
-              station.id != contentsVC.station?.id else { return }
-        
-        if fpc.state == .full {
-            let position = NMGTm128(x: station.katecX, y: station.katecY).toLatLng()
-            let cameraUpdated = NMFCameraUpdate(position: NMFCameraPosition.init(position, zoom: 15.0))
-            cameraUpdated.animation = .linear
-            mapContainerView.mapView.moveCamera(cameraUpdated)
+            
+            if let station = viewModel.selectedStation {
+                let position = NMGTm128(x: station.katecX, y: station.katecY).toLatLng()
+                let cameraUpdated = NMFCameraUpdate(position: NMFCameraPosition.init(position, zoom: 15.0))
+                cameraUpdated.animation = .linear
+                mapContainerView.mapView.moveCamera(cameraUpdated)
+            }
+            
+            guard let station = viewModel.selectedStation, station.id != contentsVC.station?.id else { return }
             
             viewModel.requestStationsInfo(id: station.id) { [weak self] result in
                 guard let self = self else { return }
@@ -321,6 +354,8 @@ extension MainVC: FloatingPanelControllerDelegate {
                     print(error)
                 }
             }
+        default:
+            break
         }
     }
 }

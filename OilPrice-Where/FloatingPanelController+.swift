@@ -14,7 +14,7 @@ class MyFloatingPanelLayout: FloatingPanelLayout {
         return .bottom
     }
     var initialState: FloatingPanelState {
-        return .half
+        return .hidden
     }
     
     var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
