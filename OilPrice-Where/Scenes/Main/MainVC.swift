@@ -286,10 +286,29 @@ extension MainVC: FloatingPanelControllerDelegate {
     }
     
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
+        switch fpc.state {
+        case .hidden:
+            mapContainerView.mapView.contentInset.bottom = view.safeAreaInsets.bottom
+        case .half:
+            mapContainerView.mapView.contentInset.bottom = 168
+        case .full:
+            mapContainerView.mapView.contentInset.bottom = 401
+        default:
+            break
+        }
+        
+        mapContainerView.switchButton.isHidden = fpc.state == .full
+        mapContainerView.currentLocationButton.isHidden = fpc.state == .full
+        
         guard let station = viewModel.selectedStation,
               station.id != contentsVC.station?.id else { return }
         
         if fpc.state == .full {
+            let position = NMGTm128(x: station.katecX, y: station.katecY).toLatLng()
+            let cameraUpdated = NMFCameraUpdate(position: NMFCameraPosition.init(position, zoom: 15.0))
+            cameraUpdated.animation = .linear
+            mapContainerView.mapView.moveCamera(cameraUpdated)
+            
             viewModel.requestStationsInfo(id: station.id) { [weak self] result in
                 guard let self = self else { return }
                 
