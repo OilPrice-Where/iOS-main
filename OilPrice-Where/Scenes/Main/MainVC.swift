@@ -16,7 +16,6 @@ import FloatingPanel
 final class MainVC: UIViewController {
     let bag = DisposeBag()
     let viewModel = MainViewModel()
-    let mainListView = MainListView()
     let mapContainerView = MainMapView()
     let locationManager = CLLocationManager()
     var fpc = FloatingPanelController()
@@ -34,15 +33,17 @@ final class MainVC: UIViewController {
         rxBind()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     func makeUI() {
         view.backgroundColor = .white
-        
         view.addSubview(mapContainerView)
         setupView()
-        
         view.addSubview(guideView)
-        
-        //        view.addSubview(mainListView)
         
         mapContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -66,9 +67,6 @@ final class MainVC: UIViewController {
             $0.height.equalTo(70)
         }
         
-//        mainListView.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
-//        }
         guideView.addShadow(offset: CGSize(width: 0, height: 4), color: .black, opacity: 0.18, radius: 6.0)
     }
     
@@ -79,9 +77,6 @@ final class MainVC: UIViewController {
         
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        
-        mainListView.tableView.dataSource = self
-        mainListView.tableView.delegate = self
     }
     
     func rxBind() {
@@ -114,29 +109,8 @@ final class MainVC: UIViewController {
         viewModel.output.staionResult
             .bind(with: self, onNext: { owner, _ in
                 owner.mapContainerView.showMarker(list: owner.viewModel.stations)
-                owner.mainListView.tableView.reloadData()
             })
             .disposed(by: viewModel.bag)
-        
-        //MARK: - List
-        // Sorted by Price/Distance
-        mainListView
-            .priceSortedButton
-            .rx
-            .tap
-            .bind(with: self, onNext: { owner, _ in
-                owner.viewModel.sortedList(isPrice: true)
-            })
-            .disposed(by: bag)
-        
-        mainListView
-            .distanceSortedButton
-            .rx
-            .tap
-            .bind(with: self, onNext: { owner, _ in
-                owner.viewModel.sortedList(isPrice: false)
-            })
-            .disposed(by: bag)
     }
 }
 
@@ -174,7 +148,7 @@ extension MainVC: CLLocationManagerDelegate {
             
             string += string.count > 0 ? " " + (currentPlacemark?.name ?? "") : currentPlacemark?.name ?? ""
             
-            self.mainListView.headerView.fetchData(getCode: string)
+            
         })
         
         //        if let lastLocation = oldLocation {
@@ -200,62 +174,6 @@ extension MainVC: CLLocationManagerDelegate {
         func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         }
         
-    }
-}
-
-//MARK: - TableViewDataSources & Delegate
-extension MainVC: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.stations.count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard
-            let cell = tableView.dequeueReusableCell(withIdentifier: GasStationCell.id,
-                                                     for: indexPath) as? GasStationCell
-        else { return UITableViewCell() }
-        
-        cell.configure(station: viewModel.stations[indexPath.section])
-        
-        return cell
-    }
-}
-
-extension MainVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let cell = tableView.cellForRow(at: indexPath) as? GasStationCell else { return 106.2 }
-        
-        return cell.isSelected ? 163.2 : 106.2
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 12
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 12))
-        view.backgroundColor = .systemGroupedBackground
-        return view
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? GasStationCell else { return }
-        
-        cell.selectionCell = true
-        
-        tableView.reloadRows(at: [indexPath], with: .automatic)
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? GasStationCell else { return }
-        
-        cell.selectionCell = false
-        
-        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
 

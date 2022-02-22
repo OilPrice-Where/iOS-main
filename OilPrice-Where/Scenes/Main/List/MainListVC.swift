@@ -1,16 +1,22 @@
 //
-//  MainListView.swift
+//  MainListVC.swift
 //  OilPrice-Where
 //
-//  Created by wargi_p on 2021/12/17.
-//  Copyright © 2021 sangwook park. All rights reserved.
+//  Created by wargi on 2022/03/01.
+//  Copyright © 2022 sangwook park. All rights reserved.
 //
 
 import Foundation
+import Then
+import SnapKit
 import UIKit
+import RxSwift
+import RxCocoa
 
-final class MainListView: UIView {
+//MARK: GasStationListVC
+final class MainListVC: UIViewController {
     //MARK: - Properties
+    let bag = DisposeBag()
     let headerView = MainListHeaderView()
     let priceSortedButton = UIButton().then {
         $0.tag = 1
@@ -39,6 +45,8 @@ final class MainListView: UIView {
         $0.alwaysBounceHorizontal = false
         $0.showsHorizontalScrollIndicator = false
         $0.backgroundColor = .systemGroupedBackground
+        $0.dataSource = self
+        $0.delegate = self
         GasStationCell.register($0)
     }
     
@@ -46,26 +54,23 @@ final class MainListView: UIView {
         $0.isHidden = true
     }
     
-    //MARK: - Initializer
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    //MARK: - Life Cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         makeUI()
+        rxBind()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    //MARK: - Configure UI
+    //MARK: - Make UI
     func makeUI() {
-        backgroundColor = .systemGroupedBackground
+        view.backgroundColor = .systemGroupedBackground
         
-        addSubview(headerView)
-        addSubview(priceSortedButton)
-        addSubview(distanceSortedButton)
-        addSubview(tableView)
-        addSubview(noneView)
+        view.addSubview(headerView)
+        view.addSubview(priceSortedButton)
+        view.addSubview(distanceSortedButton)
+        view.addSubview(tableView)
+        view.addSubview(noneView)
         
         headerView.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -98,6 +103,26 @@ final class MainListView: UIView {
         }
     }
     
+    //MARK: - Rx Binding..
+    func rxBind() {
+        // Sorted by Price/Distance
+        priceSortedButton
+            .rx
+            .tap
+            .bind(with: self, onNext: { owner, _ in
+                owner.viewModel.sortedList(isPrice: true)
+            })
+            .disposed(by: bag)
+        
+        distanceSortedButton
+            .rx
+            .tap
+            .bind(with: self, onNext: { owner, _ in
+                owner.viewModel.sortedList(isPrice: false)
+            })
+            .disposed(by: bag)
+    }
+    
     @objc
     func sortButtonTapped(btn: UIButton) {
         guard let text = btn.titleLabel?.text else { return }
@@ -114,5 +139,61 @@ final class MainListView: UIView {
             priceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
             distanceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
         }
+    }
+}
+
+//MARK: - TableViewDataSources & Delegate
+extension MainListVC: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return viewModel.stations.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard
+            let cell = tableView.dequeueReusableCell(withIdentifier: GasStationCell.id,
+                                                     for: indexPath) as? GasStationCell
+        else { return UITableViewCell() }
+        
+        cell.configure(station: viewModel.stations[indexPath.section])
+        
+        return cell
+    }
+}
+
+extension MainListVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let cell = tableView.cellForRow(at: indexPath) as? GasStationCell else { return 106.2 }
+        
+        return cell.isSelected ? 163.2 : 106.2
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 12
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 12))
+        view.backgroundColor = .systemGroupedBackground
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? GasStationCell else { return }
+        
+        cell.selectionCell = true
+        
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? GasStationCell else { return }
+        
+        cell.selectionCell = false
+        
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }

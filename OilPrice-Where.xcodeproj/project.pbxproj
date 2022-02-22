@@ -34,7 +34,6 @@
 		2CC1C7FF276C5B4F007527C7 /* MainListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C7FE276C5B4F007527C7 /* MainListHeaderView.swift */; };
 		2CC1C802276C5ED1007527C7 /* AddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C801276C5ED1007527C7 /* AddressView.swift */; };
 		2CC1C804276C62C6007527C7 /* PriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C803276C62C6007527C7 /* PriceView.swift */; };
-		2CC1C807276C7247007527C7 /* MainListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C806276C7247007527C7 /* MainListView.swift */; };
 		2CC1C80A276C79F5007527C7 /* MainListNoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C809276C79F5007527C7 /* MainListNoneView.swift */; };
 		2CC1C80C276C8123007527C7 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C80B276C8123007527C7 /* MainVC.swift */; };
 		2CC1C80E276C8610007527C7 /* MainMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C80D276C8610007527C7 /* MainMapView.swift */; };
@@ -127,6 +126,7 @@
 		E957E39827A03B8100031125 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E957E39627A03B8100031125 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E957E39A27A03BA600031125 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E957E39627A03B8100031125 /* TMapSDK.framework */; platformFilter = ios; };
 		E957E39B27A03BA600031125 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E957E39627A03B8100031125 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601C27CE00A6005BB593 /* MainListVC.swift */; };
 		E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */; };
 		E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */; };
 		F362C63C0574D48555F1F335 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692C04AA68557BE6FEE04C04 /* Pods_OilPrice_Where.framework */; };
@@ -209,7 +209,6 @@
 		2CC1C7FE276C5B4F007527C7 /* MainListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListHeaderView.swift; sourceTree = "<group>"; };
 		2CC1C801276C5ED1007527C7 /* AddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressView.swift; sourceTree = "<group>"; };
 		2CC1C803276C62C6007527C7 /* PriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceView.swift; sourceTree = "<group>"; };
-		2CC1C806276C7247007527C7 /* MainListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListView.swift; sourceTree = "<group>"; };
 		2CC1C809276C79F5007527C7 /* MainListNoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListNoneView.swift; sourceTree = "<group>"; };
 		2CC1C80B276C8123007527C7 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		2CC1C80D276C8610007527C7 /* MainMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapView.swift; sourceTree = "<group>"; };
@@ -295,6 +294,7 @@
 		E94D0F0927BB50D000BCB092 /* GasStationDirectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationDirectionView.swift; sourceTree = "<group>"; };
 		E94D0F0B27BB56D100BCB092 /* GasStationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationView.swift; sourceTree = "<group>"; };
 		E957E39627A03B8100031125 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMapSDK.framework; sourceTree = "<group>"; };
+		E96E601C27CE00A6005BB593 /* MainListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListVC.swift; sourceTree = "<group>"; };
 		E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPanelController+.swift"; sourceTree = "<group>"; };
 		E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoVC.swift; sourceTree = "<group>"; };
 		EA270F4C9F8787CC0D069A8E /* Pods_FavoriteWidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FavoriteWidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -572,6 +572,7 @@
 				2CC1C80B276C8123007527C7 /* MainVC.swift */,
 				2CA47265279931B500DB0DDD /* MainViewModel.swift */,
 				2CC1C7FD276C5B3C007527C7 /* View */,
+				2CC1C805276C723A007527C7 /* List */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -579,11 +580,9 @@
 		2CC1C7FD276C5B3C007527C7 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2CC1C806276C7247007527C7 /* MainListView.swift */,
 				2CC1C80D276C8610007527C7 /* MainMapView.swift */,
 				2CC1C800276C5EC0007527C7 /* Header */,
 				2CC1C808276C79E5007527C7 /* Map */,
-				2CC1C805276C723A007527C7 /* List */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -601,8 +600,8 @@
 		2CC1C805276C723A007527C7 /* List */ = {
 			isa = PBXGroup;
 			children = (
-				2CC1C809276C79F5007527C7 /* MainListNoneView.swift */,
-				E94D0F0D27BB7A7100BCB092 /* GasStation */,
+				E96E601C27CE00A6005BB593 /* MainListVC.swift */,
+				E96E601B27CE008A005BB593 /* View */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -802,6 +801,15 @@
 				E94D0F0927BB50D000BCB092 /* GasStationDirectionView.swift */,
 			);
 			path = GasStation;
+			sourceTree = "<group>";
+		};
+		E96E601B27CE008A005BB593 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2CC1C809276C79F5007527C7 /* MainListNoneView.swift */,
+				E94D0F0D27BB7A7100BCB092 /* GasStation */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1020,7 +1028,6 @@
 				E94D0F0427BB490C00BCB092 /* GasStationBottomView.swift in Sources */,
 				8E1BB8ED2107E78D0065281B /* ServiceResult.swift in Sources */,
 				8E40DB1924D7E45400352F7E /* InitialViewModel.swift in Sources */,
-				2CC1C807276C7247007527C7 /* MainListView.swift in Sources */,
 				8E167D412107E30F0066A59E /* GasStationListData.swift in Sources */,
 				8EB5C2E82139214700AB83BB /* Reachability.swift in Sources */,
 				8EE53E7D24CF1427008D8045 /* MainListVC+CoreLocation.swift in Sources */,
@@ -1041,6 +1048,7 @@
 				2CC1C80E276C8610007527C7 /* MainMapView.swift in Sources */,
 				8E68BA1B24CCC645004730D7 /* CommonViewController.swift in Sources */,
 				8E68BA1D24CCC863004730D7 /* FindOilVC.swift in Sources */,
+				E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */,
 				8E68BA2324CCCF32004730D7 /* FindBrandViewModel.swift in Sources */,
 				8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */,
 				E9400FDE27B0A3E2003168C6 /* NaverMapMarker.swift in Sources */,
