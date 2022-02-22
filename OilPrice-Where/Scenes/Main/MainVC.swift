@@ -111,6 +111,16 @@ final class MainVC: UIViewController {
                 owner.mapContainerView.showMarker(list: owner.viewModel.stations)
             })
             .disposed(by: viewModel.bag)
+        
+        mapContainerView.switchButton
+            .rx
+            .tap
+            .bind(with: self, onNext: { owner, _ in
+                let listVC = MainListVC()
+                listVC.viewModel = MainListViewModel(stations: owner.viewModel.stations)
+                owner.navigationController?.pushViewController(listVC, animated: true)
+            })
+            .disposed(by: viewModel.bag)
     }
 }
 

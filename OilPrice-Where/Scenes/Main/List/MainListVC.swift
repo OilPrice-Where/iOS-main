@@ -17,6 +17,7 @@ import RxCocoa
 final class MainListVC: UIViewController {
     //MARK: - Properties
     let bag = DisposeBag()
+    var viewModel: MainListViewModel!
     let headerView = MainListHeaderView()
     let priceSortedButton = UIButton().then {
         $0.tag = 1
@@ -60,6 +61,12 @@ final class MainListVC: UIViewController {
         
         makeUI()
         rxBind()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = false
     }
     
     //MARK: - Make UI
@@ -110,7 +117,7 @@ final class MainListVC: UIViewController {
             .rx
             .tap
             .bind(with: self, onNext: { owner, _ in
-                owner.viewModel.sortedList(isPrice: true)
+//                owner.viewModel.sortedList(isPrice: true)
             })
             .disposed(by: bag)
         
@@ -118,7 +125,7 @@ final class MainListVC: UIViewController {
             .rx
             .tap
             .bind(with: self, onNext: { owner, _ in
-                owner.viewModel.sortedList(isPrice: false)
+//                owner.viewModel.sortedList(isPrice: false)
             })
             .disposed(by: bag)
     }
