@@ -77,15 +77,13 @@ final class SettingVC: UIViewController {
         super.viewWillAppear(animated)
         
         settingTableView.reloadData()
+        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
     }
-    
-    
     
     //MARK: Configure UI
     func makeUI() {
-        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
-        
         navigationItem.title = "설정"
+        navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.titleTextAttributes = [.font: FontFamily.NanumSquareRound.bold.font(size: 17),
                                                                    .foregroundColor: UIColor.white]
         navigationController?.navigationBar.backgroundColor = Asset.Colors.mainColor.color

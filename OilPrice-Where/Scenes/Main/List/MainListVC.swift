@@ -18,7 +18,6 @@ final class MainListVC: UIViewController {
     //MARK: - Properties
     let bag = DisposeBag()
     var viewModel: MainListViewModel!
-    let headerView = MainListHeaderView()
     let priceSortedButton = UIButton().then {
         $0.tag = 1
         $0.setTitle("가격순", for: .normal)
@@ -67,33 +66,33 @@ final class MainListVC: UIViewController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isHidden = false
+        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
     }
     
     //MARK: - Make UI
     func makeUI() {
+        navigationItem.title = "주유소 리스트"
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.backgroundColor = Asset.Colors.mainColor.color
+        navigationController?.navigationBar.titleTextAttributes = [.font: FontFamily.NanumSquareRound.bold.font(size: 17),
+                                                                   .foregroundColor: UIColor.white]
+
         view.backgroundColor = .systemGroupedBackground
         
-        view.addSubview(headerView)
         view.addSubview(priceSortedButton)
         view.addSubview(distanceSortedButton)
         view.addSubview(tableView)
         view.addSubview(noneView)
         
-        headerView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.left.right.equalToSuperview()
-            $0.height.equalTo(239.5)
-        }
-        
         priceSortedButton.snp.makeConstraints {
-            $0.top.equalTo(headerView.snp.bottom)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.left.equalToSuperview().offset(10)
             $0.width.equalTo(45)
             $0.height.equalTo(30)
         }
         
         distanceSortedButton.snp.makeConstraints {
-            $0.top.equalTo(headerView.snp.bottom)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.left.equalTo(priceSortedButton.snp.right).offset(10)
             $0.width.equalTo(45)
             $0.height.equalTo(30)
@@ -101,11 +100,12 @@ final class MainListVC: UIViewController {
         
         tableView.snp.makeConstraints {
             $0.top.equalTo(priceSortedButton.snp.bottom)
-            $0.left.right.bottom.equalToSuperview()
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         noneView.snp.makeConstraints {
-            $0.top.equalTo(headerView.snp.bottom)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.left.bottom.right.equalToSuperview()
         }
     }

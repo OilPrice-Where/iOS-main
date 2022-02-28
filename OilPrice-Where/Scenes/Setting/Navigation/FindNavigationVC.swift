@@ -31,6 +31,12 @@ final class FindNavigationVC: CommonViewController, ViewModelBindableType {
         makeUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
+    }
+    
     func bindViewModel() {
         viewModel.naviSubject
             .bind(to: tableView.rx.items(cellIdentifier: NavigaionTypeTableViewCell.id,

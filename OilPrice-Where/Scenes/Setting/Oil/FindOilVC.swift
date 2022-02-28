@@ -30,6 +30,12 @@ final class FindOilVC: CommonViewController, ViewModelBindableType {
         makeUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
+    }
+    
     func bindViewModel() {
         viewModel.oilSubject
             .bind(to: tableView.rx.items(cellIdentifier: OilTypeTableViewCell.id,
@@ -56,7 +62,6 @@ final class FindOilVC: CommonViewController, ViewModelBindableType {
     //MARK: - Configure UI
     func makeUI() {
         navigationItem.title = "관심 유종"
-        navigationController?.navigationItem.leftBarButtonItem?.tintColor = .white
         
         view.addSubview(tableView)
         

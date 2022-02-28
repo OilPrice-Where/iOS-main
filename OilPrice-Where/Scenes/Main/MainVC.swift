@@ -37,6 +37,7 @@ final class MainVC: UIViewController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isHidden = true
+        UIApplication.shared.statusBarUIView?.backgroundColor = .clear
     }
     
     func makeUI() {
