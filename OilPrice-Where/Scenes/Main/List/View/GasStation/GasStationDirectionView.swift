@@ -14,11 +14,12 @@ import UIKit
 final class GasStationDirectionView: UIView {
     //MARK: - Properties
     let logoImageView = UIImageView().then {
-        $0.image = Asset.Images.findMapIcon.image
+        let image = Asset.Images.findMapIcon.image.withRenderingMode(.alwaysTemplate)
+        $0.image = image
+        $0.tintColor = .white
     }
     let titleLabel = UILabel().then {
-        $0.text = "경로 보기"
-        $0.textColor = Asset.Colors.mainColor.color
+        $0.textColor = .white
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 18)
     }
@@ -36,6 +37,8 @@ final class GasStationDirectionView: UIView {
     
     //MARK: - Make UI
     func makeUI() {
+        backgroundColor = Asset.Colors.mainColor.color
+        
         layer.borderWidth = 1.0
         layer.borderColor = Asset.Colors.mainColor.color.cgColor
         layer.cornerRadius = 5
@@ -43,15 +46,18 @@ final class GasStationDirectionView: UIView {
         addSubview(logoImageView)
         addSubview(titleLabel)
         
-        logoImageView.snp.makeConstraints {
-            $0.size.equalTo(22)
-            $0.centerY.equalToSuperview()
-            $0.centerX.equalToSuperview().offset(-43)
-        }
         titleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalTo(logoImageView.snp.right).offset(7)
-            $0.right.equalToSuperview()
+            $0.centerX.equalToSuperview().offset(14.5)
         }
+        logoImageView.snp.makeConstraints {
+            $0.size.equalTo(22)
+            $0.centerY.equalToSuperview().offset(-1)
+            $0.right.equalTo(titleLabel.snp.left).offset(-7)
+        }
+    }
+    
+    func configure(distance: String) {
+        titleLabel.text = "\(distance) 안내 시작"
     }
 }

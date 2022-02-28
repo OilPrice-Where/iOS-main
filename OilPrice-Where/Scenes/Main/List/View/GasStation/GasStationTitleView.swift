@@ -22,12 +22,6 @@ final class GasStationTitleView: UIStackView {
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
-    private let distanceLabel = UILabel().then {
-        $0.font = FontFamily.NanumSquareRound.bold.font(size: 12)
-        $0.textColor = .darkGray
-        $0.textAlignment = .right
-        $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-    }
     
     //MARK: - Initializer
     override init(frame: CGRect) {
@@ -49,7 +43,6 @@ final class GasStationTitleView: UIStackView {
         
         addArrangedSubview(logoImageView)
         addArrangedSubview(stationNameLabel)
-        addArrangedSubview(distanceLabel)
         
         logoImageView.snp.makeConstraints {
             $0.size.equalTo(30)
@@ -59,6 +52,5 @@ final class GasStationTitleView: UIStackView {
     func configure(title info: GasStation) {
         logoImageView.image = Preferences.logoImage(logoName: info.brand)
         stationNameLabel.text = info.name
-        distanceLabel.text = Preferences.distance(km: info.distance)
     }
 }

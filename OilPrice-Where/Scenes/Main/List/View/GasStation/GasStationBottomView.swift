@@ -14,9 +14,7 @@ import UIKit
 final class GasStationBottomView: UIStackView {
     //MARK: - Properties
     let priceView = GasStationPriceView()
-    let expandView = GasStationExpandView().then {
-        $0.isHidden = true
-    }
+    let expandView = GasStationExpandView()
     
     //MARK: - Initializer
     override init(frame: CGRect) {

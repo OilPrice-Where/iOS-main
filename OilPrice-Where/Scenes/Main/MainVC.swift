@@ -43,7 +43,7 @@ final class MainVC: UIViewController {
         view.backgroundColor = .white
         view.addSubview(mapContainerView)
         setupView()
-        view.addSubview(guideView)
+        fpc.view.addSubview(guideView)
         
         mapContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -229,23 +229,21 @@ extension MainVC: FloatingPanelControllerDelegate {
     
     func floatingPanelDidMove(_ fpc: FloatingPanelController) {
         if fpc.state == .hidden {
-            UIView.animate(withDuration: 0.15) { [weak self] in
-                guard let self = self else { return }
-                self.guideView.snp.remakeConstraints {
-                    $0.left.right.equalToSuperview()
-                    $0.bottom.equalToSuperview().offset(70)
-                    $0.height.equalTo(70)
-                }
-            }
+            
+//            UIView.animate(withDuration: 0.15) { [weak self] in
+//                guard let self = self else { return }
+//                self.guideView.snp.remakeConstraints {
+//                    $0.left.right.equalToSuperview()
+//                    $0.bottom.equalToSuperview().offset(70)
+//                    $0.height.equalTo(70)
+//                }
+//            }
         } else {
-            UIView.animate(withDuration: 0.15) { [weak self] in
-                guard let self = self else { return }
-                self.guideView.snp.remakeConstraints {
-                    $0.left.right.equalToSuperview()
-                    $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(4)
-                    $0.height.equalTo(70)
-                }
-            }
+//            guideView.snp.remakeConstraints {
+//                $0.left.right.equalToSuperview()
+//                $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(4)
+//                $0.height.equalTo(70)
+//            }
         }
     }
     
@@ -255,10 +253,13 @@ extension MainVC: FloatingPanelControllerDelegate {
         
         switch fpc.state {
         case .hidden:
+            guideView.isHidden = true
             mapContainerView.mapView.contentInset.bottom = view.safeAreaInsets.bottom
         case .half:
+            guideView.isHidden = false
             mapContainerView.mapView.contentInset.bottom = 168
         case .full:
+            guideView.isHidden = false
             mapContainerView.mapView.contentInset.bottom = 401
             
             if let station = viewModel.selectedStation {
