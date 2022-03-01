@@ -41,11 +41,9 @@ final class MainMapView: UIView {
         $0.setImage(Asset.Images.currentLocationButton.image, for: .highlighted)
         $0.backgroundColor = .white
     }
-    let switchButton = UIButton().then {
+    let toListButton = ToListView().then {
         $0.layer.cornerRadius = 21
         $0.clipsToBounds = false
-        $0.setImage(Asset.Images.listButton.image, for: .normal)
-        $0.setImage(Asset.Images.listButton.image, for: .highlighted)
         $0.backgroundColor = Asset.Colors.mainColor.color
     }
     
@@ -64,7 +62,7 @@ final class MainMapView: UIView {
     func makeUI() {
         addSubview(mapView)
         addSubview(currentLocationButton)
-        addSubview(switchButton)
+        addSubview(toListButton)
         
         mapView.snp.makeConstraints {
             $0.top.left.right.equalToSuperview()
@@ -72,7 +70,7 @@ final class MainMapView: UIView {
         }
         
         currentLocationButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
-        switchButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
+        toListButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
     }
     
     func moveMap(with coordinate: CLLocationCoordinate2D) {

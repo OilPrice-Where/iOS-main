@@ -18,27 +18,6 @@ final class MainListVC: UIViewController {
     //MARK: - Properties
     let bag = DisposeBag()
     var viewModel: MainListViewModel!
-    let priceSortedButton = UIButton().then {
-        $0.tag = 1
-        $0.setTitle("가격순", for: .normal)
-        $0.setTitle("가격순", for: .highlighted)
-        $0.isSelected = true
-        $0.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
-        $0.setTitleColor(Asset.Colors.defaultColor.color, for: .normal)
-        $0.setTitleColor(Asset.Colors.darkMain.color, for: .selected)
-        $0.backgroundColor = .systemGroupedBackground
-        $0.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
-    }
-    let distanceSortedButton = UIButton().then {
-        $0.tag = 2
-        $0.setTitle("거리순", for: .normal)
-        $0.setTitle("거리순", for: .highlighted)
-        $0.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
-        $0.setTitleColor(Asset.Colors.defaultColor.color, for: .normal)
-        $0.setTitleColor(Asset.Colors.darkMain.color, for: .selected)
-        $0.backgroundColor = .systemGroupedBackground
-        $0.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
-    }
     lazy var tableView = UITableView().then {
         $0.separatorStyle = .none
         $0.alwaysBounceVertical = false
@@ -49,7 +28,7 @@ final class MainListVC: UIViewController {
         $0.delegate = self
         GasStationCell.register($0)
     }
-    
+    let infoView = InfoListView()
     var noneView = MainListNoneView().then {
         $0.isHidden = true
     }
@@ -60,6 +39,7 @@ final class MainListVC: UIViewController {
         
         makeUI()
         rxBind()
+        configure()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,7 +51,7 @@ final class MainListVC: UIViewController {
     
     //MARK: - Make UI
     func makeUI() {
-        navigationItem.title = "주유소 리스트"
+        navigationItem.title = "주유소 목록"
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.backgroundColor = Asset.Colors.mainColor.color
         navigationController?.navigationBar.titleTextAttributes = [.font: FontFamily.NanumSquareRound.bold.font(size: 17),
@@ -79,31 +59,21 @@ final class MainListVC: UIViewController {
 
         view.backgroundColor = .systemGroupedBackground
         
-        view.addSubview(priceSortedButton)
-        view.addSubview(distanceSortedButton)
+        view.addSubview(infoView)
+
         view.addSubview(tableView)
         view.addSubview(noneView)
         
-        priceSortedButton.snp.makeConstraints {
+        infoView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.left.equalToSuperview().offset(10)
-            $0.width.equalTo(45)
-            $0.height.equalTo(30)
-        }
-        
-        distanceSortedButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.left.equalTo(priceSortedButton.snp.right).offset(10)
-            $0.width.equalTo(45)
-            $0.height.equalTo(30)
-        }
-        
-        tableView.snp.makeConstraints {
-            $0.top.equalTo(priceSortedButton.snp.bottom)
             $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(30)
         }
-        
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(infoView.snp.bottom)
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
         noneView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.left.bottom.right.equalToSuperview()
@@ -113,39 +83,48 @@ final class MainListVC: UIViewController {
     //MARK: - Rx Binding..
     func rxBind() {
         // Sorted by Price/Distance
-        priceSortedButton
+        infoView.priceSortedButton
             .rx
             .tap
             .bind(with: self, onNext: { owner, _ in
-//                owner.viewModel.sortedList(isPrice: true)
+                owner.sortButtonTapped(btn: nil)
             })
             .disposed(by: bag)
         
-        distanceSortedButton
+        infoView.distanceSortedButton
             .rx
             .tap
             .bind(with: self, onNext: { owner, _ in
-//                owner.viewModel.sortedList(isPrice: false)
+                owner.sortButtonTapped(btn: nil)
             })
             .disposed(by: bag)
     }
     
+    func configure() {
+        infoView.priceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
+        infoView.distanceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
+    }
+    
     @objc
-    func sortButtonTapped(btn: UIButton) {
-        guard let text = btn.titleLabel?.text else { return }
+    func sortButtonTapped(btn: UIButton?) {
+        guard let text = btn?.titleLabel?.text else { return }
         
         let isPriceSorted = text == "가격순"
         
-        priceSortedButton.isSelected = isPriceSorted
-        distanceSortedButton.isSelected = !isPriceSorted
+        infoView.priceSortedButton.isSelected = isPriceSorted
+        infoView.distanceSortedButton.isSelected = !isPriceSorted
         
         if isPriceSorted {
-            priceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
-            distanceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
+            infoView.priceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
+            infoView.distanceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
         } else {
-            priceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
-            distanceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
+            infoView.priceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
+            infoView.distanceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
         }
+        
+        viewModel.sortedList(isPrice: isPriceSorted)
+        
+        tableView.reloadData()
     }
 }
 

@@ -52,13 +52,13 @@ final class MainVC: UIViewController {
         
         mapContainerView.currentLocationButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            $0.right.equalToSuperview().offset(-20)
+            $0.left.equalToSuperview().offset(20)
             $0.size.equalTo(42)
         }
         
-        mapContainerView.switchButton.snp.makeConstraints {
-            $0.top.equalTo(mapContainerView.currentLocationButton.snp.top)
-            $0.left.equalToSuperview().offset(20)
+        mapContainerView.toListButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            $0.right.equalToSuperview().offset(-20)
             $0.size.equalTo(42)
         }
         
@@ -78,6 +78,9 @@ final class MainVC: UIViewController {
         
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toListTapped))
+        mapContainerView.toListButton.addGestureRecognizer(tapGesture)
     }
     
     func rxBind() {
@@ -112,16 +115,14 @@ final class MainVC: UIViewController {
                 owner.mapContainerView.showMarker(list: owner.viewModel.stations)
             })
             .disposed(by: viewModel.bag)
-        
-        mapContainerView.switchButton
-            .rx
-            .tap
-            .bind(with: self, onNext: { owner, _ in
-                let listVC = MainListVC()
-                listVC.viewModel = MainListViewModel(stations: owner.viewModel.stations)
-                owner.navigationController?.pushViewController(listVC, animated: true)
-            })
-            .disposed(by: viewModel.bag)
+    }
+    
+    @objc
+    func toListTapped() {
+        let listVC = MainListVC()
+        listVC.viewModel = MainListViewModel(stations: viewModel.stations)
+        listVC.infoView.fetch(geoCode: viewModel.addressString)
+        navigationController?.pushViewController(listVC, animated: true)
     }
 }
 
@@ -143,8 +144,7 @@ extension MainVC: CLLocationManagerDelegate {
         guard let newLocation = locations.last else { return }
         
         let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(newLocation, completionHandler: {
-            placemarks, error in
+        geocoder.reverseGeocodeLocation(newLocation) { [weak self] placemarks, error in
             if let _ = error { return }
             
             var currentPlacemark: CLPlacemark?
@@ -155,12 +155,14 @@ extension MainVC: CLLocationManagerDelegate {
                 currentPlacemark = nil
             }
             
+            print(currentPlacemark, currentPlacemark?.name, currentPlacemark?.locality)
+            
             var string = currentPlacemark?.locality ?? ""
             
             string += string.count > 0 ? " " + (currentPlacemark?.name ?? "") : currentPlacemark?.name ?? ""
             
-            
-        })
+            self?.viewModel.addressString = string
+        }
         
         //        if let lastLocation = oldLocation {
         //            let distance: CLLocationDistance = newLocation.distance(from: lastLocation)
@@ -228,28 +230,8 @@ extension MainVC: FloatingPanelControllerDelegate {
         return MyFloatingPanelLayout()
     }
     
-    func floatingPanelDidMove(_ fpc: FloatingPanelController) {
-        if fpc.state == .hidden {
-            
-//            UIView.animate(withDuration: 0.15) { [weak self] in
-//                guard let self = self else { return }
-//                self.guideView.snp.remakeConstraints {
-//                    $0.left.right.equalToSuperview()
-//                    $0.bottom.equalToSuperview().offset(70)
-//                    $0.height.equalTo(70)
-//                }
-//            }
-        } else {
-//            guideView.snp.remakeConstraints {
-//                $0.left.right.equalToSuperview()
-//                $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(4)
-//                $0.height.equalTo(70)
-//            }
-        }
-    }
-    
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
-        mapContainerView.switchButton.isHidden = fpc.state == .full
+        mapContainerView.toListButton.isHidden = fpc.state == .full
         mapContainerView.currentLocationButton.isHidden = fpc.state == .full
         
         switch fpc.state {

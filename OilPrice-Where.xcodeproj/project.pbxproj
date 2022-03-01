@@ -32,7 +32,6 @@
 		2CAC81E5276BA63400CC6096 /* LodingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81E4276BA63400CC6096 /* LodingView.swift */; };
 		2CAC81E7276BAA9D00CC6096 /* NoneFavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81E6276BAA9C00CC6096 /* NoneFavoriteView.swift */; };
 		2CC1C7FF276C5B4F007527C7 /* MainListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C7FE276C5B4F007527C7 /* MainListHeaderView.swift */; };
-		2CC1C802276C5ED1007527C7 /* AddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C801276C5ED1007527C7 /* AddressView.swift */; };
 		2CC1C804276C62C6007527C7 /* PriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C803276C62C6007527C7 /* PriceView.swift */; };
 		2CC1C80A276C79F5007527C7 /* MainListNoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C809276C79F5007527C7 /* MainListNoneView.swift */; };
 		2CC1C80C276C8123007527C7 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C80B276C8123007527C7 /* MainVC.swift */; };
@@ -130,6 +129,8 @@
 		E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601E27CE0351005BB593 /* MainListViewModel.swift */; };
 		E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */; };
 		E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */; };
+		E9D1445627CECA620055141A /* ToListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1445527CECA620055141A /* ToListView.swift */; };
+		E9D1445827CED3120055141A /* InfoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1445727CED3120055141A /* InfoListView.swift */; };
 		F362C63C0574D48555F1F335 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692C04AA68557BE6FEE04C04 /* Pods_OilPrice_Where.framework */; };
 /* End PBXBuildFile section */
 
@@ -208,7 +209,6 @@
 		2CAC81E4276BA63400CC6096 /* LodingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LodingView.swift; sourceTree = "<group>"; };
 		2CAC81E6276BAA9C00CC6096 /* NoneFavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoneFavoriteView.swift; sourceTree = "<group>"; };
 		2CC1C7FE276C5B4F007527C7 /* MainListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListHeaderView.swift; sourceTree = "<group>"; };
-		2CC1C801276C5ED1007527C7 /* AddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressView.swift; sourceTree = "<group>"; };
 		2CC1C803276C62C6007527C7 /* PriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceView.swift; sourceTree = "<group>"; };
 		2CC1C809276C79F5007527C7 /* MainListNoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListNoneView.swift; sourceTree = "<group>"; };
 		2CC1C80B276C8123007527C7 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -299,6 +299,8 @@
 		E96E601E27CE0351005BB593 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
 		E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPanelController+.swift"; sourceTree = "<group>"; };
 		E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoVC.swift; sourceTree = "<group>"; };
+		E9D1445527CECA620055141A /* ToListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToListView.swift; sourceTree = "<group>"; };
+		E9D1445727CED3120055141A /* InfoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoListView.swift; sourceTree = "<group>"; };
 		EA270F4C9F8787CC0D069A8E /* Pods_FavoriteWidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FavoriteWidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -593,7 +595,6 @@
 			isa = PBXGroup;
 			children = (
 				2CC1C7FE276C5B4F007527C7 /* MainListHeaderView.swift */,
-				2CC1C801276C5ED1007527C7 /* AddressView.swift */,
 				2CC1C803276C62C6007527C7 /* PriceView.swift */,
 			);
 			path = Header;
@@ -618,6 +619,7 @@
 				E9400FE527B0D719003168C6 /* StationInfoPriceView.swift */,
 				E9400FE727B1146E003168C6 /* StationInfoGuideView.swift */,
 				E9400FE327B0D704003168C6 /* StationToolTipView.swift */,
+				E9D1445527CECA620055141A /* ToListView.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -810,6 +812,7 @@
 			isa = PBXGroup;
 			children = (
 				2CC1C809276C79F5007527C7 /* MainListNoneView.swift */,
+				E9D1445727CED3120055141A /* InfoListView.swift */,
 				E94D0F0D27BB7A7100BCB092 /* GasStation */,
 			);
 			path = View;
@@ -1020,6 +1023,8 @@
 				2C0C68E0276B633B00945CEC /* SettingTableViewCell.swift in Sources */,
 				E94D0F0027BB3DBC00BCB092 /* GasStationCell.swift in Sources */,
 				E94D0F0827BB4D5800BCB092 /* GasStationExpandView.swift in Sources */,
+				E9D1445627CECA620055141A /* ToListView.swift in Sources */,
+				E9D1445827CED3120055141A /* InfoListView.swift in Sources */,
 				2CAC81DD276B948B00CC6096 /* CustomKVView.swift in Sources */,
 				8ECE0DAA212385FB00FF2B46 /* AllPriceData.swift in Sources */,
 				8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */,
@@ -1097,7 +1102,6 @@
 				8ECE0D7C211C3CFC00FF2B46 /* OilTypeTableViewCell.swift in Sources */,
 				765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */,
 				E94D0F0A27BB50D000BCB092 /* GasStationDirectionView.swift in Sources */,
-				2CC1C802276C5ED1007527C7 /* AddressView.swift in Sources */,
 				2CAC81E7276BAA9D00CC6096 /* NoneFavoriteView.swift in Sources */,
 				2CC1C80A276C79F5007527C7 /* MainListNoneView.swift in Sources */,
 				8E68BA1724CCC5F7004730D7 /* ViewModelBindableType.swift in Sources */,
