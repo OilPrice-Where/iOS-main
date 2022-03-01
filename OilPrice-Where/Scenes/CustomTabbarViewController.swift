@@ -20,6 +20,7 @@ class CustomTabbarViewController: UITabBarController {
     
     func configureVC() {
         let mainVC = MainVC()
+        let mainNavigationVC = UINavigationController(rootViewController: mainVC)
         let favoriteVC = FavoritesGasStationVC()
         let settingVC = SettingVC()
         let settingNavigationVC = UINavigationController(rootViewController: settingVC)
@@ -28,7 +29,7 @@ class CustomTabbarViewController: UITabBarController {
         favoriteVC.title = "즐겨찾기"
         settingVC.title = "설정"
         
-        setViewControllers([mainVC, favoriteVC, settingNavigationVC], animated: false)
+        setViewControllers([mainNavigationVC, favoriteVC, settingNavigationVC], animated: false)
     }
     
     func configureTabbar() {
@@ -49,5 +50,7 @@ class CustomTabbarViewController: UITabBarController {
     func setupStyle() {
         UITabBar.clearShadow()
         tabBar.layer.applyShadow(color: .systemGray, alpha: 0.2, x: 0, y: 0, blur: 12)
+        tabBar.layer.shouldRasterize = true
+        tabBar.layer.rasterizationScale = UIScreen.main.scale
     }
 }

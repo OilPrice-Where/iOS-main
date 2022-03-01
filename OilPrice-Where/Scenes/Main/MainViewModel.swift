@@ -20,7 +20,9 @@ final class MainViewModel {
     let staionProvider = MoyaProvider<StationAPI>()
     let bag = DisposeBag()
     var currentLocation: CLLocation? = nil
-    
+    var stations = [GasStation]() { didSet { output.staionResult.accept(()) } }
+    var selectedStation: GasStation?
+    var isSortedByPrice = true
     
     init() {
         rxBind()
@@ -28,6 +30,12 @@ final class MainViewModel {
     
     func rxBind() {
         input.requestStaions
+            .bind(with: self, onNext: { owner, _ in
+                owner.requestSearch()
+            })
+            .disposed(by: bag)
+        
+        DefaultData.shared.completedRelay
             .bind(with: self, onNext: { owner, _ in
                 owner.requestSearch()
             })
@@ -48,22 +56,34 @@ extension MainViewModel {
     
     struct Output {
         let error = PublishRelay<ErrorResult>() // => Error
-        let staionResult = PublishRelay<[GasStation]>() // => 검색 결과
+        let staionResult = PublishRelay<Void>() // => 검색 결과
     }
 }
 
 extension MainViewModel {
+    func sortedList(isPrice: Bool) {
+        isSortedByPrice = isPrice
+        stations = isPrice ? stations.sorted(by: { $0.price < $1.price }) : stations.sorted(by: { $0.distance < $1.distance })
+    }
+    
     private func requestSearch(sort: Int = 1) {
-        guard let radius = try? DefaultData.shared.radiusSubject.value(),
-              let oilSubject = try? DefaultData.shared.oilSubject.value(),
-              let brands = try? DefaultData.shared.brandsSubject.value(),
-              let coordinate = currentLocation?.coordinate else { return }
+        let radius = DefaultData.shared.radiusSubject.value
+        let oilSubject = DefaultData.shared.oilSubject.value
+        let brands = DefaultData.shared.brandsSubject.value
+        
+        guard let coordinate = currentLocation?.coordinate else { return }
         
         let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
         let tm = NMGTm128(from: latLng)
         
-        staionProvider.request(.stationList(x: tm.x, y: tm.y, radius: radius, prodcd: oilSubject, sort: sort, appKey: Preferences.getAppKey())) {
-            switch $0 {
+        staionProvider.request(.stationList(x: tm.x,
+                                            y: tm.y,
+                                            radius: radius,
+                                            prodcd: oilSubject,
+                                            sort: sort,
+                                            appKey: Preferences.getAppKey())) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
             case .success(let response):
                 guard let list = try? response.map(OilList.self) else {
                     self.output.error.accept(.stationList)
@@ -76,12 +96,17 @@ extension MainViewModel {
                     target = target.filter { brands.contains($0.brand) }
                 }
                 
-                self.output.staionResult.accept(target)
+                self.stations = self.isSortedByPrice ? target.sorted(by: { $0.price < $1.price }) : target.sorted(by: { $0.distance < $1.distance })
             case .failure(let error):
                 print(error.localizedDescription)
-                
                 self.output.error.accept(.requestStation)
             }
+        }
+    }
+    
+    func requestStationsInfo(id: String, completion: @escaping Completion) {
+        staionProvider.request(.stationDetail(appKey: Preferences.getAppKey(), id: id)) {
+            completion($0)
         }
     }
 }

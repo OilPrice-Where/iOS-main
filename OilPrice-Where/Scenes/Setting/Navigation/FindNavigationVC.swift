@@ -31,6 +31,12 @@ final class FindNavigationVC: CommonViewController, ViewModelBindableType {
         makeUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
+    }
+    
     func bindViewModel() {
         viewModel.naviSubject
             .bind(to: tableView.rx.items(cellIdentifier: NavigaionTypeTableViewCell.id,
@@ -38,8 +44,8 @@ final class FindNavigationVC: CommonViewController, ViewModelBindableType {
                 cell.fetch(navigation: type)
                 
                 let displayNaviType = Preferences.navigationType(name: type)
-                guard let currentNaviType = try? DefaultData.shared.naviSubject.value(),
-                      displayNaviType == currentNaviType else { return }
+                let currentNaviType = DefaultData.shared.naviSubject.value
+                guard displayNaviType == currentNaviType else { return }
                 
                 self.tableView.selectRow(at: IndexPath(row: index, section: 0),
                                          animated: false,
@@ -71,6 +77,6 @@ extension FindNavigationVC: UITableViewDelegate {
         let types = viewModel.naviSubject.value
         let type = Preferences.navigationType(name: types[indexPath.row])
         
-        DefaultData.shared.naviSubject.onNext(type)
+        DefaultData.shared.naviSubject.accept(type)
     }
 }

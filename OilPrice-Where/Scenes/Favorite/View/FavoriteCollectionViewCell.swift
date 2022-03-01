@@ -13,12 +13,12 @@ import RxCocoa
 import RxGesture
 
 class FavoriteCollectionViewCell: UICollectionViewCell {
-    var viewModel: FavoriteCellViewModel!
+    var id = ""
+    var viewModel = FavoriteCellViewModel()
     
     let logoImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
     }
-    
     let gasStationNameLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 20)
@@ -88,6 +88,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         makeUI()
+        bindViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -214,15 +215,15 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             .do(onNext: { [weak self] in
                 guard let self = self else { return }
                 $0 ? self.loadingView.activityIndicator.stopAnimating() : self.loadingView.activityIndicator.startAnimating()
-                })
-                .bind(to: loadingView.rx.isHidden)
-                .disposed(by: rx.disposeBag)
+            })
+            .bind(to: loadingView.rx.isHidden)
+            .disposed(by: rx.disposeBag)
                 
-                // 로고 이미지 삽입
-                viewModel.infoSubject
-                .map { Preferences.logoImage(logoName: $0?.brand) }
-                .bind(to: logoImageView.rx.image)
-                .disposed(by: rx.disposeBag)
+        // 로고 이미지 삽입
+        viewModel.infoSubject
+            .map { Preferences.logoImage(logoName: $0?.brand) }
+            .bind(to: logoImageView.rx.image)
+            .disposed(by: rx.disposeBag)
         
         // 주유소 이름
         viewModel.infoSubject
@@ -232,12 +233,10 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         
         // 주유소 편의시설 정보
         viewModel.infoSubject
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                
-                self.carWashVStackView.valueImageView.tintColor = self.viewModel.getActivatedColor(info: $0?.carWash)
-                self.repairVStackView.valueImageView.tintColor = self.viewModel.getActivatedColor(info: $0?.repairShop)
-                self.convenienceVStackView.valueImageView.tintColor = self.viewModel.getActivatedColor(info: $0?.convenienceStore)
+            .subscribe(with: self, onNext: { owner, info in
+                owner.carWashVStackView.valueImageView.tintColor = self.viewModel.getActivatedColor(info: info?.carWash)
+                owner.repairVStackView.valueImageView.tintColor = self.viewModel.getActivatedColor(info: info?.repairShop)
+                owner.convenienceVStackView.valueImageView.tintColor = self.viewModel.getActivatedColor(info: info?.convenienceStore)
             })
             .disposed(by: rx.disposeBag)
         
@@ -277,18 +276,16 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         navigationView.rx
             .tapGesture()
             .when(.recognized)
-            .subscribe(onNext: { [weak self] _ in
-                guard let strongSelf = self else { return }
-                strongSelf.viewModel.navigationButton()
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.viewModel.navigationButton()
             })
             .disposed(by: rx.disposeBag)
         
         // 즐겨찾기 삭제
         deleteFavoriteButton.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
-            .subscribe(onNext: {[weak self] _ in
-                guard let strongSelf = self else { return }
-                strongSelf.viewModel.deleteAction()
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.viewModel.deleteAction(id: owner.id)
             })
             .disposed(by: rx.disposeBag)
     }

@@ -35,6 +35,12 @@ final class SettingEditSalePriceVC: CommonViewController, ViewModelBindableType 
         makeUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
+    }
+    
     //MARK: - View Binding..
     func bindViewModel() {
         viewModel.brandsInfoSubject

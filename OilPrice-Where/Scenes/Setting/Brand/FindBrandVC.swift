@@ -33,6 +33,12 @@ final class FindBrandVC: CommonViewController, ViewModelBindableType {
         makeUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
+    }
+    
     //MARK: - View Binding..
     func bindViewModel() {
         viewModel.brandSubject
@@ -55,7 +61,7 @@ final class FindBrandVC: CommonViewController, ViewModelBindableType {
                     .subscribe(onNext: {
                         guard !self.isLauchSetting else {
                             cell.brandSelectedSwitch.isOn = $0
-                            DefaultData.shared.brandsSubject.onNext($0 ? self.viewModel.allBrands : [])
+                            DefaultData.shared.brandsSubject.accept($0 ? self.viewModel.allBrands : [])
                             return
                         }
                         

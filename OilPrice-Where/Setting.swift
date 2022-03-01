@@ -229,7 +229,8 @@ final class Preferences {
     }
     
     static func saleBrand(code: String) -> Int {
-        guard let sales = try? DefaultData.shared.salesSubject.value() else { return 0 }
+        let sales = DefaultData.shared.salesSubject.value
+        
         var value: Int?
         switch code {
         case "GSC":
@@ -317,6 +318,10 @@ final class Preferences {
             range = mutable.rangeOfCharacter(from: controlChars)
         }
         return mutable
+    }
+    
+    static func distance(km: Double) -> String {
+        return km < 1000 ? "\(Int(km))m" : String(format: "%.1fkm", km / 1000)
     }
 }
 

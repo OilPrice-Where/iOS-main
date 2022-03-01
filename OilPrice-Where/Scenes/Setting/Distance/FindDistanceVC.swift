@@ -31,6 +31,12 @@ final class FindDistanceVC: CommonViewController, ViewModelBindableType {
         makeUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
+    }
+    
     //MARK: - View Binding..
     func bindViewModel() {
         viewModel.distanceSubject
@@ -39,8 +45,8 @@ final class FindDistanceVC: CommonViewController, ViewModelBindableType {
                 cell.fetch(distance: distance)
                 
                 let displayDistance = Preferences.distanceKM(KM: distance)
-                guard let currentDistance = try? DefaultData.shared.radiusSubject.value(),
-                    displayDistance == currentDistance else { return }
+                let currentDistance = DefaultData.shared.radiusSubject.value
+                guard displayDistance == currentDistance else { return }
                 
                 self.tableView.selectRow(at: IndexPath(row: index, section: 0),
                                          animated: false,
@@ -72,6 +78,6 @@ extension FindDistanceVC: UITableViewDelegate {
         let distances = viewModel.distanceSubject.value
         let radius = Preferences.distanceKM(KM: distances[indexPath.row])
         
-        DefaultData.shared.radiusSubject.onNext(radius)
+        DefaultData.shared.radiusSubject.accept(radius)
     }
 }

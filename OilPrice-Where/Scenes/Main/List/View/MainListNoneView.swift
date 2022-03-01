@@ -39,8 +39,8 @@ final class MainListNoneView: UIView {
         addSubview(noneListLabel)
         
         noneListImageView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.left.equalToSuperview()
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview().multipliedBy(0.75)
             $0.width.equalTo(140)
             $0.height.equalTo(130)
         }

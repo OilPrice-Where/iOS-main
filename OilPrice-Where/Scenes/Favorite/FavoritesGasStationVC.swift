@@ -103,9 +103,8 @@ final class FavoritesGasStationVC: CommonViewController {
             .bind(to: collectionView.rx.items(cellIdentifier: FavoriteCollectionViewCell.id,
                                               cellType: FavoriteCollectionViewCell.self)) { index, id, cell in
                 cell.layer.cornerRadius = 35
-                let viewModel = FavoriteCellViewModel(id: id)
-                cell.viewModel = viewModel
-                cell.bindViewModel()
+                cell.id = id
+                cell.viewModel.requestStationsInfo(id: id)
             }
             .disposed(by: rx.disposeBag)
         
@@ -124,10 +123,9 @@ final class FavoritesGasStationVC: CommonViewController {
         }
         
         reachability?.whenReachable = { _ in
-            if let favArr = try? DefaultData.shared.favoriteSubject.value() {
-                self.noneFavoriteView.isHidden = favArr.isEmpty
-                DefaultData.shared.favoriteSubject.onNext(favArr)
-            }
+            let favArr = DefaultData.shared.favoriteSubject.value
+            self.noneFavoriteView.isHidden = favArr.isEmpty
+            DefaultData.shared.favoriteSubject.accept(favArr)
         }
         
         reachability?.whenUnreachable = { _ in

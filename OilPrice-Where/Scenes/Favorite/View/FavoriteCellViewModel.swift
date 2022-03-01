@@ -9,69 +9,65 @@
 import Foundation
 import UIKit
 import RxSwift
+import Moya
 
 final class FavoriteCellViewModel {
-   let bag = DisposeBag()
-   private var info: InformationGasStaion?
-   var infoSubject = BehaviorSubject<InformationGasStaion?>(value: nil)
-   var isLoadingSubject = BehaviorSubject<Bool>(value: false)
-   
-   private func getStationsInfo(id: String) {
-      ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
-                                       id: id) { (result) in
-         switch result {
-         case .success(let infomation):
-            DefaultData.shared.tempFavArr.append(infomation)
-            self.info = infomation
-            self.infoSubject.onNext(infomation)
-            self.isLoadingSubject.onNext(true)
-         case .error(_):
-            break
-         }
-      }
-   }
-   
-   // 가격 정보 얻기
-   func displayPriceInfomation(priceList: [Price]?) -> String {
-      guard let type = try? DefaultData.shared.oilSubject.value(),
-         let displayInfo = priceList?.first(where: { $0.type == type }) else { return  "가격정보 없음" }
-      
-      let price = Preferences.priceToWon(price: displayInfo.price)
-      
-      return price
-   }
-   
-   // 컬러 값 얻기
-   func getActivatedColor(info: String?) -> UIColor {
-      guard let mainColor = UIColor(named: "MainColor") else { return .lightGray }
-      let isActive = info == "Y"
-      
-      return isActive ? mainColor : .lightGray
-   }
-   
-   // 즐겨찾기 삭제
-   func deleteAction() {
-      guard let oldFavArr = try? DefaultData.shared.favoriteSubject.value(),
-            let info = info else { return }
-      
-      let newFavArr = oldFavArr.filter { info.id != $0 }
-      DefaultData.shared.favoriteSubject.onNext(newFavArr)
-   }
-   
-   // 길 안내
-   func navigationButton() {
-      guard let navi = try? DefaultData.shared.naviSubject.value(),
-            let info = info else { return }
-      
-      NotificationCenter.default.post(name: NSNotification.Name("navigationClickEvent"),
-                                      object: nil,
-                                      userInfo: ["katecX": info.katecX.roundTo(places: 0),
-                                                 "katecY": info.katecY.roundTo(places: 0),
-                                                 "stationName": info.name,
-                                                 "naviType": navi])
-   }
-   
-   init(id: String) {
-      self.getStationsInfo(id: id)
-   }
+    let bag = DisposeBag()
+    private var info: InformationGasStaion?
+    let stationAPI = MoyaProvider<StationAPI>()
+    var infoSubject = BehaviorSubject<InformationGasStaion?>(value: nil)
+    var isLoadingSubject = BehaviorSubject<Bool>(value: false)
+    
+    func requestStationsInfo(id: String) {
+        stationAPI.request(.stationDetail(appKey: Preferences.getAppKey(), id: id)) {
+            switch $0 {
+            case .success(let resp):
+                guard let ret = try? resp.map(InformationOilStationResult.self),
+                      let information = ret.result.allPriceList.first else { return }
+                
+                DefaultData.shared.tempFavArr.append(information)
+                self.info = information
+                self.infoSubject.onNext(information)
+                self.isLoadingSubject.onNext(true)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    // 가격 정보 얻기
+    func displayPriceInfomation(priceList: [Price]?) -> String {
+        let type = DefaultData.shared.oilSubject.value
+        guard let displayInfo = priceList?.first(where: { $0.type == type }) else { return  "가격정보 없음" }
+        
+        let price = Preferences.priceToWon(price: displayInfo.price) + "원"
+        
+        return price
+    }
+    
+    // 컬러 값 얻기
+    func getActivatedColor(info: String?) -> UIColor {
+        return info == "Y" ? Asset.Colors.mainColor.color : .lightGray
+    }
+    
+    // 즐겨찾기 삭제
+    func deleteAction(id: String) {
+        let oldFavArr = DefaultData.shared.favoriteSubject.value
+        
+        let newFavArr = oldFavArr.filter { id != $0 }
+        DefaultData.shared.favoriteSubject.accept(newFavArr)
+    }
+    
+    // 길 안내
+    func navigationButton() {
+        let navi = DefaultData.shared.naviSubject.value
+        guard let info = info else { return }
+        
+        NotificationCenter.default.post(name: NSNotification.Name("navigationClickEvent"),
+                                        object: nil,
+                                        userInfo: ["katecX": info.katecX.roundTo(places: 0),
+                                                   "katecY": info.katecY.roundTo(places: 0),
+                                                   "stationName": info.name,
+                                                   "naviType": navi])
+    }
 }
