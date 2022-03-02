@@ -124,6 +124,11 @@ final class MainVC: UIViewController {
         listVC.infoView.fetch(geoCode: viewModel.addressString)
         navigationController?.pushViewController(listVC, animated: true)
     }
+    
+    func reset() {
+        mapContainerView.selectedMarker?.isSelected = false
+        mapContainerView.selectedMarker = nil
+    }
 }
 
 // MARK: - CLLocationManagerDelegate
@@ -155,12 +160,8 @@ extension MainVC: CLLocationManagerDelegate {
                 currentPlacemark = nil
             }
             
-            print(currentPlacemark, currentPlacemark?.name, currentPlacemark?.locality)
-            
             var string = currentPlacemark?.locality ?? ""
-            
             string += string.count > 0 ? " " + (currentPlacemark?.name ?? "") : currentPlacemark?.name ?? ""
-            
             self?.viewModel.addressString = string
         }
         
@@ -205,9 +206,7 @@ extension MainVC: MainMapViewDelegate {
 
 extension MainVC: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        mapContainerView.selectedMarker?.isSelected = false
-        mapContainerView.selectedMarker = nil
-        
+        reset()
         if fpc.state != .hidden { fpc.move(to: .hidden, animated: true, completion: nil) }
     }
 }
@@ -236,6 +235,7 @@ extension MainVC: FloatingPanelControllerDelegate {
         
         switch fpc.state {
         case .hidden:
+            reset()
             guideView.isHidden = true
             mapContainerView.mapView.contentInset.bottom = view.safeAreaInsets.bottom
         case .half:
