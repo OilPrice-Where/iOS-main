@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import RxRelay
 
-final class FindOilTypeViewModel: CommonViewModel {
+final class FindOilTypeViewModel {
     private let OilType = [ // 선택 가능한 오일 종류
         "휘발유",
         "고급휘발유",
@@ -19,7 +19,7 @@ final class FindOilTypeViewModel: CommonViewModel {
     ]
     var oilSubject: BehaviorRelay<[String]>
     
-    override init() {
+    init() {
         self.oilSubject = BehaviorRelay<[String]>(value: OilType)
     }
 }

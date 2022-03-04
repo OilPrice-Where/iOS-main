@@ -6,7 +6,6 @@ target 'FavoriteWidgetExtension' do
   use_frameworks!
 
   # Pods for FavoriteWidgetExtension
-
 end
 
 target 'OilPrice-Where' do

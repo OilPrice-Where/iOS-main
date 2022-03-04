@@ -266,37 +266,32 @@ final class Preferences {
             return 5000
         }
     }
-    
-    // Map Type
-    static func mapsType(name: String) -> String {
-        switch name {
-        case "Apple Map":
-            return "AppleMap"
+        
+    // 네비게이션 디스플레이 네임
+    static func navigation(type: String) -> String {
+        switch type {
+        case "kakao":
+            return "카카오내비"
+        case "kakaoMap":
+            return "카카오맵"
+        case "tMap":
+            return "티맵"
         default:
-            return "GoogleMap"
-        }
-    }
-    
-    static func mapsType(code: String) -> String {
-        switch code {
-        case "AppleMap":
-            return "Apple Map"
-        default:
-            return "Google Map"
+            return "네이버지도"
         }
     }
     
     // 네비게이션 타입
-    static func navigationType(name: String) -> String {
+    static func navigation(name: String) -> String {
         switch name {
         case "카카오내비":
             return "kakao"
-        case "kakao":
-            return "카카오내비"
-        case "tmap":
-            return "T map"
+        case "카카오맵":
+            return "kakaoMap"
+        case "티맵":
+            return "tMap"
         default:
-            return "tmap"
+            return "naverMap"
         }
     }
     

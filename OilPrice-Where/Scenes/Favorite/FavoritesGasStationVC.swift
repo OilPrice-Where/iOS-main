@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import TMapSDK
+import NMapsMap
 import RxSwift
 import RxCocoa
 import NSObject_Rx
@@ -140,12 +141,13 @@ final class FavoritesGasStationVC: CommonViewController {
               let stationName = userInfo["stationName"] as? String,
               let navi = userInfo["naviType"] as? String,
               let type = NaviType(rawValue: navi) else { return }
-        let coordinator = Converter.convertKatecToWGS(katec: KatecPoint(x: katecX, y: katecY))
+        let position = NMGTm128(x: katecX, y: katecY).toLatLng()
         
         switch type {
         case .tMap:
             if TMapApi.isTmapApplicationInstalled() {
-                let _ = TMapApi.invokeRoute(stationName, coordinate: coordinator)
+                let _ = TMapApi.invokeRoute(stationName, coordinate: CLLocationCoordinate2D(latitude: position.lat,
+                                                                                            longitude: position.lng))
                 
                 return
             }
@@ -177,6 +179,27 @@ final class FavoritesGasStationVC: CommonViewController {
                                    options: options)
             KNVNaviLauncher.shared().navigate(with: params) { (error) in
                 self.handleError(error: error)
+            }
+        case .kakaoMap:
+            guard let destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=CAR"),
+            let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425") else { return }
+            
+            if UIApplication.shared.canOpenURL(destinationURL) {
+                UIApplication.shared.open(destinationURL, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
+            }
+        case .naver:
+            let urlString = "nmap://navigation?dlat=\(position.lat)&dlng=\(position.lng)&dname=\(stationName)&appname=com.oilpricewhere.wheregasoline"
+            
+            guard let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                  let destinationURL = URL(string: encodedStr),
+                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/311867728") else { return }
+            
+            if UIApplication.shared.canOpenURL(destinationURL) {
+              UIApplication.shared.open(destinationURL)
+            } else {
+                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
             }
         }
     }

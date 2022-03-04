@@ -40,10 +40,10 @@ final class FindNavigationVC: CommonViewController, ViewModelBindableType {
     func bindViewModel() {
         viewModel.naviSubject
             .bind(to: tableView.rx.items(cellIdentifier: NavigaionTypeTableViewCell.id,
-                                         cellType: NavigaionTypeTableViewCell.self)) { index, type, cell in
-                cell.fetch(navigation: type)
+                                         cellType: NavigaionTypeTableViewCell.self)) { index, name, cell in
+                cell.fetch(navigation: name)
                 
-                let displayNaviType = Preferences.navigationType(name: type)
+                let displayNaviType = Preferences.navigation(name: name)
                 let currentNaviType = DefaultData.shared.naviSubject.value
                 guard displayNaviType == currentNaviType else { return }
                 
@@ -75,7 +75,7 @@ final class FindNavigationVC: CommonViewController, ViewModelBindableType {
 extension FindNavigationVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let types = viewModel.naviSubject.value
-        let type = Preferences.navigationType(name: types[indexPath.row])
+        let type = Preferences.navigation(name: types[indexPath.row])
         
         DefaultData.shared.naviSubject.accept(type)
     }
