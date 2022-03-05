@@ -54,7 +54,6 @@
 		8E68BA2924CCD472004730D7 /* FindNavigationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2824CCD472004730D7 /* FindNavigationViewModel.swift */; };
 		8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2A24CCDF92004730D7 /* FavoriteCollectionViewCell.swift */; };
 		8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */; };
-		8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */; };
 		8E7FFE3920F5EA1C006CED48 /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3820F5EA1C006CED48 /* SettingVC.swift */; };
 		8E82E43224F901D200395CDD /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
 		8E82E43424F9468100395CDD /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3C2107AEA30066A59E /* API.swift */; };
@@ -90,7 +89,6 @@
 		8EE53E7224CEA484008D8045 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2B20F5E5FF006CED48 /* Images.xcassets */; };
 		8EE53E7724CF06B3008D8045 /* MainListVC+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E7624CF06B2008D8045 /* MainListVC+TableView.swift */; };
 		8EE53E7924CF0D72008D8045 /* CustomTabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E7824CF0D72008D8045 /* CustomTabbarViewController.swift */; };
-		8EE53E7B24CF1294008D8045 /* MainListVC+MapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E7A24CF1294008D8045 /* MainListVC+MapKit.swift */; };
 		8EE53E7D24CF1427008D8045 /* MainListVC+CoreLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E7C24CF1427008D8045 /* MainListVC+CoreLocation.swift */; };
 		8EE53E8C24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */; };
 		8EE53E8F24CF3CEC008D8045 /* FindNavigationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E8E24CF3CEC008D8045 /* FindNavigationVC.swift */; };
@@ -235,7 +233,6 @@
 		8E68BA2A24CCDF92004730D7 /* FavoriteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionViewCell.swift; sourceTree = "<group>"; };
 		8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OilPrice-Where.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
 		8E7FFE2920F5E5FF006CED48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8E7FFE2B20F5E5FF006CED48 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8E7FFE3020F5E600006CED48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -263,7 +260,6 @@
 		8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandTypeTableViewCell.swift; sourceTree = "<group>"; };
 		8EE53E7624CF06B2008D8045 /* MainListVC+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListVC+TableView.swift"; sourceTree = "<group>"; };
 		8EE53E7824CF0D72008D8045 /* CustomTabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabbarViewController.swift; sourceTree = "<group>"; };
-		8EE53E7A24CF1294008D8045 /* MainListVC+MapKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListVC+MapKit.swift"; sourceTree = "<group>"; };
 		8EE53E7C24CF1427008D8045 /* MainListVC+CoreLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainListVC+CoreLocation.swift"; sourceTree = "<group>"; };
 		8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigaionTypeTableViewCell.swift; sourceTree = "<group>"; };
 		8EE53E8E24CF3CEC008D8045 /* FindNavigationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindNavigationVC.swift; sourceTree = "<group>"; };
@@ -749,9 +745,7 @@
 		8EE53E7524CF0699008D8045 /* MainListVC */ = {
 			isa = PBXGroup;
 			children = (
-				8E7FFE2620F5E5FF006CED48 /* MainListViewController.swift */,
 				8EE53E7624CF06B2008D8045 /* MainListVC+TableView.swift */,
-				8EE53E7A24CF1294008D8045 /* MainListVC+MapKit.swift */,
 				8EE53E7C24CF1427008D8045 /* MainListVC+CoreLocation.swift */,
 			);
 			name = MainListVC;
@@ -1036,11 +1030,9 @@
 				8E68BA1D24CCC863004730D7 /* FindOilVC.swift in Sources */,
 				E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */,
 				8E68BA2324CCCF32004730D7 /* FindBrandViewModel.swift in Sources */,
-				8E7FFE2720F5E5FF006CED48 /* MainListViewController.swift in Sources */,
 				E9400FDE27B0A3E2003168C6 /* NaverMapMarker.swift in Sources */,
 				8E4DBA4424E43492002E605C /* SalePriceTableViewCell.swift in Sources */,
 				8EE53E7724CF06B3008D8045 /* MainListVC+TableView.swift in Sources */,
-				8EE53E7B24CF1294008D8045 /* MainListVC+MapKit.swift in Sources */,
 				8E68BA1924CCC61A004730D7 /* CommonViewModel.swift in Sources */,
 				8EE53E8F24CF3CEC008D8045 /* FindNavigationVC.swift in Sources */,
 				2CAC81E3276BA31D00CC6096 /* CustomNavigationView.swift in Sources */,
