@@ -13,16 +13,22 @@ import RxCocoa
 import Moya
 import NMapsMap
 import NSObject_Rx
+import FloatingPanel
 
 final class MainViewModel {
+    let bag = DisposeBag()
     let input = Input()
     let output = Output()
     let staionProvider = MoyaProvider<StationAPI>()
-    let bag = DisposeBag()
-    var currentLocation: CLLocation? = nil
     var stations = [GasStation]() { didSet { output.staionResult.accept(()) } }
-    var selectedStation: GasStation?
+    var currentLocation: CLLocation? = nil
+    var selectedStation: GasStation? = nil { didSet { output.selectedStation.accept(()) } }
     var addressString: String?
+    var currentState: FloatingPanelState = .hidden {
+        willSet {
+            print(newValue)
+        }
+    }
     
     init() {
         rxBind()
@@ -57,6 +63,7 @@ extension MainViewModel {
     struct Output {
         let error = PublishRelay<ErrorResult>() // => Error
         let staionResult = PublishRelay<Void>() // => 검색 결과
+        let selectedStation = PublishRelay<Void>() // => 주유소 선택
     }
 }
 

@@ -56,11 +56,11 @@ final class MainListVC: UIViewController {
         navigationController?.navigationBar.backgroundColor = Asset.Colors.mainColor.color
         navigationController?.navigationBar.titleTextAttributes = [.font: FontFamily.NanumSquareRound.bold.font(size: 17),
                                                                    .foregroundColor: UIColor.white]
-
+        
         view.backgroundColor = .systemGroupedBackground
         
         view.addSubview(infoView)
-
+        
         view.addSubview(tableView)
         view.addSubview(noneView)
         
@@ -162,3 +162,35 @@ extension MainListVC: UITableViewDelegate {
         return view
     }
 }
+
+// HeaderView 설정
+//func fetchAverageCosts() {
+//    firebaseUtility.getAverageCost(productName: "gasolinCost") { (data) in
+//        self.gasolineCostLabel.text = data["price"] as? String ?? ""
+//        self.gasolineTitleLabel.text = data["productName"] as? String ?? ""
+//        if data["difference"] as? Bool ?? true {
+//            self.gasolineUpDownImageView.image = Asset.Images.priceUpIcon.image
+//        }else {
+//            self.gasolineUpDownImageView.image = Asset.Images.priceDownIcon.image
+//        }
+//    }
+//    firebaseUtility.getAverageCost(productName: "dieselCost") { (data) in
+//        self.dieselCostLabel.text = data["price"] as? String ?? ""
+//        self.dieselTitleLabel.text = data["productName"] as? String ?? ""
+//        if data["difference"] as? Bool ?? true {
+//            self.dieselUpDownImageView.image = Asset.Images.priceUpIcon.image
+//        }else {
+//            self.dieselUpDownImageView.image = Asset.Images.priceDownIcon.image
+//        }
+//
+//    }
+//    firebaseUtility.getAverageCost(productName: "lpgCost") { (data) in
+//        self.lpgCostLabel.text = data["price"] as? String ?? ""
+//        self.lpgTitleLabel.text = data["productName"] as? String ?? ""
+//        if data["difference"] as? Bool ?? true {
+//            self.lpgUpDownImageView.image = Asset.Images.priceUpIcon.image
+//        } else {
+//            self.lpgUpDownImageView.image = Asset.Images.priceDownIcon.image
+//        }
+//    }
+//}

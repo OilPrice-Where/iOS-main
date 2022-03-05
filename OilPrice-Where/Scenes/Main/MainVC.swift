@@ -20,7 +20,7 @@ final class MainVC: UIViewController {
     let locationManager = CLLocationManager()
     var fpc = FloatingPanelController()
     var contentsVC = StationInfoVC() // 띄울 VC
-    let mapContainerView = MainMapView().then {
+    lazy var mapContainerView = MainMapView().then {
         let tap = UITapGestureRecognizer(target: self, action: #selector(toListTapped))
         $0.toListButton.addGestureRecognizer(tap)
     }
@@ -117,6 +117,19 @@ final class MainVC: UIViewController {
                 owner.mapContainerView.showMarker(list: owner.viewModel.stations)
             })
             .disposed(by: viewModel.bag)
+        
+        // 즐겨찾기 목록의 StationID 값과 StationView의 StationID값이 동일 하면 선택 상태로 변경
+        viewModel.output.selectedStation
+            .subscribe(with: self, onNext: { owner, _ in
+                let ids = DefaultData.shared.favoriteSubject.value
+                
+                guard let id = owner.viewModel.selectedStation?.id else { return }
+                let image = ids.contains(id) ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
+                owner.guideView.favoriteButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+                owner.guideView.favoriteButton.imageView?.tintColor = ids.contains(id) ? .white : Asset.Colors.mainColor.color
+                owner.guideView.favoriteButton.backgroundColor = ids.contains(id) ? Asset.Colors.mainColor.color : .white
+            })
+            .disposed(by: rx.disposeBag)
     }
     
     @objc
@@ -314,7 +327,16 @@ extension MainVC: FloatingPanelControllerDelegate {
         return MyFloatingPanelLayout()
     }
     
+    func floatingPanelWillBeginDragging(_ fpc: FloatingPanelController) {
+        viewModel.currentState = fpc.state
+    }
+    
+    func floatingPanelDidMove(_ fpc: FloatingPanelController) {
+        print(#function, fpc.state)
+    }
+    
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
+        print(#function, fpc.state)
         mapContainerView.toListButton.isHidden = fpc.state == .full
         mapContainerView.currentLocationButton.isHidden = fpc.state == .full
         
