@@ -89,7 +89,9 @@ final class MainVC: UIViewController {
         DefaultData.shared.completedRelay
             .subscribe(with: self, onNext: { owner, _ in
                 owner.reset()
-                owner.fpc.move(to: .hidden, animated: false, completion: nil)
+                DispatchQueue.main.async {
+                    owner.fpc.move(to: .hidden, animated: false, completion: nil)
+                }
             }).disposed(by: rx.disposeBag)
         
         locationManager.rx.didUpdateLocations

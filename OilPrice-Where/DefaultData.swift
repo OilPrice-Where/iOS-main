@@ -60,6 +60,8 @@ class DefaultData {
                 print(err.localizedDescription)
                 return
             }
+            
+            guard !(key == "Favorites" || key == "LocalFavorites") else { return }
             completedRelay.accept(nil)
         }
     }

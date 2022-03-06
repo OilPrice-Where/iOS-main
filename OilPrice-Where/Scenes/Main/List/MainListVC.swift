@@ -14,6 +14,7 @@ import RxSwift
 import RxCocoa
 import TMapSDK
 import NMapsMap
+import SCLAlertView
 
 //MARK: GasStationListVC
 final class MainListVC: UIViewController {
@@ -100,7 +101,7 @@ final class MainListVC: UIViewController {
                 owner.sortButtonTapped(btn: nil)
             })
             .disposed(by: bag)
-
+        
     }
     
     func configure() {
@@ -180,13 +181,34 @@ extension MainListVC: UITableViewDelegate {
 }
 
 extension MainListVC: GasStationCellDelegate {
+    func makeAlert(title: String, subTitle: String, duration: TimeInterval = 1.5, completion: @escaping SCLAlertView.SCLTimeoutConfiguration.ActionType = {}) {
+        let appearance = SCLAlertView.SCLAppearance(kWindowWidth: 300,
+                                                    kTitleFont: FontFamily.NanumSquareRound.bold.font(size: 18),
+                                                    kTextFont: FontFamily.NanumSquareRound.regular.font(size: 15),
+                                                    showCloseButton: false)
+        
+        let alert = SCLAlertView(appearance: appearance)
+        alert.iconTintColor = UIColor.white
+        let timeOut = SCLAlertView.SCLTimeoutConfiguration(timeoutValue: duration, timeoutAction: completion)
+        
+        alert.showWarning(title, subTitle: subTitle, timeout: timeOut, colorStyle: 0x5E82FF)
+    }
+    // 즐겨찾기 설정 및 해제
     func touchedFavoriteButton(id: String?) {
-        print(id)
+        let faovorites = DefaultData.shared.favoriteSubject.value
+        guard let _id = id, faovorites.count < 6, faovorites.contains(_id) || (!faovorites.contains(_id) && faovorites.count < 5) else {
+            DispatchQueue.main.async { [weak self] in
+                self?.makeAlert(title: "최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !")
+            }
+            return
+        }
+        var newFaovorites = faovorites
+        newFaovorites.contains(_id) ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
+        
+        DefaultData.shared.favoriteSubject.accept(newFaovorites)
     }
     
     func touchedDirectionButton(info: GasStation?) {
-        print(info)
-        
         guard let info = info,
               let type = NaviType(rawValue: DefaultData.shared.naviSubject.value) else { return }
         
