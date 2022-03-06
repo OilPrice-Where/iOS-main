@@ -51,7 +51,7 @@ final class StationInfoGuideView: UIView {
         favoriteButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(14)
             $0.left.equalToSuperview().offset(14)
-            $0.width.equalTo(60)
+            $0.width.equalTo(80)
             $0.height.equalTo(38)
         }
         directionButton.snp.makeConstraints {

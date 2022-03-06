@@ -24,11 +24,7 @@ final class MainViewModel {
     var currentLocation: CLLocation? = nil
     var selectedStation: GasStation? = nil { didSet { output.selectedStation.accept(()) } }
     var addressString: String?
-    var currentState: FloatingPanelState = .hidden {
-        willSet {
-            print(newValue)
-        }
-    }
+    var currentState: FloatingPanelState = .hidden
     
     init() {
         rxBind()
@@ -42,7 +38,11 @@ final class MainViewModel {
             .disposed(by: bag)
         
         DefaultData.shared.completedRelay
-            .bind(with: self, onNext: { owner, _ in
+            .bind(with: self, onNext: { owner, key in
+                guard !(key == "Favorites" || key == "LocalFavorites") else {
+                    return
+                }
+                
                 owner.requestSearch()
             })
             .disposed(by: bag)

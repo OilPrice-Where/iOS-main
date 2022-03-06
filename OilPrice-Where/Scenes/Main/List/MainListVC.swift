@@ -157,7 +157,7 @@ extension MainListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: GasStationCell.id, for: indexPath) as? GasStationCell else { return UITableViewCell() }
         
-        cell.configure(station: viewModel.stations[indexPath.section])
+        cell.configure(station: viewModel.stations[indexPath.section], indexPath: indexPath)
         cell.delegate = self
         
         return cell
@@ -181,31 +181,22 @@ extension MainListVC: UITableViewDelegate {
 }
 
 extension MainListVC: GasStationCellDelegate {
-    func makeAlert(title: String, subTitle: String, duration: TimeInterval = 1.5, completion: @escaping SCLAlertView.SCLTimeoutConfiguration.ActionType = {}) {
-        let appearance = SCLAlertView.SCLAppearance(kWindowWidth: 300,
-                                                    kTitleFont: FontFamily.NanumSquareRound.bold.font(size: 18),
-                                                    kTextFont: FontFamily.NanumSquareRound.regular.font(size: 15),
-                                                    showCloseButton: false)
-        
-        let alert = SCLAlertView(appearance: appearance)
-        alert.iconTintColor = UIColor.white
-        let timeOut = SCLAlertView.SCLTimeoutConfiguration(timeoutValue: duration, timeoutAction: completion)
-        
-        alert.showWarning(title, subTitle: subTitle, timeout: timeOut, colorStyle: 0x5E82FF)
-    }
     // 즐겨찾기 설정 및 해제
-    func touchedFavoriteButton(id: String?) {
+    func touchedFavoriteButton(id: String?, indexPath: IndexPath?) {
         let faovorites = DefaultData.shared.favoriteSubject.value
-        guard let _id = id, faovorites.count < 6, faovorites.contains(_id) || (!faovorites.contains(_id) && faovorites.count < 5) else {
+        guard let _id = id, let _indexPath = indexPath, faovorites.count < 6 else { return }
+        let isDeleted = faovorites.contains(_id)
+        guard isDeleted || (!isDeleted && faovorites.count < 5) else {
             DispatchQueue.main.async { [weak self] in
                 self?.makeAlert(title: "최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !")
             }
             return
         }
         var newFaovorites = faovorites
-        newFaovorites.contains(_id) ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
+        isDeleted ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
         
         DefaultData.shared.favoriteSubject.accept(newFaovorites)
+        tableView.reloadRows(at: [_indexPath], with: .automatic)
     }
     
     func touchedDirectionButton(info: GasStation?) {

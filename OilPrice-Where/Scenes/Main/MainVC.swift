@@ -27,6 +27,7 @@ final class MainVC: UIViewController {
     let guideView = StationInfoGuideView().then {
         $0.layer.cornerRadius = 6.0
         $0.backgroundColor = .white
+        $0.favoriteButton.addTarget(self, action: #selector(touchedFavoriteButton), for: .touchUpInside)
         $0.directionButton.addTarget(self, action: #selector(toNavigationTapped), for: .touchUpInside)
     }
     
@@ -87,12 +88,18 @@ final class MainVC: UIViewController {
     
     func rxBind() {
         DefaultData.shared.completedRelay
-            .subscribe(with: self, onNext: { owner, _ in
+            .subscribe(with: self, onNext: { owner, key in
+                guard !(key == "Favorites" || key == "LocalFavorites") else {
+                    owner.updateFavoriteUI()
+                    return
+                }
+                
                 owner.reset()
                 DispatchQueue.main.async {
                     owner.fpc.move(to: .hidden, animated: false, completion: nil)
                 }
-            }).disposed(by: rx.disposeBag)
+            })
+            .disposed(by: rx.disposeBag)
         
         locationManager.rx.didUpdateLocations
             .compactMap { $0.last }
@@ -129,13 +136,7 @@ final class MainVC: UIViewController {
         // 즐겨찾기 목록의 StationID 값과 StationView의 StationID값이 동일 하면 선택 상태로 변경
         viewModel.output.selectedStation
             .subscribe(with: self, onNext: { owner, _ in
-                let ids = DefaultData.shared.favoriteSubject.value
-                
-                guard let id = owner.viewModel.selectedStation?.id else { return }
-                let image = ids.contains(id) ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
-                owner.guideView.favoriteButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
-                owner.guideView.favoriteButton.imageView?.tintColor = ids.contains(id) ? .white : Asset.Colors.mainColor.color
-                owner.guideView.favoriteButton.backgroundColor = ids.contains(id) ? Asset.Colors.mainColor.color : .white
+                owner.updateFavoriteUI()
             })
             .disposed(by: rx.disposeBag)
     }
@@ -146,6 +147,24 @@ final class MainVC: UIViewController {
         listVC.viewModel = MainListViewModel(stations: viewModel.stations)
         listVC.infoView.fetch(geoCode: viewModel.addressString)
         navigationController?.pushViewController(listVC, animated: true)
+    }
+    
+    @objc
+    func touchedFavoriteButton() {
+        let faovorites = DefaultData.shared.favoriteSubject.value
+        guard let _id = viewModel.selectedStation?.id, faovorites.count < 6 else { return }
+        let isDeleted = faovorites.contains(_id)
+        guard isDeleted || (!isDeleted && faovorites.count < 5) else {
+            DispatchQueue.main.async { [weak self] in
+                self?.makeAlert(title: "최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !")
+            }
+            return
+        }
+        var newFaovorites = faovorites
+        isDeleted ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
+        
+        DefaultData.shared.favoriteSubject.accept(newFaovorites)
+        updateFavoriteUI()
     }
     
     @objc
@@ -215,6 +234,19 @@ final class MainVC: UIViewController {
             } else {
                 UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
             }
+        }
+    }
+    
+    func updateFavoriteUI() {
+        let ids = DefaultData.shared.favoriteSubject.value
+        
+        guard let id = viewModel.selectedStation?.id else { return }
+        let image = ids.contains(id) ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.guideView.favoriteButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+            self?.guideView.favoriteButton.imageView?.tintColor = ids.contains(id) ? .white : Asset.Colors.mainColor.color
+            self?.guideView.favoriteButton.backgroundColor = ids.contains(id) ? Asset.Colors.mainColor.color : .white
         }
     }
     

@@ -16,7 +16,7 @@
 		2C0C68C8276B25AB00945CEC /* UIReusable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68C7276B25AB00945CEC /* UIReusable+Extension.swift */; };
 		2C0C68CA276B31CA00945CEC /* Tabbar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68C9276B31CA00945CEC /* Tabbar+Extension.swift */; };
 		2C0C68E0276B633B00945CEC /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68DF276B633B00945CEC /* SettingTableViewCell.swift */; };
-		2C0C68E2276B6C9A00945CEC /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68E1276B6C9A00945CEC /* UIViewController+Extension.swift */; };
+		2C0C68E2276B6C9A00945CEC /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68E1276B6C9A00945CEC /* UIApplication+.swift */; };
 		2C0E1CD726022F11006C2C3D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E1CD626022F11006C2C3D /* GoogleService-Info.plist */; };
 		2C1FBE1A276AE39000E57F8A /* SelectTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1FBE19276AE39000E57F8A /* SelectTypeView.swift */; };
 		2CA4726427992D0A00DB0DDD /* CLLocationManager+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA4726327992D0A00DB0DDD /* CLLocationManager+.swift */; };
@@ -72,7 +72,6 @@
 		8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */; };
 		8ECE0D7C211C3CFC00FF2B46 /* OilTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */; };
 		8ECE0D7E211CB1F800FF2B46 /* FindDistanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */; };
-		8ECE0DA42122D62B00FF2B46 /* GasStationVie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0DA32122D62B00FF2B46 /* GasStationVie.swift */; };
 		8ECE0DAA212385FB00FF2B46 /* AllPriceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */; };
 		8EDAF7D821295AEF00422552 /* InitialSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D721295AEF00422552 /* InitialSettingVC.swift */; };
 		8EDAF7DA212D7EF300422552 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D9212D7EF300422552 /* DetailView.swift */; };
@@ -119,6 +118,7 @@
 		E9BAA8A627D1807A0051A57A /* KakaoNavi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C48843C276AF23B007383C2 /* KakaoNavi.framework */; };
 		E9BAA8AC27D180BE0051A57A /* KakaoCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C48843D276AF23B007383C2 /* KakaoCommon.framework */; };
 		E9BAA8AE27D180BF0051A57A /* KakaoNavi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C48843C276AF23B007383C2 /* KakaoNavi.framework */; };
+		E9BAA91B27D7A1250051A57A /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BAA91A27D7A1250051A57A /* UIViewController+.swift */; };
 		E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */; };
 		E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */; };
 		E9D1445627CECA620055141A /* ToListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1445527CECA620055141A /* ToListView.swift */; };
@@ -187,7 +187,7 @@
 		2C0C68C7276B25AB00945CEC /* UIReusable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIReusable+Extension.swift"; sourceTree = "<group>"; };
 		2C0C68C9276B31CA00945CEC /* Tabbar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tabbar+Extension.swift"; sourceTree = "<group>"; };
 		2C0C68DF276B633B00945CEC /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
-		2C0C68E1276B6C9A00945CEC /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		2C0C68E1276B6C9A00945CEC /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		2C0E1CD626022F11006C2C3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		2C1FBE19276AE39000E57F8A /* SelectTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTypeView.swift; sourceTree = "<group>"; };
 		2C48843C276AF23B007383C2 /* KakaoNavi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoNavi.framework; path = Kakao/KakaoNavi.framework; sourceTree = "<group>"; };
@@ -249,7 +249,6 @@
 		8ECE0D75211C31F900FF2B46 /* UserInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = UserInfo.plist; sourceTree = "<group>"; };
 		8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OilTypeTableViewCell.swift; sourceTree = "<group>"; };
 		8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindDistanceTableViewCell.swift; sourceTree = "<group>"; };
-		8ECE0DA32122D62B00FF2B46 /* GasStationVie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationVie.swift; sourceTree = "<group>"; };
 		8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllPriceData.swift; path = "OilPrice-Where/AllPriceData.swift"; sourceTree = SOURCE_ROOT; };
 		8EDAF7D721295AEF00422552 /* InitialSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSettingVC.swift; sourceTree = "<group>"; };
 		8EDAF7D9212D7EF300422552 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
@@ -281,6 +280,7 @@
 		E957E39627A03B8100031125 /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMapSDK.framework; sourceTree = "<group>"; };
 		E96E601C27CE00A6005BB593 /* MainListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListVC.swift; sourceTree = "<group>"; };
 		E96E601E27CE0351005BB593 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
+		E9BAA91A27D7A1250051A57A /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPanelController+.swift"; sourceTree = "<group>"; };
 		E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoVC.swift; sourceTree = "<group>"; };
 		E9D1445527CECA620055141A /* ToListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToListView.swift; sourceTree = "<group>"; };
@@ -711,7 +711,6 @@
 		8E7FFE4120F5EBD2006CED48 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				8ECE0DA32122D62B00FF2B46 /* GasStationVie.swift */,
 				8EDAF7D9212D7EF300422552 /* DetailView.swift */,
 			);
 			name = View;
@@ -745,10 +744,11 @@
 				29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */,
 				8EB5C2E72139214700AB83BB /* Reachability.swift */,
 				2C0C68C7276B25AB00945CEC /* UIReusable+Extension.swift */,
-				2C0C68E1276B6C9A00945CEC /* UIViewController+Extension.swift */,
+				2C0C68E1276B6C9A00945CEC /* UIApplication+.swift */,
 				2C0C68C9276B31CA00945CEC /* Tabbar+Extension.swift */,
 				2CA4726327992D0A00DB0DDD /* CLLocationManager+.swift */,
 				E9400FE927B11C76003168C6 /* UIView+.swift */,
+				E9BAA91A27D7A1250051A57A /* UIViewController+.swift */,
 				E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */,
 			);
 			name = Utility;
@@ -1007,7 +1007,7 @@
 				8ECE0D7E211CB1F800FF2B46 /* FindDistanceTableViewCell.swift in Sources */,
 				8EE0A2FB21DDF49E00C159D0 /* BrandTypeTableViewCell.swift in Sources */,
 				2C1FBE1A276AE39000E57F8A /* SelectTypeView.swift in Sources */,
-				2C0C68E2276B6C9A00945CEC /* UIViewController+Extension.swift in Sources */,
+				2C0C68E2276B6C9A00945CEC /* UIApplication+.swift in Sources */,
 				E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */,
 				8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */,
 				2CA4726427992D0A00DB0DDD /* CLLocationManager+.swift in Sources */,
@@ -1035,7 +1035,6 @@
 				2CAC81DF276B966300CC6096 /* FavoritesGasStationViewModel.swift in Sources */,
 				2C0C68C8276B25AB00945CEC /* UIReusable+Extension.swift in Sources */,
 				E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */,
-				8ECE0DA42122D62B00FF2B46 /* GasStationVie.swift in Sources */,
 				8E68BA1524CCC560004730D7 /* FindOilTypeViewModel.swift in Sources */,
 				8E68BA1F24CCCCE5004730D7 /* FindDistanceVC.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
@@ -1056,6 +1055,7 @@
 				E94D0F0A27BB50D000BCB092 /* GasStationDirectionView.swift in Sources */,
 				2CAC81E7276BAA9D00CC6096 /* NoneFavoriteView.swift in Sources */,
 				2CC1C80A276C79F5007527C7 /* MainListNoneView.swift in Sources */,
+				E9BAA91B27D7A1250051A57A /* UIViewController+.swift in Sources */,
 				8E68BA1724CCC5F7004730D7 /* ViewModelBindableType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

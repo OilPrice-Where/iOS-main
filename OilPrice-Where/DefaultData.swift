@@ -31,7 +31,7 @@ class DefaultData {
     let naviSubject = BehaviorRelay<String>(value: "kakao")
     let salesSubject = BehaviorRelay<[String: Int]>(value: [:])
     let localFavoritesSubject = BehaviorRelay<String>(value: "")
-    let completedRelay = PublishRelay<Void?>()
+    let completedRelay = PublishRelay<String?>()
     
     // 전군 평균 기름 값 로드 함수
     func allPriceDataLoad() {
@@ -61,8 +61,7 @@ class DefaultData {
                 return
             }
             
-            guard !(key == "Favorites" || key == "LocalFavorites") else { return }
-            completedRelay.accept(nil)
+            completedRelay.accept(key)
         }
     }
     
