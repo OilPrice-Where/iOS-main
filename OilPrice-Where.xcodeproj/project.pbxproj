@@ -74,7 +74,6 @@
 		8ECE0D7E211CB1F800FF2B46 /* FindDistanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */; };
 		8ECE0DAA212385FB00FF2B46 /* AllPriceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */; };
 		8EDAF7D821295AEF00422552 /* InitialSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D721295AEF00422552 /* InitialSettingVC.swift */; };
-		8EDAF7DA212D7EF300422552 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D9212D7EF300422552 /* DetailView.swift */; };
 		8EDE51B424D5C32C004590B6 /* FavoriteCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE51B324D5C32C004590B6 /* FavoriteCellViewModel.swift */; };
 		8EE0A2FB21DDF49E00C159D0 /* BrandTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */; };
 		8EE53E6A24CEA0EF008D8045 /* UserInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8ECE0D75211C31F900FF2B46 /* UserInfo.plist */; };
@@ -251,7 +250,6 @@
 		8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindDistanceTableViewCell.swift; sourceTree = "<group>"; };
 		8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AllPriceData.swift; path = "OilPrice-Where/AllPriceData.swift"; sourceTree = SOURCE_ROOT; };
 		8EDAF7D721295AEF00422552 /* InitialSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSettingVC.swift; sourceTree = "<group>"; };
-		8EDAF7D9212D7EF300422552 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		8EDE51B324D5C32C004590B6 /* FavoriteCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCellViewModel.swift; sourceTree = "<group>"; };
 		8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandTypeTableViewCell.swift; sourceTree = "<group>"; };
 		8EE53E7824CF0D72008D8045 /* CustomTabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabbarViewController.swift; sourceTree = "<group>"; };
@@ -659,7 +657,6 @@
 				8E4DAF0A20F5EC2700E4FD92 /* Services */,
 				2C0C68CB276B32D900945CEC /* Scenes */,
 				8E7FFE3F20F5EB46006CED48 /* ViewController */,
-				8E7FFE4120F5EBD2006CED48 /* View */,
 				8E7FFE3D20F5EABE006CED48 /* Resources */,
 				8E7FFE3E20F5EB17006CED48 /* SupportFiles */,
 			);
@@ -706,14 +703,6 @@
 				7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */,
 			);
 			name = Main;
-			sourceTree = "<group>";
-		};
-		8E7FFE4120F5EBD2006CED48 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				8EDAF7D9212D7EF300422552 /* DetailView.swift */,
-			);
-			name = View;
 			sourceTree = "<group>";
 		};
 		8EAEB15124F41AFF00B5E6CE /* FavoriteWidgetExtension */ = {
@@ -1003,7 +992,6 @@
 				8E7FFE3920F5EA1C006CED48 /* SettingVC.swift in Sources */,
 				8E68BA2124CCCD07004730D7 /* FindDistanceViewModel.swift in Sources */,
 				764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift in Sources */,
-				8EDAF7DA212D7EF300422552 /* DetailView.swift in Sources */,
 				8ECE0D7E211CB1F800FF2B46 /* FindDistanceTableViewCell.swift in Sources */,
 				8EE0A2FB21DDF49E00C159D0 /* BrandTypeTableViewCell.swift in Sources */,
 				2C1FBE1A276AE39000E57F8A /* SelectTypeView.swift in Sources */,

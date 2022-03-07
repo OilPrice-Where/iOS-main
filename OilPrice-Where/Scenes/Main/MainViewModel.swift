@@ -22,6 +22,7 @@ final class MainViewModel {
     let staionProvider = MoyaProvider<StationAPI>()
     var stations = [GasStation]() { didSet { output.staionResult.accept(()) } }
     var currentLocation: CLLocation? = nil
+    var requestLocation: CLLocation? = nil { didSet { addressUpdate() } }
     var selectedStation: GasStation? = nil { didSet { output.selectedStation.accept(()) } }
     var addressString: String?
     var currentState: FloatingPanelState = .hidden
@@ -68,12 +69,32 @@ extension MainViewModel {
 }
 
 extension MainViewModel {
+    private func addressUpdate() {
+        guard let location = requestLocation else { return }
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
+            if let _ = error { return }
+            
+            var currentPlacemark: CLPlacemark?
+            // 에러가 없고, 주소 정보가 있으며 주소가 공백이지 않을 시
+            if error == nil, let p = placemarks, !p.isEmpty {
+                currentPlacemark = p.last
+            } else {
+                currentPlacemark = nil
+            }
+            
+            var string = currentPlacemark?.locality ?? ""
+            string += string.count > 0 ? " " + (currentPlacemark?.name ?? "") : currentPlacemark?.name ?? ""
+            self?.addressString = string
+        }
+    }
+    
     private func requestSearch(sort: Int = 1) {
         let radius = DefaultData.shared.radiusSubject.value
         let oilSubject = DefaultData.shared.oilSubject.value
         let brands = DefaultData.shared.brandsSubject.value
         
-        guard let coordinate = currentLocation?.coordinate else { return }
+        guard let coordinate = requestLocation?.coordinate else { return }
         
         let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
         let tm = NMGTm128(from: latLng)

@@ -32,7 +32,6 @@ final class MainMapView: UIView {
             newValue?.isSelected = true
         }
     }
-    
     // currentLocationButton 설정
     let currentLocationButton = UIButton().then {
         $0.layer.cornerRadius = 21
@@ -43,8 +42,20 @@ final class MainMapView: UIView {
     }
     let toListButton = ToListView().then {
         $0.layer.cornerRadius = 21
+        $0.layer.borderWidth = 0.01
+        $0.layer.borderColor = UIColor.blue.cgColor
         $0.clipsToBounds = false
         $0.backgroundColor = Asset.Colors.mainColor.color
+    }
+    let researchButton = UIButton().then {
+        $0.layer.cornerRadius = 21
+        $0.layer.borderWidth = 0.01
+        $0.layer.borderColor = UIColor.blue.cgColor
+        $0.setTitle("여기에서 재검색", for: .normal)
+        $0.setTitle("여기에서 재검색", for: .highlighted)
+        $0.titleLabel?.textColor = .white
+        $0.backgroundColor = Asset.Colors.mainColor.color
+        $0.alpha = 0.0
     }
     
     //MARK: - Initializer
@@ -63,14 +74,16 @@ final class MainMapView: UIView {
         addSubview(mapView)
         addSubview(currentLocationButton)
         addSubview(toListButton)
+        addSubview(researchButton)
         
         mapView.snp.makeConstraints {
             $0.top.left.right.equalToSuperview()
             $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
         }
         
-        currentLocationButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
         toListButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
+        researchButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
+        currentLocationButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
     }
     
     func moveMap(with coordinate: CLLocationCoordinate2D) {

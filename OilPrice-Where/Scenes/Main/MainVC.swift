@@ -23,6 +23,7 @@ final class MainVC: UIViewController {
     lazy var mapContainerView = MainMapView().then {
         let tap = UITapGestureRecognizer(target: self, action: #selector(toListTapped))
         $0.toListButton.addGestureRecognizer(tap)
+        $0.researchButton.addTarget(self, action: #selector(researchStation), for: .touchUpInside)
     }
     let guideView = StationInfoGuideView().then {
         $0.layer.cornerRadius = 6.0
@@ -55,19 +56,22 @@ final class MainVC: UIViewController {
         mapContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-        mapContainerView.currentLocationButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            $0.left.equalToSuperview().offset(20)
-            $0.size.equalTo(42)
-        }
-        
         mapContainerView.toListButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.right.equalToSuperview().offset(-20)
             $0.size.equalTo(42)
         }
-        
+        mapContainerView.currentLocationButton.snp.makeConstraints {
+            $0.top.equalTo(mapContainerView.toListButton.snp.bottom).offset(15)
+            $0.right.equalToSuperview().offset(-20)
+            $0.size.equalTo(42)
+        }
+        mapContainerView.researchButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            $0.centerX.equalTo(mapContainerView.snp.centerX)
+            $0.width.equalTo(150)
+            $0.height.equalTo(42)
+        }
         guideView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(4)
@@ -80,6 +84,7 @@ final class MainVC: UIViewController {
     func configure() {
         mapContainerView.delegate = self
         mapContainerView.mapView.touchDelegate = self
+        mapContainerView.mapView.addCameraDelegate(delegate: self)
         locationManager.delegate = self
         
         locationManager.requestWhenInUseAuthorization()
@@ -104,18 +109,13 @@ final class MainVC: UIViewController {
         locationManager.rx.didUpdateLocations
             .compactMap { $0.last }
             .subscribe(with: self, onNext: { owner, location in
-                guard let oldLocation = owner.viewModel.currentLocation else {
+                guard let location = owner.viewModel.requestLocation else {
                     owner.mapContainerView.moveMap(with: location.coordinate)
-                    owner.viewModel.currentLocation = location
+                    owner.viewModel.requestLocation = location
                     owner.viewModel.input.requestStaions.accept(nil)
                     return
                 }
-                
-                let distance = abs(location.distance(from: oldLocation))
-                if distance > 500 {
-                    owner.viewModel.currentLocation = location
-                    owner.viewModel.input.requestStaions.accept(nil)
-                }
+                owner.viewModel.currentLocation = location
             })
             .disposed(by: rx.disposeBag)
         
@@ -147,6 +147,17 @@ final class MainVC: UIViewController {
         listVC.viewModel = MainListViewModel(stations: viewModel.stations)
         listVC.infoView.fetch(geoCode: viewModel.addressString)
         navigationController?.pushViewController(listVC, animated: true)
+    }
+    
+    @objc
+    func researchStation() {
+        let centerLocation = CLLocation(latitude: mapContainerView.mapView.latitude, longitude: mapContainerView.mapView.longitude)
+        
+        viewModel.requestLocation = centerLocation
+        viewModel.input.requestStaions.accept(nil)
+        
+        mapContainerView.researchButton.isEnabled = false
+        mapContainerView.researchButton.alpha = 0.0
     }
     
     @objc
@@ -283,48 +294,11 @@ extension MainVC: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let newLocation = locations.last else { return }
-        
-        let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(newLocation) { [weak self] placemarks, error in
-            if let _ = error { return }
-            
-            var currentPlacemark: CLPlacemark?
-            // 에러가 없고, 주소 정보가 있으며 주소가 공백이지 않을 시
-            if error == nil, let p = placemarks, !p.isEmpty {
-                currentPlacemark = p.last
-            } else {
-                currentPlacemark = nil
-            }
-            
-            var string = currentPlacemark?.locality ?? ""
-            string += string.count > 0 ? " " + (currentPlacemark?.name ?? "") : currentPlacemark?.name ?? ""
-            self?.viewModel.addressString = string
-        }
-        
-        //        if let lastLocation = oldLocation {
-        //            let distance: CLLocationDistance = newLocation.distance(from: lastLocation)
-        //            if distance < 50.0 {
-        //                stopLocationManager()
-        //                mainListView.tableView.reloadData()
-        //            } else {
-        //                reset()
-        //                gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
-        //                stopLocationManager()
-        //                oldLocation = newLocation
-        //                zoomToLatestLocation(with: newLocation.coordinate)
-        //            }
-        //        } else {
-        //            zoomToLatestLocation(with: newLocation.coordinate)
-        //            gasStationListData(katecPoint: KatecPoint(x: katecPoint.x, y: katecPoint.y))
-        //            stopLocationManager()
-        //            oldLocation = newLocation
-        //        }
-        
-        // 인증 상태가 변경 되었을 때
-        func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        }
-        
+        guard let _ = locations.last else { return }
+    }
+    
+    // 인증 상태가 변경 되었을 때
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
     }
 }
 
@@ -339,6 +313,21 @@ extension MainVC: MainMapViewDelegate {
         let distance = info.distance < 1000 ? "\(Int(info.distance))m" : String(format: "%.1fkm", info.distance / 1000)
         guideView.directionButton.setTitle(distance + " 안내시작", for: .normal)
         guideView.directionButton.setTitle(distance + " 안내시작", for: .highlighted)
+    }
+}
+
+extension MainVC: NMFMapViewCameraDelegate {
+    func mapViewCameraIdle(_ mapView: NMFMapView) {
+        let centerLocation = CLLocation(latitude: mapView.latitude, longitude: mapView.longitude)
+        
+        guard let distance = viewModel.requestLocation?.distance(from: centerLocation), distance > 1000 else { return }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.mapContainerView.researchButton.isEnabled = true
+            UIView.animate(withDuration: 0.15) {
+                self?.mapContainerView.researchButton.alpha = 1.0
+            }
+        }
     }
 }
 
