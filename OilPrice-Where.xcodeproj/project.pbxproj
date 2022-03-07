@@ -13,8 +13,8 @@
 		2C0C68C0276B0E3300945CEC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C0C68BF276B0E3300945CEC /* Colors.xcassets */; };
 		2C0C68C2276B0E8600945CEC /* XCAssets+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68C1276B0E8600945CEC /* XCAssets+Generated.swift */; };
 		2C0C68C4276B0EE200945CEC /* Fonts+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68C3276B0EE200945CEC /* Fonts+Generated.swift */; };
-		2C0C68C8276B25AB00945CEC /* UIReusable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68C7276B25AB00945CEC /* UIReusable+Extension.swift */; };
-		2C0C68CA276B31CA00945CEC /* Tabbar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68C9276B31CA00945CEC /* Tabbar+Extension.swift */; };
+		2C0C68C8276B25AB00945CEC /* UIReusable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68C7276B25AB00945CEC /* UIReusable+.swift */; };
+		2C0C68CA276B31CA00945CEC /* UITabBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68C9276B31CA00945CEC /* UITabBar+.swift */; };
 		2C0C68E0276B633B00945CEC /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68DF276B633B00945CEC /* SettingTableViewCell.swift */; };
 		2C0C68E2276B6C9A00945CEC /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C68E1276B6C9A00945CEC /* UIApplication+.swift */; };
 		2C0E1CD726022F11006C2C3D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0E1CD626022F11006C2C3D /* GoogleService-Info.plist */; };
@@ -68,7 +68,7 @@
 		8EAEB16424F4B36D00B5E6CE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2B20F5E5FF006CED48 /* Images.xcassets */; };
 		8EAEB16524F4B7D100B5E6CE /* UserInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8ECE0D75211C31F900FF2B46 /* UserInfo.plist */; };
 		8EB5C2E82139214700AB83BB /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB5C2E72139214700AB83BB /* Reachability.swift */; };
-		8ECE0D52211AD42600FF2B46 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D51211AD42600FF2B46 /* Setting.swift */; };
+		8ECE0D52211AD42600FF2B46 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D51211AD42600FF2B46 /* Preferences.swift */; };
 		8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */; };
 		8ECE0D7C211C3CFC00FF2B46 /* OilTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */; };
 		8ECE0D7E211CB1F800FF2B46 /* FindDistanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D7D211CB1F800FF2B46 /* FindDistanceTableViewCell.swift */; };
@@ -183,8 +183,8 @@
 		2C0C68BF276B0E3300945CEC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		2C0C68C1276B0E8600945CEC /* XCAssets+Generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCAssets+Generated.swift"; sourceTree = "<group>"; };
 		2C0C68C3276B0EE200945CEC /* Fonts+Generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Fonts+Generated.swift"; sourceTree = "<group>"; };
-		2C0C68C7276B25AB00945CEC /* UIReusable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIReusable+Extension.swift"; sourceTree = "<group>"; };
-		2C0C68C9276B31CA00945CEC /* Tabbar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tabbar+Extension.swift"; sourceTree = "<group>"; };
+		2C0C68C7276B25AB00945CEC /* UIReusable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIReusable+.swift"; sourceTree = "<group>"; };
+		2C0C68C9276B31CA00945CEC /* UITabBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar+.swift"; sourceTree = "<group>"; };
 		2C0C68DF276B633B00945CEC /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		2C0C68E1276B6C9A00945CEC /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		2C0E1CD626022F11006C2C3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -243,7 +243,7 @@
 		8EAEB16724F4BA2200B5E6CE /* FavoriteWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FavoriteWidgetExtension.entitlements; sourceTree = "<group>"; };
 		8EB5C2E72139214700AB83BB /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		8ECE0D502119607300FF2B46 /* KakaoNavi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KakaoNavi-Bridging-Header.h"; sourceTree = "<group>"; };
-		8ECE0D51211AD42600FF2B46 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Setting.swift; path = "OilPrice-Where/Setting.swift"; sourceTree = SOURCE_ROOT; };
+		8ECE0D51211AD42600FF2B46 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Preferences.swift; path = "OilPrice-Where/Preferences.swift"; sourceTree = SOURCE_ROOT; };
 		8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DefaultData.swift; path = "OilPrice-Where/DefaultData.swift"; sourceTree = SOURCE_ROOT; };
 		8ECE0D75211C31F900FF2B46 /* UserInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = UserInfo.plist; sourceTree = "<group>"; };
 		8ECE0D7B211C3CFC00FF2B46 /* OilTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OilTypeTableViewCell.swift; sourceTree = "<group>"; };
@@ -612,8 +612,6 @@
 				8E167D402107E30F0066A59E /* GasStationListData.swift */,
 				29B226422121FDC60012B2F6 /* AverageCostData.swift */,
 				8ECE0DA9212385FB00FF2B46 /* AllPriceData.swift */,
-				8ECE0D51211AD42600FF2B46 /* Setting.swift */,
-				8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -678,6 +676,7 @@
 			isa = PBXGroup;
 			children = (
 				2C0C68DB276B608000945CEC /* Common */,
+				E97B642727D7C13700577650 /* Extensions */,
 				29B2264C2126A1210012B2F6 /* Fonts */,
 				8E7FFE3020F5E600006CED48 /* Info.plist */,
 				8ECE0D75211C31F900FF2B46 /* UserInfo.plist */,
@@ -724,13 +723,8 @@
 				8E1BB8EE2107E9A60065281B /* DataUtility.swift */,
 				29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */,
 				8EB5C2E72139214700AB83BB /* Reachability.swift */,
-				2C0C68C7276B25AB00945CEC /* UIReusable+Extension.swift */,
-				2C0C68E1276B6C9A00945CEC /* UIApplication+.swift */,
-				2C0C68C9276B31CA00945CEC /* Tabbar+Extension.swift */,
-				2CA4726327992D0A00DB0DDD /* CLLocationManager+.swift */,
-				E9400FE927B11C76003168C6 /* UIView+.swift */,
-				E9BAA91A27D7A1250051A57A /* UIViewController+.swift */,
-				E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */,
+				8ECE0D51211AD42600FF2B46 /* Preferences.swift */,
+				8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -757,6 +751,20 @@
 				E94D0F0D27BB7A7100BCB092 /* GasStation */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		E97B642727D7C13700577650 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E9400FE927B11C76003168C6 /* UIView+.swift */,
+				2C0C68C9276B31CA00945CEC /* UITabBar+.swift */,
+				2C0C68C7276B25AB00945CEC /* UIReusable+.swift */,
+				2C0C68E1276B6C9A00945CEC /* UIApplication+.swift */,
+				E9BAA91A27D7A1250051A57A /* UIViewController+.swift */,
+				2CA4726327992D0A00DB0DDD /* CLLocationManager+.swift */,
+				E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -968,7 +976,7 @@
 				2CAC81DD276B948B00CC6096 /* CustomKVView.swift in Sources */,
 				8ECE0DAA212385FB00FF2B46 /* AllPriceData.swift in Sources */,
 				8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */,
-				8ECE0D52211AD42600FF2B46 /* Setting.swift in Sources */,
+				8ECE0D52211AD42600FF2B46 /* Preferences.swift in Sources */,
 				8EE53E8C24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift in Sources */,
 				E94D0F0227BB467600BCB092 /* GasStationTitleView.swift in Sources */,
 				8E167D3B2107AD480066A59E /* Service.swift in Sources */,
@@ -1003,7 +1011,7 @@
 				2CAC81E3276BA31D00CC6096 /* CustomNavigationView.swift in Sources */,
 				E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */,
 				E9400FEA27B11C76003168C6 /* UIView+.swift in Sources */,
-				2C0C68CA276B31CA00945CEC /* Tabbar+Extension.swift in Sources */,
+				2C0C68CA276B31CA00945CEC /* UITabBar+.swift in Sources */,
 				2CC1C80C276C8123007527C7 /* MainVC.swift in Sources */,
 				8E167D3D2107AEA30066A59E /* API.swift in Sources */,
 				E9400FE227B0A467003168C6 /* StationAPI.swift in Sources */,
@@ -1013,7 +1021,7 @@
 				E9400FE827B1146E003168C6 /* StationInfoGuideView.swift in Sources */,
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
 				2CAC81DF276B966300CC6096 /* FavoritesGasStationViewModel.swift in Sources */,
-				2C0C68C8276B25AB00945CEC /* UIReusable+Extension.swift in Sources */,
+				2C0C68C8276B25AB00945CEC /* UIReusable+.swift in Sources */,
 				E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */,
 				8E68BA1524CCC560004730D7 /* FindOilTypeViewModel.swift in Sources */,
 				8E68BA1F24CCCCE5004730D7 /* FindDistanceVC.swift in Sources */,

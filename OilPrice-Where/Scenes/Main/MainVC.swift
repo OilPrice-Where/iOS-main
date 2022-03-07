@@ -374,11 +374,10 @@ extension MainVC: FloatingPanelControllerDelegate {
     }
     
     func floatingPanelWillBeginDragging(_ fpc: FloatingPanelController) {
-        viewModel.currentState = fpc.state
-    }
-    
-    func floatingPanelDidMove(_ fpc: FloatingPanelController) {
-        print(#function, fpc.state)
+        viewModel.beforeNAfter = (fpc.state, viewModel.beforeNAfter.after)
+        
+        guard fpc.state == .half else { return }
+        viewModel.cameraPosition = mapContainerView.mapView.cameraPosition
     }
     
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
@@ -394,6 +393,11 @@ extension MainVC: FloatingPanelControllerDelegate {
         case .half:
             guideView.isHidden = false
             mapContainerView.mapView.contentInset.bottom = 168
+            
+            guard viewModel.beforeNAfter.before == .full, let position = viewModel.cameraPosition else { return }
+            let update = NMFCameraUpdate(position: position)
+            update.animation = .easeIn
+            mapContainerView.mapView.moveCamera(update)
         case .full:
             guideView.isHidden = false
             mapContainerView.mapView.contentInset.bottom = 401

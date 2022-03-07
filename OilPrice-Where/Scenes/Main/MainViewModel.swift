@@ -25,7 +25,8 @@ final class MainViewModel {
     var requestLocation: CLLocation? = nil { didSet { addressUpdate() } }
     var selectedStation: GasStation? = nil { didSet { output.selectedStation.accept(()) } }
     var addressString: String?
-    var currentState: FloatingPanelState = .hidden
+    var cameraPosition: NMFCameraPosition?
+    var beforeNAfter: (before: FloatingPanelState, after: FloatingPanelState) = (.hidden, .hidden)
     
     init() {
         rxBind()
