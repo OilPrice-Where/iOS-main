@@ -46,7 +46,7 @@ final class MainVC: UIViewController {
         navigationController?.navigationBar.isHidden = true
         UIApplication.shared.statusBarUIView?.backgroundColor = .clear
     }
-    
+    //MARK: - Set UI
     func makeUI() {
         view.backgroundColor = .white
         view.addSubview(mapContainerView)
@@ -69,7 +69,7 @@ final class MainVC: UIViewController {
         mapContainerView.researchButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.centerX.equalTo(mapContainerView.snp.centerX)
-            $0.width.equalTo(150)
+            $0.width.equalTo(130)
             $0.height.equalTo(42)
         }
         guideView.snp.makeConstraints {
@@ -90,7 +90,7 @@ final class MainVC: UIViewController {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }
-    
+    //MARK: - Rx Binding..
     func rxBind() {
         DefaultData.shared.completedRelay
             .subscribe(with: self, onNext: { owner, key in
@@ -144,6 +144,7 @@ final class MainVC: UIViewController {
     @objc
     func toListTapped() {
         let listVC = MainListVC()
+        listVC.delegate = self
         listVC.viewModel = MainListViewModel(stations: viewModel.stations)
         listVC.infoView.fetch(geoCode: viewModel.addressString)
         navigationController?.pushViewController(listVC, animated: true)
@@ -316,6 +317,22 @@ extension MainVC: MainMapViewDelegate {
     }
 }
 
+extension MainVC: MainListVCDelegate {
+    func touchedCell(info: GasStation) {
+        let position = NMGTm128(x: info.katecX, y: info.katecY).toLatLng()
+        marker(didTapMarker: position, info: info)
+        
+        mapContainerView.selectedMarker = mapContainerView.markers.first(where: {
+            guard let station = $0.userInfo["station"] as? GasStation else { return false }
+            return station.id == info.id
+        })
+        mapContainerView.selectedMarker?.isSelected = true
+        mapContainerView.mapView.moveCamera(NMFCameraUpdate(scrollTo: position))
+        mapContainerView.researchButton.isEnabled = false
+        mapContainerView.researchButton.alpha = 0.0
+    }
+}
+
 extension MainVC: NMFMapViewCameraDelegate {
     func mapViewCameraIdle(_ mapView: NMFMapView) {
         let centerLocation = CLLocation(latitude: mapView.latitude, longitude: mapView.longitude)
@@ -365,9 +382,9 @@ extension MainVC: FloatingPanelControllerDelegate {
     }
     
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
-        print(#function, fpc.state)
         mapContainerView.toListButton.isHidden = fpc.state == .full
         mapContainerView.currentLocationButton.isHidden = fpc.state == .full
+        mapContainerView.researchButton.isHidden = fpc.state == .full
         
         switch fpc.state {
         case .hidden:

@@ -691,7 +691,7 @@
 		8E7FFE3F20F5EB46006CED48 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				8EE53E7524CF0699008D8045 /* MainListVC */,
+				8EE53E7C24CF1427008D8045 /* MainListVC+CoreLocation.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -715,14 +715,6 @@
 				8EAEB15724F41AFF00B5E6CE /* Info.plist */,
 			);
 			path = FavoriteWidgetExtension;
-			sourceTree = "<group>";
-		};
-		8EE53E7524CF0699008D8045 /* MainListVC */ = {
-			isa = PBXGroup;
-			children = (
-				8EE53E7C24CF1427008D8045 /* MainListVC+CoreLocation.swift */,
-			);
-			name = MainListVC;
 			sourceTree = "<group>";
 		};
 		8EE7E34720F5EDA400F35473 /* Utility */ = {

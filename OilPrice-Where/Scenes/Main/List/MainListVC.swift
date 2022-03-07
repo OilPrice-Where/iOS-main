@@ -16,11 +16,16 @@ import TMapSDK
 import NMapsMap
 import SCLAlertView
 
+protocol MainListVCDelegate: AnyObject {
+    func touchedCell(info: GasStation)
+}
+
 //MARK: GasStationListVC
 final class MainListVC: UIViewController {
     //MARK: - Properties
     let bag = DisposeBag()
     var viewModel: MainListViewModel!
+    weak var delegate: MainListVCDelegate?
     lazy var tableView = UITableView().then {
         $0.separatorStyle = .none
         $0.alwaysBounceVertical = false
@@ -165,6 +170,10 @@ extension MainListVC: UITableViewDataSource {
 }
 
 extension MainListVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.touchedCell(info: viewModel.stations[indexPath.section])
+        navigationController?.popViewController(animated: true)
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 163.2
     }
