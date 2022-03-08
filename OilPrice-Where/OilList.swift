@@ -1,5 +1,5 @@
 //
-//  GasStationListData.swift
+//  OilList.swift
 //  OilPrice-Where
 //
 //  Created by 박상욱 on 2018. 7. 25..

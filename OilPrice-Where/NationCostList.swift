@@ -1,5 +1,5 @@
 //
-//  AverageCostData.swift
+//  NationCostList.swift
 //  OilPrice-Where
 //
 //  Created by SolChan Ahn on 2018. 8. 14..
