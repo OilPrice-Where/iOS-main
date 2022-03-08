@@ -11,7 +11,7 @@ import RxSwift
 
 typealias BrandInfomation = (logo: UIImage?, title: String)
 
-final class EditSalePriceViewModel: CommonViewModel {
+final class EditSalePriceViewModel {
     private let brandsInfo: [BrandInfomation] = [ // 선택 가능한 탐색 반경
         (UIImage(named: "LogoSKEnergy"), "SK"),
         (UIImage(named: "LogoOilBank"), "현대오일뱅크"),
@@ -24,7 +24,7 @@ final class EditSalePriceViewModel: CommonViewModel {
     
     var brandsInfoSubject: BehaviorSubject<[BrandInfomation]>
     
-    override init() {
+    init() {
         self.brandsInfoSubject = BehaviorSubject<[BrandInfomation]>(value: brandsInfo)
     }
 }

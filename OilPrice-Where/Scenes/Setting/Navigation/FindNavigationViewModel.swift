@@ -10,15 +10,17 @@ import Foundation
 import RxSwift
 import RxRelay
 
-final class FindNavigationViewModel: CommonViewModel {
+final class FindNavigationViewModel {
     private let findNavi = [ // 선택 가능한 탐색 반경
         "카카오내비",
-        "T map"
+        "카카오맵",
+        "티맵",
+        "네이버지도"
     ]
     
     var naviSubject: BehaviorRelay<[String]>
     
-    override init() {
+    init() {
         self.naviSubject = BehaviorRelay<[String]>(value: findNavi)
     }
 }

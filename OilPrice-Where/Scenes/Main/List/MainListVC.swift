@@ -12,33 +12,20 @@ import SnapKit
 import UIKit
 import RxSwift
 import RxCocoa
+import TMapSDK
+import NMapsMap
+import SCLAlertView
+
+protocol MainListVCDelegate: AnyObject {
+    func touchedCell(info: GasStation)
+}
 
 //MARK: GasStationListVC
 final class MainListVC: UIViewController {
     //MARK: - Properties
     let bag = DisposeBag()
     var viewModel: MainListViewModel!
-    let priceSortedButton = UIButton().then {
-        $0.tag = 1
-        $0.setTitle("가격순", for: .normal)
-        $0.setTitle("가격순", for: .highlighted)
-        $0.isSelected = true
-        $0.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
-        $0.setTitleColor(Asset.Colors.defaultColor.color, for: .normal)
-        $0.setTitleColor(Asset.Colors.darkMain.color, for: .selected)
-        $0.backgroundColor = .systemGroupedBackground
-        $0.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
-    }
-    let distanceSortedButton = UIButton().then {
-        $0.tag = 2
-        $0.setTitle("거리순", for: .normal)
-        $0.setTitle("거리순", for: .highlighted)
-        $0.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
-        $0.setTitleColor(Asset.Colors.defaultColor.color, for: .normal)
-        $0.setTitleColor(Asset.Colors.darkMain.color, for: .selected)
-        $0.backgroundColor = .systemGroupedBackground
-        $0.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
-    }
+    weak var delegate: MainListVCDelegate?
     lazy var tableView = UITableView().then {
         $0.separatorStyle = .none
         $0.alwaysBounceVertical = false
@@ -49,7 +36,7 @@ final class MainListVC: UIViewController {
         $0.delegate = self
         GasStationCell.register($0)
     }
-    
+    let infoView = InfoListView()
     var noneView = MainListNoneView().then {
         $0.isHidden = true
     }
@@ -60,6 +47,7 @@ final class MainListVC: UIViewController {
         
         makeUI()
         rxBind()
+        configure()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,39 +59,29 @@ final class MainListVC: UIViewController {
     
     //MARK: - Make UI
     func makeUI() {
-        navigationItem.title = "주유소 리스트"
+        navigationItem.title = "주유소 목록"
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.backgroundColor = Asset.Colors.mainColor.color
         navigationController?.navigationBar.titleTextAttributes = [.font: FontFamily.NanumSquareRound.bold.font(size: 17),
                                                                    .foregroundColor: UIColor.white]
-
+        
         view.backgroundColor = .systemGroupedBackground
         
-        view.addSubview(priceSortedButton)
-        view.addSubview(distanceSortedButton)
+        view.addSubview(infoView)
+        
         view.addSubview(tableView)
         view.addSubview(noneView)
         
-        priceSortedButton.snp.makeConstraints {
+        infoView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.left.equalToSuperview().offset(10)
-            $0.width.equalTo(45)
-            $0.height.equalTo(30)
-        }
-        
-        distanceSortedButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.left.equalTo(priceSortedButton.snp.right).offset(10)
-            $0.width.equalTo(45)
-            $0.height.equalTo(30)
-        }
-        
-        tableView.snp.makeConstraints {
-            $0.top.equalTo(priceSortedButton.snp.bottom)
             $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(30)
         }
-        
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(infoView.snp.bottom)
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
         noneView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.left.bottom.right.equalToSuperview()
@@ -113,39 +91,61 @@ final class MainListVC: UIViewController {
     //MARK: - Rx Binding..
     func rxBind() {
         // Sorted by Price/Distance
-        priceSortedButton
+        infoView.priceSortedButton
             .rx
             .tap
             .bind(with: self, onNext: { owner, _ in
-//                owner.viewModel.sortedList(isPrice: true)
+                owner.sortButtonTapped(btn: nil)
             })
             .disposed(by: bag)
         
-        distanceSortedButton
+        infoView.distanceSortedButton
             .rx
             .tap
             .bind(with: self, onNext: { owner, _ in
-//                owner.viewModel.sortedList(isPrice: false)
+                owner.sortButtonTapped(btn: nil)
             })
             .disposed(by: bag)
+        
+    }
+    
+    func configure() {
+        infoView.priceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
+        infoView.distanceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
     }
     
     @objc
-    func sortButtonTapped(btn: UIButton) {
-        guard let text = btn.titleLabel?.text else { return }
+    func sortButtonTapped(btn: UIButton?) {
+        guard let text = btn?.titleLabel?.text else { return }
         
         let isPriceSorted = text == "가격순"
         
-        priceSortedButton.isSelected = isPriceSorted
-        distanceSortedButton.isSelected = !isPriceSorted
+        infoView.priceSortedButton.isSelected = isPriceSorted
+        infoView.distanceSortedButton.isSelected = !isPriceSorted
         
         if isPriceSorted {
-            priceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
-            distanceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
+            infoView.priceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
+            infoView.distanceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
         } else {
-            priceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
-            distanceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
+            infoView.priceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
+            infoView.distanceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
         }
+        
+        viewModel.sortedList(isPrice: isPriceSorted)
+        
+        tableView.reloadData()
+    }
+    
+    func handleError(error: Error?) {
+        guard let error = error as NSError? else { return }
+        
+        let alert = UIAlertController(title: title,
+                                      message: error.localizedFailureReason,
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -162,13 +162,18 @@ extension MainListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: GasStationCell.id, for: indexPath) as? GasStationCell else { return UITableViewCell() }
         
-        cell.configure(station: viewModel.stations[indexPath.section])
+        cell.configure(station: viewModel.stations[indexPath.section], indexPath: indexPath)
+        cell.delegate = self
         
         return cell
     }
 }
 
 extension MainListVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.touchedCell(info: viewModel.stations[indexPath.section])
+        navigationController?.popViewController(animated: true)
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 163.2
     }
@@ -183,3 +188,124 @@ extension MainListVC: UITableViewDelegate {
         return view
     }
 }
+
+extension MainListVC: GasStationCellDelegate {
+    // 즐겨찾기 설정 및 해제
+    func touchedFavoriteButton(id: String?, indexPath: IndexPath?) {
+        let faovorites = DefaultData.shared.favoriteSubject.value
+        guard let _id = id, let _indexPath = indexPath, faovorites.count < 6 else { return }
+        let isDeleted = faovorites.contains(_id)
+        guard isDeleted || (!isDeleted && faovorites.count < 5) else {
+            DispatchQueue.main.async { [weak self] in
+                self?.makeAlert(title: "최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !")
+            }
+            return
+        }
+        var newFaovorites = faovorites
+        isDeleted ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
+        
+        DefaultData.shared.favoriteSubject.accept(newFaovorites)
+        tableView.reloadRows(at: [_indexPath], with: .automatic)
+    }
+    
+    func touchedDirectionButton(info: GasStation?) {
+        guard let info = info,
+              let type = NaviType(rawValue: DefaultData.shared.naviSubject.value) else { return }
+        
+        let position = NMGTm128(x: info.katecX, y: info.katecY).toLatLng()
+        
+        switch type {
+        case .tMap:
+            if TMapApi.isTmapApplicationInstalled() {
+                let _ = TMapApi.invokeRoute(info.name,
+                                            coordinate: CLLocationCoordinate2D(latitude: position.lat,
+                                                                               longitude: position.lng))
+                return
+            }
+            
+            let alert = UIAlertController(title: "T Map이 없습니다.",
+                                          message: "다운로드 페이지로 이동하시겠습니까?",
+                                          preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인",
+                                         style: .default) { _ in
+                guard let url = URL(string: TMapApi.getTMapDownUrl()),
+                      UIApplication.shared.canOpenURL(url) else { return }
+                
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+            
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+            
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            
+            present(alert, animated: true, completion: nil)
+        case .kakao:
+            let destination = KNVLocation(name: info.name,
+                                          x: NSNumber(value: info.katecX),
+                                          y: NSNumber(value: info.katecY))
+            let options = KNVOptions()
+            options.routeInfo = false
+            let params = KNVParams(destination: destination,
+                                   options: options)
+            KNVNaviLauncher.shared().navigate(with: params) { [weak self] (error) in
+                DispatchQueue.main.async {
+                    self?.handleError(error: error)
+                }
+            }
+        case .kakaoMap:
+            guard let destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=CAR"),
+                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425") else { return }
+            
+            if UIApplication.shared.canOpenURL(destinationURL) {
+                UIApplication.shared.open(destinationURL, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
+            }
+        case .naver:
+            let urlString = "nmap://navigation?dlat=\(position.lat)&dlng=\(position.lng)&dname=\(info.name)&appname=com.oilpricewhere.wheregasoline"
+            
+            guard let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                  let destinationURL = URL(string: encodedStr),
+                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/311867728") else { return }
+            
+            if UIApplication.shared.canOpenURL(destinationURL) {
+                UIApplication.shared.open(destinationURL)
+            } else {
+                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
+            }
+        }
+    }
+}
+
+// HeaderView 설정
+//func fetchAverageCosts() {
+//    firebaseUtility.getAverageCost(productName: "gasolinCost") { (data) in
+//        self.gasolineCostLabel.text = data["price"] as? String ?? ""
+//        self.gasolineTitleLabel.text = data["productName"] as? String ?? ""
+//        if data["difference"] as? Bool ?? true {
+//            self.gasolineUpDownImageView.image = Asset.Images.priceUpIcon.image
+//        }else {
+//            self.gasolineUpDownImageView.image = Asset.Images.priceDownIcon.image
+//        }
+//    }
+//    firebaseUtility.getAverageCost(productName: "dieselCost") { (data) in
+//        self.dieselCostLabel.text = data["price"] as? String ?? ""
+//        self.dieselTitleLabel.text = data["productName"] as? String ?? ""
+//        if data["difference"] as? Bool ?? true {
+//            self.dieselUpDownImageView.image = Asset.Images.priceUpIcon.image
+//        }else {
+//            self.dieselUpDownImageView.image = Asset.Images.priceDownIcon.image
+//        }
+//
+//    }
+//    firebaseUtility.getAverageCost(productName: "lpgCost") { (data) in
+//        self.lpgCostLabel.text = data["price"] as? String ?? ""
+//        self.lpgTitleLabel.text = data["productName"] as? String ?? ""
+//        if data["difference"] as? Bool ?? true {
+//            self.lpgUpDownImageView.image = Asset.Images.priceUpIcon.image
+//        } else {
+//            self.lpgUpDownImageView.image = Asset.Images.priceDownIcon.image
+//        }
+//    }
+//}

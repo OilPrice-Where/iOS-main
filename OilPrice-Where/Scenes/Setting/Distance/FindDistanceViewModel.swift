@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import RxRelay
 
-final class FindDistanceViewModel: CommonViewModel {
+final class FindDistanceViewModel {
     private let findDistaceArea = [ // 선택 가능한 탐색 반경
         "1KM",
         "3KM",
@@ -19,7 +19,7 @@ final class FindDistanceViewModel: CommonViewModel {
     
     var distanceSubject: BehaviorRelay<[String]>
     
-    override init() {
+    init() {
         self.distanceSubject = BehaviorRelay<[String]>(value: findDistaceArea)
     }
 }

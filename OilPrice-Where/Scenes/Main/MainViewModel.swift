@@ -13,16 +13,20 @@ import RxCocoa
 import Moya
 import NMapsMap
 import NSObject_Rx
+import FloatingPanel
 
 final class MainViewModel {
+    let bag = DisposeBag()
     let input = Input()
     let output = Output()
     let staionProvider = MoyaProvider<StationAPI>()
-    let bag = DisposeBag()
-    var currentLocation: CLLocation? = nil
     var stations = [GasStation]() { didSet { output.staionResult.accept(()) } }
-    var selectedStation: GasStation?
-    var isSortedByPrice = true
+    var currentLocation: CLLocation? = nil
+    var requestLocation: CLLocation? = nil { didSet { addressUpdate() } }
+    var selectedStation: GasStation? = nil { didSet { output.selectedStation.accept(()) } }
+    var addressString: String?
+    var cameraPosition: NMFCameraPosition?
+    var beforeNAfter: (before: FloatingPanelState, after: FloatingPanelState) = (.hidden, .hidden)
     
     init() {
         rxBind()
@@ -36,7 +40,11 @@ final class MainViewModel {
             .disposed(by: bag)
         
         DefaultData.shared.completedRelay
-            .bind(with: self, onNext: { owner, _ in
+            .bind(with: self, onNext: { owner, key in
+                guard !(key == "Favorites" || key == "LocalFavorites") else {
+                    return
+                }
+                
                 owner.requestSearch()
             })
             .disposed(by: bag)
@@ -57,13 +65,29 @@ extension MainViewModel {
     struct Output {
         let error = PublishRelay<ErrorResult>() // => Error
         let staionResult = PublishRelay<Void>() // => 검색 결과
+        let selectedStation = PublishRelay<Void>() // => 주유소 선택
     }
 }
 
 extension MainViewModel {
-    func sortedList(isPrice: Bool) {
-        isSortedByPrice = isPrice
-        stations = isPrice ? stations.sorted(by: { $0.price < $1.price }) : stations.sorted(by: { $0.distance < $1.distance })
+    private func addressUpdate() {
+        guard let location = requestLocation else { return }
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
+            if let _ = error { return }
+            
+            var currentPlacemark: CLPlacemark?
+            // 에러가 없고, 주소 정보가 있으며 주소가 공백이지 않을 시
+            if error == nil, let p = placemarks, !p.isEmpty {
+                currentPlacemark = p.last
+            } else {
+                currentPlacemark = nil
+            }
+            
+            var string = currentPlacemark?.locality ?? ""
+            string += string.count > 0 ? " " + (currentPlacemark?.name ?? "") : currentPlacemark?.name ?? ""
+            self?.addressString = string
+        }
     }
     
     private func requestSearch(sort: Int = 1) {
@@ -71,7 +95,7 @@ extension MainViewModel {
         let oilSubject = DefaultData.shared.oilSubject.value
         let brands = DefaultData.shared.brandsSubject.value
         
-        guard let coordinate = currentLocation?.coordinate else { return }
+        guard let coordinate = requestLocation?.coordinate else { return }
         
         let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
         let tm = NMGTm128(from: latLng)
@@ -96,7 +120,7 @@ extension MainViewModel {
                     target = target.filter { brands.contains($0.brand) }
                 }
                 
-                self.stations = self.isSortedByPrice ? target.sorted(by: { $0.price < $1.price }) : target.sorted(by: { $0.distance < $1.distance })
+                self.stations = target
             case .failure(let error):
                 print(error.localizedDescription)
                 self.output.error.accept(.requestStation)

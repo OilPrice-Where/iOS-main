@@ -9,91 +9,102 @@
 import Foundation
 import Firebase
 import FirebaseDatabase
+import Moya
 
 class FirebaseUtility {
-   
-   var ref: DatabaseReference!
-   
-   func getAverageCost(productName: String, completion: @escaping (NSDictionary) -> ()) {
-      
-      ref = Database.database().reference()
-      
-      let data = ref.child("systemData").child("averageCostList").child(productName)
-      
-      data.observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
-         
-         do {
-            let priceData = snapshot.value as! NSDictionary
-            completion(priceData)
-         } catch {
-            completion(["error":"nil Data"])
-         }
-      })
-   }
-   
-   func checkUpdateTime(){
-      let date = Date()
-      let formatter = DateFormatter()
-      
-      formatter.dateFormat = "yyyyMMdd"
-      let curruntTime = formatter.string(from: date)
-      
-      ref = Database.database().reference()
-      
-      let data = ref.child("systemData").child("averageCostList").child("updateTime")
-      
-      data.observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
-         let updateTime = snapshot.value as? String ?? ""
-         
-         if curruntTime != updateTime {
-            ServiceList.allPriceList(appKey: Preferences.getAppKey()) { (result) in
-               switch result {
-               case .success(let allPriceListData):
-                  let priceDatas = allPriceListData.result.allPriceList
-                  
-                  for data in priceDatas {
-                     var productName = ""
-                     switch data.oilCode {
-                     case "D047":
-                        productName = "dieselCost"
-                     case "B027":
-                        productName = "gasolinCost"
-                     case "K015":
-                        productName = "lpgCost"
-                     case "B034":
-                        productName = "premiumCost"
-                     default: break
-                     }
-                     
-                     let tempPrice = data.price.components(separatedBy: ".")[0]
-                     var price = ""
-                     
-                     if tempPrice.count > 3 {
-                        price = tempPrice.substring(to: tempPrice.index(tempPrice.endIndex, offsetBy: -3)) + "," + tempPrice.substring(from: tempPrice.index(tempPrice.endIndex, offsetBy: -3))
-                     }else {
-                        price = tempPrice
-                     }
-                     var difference = true
-                     if data.diff.substring(to: data.diff.index(after: data.diff.startIndex)) == "-" {
-                        difference = false
-                     }else {
-                        difference = true
-                     }
-                     
-                     let updateCostData = ["difference": difference,
-                                           "price": price] as [String : Any]
-                     
-                     if productName != "" {
-                        self.ref.child("systemData").child("averageCostList").child(productName).updateChildValues(updateCostData)
-                     }
-                     
-                  }
-                  self.ref.child("systemData").child("averageCostList").updateChildValues(["updateTime": priceDatas[0].tradeDate])
-               case .error(let err):
-                  print(err)
-               }
+    
+    var ref: DatabaseReference?
+    let staionProvider = MoyaProvider<StationAPI>()
+    
+    func getAverageCost(productName: String, completion: @escaping (NSDictionary) -> ()) {
+        ref = Database.database().reference()
+        guard let _ref = ref else { return }
+        
+        let data = _ref.child("systemData").child("averageCostList").child(productName)
+        
+        data.observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
+            guard let priceData = snapshot.value as? NSDictionary else {
+                completion(["error":"nil Data"])
+                return
             }
-         }
-      })
-   }
+            
+            completion(priceData)
+        })
+    }
+    
+    func checkUpdateTime() {
+        let date = Date()
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yyyyMMdd"
+        let curruntTime = formatter.string(from: date)
+        
+        ref = Database.database().reference()
+        
+        guard let _ref = ref else { return }
+        
+        let data = _ref.child("systemData").child("averageCostList").child("updateTime")
+        
+        data.observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
+            let updateTime = snapshot.value as? String ?? ""
+            
+            if curruntTime != updateTime {
+                self.staionProvider.request(.allPrices(appKey: Preferences.getAppKey())) {
+                    switch $0 {
+                    case .success(let resp):
+                        guard let decode = try? resp.map(AllPriceResult.self) else { return }
+                        let prices = decode.result.allPriceList
+                        
+                        for data in prices {
+                            var productName = ""
+                            switch data.oilCode {
+                            case "D047":
+                                productName = "dieselCost"
+                            case "B027":
+                                productName = "gasolinCost"
+                            case "K015":
+                                productName = "lpgCost"
+                            case "B034":
+                                productName = "premiumCost"
+                            default: break
+                            }
+                            
+                            let tempPrice = data.price.components(separatedBy: ".")[0]
+                            var price = ""
+                            
+                            if tempPrice.count > 3 {
+                                let index = tempPrice.index(tempPrice.endIndex, offsetBy: -3)
+                                price = tempPrice[index...] + "," + tempPrice[...index]
+                            } else {
+                                price = tempPrice
+                            }
+                            var difference = true
+                            let index = data.diff.index(after: data.diff.startIndex)
+                            if data.diff[index...] == "-" {
+                                difference = false
+                            } else {
+                                difference = true
+                            }
+                            
+                            let updateCostData = ["difference": difference,
+                                                  "price": price] as [String : Any]
+                            
+                            if productName != "" {
+                                _ref.child("systemData")
+                                    .child("averageCostList")
+                                    .child(productName)
+                                    .updateChildValues(updateCostData)
+                            }
+                            
+                        }
+                        _ref.child("systemData")
+                            .child("averageCostList")
+                            .updateChildValues(["updateTime": prices[0].tradeDate])
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        })
+    }
 }

@@ -23,14 +23,13 @@ final class StationInfoGuideView: UIView {
         $0.imageView?.tintColor = Asset.Colors.mainColor.color
         
     }
-    let directionLabel = UILabel().then {
-        $0.font = FontFamily.NanumSquareRound.bold.font(size: 18)
-        $0.textColor = .white
-        $0.backgroundColor = Asset.Colors.mainColor.color
-        $0.layer.cornerRadius = 5.0
+    let directionButton = UIButton().then {
         $0.clipsToBounds = true
-        $0.textAlignment = .center
-        $0.text = "88.88km 안내 시작"
+        $0.layer.cornerRadius = 5.0
+        $0.titleLabel?.font = FontFamily.NanumSquareRound.bold.font(size: 18)
+        $0.titleLabel?.textColor = .white
+        $0.titleLabel?.textAlignment = .center
+        $0.backgroundColor = Asset.Colors.mainColor.color
     }
     
     //MARK: - Initializer
@@ -47,15 +46,15 @@ final class StationInfoGuideView: UIView {
     //MARK: - Make UI
     func makeUI() {
         addSubview(favoriteButton)
-        addSubview(directionLabel)
+        addSubview(directionButton)
         
         favoriteButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(14)
             $0.left.equalToSuperview().offset(14)
-            $0.width.equalTo(60)
+            $0.width.equalTo(80)
             $0.height.equalTo(38)
         }
-        directionLabel.snp.makeConstraints {
+        directionButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(14)
             $0.left.equalTo(favoriteButton.snp.right).offset(10)
             $0.right.equalToSuperview().offset(-14)

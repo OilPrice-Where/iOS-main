@@ -99,7 +99,7 @@ final class SettingVC: UIViewController {
     // 이전 설정을 데이터를 불러와서
     // oilTypeLabel, findLabel 업데이트
     func fetchNavigationTitle() -> String? {
-        return Preferences.navigationType(name: DefaultData.shared.naviSubject.value)
+        return Preferences.navigation(type: DefaultData.shared.naviSubject.value)
     }
     
     func fetchOilTypeString() -> String? {

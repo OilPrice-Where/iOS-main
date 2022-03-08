@@ -1,5 +1,5 @@
 //
-//  UIReusable+Extension.swift
+//  UIReusable+.swift
 //  OilPrice-Where
 //
 //  Created by wargi_p on 2021/12/16.

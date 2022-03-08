@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-final class FindBrandViewModel: CommonViewModel {
+final class FindBrandViewModel {
     private let findBrand = [ // 선택 가능한 탐색 반경
         "전체",
         "SK에너지",
@@ -28,7 +28,7 @@ final class FindBrandViewModel: CommonViewModel {
     
     var brandSubject: BehaviorSubject<[String]>
     
-    override init() {
+    init() {
         self.brandSubject = BehaviorSubject<[String]>(value: findBrand)
     }
 }

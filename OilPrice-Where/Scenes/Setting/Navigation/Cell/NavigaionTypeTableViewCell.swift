@@ -37,9 +37,9 @@ class NavigaionTypeTableViewCell: UITableViewCell {
     }
     
     //MARK: - Fetch Data
-    func fetch(navigation type: String) {
+    func fetch(navigation name: String) {
         // Navigation title
-        naviTypeLabel.text = type
+        naviTypeLabel.text = name
     }
     
     //MARK: - Configure UI

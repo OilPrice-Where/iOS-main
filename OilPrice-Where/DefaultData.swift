@@ -1,5 +1,5 @@
 //
-//  Station.swift
+//  DefaultData.swift
 //  OilPrice-Where
 //
 //  Created by 박상욱 on 2018. 8. 8.
@@ -8,13 +8,15 @@
 
 import Foundation
 import RxSwift
-import SwiftyPlistManager
 import RxRelay
+import SwiftyPlistManager
+import Moya
 
 // App 전체에서 사용하는 싱글톤
 class DefaultData {
     static let shared = DefaultData() // 싱글톤 객체 생성
     private let bag = DisposeBag()
+    let staionProvider = MoyaProvider<StationAPI>()
     
     // 기본 설정
     private init() {
@@ -31,16 +33,17 @@ class DefaultData {
     let naviSubject = BehaviorRelay<String>(value: "kakao")
     let salesSubject = BehaviorRelay<[String: Int]>(value: [:])
     let localFavoritesSubject = BehaviorRelay<String>(value: "")
-    let completedRelay = PublishRelay<Void?>()
+    let completedRelay = PublishRelay<String?>()
     
     // 전군 평균 기름 값 로드 함수
     func allPriceDataLoad() {
-        ServiceList.allPriceList(appKey: Preferences.getAppKey()) { (result) in
-            switch result {
-            case .success(let allPriceListData):
-                self.priceData = allPriceListData.result.allPriceList
-            case .error(let err):
-                print(err)
+        staionProvider.request(.allPrices(appKey: Preferences.getAppKey())) {
+            switch $0 {
+            case .success(let resp):
+                guard let decode = try? resp.map(AllPriceResult.self) else { return }
+                self.priceData = decode.result.allPriceList
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }
@@ -60,7 +63,8 @@ class DefaultData {
                 print(err.localizedDescription)
                 return
             }
-            completedRelay.accept(nil)
+            
+            completedRelay.accept(key)
         }
     }
     
@@ -139,15 +143,17 @@ class DefaultData {
                 for id in infomations {
                     guard !tempArr.contains(id) else { continue }
                     group.enter()
-                    ServiceList.informationGasStaion(appKey: Preferences.getAppKey(),
-                                                     id: id) { (result) in
-                        switch result {
-                        case .success(let info):
+                    owner.staionProvider.request(.stationDetail(appKey: Preferences.getAppKey(), id: id)) {
+                        switch $0 {
+                        case .success(let resp):
+                            guard let result = try? resp.map(InformationOilStationResult.self),
+                                  let info = result.result.allPriceList.first else { return }
+                            
                             queue.async {
                                 owner.tempFavArr.append(info)
                                 group.leave()
                             }
-                        case .error(let error):
+                        case .failure(let error):
                             print(error.localizedDescription)
                         }
                     }
