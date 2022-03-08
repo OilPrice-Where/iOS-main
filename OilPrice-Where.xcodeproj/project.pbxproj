@@ -32,8 +32,6 @@
 		2CC1C80E276C8610007527C7 /* MainMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C80D276C8610007527C7 /* MainMapView.swift */; };
 		764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift */; };
 		765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
-		8E167D3B2107AD480066A59E /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3A2107AD480066A59E /* Service.swift */; };
-		8E167D3D2107AEA30066A59E /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3C2107AEA30066A59E /* API.swift */; };
 		8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3E2107D95C0066A59E /* GeoConverter.swift */; };
 		8E167D412107E30F0066A59E /* GasStationListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D402107E30F0066A59E /* GasStationListData.swift */; };
 		8E1BB8ED2107E78D0065281B /* ServiceResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1BB8EC2107E78D0065281B /* ServiceResult.swift */; };
@@ -55,7 +53,6 @@
 		8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */; };
 		8E7FFE3920F5EA1C006CED48 /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7FFE3820F5EA1C006CED48 /* SettingVC.swift */; };
 		8E82E43224F901D200395CDD /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
-		8E82E43424F9468100395CDD /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3C2107AEA30066A59E /* API.swift */; };
 		8EAEB15024F41AFF00B5E6CE /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EAEB14F24F41AFF00B5E6CE /* NotificationCenter.framework */; };
 		8EAEB15324F41AFF00B5E6CE /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAEB15224F41AFF00B5E6CE /* TodayViewController.swift */; };
 		8EAEB15624F41AFF00B5E6CE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EAEB15424F41AFF00B5E6CE /* MainInterface.storyboard */; };
@@ -208,8 +205,6 @@
 		765830AC212699FD006DFE2E /* InformationGasStaion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationGasStaion.swift; sourceTree = "<group>"; };
 		7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		865E1877381F722FB0DBBE14 /* Pods-FavoriteWidgetExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FavoriteWidgetExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-FavoriteWidgetExtension/Pods-FavoriteWidgetExtension.release.xcconfig"; sourceTree = "<group>"; };
-		8E167D3A2107AD480066A59E /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
-		8E167D3C2107AEA30066A59E /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = API.swift; path = "OilPrice-Where/API.swift"; sourceTree = SOURCE_ROOT; };
 		8E167D3E2107D95C0066A59E /* GeoConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoConverter.swift; sourceTree = "<group>"; };
 		8E167D402107E30F0066A59E /* GasStationListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GasStationListData.swift; path = "OilPrice-Where/GasStationListData.swift"; sourceTree = SOURCE_ROOT; };
 		8E1BB8EC2107E78D0065281B /* ServiceResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceResult.swift; sourceTree = "<group>"; };
@@ -607,7 +602,6 @@
 		8E4DAF0920F5EC2400E4FD92 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				8E167D3C2107AEA30066A59E /* API.swift */,
 				765830AC212699FD006DFE2E /* InformationGasStaion.swift */,
 				8E167D402107E30F0066A59E /* GasStationListData.swift */,
 				29B226422121FDC60012B2F6 /* AverageCostData.swift */,
@@ -619,7 +613,6 @@
 		8E4DAF0A20F5EC2700E4FD92 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				8E167D3A2107AD480066A59E /* Service.swift */,
 				E9400FE127B0A467003168C6 /* StationAPI.swift */,
 			);
 			name = Services;
@@ -979,7 +972,6 @@
 				8ECE0D52211AD42600FF2B46 /* Preferences.swift in Sources */,
 				8EE53E8C24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift in Sources */,
 				E94D0F0227BB467600BCB092 /* GasStationTitleView.swift in Sources */,
-				8E167D3B2107AD480066A59E /* Service.swift in Sources */,
 				E9400FE427B0D704003168C6 /* StationToolTipView.swift in Sources */,
 				E94D0F0427BB490C00BCB092 /* GasStationBottomView.swift in Sources */,
 				8E1BB8ED2107E78D0065281B /* ServiceResult.swift in Sources */,
@@ -1013,7 +1005,6 @@
 				E9400FEA27B11C76003168C6 /* UIView+.swift in Sources */,
 				2C0C68CA276B31CA00945CEC /* UITabBar+.swift in Sources */,
 				2CC1C80C276C8123007527C7 /* MainVC.swift in Sources */,
-				8E167D3D2107AEA30066A59E /* API.swift in Sources */,
 				E9400FE227B0A467003168C6 /* StationAPI.swift in Sources */,
 				8EF8481C24E39C03009A32D8 /* SettingEditSalePriceVC.swift in Sources */,
 				2CA47266279931B500DB0DDD /* MainViewModel.swift in Sources */,
@@ -1055,7 +1046,6 @@
 				8E542E342500BF9D00562A59 /* GeoConverter.swift in Sources */,
 				8EAEB16324F4B31E00B5E6CE /* FavoriteCollectionViewCell.swift in Sources */,
 				8EAEB15324F41AFF00B5E6CE /* TodayViewController.swift in Sources */,
-				8E82E43424F9468100395CDD /* API.swift in Sources */,
 				8E82E43224F901D200395CDD /* InformationGasStaion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

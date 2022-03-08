@@ -13,6 +13,7 @@ import Moya
 enum StationAPI {
     case stationList(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String)
     case stationDetail(appKey: String, id: String)
+    case allPrices(appKey: String)
 }
 
 extension StationAPI: TargetType {
@@ -26,6 +27,8 @@ extension StationAPI: TargetType {
             return "/aroundAll.do"
         case .stationDetail(_, _):
             return "/detailById.do"
+        case .allPrices(_):
+            return "/avgAllPrice.do"
         }
     }
     
@@ -34,6 +37,8 @@ extension StationAPI: TargetType {
         case .stationList(x: _, y: _, radius: _, prodcd: _, sort: _, appKey: _):
             return .get
         case .stationDetail(_, _):
+            return .get
+        case .allPrices(appKey: _):
             return .get
         }
     }
@@ -57,6 +62,14 @@ extension StationAPI: TargetType {
             let params: [String: Any] = [
                 "code": appKey,
                 "id": id,
+                "out": "json"
+            ]
+            
+            return .requestParameters(parameters: params,
+                                      encoding: URLEncoding.queryString)
+        case .allPrices(let appKey):
+            let params: [String: Any] = [
+                "code": appKey,
                 "out": "json"
             ]
             
