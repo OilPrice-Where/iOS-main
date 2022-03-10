@@ -244,7 +244,7 @@ final class MainVC: CommonViewController {
             }
         case .kakaoMap:
             guard let destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=CAR"),
-            let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425") else { return }
+                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425") else { return }
             
             if UIApplication.shared.canOpenURL(destinationURL) {
                 UIApplication.shared.open(destinationURL, options: [:], completionHandler: nil)
@@ -259,7 +259,7 @@ final class MainVC: CommonViewController {
                   let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/311867728") else { return }
             
             if UIApplication.shared.canOpenURL(destinationURL) {
-              UIApplication.shared.open(destinationURL)
+                UIApplication.shared.open(destinationURL)
             } else {
                 UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
             }
@@ -317,6 +317,33 @@ extension MainVC: CLLocationManagerDelegate {
     
     // 인증 상태가 변경 되었을 때
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted, .denied:
+            let alert = UIAlertController(title: "위치정보를 불러올 수 없습니다.",
+                                          message: "위치정보를 사용해 주변 주유소의 정보를 불러오기 때문에 위치정보 사용이 꼭 필요합니다. 설정으로 이동하여 위치 정보 접근을 허용해 주세요.",
+                                          preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "취소",
+                                             style: .cancel,
+                                             handler: nil)
+            
+            let openAction = UIAlertAction(title: "설정으로 이동",
+                                           style: .default) { _ in
+                if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                    UIApplication.shared.open(url,
+                                              options: [:],
+                                              completionHandler: nil)
+                }
+            }
+            
+            alert.addAction(cancelAction)
+            alert.addAction(openAction)
+            
+            present(alert, animated: true, completion: nil)
+        default:
+            break
+        }
     }
 }
 
