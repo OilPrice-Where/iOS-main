@@ -109,7 +109,7 @@ final class MainVC: UIViewController {
         locationManager.rx.didUpdateLocations
             .compactMap { $0.last }
             .subscribe(with: self, onNext: { owner, location in
-                guard let location = owner.viewModel.requestLocation else {
+                guard let _ = owner.viewModel.requestLocation else {
                     owner.mapContainerView.moveMap(with: location.coordinate)
                     owner.viewModel.requestLocation = location
                     owner.viewModel.input.requestStaions.accept(nil)
@@ -327,7 +327,9 @@ extension MainVC: MainListVCDelegate {
             return station.id == info.id
         })
         mapContainerView.selectedMarker?.isSelected = true
-        mapContainerView.mapView.moveCamera(NMFCameraUpdate(scrollTo: position))
+        let update = NMFCameraUpdate(scrollTo: position, zoomTo: 15.0)
+        update.animation = .easeIn
+        mapContainerView.mapView.moveCamera(update)
         mapContainerView.researchButton.isEnabled = false
         mapContainerView.researchButton.alpha = 0.0
     }

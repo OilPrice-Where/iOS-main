@@ -205,7 +205,7 @@ extension MainListVC: GasStationCellDelegate {
         isDeleted ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
         
         DefaultData.shared.favoriteSubject.accept(newFaovorites)
-        tableView.reloadRows(at: [_indexPath], with: .automatic)
+        tableView.reloadRows(at: [_indexPath], with: .none)
     }
     
     func touchedDirectionButton(info: GasStation?) {

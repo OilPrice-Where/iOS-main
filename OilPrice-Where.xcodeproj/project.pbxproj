@@ -551,19 +551,19 @@
 			children = (
 				2CC1C80B276C8123007527C7 /* MainVC.swift */,
 				2CA47265279931B500DB0DDD /* MainViewModel.swift */,
-				2CC1C7FD276C5B3C007527C7 /* View */,
+				2CC1C7FD276C5B3C007527C7 /* Map */,
 				2CC1C805276C723A007527C7 /* List */,
 			);
 			path = Main;
 			sourceTree = "<group>";
 		};
-		2CC1C7FD276C5B3C007527C7 /* View */ = {
+		2CC1C7FD276C5B3C007527C7 /* Map */ = {
 			isa = PBXGroup;
 			children = (
 				2CC1C80D276C8610007527C7 /* MainMapView.swift */,
-				2CC1C808276C79E5007527C7 /* Map */,
+				2CC1C808276C79E5007527C7 /* View */,
 			);
-			path = View;
+			path = Map;
 			sourceTree = "<group>";
 		};
 		2CC1C805276C723A007527C7 /* List */ = {
@@ -576,7 +576,7 @@
 			path = List;
 			sourceTree = "<group>";
 		};
-		2CC1C808276C79E5007527C7 /* Map */ = {
+		2CC1C808276C79E5007527C7 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */,
@@ -587,7 +587,7 @@
 				E9400FE327B0D704003168C6 /* StationToolTipView.swift */,
 				E9D1445527CECA620055141A /* ToListView.swift */,
 			);
-			path = Map;
+			path = View;
 			sourceTree = "<group>";
 		};
 		8E167D422107E7240066A59E /* AppDelegate */ = {
