@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-final class FindDistanceVC: CommonViewController, ViewModelBindableType {
+final class FindDistanceVC: UIViewController, ViewModelBindableType {
     //MARK: - Properties
     var viewModel: FindDistanceViewModel!
     

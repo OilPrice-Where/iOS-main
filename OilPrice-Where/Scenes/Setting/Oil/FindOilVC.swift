@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-final class FindOilVC: CommonViewController, ViewModelBindableType {
+final class FindOilVC: UIViewController, ViewModelBindableType {
     //MARK: - Properties
     var viewModel: FindOilTypeViewModel!
     lazy var tableView = UITableView().then {

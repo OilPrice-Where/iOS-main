@@ -21,7 +21,7 @@ protocol MainListVCDelegate: AnyObject {
 }
 
 //MARK: GasStationListVC
-final class MainListVC: UIViewController {
+final class MainListVC: CommonViewController {
     //MARK: - Properties
     let bag = DisposeBag()
     var viewModel: MainListViewModel!
@@ -68,7 +68,6 @@ final class MainListVC: UIViewController {
         view.backgroundColor = .systemGroupedBackground
         
         view.addSubview(infoView)
-        
         view.addSubview(tableView)
         view.addSubview(noneView)
         
@@ -98,7 +97,6 @@ final class MainListVC: UIViewController {
                 owner.sortButtonTapped(btn: nil)
             })
             .disposed(by: bag)
-        
         infoView.distanceSortedButton
             .rx
             .tap
@@ -106,7 +104,12 @@ final class MainListVC: UIViewController {
                 owner.sortButtonTapped(btn: nil)
             })
             .disposed(by: bag)
-        
+        DefaultData.shared.completedRelay
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.tableView.reloadData()
+            })
+            .disposed(by: rx.disposeBag)
     }
     
     func configure() {

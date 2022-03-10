@@ -14,7 +14,7 @@ import NMapsMap
 import FloatingPanel
 import TMapSDK
 
-final class MainVC: UIViewController {
+final class MainVC: CommonViewController {
     let bag = DisposeBag()
     let viewModel = MainViewModel()
     let locationManager = CLLocationManager()
@@ -139,6 +139,23 @@ final class MainVC: UIViewController {
                 owner.updateFavoriteUI()
             })
             .disposed(by: rx.disposeBag)
+    }
+    
+    override func setNetworkSetting() {
+        super.setNetworkSetting()
+        
+        reachability?.whenReachable = { [weak self] _ in
+            self?.viewModel.input.requestStaions.accept(nil)
+        }
+        
+        reachability?.whenUnreachable = { [weak self] _ in
+            self?.notConnect()
+            self?.viewModel.requestLocation = nil
+            self?.viewModel.currentLocation = nil
+            self?.reset()
+            self?.mapContainerView.resetInfoWindows()
+            self?.fpc.move(to: .hidden, animated: false, completion: nil)
+        }
     }
     
     @objc

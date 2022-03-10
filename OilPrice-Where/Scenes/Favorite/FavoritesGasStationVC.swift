@@ -18,7 +18,6 @@ import CoreLocation
 final class FavoritesGasStationVC: CommonViewController {
     //MARK: - Properties
     var notiObject: NSObjectProtocol?
-    var reachability: Reachability? = Reachability() //Network
     let width = UIScreen.main.bounds.width - 75.0
     let height = 411
     var fromTap = false
@@ -53,15 +52,12 @@ final class FavoritesGasStationVC: CommonViewController {
     //MARK: - Life Cycle
     deinit {
         notiObject = nil
-        reachability?.stopNotifier()
-        reachability = nil
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         makeUI()
-        setNetworkSetting()
         bindViewModel()
         
         notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
@@ -116,21 +112,21 @@ final class FavoritesGasStationVC: CommonViewController {
     }
     
     //MARK: - Functions..
-    func setNetworkSetting() {
-        do {
-            try reachability?.startNotifier()
-        } catch {
-            print(error.localizedDescription)
-        }
+    override func setNetworkSetting() {
+        super.setNetworkSetting()
         
-        reachability?.whenReachable = { _ in
+        reachability?.whenReachable = { [weak self] _ in
             let favArr = DefaultData.shared.favoriteSubject.value
-            self.noneFavoriteView.isHidden = favArr.isEmpty
+            self?.noneFavoriteView.isHidden = favArr.isEmpty
             DefaultData.shared.favoriteSubject.accept(favArr)
+            self?.collectionView.isHidden = false
+            self?.collectionView.reloadData()
         }
         
-        reachability?.whenUnreachable = { _ in
-            self.noneFavoriteView.isHidden = false
+        reachability?.whenUnreachable = { [weak self] _ in
+            self?.notConnect()
+            self?.collectionView.isHidden = true
+            self?.noneFavoriteView.isHidden = false
         }
     }
     

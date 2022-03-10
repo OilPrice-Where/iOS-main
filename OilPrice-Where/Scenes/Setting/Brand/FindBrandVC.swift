@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-final class FindBrandVC: CommonViewController, ViewModelBindableType {
+final class FindBrandVC: UIViewController, ViewModelBindableType {
     //MARK: - Properties
     var viewModel: FindBrandViewModel!
     var isAllSwitchButton = PublishSubject<Bool>()

@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-final class SettingEditSalePriceVC: CommonViewController, ViewModelBindableType {
+final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
     //MARK: - Properties
     var viewModel: EditSalePriceViewModel!
     

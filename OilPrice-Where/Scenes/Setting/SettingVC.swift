@@ -49,7 +49,7 @@ extension SelectCellType {
 // 사용자 유종과 탐색 반경을 변경하면 메인페이지에 업데이트 되어 적용 된다.
 // 설정 저장 방식은 피리스트('UserInfo'에 저장)
 // ** 탐색반경 : 3KM, 유종 : nil **
-final class SettingVC: UIViewController {
+final class SettingVC: CommonViewController {
     //MARK: Properties
     lazy var settingTableView = UITableView(frame: .zero, style: .grouped).then {
         $0.dataSource = self
@@ -92,6 +92,14 @@ final class SettingVC: UIViewController {
         
         settingTableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+    }
+    
+    override func setNetworkSetting() {
+        super.setNetworkSetting()
+        
+        reachability?.whenUnreachable = { [weak self] _ in
+            self?.notConnect()
         }
     }
     

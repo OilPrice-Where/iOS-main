@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-final class FindNavigationVC: CommonViewController, ViewModelBindableType {
+final class FindNavigationVC: UIViewController, ViewModelBindableType {
     //MARK: - Properties
     var viewModel: FindNavigationViewModel!
     
