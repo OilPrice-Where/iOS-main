@@ -17,20 +17,18 @@ protocol MainMapViewDelegate: AnyObject {
 final class MainMapView: UIView {
     //MARK: - Properties
     weak var delegate: MainMapViewDelegate?
-    
-    let mapView = NMFMapView().then {
-        $0.positionMode = .normal
-        $0.minZoomLevel = 5.0
-        $0.maxZoomLevel = 18.0
-        $0.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
-    }
-    
     var markers = [NaverMapMarker]()
     var selectedMarker: NaverMapMarker? = nil {
         willSet {
             selectedMarker?.isSelected = false
             newValue?.isSelected = true
         }
+    }
+    let mapView = NMFMapView().then {
+        $0.positionMode = .normal
+        $0.minZoomLevel = 5.0
+        $0.maxZoomLevel = 18.0
+        $0.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
     }
     // currentLocationButton 설정
     let currentLocationButton = UIButton().then {

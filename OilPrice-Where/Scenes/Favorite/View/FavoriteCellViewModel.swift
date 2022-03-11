@@ -60,14 +60,21 @@ final class FavoriteCellViewModel {
     
     // 길 안내
     func navigationButton() {
-        let navi = DefaultData.shared.naviSubject.value
-        guard let info = info else { return }
+        let type = DefaultData.shared.oilSubject.value
+        
+        guard let info = info,
+              let result = info.price.first(where: { $0.type == type }) else { return }
+        
+        let station = GasStation(id: info.id,
+                                 brand: info.brand,
+                                 name: info.name,
+                                 price: result.price,
+                                 distance: 0.0,
+                                 katecX: info.katecX,
+                                 katecY: info.katecY)
         
         NotificationCenter.default.post(name: NSNotification.Name("navigationClickEvent"),
                                         object: nil,
-                                        userInfo: ["katecX": info.katecX.roundTo(places: 0),
-                                                   "katecY": info.katecY.roundTo(places: 0),
-                                                   "stationName": info.name,
-                                                   "naviType": navi])
+                                        userInfo: ["station": station])
     }
 }

@@ -131,86 +131,8 @@ final class FavoritesGasStationVC: CommonViewController {
     }
     
     func naviClickEvenet(noti: Notification) {
-        guard let userInfo = noti.userInfo,
-              let katecX = userInfo["katecX"] as? Double,
-              let katecY = userInfo["katecY"] as? Double,
-              let stationName = userInfo["stationName"] as? String,
-              let navi = userInfo["naviType"] as? String,
-              let type = NaviType(rawValue: navi) else { return }
-        let position = NMGTm128(x: katecX, y: katecY).toLatLng()
-        
-        switch type {
-        case .tMap:
-            if TMapApi.isTmapApplicationInstalled() {
-                let _ = TMapApi.invokeRoute(stationName, coordinate: CLLocationCoordinate2D(latitude: position.lat,
-                                                                                            longitude: position.lng))
-                
-                return
-            }
-            
-            let alert = UIAlertController(title: "T Map이 없습니다.",
-                                          message: "다운로드 페이지로 이동하시겠습니까?",
-                                          preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "확인",
-                                         style: .default) { _ in
-                guard let url = URL(string: TMapApi.getTMapDownUrl()),
-                      UIApplication.shared.canOpenURL(url) else { return }
-                
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-            
-            let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-            
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-            
-            present(alert, animated: true, completion: nil)
-        case .kakao:
-            let destination = KNVLocation(name: stationName,
-                                          x: NSNumber(value: katecX),
-                                          y: NSNumber(value: katecY))
-            let options = KNVOptions()
-            options.routeInfo = false
-            let params = KNVParams(destination: destination,
-                                   options: options)
-            KNVNaviLauncher.shared().navigate(with: params) { (error) in
-                self.handleError(error: error)
-            }
-        case .kakaoMap:
-            guard let destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=CAR"),
-            let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425") else { return }
-            
-            if UIApplication.shared.canOpenURL(destinationURL) {
-                UIApplication.shared.open(destinationURL, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
-            }
-        case .naver:
-            let urlString = "nmap://navigation?dlat=\(position.lat)&dlng=\(position.lng)&dname=\(stationName)&appname=com.oilpricewhere.wheregasoline"
-            
-            guard let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                  let destinationURL = URL(string: encodedStr),
-                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/311867728") else { return }
-            
-            if UIApplication.shared.canOpenURL(destinationURL) {
-              UIApplication.shared.open(destinationURL)
-            } else {
-                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
-            }
-        }
-    }
-    
-    // 길안내 에러 발생
-    func handleError(error: Error?) {
-        guard let error = error as NSError? else { return }
-        
-        let alert = UIAlertController(title: title,
-                                      message: error.localizedFailureReason,
-                                      preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-        alert.addAction(okAction)
-        
-        present(alert, animated: true, completion: nil)
+        let info = noti.userInfo?["station"] as? GasStation
+        requestDirection(station: info)
     }
     
     // set collectionView flow layout

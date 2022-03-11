@@ -12,10 +12,8 @@ import RxSwift
 import RxCocoa
 import NMapsMap
 import FloatingPanel
-import TMapSDK
 
 final class MainVC: CommonViewController {
-    let bag = DisposeBag()
     let viewModel = MainViewModel()
     let locationManager = CLLocationManager()
     var fpc = FloatingPanelController()
@@ -132,7 +130,6 @@ final class MainVC: CommonViewController {
                 owner.mapContainerView.showMarker(list: owner.viewModel.stations)
             })
             .disposed(by: viewModel.bag)
-        
         // 즐겨찾기 목록의 StationID 값과 StationView의 StationID값이 동일 하면 선택 상태로 변경
         viewModel.output.selectedStation
             .subscribe(with: self, onNext: { owner, _ in
@@ -174,8 +171,10 @@ final class MainVC: CommonViewController {
         viewModel.requestLocation = centerLocation
         viewModel.input.requestStaions.accept(nil)
         
-        mapContainerView.researchButton.isEnabled = false
-        mapContainerView.researchButton.alpha = 0.0
+        fpc.move(to: .hidden, animated: false) { [weak self] in
+            self?.mapContainerView.researchButton.isEnabled = false
+            self?.mapContainerView.researchButton.alpha = 0.0
+        }
     }
     
     @objc
@@ -198,72 +197,7 @@ final class MainVC: CommonViewController {
     
     @objc
     func toNavigationTapped() {
-        guard let info = viewModel.selectedStation,
-              let type = NaviType(rawValue: DefaultData.shared.naviSubject.value) else { return }
-        
-        let position = NMGTm128(x: info.katecX, y: info.katecY).toLatLng()
-        
-        switch type {
-        case .tMap:
-            if TMapApi.isTmapApplicationInstalled() {
-                let _ = TMapApi.invokeRoute(info.name,
-                                            coordinate: CLLocationCoordinate2D(latitude: position.lat,
-                                                                               longitude: position.lng))
-                return
-            }
-            
-            let alert = UIAlertController(title: "T Map이 없습니다.",
-                                          message: "다운로드 페이지로 이동하시겠습니까?",
-                                          preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "확인",
-                                         style: .default) { _ in
-                guard let url = URL(string: TMapApi.getTMapDownUrl()),
-                      UIApplication.shared.canOpenURL(url) else { return }
-                
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-            
-            let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-            
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-            
-            present(alert, animated: true, completion: nil)
-        case .kakao:
-            let destination = KNVLocation(name: info.name,
-                                          x: NSNumber(value: info.katecX),
-                                          y: NSNumber(value: info.katecY))
-            let options = KNVOptions()
-            options.routeInfo = false
-            let params = KNVParams(destination: destination,
-                                   options: options)
-            KNVNaviLauncher.shared().navigate(with: params) { [weak self] (error) in
-                DispatchQueue.main.async {
-                    self?.handleError(error: error)
-                }
-            }
-        case .kakaoMap:
-            guard let destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=CAR"),
-                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425") else { return }
-            
-            if UIApplication.shared.canOpenURL(destinationURL) {
-                UIApplication.shared.open(destinationURL, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
-            }
-        case .naver:
-            let urlString = "nmap://navigation?dlat=\(position.lat)&dlng=\(position.lng)&dname=\(info.name)&appname=com.oilpricewhere.wheregasoline"
-            
-            guard let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                  let destinationURL = URL(string: encodedStr),
-                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/311867728") else { return }
-            
-            if UIApplication.shared.canOpenURL(destinationURL) {
-                UIApplication.shared.open(destinationURL)
-            } else {
-                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
-            }
-        }
+        requestDirection(station: viewModel.selectedStation)
     }
     
     func updateFavoriteUI() {
@@ -277,18 +211,6 @@ final class MainVC: CommonViewController {
             self?.guideView.favoriteButton.imageView?.tintColor = ids.contains(id) ? .white : Asset.Colors.mainColor.color
             self?.guideView.favoriteButton.backgroundColor = ids.contains(id) ? Asset.Colors.mainColor.color : .white
         }
-    }
-    
-    func handleError(error: Error?) {
-        guard let error = error as NSError? else { return }
-        
-        let alert = UIAlertController(title: title,
-                                      message: error.localizedFailureReason,
-                                      preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-        alert.addAction(okAction)
-        
-        present(alert, animated: true, completion: nil)
     }
     
     func reset() {
@@ -309,10 +231,15 @@ extension MainVC: CLLocationManagerDelegate {
         if (error as NSError).code == CLError.locationUnknown.rawValue {
             return
         }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let _ = locations.last else { return }
+        
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted, .denied:
+            requestLocationAlert()
+        default:
+            break
+        }
     }
     
     // 인증 상태가 변경 되었을 때
@@ -321,26 +248,7 @@ extension MainVC: CLLocationManagerDelegate {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted, .denied:
-            let alert = UIAlertController(title: "위치정보를 불러올 수 없습니다.",
-                                          message: "위치정보를 사용해 주변 주유소의 정보를 불러오기 때문에 위치정보 사용이 꼭 필요합니다. 설정으로 이동하여 위치 정보 접근을 허용해 주세요.",
-                                          preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "취소",
-                                             style: .cancel,
-                                             handler: nil)
-            
-            let openAction = UIAlertAction(title: "설정으로 이동",
-                                           style: .default) { _ in
-                if let url = URL(string: UIApplicationOpenSettingsURLString) {
-                    UIApplication.shared.open(url,
-                                              options: [:],
-                                              completionHandler: nil)
-                }
-            }
-            
-            alert.addAction(cancelAction)
-            alert.addAction(openAction)
-            
-            present(alert, animated: true, completion: nil)
+            requestLocationAlert()
         default:
             break
         }
@@ -430,24 +338,19 @@ extension MainVC: FloatingPanelControllerDelegate {
         mapContainerView.toListButton.isHidden = fpc.state == .full
         mapContainerView.currentLocationButton.isHidden = fpc.state == .full
         mapContainerView.researchButton.isHidden = fpc.state == .full
+        guideView.isHidden = fpc.state == .hidden
+        
+        mapContainerView.mapView.contentInset.bottom = fpc.state == .hidden ? view.safeAreaInsets.bottom : fpc.state == .half ? 168 : 401
         
         switch fpc.state {
         case .hidden:
             reset()
-            guideView.isHidden = true
-            mapContainerView.mapView.contentInset.bottom = view.safeAreaInsets.bottom
         case .half:
-            guideView.isHidden = false
-            mapContainerView.mapView.contentInset.bottom = 168
-            
             guard viewModel.beforeNAfter.before == .full, let position = viewModel.cameraPosition else { return }
             let update = NMFCameraUpdate(position: position)
             update.animation = .easeIn
             mapContainerView.mapView.moveCamera(update)
         case .full:
-            guideView.isHidden = false
-            mapContainerView.mapView.contentInset.bottom = 401
-            
             if let station = viewModel.selectedStation {
                 let position = NMGTm128(x: station.katecX, y: station.katecY).toLatLng()
                 let cameraUpdated = NMFCameraUpdate(position: NMFCameraPosition.init(position, zoom: 15.0))
