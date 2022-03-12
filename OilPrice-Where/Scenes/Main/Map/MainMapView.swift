@@ -30,7 +30,6 @@ final class MainMapView: UIView {
         $0.maxZoomLevel = 18.0
         $0.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
     }
-    // currentLocationButton 설정
     let currentLocationButton = UIButton().then {
         $0.layer.cornerRadius = 21
         $0.clipsToBounds = false
@@ -56,6 +55,7 @@ final class MainMapView: UIView {
         $0.backgroundColor = Asset.Colors.mainColor.color
         $0.alpha = 0.0
     }
+    let tooltipView = ToolTipView()
     
     //MARK: - Initializer
     override init(frame: CGRect) {
@@ -74,6 +74,7 @@ final class MainMapView: UIView {
         addSubview(currentLocationButton)
         addSubview(toListButton)
         addSubview(researchButton)
+        addSubview(tooltipView)
         
         mapView.snp.makeConstraints {
             $0.top.left.right.equalToSuperview()
@@ -94,13 +95,19 @@ final class MainMapView: UIView {
     func showMarker(list: [GasStation]) {
         resetInfoWindows()
         
+        var lowPrice = list.reduce(1_000_000, { min($0, $1.price) })
+        lowPrice = lowPrice == 1_000_000 ? 0 : lowPrice
+        
         list.forEach { station in
             let position = NMGTm128(x: station.katecX, y: station.katecY).toLatLng()
-            let marker = NaverMapMarker(brand: station.brand, price: station.price)
+            let marker = NaverMapMarker(type: station.price == lowPrice ? .low : .none,
+                                        brand: station.brand,
+                                        price: station.price)
             
             marker.position = position
             marker.mapView = mapView
             marker.userInfo = ["station": station]
+            
             
             marker.touchHandler = { [weak self] overlay -> Bool in
                 self?.selectedMarker = marker

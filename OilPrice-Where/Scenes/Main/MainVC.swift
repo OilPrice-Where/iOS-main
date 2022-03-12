@@ -19,9 +19,11 @@ final class MainVC: CommonViewController {
     var fpc = FloatingPanelController()
     var contentsVC = StationInfoVC() // 띄울 VC
     lazy var mapContainerView = MainMapView().then {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(toListTapped))
+        var tap = UITapGestureRecognizer(target: self, action: #selector(toListTapped))
         $0.toListButton.addGestureRecognizer(tap)
         $0.researchButton.addTarget(self, action: #selector(researchStation), for: .touchUpInside)
+        tap = UITapGestureRecognizer(target: self, action: #selector(toLowPriceStation))
+        $0.tooltipView.addGestureRecognizer(tap)
     }
     let guideView = StationInfoGuideView().then {
         $0.layer.cornerRadius = 6.0
@@ -69,6 +71,12 @@ final class MainVC: CommonViewController {
             $0.centerX.equalTo(mapContainerView.snp.centerX)
             $0.width.equalTo(130)
             $0.height.equalTo(42)
+        }
+        mapContainerView.tooltipView.snp.makeConstraints {
+            $0.top.equalTo(mapContainerView.toListButton.snp.top)
+            $0.left.equalToSuperview().offset(20)
+            $0.width.equalTo(90)
+            $0.height.equalTo(120)
         }
         guideView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -127,6 +135,7 @@ final class MainVC: CommonViewController {
         
         viewModel.output.staionResult
             .bind(with: self, onNext: { owner, _ in
+                owner.mapContainerView.tooltipView.configure(stations: owner.viewModel.stations)
                 owner.mapContainerView.showMarker(list: owner.viewModel.stations)
             })
             .disposed(by: viewModel.bag)
@@ -153,6 +162,16 @@ final class MainVC: CommonViewController {
             self?.mapContainerView.resetInfoWindows()
             self?.fpc.move(to: .hidden, animated: false, completion: nil)
         }
+    }
+    
+    @objc
+    func toLowPriceStation() {
+        guard let lowStation = viewModel.stations.first else { return }
+        
+        let position = NMGTm128(x: lowStation.katecX, y: lowStation.katecY).toLatLng()
+        let update = NMFCameraUpdate(scrollTo: position, zoomTo: 15.0)
+        update.animation = .easeIn
+        mapContainerView.mapView.moveCamera(update)
     }
     
     @objc

@@ -116,6 +116,8 @@
 		E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */; };
 		E9D1445627CECA620055141A /* ToListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1445527CECA620055141A /* ToListView.swift */; };
 		E9D1445827CED3120055141A /* InfoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1445727CED3120055141A /* InfoListView.swift */; };
+		E9F0996227D8C15C009F95DF /* ToolTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F0996127D8C15C009F95DF /* ToolTipView.swift */; };
+		E9F0996427D8C44B009F95DF /* KeyValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F0996327D8C44B009F95DF /* KeyValueView.swift */; };
 		F362C63C0574D48555F1F335 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692C04AA68557BE6FEE04C04 /* Pods_OilPrice_Where.framework */; };
 /* End PBXBuildFile section */
 
@@ -272,6 +274,8 @@
 		E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoVC.swift; sourceTree = "<group>"; };
 		E9D1445527CECA620055141A /* ToListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToListView.swift; sourceTree = "<group>"; };
 		E9D1445727CED3120055141A /* InfoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoListView.swift; sourceTree = "<group>"; };
+		E9F0996127D8C15C009F95DF /* ToolTipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTipView.swift; sourceTree = "<group>"; };
+		E9F0996327D8C44B009F95DF /* KeyValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueView.swift; sourceTree = "<group>"; };
 		EA270F4C9F8787CC0D069A8E /* Pods_FavoriteWidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FavoriteWidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -575,6 +579,8 @@
 		2CC1C808276C79E5007527C7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E9F0996127D8C15C009F95DF /* ToolTipView.swift */,
+				E9F0996327D8C44B009F95DF /* KeyValueView.swift */,
 				E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */,
 				E9400FDD27B0A3E2003168C6 /* NaverMapMarker.swift */,
 				E9400FDF27B0A3F0003168C6 /* StationInfoView.swift */,
@@ -947,6 +953,7 @@
 				E94D0F0027BB3DBC00BCB092 /* GasStationCell.swift in Sources */,
 				E94D0F0827BB4D5800BCB092 /* GasStationExpandView.swift in Sources */,
 				E9D1445627CECA620055141A /* ToListView.swift in Sources */,
+				E9F0996427D8C44B009F95DF /* KeyValueView.swift in Sources */,
 				E9D1445827CED3120055141A /* InfoListView.swift in Sources */,
 				2CAC81DD276B948B00CC6096 /* CustomKVView.swift in Sources */,
 				8ECE0DAA212385FB00FF2B46 /* AllPrices.swift in Sources */,
@@ -1002,6 +1009,7 @@
 				29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */,
 				8EE53E7924CF0D72008D8045 /* CustomTabbarViewController.swift in Sources */,
 				2CAC81E1276B9A7200CC6096 /* KVVStackView.swift in Sources */,
+				E9F0996227D8C15C009F95DF /* ToolTipView.swift in Sources */,
 				8EDE51B424D5C32C004590B6 /* FavoriteCellViewModel.swift in Sources */,
 				E9400FE627B0D719003168C6 /* StationInfoPriceView.swift in Sources */,
 				8EE53E9324D016B4008D8045 /* SettingAboutUsVC.swift in Sources */,
