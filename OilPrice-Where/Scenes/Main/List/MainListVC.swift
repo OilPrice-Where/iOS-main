@@ -183,9 +183,9 @@ extension MainListVC: UITableViewDelegate {
 
 extension MainListVC: GasStationCellDelegate {
     // 즐겨찾기 설정 및 해제
-    func touchedFavoriteButton(id: String?, indexPath: IndexPath?) {
+    func touchedFavoriteButton(id: String?) {
         let faovorites = DefaultData.shared.favoriteSubject.value
-        guard let _id = id, let _indexPath = indexPath, faovorites.count < 6 else { return }
+        guard let _id = id, faovorites.count < 6 else { return }
         let isDeleted = faovorites.contains(_id)
         guard isDeleted || (!isDeleted && faovorites.count < 5) else {
             DispatchQueue.main.async { [weak self] in
@@ -197,7 +197,6 @@ extension MainListVC: GasStationCellDelegate {
         isDeleted ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
         
         DefaultData.shared.favoriteSubject.accept(newFaovorites)
-        tableView.reloadRows(at: [_indexPath], with: .none)
     }
     
     func touchedDirectionButton(info: GasStation?) {

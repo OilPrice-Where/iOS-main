@@ -98,7 +98,7 @@ class DefaultData {
         oilSubject.accept(oilType)
         radiusSubject.accept(radius)
         brandsSubject.accept(brands)
-        naviSubject.accept(naviType)
+        naviSubject.accept(naviType == "tmap" ? "tMap" : naviType)
         salesSubject.accept(sales)
         favoriteSubject.accept(favArr)
         

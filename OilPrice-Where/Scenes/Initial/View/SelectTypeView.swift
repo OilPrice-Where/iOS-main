@@ -13,7 +13,7 @@ import SnapKit
 class SelectTypeView: UIView {
     //MARK: Properties
     private let oils = ["휘발유", "경유", "고급유", "LPG"]
-    private let navigations = ["카카오내비", "티맵"]
+    private let navigations = ["카카오내비", "카카오맵", "티맵", "네이버지도"]
     // Oil Type
     let selectOilTypeLabel = UILabel().then {
         $0.text = "찾으시는 기름의 종류를 선택해주세요."

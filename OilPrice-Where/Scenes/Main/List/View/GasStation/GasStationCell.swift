@@ -12,7 +12,7 @@ import SnapKit
 import UIKit
 
 protocol GasStationCellDelegate: AnyObject {
-    func touchedFavoriteButton(id: String?, indexPath: IndexPath?)
+    func touchedFavoriteButton(id: String?)
     func touchedDirectionButton(info: GasStation?)
 }
 
@@ -83,7 +83,7 @@ final class GasStationCell: UITableViewCell {
     
     @objc
     func touchedFavorite(sender: Any) {
-        delegate?.touchedFavoriteButton(id: info?.id, indexPath: path)
+        delegate?.touchedFavoriteButton(id: info?.id)
     }
     
     @objc

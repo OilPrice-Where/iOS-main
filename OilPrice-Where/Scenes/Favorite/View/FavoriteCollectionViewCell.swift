@@ -80,7 +80,6 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     }
     
     let emptyView = UIView()
-    
     let loadingView = LodingView()
     
     //MARK: - Initializer
@@ -214,7 +213,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         viewModel.isLoadingSubject
             .do(onNext: { [weak self] in
                 guard let self = self else { return }
-                $0 ? self.loadingView.activityIndicator.stopAnimating() : self.loadingView.activityIndicator.startAnimating()
+                $0 ? self.loadingView.activityIndicator.startAnimating() : self.loadingView.activityIndicator.stopAnimating()
             })
             .bind(to: loadingView.rx.isHidden)
             .disposed(by: rx.disposeBag)
