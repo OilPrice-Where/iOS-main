@@ -21,12 +21,12 @@ final class ToolTipView: UIView {
     }
     let lowPriceView = KeyValueView().then {
         $0.keyLabel.text = "최저:"
-        $0.valueLabel.text = "0원"
+        $0.valueLabel.text = "0"
         $0.backgroundColor = UIColor(red: 100/255, green: 180/255, blue: 255/255, alpha: 1.0)
     }
     let avgPriceView = KeyValueView().then {
         $0.keyLabel.text = "평균:"
-        $0.valueLabel.text = "0원"
+        $0.valueLabel.text = "0"
     }
     let findView = KeyValueView().then {
         $0.keyLabel.text = "반경:"
@@ -68,8 +68,8 @@ final class ToolTipView: UIView {
         let radius = DefaultData.shared.radiusSubject.value
         let avg = stations.reduce(0) { $0 + $1.price }
 
-        lowPriceView.valueLabel.text = Preferences.priceToWon(price: stations.first?.price ?? 0) + "원"
-        avgPriceView.valueLabel.text = Preferences.priceToWon(price: avg / stations.count) + "원"
+        lowPriceView.valueLabel.text = Preferences.priceToWon(price: stations.first?.price ?? 0)
+        avgPriceView.valueLabel.text = Preferences.priceToWon(price: stations.count > 0 ? avg / stations.count : 0)
         findView.valueLabel.text = "\(radius / 1000)KM"
         stationCountView.valueLabel.text = "\(stations.count)개"
     }

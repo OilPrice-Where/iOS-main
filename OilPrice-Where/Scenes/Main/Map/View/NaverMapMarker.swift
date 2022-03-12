@@ -9,7 +9,6 @@
 import NMapsMap
 
 class NaverMapMarker: NMFMarker {
-    var type: CustomAnnotationView.MarkerType
     var brand: String?
     var title: String? // 클릭시 뜨는 말풍선
     var isSelected: Bool = false { didSet { updatedLayout() } }
@@ -19,12 +18,11 @@ class NaverMapMarker: NMFMarker {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         
-        self.type = type
         self.brand = brand
         self.title = formatter.string(from: NSNumber(integerLiteral: price))
+        self.markerView.type = type
         
         super.init()
-        
         
         self.updatedLayout()
     }
@@ -34,8 +32,8 @@ class NaverMapMarker: NMFMarker {
         markerView.priceLabel.text = title
         markerView.logoImageView.image = Preferences.logoImage(logoName: brand)
         
-        markerView.mapMarkerImageView.image = isSelected ? markerView.fetchMarkerImage(type: .selected) : markerView.fetchMarkerImage(type: type)
-        markerView.priceLabel.textColor = type == .none ? .black : .white
+        markerView.mapMarkerImageView.image = isSelected ? markerView.fetchMarkerImage(type: .selected) : markerView.fetchMarkerImage(type: markerView.type)
+        markerView.priceLabel.textColor = isSelected ? .white : markerView.type == .none ? .black : .white
         
         iconImage = NMFOverlayImage(image: markerView.asImage())
     }
@@ -54,7 +52,7 @@ class CustomAnnotationView: UIView {
     var isSelected: Bool = false {
         didSet {
             mapMarkerImageView.image = isSelected ? fetchMarkerImage(type: .selected) : fetchMarkerImage(type: type)
-            priceLabel.textColor = isSelected ? .white : .black
+            priceLabel.textColor = isSelected ? .white : type == .none ? .black : .white
         }
     }
     

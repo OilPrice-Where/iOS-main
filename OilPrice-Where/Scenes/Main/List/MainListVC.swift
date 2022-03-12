@@ -81,8 +81,8 @@ final class MainListVC: CommonViewController {
             $0.bottom.equalToSuperview()
         }
         noneView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.left.bottom.right.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.centerX.equalToSuperview()
         }
     }
     
@@ -112,6 +112,8 @@ final class MainListVC: CommonViewController {
     }
     
     func configure() {
+        noneView.isHidden = !viewModel.stations.isEmpty
+        
         infoView.priceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
         infoView.distanceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
     }

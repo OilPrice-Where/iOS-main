@@ -69,14 +69,14 @@ final class MainVC: CommonViewController {
         mapContainerView.researchButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.centerX.equalTo(mapContainerView.snp.centerX)
-            $0.width.equalTo(130)
+            $0.width.equalTo(100)
             $0.height.equalTo(42)
         }
         mapContainerView.tooltipView.snp.makeConstraints {
             $0.top.equalTo(mapContainerView.toListButton.snp.top)
             $0.left.equalToSuperview().offset(20)
-            $0.width.equalTo(90)
-            $0.height.equalTo(120)
+            $0.width.equalTo(80)
+            $0.height.equalTo(100)
         }
         guideView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -354,10 +354,11 @@ extension MainVC: FloatingPanelControllerDelegate {
     }
     
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
-        mapContainerView.toListButton.isHidden = fpc.state == .full
-        mapContainerView.currentLocationButton.isHidden = fpc.state == .full
-        mapContainerView.researchButton.isHidden = fpc.state == .full
         guideView.isHidden = fpc.state == .hidden
+        mapContainerView.tooltipView.isHidden = fpc.state == .full
+        mapContainerView.toListButton.isHidden = fpc.state == .full
+        mapContainerView.researchButton.isHidden = fpc.state == .full
+        mapContainerView.currentLocationButton.isHidden = fpc.state == .full
         
         mapContainerView.mapView.contentInset.bottom = fpc.state == .hidden ? view.safeAreaInsets.bottom : fpc.state == .half ? 168 : 401
         

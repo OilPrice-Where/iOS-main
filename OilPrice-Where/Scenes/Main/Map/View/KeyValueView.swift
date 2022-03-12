@@ -41,11 +41,11 @@ final class KeyValueView: UIView {
         addSubview(valueLabel)
         
         keyLabel.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(8)
+            $0.left.equalToSuperview().offset(6)
             $0.centerY.equalToSuperview()
         }
         valueLabel.snp.makeConstraints {
-            $0.right.equalToSuperview().offset(-8)
+            $0.right.equalToSuperview().offset(-6)
             $0.centerY.equalToSuperview()
         }
     }
