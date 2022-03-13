@@ -25,7 +25,10 @@ final class InitialViewModel {
         case tmap
         case naverMap
     }
-    
+}
+
+//MARK: Method
+extension InitialViewModel {
     func select(oil index: Int) -> String {
         var selectedOil = "B027"
         guard let style = SelectOilStyle(rawValue: index) else { return selectedOil }

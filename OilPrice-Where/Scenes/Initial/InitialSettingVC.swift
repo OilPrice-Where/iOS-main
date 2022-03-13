@@ -11,17 +11,14 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-// 초기 설정 페이지
+//MARK: 초기 설정 페이지
 class InitialSettingVC: CommonViewController {
+    //MARK: - Properties
     typealias selectTypes = (oil: Int, navi: Int)
-    
     var viewModel: InitialViewModel!
     let selectTypeView = SelectTypeView()
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .default
-    }
-    
+    //MARK: - Life Cycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
@@ -37,6 +34,11 @@ class InitialSettingVC: CommonViewController {
         
         bindViewModel()
         makeUI()
+    }
+    
+    //MARK: - Override Method
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
     }
     
     //MARK: - View Binging..

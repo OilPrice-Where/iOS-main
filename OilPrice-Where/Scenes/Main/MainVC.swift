@@ -14,10 +14,11 @@ import NMapsMap
 import FloatingPanel
 
 final class MainVC: CommonViewController {
+    //MARK: - Properties
     let viewModel = MainViewModel()
     let locationManager = CLLocationManager()
-    var fpc = FloatingPanelController()
-    var contentsVC = StationInfoVC() // 띄울 VC
+    lazy var fpc = FloatingPanelController()
+    lazy var contentsVC = StationInfoVC() // 띄울 VC
     lazy var mapContainerView = MainMapView().then {
         var tap = UITapGestureRecognizer(target: self, action: #selector(toListTapped))
         $0.toListButton.addGestureRecognizer(tap)
@@ -32,6 +33,7 @@ final class MainVC: CommonViewController {
         $0.directionButton.addTarget(self, action: #selector(toNavigationTapped), for: .touchUpInside)
     }
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,6 +48,7 @@ final class MainVC: CommonViewController {
         navigationController?.navigationBar.isHidden = true
         UIApplication.shared.statusBarUIView?.backgroundColor = .clear
     }
+    
     //MARK: - Set UI
     func makeUI() {
         view.backgroundColor = .white
@@ -87,6 +90,19 @@ final class MainVC: CommonViewController {
         guideView.addShadow(offset: CGSize(width: 0, height: 4), color: .black, opacity: 0.18, radius: 6.0)
     }
     
+    func updateFavoriteUI() {
+        let ids = DefaultData.shared.favoriteSubject.value
+        
+        guard let id = viewModel.selectedStation?.id else { return }
+        let image = ids.contains(id) ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.guideView.favoriteButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+            self?.guideView.favoriteButton.imageView?.tintColor = ids.contains(id) ? .white : Asset.Colors.mainColor.color
+            self?.guideView.favoriteButton.backgroundColor = ids.contains(id) ? Asset.Colors.mainColor.color : .white
+        }
+    }
+    
     func configure() {
         mapContainerView.delegate = self
         mapContainerView.mapView.touchDelegate = self
@@ -96,6 +112,7 @@ final class MainVC: CommonViewController {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }
+    
     //MARK: - Rx Binding..
     func rxBind() {
         DefaultData.shared.completedRelay
@@ -147,6 +164,7 @@ final class MainVC: CommonViewController {
             .disposed(by: rx.disposeBag)
     }
     
+    //MARK: - Override Method
     override func setNetworkSetting() {
         super.setNetworkSetting()
         
@@ -164,6 +182,7 @@ final class MainVC: CommonViewController {
         }
     }
     
+    //MARK: - User Intraction
     @objc
     func toLowPriceStation() {
         guard let lowStation = viewModel.stations.first else { return }
@@ -219,19 +238,6 @@ final class MainVC: CommonViewController {
         requestDirection(station: viewModel.selectedStation)
     }
     
-    func updateFavoriteUI() {
-        let ids = DefaultData.shared.favoriteSubject.value
-        
-        guard let id = viewModel.selectedStation?.id else { return }
-        let image = ids.contains(id) ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.guideView.favoriteButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
-            self?.guideView.favoriteButton.imageView?.tintColor = ids.contains(id) ? .white : Asset.Colors.mainColor.color
-            self?.guideView.favoriteButton.backgroundColor = ids.contains(id) ? Asset.Colors.mainColor.color : .white
-        }
-    }
-    
     func reset() {
         mapContainerView.selectedMarker?.isSelected = false
         mapContainerView.selectedMarker = nil
@@ -274,7 +280,7 @@ extension MainVC: CLLocationManagerDelegate {
     }
 }
 
-//MARK: - Naver MapView 관련
+//MARK: - NaverMap 관련
 extension MainVC: MainMapViewDelegate {
     func marker(didTapMarker: NMGLatLng, info: GasStation) {
         if fpc.state == .hidden { fpc.move(to: .half, animated: true, completion: nil) }
@@ -285,24 +291,6 @@ extension MainVC: MainMapViewDelegate {
         let distance = info.distance < 1000 ? "\(Int(info.distance))m" : String(format: "%.1fkm", info.distance / 1000)
         guideView.directionButton.setTitle(distance + " 안내시작", for: .normal)
         guideView.directionButton.setTitle(distance + " 안내시작", for: .highlighted)
-    }
-}
-
-extension MainVC: MainListVCDelegate {
-    func touchedCell(info: GasStation) {
-        let position = NMGTm128(x: info.katecX, y: info.katecY).toLatLng()
-        marker(didTapMarker: position, info: info)
-        
-        mapContainerView.selectedMarker = mapContainerView.markers.first(where: {
-            guard let station = $0.userInfo["station"] as? GasStation else { return false }
-            return station.id == info.id
-        })
-        mapContainerView.selectedMarker?.isSelected = true
-        let update = NMFCameraUpdate(scrollTo: position, zoomTo: 15.0)
-        update.animation = .easeIn
-        mapContainerView.mapView.moveCamera(update)
-        mapContainerView.researchButton.isEnabled = false
-        mapContainerView.researchButton.alpha = 0.0
     }
 }
 
@@ -395,5 +383,24 @@ extension MainVC: FloatingPanelControllerDelegate {
         default:
             break
         }
+    }
+}
+
+//MARK: - List 관련
+extension MainVC: MainListVCDelegate {
+    func touchedCell(info: GasStation) {
+        let position = NMGTm128(x: info.katecX, y: info.katecY).toLatLng()
+        marker(didTapMarker: position, info: info)
+        
+        mapContainerView.selectedMarker = mapContainerView.markers.first(where: {
+            guard let station = $0.userInfo["station"] as? GasStation else { return false }
+            return station.id == info.id
+        })
+        mapContainerView.selectedMarker?.isSelected = true
+        let update = NMFCameraUpdate(scrollTo: position, zoomTo: 15.0)
+        update.animation = .easeIn
+        mapContainerView.mapView.moveCamera(update)
+        mapContainerView.researchButton.isEnabled = false
+        mapContainerView.researchButton.alpha = 0.0
     }
 }

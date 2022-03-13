@@ -215,6 +215,5 @@ class DefaultData {
                 owner.localSave(favorites: value)
             })
             .disposed(by: bag)
-        
     }
 }
