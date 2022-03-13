@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import TMapSDK
 import RxSwift
 import RxCocoa
 import RxGesture

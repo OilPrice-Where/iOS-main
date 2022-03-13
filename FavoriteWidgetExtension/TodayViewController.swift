@@ -8,11 +8,10 @@
 
 import UIKit
 import KakaoNavi
+import CoreLocation
 import NotificationCenter
-import TMapSDK
 
-
-class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate {
+class TodayViewController: UIViewController, NCWidgetProviding {
     @IBOutlet private weak var popupView: UIView!
     @IBOutlet private weak var popupTitleLabel: UILabel!
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -39,13 +38,8 @@ class TodayViewController: UIViewController, NCWidgetProviding, TMapTapiDelegate
         popupView.layer.cornerRadius = 10
         popupTitleLabel.textColor = .white
         
-        
-        
-        TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "219c2c34-cdd2-45d3-867b-e08c2ea97810")
         NCWidgetController().setHasContent(true,
                                            forWidgetWithBundleIdentifier: "com.OilPriceWhere.wheregasoline.FavoriteWidgetExtension")
-        
-        
     }
     
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
@@ -216,11 +210,17 @@ extension TodayViewController: UICollectionViewDelegate {
                 }
             }
         case "tMap":
-            if TMapApi.isTmapApplicationInstalled() {
-                let _ = TMapApi.invokeRoute(selectStation.name, coordinate: coordinator)
-            } else {
-                self.handleError(message: "티맵내비가 설치되어 있지 않습니다.")
-            }
+            let urlString = "tmap://?rGoName=\(selectStation.name)&rGoX=\(coordinator.longitude)&rGoY=\(coordinator.latitude)"
+            
+            guard let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                  let destinationURL = URL(string: encodedStr),
+                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/431589174") else { return }
+            
+            extensionContext?.open(destinationURL, completionHandler: { [weak self] isSuccess in
+                if !isSuccess {
+                    self?.extensionContext?.open(appstoreURL, completionHandler: nil)
+                }
+            })
         case "kakaoMap":
             guard let destinationURL = URL(string: "kakaomap://route?ep=\(coordinator.latitude),\(coordinator.longitude)&by=CAR"),
             let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425") else { return }

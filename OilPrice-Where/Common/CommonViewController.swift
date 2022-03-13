@@ -10,7 +10,6 @@ import UIKit
 import SCLAlertView
 import CoreLocation
 import NMapsMap
-import TMapSDK
 import RxSwift
 
 class CommonViewController: UIViewController {
@@ -96,30 +95,17 @@ class CommonViewController: UIViewController {
         
         switch type {
         case .tMap:
-            if TMapApi.isTmapApplicationInstalled() {
-                let _ = TMapApi.invokeRoute(info.name,
-                                            coordinate: CLLocationCoordinate2D(latitude: position.lat,
-                                                                               longitude: position.lng))
-                return
+            let urlString = "tmap://?rGoName=\(info.name)&rGoX=\(position.lng)&rGoY=\(position.lat)"
+            
+            guard let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                  let destinationURL = URL(string: encodedStr),
+                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/431589174") else { return }
+            
+            if UIApplication.shared.canOpenURL(destinationURL) {
+                UIApplication.shared.open(destinationURL, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
             }
-            
-            let alert = UIAlertController(title: "T Map이 없습니다.",
-                                          message: "다운로드 페이지로 이동하시겠습니까?",
-                                          preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "확인",
-                                         style: .default) { _ in
-                guard let url = URL(string: TMapApi.getTMapDownUrl()),
-                      UIApplication.shared.canOpenURL(url) else { return }
-                
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-            
-            let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-            
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-            
-            present(alert, animated: true, completion: nil)
         case .kakao:
             let destination = KNVLocation(name: info.name,
                                           x: NSNumber(value: info.katecX),

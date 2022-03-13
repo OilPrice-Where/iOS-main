@@ -8,7 +8,6 @@
 
 import UIKit
 import Foundation
-import TMapSDK
 import NMapsMap
 import RxSwift
 import RxCocoa

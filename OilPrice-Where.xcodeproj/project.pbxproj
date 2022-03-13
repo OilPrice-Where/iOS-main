@@ -100,10 +100,6 @@
 		E94D0F0827BB4D5800BCB092 /* GasStationExpandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D0F0727BB4D5800BCB092 /* GasStationExpandView.swift */; };
 		E94D0F0A27BB50D000BCB092 /* GasStationDirectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D0F0927BB50D000BCB092 /* GasStationDirectionView.swift */; };
 		E94D0F0C27BB56D100BCB092 /* GasStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D0F0B27BB56D100BCB092 /* GasStationView.swift */; };
-		E957E39727A03B8100031125 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E957E39627A03B8100031125 /* TMapSDK.framework */; platformFilter = ios; };
-		E957E39827A03B8100031125 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E957E39627A03B8100031125 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E957E39A27A03BA600031125 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E957E39627A03B8100031125 /* TMapSDK.framework */; platformFilter = ios; };
-		E957E39B27A03BA600031125 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E957E39627A03B8100031125 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601C27CE00A6005BB593 /* MainListVC.swift */; };
 		E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601E27CE0351005BB593 /* MainListViewModel.swift */; };
 		E97B642827D7CDD700577650 /* GeoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3E2107D95C0066A59E /* GeoConverter.swift */; };
@@ -140,28 +136,6 @@
 				8EAEB15A24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E957E39927A03B8100031125 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				E957E39827A03B8100031125 /* TMapSDK.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E957E39C27A03BA600031125 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				E957E39B27A03BA600031125 /* TMapSDK.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -283,7 +257,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9BAA8A627D1807A0051A57A /* KakaoNavi.framework in Frameworks */,
-				E957E39727A03B8100031125 /* TMapSDK.framework in Frameworks */,
 				E9BAA8A427D1807A0051A57A /* KakaoCommon.framework in Frameworks */,
 				F362C63C0574D48555F1F335 /* Pods_OilPrice_Where.framework in Frameworks */,
 			);
@@ -294,7 +267,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9BAA8AC27D180BE0051A57A /* KakaoCommon.framework in Frameworks */,
-				E957E39A27A03BA600031125 /* TMapSDK.framework in Frameworks */,
 				8EAEB15024F41AFF00B5E6CE /* NotificationCenter.framework in Frameworks */,
 				E2E9B4E3DDF2DC61D6492C4B /* Pods_FavoriteWidgetExtension.framework in Frameworks */,
 				E9BAA8AE27D180BF0051A57A /* KakaoNavi.framework in Frameworks */,
@@ -760,7 +732,6 @@
 				A1410BAAA832A712804BE11F /* [CP] Embed Pods Frameworks */,
 				8E167D3421007B620066A59E /* ShellScript */,
 				8EAEB14624F4124900B5E6CE /* Embed App Extensions */,
-				E957E39927A03B8100031125 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -780,7 +751,6 @@
 				8EAEB14A24F41AFF00B5E6CE /* Sources */,
 				8EAEB14B24F41AFF00B5E6CE /* Frameworks */,
 				8EAEB14C24F41AFF00B5E6CE /* Resources */,
-				E957E39C27A03BA600031125 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1190,7 +1160,7 @@
 				CODE_SIGN_ENTITLEMENTS = "OilPrice-Where/OilPrice-Where.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
 				ENABLE_BITCODE = YES;
 				EXCLUDED_ARCHS = "";
@@ -1216,7 +1186,7 @@
 				SKIP_INSTALL = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/OilPrice-Where/KakaoNavi-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_WORKSPACE = YES;
 			};
 			name = Debug;
@@ -1230,7 +1200,7 @@
 				CODE_SIGN_ENTITLEMENTS = "OilPrice-Where/OilPrice-Where.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
 				ENABLE_BITCODE = YES;
 				EXCLUDED_ARCHS = "";
@@ -1256,7 +1226,7 @@
 				SKIP_INSTALL = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/OilPrice-Where/KakaoNavi-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_WORKSPACE = YES;
 			};
 			name = Release;

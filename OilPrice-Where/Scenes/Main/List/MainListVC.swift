@@ -12,7 +12,6 @@ import SnapKit
 import UIKit
 import RxSwift
 import RxCocoa
-import TMapSDK
 import NMapsMap
 import SCLAlertView
 
