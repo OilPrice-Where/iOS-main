@@ -10,12 +10,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
-
+//MARK: 카드 할인 VC
 final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
     //MARK: - Properties
     var viewModel: EditSalePriceViewModel!
-    
-    lazy var tableView = UITableView().then {
+    private lazy var tableView = UITableView().then {
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
         $0.showsVerticalScrollIndicator = false
@@ -41,7 +40,7 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
         UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
     }
     
-    //MARK: - View Binding..
+    //MARK: - Rx Binding..
     func bindViewModel() {
         viewModel.brandsInfoSubject
             .bind(to: tableView.rx.items(cellIdentifier: SalePriceTableViewCell.id,
@@ -57,8 +56,8 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
             .disposed(by: rx.disposeBag)
     }
     
-    //MARK: - Configure UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         navigationItem.title = "카드 할인"
         
         view.addSubview(tableView)
@@ -68,8 +67,8 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
         }
     }
     
-    
-    @objc func handleTapAction() {
+    @objc
+    private func handleTapAction() {
         tableView.endEditing(true)
     }
 }

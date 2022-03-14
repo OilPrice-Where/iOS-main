@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 import RxRelay
-
+//MARK: FindNavigationViewModel
 final class FindNavigationViewModel {
     private let findNavi = [ // 선택 가능한 탐색 반경
         "카카오내비",

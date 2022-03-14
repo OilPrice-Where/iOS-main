@@ -9,9 +9,10 @@
 import Foundation
 import RxSwift
 
-typealias BrandInfomation = (logo: UIImage?, title: String)
-
+//MARK: EditSalePriceViewModel
 final class EditSalePriceViewModel {
+    typealias BrandInfomation = (logo: UIImage?, title: String)
+    
     private let brandsInfo: [BrandInfomation] = [ // 선택 가능한 탐색 반경
         (UIImage(named: "LogoSKEnergy"), "SK"),
         (UIImage(named: "LogoOilBank"), "현대오일뱅크"),
