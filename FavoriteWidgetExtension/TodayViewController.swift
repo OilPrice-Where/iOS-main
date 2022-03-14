@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import KakaoNavi
 import CoreLocation
+import KakaoSDKCommon
+import KakaoSDKNavi
 import NotificationCenter
 
 class TodayViewController: UIViewController, NCWidgetProviding {
@@ -38,6 +39,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         popupView.layer.cornerRadius = 10
         popupTitleLabel.textColor = .white
         
+        KakaoSDK.initSDK(appKey: "b8e7f9ac5bf3c19414515867205f92aa")
         NCWidgetController().setHasContent(true,
                                            forWidgetWithBundleIdentifier: "com.OilPriceWhere.wheregasoline.FavoriteWidgetExtension")
     }
@@ -197,18 +199,15 @@ extension TodayViewController: UICollectionViewDelegate {
         
         switch type {
         case "kakao":
-            let destination = KNVLocation(name: selectStation.name,
-                                          x: NSNumber(value: katecX),
-                                          y: NSNumber(value: katecY))
-            let options = KNVOptions()
-            options.routeInfo = false
-            let params = KNVParams(destination: destination,
-                                   options: options)
-            KNVNaviLauncher.shared().navigate(with: params) { (error) in
-                if let _ = error {
-                    self.handleError(message: "카카오내비가 설치되어 있지 않습니다.")
+            let destination = NaviLocation(name: selectStation.name, x: "\(NSNumber(value: katecX))", y: "\(NSNumber(value: katecY))")
+            let options = NaviOption(routeInfo: false)
+            guard let navigateUrl = NaviApi.shared.navigateUrl(destination: destination, option: options) else { return }
+
+            extensionContext?.open(navigateUrl, completionHandler: { [weak self] isSuccess in
+                if !isSuccess {
+                    self?.extensionContext?.open(NaviApi.webNaviInstallUrl, completionHandler: nil)
                 }
-            }
+            })
         case "tMap":
             let urlString = "tmap://?rGoName=\(selectStation.name)&rGoX=\(coordinator.longitude)&rGoY=\(coordinator.latitude)"
             

@@ -100,6 +100,15 @@ PODS:
   - GoogleUtilities/UserDefaults (7.7.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.7.0)
+  - KakaoSDKCommon (2.8.6):
+    - KakaoSDKCommon/Common (= 2.8.6)
+    - KakaoSDKCommon/Network (= 2.8.6)
+  - KakaoSDKCommon/Common (2.8.6)
+  - KakaoSDKCommon/Network (2.8.6):
+    - Alamofire (~> 5.1)
+    - KakaoSDKCommon/Common (= 2.8.6)
+  - KakaoSDKNavi (2.8.6):
+    - KakaoSDKCommon/Common (= 2.8.6)
   - leveldb-library (1.22.1)
   - Moya (15.0.0):
     - Moya/Core (= 15.0.0)
@@ -162,6 +171,8 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Storage
   - FloatingPanel
+  - KakaoSDKCommon
+  - KakaoSDKNavi
   - Moya
   - NMapsMap
   - "NSObject+Rx"
@@ -196,6 +207,8 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUtilities
     - GTMSessionFetcher
+    - KakaoSDKCommon
+    - KakaoSDKNavi
     - leveldb-library
     - Moya
     - nanopb
@@ -234,6 +247,8 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
+  KakaoSDKCommon: 7e56600ff4c1bd82bed93fea4299b5a37f47e6a5
+  KakaoSDKNavi: 4df155701e60822a9f4426630ae2a38328e779be
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
@@ -256,6 +271,6 @@ SPEC CHECKSUMS:
   SwiftyPlistManager: 5895924cccb7fe28deccbe14890e8aed78ae78ae
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: 43cc3f70404e6a72c9efe6682eadb7b133532caa
+PODFILE CHECKSUM: adb3515f003682805deea201222b9aaa01ae0f26
 
 COCOAPODS: 1.11.2

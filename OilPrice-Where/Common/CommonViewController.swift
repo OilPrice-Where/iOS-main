@@ -7,10 +7,11 @@
 //
 
 import UIKit
-import SCLAlertView
-import CoreLocation
-import NMapsMap
 import RxSwift
+import NMapsMap
+import CoreLocation
+import SCLAlertView
+import KakaoSDKNavi
 
 class CommonViewController: UIViewController {
     let bag = DisposeBag()
@@ -107,17 +108,13 @@ class CommonViewController: UIViewController {
                 UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
             }
         case .kakao:
-            let destination = KNVLocation(name: info.name,
-                                          x: NSNumber(value: info.katecX),
-                                          y: NSNumber(value: info.katecY))
-            let options = KNVOptions()
-            options.routeInfo = false
-            let params = KNVParams(destination: destination,
-                                   options: options)
-            KNVNaviLauncher.shared().navigate(with: params) { [weak self] (error) in
-                DispatchQueue.main.async {
-                    self?.handleError(error: error)
-                }
+            let destination = NaviLocation(name: info.name, x: "\(NSNumber(value: info.katecX))", y: "\(NSNumber(value: info.katecY))")
+            guard let navigateUrl = NaviApi.shared.navigateUrl(destination: destination, option: NaviOption(routeInfo: false)) else { return }
+
+            if UIApplication.shared.canOpenURL(navigateUrl) {
+                UIApplication.shared.open(navigateUrl, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.open(NaviApi.webNaviInstallUrl, options: [:], completionHandler: nil)
             }
         case .kakaoMap:
             guard let destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=CAR"),
