@@ -6,7 +6,6 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Then
 import SnapKit
 import UIKit
@@ -15,7 +14,7 @@ final class GasStationView: UIView {
     //MARK: - Properties
     let titleView = GasStationTitleView()
     let bottomView = GasStationBottomView()
-    let lineView = UIView().then {
+    private let lineView = UIView().then {
         $0.backgroundColor = UIColor(red: 236/255, green: 236/255, blue: 236/255, alpha: 1.0)
     }
     
@@ -30,8 +29,8 @@ final class GasStationView: UIView {
         fatalError("Not Created View")
     }
     
-    //MARK: - Make UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         backgroundColor = .white
         
         addSubview(titleView)

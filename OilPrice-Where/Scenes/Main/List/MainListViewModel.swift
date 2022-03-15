@@ -6,30 +6,19 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import RxSwift
 import RxCocoa
-
 //MARK: MainListViewModel
 final class MainListViewModel {
     //MARK: - Properties
     let bag = DisposeBag()
-    let input = Input()
-    let output = Output()
     var stations: [GasStation]
     var isSortedByPrice = true
     
     //MARK: Initializer
     init(stations: [GasStation]) {
         self.stations = stations
-        
-        rxBind()
-    }
-    
-    //MARK: RxBinding..
-    func rxBind() {
-        
     }
 }
 
@@ -37,14 +26,6 @@ final class MainListViewModel {
 extension MainListViewModel {
     enum ErrorResult: Error {
         case someError
-    }
-    
-    struct Input {
-        
-    }
-    
-    struct Output {
-        
     }
 }
 

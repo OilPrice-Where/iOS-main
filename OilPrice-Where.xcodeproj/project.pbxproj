@@ -613,7 +613,7 @@
 			isa = PBXGroup;
 			children = (
 				2C0C68BC276B0DCA00945CEC /* SwiftGen */,
-				8E7FFE4020F5EB69006CED48 /* Main */,
+				8E7FFE4020F5EB69006CED48 /* Splash */,
 				8E7FFE2B20F5E5FF006CED48 /* Images.xcassets */,
 				2C0C68BF276B0E3300945CEC /* Colors.xcassets */,
 			);
@@ -633,12 +633,12 @@
 			name = SupportFiles;
 			sourceTree = "<group>";
 		};
-		8E7FFE4020F5EB69006CED48 /* Main */ = {
+		8E7FFE4020F5EB69006CED48 /* Splash */ = {
 			isa = PBXGroup;
 			children = (
 				7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */,
 			);
-			name = Main;
+			name = Splash;
 			sourceTree = "<group>";
 		};
 		8EAEB15124F41AFF00B5E6CE /* FavoriteWidgetExtension */ = {

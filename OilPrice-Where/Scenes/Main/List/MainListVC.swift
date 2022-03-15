@@ -6,7 +6,6 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Then
 import SnapKit
 import UIKit
@@ -18,13 +17,13 @@ import SCLAlertView
 protocol MainListVCDelegate: AnyObject {
     func touchedCell(info: GasStation)
 }
-
 //MARK: GasStationListVC
 final class MainListVC: CommonViewController {
     //MARK: - Properties
+    let infoView = InfoListView()
     var viewModel: MainListViewModel!
     weak var delegate: MainListVCDelegate?
-    lazy var tableView = UITableView().then {
+    private lazy var tableView = UITableView().then {
         $0.separatorStyle = .none
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
@@ -34,8 +33,7 @@ final class MainListVC: CommonViewController {
         $0.delegate = self
         GasStationCell.register($0)
     }
-    let infoView = InfoListView()
-    var noneView = MainListNoneView().then {
+    private var noneView = MainListNoneView().then {
         $0.isHidden = true
     }
     
@@ -55,8 +53,8 @@ final class MainListVC: CommonViewController {
         UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
     }
     
-    //MARK: - Make UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         navigationItem.title = "주유소 목록"
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.backgroundColor = Asset.Colors.mainColor.color
@@ -86,7 +84,7 @@ final class MainListVC: CommonViewController {
     }
     
     //MARK: - Rx Binding..
-    func rxBind() {
+    private func rxBind() {
         // Sorted by Price/Distance
         infoView.priceSortedButton
             .rx
@@ -110,7 +108,8 @@ final class MainListVC: CommonViewController {
             .disposed(by: rx.disposeBag)
     }
     
-    func configure() {
+    //MARK: - Method
+    private func configure() {
         noneView.isHidden = !viewModel.stations.isEmpty
         
         infoView.priceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
@@ -118,7 +117,7 @@ final class MainListVC: CommonViewController {
     }
     
     @objc
-    func sortButtonTapped(btn: UIButton?) {
+    private func sortButtonTapped(btn: UIButton?) {
         guard let text = btn?.titleLabel?.text else { return }
         
         let isPriceSorted = text == "가격순"

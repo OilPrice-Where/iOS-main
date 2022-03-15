@@ -6,7 +6,6 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Then
 import SnapKit
 import UIKit
@@ -15,15 +14,14 @@ protocol GasStationCellDelegate: AnyObject {
     func touchedFavoriteButton(id: String?)
     func touchedDirectionButton(info: GasStation?)
 }
-
 //MARK: 메인페이지의 리스트 부분에서 받아오는 주유소 목록을 나타내는 셀
 final class GasStationCell: UITableViewCell {
     //MARK: - Properties
     private var path: IndexPath?
     private var info: GasStation?
-    var selectionCell: Bool = false
+    private var selectionCell: Bool = false
     weak var delegate: GasStationCellDelegate?
-    let stationView = GasStationView().then {
+    private let stationView = GasStationView().then {
         $0.bottomView.expandView.favoriteButton.addTarget(self, action: #selector(touchedFavorite), for: .touchUpInside)
     }
     lazy var tap = UITapGestureRecognizer(target: self, action: #selector(touchedDirection))
@@ -37,15 +35,6 @@ final class GasStationCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("Not Created View")
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        path = nil
-        info = nil
-        selectionCell = false
-        stationView.bottomView.expandView.directionView.removeGestureRecognizer(tap)
     }
     
     //MARK: - Make UI
@@ -62,6 +51,25 @@ final class GasStationCell: UITableViewCell {
         }
     }
     
+    private func updateFavoriteUI(favoriteID id: String) {
+        let ids = DefaultData.shared.favoriteSubject.value
+        let image = ids.contains(id) ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
+        
+        stationView.bottomView.expandView.favoriteButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+        stationView.bottomView.expandView.favoriteButton.imageView?.tintColor = ids.contains(id) ? .white : Asset.Colors.mainColor.color
+        stationView.bottomView.expandView.favoriteButton.backgroundColor = ids.contains(id) ? Asset.Colors.mainColor.color : .white
+    }
+    
+    //MARK: - Method
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        path = nil
+        info = nil
+        selectionCell = false
+        stationView.bottomView.expandView.directionView.removeGestureRecognizer(tap)
+    }
+    
     func configure(station info: GasStation, indexPath: IndexPath?) {
         self.info = info
         self.path = indexPath
@@ -72,22 +80,13 @@ final class GasStationCell: UITableViewCell {
         updateFavoriteUI(favoriteID: info.id)
     }
     
-    private func updateFavoriteUI(favoriteID id: String) {
-        let ids = DefaultData.shared.favoriteSubject.value
-        let image = ids.contains(id) ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
-        
-        stationView.bottomView.expandView.favoriteButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
-        stationView.bottomView.expandView.favoriteButton.imageView?.tintColor = ids.contains(id) ? .white : Asset.Colors.mainColor.color
-        stationView.bottomView.expandView.favoriteButton.backgroundColor = ids.contains(id) ? Asset.Colors.mainColor.color : .white
-    }
-    
     @objc
-    func touchedFavorite(sender: Any) {
+    private func touchedFavorite(sender: Any) {
         delegate?.touchedFavoriteButton(id: info?.id)
     }
     
     @objc
-    func touchedDirection() {
+    private func touchedDirection() {
         delegate?.touchedDirectionButton(info: info)
     }
 }

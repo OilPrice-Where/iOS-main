@@ -6,11 +6,10 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Then
 import SnapKit
 import UIKit
-//MARK: InfoListView
+//MARK: 리스트 정렬 & 위치 표시
 final class InfoListView: UIView {
     //MARK: - Properties
     let priceSortedButton = UIButton().then {
@@ -32,13 +31,13 @@ final class InfoListView: UIView {
         $0.setTitleColor(Asset.Colors.darkMain.color, for: .selected)
         $0.backgroundColor = .systemGroupedBackground
     }
-    let geoLogoImageView = UIImageView().then {
+    private let geoLogoImageView = UIImageView().then {
         let image = Asset.Images.geoIcon.image.withRenderingMode(.alwaysTemplate)
         $0.image = image
         $0.tintColor = .black
         $0.contentMode = .scaleAspectFit
     }
-    let valueLabel = UILabel().then {
+    private let valueLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
     }
@@ -54,8 +53,8 @@ final class InfoListView: UIView {
         fatalError("Not Created View")
     }
     
-    //MARK: - Make UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         addSubview(priceSortedButton)
         addSubview(distanceSortedButton)
         addSubview(geoLogoImageView)
@@ -82,7 +81,7 @@ final class InfoListView: UIView {
         }
 
     }
-    
+    //MARK: - Configure reverse geocoding
     func fetch(geoCode: String?) {
         guard let geoCode = geoCode else { return }
         valueLabel.text = geoCode
