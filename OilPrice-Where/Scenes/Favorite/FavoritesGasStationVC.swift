@@ -13,39 +13,28 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 import CoreLocation
-
+//MARK: 즐겨찾는 주유소 VC
 final class FavoritesGasStationVC: CommonViewController {
     //MARK: - Properties
-    var notiObject: NSObjectProtocol?
-    let width = UIScreen.main.bounds.width - 75.0
-    let height = 411
-    var fromTap = false
-    
-    let titleLabel = UILabel().then {
+    private let width = UIScreen.main.bounds.width - 75.0
+    private let height = 411
+    private var fromTap = false
+    private var notiObject: NSObjectProtocol?
+    private let noneFavoriteView = NoneFavoriteView()
+    private let titleLabel = UILabel().then {
         $0.text = "자주 가는 주유소"
         $0.textColor = .white
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 18)
     }
-    
-    lazy var collectionView: UICollectionView = {
-        let layout = setupFlowLayout()
-        let v = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        v.backgroundColor = .clear
-        v.decelerationRate = UIScrollViewDecelerationRateFast
-        v.alwaysBounceHorizontal = false
-        v.allowsMultipleSelection = false
-        v.showsVerticalScrollIndicator = false
-        v.showsHorizontalScrollIndicator = false
-        FavoriteCollectionViewCell.register(v)
-        return v
-    }()
-    
-    let noneFavoriteView = NoneFavoriteView()
-    
-    // Status Bar Color
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
+        $0.backgroundColor = .clear
+        $0.decelerationRate = UIScrollViewDecelerationRateFast
+        $0.alwaysBounceHorizontal = false
+        $0.allowsMultipleSelection = false
+        $0.showsVerticalScrollIndicator = false
+        $0.showsHorizontalScrollIndicator = false
+        FavoriteCollectionViewCell.register($0)
     }
     
     //MARK: - Life Cycle
@@ -58,13 +47,17 @@ final class FavoritesGasStationVC: CommonViewController {
         
         makeUI()
         bindViewModel()
-        
         notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
                                                             object: nil,
                                                             queue: .main) { self.naviClickEvenet(noti: $0) }
     }
     
-    //MARK: - Configure UI
+    //MARK: - Override Method
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    //MARK: - Set UI
     func makeUI() {
         view.backgroundColor = Asset.Colors.mainColor.color
         
@@ -88,7 +81,7 @@ final class FavoritesGasStationVC: CommonViewController {
         }
     }
     
-    //MARK: - View Binding..
+    //MARK: - Rx Binding..
     func bindViewModel() {
         DefaultData.shared.favoriteSubject
             .map { !$0.isEmpty }
@@ -135,7 +128,7 @@ final class FavoritesGasStationVC: CommonViewController {
     }
     
     // set collectionView flow layout
-    private func setupFlowLayout() -> UICollectionViewFlowLayout {
+    private func fetchLayout() -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 25
         flowLayout.minimumInteritemSpacing = .zero

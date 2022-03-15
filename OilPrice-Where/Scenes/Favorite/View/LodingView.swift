@@ -8,11 +8,12 @@
 
 import Foundation
 import UIKit
-
+//MARK: 즐겨찾기 로딩 뷰
 final class LodingView: UIView {
-    //MARK: - Properties
+    // Properties
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .medium)
     
+    // Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -23,7 +24,8 @@ final class LodingView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func makeUI() {
+    // Set UI
+    private func makeUI() {
         addSubview(activityIndicator)
         
         activityIndicator.snp.makeConstraints {

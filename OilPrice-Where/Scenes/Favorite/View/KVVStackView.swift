@@ -6,19 +6,19 @@
 //  Copyright © 2021 sangwook park. All rights reserved.
 //
 
-import Foundation
 import UIKit
-
+//MARK: Key(Label)/Value(ImageView) VStack View
 final class KVVStackView: UIStackView {
+    // Properties
     let keyLabel = UILabel().then {
         $0.textAlignment = .center
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 10)
     }
-    
     let valueImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
     }
     
+    // Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -29,7 +29,8 @@ final class KVVStackView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func makeUI() {
+    // Set UI
+    private func makeUI() {
         axis = .vertical
         distribution = .fill
         alignment = .fill

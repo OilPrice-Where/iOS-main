@@ -8,21 +8,21 @@
 
 import Foundation
 import UIKit
-
+//MARK: 즐겨찾기가 없을 때 표시하는 뷰
 final class NoneFavoriteView: UIView {
-    //MARK: - Properties
-    let emptyImageView = UIImageView().then {
+    // Properties
+    private let emptyImageView = UIImageView().then {
         $0.image = Asset.Images.nonePageImage.image
         $0.contentMode = .scaleAspectFit
     }
-    
-    let emptyLabel = UILabel().then {
+    private let emptyLabel = UILabel().then {
         $0.text = "즐겨 찾는 주유소가 없습니다."
         $0.textColor = .white
         $0.textAlignment = .center
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 20)
     }
     
+    // Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -33,7 +33,8 @@ final class NoneFavoriteView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func makeUI() {
+    // Set UI
+    private func makeUI() {
         addSubview(emptyImageView)
         addSubview(emptyLabel)
         

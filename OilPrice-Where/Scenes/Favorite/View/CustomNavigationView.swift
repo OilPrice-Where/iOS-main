@@ -8,21 +8,21 @@
 
 import Foundation
 import UIKit
-
+//MARK: 길찾기 버튼
 final class CustomNavigationView: UIView {
-    //MARK: - Properties
+    // Properties
     let logoImageView = UIImageView().then {
         $0.image = Asset.Images.navigationIcon.image
         $0.contentMode = .scaleAspectFit
         $0.backgroundColor = .white
     }
-    
     let titleLabel = UILabel().then {
         $0.text = "길찾기"
         $0.textColor = Asset.Colors.mainColor.color
         $0.textAlignment = .left
     }
     
+    // Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -33,7 +33,8 @@ final class CustomNavigationView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func makeUI() {
+    // Set UI
+    private func makeUI() {
         layer.cornerRadius = 6
         layer.borderColor = Asset.Colors.mainColor.color.cgColor
         layer.borderWidth = 1.5
