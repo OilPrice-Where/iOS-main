@@ -9,13 +9,13 @@ import Foundation
 import Then
 import UIKit
 import SnapKit
-
-class SelectTypeView: UIView {
+//MARK: 초기화면 선택 View
+final class SelectTypeView: UIView {
     //MARK: - Properties
     private let oils = ["휘발유", "경유", "고급유", "LPG"]
     private let navigations = ["카카오내비", "카카오맵", "티맵", "네이버지도"]
-    let emptyView = UIView()
-    let selectOilTypeLabel = UILabel().then { // Oil Type
+    private let emptyView = UIView()
+    private let selectOilTypeLabel = UILabel().then { // Oil Type
         $0.text = "찾으시는 기름의 종류를 선택해주세요."
         $0.textAlignment = .center
         $0.textColor = Asset.Colors.mainColor.color
@@ -25,7 +25,7 @@ class SelectTypeView: UIView {
         $0.selectedSegmentIndex = 0
         $0.selectedSegmentTintColor = Asset.Colors.mainColor.color
     }
-    let selectNaviTypeLabel = UILabel().then { // Navigation Type
+    private let selectNaviTypeLabel = UILabel().then { // Navigation Type
         $0.text = "연동할 내비게이션을 선택해주세요."
         $0.textAlignment = .center
         $0.textColor = Asset.Colors.mainColor.color
@@ -55,8 +55,8 @@ class SelectTypeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Configure
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         layer.cornerRadius = 5
         okButton.layer.cornerRadius = 20
         
@@ -73,31 +73,26 @@ class SelectTypeView: UIView {
             $0.left.top.right.equalToSuperview().inset(16)
             $0.height.equalTo(20)
         }
-        
         oilTypeSegmentControl.snp.makeConstraints {
             $0.top.equalTo(selectOilTypeLabel.snp.bottom).offset(12)
             $0.left.right.equalToSuperview().inset(16)
             $0.height.equalTo(30)
         }
-        
         selectNaviTypeLabel.snp.makeConstraints {
             $0.top.equalTo(oilTypeSegmentControl.snp.bottom).offset(16)
             $0.left.right.equalToSuperview().inset(16)
             $0.height.equalTo(20)
         }
-        
         naviTypeSegmentControl.snp.makeConstraints {
             $0.top.equalTo(selectNaviTypeLabel.snp.bottom).offset(12)
             $0.left.right.equalToSuperview().inset(16)
             $0.height.equalTo(30)
         }
-        
         okButton.snp.makeConstraints {
             $0.top.equalTo(naviTypeSegmentControl.snp.bottom).offset(16)
             $0.left.right.equalToSuperview().inset(16)
             $0.height.equalTo(40)
         }
-        
         emptyView.snp.makeConstraints {
             $0.top.equalTo(okButton.snp.bottom)
             $0.left.right.equalToSuperview()
@@ -105,7 +100,7 @@ class SelectTypeView: UIView {
         }
     }
     
-    func viewLayoutSetUp() {
+    private func viewLayoutSetUp() {
         let font = FontFamily.NanumSquareRound.regular.font(size: 15)
         
         let normalAttribute: [NSAttributedString.Key: Any] = [.font: font,

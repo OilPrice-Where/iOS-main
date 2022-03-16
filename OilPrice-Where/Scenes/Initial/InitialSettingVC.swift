@@ -10,13 +10,12 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
-
 //MARK: 초기 설정 페이지
-class InitialSettingVC: CommonViewController {
+final class InitialSettingVC: CommonViewController {
     //MARK: - Properties
     typealias selectTypes = (oil: Int, navi: Int)
     var viewModel: InitialViewModel!
-    let selectTypeView = SelectTypeView()
+    private let selectTypeView = SelectTypeView()
     
     //MARK: - Life Cycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -41,7 +40,7 @@ class InitialSettingVC: CommonViewController {
         return .default
     }
     
-    //MARK: - View Binging..
+    //MARK: - Rx Binging..
     func bindViewModel() {
         // 확인 버튼 클릭 이벤트
         selectTypeView.okButton
@@ -66,8 +65,8 @@ class InitialSettingVC: CommonViewController {
             .disposed(by: rx.disposeBag)
     }
     
-    //MARK: - Configure UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         view.addSubview(selectTypeView)
         
         selectTypeView.snp.makeConstraints {

@@ -16,7 +16,7 @@ import Moya
 class DefaultData {
     static let shared = DefaultData() // 싱글톤 객체 생성
     private let bag = DisposeBag()
-    let staionProvider = MoyaProvider<StationAPI>()
+    private let staionProvider = MoyaProvider<StationAPI>()
     
     // 기본 설정
     private init() {

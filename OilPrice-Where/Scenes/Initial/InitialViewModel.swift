@@ -8,10 +8,10 @@
 
 import UIKit
 import RxSwift
-
-typealias InitialOilType = (name: String, image: UIImage?)
-
+//MARK: InitialViewModel
 final class InitialViewModel {
+    typealias InitialOilType = (name: String, image: UIImage?)
+    
     enum SelectOilStyle: Int {
         case gasoline = 0
         case diesel = 1
@@ -26,7 +26,6 @@ final class InitialViewModel {
         case naverMap
     }
 }
-
 //MARK: Method
 extension InitialViewModel {
     func select(oil index: Int) -> String {
