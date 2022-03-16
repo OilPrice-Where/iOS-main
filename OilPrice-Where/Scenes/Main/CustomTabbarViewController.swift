@@ -9,7 +9,7 @@
 import UIKit
 import SCLAlertView
 //MARK: 메인 탭바
-class CustomTabbarViewController: UITabBarController {
+final class CustomTabbarViewController: UITabBarController {
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -69,7 +69,7 @@ xcassets:
       
 fonts:
     inputs:
-        - OilPrice-Where/Fonts
+        - OilPrice-Where/Resources/Fonts/
     outputs:
         templateName: swift5
         output: OilPrice-Where/Resources/Fonts+Generated.swift

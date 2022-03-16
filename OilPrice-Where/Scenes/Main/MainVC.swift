@@ -12,21 +12,21 @@ import RxSwift
 import RxCocoa
 import NMapsMap
 import FloatingPanel
-
+//MARK: Main Map VC
 final class MainVC: CommonViewController {
     //MARK: - Properties
     let viewModel = MainViewModel()
-    let locationManager = CLLocationManager()
-    lazy var fpc = FloatingPanelController()
-    lazy var contentsVC = StationInfoVC() // 띄울 VC
-    lazy var mapContainerView = MainMapView().then {
+    private let locationManager = CLLocationManager()
+    private lazy var fpc = FloatingPanelController()
+    private lazy var contentsVC = StationInfoVC() // 띄울 VC
+    private lazy var mapContainerView = MainMapView().then {
         var tap = UITapGestureRecognizer(target: self, action: #selector(toListTapped))
         $0.toListButton.addGestureRecognizer(tap)
         $0.researchButton.addTarget(self, action: #selector(researchStation), for: .touchUpInside)
         tap = UITapGestureRecognizer(target: self, action: #selector(toLowPriceStation))
         $0.tooltipView.addGestureRecognizer(tap)
     }
-    let guideView = StationInfoGuideView().then {
+    private let guideView = StationInfoGuideView().then {
         $0.layer.cornerRadius = 6.0
         $0.backgroundColor = .white
         $0.favoriteButton.addTarget(self, action: #selector(touchedFavoriteButton), for: .touchUpInside)
@@ -50,7 +50,7 @@ final class MainVC: CommonViewController {
     }
     
     //MARK: - Set UI
-    func makeUI() {
+    private func makeUI() {
         view.backgroundColor = .white
         view.addSubview(mapContainerView)
         setupView()
@@ -90,7 +90,7 @@ final class MainVC: CommonViewController {
         guideView.addShadow(offset: CGSize(width: 0, height: 4), color: .black, opacity: 0.18, radius: 6.0)
     }
     
-    func updateFavoriteUI() {
+    private func updateFavoriteUI() {
         let ids = DefaultData.shared.favoriteSubject.value
         
         guard let id = viewModel.selectedStation?.id else { return }
@@ -103,7 +103,7 @@ final class MainVC: CommonViewController {
         }
     }
     
-    func configure() {
+    private func configure() {
         mapContainerView.delegate = self
         mapContainerView.mapView.touchDelegate = self
         mapContainerView.mapView.addCameraDelegate(delegate: self)
@@ -114,7 +114,7 @@ final class MainVC: CommonViewController {
     }
     
     //MARK: - Rx Binding..
-    func rxBind() {
+    private func rxBind() {
         DefaultData.shared.completedRelay
             .subscribe(with: self, onNext: { owner, key in
                 guard !(key == "Favorites" || key == "LocalFavorites") else {
@@ -184,7 +184,7 @@ final class MainVC: CommonViewController {
     
     //MARK: - User Intraction
     @objc
-    func toLowPriceStation() {
+    private func toLowPriceStation() {
         guard let lowStation = viewModel.stations.first else { return }
         
         let position = NMGTm128(x: lowStation.katecX, y: lowStation.katecY).toLatLng()
@@ -194,7 +194,7 @@ final class MainVC: CommonViewController {
     }
     
     @objc
-    func toListTapped() {
+    private func toListTapped() {
         let listVC = MainListVC()
         listVC.delegate = self
         listVC.viewModel = MainListViewModel(stations: viewModel.stations)
@@ -203,7 +203,7 @@ final class MainVC: CommonViewController {
     }
     
     @objc
-    func researchStation() {
+    private func researchStation() {
         let centerLocation = CLLocation(latitude: mapContainerView.mapView.latitude, longitude: mapContainerView.mapView.longitude)
         
         viewModel.requestLocation = centerLocation
@@ -216,7 +216,7 @@ final class MainVC: CommonViewController {
     }
     
     @objc
-    func touchedFavoriteButton() {
+    private func touchedFavoriteButton() {
         let faovorites = DefaultData.shared.favoriteSubject.value
         guard let _id = viewModel.selectedStation?.id, faovorites.count < 6 else { return }
         let isDeleted = faovorites.contains(_id)
@@ -234,11 +234,11 @@ final class MainVC: CommonViewController {
     }
     
     @objc
-    func toNavigationTapped() {
+    private func toNavigationTapped() {
         requestDirection(station: viewModel.selectedStation)
     }
     
-    func reset() {
+    private func reset() {
         mapContainerView.selectedMarker?.isSelected = false
         mapContainerView.selectedMarker = nil
     }

@@ -612,10 +612,10 @@
 		8E7FFE3D20F5EABE006CED48 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				29B2264C2126A1210012B2F6 /* Fonts */,
+				E9DD57ED27DA56110024E7FF /* Assets */,
 				2C0C68BC276B0DCA00945CEC /* SwiftGen */,
 				8E7FFE4020F5EB69006CED48 /* Splash */,
-				8E7FFE2B20F5E5FF006CED48 /* Images.xcassets */,
-				2C0C68BF276B0E3300945CEC /* Colors.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -625,7 +625,6 @@
 			children = (
 				2C0C68DB276B608000945CEC /* Common */,
 				E97B642727D7C13700577650 /* Extensions */,
-				29B2264C2126A1210012B2F6 /* Fonts */,
 				8E7FFE3020F5E600006CED48 /* Info.plist */,
 				8ECE0D75211C31F900FF2B46 /* UserInfo.plist */,
 				2C0E1CD626022F11006C2C3D /* GoogleService-Info.plist */,
@@ -700,6 +699,15 @@
 				E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		E9DD57ED27DA56110024E7FF /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				8E7FFE2B20F5E5FF006CED48 /* Images.xcassets */,
+				2C0C68BF276B0E3300945CEC /* Colors.xcassets */,
+			);
+			name = Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
