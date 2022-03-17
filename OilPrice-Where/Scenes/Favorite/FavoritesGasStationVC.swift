@@ -39,6 +39,7 @@ final class FavoritesGasStationVC: CommonViewController {
     
     //MARK: - Life Cycle
     deinit {
+        if let noti = notiObject { NotificationCenter.default.removeObserver(noti) }
         notiObject = nil
     }
     

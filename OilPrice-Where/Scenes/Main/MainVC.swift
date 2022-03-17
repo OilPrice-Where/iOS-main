@@ -154,6 +154,9 @@ final class MainVC: CommonViewController {
             .bind(with: self, onNext: { owner, _ in
                 owner.mapContainerView.tooltipView.configure(stations: owner.viewModel.stations)
                 owner.mapContainerView.showMarker(list: owner.viewModel.stations)
+                NotificationCenter.default.post(name: NSNotification.Name("stationsUpdated"),
+                                                object: nil,
+                                                userInfo: ["stations": owner.viewModel.stations])
             })
             .disposed(by: viewModel.bag)
         // 즐겨찾기 목록의 StationID 값과 StationView의 StationID값이 동일 하면 선택 상태로 변경
@@ -311,8 +314,10 @@ extension MainVC: NMFMapViewCameraDelegate {
 
 extension MainVC: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+        guard fpc.state != .hidden else { return }
         reset()
-        if fpc.state != .hidden { fpc.move(to: .hidden, animated: true, completion: nil) }
+        viewModel.beforeNAfter.before = .hidden
+        fpc.move(to: .hidden, animated: true, completion: nil)
     }
 }
 

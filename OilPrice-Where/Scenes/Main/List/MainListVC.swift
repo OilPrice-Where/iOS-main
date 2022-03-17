@@ -23,6 +23,7 @@ final class MainListVC: CommonViewController {
     let infoView = InfoListView()
     var viewModel: MainListViewModel!
     weak var delegate: MainListVCDelegate?
+    private var notiObject: NSObjectProtocol?
     private lazy var tableView = UITableView().then {
         $0.separatorStyle = .none
         $0.alwaysBounceVertical = false
@@ -38,6 +39,11 @@ final class MainListVC: CommonViewController {
     }
     
     //MARK: - Life Cycle
+    deinit {
+        if let noti = notiObject { NotificationCenter.default.removeObserver(noti) }
+        notiObject = nil
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -110,6 +116,14 @@ final class MainListVC: CommonViewController {
     
     //MARK: - Method
     private func configure() {
+        notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("stationsUpdated"),
+                                                            object: nil,
+                                                            queue: .main) { [weak self] noti in
+            guard let stations = noti.userInfo?["stations"] as? [GasStation] else { return }
+            self?.viewModel.stations = stations
+            self?.tableView.reloadData()
+        }
+        
         noneView.isHidden = !viewModel.stations.isEmpty
         
         infoView.priceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)

@@ -13,11 +13,12 @@ import RxSwift
 protocol MainMapViewDelegate: AnyObject {
     func marker(didTapMarker: NMGLatLng, info: GasStation)
 }
-
+//MARK: Map Container View
 final class MainMapView: UIView {
     //MARK: - Properties
     weak var delegate: MainMapViewDelegate?
     var markers = [NaverMapMarker]()
+    let tooltipView = ToolTipView()
     var selectedMarker: NaverMapMarker? = nil {
         willSet {
             selectedMarker?.isSelected = false
@@ -55,7 +56,6 @@ final class MainMapView: UIView {
         $0.backgroundColor = Asset.Colors.mainColor.color
         $0.alpha = 0.0
     }
-    let tooltipView = ToolTipView()
     
     //MARK: - Initializer
     override init(frame: CGRect) {
@@ -68,8 +68,8 @@ final class MainMapView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Configure UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         addSubview(mapView)
         addSubview(currentLocationButton)
         addSubview(toListButton)
@@ -86,6 +86,7 @@ final class MainMapView: UIView {
         currentLocationButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
     }
     
+    //MARK: - Method
     func moveMap(with coordinate: CLLocationCoordinate2D) {
         let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
         

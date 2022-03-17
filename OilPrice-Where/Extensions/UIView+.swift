@@ -36,4 +36,11 @@ extension UIView {
         self.layer.shadowOpacity = opacity
         self.layer.shadowRadius = radius
     }
+    
+    func asImage() -> UIImage {
+        let render = UIGraphicsImageRenderer(bounds: bounds)
+        return render.image { context in
+            layer.render(in: context.cgContext)
+        }
+    }
 }

@@ -13,25 +13,25 @@ import UIKit
 //MARK: 전체 평균 가격
 final class ToolTipView: UIView {
     //MARK: - Properties
-    let contentVStackView = UIStackView().then {
+    private let contentVStackView = UIStackView().then {
         $0.axis = .vertical
         $0.alignment = .fill
         $0.distribution = .fillEqually
         $0.spacing = 0
     }
-    let lowPriceView = KeyValueView().then {
+    private let lowPriceView = KeyValueView().then {
         $0.keyLabel.text = "최저:"
         $0.valueLabel.text = "0"
         $0.backgroundColor = UIColor(red: 100/255, green: 180/255, blue: 255/255, alpha: 1.0)
     }
-    let avgPriceView = KeyValueView().then {
+    private let avgPriceView = KeyValueView().then {
         $0.keyLabel.text = "평균:"
         $0.valueLabel.text = "0"
     }
-    let findView = KeyValueView().then {
+    private let findView = KeyValueView().then {
         $0.keyLabel.text = "반경:"
     }
-    let stationCountView = KeyValueView().then {
+    private let stationCountView = KeyValueView().then {
         $0.keyLabel.text = "주유소:"
         $0.valueLabel.text = "0개"
     }
@@ -47,8 +47,8 @@ final class ToolTipView: UIView {
         fatalError("Not Created View")
     }
     
-    //MARK: - Make UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         backgroundColor = Asset.Colors.mainColor.color
         layer.cornerRadius = 5
         layer.masksToBounds = true
@@ -64,6 +64,7 @@ final class ToolTipView: UIView {
         }
     }
     
+    //MARK: - Configure
     func configure(stations: [GasStation]) {
         let radius = DefaultData.shared.radiusSubject.value
         let avg = stations.reduce(0) { $0 + $1.price }

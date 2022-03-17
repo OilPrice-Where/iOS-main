@@ -7,12 +7,13 @@
 //
 
 import NMapsMap
-
+//MARK: Naver Map Marker View
 class NaverMapMarker: NMFMarker {
-    var brand: String?
-    var title: String? // 클릭시 뜨는 말풍선
+    //MARK: - Properties
+    private var brand: String?
+    private var title: String? // 클릭시 뜨는 말풍선
     var isSelected: Bool = false { didSet { updatedLayout() } }
-    var markerView = CustomAnnotationView(frame: CGRect(x: 0, y: 0, width: 60, height: 32))
+    private var markerView = CustomAnnotationView(frame: CGRect(x: 0, y: 0, width: 60, height: 32))
         
     init(type: CustomAnnotationView.MarkerType, brand: String, price: Int) {
         let formatter = NumberFormatter()
@@ -27,8 +28,8 @@ class NaverMapMarker: NMFMarker {
         self.updatedLayout()
     }
     
-    
-    func updatedLayout() {
+    //MARK: - Set UI
+    private func updatedLayout() {
         markerView.priceLabel.text = title
         markerView.logoImageView.image = Preferences.logoImage(logoName: brand)
         
@@ -39,43 +40,36 @@ class NaverMapMarker: NMFMarker {
     }
 }
 
-// 지도에서 실질적으로 표시 되는 뷰
+//MARK: 지도에서 실질적으로 표시 되는 뷰
 class CustomAnnotationView: UIView {
     enum MarkerType {
         case selected
         case low
         case none
     }
-    
+    // MARK: - Properties
     var type: MarkerType = .none
-    
+    var stationInfo: GasStation? // 마커 내부의 주유소 정보
     var isSelected: Bool = false {
         didSet {
             mapMarkerImageView.image = isSelected ? fetchMarkerImage(type: .selected) : fetchMarkerImage(type: type)
             priceLabel.textColor = isSelected ? .white : type == .none ? .black : .white
         }
     }
-    
     var mapMarkerImageView = UIImageView().then {
         $0.frame = CGRect(x: 0, y: 0, width: 60, height: 32)
         $0.layer.masksToBounds = true
         $0.image = Asset.Images.nonMapMarker.image
     }
-    
     var logoImageView = UIImageView().then {
         $0.frame = CGRect(x: 5, y: 5, width: 15, height: 15)
     }
-    
     var priceLabel = UILabel().then {
         $0.frame = CGRect(x: 20, y: 4, width: 37, height: 18)
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 13)
     }
-    
-    var stationInfo: GasStation? // 마커 내부의 주유소 정보
-    
-    // 로고 이미지 삽입
-    var image: UIImage? {
+    var image: UIImage? { // 로고 이미지 삽입
         get {
             return logoImageView.image
         }
@@ -84,17 +78,18 @@ class CustomAnnotationView: UIView {
         }
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    // 마커 기본 설정
+    //MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         makeUI()
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Set UI
     func makeUI() {
         addSubview(mapMarkerImageView)
         addSubview(logoImageView)
@@ -109,15 +104,6 @@ class CustomAnnotationView: UIView {
             return Asset.Images.minMapMarker.image
         case .none:
             return Asset.Images.nonMapMarker.image
-        }
-    }
-}
-
-extension UIView {
-    func asImage() -> UIImage {
-        let render = UIGraphicsImageRenderer(bounds: bounds)
-        return render.image { context in
-            layer.render(in: context.cgContext)
         }
     }
 }

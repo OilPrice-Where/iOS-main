@@ -35,8 +35,8 @@ final class KeyValueView: UIView {
         fatalError("Not Created View")
     }
     
-    //MARK: - Make UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         addSubview(keyLabel)
         addSubview(valueLabel)
         
