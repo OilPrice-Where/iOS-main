@@ -8,16 +8,15 @@
 
 import UIKit
 
-// 설정 -> 탐색 반경 선택 리스트 셀
+//MARK: 탐색 반경 선택 셀
 final class FindDistanceTableViewCell: UITableViewCell {
-    //MARK: - Properties
-    // 탐색 반경 레이블
-    let distanceLabel = UILabel().then {
+    // Properties
+    private let distanceLabel = UILabel().then { // 탐색 반경 레이블
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 17)
     }
     
-    //MARK: - Initializer
+    // Initializer
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -28,18 +27,20 @@ final class FindDistanceTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Override Method
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
         accessoryType = selected ? .checkmark : .none
     }
     
-    //MARK: - Fetch Data
+    // Configure Data
     func fetch(distance: String) {
         distanceLabel.text = distance // 탐색 반경 리스트(1,3,5KM)를 셀에 표시
     }
     
-    func makeUI() {
+    // Set UI
+    private func makeUI() {
         selectionStyle = .none
         
         contentView.addSubview(distanceLabel)

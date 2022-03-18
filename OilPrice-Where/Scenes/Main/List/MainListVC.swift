@@ -6,27 +6,25 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Then
 import SnapKit
 import UIKit
 import RxSwift
 import RxCocoa
-import TMapSDK
 import NMapsMap
 import SCLAlertView
 
 protocol MainListVCDelegate: AnyObject {
     func touchedCell(info: GasStation)
 }
-
 //MARK: GasStationListVC
-final class MainListVC: UIViewController {
+final class MainListVC: CommonViewController {
     //MARK: - Properties
-    let bag = DisposeBag()
+    let infoView = InfoListView()
     var viewModel: MainListViewModel!
     weak var delegate: MainListVCDelegate?
-    lazy var tableView = UITableView().then {
+    private var notiObject: NSObjectProtocol?
+    private lazy var tableView = UITableView().then {
         $0.separatorStyle = .none
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
@@ -36,12 +34,16 @@ final class MainListVC: UIViewController {
         $0.delegate = self
         GasStationCell.register($0)
     }
-    let infoView = InfoListView()
-    var noneView = MainListNoneView().then {
+    private var noneView = MainListNoneView().then {
         $0.isHidden = true
     }
     
     //MARK: - Life Cycle
+    deinit {
+        if let noti = notiObject { NotificationCenter.default.removeObserver(noti) }
+        notiObject = nil
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,8 +59,8 @@ final class MainListVC: UIViewController {
         UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
     }
     
-    //MARK: - Make UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         navigationItem.title = "주유소 목록"
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.backgroundColor = Asset.Colors.mainColor.color
@@ -68,7 +70,6 @@ final class MainListVC: UIViewController {
         view.backgroundColor = .systemGroupedBackground
         
         view.addSubview(infoView)
-        
         view.addSubview(tableView)
         view.addSubview(noneView)
         
@@ -83,13 +84,13 @@ final class MainListVC: UIViewController {
             $0.bottom.equalToSuperview()
         }
         noneView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.left.bottom.right.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.centerX.equalToSuperview()
         }
     }
     
     //MARK: - Rx Binding..
-    func rxBind() {
+    private func rxBind() {
         // Sorted by Price/Distance
         infoView.priceSortedButton
             .rx
@@ -98,7 +99,6 @@ final class MainListVC: UIViewController {
                 owner.sortButtonTapped(btn: nil)
             })
             .disposed(by: bag)
-        
         infoView.distanceSortedButton
             .rx
             .tap
@@ -106,16 +106,32 @@ final class MainListVC: UIViewController {
                 owner.sortButtonTapped(btn: nil)
             })
             .disposed(by: bag)
-        
+        DefaultData.shared.completedRelay
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.tableView.reloadData()
+            })
+            .disposed(by: rx.disposeBag)
     }
     
-    func configure() {
+    //MARK: - Method
+    private func configure() {
+        notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("stationsUpdated"),
+                                                            object: nil,
+                                                            queue: .main) { [weak self] noti in
+            guard let stations = noti.userInfo?["stations"] as? [GasStation] else { return }
+            self?.viewModel.stations = stations
+            self?.tableView.reloadData()
+        }
+        
+        noneView.isHidden = !viewModel.stations.isEmpty
+        
         infoView.priceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
         infoView.distanceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
     }
     
     @objc
-    func sortButtonTapped(btn: UIButton?) {
+    private func sortButtonTapped(btn: UIButton?) {
         guard let text = btn?.titleLabel?.text else { return }
         
         let isPriceSorted = text == "가격순"
@@ -134,18 +150,6 @@ final class MainListVC: UIViewController {
         viewModel.sortedList(isPrice: isPriceSorted)
         
         tableView.reloadData()
-    }
-    
-    func handleError(error: Error?) {
-        guard let error = error as NSError? else { return }
-        
-        let alert = UIAlertController(title: title,
-                                      message: error.localizedFailureReason,
-                                      preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-        alert.addAction(okAction)
-        
-        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -191,9 +195,9 @@ extension MainListVC: UITableViewDelegate {
 
 extension MainListVC: GasStationCellDelegate {
     // 즐겨찾기 설정 및 해제
-    func touchedFavoriteButton(id: String?, indexPath: IndexPath?) {
+    func touchedFavoriteButton(id: String?) {
         let faovorites = DefaultData.shared.favoriteSubject.value
-        guard let _id = id, let _indexPath = indexPath, faovorites.count < 6 else { return }
+        guard let _id = id, faovorites.count < 6 else { return }
         let isDeleted = faovorites.contains(_id)
         guard isDeleted || (!isDeleted && faovorites.count < 5) else {
             DispatchQueue.main.async { [weak self] in
@@ -205,76 +209,10 @@ extension MainListVC: GasStationCellDelegate {
         isDeleted ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
         
         DefaultData.shared.favoriteSubject.accept(newFaovorites)
-        tableView.reloadRows(at: [_indexPath], with: .automatic)
     }
     
     func touchedDirectionButton(info: GasStation?) {
-        guard let info = info,
-              let type = NaviType(rawValue: DefaultData.shared.naviSubject.value) else { return }
-        
-        let position = NMGTm128(x: info.katecX, y: info.katecY).toLatLng()
-        
-        switch type {
-        case .tMap:
-            if TMapApi.isTmapApplicationInstalled() {
-                let _ = TMapApi.invokeRoute(info.name,
-                                            coordinate: CLLocationCoordinate2D(latitude: position.lat,
-                                                                               longitude: position.lng))
-                return
-            }
-            
-            let alert = UIAlertController(title: "T Map이 없습니다.",
-                                          message: "다운로드 페이지로 이동하시겠습니까?",
-                                          preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "확인",
-                                         style: .default) { _ in
-                guard let url = URL(string: TMapApi.getTMapDownUrl()),
-                      UIApplication.shared.canOpenURL(url) else { return }
-                
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-            
-            let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-            
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-            
-            present(alert, animated: true, completion: nil)
-        case .kakao:
-            let destination = KNVLocation(name: info.name,
-                                          x: NSNumber(value: info.katecX),
-                                          y: NSNumber(value: info.katecY))
-            let options = KNVOptions()
-            options.routeInfo = false
-            let params = KNVParams(destination: destination,
-                                   options: options)
-            KNVNaviLauncher.shared().navigate(with: params) { [weak self] (error) in
-                DispatchQueue.main.async {
-                    self?.handleError(error: error)
-                }
-            }
-        case .kakaoMap:
-            guard let destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=CAR"),
-                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425") else { return }
-            
-            if UIApplication.shared.canOpenURL(destinationURL) {
-                UIApplication.shared.open(destinationURL, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
-            }
-        case .naver:
-            let urlString = "nmap://navigation?dlat=\(position.lat)&dlng=\(position.lng)&dname=\(info.name)&appname=com.oilpricewhere.wheregasoline"
-            
-            guard let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                  let destinationURL = URL(string: encodedStr),
-                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/311867728") else { return }
-            
-            if UIApplication.shared.canOpenURL(destinationURL) {
-                UIApplication.shared.open(destinationURL)
-            } else {
-                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
-            }
-        }
+        requestDirection(station: info)
     }
 }
 

@@ -16,8 +16,15 @@ struct KatecPoint {
     let y: Double
 }
 
+enum NaviType: String {
+    case kakao = "kakao"
+    case kakaoMap = "kakaoMap"
+    case tMap = "tMap"
+    case naver = "naverMap"
+}
+
 // 위치 변환
-final class Converter {   
+struct Converter {
     // 위치 변환 ( WGS84 -> Katec )
     static func convertWGS84ToKatec(coordinate: CLLocationCoordinate2D) -> KatecPoint {
         let convert = GeoConverter()
@@ -36,20 +43,12 @@ final class Converter {
                                        destinationType: .WGS_84,
                                        geoPoint: katecPoint)
         
-        return CLLocationCoordinate2D(latitude: wgsPoint!.y,
-                                      longitude: wgsPoint!.x)
-        
+        return CLLocationCoordinate2D(latitude: wgsPoint!.y, longitude: wgsPoint!.x)
     }
 }
 
 // App 기본 설정
-final class Preferences {
-    // initialViewController 초기 설정 페이지 관련 함수
-    // 처음 앱을 켰을 때 저장 되어있는 오일 타입이 설정 되어 있지 않을 시에
-    // 초기 설정 페이지(InitialSettingViewController)를 루트 뷰로 설정
-    // 오일 타입이 있다면 메인 리스트 페이지(TabBarController)를 루트뷰로 설정
-    
-    
+struct Preferences {
     static func notConnect() {
         // Alert 설정
         let appearance = SCLAlertView.SCLAppearance(
@@ -92,25 +91,25 @@ final class Preferences {
         guard let logoName = name else { return nil }
         switch logoName {
         case "SKE":
-            return UIImage(named: "LogoSKEnergy")
+            return Asset.Images.logoSKEnergy.image
         case "GSC":
-            return UIImage(named: "LogoGSCaltex")
+            return Asset.Images.logoGSCaltex.image
         case "HDO":
-            return UIImage(named: "LogoOilBank")
+            return Asset.Images.logoOilBank.image
         case "SOL":
-            return UIImage(named: "LogoSOil")
+            return Asset.Images.logoSOil.image
         case "RTO":
-            return UIImage(named: "LogoFrugalOil")
+            return Asset.Images.logoFrugalOil.image
         case "RTX":
-            return UIImage(named: "LogoExpresswayOil")
+            return Asset.Images.logoExpresswayOil.image
         case "NHO":
-            return UIImage(named: "LogoNHOil")
+            return Asset.Images.logoNHOil.image
         case "ETC":
-            return UIImage(named: "LogoPersonalOil")
+            return Asset.Images.logoPersonalOil.image
         case "E1G":
-            return UIImage(named: "LogoEnergyOne")
+            return Asset.Images.logoEnergyOne.image
         case "SKG":
-            return UIImage(named: "LogoSKGas")
+            return Asset.Images.logoSKGas.image
         default:
             return nil
         }

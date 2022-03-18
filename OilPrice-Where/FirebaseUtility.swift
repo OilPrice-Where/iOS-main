@@ -12,7 +12,6 @@ import FirebaseDatabase
 import Moya
 
 class FirebaseUtility {
-    
     var ref: DatabaseReference?
     let staionProvider = MoyaProvider<StationAPI>()
     

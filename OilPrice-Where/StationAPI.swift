@@ -9,7 +9,6 @@
 import Foundation
 import Moya
 
-
 enum StationAPI {
     case stationList(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String)
     case stationDetail(appKey: String, id: String)

@@ -6,6 +6,8 @@ target 'FavoriteWidgetExtension' do
   use_frameworks!
 
   # Pods for FavoriteWidgetExtension
+  pod 'KakaoSDKCommon'
+  pod 'KakaoSDKNavi'
 end
 
 target 'OilPrice-Where' do
@@ -20,6 +22,8 @@ target 'OilPrice-Where' do
   pod 'SCLAlertView'
   pod 'FloatingPanel'
   pod 'NMapsMap'
+  pod 'KakaoSDKCommon'
+  pod 'KakaoSDKNavi'
 
   # Database
   pod 'SwiftyPlistManager'

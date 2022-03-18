@@ -9,11 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import Moya
-
 //MARK: FavoritesGasStationViewModel
 final class FavoritesGasStationViewModel {
-    
     var infomationsSubject = BehaviorSubject<[InformationGasStaion?]>(value: [])
-    
 }

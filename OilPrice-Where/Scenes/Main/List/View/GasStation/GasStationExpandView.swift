@@ -34,8 +34,8 @@ final class GasStationExpandView: UIView {
         fatalError("Not Created View")
     }
     
-    //MARK: - Make UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         addSubview(favoriteButton)
         addSubview(directionView)
         
@@ -45,7 +45,6 @@ final class GasStationExpandView: UIView {
             $0.width.equalToSuperview().dividedBy(4)
             $0.height.equalTo(40)
         }
-        
         directionView.snp.makeConstraints {
             $0.left.equalTo(favoriteButton.snp.right).offset(15)
             $0.right.equalToSuperview().offset(-16)

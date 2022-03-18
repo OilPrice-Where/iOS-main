@@ -12,19 +12,19 @@ import SnapKit
 import UIKit
 //MARK: GasStationCell의 경로보기 버튼
 final class GasStationDirectionView: UIView {
-    //MARK: - Properties
-    let logoImageView = UIImageView().then {
+    // Properties
+    private let logoImageView = UIImageView().then {
         let image = Asset.Images.findMapIcon.image.withRenderingMode(.alwaysTemplate)
         $0.image = image
         $0.tintColor = .white
     }
-    let titleLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.textColor = .white
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 18)
     }
     
-    //MARK: - Initializer
+    // Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -35,8 +35,8 @@ final class GasStationDirectionView: UIView {
         fatalError("Not Created View")
     }
     
-    //MARK: - Make UI
-    func makeUI() {
+    // Set UI
+    private func makeUI() {
         backgroundColor = Asset.Colors.mainColor.color
         
         layer.borderWidth = 1.0
@@ -57,6 +57,7 @@ final class GasStationDirectionView: UIView {
         }
     }
     
+    // Configure distance
     func configure(distance: String) {
         titleLabel.text = "\(distance) 안내 시작"
     }

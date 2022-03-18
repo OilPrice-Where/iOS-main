@@ -10,12 +10,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
-
-final class FindNavigationVC: CommonViewController, ViewModelBindableType {
+//MARK: 찾는 내비게이션 타입 선택 VC
+final class FindNavigationVC: UIViewController, ViewModelBindableType {
     //MARK: - Properties
     var viewModel: FindNavigationViewModel!
-    
-    lazy var tableView = UITableView().then {
+    private lazy var tableView = UITableView().then {
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
         $0.showsVerticalScrollIndicator = false
@@ -37,6 +36,7 @@ final class FindNavigationVC: CommonViewController, ViewModelBindableType {
         UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
     }
     
+    //MARK: - Rx Binding ..
     func bindViewModel() {
         viewModel.naviSubject
             .bind(to: tableView.rx.items(cellIdentifier: NavigaionTypeTableViewCell.id,
@@ -60,7 +60,7 @@ final class FindNavigationVC: CommonViewController, ViewModelBindableType {
     }
     
     //MARK: - Configure UI
-    func makeUI() {
+    private func makeUI() {
         navigationItem.title = "내비게이션"
         
         view.addSubview(tableView)

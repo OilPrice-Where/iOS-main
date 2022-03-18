@@ -6,7 +6,6 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Then
 import SnapKit
 import UIKit
@@ -28,7 +27,7 @@ final class GasStationBottomView: UIStackView {
     }
     
     //MARK: - Make UI
-    func makeUI() {
+    private func makeUI() {
         axis = .vertical
         spacing = 5.0
         alignment = .fill

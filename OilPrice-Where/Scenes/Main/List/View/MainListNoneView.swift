@@ -6,16 +6,15 @@
 //  Copyright © 2021 sangwook park. All rights reserved.
 //
 
-import Foundation
 import UIKit
-
+//MARK: List가 없을 때 표시하는 View
 final class MainListNoneView: UIView {
     //MARK: - Properties
-    let noneListImageView = UIImageView().then {
+    private let noneListImageView = UIImageView().then {
         $0.image = Asset.Images.noneListImage.image
         $0.contentMode = .scaleAspectFit
     }
-    let noneListLabel = UILabel().then {
+    private let noneListLabel = UILabel().then {
         $0.text = "근처 주유소를 찾을 수 없습니다"
         $0.textAlignment = .center
         $0.textColor = .darkGray
@@ -33,8 +32,8 @@ final class MainListNoneView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Configure UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         addSubview(noneListImageView)
         addSubview(noneListLabel)
         
@@ -44,7 +43,6 @@ final class MainListNoneView: UIView {
             $0.width.equalTo(140)
             $0.height.equalTo(130)
         }
-        
         noneListLabel.snp.makeConstraints {
             $0.top.equalTo(noneListImageView.snp.bottom).offset(15)
             $0.left.right.equalToSuperview()

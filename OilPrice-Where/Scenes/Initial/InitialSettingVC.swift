@@ -10,18 +10,14 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
-
-// 초기 설정 페이지
-class InitialSettingVC: CommonViewController {
+//MARK: 초기 설정 페이지
+final class InitialSettingVC: CommonViewController {
+    //MARK: - Properties
     typealias selectTypes = (oil: Int, navi: Int)
-    
     var viewModel: InitialViewModel!
-    let selectTypeView = SelectTypeView()
+    private let selectTypeView = SelectTypeView()
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .default
-    }
-    
+    //MARK: - Life Cycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
@@ -39,7 +35,12 @@ class InitialSettingVC: CommonViewController {
         makeUI()
     }
     
-    //MARK: - View Binging..
+    //MARK: - Override Method
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
+    
+    //MARK: - Rx Binging..
     func bindViewModel() {
         // 확인 버튼 클릭 이벤트
         selectTypeView.okButton
@@ -57,16 +58,15 @@ class InitialSettingVC: CommonViewController {
                 self.viewModel.okAction(oil: selectTypes.oil, navi: selectTypes.navi)
             })
             .bind(with: self, onNext: { owner, _ in
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "TabBarController")
-                
+                let vc = CustomTabbarViewController()
+                vc.modalPresentationStyle = .fullScreen
                 owner.present(vc, animated: false)
             })
             .disposed(by: rx.disposeBag)
     }
     
-    //MARK: - Configure UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         view.addSubview(selectTypeView)
         
         selectTypeView.snp.makeConstraints {

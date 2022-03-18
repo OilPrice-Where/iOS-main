@@ -9,16 +9,16 @@
 import UIKit
 import SnapKit
 import Then
-
-enum SelectGitCell: Int {
-    case wargi = 0
-    case himchan = 1
-    case solchan = 2
-}
-
+//MARK: SettingAboutUsVC
 final class SettingAboutUsVC: UIViewController {
+    enum SelectGitCell: Int {
+        case wargi = 0
+        case himchan = 1
+        case solchan = 2
+    }
+    
     //MARK: - Properties
-    lazy var tableView = UITableView().then {
+    private lazy var tableView = UITableView().then {
         $0.dataSource = self
         $0.delegate = self
         $0.alwaysBounceVertical = false
@@ -42,8 +42,8 @@ final class SettingAboutUsVC: UIViewController {
         UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
     }
     
-    //MARK: - Configure UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         navigationItem.title = "About Us"
         
         view.addSubview(tableView)
@@ -64,7 +64,7 @@ extension SettingAboutUsVC: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withType: AboutUsTableViewCell.self, for: indexPath)
         
         cell.selectionStyle = .none
-        var target: (name: String, link: String) = ("", "")
+        var target: (name: String?, link: String?) = (nil, nil)
         
         switch selectCellType {
         case .wargi:
@@ -78,8 +78,7 @@ extension SettingAboutUsVC: UITableViewDataSource {
             target.link = "github.com/solchan87"
         }
         
-        cell.nameLabel.text = target.name
-        cell.linkLabel.text = target.link
+        cell.configure(name: target.name, link: target.link)
         
         return cell
     }

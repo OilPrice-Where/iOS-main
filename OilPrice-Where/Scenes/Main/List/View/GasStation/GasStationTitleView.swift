@@ -6,13 +6,12 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Then
 import SnapKit
 import UIKit
 //MARK: GasStationCell의 Title 정보
 final class GasStationTitleView: UIStackView {
-    //MARK: - Properties
+    // Properties
     private let logoImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
     }
@@ -23,7 +22,7 @@ final class GasStationTitleView: UIStackView {
         $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
-    //MARK: - Initializer
+    // Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -34,8 +33,8 @@ final class GasStationTitleView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Make UI
-    func makeUI() {
+    // Set UI
+    private func makeUI() {
         axis = .horizontal
         spacing = 8.0
         alignment = .fill
@@ -49,6 +48,7 @@ final class GasStationTitleView: UIStackView {
         }
     }
     
+    // Configure title
     func configure(title info: GasStation) {
         logoImageView.image = Preferences.logoImage(logoName: info.brand)
         stationNameLabel.text = info.name

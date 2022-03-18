@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 import RxRelay
-
+//MARK: FindDistanceViewModel
 final class FindDistanceViewModel {
     private let findDistaceArea = [ // 선택 가능한 탐색 반경
         "1KM",

@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 import RxRelay
-
+//MARK: FindOilTypeViewModel
 final class FindOilTypeViewModel {
     private let OilType = [ // 선택 가능한 오일 종류
         "휘발유",

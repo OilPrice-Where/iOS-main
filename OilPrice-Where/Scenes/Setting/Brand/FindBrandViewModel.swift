@@ -8,7 +8,7 @@
 
 import Foundation
 import RxSwift
-
+//MARK: FindBrandViewModel
 final class FindBrandViewModel {
     private let findBrand = [ // 선택 가능한 탐색 반경
         "전체",

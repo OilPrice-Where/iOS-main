@@ -6,7 +6,7 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension UIView {
     enum VerticalLocation {
@@ -35,5 +35,12 @@ extension UIView {
         self.layer.shadowOffset = offset
         self.layer.shadowOpacity = opacity
         self.layer.shadowRadius = radius
+    }
+    
+    func asImage() -> UIImage {
+        let render = UIGraphicsImageRenderer(bounds: bounds)
+        return render.image { context in
+            layer.render(in: context.cgContext)
+        }
     }
 }

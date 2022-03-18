@@ -10,16 +10,15 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
-
+//MARK: 찾는 내비게이션 타입 Cell
 class NavigaionTypeTableViewCell: UITableViewCell {
-    //MARK: - Properties
-    // 내비게이션 title
-    let naviTypeLabel = UILabel().then {
+    // Properties
+    private let naviTypeLabel = UILabel().then { // 내비게이션 title
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 17)
     }
     
-    //MARK: - Initializer
+    // Initializer
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -30,20 +29,21 @@ class NavigaionTypeTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Overide Method
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
         accessoryType = selected ? .checkmark : .none
     }
     
-    //MARK: - Fetch Data
+    // Configure
     func fetch(navigation name: String) {
         // Navigation title
         naviTypeLabel.text = name
     }
     
-    //MARK: - Configure UI
-    func makeUI() {
+    // Set UI
+    private func makeUI() {
         selectionStyle = .none
         
         contentView.addSubview(naviTypeLabel)

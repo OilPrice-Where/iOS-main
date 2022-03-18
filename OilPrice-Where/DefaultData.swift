@@ -16,7 +16,7 @@ import Moya
 class DefaultData {
     static let shared = DefaultData() // 싱글톤 객체 생성
     private let bag = DisposeBag()
-    let staionProvider = MoyaProvider<StationAPI>()
+    private let staionProvider = MoyaProvider<StationAPI>()
     
     // 기본 설정
     private init() {
@@ -98,7 +98,7 @@ class DefaultData {
         oilSubject.accept(oilType)
         radiusSubject.accept(radius)
         brandsSubject.accept(brands)
-        naviSubject.accept(naviType)
+        naviSubject.accept(naviType == "tmap" ? "tMap" : naviType)
         salesSubject.accept(sales)
         favoriteSubject.accept(favArr)
         
@@ -215,6 +215,5 @@ class DefaultData {
                 owner.localSave(favorites: value)
             })
             .disposed(by: bag)
-        
     }
 }

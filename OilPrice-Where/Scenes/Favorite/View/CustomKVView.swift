@@ -8,19 +8,20 @@
 
 import Foundation
 import UIKit
-
+//MARK: Key(Label)/Value(Label) View
 final class CustomKVView: UIView {
+    // Properties
     let keyLabel = UILabel().then {
         $0.textColor = .darkGray
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 15)
     }
-    
     let valueLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 15)
     }
     
+    // Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -31,6 +32,7 @@ final class CustomKVView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Set UI
     func makeUI() {
         addSubview(keyLabel)
         addSubview(valueLabel)

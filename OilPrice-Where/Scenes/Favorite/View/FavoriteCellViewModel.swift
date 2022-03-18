@@ -10,14 +10,17 @@ import Foundation
 import UIKit
 import RxSwift
 import Moya
-
+//MARK: FavoriteCellViewModel
 final class FavoriteCellViewModel {
     let bag = DisposeBag()
     private var info: InformationGasStaion?
     let stationAPI = MoyaProvider<StationAPI>()
     var infoSubject = BehaviorSubject<InformationGasStaion?>(value: nil)
     var isLoadingSubject = BehaviorSubject<Bool>(value: false)
-    
+}
+//MARK: Method
+extension FavoriteCellViewModel {
+    // Network -> Station
     func requestStationsInfo(id: String) {
         stationAPI.request(.stationDetail(appKey: Preferences.getAppKey(), id: id)) {
             switch $0 {
@@ -34,7 +37,6 @@ final class FavoriteCellViewModel {
             }
         }
     }
-    
     // 가격 정보 얻기
     func displayPriceInfomation(priceList: [Price]?) -> String {
         let type = DefaultData.shared.oilSubject.value
@@ -44,12 +46,10 @@ final class FavoriteCellViewModel {
         
         return price
     }
-    
     // 컬러 값 얻기
     func getActivatedColor(info: String?) -> UIColor {
         return info == "Y" ? Asset.Colors.mainColor.color : .lightGray
     }
-    
     // 즐겨찾기 삭제
     func deleteAction(id: String) {
         let oldFavArr = DefaultData.shared.favoriteSubject.value
@@ -57,17 +57,23 @@ final class FavoriteCellViewModel {
         let newFavArr = oldFavArr.filter { id != $0 }
         DefaultData.shared.favoriteSubject.accept(newFavArr)
     }
-    
     // 길 안내
     func navigationButton() {
-        let navi = DefaultData.shared.naviSubject.value
-        guard let info = info else { return }
+        let type = DefaultData.shared.oilSubject.value
+        
+        guard let info = info,
+              let result = info.price.first(where: { $0.type == type }) else { return }
+        
+        let station = GasStation(id: info.id,
+                                 brand: info.brand,
+                                 name: info.name,
+                                 price: result.price,
+                                 distance: 0.0,
+                                 katecX: info.katecX,
+                                 katecY: info.katecY)
         
         NotificationCenter.default.post(name: NSNotification.Name("navigationClickEvent"),
                                         object: nil,
-                                        userInfo: ["katecX": info.katecX.roundTo(places: 0),
-                                                   "katecY": info.katecY.roundTo(places: 0),
-                                                   "stationName": info.name,
-                                                   "naviType": navi])
+                                        userInfo: ["station": station])
     }
 }

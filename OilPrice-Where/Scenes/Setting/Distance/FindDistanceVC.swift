@@ -10,12 +10,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
-
-final class FindDistanceVC: CommonViewController, ViewModelBindableType {
+//MARK: 탐색 반경 선택 VC
+final class FindDistanceVC: UIViewController, ViewModelBindableType {
     //MARK: - Properties
     var viewModel: FindDistanceViewModel!
-    
-    lazy var tableView = UITableView().then {
+    private lazy var tableView = UITableView().then {
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
         $0.showsVerticalScrollIndicator = false
@@ -37,7 +36,7 @@ final class FindDistanceVC: CommonViewController, ViewModelBindableType {
         UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
     }
     
-    //MARK: - View Binding..
+    //MARK: - Rx Binding..
     func bindViewModel() {
         viewModel.distanceSubject
             .bind(to: tableView.rx.items(cellIdentifier: FindDistanceTableViewCell.id,
@@ -60,8 +59,8 @@ final class FindDistanceVC: CommonViewController, ViewModelBindableType {
             .disposed(by: rx.disposeBag)
     }
     
-    //MARK: - Configure UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         navigationItem.title = "검색 반경"
         
         view.addSubview(tableView)

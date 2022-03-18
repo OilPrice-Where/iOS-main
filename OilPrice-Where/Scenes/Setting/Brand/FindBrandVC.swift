@@ -10,14 +10,13 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
-
-final class FindBrandVC: CommonViewController, ViewModelBindableType {
+//MARK: 탐색 브랜드 VC
+final class FindBrandVC: UIViewController, ViewModelBindableType {
     //MARK: - Properties
     var viewModel: FindBrandViewModel!
-    var isAllSwitchButton = PublishSubject<Bool>()
-    var isLauchSetting = false
-    
-    lazy var tableView = UITableView().then {
+    private var isAllSwitchButton = PublishSubject<Bool>()
+    private var isLauchSetting = false
+    private lazy var tableView = UITableView().then {
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
         $0.showsVerticalScrollIndicator = false
@@ -39,7 +38,7 @@ final class FindBrandVC: CommonViewController, ViewModelBindableType {
         UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
     }
     
-    //MARK: - View Binding..
+    //MARK: - Rx Binding ..
     func bindViewModel() {
         viewModel.brandSubject
             .bind(to: tableView.rx.items(cellIdentifier: BrandTypeTableViewCell.id,
@@ -73,8 +72,8 @@ final class FindBrandVC: CommonViewController, ViewModelBindableType {
             .disposed(by: rx.disposeBag)
     }
     
-    //MARK: - Configure UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         navigationItem.title = "검색 브랜드"
         
         view.addSubview(tableView)

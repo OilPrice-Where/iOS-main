@@ -24,6 +24,8 @@
 	<string>b8e7f9ac5bf3c19414515867205f92aa</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>nmap</string>
+		<string>kakaomap</string>
 		<string>tmap</string>
 		<string>kakaonavi-sdk</string>
 	</array>

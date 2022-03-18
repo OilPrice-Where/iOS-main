@@ -39,7 +39,7 @@ final class GasStationPriceView: UIView {
     }
     
     //MARK: - Make UI
-    func makeUI() {
+    private func makeUI() {
         addSubview(typeLabel)
         addSubview(priceLabel)
         
@@ -48,7 +48,6 @@ final class GasStationPriceView: UIView {
             $0.height.equalTo(47)
             $0.centerY.equalToSuperview()
         }
-        
         typeLabel.snp.makeConstraints {
             $0.left.equalToSuperview()
             $0.right.equalTo(priceLabel.snp.left).offset(-5)

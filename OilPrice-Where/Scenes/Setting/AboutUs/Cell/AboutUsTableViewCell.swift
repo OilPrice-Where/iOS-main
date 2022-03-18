@@ -8,30 +8,29 @@
 
 import UIKit
 import Then
-
-
+//MARK: AboutUsTableViewCell
 final class AboutUsTableViewCell: UITableViewCell {
-    //MARK: - Properties
-    let jobTitleLabel = UILabel().then {
+    // Properties
+    private let jobTitleLabel = UILabel().then {
         $0.text = "iOS Developer"
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 18)
     }
-    let nameLabel = UILabel().then {
+    private let nameLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 17)
     }
-    let githubImageView = UIImageView().then {
+    private let githubImageView = UIImageView().then {
         $0.image = Asset.Images.github.image.withRenderingMode(.alwaysTemplate)
         $0.tintColor = .black
         $0.contentMode = .scaleAspectFit
     }
-    let linkLabel = UILabel().then {
+    private let linkLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.light.font(size: 16)
     }
     
-    //MARK: - Initializer
+    // Initializer
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -42,8 +41,8 @@ final class AboutUsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Configure UI
-    func makeUI() {
+    // Set UI
+    private func makeUI() {
         contentView.addSubview(jobTitleLabel)
         contentView.addSubview(nameLabel)
         contentView.addSubview(githubImageView)
@@ -72,5 +71,11 @@ final class AboutUsTableViewCell: UITableViewCell {
             $0.right.equalToSuperview().offset(20)
             $0.height.equalTo(20)
         }
+    }
+    
+    // Configure Data
+    func configure(name: String?, link: String?) {
+        nameLabel.text = name
+        linkLabel.text = link
     }
 }

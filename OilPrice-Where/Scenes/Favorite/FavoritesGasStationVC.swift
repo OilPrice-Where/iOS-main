@@ -8,68 +8,57 @@
 
 import UIKit
 import Foundation
-import TMapSDK
 import NMapsMap
 import RxSwift
 import RxCocoa
 import NSObject_Rx
 import CoreLocation
-
+//MARK: 즐겨찾는 주유소 VC
 final class FavoritesGasStationVC: CommonViewController {
     //MARK: - Properties
-    var notiObject: NSObjectProtocol?
-    var reachability: Reachability? = Reachability() //Network
-    let width = UIScreen.main.bounds.width - 75.0
-    let height = 411
-    var fromTap = false
-    
-    let titleLabel = UILabel().then {
+    private let width = UIScreen.main.bounds.width - 75.0
+    private let height = 411
+    private var fromTap = false
+    private var notiObject: NSObjectProtocol?
+    private let noneFavoriteView = NoneFavoriteView()
+    private let titleLabel = UILabel().then {
         $0.text = "자주 가는 주유소"
         $0.textColor = .white
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 18)
     }
-    
-    lazy var collectionView: UICollectionView = {
-        let layout = setupFlowLayout()
-        let v = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        v.backgroundColor = .clear
-        v.decelerationRate = UIScrollViewDecelerationRateFast
-        v.alwaysBounceHorizontal = false
-        v.allowsMultipleSelection = false
-        v.showsVerticalScrollIndicator = false
-        v.showsHorizontalScrollIndicator = false
-        FavoriteCollectionViewCell.register(v)
-        return v
-    }()
-    
-    let noneFavoriteView = NoneFavoriteView()
-    
-    // Status Bar Color
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
+        $0.backgroundColor = .clear
+        $0.decelerationRate = UIScrollViewDecelerationRateFast
+        $0.alwaysBounceHorizontal = false
+        $0.allowsMultipleSelection = false
+        $0.showsVerticalScrollIndicator = false
+        $0.showsHorizontalScrollIndicator = false
+        FavoriteCollectionViewCell.register($0)
     }
     
     //MARK: - Life Cycle
     deinit {
+        if let noti = notiObject { NotificationCenter.default.removeObserver(noti) }
         notiObject = nil
-        reachability?.stopNotifier()
-        reachability = nil
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         makeUI()
-        setNetworkSetting()
         bindViewModel()
-        
         notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
                                                             object: nil,
                                                             queue: .main) { self.naviClickEvenet(noti: $0) }
     }
     
-    //MARK: - Configure UI
+    //MARK: - Override Method
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    //MARK: - Set UI
     func makeUI() {
         view.backgroundColor = Asset.Colors.mainColor.color
         
@@ -93,7 +82,7 @@ final class FavoritesGasStationVC: CommonViewController {
         }
     }
     
-    //MARK: - View Binding..
+    //MARK: - Rx Binding..
     func bindViewModel() {
         DefaultData.shared.favoriteSubject
             .map { !$0.isEmpty }
@@ -116,109 +105,31 @@ final class FavoritesGasStationVC: CommonViewController {
     }
     
     //MARK: - Functions..
-    func setNetworkSetting() {
-        do {
-            try reachability?.startNotifier()
-        } catch {
-            print(error.localizedDescription)
-        }
+    override func setNetworkSetting() {
+        super.setNetworkSetting()
         
-        reachability?.whenReachable = { _ in
+        reachability?.whenReachable = { [weak self] _ in
             let favArr = DefaultData.shared.favoriteSubject.value
-            self.noneFavoriteView.isHidden = favArr.isEmpty
+            self?.noneFavoriteView.isHidden = favArr.isEmpty
             DefaultData.shared.favoriteSubject.accept(favArr)
+            self?.collectionView.isHidden = false
+            self?.collectionView.reloadData()
         }
         
-        reachability?.whenUnreachable = { _ in
-            self.noneFavoriteView.isHidden = false
+        reachability?.whenUnreachable = { [weak self] _ in
+            self?.notConnect()
+            self?.collectionView.isHidden = true
+            self?.noneFavoriteView.isHidden = false
         }
     }
     
     func naviClickEvenet(noti: Notification) {
-        guard let userInfo = noti.userInfo,
-              let katecX = userInfo["katecX"] as? Double,
-              let katecY = userInfo["katecY"] as? Double,
-              let stationName = userInfo["stationName"] as? String,
-              let navi = userInfo["naviType"] as? String,
-              let type = NaviType(rawValue: navi) else { return }
-        let position = NMGTm128(x: katecX, y: katecY).toLatLng()
-        
-        switch type {
-        case .tMap:
-            if TMapApi.isTmapApplicationInstalled() {
-                let _ = TMapApi.invokeRoute(stationName, coordinate: CLLocationCoordinate2D(latitude: position.lat,
-                                                                                            longitude: position.lng))
-                
-                return
-            }
-            
-            let alert = UIAlertController(title: "T Map이 없습니다.",
-                                          message: "다운로드 페이지로 이동하시겠습니까?",
-                                          preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "확인",
-                                         style: .default) { _ in
-                guard let url = URL(string: TMapApi.getTMapDownUrl()),
-                      UIApplication.shared.canOpenURL(url) else { return }
-                
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-            
-            let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-            
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-            
-            present(alert, animated: true, completion: nil)
-        case .kakao:
-            let destination = KNVLocation(name: stationName,
-                                          x: NSNumber(value: katecX),
-                                          y: NSNumber(value: katecY))
-            let options = KNVOptions()
-            options.routeInfo = false
-            let params = KNVParams(destination: destination,
-                                   options: options)
-            KNVNaviLauncher.shared().navigate(with: params) { (error) in
-                self.handleError(error: error)
-            }
-        case .kakaoMap:
-            guard let destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=CAR"),
-            let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425") else { return }
-            
-            if UIApplication.shared.canOpenURL(destinationURL) {
-                UIApplication.shared.open(destinationURL, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
-            }
-        case .naver:
-            let urlString = "nmap://navigation?dlat=\(position.lat)&dlng=\(position.lng)&dname=\(stationName)&appname=com.oilpricewhere.wheregasoline"
-            
-            guard let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                  let destinationURL = URL(string: encodedStr),
-                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/311867728") else { return }
-            
-            if UIApplication.shared.canOpenURL(destinationURL) {
-              UIApplication.shared.open(destinationURL)
-            } else {
-                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
-            }
-        }
-    }
-    
-    // 길안내 에러 발생
-    func handleError(error: Error?) {
-        guard let error = error as NSError? else { return }
-        
-        let alert = UIAlertController(title: title,
-                                      message: error.localizedFailureReason,
-                                      preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-        alert.addAction(okAction)
-        
-        present(alert, animated: true, completion: nil)
+        let info = noti.userInfo?["station"] as? GasStation
+        requestDirection(station: info)
     }
     
     // set collectionView flow layout
-    private func setupFlowLayout() -> UICollectionViewFlowLayout {
+    private func fetchLayout() -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 25
         flowLayout.minimumInteritemSpacing = .zero

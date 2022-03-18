@@ -12,26 +12,28 @@ import RxSwift
 import RxCocoa
 import NMapsMap
 import FloatingPanel
-import TMapSDK
-
-final class MainVC: UIViewController {
-    let bag = DisposeBag()
+//MARK: Main Map VC
+final class MainVC: CommonViewController {
+    //MARK: - Properties
     let viewModel = MainViewModel()
-    let locationManager = CLLocationManager()
-    var fpc = FloatingPanelController()
-    var contentsVC = StationInfoVC() // 띄울 VC
-    lazy var mapContainerView = MainMapView().then {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(toListTapped))
+    private let locationManager = CLLocationManager()
+    private lazy var fpc = FloatingPanelController()
+    private lazy var contentsVC = StationInfoVC() // 띄울 VC
+    private lazy var mapContainerView = MainMapView().then {
+        var tap = UITapGestureRecognizer(target: self, action: #selector(toListTapped))
         $0.toListButton.addGestureRecognizer(tap)
         $0.researchButton.addTarget(self, action: #selector(researchStation), for: .touchUpInside)
+        tap = UITapGestureRecognizer(target: self, action: #selector(toLowPriceStation))
+        $0.tooltipView.addGestureRecognizer(tap)
     }
-    let guideView = StationInfoGuideView().then {
+    private let guideView = StationInfoGuideView().then {
         $0.layer.cornerRadius = 6.0
         $0.backgroundColor = .white
         $0.favoriteButton.addTarget(self, action: #selector(touchedFavoriteButton), for: .touchUpInside)
         $0.directionButton.addTarget(self, action: #selector(toNavigationTapped), for: .touchUpInside)
     }
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,8 +48,9 @@ final class MainVC: UIViewController {
         navigationController?.navigationBar.isHidden = true
         UIApplication.shared.statusBarUIView?.backgroundColor = .clear
     }
+    
     //MARK: - Set UI
-    func makeUI() {
+    private func makeUI() {
         view.backgroundColor = .white
         view.addSubview(mapContainerView)
         setupView()
@@ -69,8 +72,14 @@ final class MainVC: UIViewController {
         mapContainerView.researchButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.centerX.equalTo(mapContainerView.snp.centerX)
-            $0.width.equalTo(130)
+            $0.width.equalTo(100)
             $0.height.equalTo(42)
+        }
+        mapContainerView.tooltipView.snp.makeConstraints {
+            $0.top.equalTo(mapContainerView.toListButton.snp.top)
+            $0.left.equalToSuperview().offset(20)
+            $0.width.equalTo(80)
+            $0.height.equalTo(100)
         }
         guideView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -81,7 +90,20 @@ final class MainVC: UIViewController {
         guideView.addShadow(offset: CGSize(width: 0, height: 4), color: .black, opacity: 0.18, radius: 6.0)
     }
     
-    func configure() {
+    private func updateFavoriteUI() {
+        let ids = DefaultData.shared.favoriteSubject.value
+        
+        guard let id = viewModel.selectedStation?.id else { return }
+        let image = ids.contains(id) ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.guideView.favoriteButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+            self?.guideView.favoriteButton.imageView?.tintColor = ids.contains(id) ? .white : Asset.Colors.mainColor.color
+            self?.guideView.favoriteButton.backgroundColor = ids.contains(id) ? Asset.Colors.mainColor.color : .white
+        }
+    }
+    
+    private func configure() {
         mapContainerView.delegate = self
         mapContainerView.mapView.touchDelegate = self
         mapContainerView.mapView.addCameraDelegate(delegate: self)
@@ -90,8 +112,9 @@ final class MainVC: UIViewController {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }
+    
     //MARK: - Rx Binding..
-    func rxBind() {
+    private func rxBind() {
         DefaultData.shared.completedRelay
             .subscribe(with: self, onNext: { owner, key in
                 guard !(key == "Favorites" || key == "LocalFavorites") else {
@@ -109,7 +132,7 @@ final class MainVC: UIViewController {
         locationManager.rx.didUpdateLocations
             .compactMap { $0.last }
             .subscribe(with: self, onNext: { owner, location in
-                guard let location = owner.viewModel.requestLocation else {
+                guard let _ = owner.viewModel.requestLocation else {
                     owner.mapContainerView.moveMap(with: location.coordinate)
                     owner.viewModel.requestLocation = location
                     owner.viewModel.input.requestStaions.accept(nil)
@@ -129,10 +152,13 @@ final class MainVC: UIViewController {
         
         viewModel.output.staionResult
             .bind(with: self, onNext: { owner, _ in
+                owner.mapContainerView.tooltipView.configure(stations: owner.viewModel.stations)
                 owner.mapContainerView.showMarker(list: owner.viewModel.stations)
+                NotificationCenter.default.post(name: NSNotification.Name("stationsUpdated"),
+                                                object: nil,
+                                                userInfo: ["stations": owner.viewModel.stations])
             })
             .disposed(by: viewModel.bag)
-        
         // 즐겨찾기 목록의 StationID 값과 StationView의 StationID값이 동일 하면 선택 상태로 변경
         viewModel.output.selectedStation
             .subscribe(with: self, onNext: { owner, _ in
@@ -141,8 +167,37 @@ final class MainVC: UIViewController {
             .disposed(by: rx.disposeBag)
     }
     
+    //MARK: - Override Method
+    override func setNetworkSetting() {
+        super.setNetworkSetting()
+        
+        reachability?.whenReachable = { [weak self] _ in
+            self?.viewModel.input.requestStaions.accept(nil)
+        }
+        
+        reachability?.whenUnreachable = { [weak self] _ in
+            self?.notConnect()
+            self?.viewModel.requestLocation = nil
+            self?.viewModel.currentLocation = nil
+            self?.reset()
+            self?.mapContainerView.resetInfoWindows()
+            self?.fpc.move(to: .hidden, animated: false, completion: nil)
+        }
+    }
+    
+    //MARK: - User Intraction
     @objc
-    func toListTapped() {
+    private func toLowPriceStation() {
+        guard let lowStation = viewModel.stations.first else { return }
+        
+        let position = NMGTm128(x: lowStation.katecX, y: lowStation.katecY).toLatLng()
+        let update = NMFCameraUpdate(scrollTo: position, zoomTo: 15.0)
+        update.animation = .easeIn
+        mapContainerView.mapView.moveCamera(update)
+    }
+    
+    @objc
+    private func toListTapped() {
         let listVC = MainListVC()
         listVC.delegate = self
         listVC.viewModel = MainListViewModel(stations: viewModel.stations)
@@ -151,18 +206,20 @@ final class MainVC: UIViewController {
     }
     
     @objc
-    func researchStation() {
+    private func researchStation() {
         let centerLocation = CLLocation(latitude: mapContainerView.mapView.latitude, longitude: mapContainerView.mapView.longitude)
         
         viewModel.requestLocation = centerLocation
         viewModel.input.requestStaions.accept(nil)
         
-        mapContainerView.researchButton.isEnabled = false
-        mapContainerView.researchButton.alpha = 0.0
+        fpc.move(to: .hidden, animated: false) { [weak self] in
+            self?.mapContainerView.researchButton.isEnabled = false
+            self?.mapContainerView.researchButton.alpha = 0.0
+        }
     }
     
     @objc
-    func touchedFavoriteButton() {
+    private func touchedFavoriteButton() {
         let faovorites = DefaultData.shared.favoriteSubject.value
         guard let _id = viewModel.selectedStation?.id, faovorites.count < 6 else { return }
         let isDeleted = faovorites.contains(_id)
@@ -180,101 +237,11 @@ final class MainVC: UIViewController {
     }
     
     @objc
-    func toNavigationTapped() {
-        guard let info = viewModel.selectedStation,
-              let type = NaviType(rawValue: DefaultData.shared.naviSubject.value) else { return }
-        
-        let position = NMGTm128(x: info.katecX, y: info.katecY).toLatLng()
-        
-        switch type {
-        case .tMap:
-            if TMapApi.isTmapApplicationInstalled() {
-                let _ = TMapApi.invokeRoute(info.name,
-                                            coordinate: CLLocationCoordinate2D(latitude: position.lat,
-                                                                               longitude: position.lng))
-                return
-            }
-            
-            let alert = UIAlertController(title: "T Map이 없습니다.",
-                                          message: "다운로드 페이지로 이동하시겠습니까?",
-                                          preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "확인",
-                                         style: .default) { _ in
-                guard let url = URL(string: TMapApi.getTMapDownUrl()),
-                      UIApplication.shared.canOpenURL(url) else { return }
-                
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-            
-            let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-            
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-            
-            present(alert, animated: true, completion: nil)
-        case .kakao:
-            let destination = KNVLocation(name: info.name,
-                                          x: NSNumber(value: info.katecX),
-                                          y: NSNumber(value: info.katecY))
-            let options = KNVOptions()
-            options.routeInfo = false
-            let params = KNVParams(destination: destination,
-                                   options: options)
-            KNVNaviLauncher.shared().navigate(with: params) { [weak self] (error) in
-                DispatchQueue.main.async {
-                    self?.handleError(error: error)
-                }
-            }
-        case .kakaoMap:
-            guard let destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=CAR"),
-            let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425") else { return }
-            
-            if UIApplication.shared.canOpenURL(destinationURL) {
-                UIApplication.shared.open(destinationURL, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
-            }
-        case .naver:
-            let urlString = "nmap://navigation?dlat=\(position.lat)&dlng=\(position.lng)&dname=\(info.name)&appname=com.oilpricewhere.wheregasoline"
-            
-            guard let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                  let destinationURL = URL(string: encodedStr),
-                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/311867728") else { return }
-            
-            if UIApplication.shared.canOpenURL(destinationURL) {
-              UIApplication.shared.open(destinationURL)
-            } else {
-                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
-            }
-        }
+    private func toNavigationTapped() {
+        requestDirection(station: viewModel.selectedStation)
     }
     
-    func updateFavoriteUI() {
-        let ids = DefaultData.shared.favoriteSubject.value
-        
-        guard let id = viewModel.selectedStation?.id else { return }
-        let image = ids.contains(id) ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.guideView.favoriteButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
-            self?.guideView.favoriteButton.imageView?.tintColor = ids.contains(id) ? .white : Asset.Colors.mainColor.color
-            self?.guideView.favoriteButton.backgroundColor = ids.contains(id) ? Asset.Colors.mainColor.color : .white
-        }
-    }
-    
-    func handleError(error: Error?) {
-        guard let error = error as NSError? else { return }
-        
-        let alert = UIAlertController(title: title,
-                                      message: error.localizedFailureReason,
-                                      preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-        alert.addAction(okAction)
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func reset() {
+    private func reset() {
         mapContainerView.selectedMarker?.isSelected = false
         mapContainerView.selectedMarker = nil
     }
@@ -292,18 +259,31 @@ extension MainVC: CLLocationManagerDelegate {
         if (error as NSError).code == CLError.locationUnknown.rawValue {
             return
         }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let _ = locations.last else { return }
+        
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted, .denied:
+            requestLocationAlert()
+        default:
+            break
+        }
     }
     
     // 인증 상태가 변경 되었을 때
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted, .denied:
+            requestLocationAlert()
+        default:
+            break
+        }
     }
 }
 
-//MARK: - Naver MapView 관련
+//MARK: - NaverMap 관련
 extension MainVC: MainMapViewDelegate {
     func marker(didTapMarker: NMGLatLng, info: GasStation) {
         if fpc.state == .hidden { fpc.move(to: .half, animated: true, completion: nil) }
@@ -314,22 +294,6 @@ extension MainVC: MainMapViewDelegate {
         let distance = info.distance < 1000 ? "\(Int(info.distance))m" : String(format: "%.1fkm", info.distance / 1000)
         guideView.directionButton.setTitle(distance + " 안내시작", for: .normal)
         guideView.directionButton.setTitle(distance + " 안내시작", for: .highlighted)
-    }
-}
-
-extension MainVC: MainListVCDelegate {
-    func touchedCell(info: GasStation) {
-        let position = NMGTm128(x: info.katecX, y: info.katecY).toLatLng()
-        marker(didTapMarker: position, info: info)
-        
-        mapContainerView.selectedMarker = mapContainerView.markers.first(where: {
-            guard let station = $0.userInfo["station"] as? GasStation else { return false }
-            return station.id == info.id
-        })
-        mapContainerView.selectedMarker?.isSelected = true
-        mapContainerView.mapView.moveCamera(NMFCameraUpdate(scrollTo: position))
-        mapContainerView.researchButton.isEnabled = false
-        mapContainerView.researchButton.alpha = 0.0
     }
 }
 
@@ -350,8 +314,10 @@ extension MainVC: NMFMapViewCameraDelegate {
 
 extension MainVC: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+        guard fpc.state != .hidden else { return }
         reset()
-        if fpc.state != .hidden { fpc.move(to: .hidden, animated: true, completion: nil) }
+        viewModel.beforeNAfter.before = .hidden
+        fpc.move(to: .hidden, animated: true, completion: nil)
     }
 }
 
@@ -381,27 +347,23 @@ extension MainVC: FloatingPanelControllerDelegate {
     }
     
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
+        guideView.isHidden = fpc.state == .hidden
+        mapContainerView.tooltipView.isHidden = fpc.state == .full
         mapContainerView.toListButton.isHidden = fpc.state == .full
-        mapContainerView.currentLocationButton.isHidden = fpc.state == .full
         mapContainerView.researchButton.isHidden = fpc.state == .full
+        mapContainerView.currentLocationButton.isHidden = fpc.state == .full
+        
+        mapContainerView.mapView.contentInset.bottom = fpc.state == .hidden ? view.safeAreaInsets.bottom : fpc.state == .half ? 168 : 401
         
         switch fpc.state {
         case .hidden:
             reset()
-            guideView.isHidden = true
-            mapContainerView.mapView.contentInset.bottom = view.safeAreaInsets.bottom
         case .half:
-            guideView.isHidden = false
-            mapContainerView.mapView.contentInset.bottom = 168
-            
             guard viewModel.beforeNAfter.before == .full, let position = viewModel.cameraPosition else { return }
             let update = NMFCameraUpdate(position: position)
             update.animation = .easeIn
             mapContainerView.mapView.moveCamera(update)
         case .full:
-            guideView.isHidden = false
-            mapContainerView.mapView.contentInset.bottom = 401
-            
             if let station = viewModel.selectedStation {
                 let position = NMGTm128(x: station.katecX, y: station.katecY).toLatLng()
                 let cameraUpdated = NMFCameraUpdate(position: NMFCameraPosition.init(position, zoom: 15.0))
@@ -426,5 +388,24 @@ extension MainVC: FloatingPanelControllerDelegate {
         default:
             break
         }
+    }
+}
+
+//MARK: - List 관련
+extension MainVC: MainListVCDelegate {
+    func touchedCell(info: GasStation) {
+        let position = NMGTm128(x: info.katecX, y: info.katecY).toLatLng()
+        marker(didTapMarker: position, info: info)
+        
+        mapContainerView.selectedMarker = mapContainerView.markers.first(where: {
+            guard let station = $0.userInfo["station"] as? GasStation else { return false }
+            return station.id == info.id
+        })
+        mapContainerView.selectedMarker?.isSelected = true
+        let update = NMFCameraUpdate(scrollTo: position, zoomTo: 15.0)
+        update.animation = .easeIn
+        mapContainerView.mapView.moveCamera(update)
+        mapContainerView.researchButton.isEnabled = false
+        mapContainerView.researchButton.alpha = 0.0
     }
 }

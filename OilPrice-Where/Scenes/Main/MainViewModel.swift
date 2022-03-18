@@ -14,8 +14,9 @@ import Moya
 import NMapsMap
 import NSObject_Rx
 import FloatingPanel
-
+//MARK: MainViewModel
 final class MainViewModel {
+    //MARK: - Properties
     let bag = DisposeBag()
     let input = Input()
     let output = Output()
@@ -28,10 +29,12 @@ final class MainViewModel {
     var cameraPosition: NMFCameraPosition?
     var beforeNAfter: (before: FloatingPanelState, after: FloatingPanelState) = (.hidden, .hidden)
     
+    //MARK: - Initializer
     init() {
         rxBind()
     }
     
+    //MARK: - Rx Binding ..
     func rxBind() {
         input.requestStaions
             .bind(with: self, onNext: { owner, _ in
@@ -51,6 +54,7 @@ final class MainViewModel {
     }
 }
 
+//MARK: - I/O & Error
 extension MainViewModel {
     enum ErrorResult: Error {
         case requestStation // => Network
@@ -69,6 +73,7 @@ extension MainViewModel {
     }
 }
 
+//MARK: - Method
 extension MainViewModel {
     private func addressUpdate() {
         guard let location = requestLocation else { return }

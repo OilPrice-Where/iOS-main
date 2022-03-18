@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseCore
+import KakaoSDKCommon
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,9 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         firebaseUtility.checkUpdateTime()
         
+        KakaoSDK.initSDK(appKey: "b8e7f9ac5bf3c19414515867205f92aa")
         DefaultData.shared.allPriceDataLoad() // 전국의 오일종류 별 저번주의 평균 값을 받아온다.
         
         window = UIWindow(frame: UIScreen.main.bounds)
+        window?.overrideUserInterfaceStyle = .light
         window?.rootViewController = initialViewController() // 설정페이지 루트뷰 설정
         window?.makeKeyAndVisible()
         

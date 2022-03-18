@@ -12,8 +12,7 @@ import SnapKit
 import UIKit
 import RxSwift
 import RxCocoa
-
-//MARK: Station Info VC
+//MARK: MapView에 주유소 정보 VC
 final class StationInfoVC: UIViewController {
     //MARK: - Properties
     let bag = DisposeBag()
@@ -141,8 +140,8 @@ final class StationInfoVC: UIViewController {
         makeUI()
     }
     
-    //MARK: - Make UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         view.backgroundColor = .white
         view.addSubview(stationInfoView)
         view.addSubview(guideView)
@@ -269,7 +268,7 @@ final class StationInfoVC: UIViewController {
         }
     }
     
-    //MARK: - Rx Binding..
+    //MARK: - Configure station
     func configure(_station: InformationGasStaion?) {
         guard let info = _station else { return }
         

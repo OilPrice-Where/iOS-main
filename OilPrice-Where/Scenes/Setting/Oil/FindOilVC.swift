@@ -10,11 +10,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
-
-final class FindOilVC: CommonViewController, ViewModelBindableType {
+//MARK: 찾는 유종 선택 VC
+final class FindOilVC: UIViewController, ViewModelBindableType {
     //MARK: - Properties
     var viewModel: FindOilTypeViewModel!
-    lazy var tableView = UITableView().then {
+    private lazy var tableView = UITableView().then {
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
         $0.showsVerticalScrollIndicator = false
@@ -36,6 +36,7 @@ final class FindOilVC: CommonViewController, ViewModelBindableType {
         UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
     }
     
+    //MARK: - Rx Binding ..
     func bindViewModel() {
         viewModel.oilSubject
             .bind(to: tableView.rx.items(cellIdentifier: OilTypeTableViewCell.id,
@@ -59,8 +60,8 @@ final class FindOilVC: CommonViewController, ViewModelBindableType {
             .disposed(by: rx.disposeBag)
     }
     
-    //MARK: - Configure UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         navigationItem.title = "관심 유종"
         
         view.addSubview(tableView)

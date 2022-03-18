@@ -13,7 +13,7 @@ import NSObject_Rx
 import Then
 
 final class SalePriceTableViewCell: UITableViewCell {
-    //MARK: - Properties
+    // Properties
     let brandImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
     }
@@ -33,7 +33,7 @@ final class SalePriceTableViewCell: UITableViewCell {
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 15)
     }
     
-    //MARK: - Initializer
+    // Initializer
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -57,8 +57,8 @@ final class SalePriceTableViewCell: UITableViewCell {
         DefaultData.shared.salesSubject.accept(dic)
     }
     
-    //MARK: - Fetch Data
-    func fetchData(brand: BrandInfomation) {
+    // Configure Data
+    func fetchData(brand: EditSalePriceViewModel.BrandInfomation) {
         brandImageView.image = brand.logo
         brandLabel.text = brand.title
         
@@ -70,7 +70,7 @@ final class SalePriceTableViewCell: UITableViewCell {
         salePriceTextField.text = value == 0 ? nil : "\(value)"
     }
     
-    //MARK: - Configure UI
+    // Set UI
     func makeUI() {
         contentView.addSubview(brandImageView)
         contentView.addSubview(brandLabel)

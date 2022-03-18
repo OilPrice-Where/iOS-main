@@ -10,8 +10,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
-
+//MARK: 탐색 브랜드 Cell
 final class BrandTypeTableViewCell: UITableViewCell {
+    // Properties
     private let brandTypeLable = UILabel().then {
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 17)
@@ -20,6 +21,7 @@ final class BrandTypeTableViewCell: UITableViewCell {
         $0.onTintColor = Asset.Colors.mainColor.color
     }
     
+    // Initializer
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -30,6 +32,7 @@ final class BrandTypeTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Configure Data
     func fetchData(brand name: String) {
         // 검색할 브랜드 이름
         brandTypeLable.text = name
@@ -67,7 +70,8 @@ final class BrandTypeTableViewCell: UITableViewCell {
             .disposed(by: rx.disposeBag)
     }
     
-    func makeUI() {
+    // Set UI
+    private func makeUI() {
         selectionStyle = .none
         
         contentView.addSubview(brandTypeLable)

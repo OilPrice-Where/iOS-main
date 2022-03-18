@@ -8,19 +8,19 @@
 
 import Foundation
 import UIKit
-
+//MARK: - Setting Cell
 class SettingTableViewCell: UITableViewCell {
-    
-    let titleLabel = UILabel().then {
+    // Properties
+    private let titleLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 17)
     }
-    
-    let subTitleLabel = UILabel().then {
+    private let subTitleLabel = UILabel().then {
         $0.textAlignment = .right
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 17)
     }
     
+    // Initializer
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -31,6 +31,7 @@ class SettingTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Override Method
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -38,7 +39,8 @@ class SettingTableViewCell: UITableViewCell {
         subTitleLabel.text = nil
     }
     
-    func makeUI() {
+    // Set UI
+    private func makeUI() {
         selectionStyle = .none
         accessoryType = .disclosureIndicator
         
@@ -56,5 +58,11 @@ class SettingTableViewCell: UITableViewCell {
             $0.right.equalTo(subTitleLabel.snp.left)
             $0.centerY.equalToSuperview()
         }
+    }
+    
+    // Configure
+    func configure(title: String?, subTitle: String? = nil) {
+        titleLabel.text = title
+        subTitleLabel.text = subTitle
     }
 }
