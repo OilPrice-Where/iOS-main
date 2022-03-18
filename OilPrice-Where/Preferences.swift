@@ -16,6 +16,13 @@ struct KatecPoint {
     let y: Double
 }
 
+enum NaviType: String {
+    case kakao = "kakao"
+    case kakaoMap = "kakaoMap"
+    case tMap = "tMap"
+    case naver = "naverMap"
+}
+
 // 위치 변환
 struct Converter {
     // 위치 변환 ( WGS84 -> Katec )
