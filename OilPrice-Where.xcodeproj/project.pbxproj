@@ -89,7 +89,6 @@
 		E9400FDE27B0A3E2003168C6 /* NaverMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FDD27B0A3E2003168C6 /* NaverMapMarker.swift */; };
 		E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FDF27B0A3F0003168C6 /* StationInfoView.swift */; };
 		E9400FE227B0A467003168C6 /* StationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FE127B0A467003168C6 /* StationAPI.swift */; };
-		E9400FE427B0D704003168C6 /* StationToolTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FE327B0D704003168C6 /* StationToolTipView.swift */; };
 		E9400FE627B0D719003168C6 /* StationInfoPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FE527B0D719003168C6 /* StationInfoPriceView.swift */; };
 		E9400FE827B1146E003168C6 /* StationInfoGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FE727B1146E003168C6 /* StationInfoGuideView.swift */; };
 		E9400FEA27B11C76003168C6 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FE927B11C76003168C6 /* UIView+.swift */; };
@@ -221,7 +220,6 @@
 		E9400FDD27B0A3E2003168C6 /* NaverMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapMarker.swift; sourceTree = "<group>"; };
 		E9400FDF27B0A3F0003168C6 /* StationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoView.swift; sourceTree = "<group>"; };
 		E9400FE127B0A467003168C6 /* StationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationAPI.swift; sourceTree = "<group>"; };
-		E9400FE327B0D704003168C6 /* StationToolTipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationToolTipView.swift; sourceTree = "<group>"; };
 		E9400FE527B0D719003168C6 /* StationInfoPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoPriceView.swift; sourceTree = "<group>"; };
 		E9400FE727B1146E003168C6 /* StationInfoGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoGuideView.swift; sourceTree = "<group>"; };
 		E9400FE927B11C76003168C6 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
@@ -542,7 +540,6 @@
 				E9400FDF27B0A3F0003168C6 /* StationInfoView.swift */,
 				E9400FE527B0D719003168C6 /* StationInfoPriceView.swift */,
 				E9400FE727B1146E003168C6 /* StationInfoGuideView.swift */,
-				E9400FE327B0D704003168C6 /* StationToolTipView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -920,7 +917,6 @@
 				8ECE0D52211AD42600FF2B46 /* Preferences.swift in Sources */,
 				8EE53E8C24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift in Sources */,
 				E94D0F0227BB467600BCB092 /* GasStationTitleView.swift in Sources */,
-				E9400FE427B0D704003168C6 /* StationToolTipView.swift in Sources */,
 				E94D0F0427BB490C00BCB092 /* GasStationBottomView.swift in Sources */,
 				8E40DB1924D7E45400352F7E /* InitialViewModel.swift in Sources */,
 				8E167D412107E30F0066A59E /* OilList.swift in Sources */,

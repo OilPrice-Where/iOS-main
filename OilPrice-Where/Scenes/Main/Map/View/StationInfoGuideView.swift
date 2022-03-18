@@ -43,8 +43,8 @@ final class StationInfoGuideView: UIView {
         fatalError("Not Created View")
     }
     
-    //MARK: - Make UI
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         addSubview(favoriteButton)
         addSubview(directionButton)
         

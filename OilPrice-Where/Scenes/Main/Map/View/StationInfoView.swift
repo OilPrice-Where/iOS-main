@@ -7,29 +7,24 @@
 //
 
 import UIKit
-
+//MARK: MapView에 주유소 정보 Content View
 final class StationInfoView: UIView {
-    
-    enum State {
-        case appear
-        case disappear
-    }
-    
-    var state: State = .disappear
-    let logoImageView = UIImageView().then {
+    //MARK: - Properties
+    private let logoImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
     }
-    let nameLabel = UILabel().then {
+    private let nameLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 22)
     }
-    let favoriteButton = UIButton().then {
+    private let favoriteButton = UIButton().then {
         $0.imageView?.contentMode = .scaleAspectFill
         $0.setImage(Asset.Images.favoriteOffIcon.image, for: .normal)
         $0.setImage(Asset.Images.favoriteOffIcon.image, for: .highlighted)
     }
-    let priceStackView = StationInfoPriceView()
+    private let priceStackView = StationInfoPriceView()
     
+    //MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -40,7 +35,8 @@ final class StationInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func makeUI() {
+    //MARK: - Set UI
+    private func makeUI() {
         backgroundColor = .white
         
         addSubview(logoImageView)
@@ -52,19 +48,18 @@ final class StationInfoView: UIView {
             $0.left.equalTo(logoImageView.snp.right).offset(4)
             $0.right.equalToSuperview().offset(-14)
         }
-        
         logoImageView.snp.makeConstraints {
             $0.centerY.equalTo(nameLabel.snp.centerY)
             $0.left.equalToSuperview().offset(14)
             $0.size.equalTo(24)
         }
-        
         priceStackView.snp.makeConstraints {
             $0.right.equalToSuperview().offset(-14)
             $0.top.equalTo(nameLabel.snp.bottom).offset(10)
         }
     }
     
+    //MARK: - Configure station
     func configure(_ station: GasStation) {
         let oilType = DefaultData.shared.oilSubject.value
         

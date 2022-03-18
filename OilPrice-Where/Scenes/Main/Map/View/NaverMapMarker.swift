@@ -90,7 +90,7 @@ class CustomAnnotationView: UIView {
     }
     
     //MARK: - Set UI
-    func makeUI() {
+    private func makeUI() {
         addSubview(mapMarkerImageView)
         addSubview(logoImageView)
         addSubview(priceLabel)
