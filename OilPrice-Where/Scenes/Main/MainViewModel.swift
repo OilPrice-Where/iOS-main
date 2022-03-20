@@ -111,7 +111,8 @@ extension MainViewModel {
                                             prodcd: oilSubject,
                                             sort: sort,
                                             appKey: Preferences.getAppKey())) { [weak self] result in
-            guard let self = self else { return }
+            guard let self = self,
+                  let _currentLocation = self.currentLocation else { return }
             switch result {
             case .success(let response):
                 guard let list = try? response.map(OilList.self) else {
@@ -119,7 +120,13 @@ extension MainViewModel {
                     return
                 }
                 
-                var target = list.result.gasStations
+                var target = list.result.gasStations.map { station -> GasStation in
+                    let stationLatLng = NMGTm128(x: station.katecX, y: station.katecY).toLatLng()
+                    let stationLocation = CLLocation(latitude: stationLatLng.lat, longitude: stationLatLng.lng)
+                    let distanceValue = stationLocation.distance(from: _currentLocation)
+                    
+                    return GasStation.init(id: station.id, brand: station.brand, name: station.name, price: station.price, distance: distanceValue, katecX: station.katecX, katecY: station.katecY)
+                }
                 
                 if brands.count != 10 {
                     target = target.filter { brands.contains($0.brand) }

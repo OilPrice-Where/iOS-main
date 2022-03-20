@@ -26,7 +26,7 @@ final class MainVC: CommonViewController {
         tap = UITapGestureRecognizer(target: self, action: #selector(toLowPriceStation))
         $0.tooltipView.addGestureRecognizer(tap)
     }
-    private let guideView = StationInfoGuideView().then {
+    private lazy var guideView = StationInfoGuideView().then {
         $0.layer.cornerRadius = 6.0
         $0.backgroundColor = .white
         $0.favoriteButton.addTarget(self, action: #selector(touchedFavoriteButton), for: .touchUpInside)
@@ -291,9 +291,9 @@ extension MainVC: MainMapViewDelegate {
         contentsVC.stationInfoView.configure(info)
         viewModel.selectedStation = info
         
-        let distance = info.distance < 1000 ? "\(Int(info.distance))m" : String(format: "%.1fkm", info.distance / 1000)
-        guideView.directionButton.setTitle(distance + " 안내시작", for: .normal)
-        guideView.directionButton.setTitle(distance + " 안내시작", for: .highlighted)
+        let distanceString = info.distance < 1000 ? "\(Int(info.distance))m" : String(format: "%.1fkm", info.distance / 1000)
+        guideView.directionButton.setTitle(distanceString + " 안내시작", for: .normal)
+        guideView.directionButton.setTitle(distanceString + " 안내시작", for: .highlighted)
     }
 }
 
