@@ -82,6 +82,7 @@ struct Preferences {
         default:
             appKey = "F307180619"
         }
+        
         return appKey
     }
     

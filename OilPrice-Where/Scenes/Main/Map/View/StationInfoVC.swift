@@ -64,13 +64,15 @@ final class StationInfoVC: UIViewController {
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
-    var addressValueLabel = UILabel().then {
-        $0.textAlignment = .right
-        $0.font = FontFamily.NanumSquareRound.bold.font(size: 12)
+    lazy var addressValueButton = UIButton().then {
+        $0.contentHorizontalAlignment = .right
+        $0.titleLabel?.font = FontFamily.NanumSquareRound.bold.font(size: 12)
+        $0.addTarget(self, action: #selector(fetchAddressCopy), for: .touchUpInside)
     }
-    var phoneNumberValueLabel = UILabel().then {
-        $0.textAlignment = .right
-        $0.font = FontFamily.NanumSquareRound.bold.font(size: 12)
+    lazy var phoneNumberValueButton = UIButton().then {
+        $0.contentHorizontalAlignment = .right
+        $0.titleLabel?.font = FontFamily.NanumSquareRound.bold.font(size: 12)
+        $0.addTarget(self, action: #selector(fetchTel), for: .touchUpInside)
     }
     var bottomLineView = UIView().then {
         $0.backgroundColor = .systemGroupedBackground
@@ -152,8 +154,8 @@ final class StationInfoVC: UIViewController {
         view.addSubview(convenienceImageView)
         view.addSubview(addressKeyLabel)
         view.addSubview(phoneNumberKeyLabel)
-        view.addSubview(addressValueLabel)
-        view.addSubview(phoneNumberValueLabel)
+        view.addSubview(addressValueButton)
+        view.addSubview(phoneNumberValueButton)
         view.addSubview(bottomLineView)
         view.addSubview(titleByPriceLabel)
         view.addSubview(oilKeyLabel)
@@ -210,18 +212,18 @@ final class StationInfoVC: UIViewController {
             $0.top.equalTo(addressKeyLabel.snp.bottom).offset(8)
             $0.left.equalToSuperview().offset(14)
         }
-        addressValueLabel.snp.makeConstraints {
+        addressValueButton.snp.makeConstraints {
             $0.top.equalTo(addressKeyLabel.snp.top)
             $0.left.equalTo(addressKeyLabel.snp.left).offset(5)
             $0.right.equalToSuperview().offset(-14)
         }
-        phoneNumberValueLabel.snp.makeConstraints {
+        phoneNumberValueButton.snp.makeConstraints {
             $0.top.equalTo(phoneNumberKeyLabel.snp.top)
             $0.left.equalTo(phoneNumberKeyLabel.snp.left).offset(5)
             $0.right.equalToSuperview().offset(-14)
         }
         bottomLineView.snp.makeConstraints {
-            $0.top.equalTo(phoneNumberValueLabel.snp.bottom).offset(10)
+            $0.top.equalTo(phoneNumberValueButton.snp.bottom).offset(10)
             $0.left.right.equalToSuperview()
             $0.height.equalTo(5)
         }
@@ -276,8 +278,14 @@ final class StationInfoVC: UIViewController {
         repairImageView.tintColor = info.repairShop == "Y" ? Asset.Colors.mainColor.color : .lightGray
         convenienceImageView.tintColor = info.convenienceStore == "Y" ? Asset.Colors.mainColor.color : .lightGray
         
-        addressValueLabel.text = info.address
-        phoneNumberValueLabel.text = info.phoneNumber
+        let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]
+        var underlineAttributedString = NSAttributedString(string: info.address, attributes: underlineAttribute)
+        addressValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
+        addressValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
+        
+        underlineAttributedString = NSAttributedString(string: info.phoneNumber, attributes: underlineAttribute)
+        phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
+        phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
         
         oilValueLabel.text = string(info, to: "B027")
         highOilValueLabel.text = string(info, to: "B034")
@@ -288,5 +296,26 @@ final class StationInfoVC: UIViewController {
     func string(_ info: InformationGasStaion, to code: String) -> String {
         let price = Preferences.priceToWon(price: info.price.first(where: { $0.type == code })?.price ?? 0)
         return price == "0" ? "가격정보 없음" : price + "원"
+    }
+    
+    @objc
+    func fetchAddressCopy() {
+        guard let valueString = addressValueButton.titleLabel?.text else { return }
+        UIPasteboard.general.string = valueString
+        
+        let alert = UIAlertController(title: "주유소 주소가 복사되었습니다.", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(action)
+        
+        present(alert, animated: true)
+    }
+    
+    @objc
+    func fetchTel() {
+        guard let valueString = phoneNumberValueButton.titleLabel?.text,
+              let url = URL(string: "tel:" + valueString),
+              UIApplication.shared.canOpenURL(url) else { return }
+        
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }

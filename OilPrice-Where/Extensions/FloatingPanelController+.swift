@@ -20,7 +20,7 @@ class MyFloatingPanelLayout: FloatingPanelLayout {
     var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
         return [
             .half: FloatingPanelLayoutAnchor(absoluteInset: 168, edge: .bottom, referenceGuide: .safeArea),
-            .full: FloatingPanelLayoutAnchor(absoluteInset: 401, edge: .bottom, referenceGuide: .safeArea),
+            .full: FloatingPanelLayoutAnchor(absoluteInset: 410, edge: .bottom, referenceGuide: .safeArea),
             .hidden: FloatingPanelLayoutAnchor(absoluteInset: 0, edge: .bottom, referenceGuide: .superview)
         ]
     }
