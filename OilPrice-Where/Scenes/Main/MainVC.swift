@@ -26,7 +26,7 @@ final class MainVC: CommonViewController {
         tap = UITapGestureRecognizer(target: self, action: #selector(toLowPriceStation))
         $0.tooltipView.addGestureRecognizer(tap)
     }
-    private let guideView = StationInfoGuideView().then {
+    private lazy var guideView = StationInfoGuideView().then {
         $0.layer.cornerRadius = 6.0
         $0.backgroundColor = .white
         $0.favoriteButton.addTarget(self, action: #selector(touchedFavoriteButton), for: .touchUpInside)
@@ -132,13 +132,14 @@ final class MainVC: CommonViewController {
         locationManager.rx.didUpdateLocations
             .compactMap { $0.last }
             .subscribe(with: self, onNext: { owner, location in
+                owner.viewModel.currentLocation = location
+                
                 guard let _ = owner.viewModel.requestLocation else {
                     owner.mapContainerView.moveMap(with: location.coordinate)
                     owner.viewModel.requestLocation = location
                     owner.viewModel.input.requestStaions.accept(nil)
                     return
                 }
-                owner.viewModel.currentLocation = location
             })
             .disposed(by: rx.disposeBag)
         
