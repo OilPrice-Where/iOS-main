@@ -21,12 +21,6 @@ final class FavoritesGasStationVC: CommonViewController {
     private var fromTap = false
     private var notiObject: NSObjectProtocol?
     private let noneFavoriteView = NoneFavoriteView()
-    private let titleLabel = UILabel().then {
-        $0.text = "자주 가는 주유소"
-        $0.textColor = .white
-        $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.bold.font(size: 18)
-    }
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
         $0.backgroundColor = .clear
         $0.decelerationRate = UIScrollViewDecelerationRateFast
@@ -53,33 +47,36 @@ final class FavoritesGasStationVC: CommonViewController {
                                                             queue: .main) { self.naviClickEvenet(noti: $0) }
     }
     
-    //MARK: - Override Method
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = false
+        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
     }
     
     //MARK: - Set UI
     func makeUI() {
+        navigationItem.title = "자주 가는 주유소"
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.backgroundColor = Asset.Colors.mainColor.color
+        navigationController?.navigationBar.titleTextAttributes = [.font: FontFamily.NanumSquareRound.bold.font(size: 17),
+                                                                   .foregroundColor: UIColor.white]
+        
         view.backgroundColor = Asset.Colors.mainColor.color
         
-        view.addSubview(titleLabel)
         view.addSubview(collectionView)
         view.addSubview(noneFavoriteView)
         
         collectionView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.left.right.equalToSuperview()
-            $0.centerY.equalToSuperview().offset(-44)
             $0.height.equalTo(411)
         }
-        
         noneFavoriteView.snp.makeConstraints {
             $0.edges.equalTo(collectionView)
         }
         
-        titleLabel.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(20)
-            $0.bottom.equalTo(collectionView.snp.top).offset(-15)
-        }
+
     }
     
     //MARK: - Rx Binding..

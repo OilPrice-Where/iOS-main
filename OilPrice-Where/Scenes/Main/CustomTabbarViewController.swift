@@ -23,27 +23,21 @@ final class CustomTabbarViewController: UITabBarController {
     func configureVC() {
         let mainVC = MainVC()
         let mainNavigationVC = UINavigationController(rootViewController: mainVC)
-        let favoriteVC = FavoritesGasStationVC()
         let settingVC = SettingVC()
         let settingNavigationVC = UINavigationController(rootViewController: settingVC)
         
         mainVC.title = "주유 정보"
-        favoriteVC.title = "즐겨찾기"
         settingVC.title = "설정"
         
-        setViewControllers([mainNavigationVC, favoriteVC, settingNavigationVC], animated: false)
+        setViewControllers([mainNavigationVC, settingNavigationVC], animated: false)
     }
     
     func configureTabbar() {
         guard let tabbarOilInfo = tabBar.items?.first,
-              let tabbarFavorite = tabBar.items?[1],
               let tabbarSetting = tabBar.items?.last else { return }
         
         tabbarOilInfo.image = Asset.Images.oilTabIcon.image
         tabbarOilInfo.selectedImage = Asset.Images.oilTabIconSel.image
-        
-        tabbarFavorite.image = Asset.Images.favoriteTabIcon.image
-        tabbarFavorite.selectedImage = Asset.Images.favoriteTabIconSel.image
         
         tabbarSetting.image = Asset.Images.settingTabIcon.image
         tabbarSetting.selectedImage = Asset.Images.settingTabIconSel.image
