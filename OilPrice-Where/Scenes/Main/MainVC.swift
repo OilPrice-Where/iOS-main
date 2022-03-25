@@ -393,7 +393,7 @@ extension MainVC: FloatingPanelControllerDelegate {
                 switch result {
                 case .success(let resp):
                     guard let ret = try? resp.map(InformationOilStationResult.self),
-                          let information = ret.result.allPriceList.first else { return }
+                          let information = ret.result?.allPriceList?.first else { return }
                     self.contentsVC.station = information
                 case .failure(let error):
                     print(error)

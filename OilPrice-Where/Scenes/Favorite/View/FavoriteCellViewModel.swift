@@ -26,7 +26,7 @@ extension FavoriteCellViewModel {
             switch $0 {
             case .success(let resp):
                 guard let ret = try? resp.map(InformationOilStationResult.self),
-                      let information = ret.result.allPriceList.first else { return }
+                      let information = ret.result?.allPriceList?.first else { return }
                 
                 DefaultData.shared.tempFavArr.append(information)
                 self.info = information
@@ -42,7 +42,7 @@ extension FavoriteCellViewModel {
         let type = DefaultData.shared.oilSubject.value
         guard let displayInfo = priceList?.first(where: { $0.type == type }) else { return  "가격정보 없음" }
         
-        let price = Preferences.priceToWon(price: displayInfo.price) + "원"
+        let price = Preferences.priceToWon(price: displayInfo.price ?? 0) + "원"
         
         return price
     }
@@ -62,15 +62,20 @@ extension FavoriteCellViewModel {
         let type = DefaultData.shared.oilSubject.value
         
         guard let info = info,
-              let result = info.price.first(where: { $0.type == type }) else { return }
+              let id = info.id,
+              let brand = info.brand,
+              let name = info.name,
+              let kx = info.katecX,
+              let ky = info.katecY,
+              let price = info.price?.first(where: { $0.type == type })?.price else { return }
         
-        let station = GasStation(id: info.id,
-                                 brand: info.brand,
-                                 name: info.name,
-                                 price: result.price,
+        let station = GasStation(id: id,
+                                 brand: brand,
+                                 name: name,
+                                 price: price,
                                  distance: 0.0,
-                                 katecX: info.katecX,
-                                 katecY: info.katecY)
+                                 katecX: kx,
+                                 katecY: ky)
         
         NotificationCenter.default.post(name: NSNotification.Name("navigationClickEvent"),
                                         object: nil,

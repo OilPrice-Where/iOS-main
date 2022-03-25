@@ -68,15 +68,13 @@ final class FavoritesGasStationVC: CommonViewController {
         view.addSubview(noneFavoriteView)
         
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.left.right.equalToSuperview()
+            $0.centerY.equalTo(view.safeAreaLayoutGuide).offset(-44)
             $0.height.equalTo(411)
         }
         noneFavoriteView.snp.makeConstraints {
             $0.edges.equalTo(collectionView)
         }
-        
-
     }
     
     //MARK: - Rx Binding..
