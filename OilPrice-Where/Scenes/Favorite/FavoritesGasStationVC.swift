@@ -87,9 +87,10 @@ final class FavoritesGasStationVC: CommonViewController {
         DefaultData.shared.favoriteSubject
             .bind(to: collectionView.rx.items(cellIdentifier: FavoriteCollectionViewCell.id,
                                               cellType: FavoriteCollectionViewCell.self)) { index, id, cell in
-                cell.layer.cornerRadius = 35
-                cell.id = id
                 cell.viewModel.requestStationsInfo(id: id)
+                cell.layer.cornerRadius = 35
+                cell.delegate = self
+                cell.id = id
             }
             .disposed(by: rx.disposeBag)
         
@@ -145,5 +146,15 @@ extension FavoritesGasStationVC: UICollectionViewDelegate {
         let roundedIndex = round(index)
         offset = CGPoint(x: roundedIndex * cellSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
         targetContentOffset.pointee = offset
+    }
+}
+
+extension FavoritesGasStationVC: FavoriteCollectionViewCellDelegate {
+    func touchedAddressLabel() {
+        let alert = UIAlertController(title: "주유소 주소가 복사되었습니다.", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(action)
+
+        present(alert, animated: true)
     }
 }

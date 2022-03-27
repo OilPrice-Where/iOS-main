@@ -158,6 +158,7 @@ PODS:
     - RxCocoa (~> 6.0)
     - RxSwiftExt/Core
   - SCLAlertView (0.8)
+  - SideMenu (6.5.0)
   - SnapKit (5.0.1)
   - SwiftGen (6.5.1)
   - SwiftyPlistManager (1.0.2)
@@ -185,6 +186,7 @@ DEPENDENCIES:
   - RxSwift
   - RxSwiftExt
   - SCLAlertView
+  - SideMenu
   - SnapKit (~> 5.0.0)
   - SwiftGen (~> 6.0)
   - SwiftyPlistManager
@@ -226,6 +228,7 @@ SPEC REPOS:
     - RxSwift
     - RxSwiftExt
     - SCLAlertView
+    - SideMenu
     - SnapKit
     - SwiftGen
     - SwiftyPlistManager
@@ -266,11 +269,12 @@ SPEC CHECKSUMS:
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   RxSwiftExt: d61c4b9b06e0a448041b1c659e0f1b5c5a035afc
   SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
+  SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
   SwiftyPlistManager: 5895924cccb7fe28deccbe14890e8aed78ae78ae
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: adb3515f003682805deea201222b9aaa01ae0f26
+PODFILE CHECKSUM: 6074d0c8be4d3cb276d0c0f0120aa6738950a70f
 
 COCOAPODS: 1.11.2
