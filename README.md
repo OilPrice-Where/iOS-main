@@ -54,10 +54,12 @@
 <p align="left">
 <a href="https://vimeo.com/288497922"> 어플 실행 영상 </a> <br>기능 추가<br>
 
-<img src="IntroduceImage/screenList.png" width="150" />
-<img src="IntroduceImage/screenMap.png" width="150" />
-<img src="IntroduceImage/screenFavorite.png" width="150" />
-<img src="IntroduceImage/screenSetting.png" width="150" />
+<img src="IntroduceImage/1.png" width="200" />
+<img src="IntroduceImage/2.png" width="200" />
+<img src="IntroduceImage/3.png" width="200" />
+<br>
+<img src="IntroduceImage/4.png" width="200" />
+<img src="IntroduceImage/5.png" width="200" />
 </p>
 
 ## Version History
