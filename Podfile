@@ -19,6 +19,7 @@ target 'OilPrice-Where' do
   pod 'SnapKit', '~> 5.0.0'
   
   # Pods for OilPrice-Where
+  pod 'SideMenu'
   pod 'SCLAlertView'
   pod 'FloatingPanel'
   pod 'NMapsMap'
@@ -54,5 +55,6 @@ target 'OilPrice-Where' do
   pod 'RxGesture'
   pod 'RxReachability'
   pod 'RxKeyboard'
+  pod "RxGesture"
 
 end

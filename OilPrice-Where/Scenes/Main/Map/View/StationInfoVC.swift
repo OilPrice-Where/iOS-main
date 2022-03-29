@@ -279,11 +279,11 @@ final class StationInfoVC: UIViewController {
         convenienceImageView.tintColor = info.convenienceStore == "Y" ? Asset.Colors.mainColor.color : .lightGray
         
         let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]
-        var underlineAttributedString = NSAttributedString(string: info.address, attributes: underlineAttribute)
+        var underlineAttributedString = NSAttributedString(string: info.address ?? "", attributes: underlineAttribute)
         addressValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
         addressValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
         
-        underlineAttributedString = NSAttributedString(string: info.phoneNumber, attributes: underlineAttribute)
+        underlineAttributedString = NSAttributedString(string: info.phoneNumber ?? "", attributes: underlineAttribute)
         phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
         phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
         
@@ -294,7 +294,7 @@ final class StationInfoVC: UIViewController {
     }
     
     func string(_ info: InformationGasStaion, to code: String) -> String {
-        let price = Preferences.priceToWon(price: info.price.first(where: { $0.type == code })?.price ?? 0)
+        let price = Preferences.priceToWon(price: info.price?.first(where: { $0.type == code })?.price ?? 0)
         return price == "0" ? "가격정보 없음" : price + "원"
     }
     

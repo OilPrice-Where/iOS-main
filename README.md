@@ -54,10 +54,12 @@
 <p align="left">
 <a href="https://vimeo.com/288497922"> 어플 실행 영상 </a> <br>기능 추가<br>
 
-<img src="IntroduceImage/screenList.png" width="150" />
-<img src="IntroduceImage/screenMap.png" width="150" />
-<img src="IntroduceImage/screenFavorite.png" width="150" />
-<img src="IntroduceImage/screenSetting.png" width="150" />
+<img src="IntroduceImage/1.png" width="200" />
+<img src="IntroduceImage/2.png" width="200" />
+<img src="IntroduceImage/3.png" width="200" />
+<br>
+<img src="IntroduceImage/4.png" width="200" />
+<img src="IntroduceImage/5.png" width="200" />
 </p>
 
 ## Version History
@@ -71,7 +73,8 @@
 - ver 1.4.0 : Add Function Release(20.08.14.)
 - ver 1.7.0 : Add Function Release(20.08.28.)
 - ver 1.8.0 : Add Function Release(20.09.11.)
-- ver 2.0.0 : Bug fixes Debug & Add Function Release(22.03.15.)
+- ver 2.0.0 : Bug fixes Debug & Add Function Release(22.03.20.)
+- ver 2.1.0 : Bug fixes Debug & Add Function Release(22.03.21.)
 
 <br>
 

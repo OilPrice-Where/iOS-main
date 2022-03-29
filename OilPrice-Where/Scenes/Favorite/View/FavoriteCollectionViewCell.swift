@@ -10,9 +10,16 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxGesture
+import RxGesture
+
+protocol FavoriteCollectionViewCellDelegate: AnyObject {
+    func touchedAddressLabel()
+}
+
 //MARK: 즐겨찾는 주유소 Cell
 class FavoriteCollectionViewCell: UICollectionViewCell {
     //MARK: - Properties
+    weak var delegate: FavoriteCollectionViewCellDelegate?
     var id = ""
     var viewModel = FavoriteCellViewModel()
     private let emptyView = UIView()
@@ -213,13 +220,40 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             .disposed(by: rx.disposeBag)
         // 주소
         viewModel.infoSubject
-            .map { $0?.address }
-            .bind(to: addressHStackView.valueLabel.rx.text)
+            .compactMap { $0?.address }
+            .map { NSAttributedString(string: $0, attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]) }
+            .bind(to: addressHStackView.valueLabel.rx.attributedText)
+            .disposed(by: rx.disposeBag)
+        // 주소 복사
+        addressHStackView.valueLabel
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(with: self, onNext: { owner, _ in
+                guard let valueString = owner.addressHStackView.valueLabel.text else { return }
+                UIPasteboard.general.string = valueString
+
+                owner.delegate?.touchedAddressLabel()
+            })
             .disposed(by: rx.disposeBag)
         // 전화번호
         viewModel.infoSubject
-            .map { $0?.phoneNumber }
-            .bind(to: phoneNumberHStackView.valueLabel.rx.text)
+            .compactMap { $0?.phoneNumber }
+            .map { NSAttributedString(string: $0, attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]) }
+            .bind(to: phoneNumberHStackView.valueLabel.rx.attributedText)
+            .disposed(by: rx.disposeBag)
+        // 전화 걸기
+        phoneNumberHStackView.valueLabel
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(with: self, onNext: { owner, _ in
+                guard let valueString = owner.phoneNumberHStackView.valueLabel.text,
+                      let url = URL(string: "tel:" + valueString),
+                      UIApplication.shared.canOpenURL(url) else { return }
+                
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            })
             .disposed(by: rx.disposeBag)
         // 품질 인증
         viewModel.infoSubject

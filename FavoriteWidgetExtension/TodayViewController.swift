@@ -55,10 +55,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         var tempArr = [String]()
         
         if let infomations = try? JSONDecoder().decode(InformationGasStaions.self, from: data) {
-            infomations.allPriceList.forEach { info in
-                if !tempArr.contains(info.id) {
-                    favArr.append(info)
-                    tempArr.append(info.id)
+            guard let list = infomations.allPriceList else { return }
+            list.forEach { station in
+                guard let id = station.id else { return }
+                if !tempArr.contains(id) {
+                    favArr.append(station)
+                    tempArr.append(id)
                 }
             }
         }
@@ -135,14 +137,18 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     // 위치 변환 ( Katec -> WGS84 )
     func convertKatecToWGS(with station: InformationGasStaion) -> CLLocationCoordinate2D {
+        guard let kx = station.katecX, let ky = station.katecY else { return .init(latitude: .zero, longitude: .zero) }
+        
         let convert = GeoConverter()
-        let katecPoint = GeographicPoint(x: station.katecX, y: station.katecY)
+        let katecPoint = GeographicPoint(x: kx, y: ky)
         let wgsPoint = convert.convert(sourceType: .KATEC,
                                        destinationType: .WGS_84,
                                        geoPoint: katecPoint)
         
-        return CLLocationCoordinate2D(latitude: wgsPoint!.y,
-                                      longitude: wgsPoint!.x)
+        guard let _wgsPoint = wgsPoint else { return .init(latitude: .zero, longitude: .zero) }
+        
+        return CLLocationCoordinate2D(latitude: _wgsPoint.y,
+                                      longitude: _wgsPoint.x)
         
     }
     
@@ -189,8 +195,7 @@ extension TodayViewController: UICollectionViewDataSource {
 extension TodayViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectStation = favArr[indexPath.row]
-        let katecX = selectStation.katecX.rounded()
-        let katecY = selectStation.katecY.rounded()
+        guard let katecX = selectStation.katecX?.rounded(), let katecY = selectStation.katecY?.rounded() else { return }
         
         let coordinator = convertKatecToWGS(with: selectStation)
         
@@ -199,7 +204,7 @@ extension TodayViewController: UICollectionViewDelegate {
         
         switch type {
         case "kakao":
-            let destination = NaviLocation(name: selectStation.name, x: "\(NSNumber(value: katecX))", y: "\(NSNumber(value: katecY))")
+            let destination = NaviLocation(name: selectStation.name ?? "", x: "\(NSNumber(value: katecX))", y: "\(NSNumber(value: katecY))")
             let options = NaviOption(routeInfo: false)
             guard let navigateUrl = NaviApi.shared.navigateUrl(destination: destination, option: options) else { return }
 
@@ -209,7 +214,7 @@ extension TodayViewController: UICollectionViewDelegate {
                 }
             })
         case "tMap":
-            let urlString = "tmap://?rGoName=\(selectStation.name)&rGoX=\(coordinator.longitude)&rGoY=\(coordinator.latitude)"
+            let urlString = "tmap://?rGoName=\(selectStation.name ?? "")&rGoX=\(coordinator.longitude)&rGoY=\(coordinator.latitude)"
             
             guard let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
                   let destinationURL = URL(string: encodedStr),
@@ -230,7 +235,7 @@ extension TodayViewController: UICollectionViewDelegate {
                 }
             })
         default:
-            let urlString = "nmap://navigation?dlat=\(coordinator.latitude)&dlng=\(coordinator.longitude)&dname=\(selectStation.name)&appname=com.oilpricewhere.wheregasoline"
+            let urlString = "nmap://navigation?dlat=\(coordinator.latitude)&dlng=\(coordinator.longitude)&dname=\(selectStation.name ?? "")&appname=com.oilpricewhere.wheregasoline"
             
             guard let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
                   let destinationURL = URL(string: encodedStr),

@@ -45,6 +45,16 @@ final class MainMapView: UIView {
         $0.clipsToBounds = false
         $0.backgroundColor = Asset.Colors.mainColor.color
     }
+    let toFavoriteButton = UIButton().then {
+        let image = Asset.Images.favoriteTabIconSel.image.withRenderingMode(.alwaysTemplate)
+        $0.layer.cornerRadius = 21
+        $0.layer.borderWidth = 0.01
+        $0.clipsToBounds = false
+        $0.setImage(image, for: .normal)
+        $0.setImage(image, for: .highlighted)
+        $0.tintColor = .white
+        $0.backgroundColor = Asset.Colors.mainColor.color
+    }
     let researchButton = UIButton().then {
         $0.layer.cornerRadius = 21
         $0.layer.borderWidth = 0.01
@@ -72,6 +82,7 @@ final class MainMapView: UIView {
     private func makeUI() {
         addSubview(mapView)
         addSubview(currentLocationButton)
+        addSubview(toFavoriteButton)
         addSubview(toListButton)
         addSubview(researchButton)
         addSubview(tooltipView)
@@ -83,6 +94,7 @@ final class MainMapView: UIView {
         
         toListButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
         researchButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
+        toFavoriteButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
         currentLocationButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
     }
     

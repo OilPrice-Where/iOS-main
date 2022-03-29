@@ -157,7 +157,7 @@ extension SettingVC: UITableViewDataSource {
             cell.configure(title: "App 평가하기")
         case .none:
             cell.accessoryType = .none
-            cell.configure(title: "버전", subTitle: "2.0.0")
+            cell.configure(title: "버전", subTitle: "2.2.0")
         }
         
         return cell

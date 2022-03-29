@@ -23,6 +23,7 @@ final class MainVC: CommonViewController {
         var tap = UITapGestureRecognizer(target: self, action: #selector(toListTapped))
         $0.toListButton.addGestureRecognizer(tap)
         $0.researchButton.addTarget(self, action: #selector(researchStation), for: .touchUpInside)
+        $0.toFavoriteButton.addTarget(self, action: #selector(toFavoriteTapped), for: .touchUpInside)
         tap = UITapGestureRecognizer(target: self, action: #selector(toLowPriceStation))
         $0.tooltipView.addGestureRecognizer(tap)
     }
@@ -64,8 +65,13 @@ final class MainVC: CommonViewController {
             $0.right.equalToSuperview().offset(-20)
             $0.size.equalTo(42)
         }
-        mapContainerView.currentLocationButton.snp.makeConstraints {
+        mapContainerView.toFavoriteButton.snp.makeConstraints {
             $0.top.equalTo(mapContainerView.toListButton.snp.bottom).offset(15)
+            $0.right.equalToSuperview().offset(-20)
+            $0.size.equalTo(42)
+        }
+        mapContainerView.currentLocationButton.snp.makeConstraints {
+            $0.top.equalTo(mapContainerView.toFavoriteButton.snp.bottom).offset(15)
             $0.right.equalToSuperview().offset(-20)
             $0.size.equalTo(42)
         }
@@ -207,11 +213,18 @@ final class MainVC: CommonViewController {
     }
     
     @objc
+    private func toFavoriteTapped() {
+        let favoriteVC = FavoritesGasStationVC()
+        navigationController?.pushViewController(favoriteVC, animated: true)
+    }
+    
+    @objc
     private func researchStation() {
         let centerLocation = CLLocation(latitude: mapContainerView.mapView.latitude, longitude: mapContainerView.mapView.longitude)
         
         viewModel.requestLocation = centerLocation
         viewModel.input.requestStaions.accept(nil)
+        viewModel.selectedStation = nil
         
         fpc.move(to: .hidden, animated: false) { [weak self] in
             self?.mapContainerView.researchButton.isEnabled = false
@@ -380,7 +393,7 @@ extension MainVC: FloatingPanelControllerDelegate {
                 switch result {
                 case .success(let resp):
                     guard let ret = try? resp.map(InformationOilStationResult.self),
-                          let information = ret.result.allPriceList.first else { return }
+                          let information = ret.result?.allPriceList?.first else { return }
                     self.contentsVC.station = information
                 case .failure(let error):
                     print(error)

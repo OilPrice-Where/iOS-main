@@ -127,14 +127,15 @@ class DefaultData {
                 
                 let dataString = owner.localFavoritesSubject.value
                 if let data = dataString.data(using: .utf8),
-                   let infomations = try? JSONDecoder().decode(InformationGasStaions.self,
-                                                               from: data) {
-                    owner.tempFavArr = infomations.allPriceList
+                   let infomations = try? JSONDecoder().decode(InformationGasStaions.self, from: data),
+                   let list = infomations.allPriceList {
+                    owner.tempFavArr = list
                 }
                 
                 self.tempFavArr = owner.tempFavArr.filter { info in
-                    if !tempArr.contains(info.id) && infomations.contains(info.id) {
-                        tempArr.append(info.id)
+                    guard let id = info.id else { return false }
+                    if !tempArr.contains(id) && infomations.contains(id) {
+                        tempArr.append(id)
                         return true
                     }
                     return false
@@ -147,7 +148,7 @@ class DefaultData {
                         switch $0 {
                         case .success(let resp):
                             guard let result = try? resp.map(InformationOilStationResult.self),
-                                  let info = result.result.allPriceList.first else { return }
+                                  let info = result.result?.allPriceList?.first else { return }
                             
                             queue.async {
                                 owner.tempFavArr.append(info)
@@ -200,8 +201,8 @@ class DefaultData {
                 var value = InformationGasStaions(allPriceList: [])
                 
                 guard let data = type.data(using: .utf8),
-                      let infomations = try? JSONDecoder().decode(InformationGasStaions.self,
-                                                                  from: data) else {
+                      let infomations = try? JSONDecoder().decode(InformationGasStaions.self, from: data),
+                      let list = infomations.allPriceList else {
                           if let encodeData = try? JSONEncoder().encode(value),
                              let dataString = String(data: encodeData, encoding: .utf8) {
                               owner.swiftyPlistManager(save: dataString, forKey: "LocalFavorites")
@@ -211,7 +212,7 @@ class DefaultData {
                 owner.swiftyPlistManager(save: type, forKey: "LocalFavorites")
                 
                 value.allPriceList = self.tempFavArr
-                owner.tempFavArr = infomations.allPriceList
+                owner.tempFavArr = list
                 owner.localSave(favorites: value)
             })
             .disposed(by: bag)
