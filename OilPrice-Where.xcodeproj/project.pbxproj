@@ -97,6 +97,9 @@
 		E94D0F0827BB4D5800BCB092 /* GasStationExpandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D0F0727BB4D5800BCB092 /* GasStationExpandView.swift */; };
 		E94D0F0A27BB50D000BCB092 /* GasStationDirectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D0F0927BB50D000BCB092 /* GasStationDirectionView.swift */; };
 		E94D0F0C27BB56D100BCB092 /* GasStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D0F0B27BB56D100BCB092 /* GasStationView.swift */; };
+		E9633A7B27F9CE6300B99E66 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9633A7A27F9CE6300B99E66 /* MenuVC.swift */; };
+		E9633A7E27F9CF7D00B99E66 /* MenuKeyValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9633A7D27F9CF7D00B99E66 /* MenuKeyValueView.swift */; };
+		E9633A8027F9D2D600B99E66 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9633A7F27F9D2D600B99E66 /* MenuViewModel.swift */; };
 		E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601C27CE00A6005BB593 /* MainListVC.swift */; };
 		E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601E27CE0351005BB593 /* MainListViewModel.swift */; };
 		E97B642827D7CDD700577650 /* GeoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3E2107D95C0066A59E /* GeoConverter.swift */; };
@@ -224,6 +227,9 @@
 		E94D0F0727BB4D5800BCB092 /* GasStationExpandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationExpandView.swift; sourceTree = "<group>"; };
 		E94D0F0927BB50D000BCB092 /* GasStationDirectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationDirectionView.swift; sourceTree = "<group>"; };
 		E94D0F0B27BB56D100BCB092 /* GasStationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationView.swift; sourceTree = "<group>"; };
+		E9633A7A27F9CE6300B99E66 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
+		E9633A7D27F9CF7D00B99E66 /* MenuKeyValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuKeyValueView.swift; sourceTree = "<group>"; };
+		E9633A7F27F9D2D600B99E66 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		E96E601C27CE00A6005BB593 /* MainListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListVC.swift; sourceTree = "<group>"; };
 		E96E601E27CE0351005BB593 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
 		E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPanelController+.swift"; sourceTree = "<group>"; };
@@ -317,7 +323,10 @@
 		2C0C68CE276B331100945CEC /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				E9633A7A27F9CE6300B99E66 /* MenuVC.swift */,
+				E9633A7F27F9D2D600B99E66 /* MenuViewModel.swift */,
 				8E7FFE3820F5EA1C006CED48 /* SettingVC.swift */,
+				E9633A7C27F9CF6300B99E66 /* View */,
 				2C0C68DE276B632000945CEC /* Cell */,
 				2C0C68D9276B5B7500945CEC /* Navigation */,
 				2C0C68D7276B56E200945CEC /* Oil */,
@@ -663,6 +672,14 @@
 			path = GasStation;
 			sourceTree = "<group>";
 		};
+		E9633A7C27F9CF6300B99E66 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E9633A7D27F9CF7D00B99E66 /* MenuKeyValueView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		E96E601B27CE008A005BB593 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -892,12 +909,14 @@
 				2C0C68C4276B0EE200945CEC /* Fonts+Generated.swift in Sources */,
 				2C0C68C2276B0E8600945CEC /* XCAssets+Generated.swift in Sources */,
 				8E68BA2924CCD472004730D7 /* FindNavigationViewModel.swift in Sources */,
+				E9633A8027F9D2D600B99E66 /* MenuViewModel.swift in Sources */,
 				8EF8481A24E39B23009A32D8 /* EditSalePriceViewModel.swift in Sources */,
 				2C0C68E0276B633B00945CEC /* SettingTableViewCell.swift in Sources */,
 				E94D0F0027BB3DBC00BCB092 /* GasStationCell.swift in Sources */,
 				E94D0F0827BB4D5800BCB092 /* GasStationExpandView.swift in Sources */,
 				E9F0996427D8C44B009F95DF /* KeyValueView.swift in Sources */,
 				E9D1445827CED3120055141A /* InfoListView.swift in Sources */,
+				E9633A7E27F9CF7D00B99E66 /* MenuKeyValueView.swift in Sources */,
 				2CAC81DD276B948B00CC6096 /* CustomKVView.swift in Sources */,
 				8ECE0DAA212385FB00FF2B46 /* AllPrices.swift in Sources */,
 				8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */,
@@ -958,6 +977,7 @@
 				8E68BA2524CCCF95004730D7 /* FindBrandVC.swift in Sources */,
 				8ECE0D7C211C3CFC00FF2B46 /* OilTypeTableViewCell.swift in Sources */,
 				765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */,
+				E9633A7B27F9CE6300B99E66 /* MenuVC.swift in Sources */,
 				E94D0F0A27BB50D000BCB092 /* GasStationDirectionView.swift in Sources */,
 				2CAC81E7276BAA9D00CC6096 /* NoneFavoriteView.swift in Sources */,
 				2CC1C80A276C79F5007527C7 /* MainListNoneView.swift in Sources */,

@@ -22,7 +22,7 @@ final class MainVC: CommonViewController {
     private lazy var contentsVC = StationInfoVC() // 띄울 VC
     private lazy var mapContainerView = MainMapView()
     private lazy var guideView = StationInfoGuideView()
-    lazy var sideMenu = SideMenuNavigationController(rootViewController: SettingVC()).then {
+    lazy var sideMenu = SideMenuNavigationController(rootViewController: MenuVC()).then {
         var set = SideMenuSettings()
         set.statusBarEndAlpha = 0
         set.presentationStyle = SideMenuPresentationStyle.menuSlideIn
