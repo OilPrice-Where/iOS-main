@@ -20,12 +20,9 @@ final class MainVC: CommonViewController {
     private lazy var fpc = FloatingPanelController()
     private lazy var contentsVC = StationInfoVC() // 띄울 VC
     private lazy var mapContainerView = MainMapView().then {
-        var tap = UITapGestureRecognizer(target: self, action: #selector(toListTapped))
-        $0.toListButton.addGestureRecognizer(tap)
+        $0.toListButton.addTarget(self, action: #selector(toListTapped), for: .touchUpInside)
         $0.researchButton.addTarget(self, action: #selector(researchStation), for: .touchUpInside)
         $0.toFavoriteButton.addTarget(self, action: #selector(toFavoriteTapped), for: .touchUpInside)
-        tap = UITapGestureRecognizer(target: self, action: #selector(toLowPriceStation))
-        $0.tooltipView.addGestureRecognizer(tap)
     }
     private lazy var guideView = StationInfoGuideView().then {
         $0.layer.cornerRadius = 6.0
@@ -80,12 +77,6 @@ final class MainVC: CommonViewController {
             $0.centerX.equalTo(mapContainerView.snp.centerX)
             $0.width.equalTo(100)
             $0.height.equalTo(42)
-        }
-        mapContainerView.tooltipView.snp.makeConstraints {
-            $0.top.equalTo(mapContainerView.toListButton.snp.top)
-            $0.left.equalToSuperview().offset(20)
-            $0.width.equalTo(80)
-            $0.height.equalTo(100)
         }
         guideView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
@@ -159,7 +150,6 @@ final class MainVC: CommonViewController {
         
         viewModel.output.staionResult
             .bind(with: self, onNext: { owner, _ in
-                owner.mapContainerView.tooltipView.configure(stations: owner.viewModel.stations)
                 owner.mapContainerView.showMarker(list: owner.viewModel.stations)
                 NotificationCenter.default.post(name: NSNotification.Name("stationsUpdated"),
                                                 object: nil,
@@ -193,16 +183,6 @@ final class MainVC: CommonViewController {
     }
     
     //MARK: - User Intraction
-    @objc
-    private func toLowPriceStation() {
-        guard let lowStation = viewModel.stations.first else { return }
-        
-        let position = NMGTm128(x: lowStation.katecX, y: lowStation.katecY).toLatLng()
-        let update = NMFCameraUpdate(scrollTo: position, zoomTo: 15.0)
-        update.animation = .easeIn
-        mapContainerView.mapView.moveCamera(update)
-    }
-    
     @objc
     private func toListTapped() {
         let listVC = MainListVC()

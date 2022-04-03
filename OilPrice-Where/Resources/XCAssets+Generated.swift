@@ -63,6 +63,7 @@ internal enum Asset {
     internal static let listButton = ImageAsset(name: "listButton")
     internal static let lpgImage = ImageAsset(name: "lpgImage")
     internal static let mapButton = ImageAsset(name: "mapButton")
+    internal static let menuIcon = ImageAsset(name: "menuIcon")
     internal static let navigationIcon = ImageAsset(name: "navigationIcon")
     internal static let noneListImage = ImageAsset(name: "noneListImage")
     internal static let nonePageImage = ImageAsset(name: "nonePageImage")

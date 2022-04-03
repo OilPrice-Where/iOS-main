@@ -18,7 +18,6 @@ final class MainMapView: UIView {
     //MARK: - Properties
     weak var delegate: MainMapViewDelegate?
     var markers = [NaverMapMarker]()
-    let tooltipView = ToolTipView()
     var selectedMarker: NaverMapMarker? = nil {
         willSet {
             selectedMarker?.isSelected = false
@@ -38,7 +37,16 @@ final class MainMapView: UIView {
         $0.setImage(Asset.Images.currentLocationButton.image, for: .highlighted)
         $0.backgroundColor = .white
     }
-    let toListButton = ToListView().then {
+    let toListButton = UIButton().then {
+        if #available(iOS 15.0, *) {
+            var config = UIButton.Configuration.plain()
+            config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 2.5, bottom: 1.25, trailing: 0)
+            $0.configuration = config
+        } else {
+            $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 2.5, bottom: 1.25, right: 0)
+        }
+        $0.setImage(Asset.Images.listButton.image, for: .normal)
+        $0.setImage(Asset.Images.listButton.image, for: .highlighted)
         $0.layer.cornerRadius = 21
         $0.layer.borderWidth = 0.01
         $0.layer.borderColor = UIColor.blue.cgColor
@@ -85,7 +93,6 @@ final class MainMapView: UIView {
         addSubview(toFavoriteButton)
         addSubview(toListButton)
         addSubview(researchButton)
-        addSubview(tooltipView)
         
         mapView.snp.makeConstraints {
             $0.top.left.right.equalToSuperview()
