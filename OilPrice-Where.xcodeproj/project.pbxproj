@@ -77,7 +77,6 @@
 		8EE53E6F24CEA108008D8045 /* NanumSquareRoundR.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226552126A8BD0012B2F6 /* NanumSquareRoundR.ttf */; };
 		8EE53E7124CEA481008D8045 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */; };
 		8EE53E7224CEA484008D8045 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2B20F5E5FF006CED48 /* Images.xcassets */; };
-		8EE53E7924CF0D72008D8045 /* CustomTabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E7824CF0D72008D8045 /* CustomTabbarViewController.swift */; };
 		8EE53E8C24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */; };
 		8EE53E8F24CF3CEC008D8045 /* FindNavigationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E8E24CF3CEC008D8045 /* FindNavigationVC.swift */; };
 		8EE53E9324D016B4008D8045 /* SettingAboutUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E9224D016B4008D8045 /* SettingAboutUsVC.swift */; };
@@ -205,7 +204,6 @@
 		8EDAF7D721295AEF00422552 /* InitialSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSettingVC.swift; sourceTree = "<group>"; };
 		8EDE51B324D5C32C004590B6 /* FavoriteCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCellViewModel.swift; sourceTree = "<group>"; };
 		8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandTypeTableViewCell.swift; sourceTree = "<group>"; };
-		8EE53E7824CF0D72008D8045 /* CustomTabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabbarViewController.swift; sourceTree = "<group>"; };
 		8EE53E8B24CF3AB1008D8045 /* NavigaionTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigaionTypeTableViewCell.swift; sourceTree = "<group>"; };
 		8EE53E8E24CF3CEC008D8045 /* FindNavigationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindNavigationVC.swift; sourceTree = "<group>"; };
 		8EE53E9224D016B4008D8045 /* SettingAboutUsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAboutUsVC.swift; sourceTree = "<group>"; };
@@ -494,7 +492,6 @@
 		2CC1C7FC276C52E1007527C7 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				8EE53E7824CF0D72008D8045 /* CustomTabbarViewController.swift */,
 				2CC1C80B276C8123007527C7 /* MainVC.swift */,
 				2CA47265279931B500DB0DDD /* MainViewModel.swift */,
 				2CC1C7FD276C5B3C007527C7 /* Map */,
@@ -950,7 +947,6 @@
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
 				8EE53E9524D01828008D8045 /* AboutUsTableViewCell.swift in Sources */,
 				29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */,
-				8EE53E7924CF0D72008D8045 /* CustomTabbarViewController.swift in Sources */,
 				2CAC81E1276B9A7200CC6096 /* KVVStackView.swift in Sources */,
 				8EDE51B424D5C32C004590B6 /* FavoriteCellViewModel.swift in Sources */,
 				E9400FE627B0D719003168C6 /* StationInfoPriceView.swift in Sources */,

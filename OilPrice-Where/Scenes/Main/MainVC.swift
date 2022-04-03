@@ -19,6 +19,15 @@ final class MainVC: CommonViewController {
     private let locationManager = CLLocationManager()
     private lazy var fpc = FloatingPanelController()
     private lazy var contentsVC = StationInfoVC() // 띄울 VC
+    private lazy var menuButton = UIButton().then {
+        $0.setImage(Asset.Images.menuIcon.image, for: .normal)
+        $0.setImage(Asset.Images.menuIcon.image, for: .highlighted)
+        $0.layer.cornerRadius = 21
+        $0.layer.borderWidth = 0.01
+        $0.layer.borderColor = UIColor.blue.cgColor
+        $0.clipsToBounds = false
+        $0.backgroundColor = .white
+    }
     private lazy var mapContainerView = MainMapView().then {
         $0.toListButton.addTarget(self, action: #selector(toListTapped), for: .touchUpInside)
         $0.researchButton.addTarget(self, action: #selector(researchStation), for: .touchUpInside)
@@ -49,13 +58,20 @@ final class MainVC: CommonViewController {
     
     //MARK: - Set UI
     private func makeUI() {
+        navigationItem.title = "주유 정보"
         view.backgroundColor = .white
         view.addSubview(mapContainerView)
+        view.addSubview(menuButton)
         setupView()
         fpc.view.addSubview(guideView)
         
         mapContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        menuButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            $0.left.equalToSuperview().offset(20)
+            $0.size.equalTo(42)
         }
         mapContainerView.toListButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
@@ -85,6 +101,7 @@ final class MainVC: CommonViewController {
         }
         
         guideView.addShadow(offset: CGSize(width: 0, height: 4), color: .black, opacity: 0.18, radius: 6.0)
+        menuButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
     }
     
     private func updateFavoriteUI() {
@@ -342,9 +359,10 @@ extension MainVC: FloatingPanelControllerDelegate {
     
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
         guideView.isHidden = fpc.state == .hidden
-        mapContainerView.tooltipView.isHidden = fpc.state == .full
+        menuButton.isHidden = fpc.state == .full
         mapContainerView.toListButton.isHidden = fpc.state == .full
         mapContainerView.researchButton.isHidden = fpc.state == .full
+        mapContainerView.toFavoriteButton.isHidden = fpc.state == .full
         mapContainerView.currentLocationButton.isHidden = fpc.state == .full
         
         mapContainerView.mapView.contentInset.bottom = fpc.state == .hidden ? view.safeAreaInsets.bottom : fpc.state == .half ? 168 : 401

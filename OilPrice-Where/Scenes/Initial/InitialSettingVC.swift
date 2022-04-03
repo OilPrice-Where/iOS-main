@@ -58,9 +58,9 @@ final class InitialSettingVC: CommonViewController {
                 self.viewModel.okAction(oil: selectTypes.oil, navi: selectTypes.navi)
             })
             .bind(with: self, onNext: { owner, _ in
-                let vc = CustomTabbarViewController()
-                vc.modalPresentationStyle = .fullScreen
-                owner.present(vc, animated: false)
+                let mainVC = MainVC()
+                let mainNavigationVC = UINavigationController(rootViewController: mainVC)
+                owner.present(mainNavigationVC, animated: false)
             })
             .disposed(by: rx.disposeBag)
     }

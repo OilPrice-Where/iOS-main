@@ -37,7 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // 오일 타입이 있다면 메인 리스트 페이지(TabBarController)를 루트뷰로 설정
     private func initialViewController() -> UIViewController {
         if DefaultData.shared.oilSubject.value != "" {
-            return CustomTabbarViewController()
+            let mainVC = MainVC()
+            let mainNavigationVC = UINavigationController(rootViewController: mainVC)
+            return mainNavigationVC
         } else {
             let vc = InitialSettingVC()
             vc.viewModel = InitialViewModel()
