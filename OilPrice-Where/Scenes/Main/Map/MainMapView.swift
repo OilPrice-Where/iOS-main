@@ -30,6 +30,15 @@ final class MainMapView: UIView {
         $0.maxZoomLevel = 18.0
         $0.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
     }
+    lazy var menuButton = UIButton().then {
+        $0.setImage(Asset.Images.menuIcon.image, for: .normal)
+        $0.setImage(Asset.Images.menuIcon.image, for: .highlighted)
+        $0.layer.cornerRadius = 21
+        $0.layer.borderWidth = 0.01
+        $0.layer.borderColor = UIColor.blue.cgColor
+        $0.clipsToBounds = false
+        $0.backgroundColor = .white
+    }
     let currentLocationButton = UIButton().then {
         $0.layer.cornerRadius = 21
         $0.clipsToBounds = false
@@ -89,6 +98,7 @@ final class MainMapView: UIView {
     //MARK: - Set UI
     private func makeUI() {
         addSubview(mapView)
+        addSubview(menuButton)
         addSubview(currentLocationButton)
         addSubview(toFavoriteButton)
         addSubview(toListButton)
@@ -99,6 +109,7 @@ final class MainMapView: UIView {
             $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
         }
         
+        menuButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
         toListButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
         researchButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
         toFavoriteButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)

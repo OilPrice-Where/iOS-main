@@ -45,6 +45,9 @@ final class StationInfoGuideView: UIView {
     
     //MARK: - Set UI
     private func makeUI() {
+        layer.cornerRadius = 6.0
+        backgroundColor = .white
+        
         addSubview(favoriteButton)
         addSubview(directionButton)
         

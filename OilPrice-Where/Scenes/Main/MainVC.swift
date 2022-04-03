@@ -11,6 +11,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NMapsMap
+import SideMenu
 import FloatingPanel
 //MARK: Main Map VC
 final class MainVC: CommonViewController {
@@ -19,25 +20,17 @@ final class MainVC: CommonViewController {
     private let locationManager = CLLocationManager()
     private lazy var fpc = FloatingPanelController()
     private lazy var contentsVC = StationInfoVC() // 띄울 VC
-    private lazy var menuButton = UIButton().then {
-        $0.setImage(Asset.Images.menuIcon.image, for: .normal)
-        $0.setImage(Asset.Images.menuIcon.image, for: .highlighted)
-        $0.layer.cornerRadius = 21
-        $0.layer.borderWidth = 0.01
-        $0.layer.borderColor = UIColor.blue.cgColor
-        $0.clipsToBounds = false
-        $0.backgroundColor = .white
-    }
-    private lazy var mapContainerView = MainMapView().then {
-        $0.toListButton.addTarget(self, action: #selector(toListTapped), for: .touchUpInside)
-        $0.researchButton.addTarget(self, action: #selector(researchStation), for: .touchUpInside)
-        $0.toFavoriteButton.addTarget(self, action: #selector(toFavoriteTapped), for: .touchUpInside)
-    }
-    private lazy var guideView = StationInfoGuideView().then {
-        $0.layer.cornerRadius = 6.0
-        $0.backgroundColor = .white
-        $0.favoriteButton.addTarget(self, action: #selector(touchedFavoriteButton), for: .touchUpInside)
-        $0.directionButton.addTarget(self, action: #selector(toNavigationTapped), for: .touchUpInside)
+    private lazy var mapContainerView = MainMapView()
+    private lazy var guideView = StationInfoGuideView()
+    lazy var sideMenu = SideMenuNavigationController(rootViewController: SettingVC()).then {
+        var set = SideMenuSettings()
+        set.statusBarEndAlpha = 0
+        set.presentationStyle = SideMenuPresentationStyle.menuSlideIn
+        set.presentationStyle.presentingEndAlpha = 0.65
+        set.menuWidth = UIScreen.main.bounds.width * (240 / 375)
+        set.blurEffectStyle = nil
+        $0.leftSide = true
+        $0.settings = set
     }
     
     //MARK: - Life Cycle
@@ -61,14 +54,14 @@ final class MainVC: CommonViewController {
         navigationItem.title = "주유 정보"
         view.backgroundColor = .white
         view.addSubview(mapContainerView)
-        view.addSubview(menuButton)
+        
         setupView()
         fpc.view.addSubview(guideView)
         
         mapContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        menuButton.snp.makeConstraints {
+        mapContainerView.menuButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.left.equalToSuperview().offset(20)
             $0.size.equalTo(42)
@@ -101,7 +94,6 @@ final class MainVC: CommonViewController {
         }
         
         guideView.addShadow(offset: CGSize(width: 0, height: 4), color: .black, opacity: 0.18, radius: 6.0)
-        menuButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
     }
     
     private func updateFavoriteUI() {
@@ -156,7 +148,66 @@ final class MainVC: CommonViewController {
                 }
             })
             .disposed(by: rx.disposeBag)
-        
+        // menuButton Tapped
+        mapContainerView
+            .menuButton
+            .rx
+            .tap
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                owner.showSideMenu()
+            })
+            .disposed(by: rx.disposeBag)
+        // toListButton Tapped
+        mapContainerView
+            .toListButton
+            .rx
+            .tap
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                owner.toListTapped()
+            })
+            .disposed(by: rx.disposeBag)
+        // researchStation Tapped
+        mapContainerView
+            .researchButton
+            .rx
+            .tap
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                owner.researchStation()
+            })
+            .disposed(by: rx.disposeBag)
+        // toFavoriteButton Tapped
+        mapContainerView
+            .toFavoriteButton
+            .rx
+            .tap
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                owner.toFavoriteTapped()
+            })
+            .disposed(by: rx.disposeBag)
+        // favoriteButton Tapped
+        guideView
+            .favoriteButton
+            .rx
+            .tap
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                owner.touchedFavoriteButton()
+            })
+            .disposed(by: rx.disposeBag)
+        // directionButton Tapped
+        guideView
+            .directionButton
+            .rx
+            .tap
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                owner.toNavigationTapped()
+            })
+            .disposed(by: rx.disposeBag)
         mapContainerView
             .currentLocationButton
             .rx
@@ -200,7 +251,10 @@ final class MainVC: CommonViewController {
     }
     
     //MARK: - User Intraction
-    @objc
+    private func showSideMenu() {
+        present(sideMenu, animated: true, completion: nil)
+    }
+    
     private func toListTapped() {
         let listVC = MainListVC()
         listVC.delegate = self
@@ -209,13 +263,11 @@ final class MainVC: CommonViewController {
         navigationController?.pushViewController(listVC, animated: true)
     }
     
-    @objc
     private func toFavoriteTapped() {
         let favoriteVC = FavoritesGasStationVC()
         navigationController?.pushViewController(favoriteVC, animated: true)
     }
     
-    @objc
     private func researchStation() {
         let centerLocation = CLLocation(latitude: mapContainerView.mapView.latitude, longitude: mapContainerView.mapView.longitude)
         
@@ -229,7 +281,6 @@ final class MainVC: CommonViewController {
         }
     }
     
-    @objc
     private func touchedFavoriteButton() {
         let faovorites = DefaultData.shared.favoriteSubject.value
         guard let _id = viewModel.selectedStation?.id, faovorites.count < 6 else { return }
@@ -247,7 +298,6 @@ final class MainVC: CommonViewController {
         updateFavoriteUI()
     }
     
-    @objc
     private func toNavigationTapped() {
         requestDirection(station: viewModel.selectedStation)
     }
@@ -359,7 +409,7 @@ extension MainVC: FloatingPanelControllerDelegate {
     
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
         guideView.isHidden = fpc.state == .hidden
-        menuButton.isHidden = fpc.state == .full
+        mapContainerView.menuButton.isHidden = fpc.state == .full
         mapContainerView.toListButton.isHidden = fpc.state == .full
         mapContainerView.researchButton.isHidden = fpc.state == .full
         mapContainerView.toFavoriteButton.isHidden = fpc.state == .full

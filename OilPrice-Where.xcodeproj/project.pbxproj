@@ -291,7 +291,7 @@
 				2C0C68CC276B32F100945CEC /* Initial */,
 				2CC1C7FC276C52E1007527C7 /* Main */,
 				2C0C68DC276B60A600945CEC /* Favorite */,
-				2C0C68CE276B331100945CEC /* Setting */,
+				2C0C68CE276B331100945CEC /* Menu */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -314,7 +314,7 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		2C0C68CE276B331100945CEC /* Setting */ = {
+		2C0C68CE276B331100945CEC /* Menu */ = {
 			isa = PBXGroup;
 			children = (
 				8E7FFE3820F5EA1C006CED48 /* SettingVC.swift */,
@@ -326,7 +326,7 @@
 				2C0C68D1276B337800945CEC /* Card */,
 				2C0C68CF276B331C00945CEC /* AboutUs */,
 			);
-			path = Setting;
+			path = Menu;
 			sourceTree = "<group>";
 		};
 		2C0C68CF276B331C00945CEC /* AboutUs */ = {
