@@ -192,5 +192,18 @@ final class MenuVC: UIViewController {
                 owner.viewModel.output.fetchReview()
             })
             .disposed(by: bag)
+        // 버전 확인
+        versionView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                let alert = UIAlertController(title: "현재 사용 중인 버전", message: "Version: 2.3.0", preferredStyle: .alert)
+                let action = UIAlertAction(title: "확인", style: .default)
+                alert.addAction(action)
+                owner.present(alert, animated: true)
+            })
+            .disposed(by: bag)
     }
 }

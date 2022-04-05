@@ -14,16 +14,9 @@ import RxCocoa
 
 //MARK: SelectMenuVC
 final class SelectMenuVC: UIViewController {
-    enum SelectMenuType {
-        case navigation
-        case oilType
-        case radius
-    }
-    
     //MARK: - Properties
     let bag = DisposeBag()
-    let type: SelectMenuType
-    let viewModel = SelectMenuViewModel()
+    let viewModel: SelectMenuViewModel
     let containerView = UIView().then {
         $0.backgroundColor = .clear
     }
@@ -34,8 +27,8 @@ final class SelectMenuVC: UIViewController {
     let selectMenuView = SelectMenuView()
     
     //MARK: - Life Cycle
-    init(type: SelectMenuType) {
-        self.type = type
+    init(type: SelectMenuViewModel.SelectMenuType) {
+        viewModel = SelectMenuViewModel(type: type)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -93,9 +86,6 @@ final class SelectMenuVC: UIViewController {
             .drive(selectMenuView.collectionView.rx.items(cellIdentifier: SelectMenuCollectionViewCell.id,
                                                           cellType: SelectMenuCollectionViewCell.self)) { index, title, cell in
                 cell.titleLabel.text = title
-                if title == self.viewModel.fetchSelect(type: self.type) {
-                    self.selectMenuView.collectionView.selectItem(at: IndexPath(item: index, section: 0), animated: false, scrollPosition: .top)
-                }
             }
             .disposed(by: bag)
         viewModel
@@ -117,7 +107,7 @@ final class SelectMenuVC: UIViewController {
             .modelSelected(String.self)
             .observe(on: MainScheduler.asyncInstance)
             .bind(with: self, onNext: { owner, title in
-                owner.viewModel.fetchUpdated(type: owner.type, title: title)
+                owner.viewModel.input.fetchUpdate.accept(title)
                 owner.dismiss(animated: false)
             })
             .disposed(by: bag)
@@ -130,8 +120,16 @@ final class SelectMenuVC: UIViewController {
                 owner.dismiss(animated: false)
             })
             .disposed(by: bag)
+        viewModel
+            .output
+            .fetchSelect
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, idx in
+                owner.selectMenuView.collectionView.selectItem(at: IndexPath(item: idx, section: 0), animated: false, scrollPosition: .top)
+            })
+            .disposed(by: bag)
         
-        viewModel.input.fetchType.accept(type)
+        viewModel.input.fetchType.accept(nil)
     }
     
     func fetchSelectMenuHeight() -> CGFloat {
@@ -139,7 +137,7 @@ final class SelectMenuVC: UIViewController {
     }
     
     func fetchCollectionViewHeight() -> CGFloat {
-        switch type {
+        switch viewModel.type {
         case .navigation, .oilType:
             return 272.0
         case .radius:

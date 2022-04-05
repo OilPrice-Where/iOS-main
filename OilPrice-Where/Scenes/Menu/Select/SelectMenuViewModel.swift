@@ -16,6 +16,7 @@ final class SelectMenuViewModel {
     let bag = DisposeBag()
     let input = Input()
     let output = Output()
+    let type: SelectMenuType
     // 선택 가능한 탐색 반경
     private let findNavi = ["카카오내비", "카카오맵", "티맵", "네이버지도"]
     // 선택 가능한 오일 종류
@@ -24,7 +25,8 @@ final class SelectMenuViewModel {
     private let findDistaceArea = ["1KM", "3KM", "5KM"]
     
     //MARK: Initializer
-    init() {
+    init(type: SelectMenuType) {
+        self.type = type
         rxBind()
     }
     
@@ -32,7 +34,13 @@ final class SelectMenuViewModel {
     func rxBind() {
         input.fetchType
             .bind(with: self, onNext: { owner, type in
-                owner.fetchModel(type: type)
+                owner.fetchModel()
+            })
+            .disposed(by: bag)
+        
+        input.fetchUpdate
+            .bind(with: self, onNext: { owner, title in
+                owner.fetchUpdated(title: title)
             })
             .disposed(by: bag)
     }
@@ -40,23 +48,31 @@ final class SelectMenuViewModel {
 
 //MARK: - I/O & Error
 extension SelectMenuViewModel {
+    enum SelectMenuType {
+        case navigation
+        case oilType
+        case radius
+    }
+    
     enum ErrorResult: Error {
         case someError
     }
     
     struct Input {
-        let fetchType = PublishRelay<SelectMenuVC.SelectMenuType>()
+        let fetchType = PublishRelay<Void?>()
+        let fetchUpdate = PublishRelay<String>()
     }
     
     struct Output {
         let fetchModel = PublishRelay<[String]>()
         let fetchTitle = PublishRelay<String>()
+        let fetchSelect = PublishRelay<Int>()
     }
 }
 
 //MARK: - Method
 extension SelectMenuViewModel {
-    func fetchModel(type: SelectMenuVC.SelectMenuType) {
+    private func fetchModel() {
         switch type {
         case .navigation:
             output.fetchModel.accept(findNavi)
@@ -68,20 +84,22 @@ extension SelectMenuViewModel {
             output.fetchModel.accept(findDistaceArea)
             output.fetchTitle.accept("주유소 탐색 반경을 선택해 주세요.")
         }
+        
+        fetchSelect()
     }
     
-    func fetchSelect(type: SelectMenuVC.SelectMenuType) -> String {
+    private func fetchSelect() {
         switch type {
         case .navigation:
-            return Preferences.navigation(type: DefaultData.shared.naviSubject.value)
+            output.fetchSelect.accept(findNavi.firstIndex(of: Preferences.navigation(type: DefaultData.shared.naviSubject.value)) ?? 0)
         case .oilType:
-            return Preferences.oil(code: DefaultData.shared.oilSubject.value)
+            output.fetchSelect.accept(oilType.firstIndex(of: Preferences.oil(code: DefaultData.shared.oilSubject.value)) ?? 0)
         case .radius:
-            return Preferences.distanceKM(KM: DefaultData.shared.radiusSubject.value)
+            output.fetchSelect.accept(findDistaceArea.firstIndex(of: Preferences.distanceKM(KM: DefaultData.shared.radiusSubject.value)) ?? 0)
         }
     }
     
-    func fetchUpdated(type: SelectMenuVC.SelectMenuType, title: String) {
+    private func fetchUpdated(title: String) {
         switch type {
         case .navigation:
             DefaultData.shared.naviSubject.accept(Preferences.navigation(name: title))

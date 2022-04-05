@@ -281,8 +281,10 @@ final class MainVC: CommonViewController {
         let centerLocation = CLLocation(latitude: mapContainerView.mapView.latitude, longitude: mapContainerView.mapView.longitude)
         
         viewModel.requestLocation = centerLocation
-        viewModel.input.requestStaions.accept(nil)
         viewModel.selectedStation = nil
+        reset()
+        mapContainerView.resetInfoWindows()
+        viewModel.input.requestStaions.accept(nil)
         
         fpc.move(to: .hidden, animated: false) { [weak self] in
             self?.mapContainerView.researchButton.isEnabled = false
@@ -371,7 +373,7 @@ extension MainVC: NMFMapViewCameraDelegate {
     func mapViewCameraIdle(_ mapView: NMFMapView) {
         let centerLocation = CLLocation(latitude: mapView.latitude, longitude: mapView.longitude)
         
-        guard let distance = viewModel.requestLocation?.distance(from: centerLocation), distance > 1000 else { return }
+        guard let distance = viewModel.requestLocation?.distance(from: centerLocation), distance > 2000 else { return }
         
         DispatchQueue.main.async { [weak self] in
             self?.mapContainerView.researchButton.isEnabled = true
@@ -425,7 +427,9 @@ extension MainVC: FloatingPanelControllerDelegate {
         mapContainerView.toFavoriteButton.isHidden = fpc.state == .full
         mapContainerView.currentLocationButton.isHidden = fpc.state == .full
         
-        mapContainerView.mapView.contentInset.bottom = fpc.state == .hidden ? view.safeAreaInsets.bottom : fpc.state == .half ? 168 : 401
+        let halfHeight = view.safeAreaInsets.bottom + 168.0
+        let fullHeight = view.safeAreaInsets.bottom + 401.0
+        mapContainerView.mapView.contentInset.bottom = fpc.state == .hidden ? .zero : fpc.state == .half ? halfHeight : fullHeight
         
         switch fpc.state {
         case .hidden:
