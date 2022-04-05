@@ -113,6 +113,42 @@ final class MenuVC: UIViewController {
             .asDriver(onErrorJustReturn: "")
             .drive(radiusView.valueLabel.rx.text)
             .disposed(by: bag)
+        // 내비게이션
+        navigationView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                let vc = SelectMenuVC(type: .navigation)
+                vc.modalPresentationStyle = .overFullScreen
+                owner.present(vc, animated: false)
+            })
+            .disposed(by: bag)
+        // 유종
+        oilTypeView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                let vc = SelectMenuVC(type: .oilType)
+                vc.modalPresentationStyle = .overFullScreen
+                owner.present(vc, animated: false)
+            })
+            .disposed(by: bag)
+        // 검색 반경
+        radiusView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                let vc = SelectMenuVC(type: .radius)
+                vc.modalPresentationStyle = .overFullScreen
+                owner.present(vc, animated: false)
+            })
+            .disposed(by: bag)
         // 검색 브랜드
         findBrandView
             .rx
