@@ -16,14 +16,19 @@ final class SelectMenuCollectionViewCell: UICollectionViewCell {
     let titleLabel = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .center
+        $0.clipsToBounds = true
+        $0.layer.masksToBounds = true
+        $0.layer.cornerRadius = 5
         $0.layer.borderWidth = 0.5
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 16)
     }
     
     override var isSelected: Bool {
         didSet {
+            contentView.layer.borderWidth = isSelected ? 0.0 : 0.5
             titleLabel.textColor = isSelected ? .white : .black
-            backgroundColor = isSelected ? Asset.Colors.mainColor.color : .white
+            titleLabel.backgroundColor = isSelected ? Asset.Colors.mainColor.color : .white
+            titleLabel.layer.borderWidth = isSelected ? 0.0 : 0.5
         }
     }
     
@@ -43,7 +48,7 @@ final class SelectMenuCollectionViewCell: UICollectionViewCell {
         addSubview(titleLabel)
         
         titleLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(0.5)
+            $0.edges.equalToSuperview()
         }
     }
 }

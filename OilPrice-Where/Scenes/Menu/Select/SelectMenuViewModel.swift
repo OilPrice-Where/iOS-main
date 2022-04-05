@@ -60,28 +60,13 @@ extension SelectMenuViewModel {
         switch type {
         case .navigation:
             output.fetchModel.accept(findNavi)
-            output.fetchTitle.accept("길 찾기에 사용할 내비게이션을 선택해 주세요.")
+            output.fetchTitle.accept("연동할 내비게이션을 선택해 주세요.")
         case .oilType:
             output.fetchModel.accept(oilType)
             output.fetchTitle.accept("찾으시는 유종을 선택해 주세요.")
         case .radius:
             output.fetchModel.accept(findDistaceArea)
             output.fetchTitle.accept("주유소 탐색 반경을 선택해 주세요.")
-        }
-    }
-    
-    func fetchSelectMenuHeight(type: SelectMenuVC.SelectMenuType) -> CGFloat {
-        return 200 + fetchCollectionViewHeight(type: type)
-    }
-    
-    func fetchCollectionViewHeight(type: SelectMenuVC.SelectMenuType) -> CGFloat {
-        switch type {
-        case .navigation:
-            return 272.0
-        case .oilType:
-            return 272.0
-        case .radius:
-            return 198.0
         }
     }
     

@@ -105,15 +105,10 @@ final class MainMapView: UIView {
         addSubview(researchButton)
         
         mapView.snp.makeConstraints {
-            $0.top.left.right.equalToSuperview()
-            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            $0.edges.equalToSuperview()
         }
         
-        menuButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
-        toListButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
-        researchButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
-        toFavoriteButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
-        currentLocationButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
+        addShadow(views: [menuButton, toListButton, researchButton, toFavoriteButton, currentLocationButton])
     }
     
     //MARK: - Method
@@ -161,6 +156,10 @@ final class MainMapView: UIView {
         }
         
         markers = []
+    }
+    
+    func addShadow(views: [UIView], offset: CGSize = CGSize(width: 4, height: 4), color: UIColor = .black, opacity: Float = 0.4, radius: CGFloat = 5.0) {
+        views.forEach { $0.addShadow(offset: offset, color: color, opacity: opacity, radius: radius) }
     }
 }
 

@@ -76,11 +76,11 @@ final class SelectMenuVC: UIViewController {
         }
         selectMenuView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width * 0.75)
-            $0.height.equalTo(viewModel.fetchSelectMenuHeight(type: type))
+            $0.width.equalTo(UIScreen.main.bounds.width * 0.8)
+            $0.height.equalTo(fetchSelectMenuHeight())
         }
         selectMenuView.collectionView.snp.makeConstraints {
-            $0.height.equalTo(viewModel.fetchCollectionViewHeight(type: type))
+            $0.height.equalTo(fetchCollectionViewHeight())
         }
     }
     
@@ -121,7 +121,29 @@ final class SelectMenuVC: UIViewController {
                 owner.dismiss(animated: false)
             })
             .disposed(by: bag)
+        backgroundView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                owner.dismiss(animated: false)
+            })
+            .disposed(by: bag)
         
         viewModel.input.fetchType.accept(type)
+    }
+    
+    func fetchSelectMenuHeight() -> CGFloat {
+        return 200 + fetchCollectionViewHeight()
+    }
+    
+    func fetchCollectionViewHeight() -> CGFloat {
+        switch type {
+        case .navigation, .oilType:
+            return 272.0
+        case .radius:
+            return 198.0
+        }
     }
 }

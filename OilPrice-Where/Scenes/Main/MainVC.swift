@@ -22,6 +22,9 @@ final class MainVC: CommonViewController {
     private lazy var contentsVC = StationInfoVC() // 띄울 VC
     private lazy var mapContainerView = MainMapView()
     private lazy var guideView = StationInfoGuideView()
+    let emptyView = UIView().then {
+        $0.backgroundColor = .white
+    }
     lazy var sideMenu = SideMenuNavigationController(rootViewController: MenuVC()).then {
         var set = SideMenuSettings()
         set.statusBarEndAlpha = 0
@@ -57,6 +60,7 @@ final class MainVC: CommonViewController {
         
         setupView()
         fpc.view.addSubview(guideView)
+        fpc.view.addSubview(emptyView)
         
         mapContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -89,9 +93,14 @@ final class MainVC: CommonViewController {
         }
         guideView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(4)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(70)
         }
+        emptyView.snp.makeConstraints {
+            $0.top.equalTo(guideView.snp.bottom)
+            $0.left.right.bottom.equalToSuperview()
+        }
+        
         
         guideView.addShadow(offset: CGSize(width: 0, height: 4), color: .black, opacity: 0.18, radius: 6.0)
     }
@@ -409,6 +418,7 @@ extension MainVC: FloatingPanelControllerDelegate {
     
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
         guideView.isHidden = fpc.state == .hidden
+        emptyView.isHidden = fpc.state == .hidden
         mapContainerView.menuButton.isHidden = fpc.state == .full
         mapContainerView.toListButton.isHidden = fpc.state == .full
         mapContainerView.researchButton.isHidden = fpc.state == .full

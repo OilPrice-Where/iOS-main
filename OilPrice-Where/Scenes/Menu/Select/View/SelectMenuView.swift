@@ -47,7 +47,7 @@ final class SelectMenuView: UIView {
     //MARK: - Make UI
     func makeUI() {
         alpha = 0.0
-        layer.cornerRadius = 5.0
+        layer.cornerRadius = 10.0
         backgroundColor = .white
         
         addSubview(titleLabel)
