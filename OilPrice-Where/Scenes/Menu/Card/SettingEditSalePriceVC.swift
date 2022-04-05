@@ -34,12 +34,6 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
         makeUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
-    }
-    
     //MARK: - Rx Binding..
     func bindViewModel() {
         viewModel.brandsInfoSubject
@@ -48,7 +42,7 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
                 cell.fetchData(brand: info)
                 cell.selectionStyle = .none
             }
-                                         .disposed(by: rx.disposeBag)
+            .disposed(by: rx.disposeBag)
         
         tableView
             .rx

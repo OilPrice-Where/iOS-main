@@ -32,12 +32,6 @@ final class FindBrandVC: UIViewController, ViewModelBindableType {
         makeUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
-    }
-    
     //MARK: - Rx Binding ..
     func bindViewModel() {
         viewModel.brandSubject

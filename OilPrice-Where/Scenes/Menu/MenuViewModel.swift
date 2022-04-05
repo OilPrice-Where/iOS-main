@@ -30,19 +30,52 @@ final class MenuViewModel {
 //MARK: - I/O & ErrorMenuViewModel
 extension MenuViewModel {
     struct Output {
+        enum PresentType {
+            case findBrand
+            case cardSale
+            case aboutUs
+        }
+        
         //MARK: Functions..
-        // 이전 설정을 데이터를 불러와서
-        // oilTypeLabel, findLabel 업데이트
-        func fetchNavigationTitle() -> Observable<String?> {
-            return Observable.just(Preferences.navigation(type: DefaultData.shared.naviSubject.value))
+        func fetchReview() {
+            let id = "1435350344"
+            if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) {
+                // 유효한 URL인지 검사
+                if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
+                    UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(reviewURL)
+                }
+            }
         }
         
-        func fetchOilTypeString() -> Observable<String?> {
-            return Observable.just(Preferences.oil(code: DefaultData.shared.oilSubject.value))
-        }
-        
-        func fetchDistanceString() -> Observable<String?> {
-            return Observable.just(String(DefaultData.shared.radiusSubject.value / 1000) + "KM")
+        func fetchNavigationController(type: PresentType) -> UINavigationController {
+            var vc: UIViewController?
+            
+            switch type {
+            case .findBrand:
+                var brandVC = FindBrandVC()
+                let viewModel = FindBrandViewModel()
+                brandVC.bind(viewModel: viewModel)
+                vc = brandVC
+            case .cardSale:
+                var saleVC = SettingEditSalePriceVC()
+                let viewModel = EditSalePriceViewModel()
+                saleVC.bind(viewModel: viewModel)
+                vc = saleVC
+            case .aboutUs:
+                let aboutVC = SettingAboutUsVC()
+                vc = aboutVC
+            }
+            
+            let navi = UINavigationController(rootViewController: vc!)
+            
+            navi.navigationBar.tintColor = .white
+            navi.navigationBar.titleTextAttributes = [.font: FontFamily.NanumSquareRound.bold.font(size: 17),
+                                                                       .foregroundColor: UIColor.white]
+            navi.navigationBar.backgroundColor = Asset.Colors.mainColor.color
+            
+            return navi
         }
     }
 }

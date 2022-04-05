@@ -98,20 +98,63 @@ final class MenuVC: UIViewController {
     
     //MARK: - Rx Binding..
     func rxBind() {
-        viewModel
-            .output
-            .fetchNavigationTitle()
-            .bind(to: navigationView.valueLabel.rx.text)
+        DefaultData.shared.naviSubject
+            .map { Preferences.navigation(type: $0) }
+            .asDriver(onErrorJustReturn: "")
+            .drive(navigationView.valueLabel.rx.text)
             .disposed(by: bag)
-        viewModel
-            .output
-            .fetchOilTypeString()
-            .bind(to: oilTypeView.valueLabel.rx.text)
+        DefaultData.shared.oilSubject
+            .map { Preferences.oil(code: $0) }
+            .asDriver(onErrorJustReturn: "")
+            .drive(oilTypeView.valueLabel.rx.text)
             .disposed(by: bag)
-        viewModel
-            .output
-            .fetchDistanceString()
-            .bind(to: radiusView.valueLabel.rx.text)
+        DefaultData.shared.radiusSubject
+            .map { String($0 / 1000) + "KM" }
+            .asDriver(onErrorJustReturn: "")
+            .drive(radiusView.valueLabel.rx.text)
+            .disposed(by: bag)
+        // 검색 브랜드
+        findBrandView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                let navi = owner.viewModel.output.fetchNavigationController(type: .findBrand)
+                owner.present(navi, animated: true)
+            })
+            .disposed(by: bag)
+        // 카드 할인
+        cardSaleView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                let navi = owner.viewModel.output.fetchNavigationController(type: .cardSale)
+                owner.present(navi, animated: true)
+            })
+            .disposed(by: bag)
+        // AboutUs
+        aboutView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                let navi = owner.viewModel.output.fetchNavigationController(type: .aboutUs)
+                owner.present(navi, animated: true)
+            })
+            .disposed(by: bag)
+        // 리뷰 작성
+        reviewView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                owner.viewModel.output.fetchReview()
+            })
             .disposed(by: bag)
     }
 }

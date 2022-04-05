@@ -36,12 +36,6 @@ final class SettingAboutUsVC: UIViewController {
         makeUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
-    }
-    
     //MARK: - Set UI
     private func makeUI() {
         navigationItem.title = "About Us"
