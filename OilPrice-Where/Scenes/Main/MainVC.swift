@@ -13,6 +13,7 @@ import RxCocoa
 import NMapsMap
 import SideMenu
 import FloatingPanel
+import FirebaseAnalytics
 //MARK: Main Map VC
 final class MainVC: CommonViewController {
     //MARK: - Properties
@@ -285,6 +286,7 @@ final class MainVC: CommonViewController {
         reset()
         mapContainerView.resetInfoWindows()
         viewModel.input.requestStaions.accept(nil)
+        viewModel.cameraPosition = nil
         
         fpc.move(to: .hidden, animated: false) { [weak self] in
             self?.mapContainerView.researchButton.isEnabled = false
@@ -293,6 +295,16 @@ final class MainVC: CommonViewController {
     }
     
     private func touchedFavoriteButton() {
+        let event = "didTapFavoriteButton"
+        let parameters = [
+            "file": #file,
+            "function": #function,
+            "eventDate": DefaultData.shared.currentTime
+        ]
+        
+        Analytics.setUserProperty("ko", forName: "country")
+        Analytics.logEvent(event, parameters: parameters)
+        
         let faovorites = DefaultData.shared.favoriteSubject.value
         guard let _id = viewModel.selectedStation?.id, faovorites.count < 6 else { return }
         let isDeleted = faovorites.contains(_id)
@@ -310,6 +322,16 @@ final class MainVC: CommonViewController {
     }
     
     private func toNavigationTapped() {
+        let event = "didTapNavigationButton"
+        let parameters = [
+            "file": #file,
+            "function": #function,
+            "eventDate": DefaultData.shared.currentTime
+        ]
+        
+        Analytics.setUserProperty("ko", forName: "country")
+        Analytics.logEvent(event, parameters: parameters)
+        
         requestDirection(station: viewModel.selectedStation)
     }
     

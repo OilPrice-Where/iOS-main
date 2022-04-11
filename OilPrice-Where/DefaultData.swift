@@ -23,6 +23,14 @@ class DefaultData {
         setData()
     }
     
+    private let formatter = DateFormatter().then {
+        $0.dateStyle = .full
+    }
+    
+    var currentTime: String {
+        return formatter.string(from: Date())
+    }
+    
     var priceData: [AllPrice] = [] // 전국 평균 기름 값
     var tempFavArr: [InformationGasStaion] = []
     let stationsSubject = BehaviorSubject<[GasStation]>(value: []) // 반경 주유소 리스트
