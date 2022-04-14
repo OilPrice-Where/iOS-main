@@ -17,12 +17,9 @@ import FirebaseAnalytics
 //MARK: 즐겨찾는 주유소 VC
 final class FavoritesGasStationVC: CommonViewController {
     //MARK: - Properties
-    let width = UIScreen.main.bounds.width - 75
-    private let height: CGFloat = 411
     private var fromTap = false
     private var notiObject: NSObjectProtocol?
     private let noneFavoriteView = NoneFavoriteView()
-    private var isLandscape = false
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
         $0.backgroundColor = .clear
         $0.decelerationRate = UIScrollViewDecelerationRateFast
@@ -54,13 +51,22 @@ final class FavoritesGasStationVC: CommonViewController {
         UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
+    //MARK: - Set UI
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         
-        isLandscape = UIDevice.current.orientation.isLandscape
+        guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
+        }
+        
+        let screenWidth = UIScreen.main.bounds.width - 75
+        let itemWidth: CGFloat = fetchItemWidth()
+        let itemSize = CGSize(width: itemWidth, height: 411.0)
+        flowLayout.itemSize = itemSize
+        
+        flowLayout.invalidateLayout()
     }
     
-    //MARK: - Set UI
     func makeUI() {
         navigationItem.title = "자주 가는 주유소"
         navigationController?.navigationBar.tintColor = .white
@@ -108,16 +114,9 @@ final class FavoritesGasStationVC: CommonViewController {
     
     //MARK: - Functions..
     func configure() {
-        isLandscape = UIDevice.current.orientation.isLandscape
-        
         notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
                                                             object: nil,
                                                             queue: .main) { self.naviClickEvenet(noti: $0) }
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(fetchRotate),
-                                               name: .UIDeviceOrientationDidChange,
-                                               object: nil)
     }
     
     override func setNetworkSetting() {
@@ -155,28 +154,7 @@ final class FavoritesGasStationVC: CommonViewController {
     
     // set collectionView flow layout
     private func fetchLayout() -> UICollectionViewFlowLayout {
-        guard UIDevice.current.userInterfaceIdiom == .phone else { return fetchIPadLayout() }
-        
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumLineSpacing = 25
-        flowLayout.minimumInteritemSpacing = .zero
-        flowLayout.scrollDirection = .horizontal
-        flowLayout.itemSize = CGSize(width: width, height: CGFloat(height))
-        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 37.5, bottom: 0, right: 37.5)
-        return flowLayout
-    }
-    
-    @objc
-    func fetchRotate() {
-        guard UIDevice.current.userInterfaceIdiom == .pad else { return }
-        
-        collectionView.collectionViewLayout = fetchIPadLayout()
-    }
-    
-    private func fetchIPadLayout() -> UICollectionViewFlowLayout {
-        let screenWidth = UIScreen.main.bounds.width - 75
-        let itemWidth: CGFloat = isLandscape ? screenWidth / 3 - (50 / 3) : screenWidth / 2 - 12.5
-        let itemSize = CGSize(width: itemWidth, height: height)
+        let itemSize = CGSize(width: fetchItemWidth(), height: 411.0)
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 25
@@ -184,8 +162,20 @@ final class FavoritesGasStationVC: CommonViewController {
         flowLayout.scrollDirection = .horizontal
         flowLayout.itemSize = itemSize
         flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 37.5, bottom: 0, right: 37.5)
-        
         return flowLayout
+    }
+    
+    private func fetchItemWidth() -> CGFloat {
+        let screenWidth = UIScreen.main.bounds.width - 75
+        
+        switch (UIDevice.current.userInterfaceIdiom, UIDevice.current.orientation) {
+        case (.phone, _):
+            return screenWidth
+        case (.pad, .portrait):
+            return screenWidth / 2 - 12.5
+        default:
+            return screenWidth / 3 - (50 / 3)
+        }
     }
 }
 

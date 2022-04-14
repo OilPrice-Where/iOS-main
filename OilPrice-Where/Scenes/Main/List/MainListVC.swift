@@ -24,16 +24,16 @@ final class MainListVC: CommonViewController {
     var viewModel: MainListViewModel!
     weak var delegate: MainListVCDelegate?
     private var notiObject: NSObjectProtocol?
-    private lazy var tableView = UITableView().then {
-        $0.separatorStyle = .none
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
         $0.showsHorizontalScrollIndicator = false
-        $0.backgroundColor = .systemGroupedBackground
+        $0.backgroundColor = .clear
         $0.dataSource = self
         $0.delegate = self
         GasStationCell.register($0)
     }
+    
     private var noneView = MainListNoneView().then {
         $0.isHidden = true
     }
@@ -70,7 +70,7 @@ final class MainListVC: CommonViewController {
         view.backgroundColor = .systemGroupedBackground
         
         view.addSubview(infoView)
-        view.addSubview(tableView)
+        view.addSubview(collectionView)
         view.addSubview(noneView)
         
         infoView.snp.makeConstraints {
@@ -78,7 +78,7 @@ final class MainListVC: CommonViewController {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(30)
         }
-        tableView.snp.makeConstraints {
+        collectionView.snp.makeConstraints {
             $0.top.equalTo(infoView.snp.bottom)
             $0.left.right.equalToSuperview()
             $0.bottom.equalToSuperview()
@@ -87,6 +87,20 @@ final class MainListVC: CommonViewController {
             $0.centerY.equalToSuperview()
             $0.centerX.equalToSuperview()
         }
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
+        }
+        
+        let screenWidth = UIScreen.main.bounds.width - 32
+        let itemWidth = UIDevice.current.userInterfaceIdiom == .phone ? screenWidth : screenWidth / 2 - 6
+        flowLayout.itemSize = CGSize(width: itemWidth, height: 168.0)
+        
+        flowLayout.invalidateLayout()
     }
     
     //MARK: - Rx Binding..
@@ -109,7 +123,7 @@ final class MainListVC: CommonViewController {
         DefaultData.shared.completedRelay
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(with: self, onNext: { owner, _ in
-                owner.tableView.reloadData()
+                owner.collectionView.reloadData()
             })
             .disposed(by: rx.disposeBag)
     }
@@ -121,13 +135,26 @@ final class MainListVC: CommonViewController {
                                                             queue: .main) { [weak self] noti in
             guard let stations = noti.userInfo?["stations"] as? [GasStation] else { return }
             self?.viewModel.stations = stations
-            self?.tableView.reloadData()
+            self?.collectionView.reloadData()
         }
         
         noneView.isHidden = !viewModel.stations.isEmpty
         
         infoView.priceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
         infoView.distanceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
+    }
+    
+    private func fetchLayout() -> UICollectionViewFlowLayout {
+        let screenWidth = UIScreen.main.bounds.width - 32
+        let itemWidth = UIDevice.current.userInterfaceIdiom == .phone ? screenWidth : screenWidth / 2 - 6
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumLineSpacing = 12
+        flowLayout.minimumInteritemSpacing = 12
+        flowLayout.scrollDirection = .vertical
+        flowLayout.itemSize = CGSize(width: itemWidth, height: 163.2)
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        return flowLayout
     }
     
     @objc
@@ -149,47 +176,30 @@ final class MainListVC: CommonViewController {
         
         viewModel.sortedList(isPrice: isPriceSorted)
         
-        tableView.reloadData()
+        collectionView.reloadData()
     }
 }
 
 //MARK: - TableViewDataSources & Delegate
-extension MainListVC: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
+extension MainListVC: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.stations.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: GasStationCell.id, for: indexPath) as? GasStationCell else { return UITableViewCell() }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GasStationCell.id, for: indexPath) as? GasStationCell else { return UICollectionViewCell() }
         
-        cell.configure(station: viewModel.stations[indexPath.section], indexPath: indexPath)
+        cell.configure(station: viewModel.stations[indexPath.item], indexPath: indexPath)
         cell.delegate = self
         
         return cell
     }
 }
 
-extension MainListVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.touchedCell(info: viewModel.stations[indexPath.section])
+extension MainListVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.touchedCell(info: viewModel.stations[indexPath.item])
         navigationController?.popViewController(animated: true)
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 163.2
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 12
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 12))
-        view.backgroundColor = .systemGroupedBackground
-        return view
     }
 }
 
