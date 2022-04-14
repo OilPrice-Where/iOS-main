@@ -31,7 +31,7 @@ final class MainVC: CommonViewController {
         set.statusBarEndAlpha = 0
         set.presentationStyle = SideMenuPresentationStyle.menuSlideIn
         set.presentationStyle.presentingEndAlpha = 0.65
-        set.menuWidth = UIScreen.main.bounds.width * (240 / 375)
+        set.menuWidth = fetchSideMenuWidth()
         set.blurEffectStyle = nil
         $0.leftSide = true
         $0.settings = set
@@ -101,7 +101,6 @@ final class MainVC: CommonViewController {
             $0.top.equalTo(guideView.snp.bottom)
             $0.left.right.bottom.equalToSuperview()
         }
-        
         
         guideView.addShadow(offset: CGSize(width: 0, height: 4), color: .black, opacity: 0.18, radius: 6.0)
     }
@@ -258,6 +257,29 @@ final class MainVC: CommonViewController {
             self?.mapContainerView.resetInfoWindows()
             self?.fpc.move(to: .hidden, animated: false, completion: nil)
         }
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        if UIDevice.current.orientation.isLandscape {
+            sideMenu.dismiss(animated: false)
+        } else {
+            sideMenu.dismiss(animated: false)
+        }
+    }
+    
+    override func fetchRotate() {
+        guard UIDevice.current.userInterfaceIdiom == .pad else { return }
+        
+        sideMenu.menuWidth = fetchSideMenuWidth()
+    }
+    
+    func fetchSideMenuWidth() -> CGFloat {
+        let screenWidth = UIScreen.main.bounds.width
+        guard UIDevice.current.userInterfaceIdiom == .pad else { return screenWidth * (240 / 375) }
+        
+        return UIDeviceOrientationIsLandscape(UIDevice.current.orientation) ? screenWidth * (120 / 375) : screenWidth * (180 / 375)
     }
     
     //MARK: - User Intraction
@@ -507,3 +529,4 @@ extension MainVC: MainListVCDelegate {
         mapContainerView.researchButton.alpha = 0.0
     }
 }
+

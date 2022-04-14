@@ -46,11 +46,6 @@ final class FavoritesGasStationVC: CommonViewController {
         notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
                                                             object: nil,
                                                             queue: .main) { self.naviClickEvenet(noti: $0) }
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(fetchRotateLayout),
-                                               name: .UIDeviceOrientationDidChange,
-                                               object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -153,8 +148,7 @@ final class FavoritesGasStationVC: CommonViewController {
         return flowLayout
     }
     
-    @objc
-    private func fetchRotateLayout() {
+    override func fetchRotate() {
         guard UIDevice.current.userInterfaceIdiom == .pad else { return }
         
         collectionView.collectionViewLayout = fetchIPadLayout()

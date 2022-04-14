@@ -22,6 +22,7 @@ class CommonViewController: UIViewController {
         
         view.backgroundColor = .white
         setNetworkSetting()
+        configure()
     }
     
     deinit {
@@ -36,6 +37,13 @@ class CommonViewController: UIViewController {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    private func configure() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(fetchRotate),
+                                               name: .UIDeviceOrientationDidChange,
+                                               object: nil)
     }
     
     func makeAlert(title: String,
@@ -150,5 +158,9 @@ class CommonViewController: UIViewController {
         alert.addAction(okAction)
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    @objc
+    func fetchRotate() {
     }
 }
