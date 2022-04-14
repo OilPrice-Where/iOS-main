@@ -17,8 +17,8 @@ import FirebaseAnalytics
 //MARK: 즐겨찾는 주유소 VC
 final class FavoritesGasStationVC: CommonViewController {
     //MARK: - Properties
-    private let width = UIScreen.main.bounds.width - 75.0
-    private let height = 411
+    let width = UIScreen.main.bounds.width - 75
+    private let height: CGFloat = 411
     private var fromTap = false
     private var notiObject: NSObjectProtocol?
     private let noneFavoriteView = NoneFavoriteView()
@@ -46,6 +46,11 @@ final class FavoritesGasStationVC: CommonViewController {
         notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
                                                             object: nil,
                                                             queue: .main) { self.naviClickEvenet(noti: $0) }
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(fetchRotateLayout),
+                                               name: .UIDeviceOrientationDidChange,
+                                               object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -137,12 +142,36 @@ final class FavoritesGasStationVC: CommonViewController {
     
     // set collectionView flow layout
     private func fetchLayout() -> UICollectionViewFlowLayout {
+        guard UIDevice.current.userInterfaceIdiom == .phone else { return fetchIPadLayout() }
+        
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 25
         flowLayout.minimumInteritemSpacing = .zero
         flowLayout.scrollDirection = .horizontal
         flowLayout.itemSize = CGSize(width: width, height: CGFloat(height))
         flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 37.5, bottom: 0, right: 37.5)
+        return flowLayout
+    }
+    
+    @objc
+    private func fetchRotateLayout() {
+        guard UIDevice.current.userInterfaceIdiom == .pad else { return }
+        
+        collectionView.collectionViewLayout = fetchIPadLayout()
+    }
+    
+    private func fetchIPadLayout() -> UICollectionViewFlowLayout {
+        let screenWidth = UIScreen.main.bounds.width - 75
+        let itemWidth: CGFloat = UIDeviceOrientationIsLandscape(UIDevice.current.orientation) ? screenWidth / 3 - (50 / 3) : screenWidth / 2 - 12.5
+        let itemSize = CGSize(width: itemWidth, height: height)
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumLineSpacing = 25
+        flowLayout.minimumInteritemSpacing = .zero
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.itemSize = itemSize
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 37.5, bottom: 0, right: 37.5)
+        
         return flowLayout
     }
 }
