@@ -22,6 +22,7 @@ final class FavoritesGasStationVC: CommonViewController {
     private var fromTap = false
     private var notiObject: NSObjectProtocol?
     private let noneFavoriteView = NoneFavoriteView()
+    private var isLandscape = false
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
         $0.backgroundColor = .clear
         $0.decelerationRate = UIScrollViewDecelerationRateFast
@@ -43,9 +44,7 @@ final class FavoritesGasStationVC: CommonViewController {
         
         makeUI()
         bindViewModel()
-        notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
-                                                            object: nil,
-                                                            queue: .main) { self.naviClickEvenet(noti: $0) }
+        configure()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,6 +52,12 @@ final class FavoritesGasStationVC: CommonViewController {
         
         navigationController?.navigationBar.isHidden = false
         UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        isLandscape = UIDevice.current.orientation.isLandscape
     }
     
     //MARK: - Set UI
@@ -102,6 +107,19 @@ final class FavoritesGasStationVC: CommonViewController {
     }
     
     //MARK: - Functions..
+    func configure() {
+        isLandscape = UIDevice.current.orientation.isLandscape
+        
+        notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
+                                                            object: nil,
+                                                            queue: .main) { self.naviClickEvenet(noti: $0) }
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(fetchRotate),
+                                               name: .UIDeviceOrientationDidChange,
+                                               object: nil)
+    }
+    
     override func setNetworkSetting() {
         super.setNetworkSetting()
         
@@ -148,7 +166,8 @@ final class FavoritesGasStationVC: CommonViewController {
         return flowLayout
     }
     
-    override func fetchRotate() {
+    @objc
+    func fetchRotate() {
         guard UIDevice.current.userInterfaceIdiom == .pad else { return }
         
         collectionView.collectionViewLayout = fetchIPadLayout()
@@ -156,7 +175,7 @@ final class FavoritesGasStationVC: CommonViewController {
     
     private func fetchIPadLayout() -> UICollectionViewFlowLayout {
         let screenWidth = UIScreen.main.bounds.width - 75
-        let itemWidth: CGFloat = UIDeviceOrientationIsLandscape(UIDevice.current.orientation) ? screenWidth / 3 - (50 / 3) : screenWidth / 2 - 12.5
+        let itemWidth: CGFloat = isLandscape ? screenWidth / 3 - (50 / 3) : screenWidth / 2 - 12.5
         let itemSize = CGSize(width: itemWidth, height: height)
         
         let flowLayout = UICollectionViewFlowLayout()

@@ -95,14 +95,12 @@ final class MainVC: CommonViewController {
         guideView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(70)
+            $0.height.equalTo(82)
         }
         emptyView.snp.makeConstraints {
             $0.top.equalTo(guideView.snp.bottom)
             $0.left.right.bottom.equalToSuperview()
         }
-        
-        guideView.addShadow(offset: CGSize(width: 0, height: 4), color: .black, opacity: 0.18, radius: 6.0)
     }
     
     private func updateFavoriteUI() {
@@ -262,24 +260,12 @@ final class MainVC: CommonViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        if UIDevice.current.orientation.isLandscape {
-            sideMenu.dismiss(animated: false)
-        } else {
-            sideMenu.dismiss(animated: false)
-        }
-    }
-    
-    override func fetchRotate() {
-        guard UIDevice.current.userInterfaceIdiom == .pad else { return }
-        
-        sideMenu.menuWidth = fetchSideMenuWidth()
+        sideMenu.dismiss(animated: false)
     }
     
     func fetchSideMenuWidth() -> CGFloat {
         let screenWidth = UIScreen.main.bounds.width
-        guard UIDevice.current.userInterfaceIdiom == .pad else { return screenWidth * (240 / 375) }
-        
-        return UIDeviceOrientationIsLandscape(UIDevice.current.orientation) ? screenWidth * (120 / 375) : screenWidth * (180 / 375)
+        return UIDevice.current.userInterfaceIdiom == .pad ? 328.0 : screenWidth * (240 / 375)
     }
     
     //MARK: - User Intraction
@@ -471,8 +457,8 @@ extension MainVC: FloatingPanelControllerDelegate {
         mapContainerView.toFavoriteButton.isHidden = fpc.state == .full
         mapContainerView.currentLocationButton.isHidden = fpc.state == .full
         
-        let halfHeight = view.safeAreaInsets.bottom + 168.0
-        let fullHeight = view.safeAreaInsets.bottom + 401.0
+        let halfHeight = view.safeAreaInsets.bottom + 180.0
+        let fullHeight = view.safeAreaInsets.bottom + 422.0
         mapContainerView.mapView.contentInset.bottom = fpc.state == .hidden ? .zero : fpc.state == .half ? halfHeight : fullHeight
         
         switch fpc.state {
