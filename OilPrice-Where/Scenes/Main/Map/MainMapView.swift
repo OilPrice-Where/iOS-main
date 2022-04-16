@@ -18,7 +18,6 @@ final class MainMapView: UIView {
     //MARK: - Properties
     weak var delegate: MainMapViewDelegate?
     var markers = [NaverMapMarker]()
-    let tooltipView = ToolTipView()
     var selectedMarker: NaverMapMarker? = nil {
         willSet {
             selectedMarker?.isSelected = false
@@ -31,6 +30,15 @@ final class MainMapView: UIView {
         $0.maxZoomLevel = 18.0
         $0.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
     }
+    lazy var menuButton = UIButton().then {
+        $0.setImage(Asset.Images.menuIcon.image, for: .normal)
+        $0.setImage(Asset.Images.menuIcon.image, for: .highlighted)
+        $0.layer.cornerRadius = 21
+        $0.layer.borderWidth = 0.01
+        $0.layer.borderColor = UIColor.blue.cgColor
+        $0.clipsToBounds = false
+        $0.backgroundColor = .white
+    }
     let currentLocationButton = UIButton().then {
         $0.layer.cornerRadius = 21
         $0.clipsToBounds = false
@@ -38,7 +46,16 @@ final class MainMapView: UIView {
         $0.setImage(Asset.Images.currentLocationButton.image, for: .highlighted)
         $0.backgroundColor = .white
     }
-    let toListButton = ToListView().then {
+    let toListButton = UIButton().then {
+        if #available(iOS 15.0, *) {
+            var config = UIButton.Configuration.plain()
+            config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 2.5, bottom: 1.25, trailing: 0)
+            $0.configuration = config
+        } else {
+            $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 2.5, bottom: 1.25, right: 0)
+        }
+        $0.setImage(Asset.Images.listButton.image, for: .normal)
+        $0.setImage(Asset.Images.listButton.image, for: .highlighted)
         $0.layer.cornerRadius = 21
         $0.layer.borderWidth = 0.01
         $0.layer.borderColor = UIColor.blue.cgColor
@@ -81,21 +98,17 @@ final class MainMapView: UIView {
     //MARK: - Set UI
     private func makeUI() {
         addSubview(mapView)
+        addSubview(menuButton)
         addSubview(currentLocationButton)
         addSubview(toFavoriteButton)
         addSubview(toListButton)
         addSubview(researchButton)
-        addSubview(tooltipView)
         
         mapView.snp.makeConstraints {
-            $0.top.left.right.equalToSuperview()
-            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            $0.edges.equalToSuperview()
         }
         
-        toListButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
-        researchButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
-        toFavoriteButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
-        currentLocationButton.addShadow(offset: CGSize(width: 4, height: 4), color: .black, opacity: 0.4, radius: 5.0)
+        addShadow(views: [menuButton, toListButton, researchButton, toFavoriteButton, currentLocationButton])
     }
     
     //MARK: - Method
@@ -143,6 +156,10 @@ final class MainMapView: UIView {
         }
         
         markers = []
+    }
+    
+    func addShadow(views: [UIView], offset: CGSize = CGSize(width: 4, height: 4), color: UIColor = .black, opacity: Float = 0.4, radius: CGFloat = 5.0) {
+        views.forEach { $0.addShadow(offset: offset, color: color, opacity: opacity, radius: radius) }
     }
 }
 

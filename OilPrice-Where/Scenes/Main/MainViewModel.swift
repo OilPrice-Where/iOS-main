@@ -51,6 +51,10 @@ final class MainViewModel {
                 owner.requestSearch()
             })
             .disposed(by: bag)
+        
+        let tf = UILabel()
+        
+        tf.rx.text
     }
 }
 
@@ -70,6 +74,7 @@ extension MainViewModel {
         let error = PublishRelay<ErrorResult>() // => Error
         let staionResult = PublishRelay<Void>() // => 검색 결과
         let selectedStation = PublishRelay<Void>() // => 주유소 선택
+        let deviceOrientation = PublishRelay<Void>() // => g
     }
 }
 

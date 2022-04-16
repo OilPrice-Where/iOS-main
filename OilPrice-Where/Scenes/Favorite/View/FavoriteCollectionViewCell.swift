@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxGesture
-import RxGesture
+import FirebaseAnalytics
 
 protocol FavoriteCollectionViewCellDelegate: AnyObject {
     func touchedAddressLabel()
@@ -270,6 +270,16 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             .tapGesture()
             .when(.recognized)
             .subscribe(with: self, onNext: { owner, _ in
+                let event = "didTapNavigationButton"
+                let parameters = [
+                    "file": #file,
+                    "function": #function,
+                    "eventDate": DefaultData.shared.currentTime
+                ]
+                
+                Analytics.setUserProperty("ko", forName: "country")
+                Analytics.logEvent(event, parameters: parameters)
+                
                 owner.viewModel.navigationButton()
             })
             .disposed(by: rx.disposeBag)
@@ -277,6 +287,16 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         deleteFavoriteButton.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .subscribe(with: self, onNext: { owner, _ in
+                let event = "removeFavoriteButtonTapped"
+                let parameters = [
+                    "file": #file,
+                    "function": #function,
+                    "eventDate": DefaultData.shared.currentTime
+                ]
+                
+                Analytics.setUserProperty("ko", forName: "country")
+                Analytics.logEvent(event, parameters: parameters)
+                
                 owner.viewModel.deleteAction(id: owner.id)
             })
             .disposed(by: rx.disposeBag)

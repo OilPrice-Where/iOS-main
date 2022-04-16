@@ -20,6 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         firebaseUtility.checkUpdateTime()
         
+        #if DEBUG
+        var newArguments = ProcessInfo.processInfo.arguments
+        newArguments.append("-FIRDebugEnabled")
+        ProcessInfo.processInfo.setValue(newArguments, forKey: "arguments")
+        #endif
+        
         KakaoSDK.initSDK(appKey: "b8e7f9ac5bf3c19414515867205f92aa")
         DefaultData.shared.allPriceDataLoad() // 전국의 오일종류 별 저번주의 평균 값을 받아온다.
         
@@ -37,7 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // 오일 타입이 있다면 메인 리스트 페이지(TabBarController)를 루트뷰로 설정
     private func initialViewController() -> UIViewController {
         if DefaultData.shared.oilSubject.value != "" {
-            return CustomTabbarViewController()
+            let mainVC = MainVC()
+            let mainNavigationVC = UINavigationController(rootViewController: mainVC)
+            return mainNavigationVC
         } else {
             let vc = InitialSettingVC()
             vc.viewModel = InitialViewModel()

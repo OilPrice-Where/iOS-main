@@ -15,7 +15,7 @@ protocol GasStationCellDelegate: AnyObject {
     func touchedDirectionButton(info: GasStation?)
 }
 //MARK: 메인페이지의 리스트 부분에서 받아오는 주유소 목록을 나타내는 셀
-final class GasStationCell: UITableViewCell {
+final class GasStationCell: UICollectionViewCell {
     //MARK: - Properties
     private var path: IndexPath?
     private var info: GasStation?
@@ -27,8 +27,8 @@ final class GasStationCell: UITableViewCell {
     lazy var tap = UITapGestureRecognizer(target: self, action: #selector(touchedDirection))
     
     //MARK: - Initializer
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         makeUI()
     }
@@ -39,7 +39,6 @@ final class GasStationCell: UITableViewCell {
     
     //MARK: - Make UI
     func makeUI() {
-        selectionStyle = .none
         backgroundColor = .systemGroupedBackground
         contentView.addSubview(stationView)
         
@@ -47,7 +46,7 @@ final class GasStationCell: UITableViewCell {
         
         stationView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(16)
+            $0.left.right.equalToSuperview()
         }
     }
     

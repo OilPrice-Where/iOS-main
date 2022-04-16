@@ -42,7 +42,7 @@ final class GasStationExpandView: UIView {
         favoriteButton.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.left.equalToSuperview().offset(16)
-            $0.width.equalToSuperview().dividedBy(4)
+            $0.width.equalTo(80)
             $0.height.equalTo(40)
         }
         directionView.snp.makeConstraints {

@@ -11,7 +11,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NMapsMap
+import SideMenu
 import FloatingPanel
+import FirebaseAnalytics
 //MARK: Main Map VC
 final class MainVC: CommonViewController {
     //MARK: - Properties
@@ -19,19 +21,20 @@ final class MainVC: CommonViewController {
     private let locationManager = CLLocationManager()
     private lazy var fpc = FloatingPanelController()
     private lazy var contentsVC = StationInfoVC() // 띄울 VC
-    private lazy var mapContainerView = MainMapView().then {
-        var tap = UITapGestureRecognizer(target: self, action: #selector(toListTapped))
-        $0.toListButton.addGestureRecognizer(tap)
-        $0.researchButton.addTarget(self, action: #selector(researchStation), for: .touchUpInside)
-        $0.toFavoriteButton.addTarget(self, action: #selector(toFavoriteTapped), for: .touchUpInside)
-        tap = UITapGestureRecognizer(target: self, action: #selector(toLowPriceStation))
-        $0.tooltipView.addGestureRecognizer(tap)
-    }
-    private lazy var guideView = StationInfoGuideView().then {
-        $0.layer.cornerRadius = 6.0
+    private lazy var mapContainerView = MainMapView()
+    private lazy var guideView = StationInfoGuideView()
+    let emptyView = UIView().then {
         $0.backgroundColor = .white
-        $0.favoriteButton.addTarget(self, action: #selector(touchedFavoriteButton), for: .touchUpInside)
-        $0.directionButton.addTarget(self, action: #selector(toNavigationTapped), for: .touchUpInside)
+    }
+    lazy var sideMenu = SideMenuNavigationController(rootViewController: MenuVC()).then {
+        var set = SideMenuSettings()
+        set.statusBarEndAlpha = 0
+        set.presentationStyle = SideMenuPresentationStyle.menuSlideIn
+        set.presentationStyle.presentingEndAlpha = 0.65
+        set.menuWidth = fetchSideMenuWidth()
+        set.blurEffectStyle = nil
+        $0.leftSide = true
+        $0.settings = set
     }
     
     //MARK: - Life Cycle
@@ -52,13 +55,21 @@ final class MainVC: CommonViewController {
     
     //MARK: - Set UI
     private func makeUI() {
+        navigationItem.title = "주유 정보"
         view.backgroundColor = .white
         view.addSubview(mapContainerView)
+        
         setupView()
         fpc.view.addSubview(guideView)
+        fpc.view.addSubview(emptyView)
         
         mapContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        mapContainerView.menuButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            $0.left.equalToSuperview().offset(20)
+            $0.size.equalTo(42)
         }
         mapContainerView.toListButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
@@ -81,19 +92,15 @@ final class MainVC: CommonViewController {
             $0.width.equalTo(100)
             $0.height.equalTo(42)
         }
-        mapContainerView.tooltipView.snp.makeConstraints {
-            $0.top.equalTo(mapContainerView.toListButton.snp.top)
-            $0.left.equalToSuperview().offset(20)
-            $0.width.equalTo(80)
-            $0.height.equalTo(100)
-        }
         guideView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(4)
-            $0.height.equalTo(70)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(82)
         }
-        
-        guideView.addShadow(offset: CGSize(width: 0, height: 4), color: .black, opacity: 0.18, radius: 6.0)
+        emptyView.snp.makeConstraints {
+            $0.top.equalTo(guideView.snp.bottom)
+            $0.left.right.bottom.equalToSuperview()
+        }
     }
     
     private func updateFavoriteUI() {
@@ -148,7 +155,66 @@ final class MainVC: CommonViewController {
                 }
             })
             .disposed(by: rx.disposeBag)
-        
+        // menuButton Tapped
+        mapContainerView
+            .menuButton
+            .rx
+            .tap
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                owner.showSideMenu()
+            })
+            .disposed(by: rx.disposeBag)
+        // toListButton Tapped
+        mapContainerView
+            .toListButton
+            .rx
+            .tap
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                owner.toListTapped()
+            })
+            .disposed(by: rx.disposeBag)
+        // researchStation Tapped
+        mapContainerView
+            .researchButton
+            .rx
+            .tap
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                owner.researchStation()
+            })
+            .disposed(by: rx.disposeBag)
+        // toFavoriteButton Tapped
+        mapContainerView
+            .toFavoriteButton
+            .rx
+            .tap
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                owner.toFavoriteTapped()
+            })
+            .disposed(by: rx.disposeBag)
+        // favoriteButton Tapped
+        guideView
+            .favoriteButton
+            .rx
+            .tap
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                owner.touchedFavoriteButton()
+            })
+            .disposed(by: rx.disposeBag)
+        // directionButton Tapped
+        guideView
+            .directionButton
+            .rx
+            .tap
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                owner.toNavigationTapped()
+            })
+            .disposed(by: rx.disposeBag)
         mapContainerView
             .currentLocationButton
             .rx
@@ -159,7 +225,6 @@ final class MainVC: CommonViewController {
         
         viewModel.output.staionResult
             .bind(with: self, onNext: { owner, _ in
-                owner.mapContainerView.tooltipView.configure(stations: owner.viewModel.stations)
                 owner.mapContainerView.showMarker(list: owner.viewModel.stations)
                 NotificationCenter.default.post(name: NSNotification.Name("stationsUpdated"),
                                                 object: nil,
@@ -192,18 +257,22 @@ final class MainVC: CommonViewController {
         }
     }
     
-    //MARK: - User Intraction
-    @objc
-    private func toLowPriceStation() {
-        guard let lowStation = viewModel.stations.first else { return }
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
         
-        let position = NMGTm128(x: lowStation.katecX, y: lowStation.katecY).toLatLng()
-        let update = NMFCameraUpdate(scrollTo: position, zoomTo: 15.0)
-        update.animation = .easeIn
-        mapContainerView.mapView.moveCamera(update)
+        sideMenu.dismiss(animated: false)
     }
     
-    @objc
+    func fetchSideMenuWidth() -> CGFloat {
+        let screenWidth = UIScreen.main.bounds.width
+        return UIDevice.current.userInterfaceIdiom == .pad ? 328.0 : screenWidth * (240 / 375)
+    }
+    
+    //MARK: - User Intraction
+    private func showSideMenu() {
+        present(sideMenu, animated: true, completion: nil)
+    }
+    
     private func toListTapped() {
         let listVC = MainListVC()
         listVC.delegate = self
@@ -212,19 +281,20 @@ final class MainVC: CommonViewController {
         navigationController?.pushViewController(listVC, animated: true)
     }
     
-    @objc
     private func toFavoriteTapped() {
         let favoriteVC = FavoritesGasStationVC()
         navigationController?.pushViewController(favoriteVC, animated: true)
     }
     
-    @objc
     private func researchStation() {
         let centerLocation = CLLocation(latitude: mapContainerView.mapView.latitude, longitude: mapContainerView.mapView.longitude)
         
         viewModel.requestLocation = centerLocation
-        viewModel.input.requestStaions.accept(nil)
         viewModel.selectedStation = nil
+        reset()
+        mapContainerView.resetInfoWindows()
+        viewModel.input.requestStaions.accept(nil)
+        viewModel.cameraPosition = nil
         
         fpc.move(to: .hidden, animated: false) { [weak self] in
             self?.mapContainerView.researchButton.isEnabled = false
@@ -232,8 +302,17 @@ final class MainVC: CommonViewController {
         }
     }
     
-    @objc
     private func touchedFavoriteButton() {
+        let event = "didTapFavoriteButton"
+        let parameters = [
+            "file": #file,
+            "function": #function,
+            "eventDate": DefaultData.shared.currentTime
+        ]
+        
+        Analytics.setUserProperty("ko", forName: "country")
+        Analytics.logEvent(event, parameters: parameters)
+        
         let faovorites = DefaultData.shared.favoriteSubject.value
         guard let _id = viewModel.selectedStation?.id, faovorites.count < 6 else { return }
         let isDeleted = faovorites.contains(_id)
@@ -250,8 +329,17 @@ final class MainVC: CommonViewController {
         updateFavoriteUI()
     }
     
-    @objc
     private func toNavigationTapped() {
+        let event = "didTapNavigationButton"
+        let parameters = [
+            "file": #file,
+            "function": #function,
+            "eventDate": DefaultData.shared.currentTime
+        ]
+        
+        Analytics.setUserProperty("ko", forName: "country")
+        Analytics.logEvent(event, parameters: parameters)
+        
         requestDirection(station: viewModel.selectedStation)
     }
     
@@ -315,7 +403,7 @@ extension MainVC: NMFMapViewCameraDelegate {
     func mapViewCameraIdle(_ mapView: NMFMapView) {
         let centerLocation = CLLocation(latitude: mapView.latitude, longitude: mapView.longitude)
         
-        guard let distance = viewModel.requestLocation?.distance(from: centerLocation), distance > 1000 else { return }
+        guard let distance = viewModel.requestLocation?.distance(from: centerLocation), distance > 2000 else { return }
         
         DispatchQueue.main.async { [weak self] in
             self?.mapContainerView.researchButton.isEnabled = true
@@ -362,12 +450,16 @@ extension MainVC: FloatingPanelControllerDelegate {
     
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
         guideView.isHidden = fpc.state == .hidden
-        mapContainerView.tooltipView.isHidden = fpc.state == .full
+        emptyView.isHidden = fpc.state == .hidden
+        mapContainerView.menuButton.isHidden = fpc.state == .full
         mapContainerView.toListButton.isHidden = fpc.state == .full
         mapContainerView.researchButton.isHidden = fpc.state == .full
+        mapContainerView.toFavoriteButton.isHidden = fpc.state == .full
         mapContainerView.currentLocationButton.isHidden = fpc.state == .full
         
-        mapContainerView.mapView.contentInset.bottom = fpc.state == .hidden ? view.safeAreaInsets.bottom : fpc.state == .half ? 168 : 401
+        let halfHeight = view.safeAreaInsets.bottom + 180.0
+        let fullHeight = view.safeAreaInsets.bottom + 422.0
+        mapContainerView.mapView.contentInset.bottom = fpc.state == .hidden ? .zero : fpc.state == .half ? halfHeight : fullHeight
         
         switch fpc.state {
         case .hidden:
@@ -423,3 +515,4 @@ extension MainVC: MainListVCDelegate {
         mapContainerView.researchButton.alpha = 0.0
     }
 }
+

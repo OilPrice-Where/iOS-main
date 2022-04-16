@@ -266,6 +266,17 @@ struct Preferences {
             return 5000
         }
     }
+    
+    static func distanceKM(KM: Int) -> String {
+        switch KM {
+        case 1000:
+            return "1KM"
+        case 3000:
+            return "3KM"
+        default: // 5KM
+            return "5KM"
+        }
+    }
         
     // 네비게이션 디스플레이 네임
     static func navigation(type: String) -> String {

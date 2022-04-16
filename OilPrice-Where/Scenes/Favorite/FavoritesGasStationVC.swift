@@ -13,11 +13,10 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 import CoreLocation
+import FirebaseAnalytics
 //MARK: 즐겨찾는 주유소 VC
 final class FavoritesGasStationVC: CommonViewController {
     //MARK: - Properties
-    private let width = UIScreen.main.bounds.width - 75.0
-    private let height = 411
     private var fromTap = false
     private var notiObject: NSObjectProtocol?
     private let noneFavoriteView = NoneFavoriteView()
@@ -42,9 +41,7 @@ final class FavoritesGasStationVC: CommonViewController {
         
         makeUI()
         bindViewModel()
-        notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
-                                                            object: nil,
-                                                            queue: .main) { self.naviClickEvenet(noti: $0) }
+        configure()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,6 +52,21 @@ final class FavoritesGasStationVC: CommonViewController {
     }
     
     //MARK: - Set UI
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
+        }
+        
+        let screenWidth = UIScreen.main.bounds.width - 75
+        let itemWidth: CGFloat = fetchItemWidth()
+        let itemSize = CGSize(width: itemWidth, height: 411.0)
+        flowLayout.itemSize = itemSize
+        
+        flowLayout.invalidateLayout()
+    }
+    
     func makeUI() {
         navigationItem.title = "자주 가는 주유소"
         navigationController?.navigationBar.tintColor = .white
@@ -101,6 +113,12 @@ final class FavoritesGasStationVC: CommonViewController {
     }
     
     //MARK: - Functions..
+    func configure() {
+        notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
+                                                            object: nil,
+                                                            queue: .main) { self.naviClickEvenet(noti: $0) }
+    }
+    
     override func setNetworkSetting() {
         super.setNetworkSetting()
         
@@ -120,19 +138,37 @@ final class FavoritesGasStationVC: CommonViewController {
     }
     
     func naviClickEvenet(noti: Notification) {
+        let event = "didTapNavigationButton"
+        let parameters = [
+            "file": #file,
+            "function": #function,
+            "eventDate": DefaultData.shared.currentTime
+        ]
+        
+        Analytics.setUserProperty("ko", forName: "country")
+        Analytics.logEvent(event, parameters: parameters)
+        
         let info = noti.userInfo?["station"] as? GasStation
         requestDirection(station: info)
     }
     
     // set collectionView flow layout
     private func fetchLayout() -> UICollectionViewFlowLayout {
+        let itemSize = CGSize(width: fetchItemWidth(), height: 411.0)
+        
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 25
         flowLayout.minimumInteritemSpacing = .zero
         flowLayout.scrollDirection = .horizontal
-        flowLayout.itemSize = CGSize(width: width, height: CGFloat(height))
+        flowLayout.itemSize = itemSize
         flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 37.5, bottom: 0, right: 37.5)
         return flowLayout
+    }
+    
+    private func fetchItemWidth() -> CGFloat {
+        let screenWidth = UIScreen.main.bounds.width - 75
+        let current = UIDevice.current
+        return current.userInterfaceIdiom == .phone ? screenWidth : current.orientation == .portrait ? screenWidth / 2 - 12.5 : screenWidth / 3 - (50 / 3)
     }
 }
 
