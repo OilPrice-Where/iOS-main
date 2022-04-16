@@ -167,15 +167,8 @@ final class FavoritesGasStationVC: CommonViewController {
     
     private func fetchItemWidth() -> CGFloat {
         let screenWidth = UIScreen.main.bounds.width - 75
-        
-        switch (UIDevice.current.userInterfaceIdiom, UIDevice.current.orientation) {
-        case (.phone, _):
-            return screenWidth
-        case (.pad, .portrait):
-            return screenWidth / 2 - 12.5
-        default:
-            return screenWidth / 3 - (50 / 3)
-        }
+        let current = UIDevice.current
+        return current.userInterfaceIdiom == .phone ? screenWidth : current.orientation == .portrait ? screenWidth / 2 - 12.5 : screenWidth / 3 - (50 / 3)
     }
 }
 
