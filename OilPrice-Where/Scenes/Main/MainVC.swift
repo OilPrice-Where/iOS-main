@@ -12,11 +12,12 @@ import RxSwift
 import RxCocoa
 import NMapsMap
 import SideMenu
+import Firebase
 import FloatingPanel
-import FirebaseAnalytics
 //MARK: Main Map VC
 final class MainVC: CommonViewController {
     //MARK: - Properties
+    var ref: DatabaseReference?
     let viewModel = MainViewModel()
     private let locationManager = CLLocationManager()
     private lazy var fpc = FloatingPanelController()
@@ -44,6 +45,7 @@ final class MainVC: CommonViewController {
         makeUI()
         configure()
         rxBind()
+        appVersionCheck()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -346,6 +348,31 @@ final class MainVC: CommonViewController {
     private func reset() {
         mapContainerView.selectedMarker?.isSelected = false
         mapContainerView.selectedMarker = nil
+    }
+    
+    private func appVersionCheck() {
+        ref = Database.database().reference()
+        guard let _ref = ref else { return }
+        
+        let data = _ref.child("version")
+        
+        data.observeSingleEvent(of: .value, with: { [weak self] snapshot in
+            guard let versionData = snapshot.value as? NSDictionary,
+                  let versionDic = versionData as? [String: String],
+                  let lastest_version_code = versionDic["lastest_version_code"],
+                  let lastest_version_name = versionDic["lastest_version_name"],
+                  let minimum_version_code = versionDic["minimum_version_code"],
+                  let minimum_version_name = versionDic["minimum_version_name"]
+            else { return }
+            
+            let versionDbData = DbVersionData(lastest_version_code: lastest_version_code,
+                                              lastest_version_name: lastest_version_name,
+                                              minimum_version_code: minimum_version_code,
+                                              minimum_version_name: minimum_version_name)
+            
+            self?.checkUpdateVersion(dbdata: versionDbData)
+        })
+        
     }
 }
 
