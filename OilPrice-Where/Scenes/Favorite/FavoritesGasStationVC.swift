@@ -138,16 +138,6 @@ final class FavoritesGasStationVC: CommonViewController {
     }
     
     func naviClickEvenet(noti: Notification) {
-        let event = "didTapNavigationButton"
-        let parameters = [
-            "file": #file,
-            "function": #function,
-            "eventDate": DefaultData.shared.currentTime
-        ]
-        
-        Analytics.setUserProperty("ko", forName: "country")
-        Analytics.logEvent(event, parameters: parameters)
-        
         let info = noti.userInfo?["station"] as? GasStation
         requestDirection(station: info)
     }

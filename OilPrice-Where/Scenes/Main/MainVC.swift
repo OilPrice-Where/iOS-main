@@ -330,7 +330,7 @@ final class MainVC: CommonViewController {
     }
     
     private func toNavigationTapped() {
-        let event = "didTapNavigationButton"
+        let event = "didTapMainNavigationButton"
         let parameters = [
             "file": #file,
             "function": #function,

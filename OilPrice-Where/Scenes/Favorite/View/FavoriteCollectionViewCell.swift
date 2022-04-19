@@ -230,6 +230,16 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             .tapGesture()
             .when(.recognized)
             .subscribe(with: self, onNext: { owner, _ in
+                let event = "tap_favorite_copy_address"
+                let parameters = [
+                    "file": #file,
+                    "function": #function,
+                    "eventDate": DefaultData.shared.currentTime
+                ]
+                
+                Analytics.setUserProperty("ko", forName: "country")
+                Analytics.logEvent(event, parameters: parameters)
+                
                 guard let valueString = owner.addressHStackView.valueLabel.text else { return }
                 UIPasteboard.general.string = valueString
 
@@ -248,6 +258,15 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             .tapGesture()
             .when(.recognized)
             .subscribe(with: self, onNext: { owner, _ in
+                let event = "tap_favorite_copy_phone"
+                let parameters = [
+                    "file": #file,
+                    "function": #function,
+                    "eventDate": DefaultData.shared.currentTime
+                ]
+                
+                Analytics.setUserProperty("ko", forName: "country")
+                Analytics.logEvent(event, parameters: parameters)
                 guard let valueString = owner.phoneNumberHStackView.valueLabel.text,
                       let url = URL(string: "tel:" + valueString),
                       UIApplication.shared.canOpenURL(url) else { return }
@@ -270,7 +289,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             .tapGesture()
             .when(.recognized)
             .subscribe(with: self, onNext: { owner, _ in
-                let event = "didTapNavigationButton"
+                let event = "tap_favorite_navigation"
                 let parameters = [
                     "file": #file,
                     "function": #function,
@@ -287,7 +306,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         deleteFavoriteButton.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .subscribe(with: self, onNext: { owner, _ in
-                let event = "removeFavoriteButtonTapped"
+                let event = "tap_favorite_remove"
                 let parameters = [
                     "file": #file,
                     "function": #function,
