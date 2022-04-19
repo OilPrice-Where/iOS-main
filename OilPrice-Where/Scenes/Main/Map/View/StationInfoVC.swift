@@ -304,7 +304,7 @@ final class StationInfoVC: CommonViewController {
         UIPasteboard.general.string = valueString
         
         guard let vc = UIApplication.shared.customKeyWindow?.visibleViewController as? UIViewController else { return }
-        let lbl = showToast(message: "주유소 주소가 복사되었습니다.")
+        let lbl = Preferences.showToast(message: "주유소 주소가 복사되었습니다.")
         
         vc.view.hideToast()
         vc.view.showToast(lbl, position: .top)

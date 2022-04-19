@@ -298,6 +298,12 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
                 Analytics.logEvent(event, parameters: parameters)
                 
                 owner.viewModel.deleteAction(id: owner.id)
+                
+                guard let vc = UIApplication.shared.customKeyWindow?.visibleViewController as? UIViewController else { return }
+                let lbl = Preferences.showToast(width: 240, message: "즐겨 찾는 주유소가 삭제되었습니다.", numberOfLines: 1)
+                
+                vc.view.hideToast()
+                vc.view.showToast(lbl, position: .bottom)
             })
             .disposed(by: rx.disposeBag)
         

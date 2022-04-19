@@ -318,6 +318,7 @@ final class MainVC: CommonViewController {
         let faovorites = DefaultData.shared.favoriteSubject.value
         guard let _id = viewModel.selectedStation?.id, faovorites.count < 6 else { return }
         let isDeleted = faovorites.contains(_id)
+                
         guard isDeleted || (!isDeleted && faovorites.count < 5) else {
             DispatchQueue.main.async { [weak self] in
                 self?.makeAlert(title: "최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !")
@@ -329,6 +330,11 @@ final class MainVC: CommonViewController {
         
         DefaultData.shared.favoriteSubject.accept(newFaovorites)
         updateFavoriteUI()
+        
+        let msg = isDeleted ? "즐겨 찾는 주유소가 삭제되었습니다." : "즐겨 찾는 주유소에 추가되었습니다."
+        let lbl = Preferences.showToast(width: 240, message: msg, numberOfLines: 1)
+        view.hideToast()
+        view.showToast(lbl, position: .top)
     }
     
     private func toNavigationTapped() {

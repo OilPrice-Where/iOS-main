@@ -127,7 +127,7 @@ final class SelectMenuVC: CommonViewController {
                     }
                     
                     UIApplication.shared.customKeyWindow?.hideToast()
-                    let lbl = owner.showToast(width: 210, message: msg)
+                    let lbl = Preferences.showToast(width: 210, message: msg)
                     UIApplication.shared.customKeyWindow?.showToast(lbl, position: .top)
                 }
             })

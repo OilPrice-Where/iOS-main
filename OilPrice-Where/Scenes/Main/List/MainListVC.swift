@@ -230,6 +230,11 @@ extension MainListVC: GasStationCellDelegate {
         isDeleted ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
         
         DefaultData.shared.favoriteSubject.accept(newFaovorites)
+        
+        let msg = isDeleted ? "즐겨 찾는 주유소가 삭제되었습니다." : "즐겨 찾는 주유소에 추가되었습니다."
+        let lbl = Preferences.showToast(width: 240, message: msg, numberOfLines: 1)
+        view.hideToast()
+        view.showToast(lbl, position: .top)
     }
     
     func touchedDirectionButton(info: GasStation?) {

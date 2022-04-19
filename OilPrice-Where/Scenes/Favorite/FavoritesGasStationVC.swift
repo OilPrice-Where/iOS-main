@@ -177,8 +177,7 @@ extension FavoritesGasStationVC: UICollectionViewDelegate {
 
 extension FavoritesGasStationVC: FavoriteCollectionViewCellDelegate {
     func touchedAddressLabel() {
-        let lbl = showToast(message: "주유소 주소가 복사되었습니다.")
-        
+        let lbl = Preferences.showToast(message: "주유소 주소가 복사되었습니다.")
         view.hideToast()
         view.showToast(lbl)
     }

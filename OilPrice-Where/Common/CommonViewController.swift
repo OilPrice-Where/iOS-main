@@ -218,49 +218,4 @@ class CommonViewController: UIViewController {
         
         present(refreshAlert, animated: true, completion: nil)
     }
-    
-    func showToast(width: CGFloat, message : String) -> UILabel {
-        let rect = CGRect(x: UIScreen.main.bounds.width - (width / 2),
-                          y: 100,
-                          width: width,
-                          height: 54)
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 6
-        let attrString = NSMutableAttributedString(string: message)
-        attrString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
-        
-        let toastLabel = UILabel(frame: rect)
-        toastLabel.font = FontFamily.NanumSquareRound.extraBold.font(size: 11)
-        toastLabel.attributedText = attrString.apply(word: "메뉴에서 언제든 변경하실 수 있습니다.", attrs: [.font: FontFamily.NanumSquareRound.regular.font(size: 11)])
-        toastLabel.backgroundColor = .black.withAlphaComponent(0.75)
-        toastLabel.textColor = .white
-        toastLabel.textAlignment = .center
-        toastLabel.alpha = 1.0
-        toastLabel.layer.cornerRadius = 5.0
-        toastLabel.clipsToBounds = true
-        toastLabel.numberOfLines = 2
-        
-        return toastLabel
-    }
-    
-    func showToast(message : String) -> UILabel {
-        let rect = CGRect(x: UIScreen.main.bounds.width - 75,
-                          y: 100,
-                          width: 200,
-                          height: 35)
-        
-        let toastLabel = UILabel(frame: rect)
-        toastLabel.font = FontFamily.NanumSquareRound.regular.font(size: 14)
-        toastLabel.text = message
-        toastLabel.backgroundColor = .black.withAlphaComponent(0.75)
-        toastLabel.textColor = .white
-        toastLabel.textAlignment = .center
-        toastLabel.alpha = 1.0
-        toastLabel.layer.cornerRadius = 5.0
-        toastLabel.clipsToBounds = true
-        toastLabel.numberOfLines = 2
-        
-        return toastLabel
-    }
 }
