@@ -15,9 +15,8 @@ import Firebase
 import Toast_Swift
 
 //MARK: MenuVC
-final class MenuVC: UIViewController {
+final class MenuVC: CommonViewController {
     //MARK: - Properties
-    let bag = DisposeBag()
     var ref: DatabaseReference?
     let viewModel = MenuViewModel()
     private lazy var navigationView = MenuKeyValueView(type: .keyValue).then {

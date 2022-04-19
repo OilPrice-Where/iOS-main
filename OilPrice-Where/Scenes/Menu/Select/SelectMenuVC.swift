@@ -12,11 +12,15 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+protocol SelectMenuVCDelegate: AnyObject {
+    func dismissSelected(type: SelectMenuViewModel.SelectMenuType)
+}
+
 //MARK: SelectMenuVC
-final class SelectMenuVC: UIViewController {
+final class SelectMenuVC: CommonViewController {
     //MARK: - Properties
-    let bag = DisposeBag()
     let viewModel: SelectMenuViewModel
+    weak var delegate: SelectMenuVCDelegate?
     let containerView = UIView().then {
         $0.backgroundColor = .clear
     }
@@ -108,7 +112,24 @@ final class SelectMenuVC: UIViewController {
             .observe(on: MainScheduler.asyncInstance)
             .bind(with: self, onNext: { owner, title in
                 owner.viewModel.input.fetchUpdate.accept(title)
-                owner.dismiss(animated: false)
+                owner.dismiss(animated: false) {
+                    var msg = ""
+                    
+                    switch owner.viewModel.type {
+                    case .navigation:
+                        let navi = Preferences.navigation(type: DefaultData.shared.naviSubject.value)
+                        let title = navi == "카카오맵" || navi == "티맵" ? "\(navi)으로" : "\(navi)로"
+                        msg = "\(title) 길 안내를 제공합니다.\n메뉴에서 언제든 변경하실 수 있습니다."
+                    case .oilType:
+                        msg = "선택하신 유종으로 탐색을 시작합니다.\n메뉴에서 언제든 변경하실 수 있습니다."
+                    case .radius:
+                        msg = "선택하신 반경으로 탐색을 시작합니다.\n메뉴에서 언제든 변경하실 수 있습니다."
+                    }
+                    
+                    UIApplication.shared.customKeyWindow?.hideToast()
+                    let lbl = owner.showToast(width: 210, message: msg)
+                    UIApplication.shared.customKeyWindow?.showToast(lbl, position: .top)
+                }
             })
             .disposed(by: bag)
         backgroundView
