@@ -499,6 +499,7 @@ extension MainVC: FloatingPanelControllerDelegate {
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
         guideView.isHidden = fpc.state == .hidden
         emptyView.isHidden = fpc.state == .hidden
+        mapContainerView.plusView.isHidden = fpc.state == .full
         mapContainerView.menuButton.isHidden = fpc.state == .full
         mapContainerView.toListButton.isHidden = fpc.state == .full
         mapContainerView.researchButton.isHidden = fpc.state == .full
