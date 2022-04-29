@@ -24,6 +24,7 @@ final class MainVC: CommonViewController {
     private lazy var contentsVC = StationInfoVC() // 띄울 VC
     private lazy var mapContainerView = MainMapView()
     private lazy var guideView = StationInfoGuideView()
+    private var circle: NMFCircleOverlay?
     let emptyView = UIView().then {
         $0.backgroundColor = .white
     }
@@ -227,6 +228,10 @@ final class MainVC: CommonViewController {
         
         viewModel.output.staionResult
             .bind(with: self, onNext: { owner, _ in
+                owner.circle?.mapView = nil
+                owner.circle = owner.makeRadiusCircle(location: owner.viewModel.requestLocation)
+                owner.circle?.mapView = owner.mapContainerView.mapView
+                
                 owner.mapContainerView.showMarker(list: owner.viewModel.stations)
                 NotificationCenter.default.post(name: NSNotification.Name("stationsUpdated"),
                                                 object: nil,
@@ -378,7 +383,17 @@ final class MainVC: CommonViewController {
             
             self?.checkUpdateVersion(dbdata: versionDbData)
         })
+    }
+    
+    private func makeRadiusCircle(location: CLLocation?) -> NMFCircleOverlay? {
+        guard let _location = location else { return nil }
+        let center = NMGLatLng(from: _location.coordinate)
         
+        let radius = Double(DefaultData.shared.radiusSubject.value)
+        let circle = NMFCircleOverlay(center, radius: radius, fill: .clear)
+        circle.outlineColor = .systemBlue
+        circle.outlineWidth = 1
+        return circle
     }
 }
 
