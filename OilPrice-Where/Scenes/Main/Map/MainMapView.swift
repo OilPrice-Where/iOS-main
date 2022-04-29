@@ -25,6 +25,7 @@ final class MainMapView: UIView {
         }
     }
     let mapView = NMFMapView().then {
+        $0.mapType = .navi
         $0.positionMode = .direction
         $0.minZoomLevel = 5.0
         $0.maxZoomLevel = 18.0
@@ -83,6 +84,7 @@ final class MainMapView: UIView {
         $0.backgroundColor = Asset.Colors.mainColor.color
         $0.alpha = 0.0
     }
+    let plusView = PlusView()
     
     //MARK: - Initializer
     override init(frame: CGRect) {
@@ -103,9 +105,15 @@ final class MainMapView: UIView {
         addSubview(toFavoriteButton)
         addSubview(toListButton)
         addSubview(researchButton)
+        addSubview(plusView)
         
         mapView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        plusView.snp.makeConstraints {
+            $0.center.equalTo(mapView)
+            $0.size.equalTo(15)
         }
         
         addShadow(views: [menuButton, toListButton, researchButton, toFavoriteButton, currentLocationButton])

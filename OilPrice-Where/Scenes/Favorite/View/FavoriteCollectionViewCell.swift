@@ -270,7 +270,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             .tapGesture()
             .when(.recognized)
             .subscribe(with: self, onNext: { owner, _ in
-                let event = "didTapNavigationButton"
+                let event = "tap_favorite_navigation"
                 let parameters = [
                     "file": #file,
                     "function": #function,
@@ -287,7 +287,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         deleteFavoriteButton.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .subscribe(with: self, onNext: { owner, _ in
-                let event = "removeFavoriteButtonTapped"
+                let event = "tap_favorite_remove"
                 let parameters = [
                     "file": #file,
                     "function": #function,
@@ -298,6 +298,12 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
                 Analytics.logEvent(event, parameters: parameters)
                 
                 owner.viewModel.deleteAction(id: owner.id)
+                
+                guard let vc = UIApplication.shared.customKeyWindow?.visibleViewController as? UIViewController else { return }
+                let lbl = Preferences.showToast(width: 240, message: "즐겨 찾는 주유소가 삭제되었습니다.", numberOfLines: 1)
+                
+                vc.view.hideToast()
+                vc.view.showToast(lbl, position: .bottom)
             })
             .disposed(by: rx.disposeBag)
         

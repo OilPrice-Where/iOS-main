@@ -12,10 +12,10 @@ import SnapKit
 import UIKit
 import RxSwift
 import RxCocoa
+import Toast_Swift
 //MARK: MapView에 주유소 정보 VC
-final class StationInfoVC: UIViewController {
+final class StationInfoVC: CommonViewController {
     //MARK: - Properties
-    let bag = DisposeBag()
     var stationInfoView = StationInfoView()
     var station: InformationGasStaion? = nil { didSet { configure(_station: station) } }
     var guideView = UIView().then {
@@ -303,11 +303,11 @@ final class StationInfoVC: UIViewController {
         guard let valueString = addressValueButton.titleLabel?.text else { return }
         UIPasteboard.general.string = valueString
         
-        let alert = UIAlertController(title: "주유소 주소가 복사되었습니다.", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction(title: "확인", style: .default)
-        alert.addAction(action)
+        guard let vc = UIApplication.shared.customKeyWindow?.visibleViewController as? UIViewController else { return }
+        let lbl = Preferences.showToast(message: "주유소 주소가 복사되었습니다.")
         
-        present(alert, animated: true)
+        vc.view.hideToast()
+        vc.view.showToast(lbl, position: .top)
     }
     
     @objc

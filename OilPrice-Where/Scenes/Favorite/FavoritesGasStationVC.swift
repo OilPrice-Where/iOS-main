@@ -138,16 +138,6 @@ final class FavoritesGasStationVC: CommonViewController {
     }
     
     func naviClickEvenet(noti: Notification) {
-        let event = "didTapNavigationButton"
-        let parameters = [
-            "file": #file,
-            "function": #function,
-            "eventDate": DefaultData.shared.currentTime
-        ]
-        
-        Analytics.setUserProperty("ko", forName: "country")
-        Analytics.logEvent(event, parameters: parameters)
-        
         let info = noti.userInfo?["station"] as? GasStation
         requestDirection(station: info)
     }
@@ -187,10 +177,8 @@ extension FavoritesGasStationVC: UICollectionViewDelegate {
 
 extension FavoritesGasStationVC: FavoriteCollectionViewCellDelegate {
     func touchedAddressLabel() {
-        let alert = UIAlertController(title: "주유소 주소가 복사되었습니다.", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction(title: "확인", style: .default)
-        alert.addAction(action)
-
-        present(alert, animated: true)
+        let lbl = Preferences.showToast(message: "주유소 주소가 복사되었습니다.")
+        view.hideToast()
+        view.showToast(lbl)
     }
 }

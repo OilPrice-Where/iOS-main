@@ -9,11 +9,19 @@
 import UIKit
 
 extension UIApplication {
+    public var customKeyWindow: UIWindow? {
+        return UIApplication.shared.connectedScenes
+                .filter({$0.activationState == .foregroundActive})
+                .compactMap({$0 as? UIWindowScene})
+                .first?.windows
+                .filter { $0.isKeyWindow }.first
+    }
+    
     var statusBarUIView: UIView? {
         if #available(iOS 13.0, *) {
             let tag = 3848245
             
-            let keyWindow: UIWindow? = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+            let keyWindow: UIWindow? = UIApplication.shared.windows.filter { $0.isKeyWindow }.first
             
             if let statusBar = keyWindow?.viewWithTag(tag) {
                 return statusBar

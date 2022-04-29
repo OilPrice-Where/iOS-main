@@ -12,17 +12,19 @@ import RxSwift
 import RxCocoa
 import NMapsMap
 import SideMenu
+import Firebase
 import FloatingPanel
-import FirebaseAnalytics
 //MARK: Main Map VC
 final class MainVC: CommonViewController {
     //MARK: - Properties
+    var ref: DatabaseReference?
     let viewModel = MainViewModel()
     private let locationManager = CLLocationManager()
     private lazy var fpc = FloatingPanelController()
     private lazy var contentsVC = StationInfoVC() // 띄울 VC
     private lazy var mapContainerView = MainMapView()
     private lazy var guideView = StationInfoGuideView()
+    private var circle: NMFCircleOverlay?
     let emptyView = UIView().then {
         $0.backgroundColor = .white
     }
@@ -44,6 +46,7 @@ final class MainVC: CommonViewController {
         makeUI()
         configure()
         rxBind()
+        appVersionCheck()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -225,6 +228,10 @@ final class MainVC: CommonViewController {
         
         viewModel.output.staionResult
             .bind(with: self, onNext: { owner, _ in
+                owner.circle?.mapView = nil
+                owner.circle = owner.makeRadiusCircle(location: owner.viewModel.requestLocation)
+                owner.circle?.mapView = owner.mapContainerView.mapView
+                
                 owner.mapContainerView.showMarker(list: owner.viewModel.stations)
                 NotificationCenter.default.post(name: NSNotification.Name("stationsUpdated"),
                                                 object: nil,
@@ -316,6 +323,7 @@ final class MainVC: CommonViewController {
         let faovorites = DefaultData.shared.favoriteSubject.value
         guard let _id = viewModel.selectedStation?.id, faovorites.count < 6 else { return }
         let isDeleted = faovorites.contains(_id)
+                
         guard isDeleted || (!isDeleted && faovorites.count < 5) else {
             DispatchQueue.main.async { [weak self] in
                 self?.makeAlert(title: "최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !")
@@ -327,10 +335,15 @@ final class MainVC: CommonViewController {
         
         DefaultData.shared.favoriteSubject.accept(newFaovorites)
         updateFavoriteUI()
+        
+        let msg = isDeleted ? "즐겨 찾는 주유소가 삭제되었습니다." : "즐겨 찾는 주유소에 추가되었습니다."
+        let lbl = Preferences.showToast(width: 240, message: msg, numberOfLines: 1)
+        view.hideToast()
+        view.showToast(lbl, position: .top)
     }
     
     private func toNavigationTapped() {
-        let event = "didTapNavigationButton"
+        let event = "tap_main_navigation"
         let parameters = [
             "file": #file,
             "function": #function,
@@ -346,6 +359,41 @@ final class MainVC: CommonViewController {
     private func reset() {
         mapContainerView.selectedMarker?.isSelected = false
         mapContainerView.selectedMarker = nil
+    }
+    
+    private func appVersionCheck() {
+        ref = Database.database().reference()
+        guard let _ref = ref else { return }
+        
+        let data = _ref.child("version")
+        
+        data.observeSingleEvent(of: .value, with: { [weak self] snapshot in
+            guard let versionData = snapshot.value as? NSDictionary,
+                  let versionDic = versionData as? [String: String],
+                  let lastest_version_code = versionDic["lastest_version_code"],
+                  let lastest_version_name = versionDic["lastest_version_name"],
+                  let minimum_version_code = versionDic["minimum_version_code"],
+                  let minimum_version_name = versionDic["minimum_version_name"]
+            else { return }
+            
+            let versionDbData = DbVersionData(lastest_version_code: lastest_version_code,
+                                              lastest_version_name: lastest_version_name,
+                                              minimum_version_code: minimum_version_code,
+                                              minimum_version_name: minimum_version_name)
+            
+            self?.checkUpdateVersion(dbdata: versionDbData)
+        })
+    }
+    
+    private func makeRadiusCircle(location: CLLocation?) -> NMFCircleOverlay? {
+        guard let _location = location else { return nil }
+        let center = NMGLatLng(from: _location.coordinate)
+        
+        let radius = Double(DefaultData.shared.radiusSubject.value)
+        let circle = NMFCircleOverlay(center, radius: radius, fill: .clear)
+        circle.outlineColor = .systemBlue
+        circle.outlineWidth = 1
+        return circle
     }
 }
 
@@ -451,6 +499,7 @@ extension MainVC: FloatingPanelControllerDelegate {
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
         guideView.isHidden = fpc.state == .hidden
         emptyView.isHidden = fpc.state == .hidden
+        mapContainerView.plusView.isHidden = fpc.state == .full
         mapContainerView.menuButton.isHidden = fpc.state == .full
         mapContainerView.toListButton.isHidden = fpc.state == .full
         mapContainerView.researchButton.isHidden = fpc.state == .full

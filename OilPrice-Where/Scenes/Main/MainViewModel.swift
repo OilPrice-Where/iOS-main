@@ -51,10 +51,6 @@ final class MainViewModel {
                 owner.requestSearch()
             })
             .disposed(by: bag)
-        
-        let tf = UILabel()
-        
-        tf.rx.text
     }
 }
 

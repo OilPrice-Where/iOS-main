@@ -25,6 +25,7 @@ target 'OilPrice-Where' do
   pod 'NMapsMap'
   pod 'KakaoSDKCommon'
   pod 'KakaoSDKNavi'
+  pod 'Toast-Swift', '~> 5.0.1'
 
   # Database
   pod 'SwiftyPlistManager'

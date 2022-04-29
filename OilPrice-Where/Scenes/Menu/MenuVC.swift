@@ -11,11 +11,13 @@ import SnapKit
 import UIKit
 import RxSwift
 import RxCocoa
+import Firebase
+import Toast_Swift
 
 //MARK: MenuVC
-final class MenuVC: UIViewController {
+final class MenuVC: CommonViewController {
     //MARK: - Properties
-    let bag = DisposeBag()
+    var ref: DatabaseReference?
     let viewModel = MenuViewModel()
     private lazy var navigationView = MenuKeyValueView(type: .keyValue).then {
         $0.keyLabel.text = "내비게이션"
@@ -48,6 +50,7 @@ final class MenuVC: UIViewController {
         
         makeUI()
         rxBind()
+        configure()
     }
     
     //MARK: - Make UI
@@ -199,11 +202,65 @@ final class MenuVC: UIViewController {
             .when(.recognized)
             .observe(on: MainScheduler.asyncInstance)
             .bind(with: self, onNext: { owner, _ in
-                let alert = UIAlertController(title: "현재 사용 중인 버전", message: "Version: 2.3.0", preferredStyle: .alert)
-                let action = UIAlertAction(title: "확인", style: .default)
-                alert.addAction(action)
-                owner.present(alert, animated: true)
+                guard let infoDic = Bundle.main.infoDictionary,
+                      let currentVersion = infoDic["CFBundleShortVersionString"] as? String else {
+                    let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+                    let alert = UIAlertController(title: "현재 사용 중인 버전", message: "최신 버전: \(currentVersion ?? "")", preferredStyle: .alert)
+                    
+                    let okAction = UIAlertAction(title: "확인", style: .default)
+                    alert.addAction(okAction)
+                    
+                    owner.present(alert, animated: true)
+                    
+                    return
+                }
+                
+                owner.versionCheck { lastestVersion in
+                    if currentVersion != lastestVersion {
+                        let alert = UIAlertController(title: "최신 버전이 있습니다.", message: "설치된 버전: \(currentVersion)\n최신 버전: \(lastestVersion)", preferredStyle: .alert)
+                        let updateAction = UIAlertAction(title: "업데이트", style: .default) { _ in
+                            let id = "1435350344"
+                            if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)"),
+                               UIApplication.shared.canOpenURL(reviewURL) {
+                                // 유효한 URL인지 검사
+                                if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
+                                    UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
+                                } else {
+                                    UIApplication.shared.openURL(reviewURL)
+                                }
+                            }
+                        }
+                        let okAction = UIAlertAction(title: "확인", style: .default)
+                        
+                        alert.addAction(okAction)
+                        alert.addAction(updateAction)
+                        owner.present(alert, animated: true)
+                    } else {
+                        let alert = UIAlertController(title: "최신 버전을 사용 중입니다.", message: "설치된 버전: \(currentVersion)\n최신 버전: \(lastestVersion)", preferredStyle: .alert)
+                        
+                        let okAction = UIAlertAction(title: "확인", style: .default)
+                        alert.addAction(okAction)
+                        
+                        owner.present(alert, animated: true)
+                    }
+                }
             })
             .disposed(by: bag)
+    }
+    
+    func configure() {
+        ref = Database.database().reference()
+    }
+    
+    func versionCheck(completion: @escaping (String) -> ()) {
+        guard let _ref = ref else { return }
+        
+        let data = _ref.child("version").child("lastest_version_name")
+        
+        data.observeSingleEvent(of: .value) { snapshot in
+            guard let lastest_version_name = snapshot.value as? String else { return }
+            
+            completion(lastest_version_name)
+        }
     }
 }

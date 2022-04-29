@@ -13,6 +13,7 @@ import RxSwift
 import RxCocoa
 import NMapsMap
 import SCLAlertView
+import FirebaseAnalytics
 
 protocol MainListVCDelegate: AnyObject {
     func touchedCell(info: GasStation)
@@ -206,6 +207,16 @@ extension MainListVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayo
 extension MainListVC: GasStationCellDelegate {
     // 즐겨찾기 설정 및 해제
     func touchedFavoriteButton(id: String?) {
+        let event = "tap_list_favorite"
+        let parameters = [
+            "file": #file,
+            "function": #function,
+            "eventDate": DefaultData.shared.currentTime
+        ]
+        
+        Analytics.setUserProperty("ko", forName: "country")
+        Analytics.logEvent(event, parameters: parameters)
+        
         let faovorites = DefaultData.shared.favoriteSubject.value
         guard let _id = id, faovorites.count < 6 else { return }
         let isDeleted = faovorites.contains(_id)
@@ -219,9 +230,24 @@ extension MainListVC: GasStationCellDelegate {
         isDeleted ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
         
         DefaultData.shared.favoriteSubject.accept(newFaovorites)
+        
+        let msg = isDeleted ? "즐겨 찾는 주유소가 삭제되었습니다." : "즐겨 찾는 주유소에 추가되었습니다."
+        let lbl = Preferences.showToast(width: 240, message: msg, numberOfLines: 1)
+        view.hideToast()
+        view.showToast(lbl, position: .top)
     }
     
     func touchedDirectionButton(info: GasStation?) {
+        let event = "tap_list_navigation"
+        let parameters = [
+            "file": #file,
+            "function": #function,
+            "eventDate": DefaultData.shared.currentTime
+        ]
+        
+        Analytics.setUserProperty("ko", forName: "country")
+        Analytics.logEvent(event, parameters: parameters)
+        
         requestDirection(station: info)
     }
 }
