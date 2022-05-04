@@ -44,32 +44,6 @@ final class SalePriceTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        var dic = DefaultData.shared.salesSubject.value
-        guard let name = brandLabel.text else { return }
-        
-        let value = Int(salePriceTextField.text ?? "0") ?? 0
-        let code = Preferences.saleBrand(name: name)
-        
-        guard dic[code] != value else { return }
-        
-        dic[code] = value
-        DefaultData.shared.salesSubject.accept(dic)
-    }
-    
-    // Configure Data
-    func fetchData(brand: EditSalePriceViewModel.BrandInfomation) {
-        brandImageView.image = brand.logo
-        brandLabel.text = brand.title
-        
-        let dic = DefaultData.shared.salesSubject.value
-        let key = Preferences.saleBrand(name: brand.title)
-        
-        guard let value = dic[key] else { return }
-        
-        salePriceTextField.text = value == 0 ? nil : "\(value)"
-    }
-    
     // Set UI
     func makeUI() {
         contentView.addSubview(brandImageView)

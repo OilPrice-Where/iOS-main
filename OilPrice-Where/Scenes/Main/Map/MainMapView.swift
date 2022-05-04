@@ -80,7 +80,7 @@ final class MainMapView: UIView {
         $0.setTitle("여기에서 재검색", for: .normal)
         $0.setTitle("여기에서 재검색", for: .highlighted)
         $0.titleLabel?.textColor = .white
-        $0.titleLabel?.font = FontFamily.NanumSquareRound.bold.font(size: 12)
+        $0.titleLabel?.font = FontFamily.NanumSquareRound.bold.font(size: 14)
         $0.backgroundColor = Asset.Colors.mainColor.color
         $0.alpha = 0.0
     }

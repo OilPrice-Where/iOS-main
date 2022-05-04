@@ -39,7 +39,6 @@ class DefaultData {
     let brandsSubject = BehaviorRelay<[String]>(value: []) // 설정 브랜드
     let favoriteSubject = BehaviorRelay<[String]>(value: []) // 즐겨 찾기
     let naviSubject = BehaviorRelay<String>(value: "kakao")
-    let salesSubject = BehaviorRelay<[String: Int]>(value: [:])
     let localFavoritesSubject = BehaviorRelay<String>(value: "")
     let completedRelay = PublishRelay<String?>()
     
@@ -107,7 +106,6 @@ class DefaultData {
         radiusSubject.accept(radius)
         brandsSubject.accept(brands)
         naviSubject.accept(naviType == "tmap" ? "tMap" : naviType)
-        salesSubject.accept(sales)
         favoriteSubject.accept(favArr)
         
         // Oil Type Save
@@ -193,13 +191,6 @@ class DefaultData {
                 def?.set(type, forKey: "NaviType")
                 def?.synchronize()
                 owner.swiftyPlistManager(save: type, forKey: "NaviType")
-            })
-            .disposed(by: bag)
-        
-        // Sales Save
-        salesSubject
-            .subscribe(with: self, onNext: { owner, type in
-                owner.swiftyPlistManager(save: type, forKey: "Sales")
             })
             .disposed(by: bag)
         

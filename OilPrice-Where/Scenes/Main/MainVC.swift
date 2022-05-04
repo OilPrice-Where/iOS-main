@@ -92,7 +92,7 @@ final class MainVC: CommonViewController {
         mapContainerView.researchButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.centerX.equalTo(mapContainerView.snp.centerX)
-            $0.width.equalTo(100)
+            $0.width.equalTo(120)
             $0.height.equalTo(42)
         }
         guideView.snp.makeConstraints {
@@ -496,15 +496,19 @@ extension MainVC: FloatingPanelControllerDelegate {
         viewModel.cameraPosition = mapContainerView.mapView.cameraPosition
     }
     
-    func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
+    func isZoomInStation(isHidden: Bool) {
         guideView.isHidden = fpc.state == .hidden
         emptyView.isHidden = fpc.state == .hidden
-        mapContainerView.plusView.isHidden = fpc.state == .full
-        mapContainerView.menuButton.isHidden = fpc.state == .full
-        mapContainerView.toListButton.isHidden = fpc.state == .full
-        mapContainerView.researchButton.isHidden = fpc.state == .full
-        mapContainerView.toFavoriteButton.isHidden = fpc.state == .full
-        mapContainerView.currentLocationButton.isHidden = fpc.state == .full
+        mapContainerView.plusView.isHidden = isHidden
+        mapContainerView.menuButton.isHidden = isHidden
+        mapContainerView.toListButton.isHidden = isHidden
+        mapContainerView.researchButton.isHidden = isHidden
+        mapContainerView.toFavoriteButton.isHidden = isHidden
+        mapContainerView.currentLocationButton.isHidden = isHidden
+    }
+    
+    func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
+        isZoomInStation(isHidden: fpc.state == .full)
         
         let halfHeight = view.safeAreaInsets.bottom + 180.0
         let fullHeight = view.safeAreaInsets.bottom + 422.0

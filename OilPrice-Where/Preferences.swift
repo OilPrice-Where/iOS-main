@@ -228,32 +228,6 @@ struct Preferences {
         }
     }
     
-    static func saleBrand(code: String) -> Int {
-        let sales = DefaultData.shared.salesSubject.value
-        
-        var value: Int?
-        switch code {
-        case "GSC":
-            value = sales["GSC"]
-        case "HDO":
-            value = sales["HDO"]
-        case "SOL":
-            value = sales["SOL"]
-        case "RTO":
-            value = sales["RTO"]
-        case "NHO":
-            value = sales["NHO"]
-        case "E1G":
-            value = sales["E1G"]
-        case "SKG", "SKE":
-            value = sales["SK"]
-        default:
-            break
-        }
-        
-        return value ?? 0
-    }
-    
     // String으로 표시 된 거리를 Int값으로 반환
     // ex) 1KM -> 1000
     static func distanceKM(KM: String) -> Int {

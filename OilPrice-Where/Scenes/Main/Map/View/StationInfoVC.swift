@@ -28,7 +28,7 @@ final class StationInfoVC: CommonViewController {
     var titleByStationDetailLabel = UILabel().then {
         $0.text = "주유소 상세정보"
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.bold.font(size: 14)
+        $0.font = FontFamily.NanumSquareRound.bold.font(size: 16)
     }
     var washImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
@@ -51,7 +51,7 @@ final class StationInfoVC: CommonViewController {
     var addressKeyLabel = UILabel().then {
         $0.text = "주소"
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 12)
+        $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
         $0.textColor = .lightGray
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -59,19 +59,19 @@ final class StationInfoVC: CommonViewController {
     var phoneNumberKeyLabel = UILabel().then {
         $0.text = "전화"
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 12)
+        $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
         $0.textColor = .lightGray
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
     lazy var addressValueButton = UIButton().then {
         $0.contentHorizontalAlignment = .right
-        $0.titleLabel?.font = FontFamily.NanumSquareRound.bold.font(size: 12)
+        $0.titleLabel?.font = FontFamily.NanumSquareRound.bold.font(size: 14)
         $0.addTarget(self, action: #selector(fetchAddressCopy), for: .touchUpInside)
     }
     lazy var phoneNumberValueButton = UIButton().then {
         $0.contentHorizontalAlignment = .right
-        $0.titleLabel?.font = FontFamily.NanumSquareRound.bold.font(size: 12)
+        $0.titleLabel?.font = FontFamily.NanumSquareRound.bold.font(size: 14)
         $0.addTarget(self, action: #selector(fetchTel), for: .touchUpInside)
     }
     var bottomLineView = UIView().then {
@@ -80,12 +80,12 @@ final class StationInfoVC: CommonViewController {
     var titleByPriceLabel = UILabel().then {
         $0.text = "가격 정보"
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.bold.font(size: 14)
+        $0.font = FontFamily.NanumSquareRound.bold.font(size: 16)
     }
     var oilKeyLabel = UILabel().then {
         $0.text = "휘발유"
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 12)
+        $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
         $0.textColor = .darkGray
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -93,7 +93,7 @@ final class StationInfoVC: CommonViewController {
     var highOilKeyLabel = UILabel().then {
         $0.text = "고급유"
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 12)
+        $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
         $0.textColor = .darkGray
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -101,7 +101,7 @@ final class StationInfoVC: CommonViewController {
     var diselKeyLabel = UILabel().then {
         $0.text = "경유"
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 12)
+        $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
         $0.textColor = .darkGray
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -109,7 +109,7 @@ final class StationInfoVC: CommonViewController {
     var lpgKeyLabel = UILabel().then {
         $0.text = "LPG"
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 12)
+        $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
         $0.textColor = .darkGray
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -117,22 +117,22 @@ final class StationInfoVC: CommonViewController {
     var oilValueLabel = UILabel().then {
         $0.text = "가격정보 없음"
         $0.textAlignment = .right
-        $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 12)
+        $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 14)
     }
     var highOilValueLabel = UILabel().then {
         $0.text = "가격정보 없음"
         $0.textAlignment = .right
-        $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 12)
+        $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 14)
     }
     var diselValueLabel = UILabel().then {
         $0.text = "가격정보 없음"
         $0.textAlignment = .right
-        $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 12)
+        $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 14)
     }
     var lpgValueLabel = UILabel().then {
         $0.text = "가격정보 없음"
         $0.textAlignment = .right
-        $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 12)
+        $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 14)
     }
     
     //MARK: - Life Cycle
