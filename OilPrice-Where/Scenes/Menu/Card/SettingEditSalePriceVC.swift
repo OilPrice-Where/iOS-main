@@ -15,13 +15,15 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
     //MARK: - Properties
     var viewModel: EditSalePriceViewModel!
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
+        $0.delegate = self
+        $0.dataSource = self
         $0.backgroundColor = .clear
         $0.decelerationRate = UIScrollViewDecelerationRateFast
         $0.alwaysBounceHorizontal = false
         $0.allowsMultipleSelection = false
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
-//        SalePriceTableViewCell.register($0)
+        CardCollectionViewCell.register($0)
     }
     
     //MARK: - Life Cycle
@@ -45,13 +47,16 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
         view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.left.right.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.height.equalTo(view.snp.width).multipliedBy(0.75)
         }
     }
     
     // set collectionView flow layout
     private func fetchLayout() -> UICollectionViewFlowLayout {
-        let itemSize = CGSize(width: fetchItemWidth(), height: 411.0)
+        let itemWidth = fetchItemWidth()
+        let itemSize = CGSize(width: itemWidth, height: itemWidth * 0.6)
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 25
@@ -69,5 +74,34 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
     }
 }
 
-extension SettingEditSalePriceVC {
+extension SettingEditSalePriceVC: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withType: CardCollectionViewCell.self, indexPath: indexPath)
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = cell.bounds
+        gradientLayer.colors = [viewModel.tColors[indexPath.row].cgColor,
+                                viewModel.bColors[indexPath.row].cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
+        cell.containerView.layer.insertSublayer(gradientLayer, at: 0)
+        
+        return cell
+    }
+}
+
+extension SettingEditSalePriceVC: UIScrollViewDelegate {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        let cellSpacing = layout.itemSize.width + layout.minimumLineSpacing
+        var offset = targetContentOffset.pointee
+        let index = (offset.x + scrollView.contentInset.left) / cellSpacing
+        let roundedIndex = round(index)
+        offset = CGPoint(x: roundedIndex * cellSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
+        targetContentOffset.pointee = offset
+    }
 }

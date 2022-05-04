@@ -89,7 +89,6 @@ class DefaultData {
     
     func setData() {
         let defaultBrands = ["SKE", "GSC", "HDO", "SOL", "RTO", "RTX", "NHO", "ETC", "E1G", "SKG"]
-        let defaultSales = [ "SK": 0, "HDO": 0, "GSC": 0, "SOL": 0, "E1G": 0, "RTO": 0, "NHO": 0]
         
         SwiftyPlistManager.shared.start(plistNames: ["UserInfo"], logging: true) // Plist 불러오기
         
@@ -98,7 +97,6 @@ class DefaultData {
         let oilType = fetchValue(defaultValue: "", for: "OilType")
         let brands = fetchValue(defaultValue: defaultBrands, for: "Brands")
         let naviType = fetchValue(defaultValue: "kakao", for: "NaviType")
-        let sales = fetchValue(defaultValue: defaultSales, for: "Sales")
         let favArr = fetchValue(defaultValue: [String](), for: "Favorites")
         
         localFavoritesSubject.accept(localFavorites)

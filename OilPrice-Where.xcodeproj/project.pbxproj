@@ -34,7 +34,7 @@
 		8E167D412107E30F0066A59E /* OilList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D402107E30F0066A59E /* OilList.swift */; };
 		8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1BB8EE2107E9A60065281B /* DataUtility.swift */; };
 		8E40DB1924D7E45400352F7E /* InitialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E40DB1824D7E45400352F7E /* InitialViewModel.swift */; };
-		8E4DBA4424E43492002E605C /* SalePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4DBA4324E43492002E605C /* SalePriceTableViewCell.swift */; };
+		8E4DBA4424E43492002E605C /* CardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4DBA4324E43492002E605C /* CardCollectionViewCell.swift */; };
 		8E68BA1724CCC5F7004730D7 /* ViewModelBindableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1624CCC5F7004730D7 /* ViewModelBindableType.swift */; };
 		8E68BA1B24CCC645004730D7 /* CommonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1A24CCC645004730D7 /* CommonViewController.swift */; };
 		8E68BA2324CCCF32004730D7 /* FindBrandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA2224CCCF32004730D7 /* FindBrandViewModel.swift */; };
@@ -103,6 +103,12 @@
 		E9E290D7280ECF1900BE21B3 /* DBVersionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E290D6280ECF1900BE21B3 /* DBVersionData.swift */; };
 		E9E290DB280EFCDA00BE21B3 /* UIWindow+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E290DA280EFCDA00BE21B3 /* UIWindow+.swift */; };
 		E9E290DD280F6B1C00BE21B3 /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E290DC280F6B1C00BE21B3 /* NSMutableAttributedString+.swift */; };
+		E9EAF1042822DAC30046F9A8 /* CardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1032822DAC30046F9A8 /* CardInfo.swift */; };
+		E9EAF1092822DCE70046F9A8 /* CardModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1072822DCE70046F9A8 /* CardModel.xcdatamodeld */; };
+		E9EAF1142822E0350046F9A8 /* Card+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1122822E0350046F9A8 /* Card+CoreDataClass.swift */; };
+		E9EAF1172822EC1C0046F9A8 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1162822EC1C0046F9A8 /* UIColor+.swift */; };
+		E9EAF1182822EC280046F9A8 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1162822EC1C0046F9A8 /* UIColor+.swift */; };
+		E9EAF11A2822FEC80046F9A8 /* BrandCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1192822FEC80046F9A8 /* BrandCollectionViewCell.swift */; };
 		E9F0996427D8C44B009F95DF /* KeyValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F0996327D8C44B009F95DF /* KeyValueView.swift */; };
 		F362C63C0574D48555F1F335 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692C04AA68557BE6FEE04C04 /* Pods_OilPrice_Where.framework */; };
 /* End PBXBuildFile section */
@@ -168,7 +174,7 @@
 		8E167D402107E30F0066A59E /* OilList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OilList.swift; path = "OilPrice-Where/OilList.swift"; sourceTree = SOURCE_ROOT; };
 		8E1BB8EE2107E9A60065281B /* DataUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUtility.swift; sourceTree = "<group>"; };
 		8E40DB1824D7E45400352F7E /* InitialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewModel.swift; sourceTree = "<group>"; };
-		8E4DBA4324E43492002E605C /* SalePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalePriceTableViewCell.swift; sourceTree = "<group>"; };
+		8E4DBA4324E43492002E605C /* CardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCollectionViewCell.swift; sourceTree = "<group>"; };
 		8E68BA1624CCC5F7004730D7 /* ViewModelBindableType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBindableType.swift; sourceTree = "<group>"; };
 		8E68BA1A24CCC645004730D7 /* CommonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewController.swift; sourceTree = "<group>"; };
 		8E68BA2224CCCF32004730D7 /* FindBrandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindBrandViewModel.swift; sourceTree = "<group>"; };
@@ -229,6 +235,11 @@
 		E9E290D6280ECF1900BE21B3 /* DBVersionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBVersionData.swift; sourceTree = "<group>"; };
 		E9E290DA280EFCDA00BE21B3 /* UIWindow+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+.swift"; sourceTree = "<group>"; };
 		E9E290DC280F6B1C00BE21B3 /* NSMutableAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+.swift"; sourceTree = "<group>"; };
+		E9EAF1032822DAC30046F9A8 /* CardInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInfo.swift; sourceTree = "<group>"; };
+		E9EAF1082822DCE70046F9A8 /* CardModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CardModel.xcdatamodel; sourceTree = "<group>"; };
+		E9EAF1122822E0350046F9A8 /* Card+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E9EAF1162822EC1C0046F9A8 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
+		E9EAF1192822FEC80046F9A8 /* BrandCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandCollectionViewCell.swift; sourceTree = "<group>"; };
 		E9F0996327D8C44B009F95DF /* KeyValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueView.swift; sourceTree = "<group>"; };
 		EA270F4C9F8787CC0D069A8E /* Pods_FavoriteWidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FavoriteWidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -358,7 +369,8 @@
 		2C0C68D2276B349000945CEC /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				8E4DBA4324E43492002E605C /* SalePriceTableViewCell.swift */,
+				8E4DBA4324E43492002E605C /* CardCollectionViewCell.swift */,
+				E9EAF1192822FEC80046F9A8 /* BrandCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -525,6 +537,7 @@
 				8E167D422107E7240066A59E /* AppDelegate */,
 				8EE7E34720F5EDA400F35473 /* Utility */,
 				8E4DAF0A20F5EC2700E4FD92 /* APIs */,
+				E9EAF1062822DCBE0046F9A8 /* Model */,
 				2C0C68CB276B32D900945CEC /* Scenes */,
 				8E7FFE3D20F5EABE006CED48 /* Resources */,
 				8E7FFE3E20F5EB17006CED48 /* SupportFiles */,
@@ -643,6 +656,7 @@
 			isa = PBXGroup;
 			children = (
 				E9400FE927B11C76003168C6 /* UIView+.swift */,
+				E9EAF1162822EC1C0046F9A8 /* UIColor+.swift */,
 				2C0C68C9276B31CA00945CEC /* UITabBar+.swift */,
 				2C0C68C7276B25AB00945CEC /* UIReusable+.swift */,
 				E9E290DA280EFCDA00BE21B3 /* UIWindow+.swift */,
@@ -661,6 +675,16 @@
 				2C0C68BF276B0E3300945CEC /* Colors.xcassets */,
 			);
 			name = Assets;
+			sourceTree = "<group>";
+		};
+		E9EAF1062822DCBE0046F9A8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E9EAF1122822E0350046F9A8 /* Card+CoreDataClass.swift */,
+				E9EAF1032822DAC30046F9A8 /* CardInfo.swift */,
+				E9EAF1072822DCE70046F9A8 /* CardModel.xcdatamodeld */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -885,6 +909,7 @@
 				2C1FBE1A276AE39000E57F8A /* SelectTypeView.swift in Sources */,
 				2C0C68E2276B6C9A00945CEC /* UIApplication+.swift in Sources */,
 				E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */,
+				E9EAF1092822DCE70046F9A8 /* CardModel.xcdatamodeld in Sources */,
 				8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */,
 				2CA4726427992D0A00DB0DDD /* CLLocationManager+.swift in Sources */,
 				2CC1C80E276C8610007527C7 /* MainMapView.swift in Sources */,
@@ -892,7 +917,7 @@
 				E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */,
 				8E68BA2324CCCF32004730D7 /* FindBrandViewModel.swift in Sources */,
 				E9400FDE27B0A3E2003168C6 /* NaverMapMarker.swift in Sources */,
-				8E4DBA4424E43492002E605C /* SalePriceTableViewCell.swift in Sources */,
+				8E4DBA4424E43492002E605C /* CardCollectionViewCell.swift in Sources */,
 				2CAC81E3276BA31D00CC6096 /* CustomNavigationView.swift in Sources */,
 				E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */,
 				E9400FEA27B11C76003168C6 /* UIView+.swift in Sources */,
@@ -901,17 +926,21 @@
 				E9400FE227B0A467003168C6 /* StationAPI.swift in Sources */,
 				8EF8481C24E39C03009A32D8 /* SettingEditSalePriceVC.swift in Sources */,
 				2CA47266279931B500DB0DDD /* MainViewModel.swift in Sources */,
+				E9EAF1142822E0350046F9A8 /* Card+CoreDataClass.swift in Sources */,
 				8EDAF7D821295AEF00422552 /* InitialSettingVC.swift in Sources */,
 				E9E290DD280F6B1C00BE21B3 /* NSMutableAttributedString+.swift in Sources */,
+				E9EAF1172822EC1C0046F9A8 /* UIColor+.swift in Sources */,
 				E9400FE827B1146E003168C6 /* StationInfoGuideView.swift in Sources */,
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
 				2CAC81DF276B966300CC6096 /* FavoritesGasStationViewModel.swift in Sources */,
 				2C0C68C8276B25AB00945CEC /* UIReusable+.swift in Sources */,
 				E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */,
+				E9EAF11A2822FEC80046F9A8 /* BrandCollectionViewCell.swift in Sources */,
 				E9633A8627FA0B5800B99E66 /* SelectMenuVC.swift in Sources */,
 				E9E290D7280ECF1900BE21B3 /* DBVersionData.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
 				8EE53E9524D01828008D8045 /* AboutUsTableViewCell.swift in Sources */,
+				E9EAF1042822DAC30046F9A8 /* CardInfo.swift in Sources */,
 				29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */,
 				2CAC81E1276B9A7200CC6096 /* KVVStackView.swift in Sources */,
 				8EDE51B424D5C32C004590B6 /* FavoriteCellViewModel.swift in Sources */,
@@ -941,6 +970,7 @@
 				8EAEB16324F4B31E00B5E6CE /* FavoriteCollectionViewCell.swift in Sources */,
 				8EAEB15324F41AFF00B5E6CE /* TodayViewController.swift in Sources */,
 				8E82E43224F901D200395CDD /* InformationGasStaion.swift in Sources */,
+				E9EAF1182822EC280046F9A8 /* UIColor+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1271,6 +1301,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E9EAF1072822DCE70046F9A8 /* CardModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E9EAF1082822DCE70046F9A8 /* CardModel.xcdatamodel */,
+			);
+			currentVersion = E9EAF1082822DCE70046F9A8 /* CardModel.xcdatamodel */;
+			path = CardModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 8E7FFE1920F5E5FF006CED48 /* Project object */;
 }
