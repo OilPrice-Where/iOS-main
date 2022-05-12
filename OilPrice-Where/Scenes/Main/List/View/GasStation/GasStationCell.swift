@@ -21,7 +21,7 @@ final class GasStationCell: UICollectionViewCell {
     private var info: GasStation?
     private var selectionCell: Bool = false
     weak var delegate: GasStationCellDelegate?
-    private let stationView = GasStationView().then {
+    private lazy var stationView = GasStationView().then {
         $0.bottomView.expandView.favoriteButton.addTarget(self, action: #selector(touchedFavorite), for: .touchUpInside)
     }
     lazy var tap = UITapGestureRecognizer(target: self, action: #selector(touchedDirection))

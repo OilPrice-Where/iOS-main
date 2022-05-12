@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 import Firebase
 import FirebaseCore
 import KakaoSDKCommon
@@ -26,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ProcessInfo.processInfo.setValue(newArguments, forKey: "arguments")
         #endif
         
+        DataManager.shared.fetchData()
         KakaoSDK.initSDK(appKey: "b8e7f9ac5bf3c19414515867205f92aa")
         DefaultData.shared.allPriceDataLoad() // 전국의 오일종류 별 저번주의 평균 값을 받아온다.
         
@@ -35,6 +37,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         return true
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        DataManager.shared.saveContext()
     }
     
     // initialViewController 초기 설정 페이지 관련 함수

@@ -181,7 +181,7 @@ final class MainListVC: CommonViewController {
     }
 }
 
-//MARK: - TableViewDataSources & Delegate
+//MARK: - CollectionView DataSources & Delegate
 extension MainListVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.stations.count

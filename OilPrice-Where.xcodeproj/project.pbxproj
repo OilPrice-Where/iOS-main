@@ -97,6 +97,10 @@
 		E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601C27CE00A6005BB593 /* MainListVC.swift */; };
 		E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601E27CE0351005BB593 /* MainListViewModel.swift */; };
 		E97B642827D7CDD700577650 /* GeoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3E2107D95C0066A59E /* GeoConverter.swift */; };
+		E9A3A2CB282D0E84004ED55E /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9A3A2C9282D0E84004ED55E /* DataModel.xcdatamodeld */; };
+		E9BE7AFF282C632C00FF8A01 /* HistoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7AFE282C632C00FF8A01 /* HistoriesVC.swift */; };
+		E9BE7B04282C67A800FF8A01 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7B03282C67A800FF8A01 /* HistoryTableViewCell.swift */; };
+		E9BE7B0B282C81F800FF8A01 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7B0A282C81F800FF8A01 /* DataManager.swift */; };
 		E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */; };
 		E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */; };
 		E9D1445827CED3120055141A /* InfoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1445727CED3120055141A /* InfoListView.swift */; };
@@ -104,8 +108,6 @@
 		E9E290DB280EFCDA00BE21B3 /* UIWindow+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E290DA280EFCDA00BE21B3 /* UIWindow+.swift */; };
 		E9E290DD280F6B1C00BE21B3 /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E290DC280F6B1C00BE21B3 /* NSMutableAttributedString+.swift */; };
 		E9EAF1042822DAC30046F9A8 /* CardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1032822DAC30046F9A8 /* CardInfo.swift */; };
-		E9EAF1092822DCE70046F9A8 /* CardModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1072822DCE70046F9A8 /* CardModel.xcdatamodeld */; };
-		E9EAF1142822E0350046F9A8 /* Card+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1122822E0350046F9A8 /* Card+CoreDataClass.swift */; };
 		E9EAF1172822EC1C0046F9A8 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1162822EC1C0046F9A8 /* UIColor+.swift */; };
 		E9EAF1182822EC280046F9A8 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1162822EC1C0046F9A8 /* UIColor+.swift */; };
 		E9EAF11A2822FEC80046F9A8 /* BrandCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1192822FEC80046F9A8 /* BrandCollectionViewCell.swift */; };
@@ -229,6 +231,10 @@
 		E9633A8B27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMenuCollectionViewCell.swift; sourceTree = "<group>"; };
 		E96E601C27CE00A6005BB593 /* MainListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListVC.swift; sourceTree = "<group>"; };
 		E96E601E27CE0351005BB593 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
+		E9A3A2CA282D0E84004ED55E /* CardModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CardModel.xcdatamodel; sourceTree = "<group>"; };
+		E9BE7AFE282C632C00FF8A01 /* HistoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoriesVC.swift; sourceTree = "<group>"; };
+		E9BE7B03282C67A800FF8A01 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
+		E9BE7B0A282C81F800FF8A01 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPanelController+.swift"; sourceTree = "<group>"; };
 		E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoVC.swift; sourceTree = "<group>"; };
 		E9D1445727CED3120055141A /* InfoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoListView.swift; sourceTree = "<group>"; };
@@ -236,8 +242,6 @@
 		E9E290DA280EFCDA00BE21B3 /* UIWindow+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+.swift"; sourceTree = "<group>"; };
 		E9E290DC280F6B1C00BE21B3 /* NSMutableAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+.swift"; sourceTree = "<group>"; };
 		E9EAF1032822DAC30046F9A8 /* CardInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInfo.swift; sourceTree = "<group>"; };
-		E9EAF1082822DCE70046F9A8 /* CardModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CardModel.xcdatamodel; sourceTree = "<group>"; };
-		E9EAF1122822E0350046F9A8 /* Card+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+CoreDataClass.swift"; sourceTree = "<group>"; };
 		E9EAF1162822EC1C0046F9A8 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		E9EAF1192822FEC80046F9A8 /* BrandCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandCollectionViewCell.swift; sourceTree = "<group>"; };
 		E9F0996327D8C44B009F95DF /* KeyValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueView.swift; sourceTree = "<group>"; };
@@ -334,6 +338,7 @@
 				E9633A8727FA0B5D00B99E66 /* Select */,
 				2C0C68D3276B43E800945CEC /* Brand */,
 				2C0C68D1276B337800945CEC /* Card */,
+				E9827DB1282C5D0900D44743 /* History */,
 				2C0C68CF276B331C00945CEC /* AboutUs */,
 			);
 			path = Menu;
@@ -668,6 +673,23 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		E9827DB1282C5D0900D44743 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				E9BE7AFE282C632C00FF8A01 /* HistoriesVC.swift */,
+				E9BE7B02282C678F00FF8A01 /* View */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		E9BE7B02282C678F00FF8A01 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E9BE7B03282C67A800FF8A01 /* HistoryTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		E9DD57ED27DA56110024E7FF /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -680,9 +702,9 @@
 		E9EAF1062822DCBE0046F9A8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E9EAF1122822E0350046F9A8 /* Card+CoreDataClass.swift */,
 				E9EAF1032822DAC30046F9A8 /* CardInfo.swift */,
-				E9EAF1072822DCE70046F9A8 /* CardModel.xcdatamodeld */,
+				E9BE7B0A282C81F800FF8A01 /* DataManager.swift */,
+				E9A3A2C9282D0E84004ED55E /* DataModel.xcdatamodeld */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -896,6 +918,7 @@
 				E9633A8C27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift in Sources */,
 				E919CCC9281BF80700C3373E /* PlusView.swift in Sources */,
 				8ECE0D52211AD42600FF2B46 /* Preferences.swift in Sources */,
+				E9BE7AFF282C632C00FF8A01 /* HistoriesVC.swift in Sources */,
 				E94D0F0227BB467600BCB092 /* GasStationTitleView.swift in Sources */,
 				E94D0F0427BB490C00BCB092 /* GasStationBottomView.swift in Sources */,
 				E9633A8A27FA0BCB00B99E66 /* SelectMenuViewModel.swift in Sources */,
@@ -905,11 +928,11 @@
 				E94D0F0C27BB56D100BCB092 /* GasStationView.swift in Sources */,
 				E94D0F0627BB4AE000BCB092 /* GasStationPriceView.swift in Sources */,
 				764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift in Sources */,
+				E9BE7B0B282C81F800FF8A01 /* DataManager.swift in Sources */,
 				8EE0A2FB21DDF49E00C159D0 /* BrandTypeTableViewCell.swift in Sources */,
 				2C1FBE1A276AE39000E57F8A /* SelectTypeView.swift in Sources */,
 				2C0C68E2276B6C9A00945CEC /* UIApplication+.swift in Sources */,
 				E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */,
-				E9EAF1092822DCE70046F9A8 /* CardModel.xcdatamodeld in Sources */,
 				8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */,
 				2CA4726427992D0A00DB0DDD /* CLLocationManager+.swift in Sources */,
 				2CC1C80E276C8610007527C7 /* MainMapView.swift in Sources */,
@@ -926,12 +949,12 @@
 				E9400FE227B0A467003168C6 /* StationAPI.swift in Sources */,
 				8EF8481C24E39C03009A32D8 /* SettingEditSalePriceVC.swift in Sources */,
 				2CA47266279931B500DB0DDD /* MainViewModel.swift in Sources */,
-				E9EAF1142822E0350046F9A8 /* Card+CoreDataClass.swift in Sources */,
 				8EDAF7D821295AEF00422552 /* InitialSettingVC.swift in Sources */,
 				E9E290DD280F6B1C00BE21B3 /* NSMutableAttributedString+.swift in Sources */,
 				E9EAF1172822EC1C0046F9A8 /* UIColor+.swift in Sources */,
 				E9400FE827B1146E003168C6 /* StationInfoGuideView.swift in Sources */,
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
+				E9A3A2CB282D0E84004ED55E /* DataModel.xcdatamodeld in Sources */,
 				2CAC81DF276B966300CC6096 /* FavoritesGasStationViewModel.swift in Sources */,
 				2C0C68C8276B25AB00945CEC /* UIReusable+.swift in Sources */,
 				E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */,
@@ -951,6 +974,7 @@
 				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,
 				2CAC81E5276BA63400CC6096 /* LodingView.swift in Sources */,
 				8E68BA2524CCCF95004730D7 /* FindBrandVC.swift in Sources */,
+				E9BE7B04282C67A800FF8A01 /* HistoryTableViewCell.swift in Sources */,
 				765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */,
 				E9E290DB280EFCDA00BE21B3 /* UIWindow+.swift in Sources */,
 				E9633A7B27F9CE6300B99E66 /* MenuVC.swift in Sources */,
@@ -1303,13 +1327,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		E9EAF1072822DCE70046F9A8 /* CardModel.xcdatamodeld */ = {
+		E9A3A2C9282D0E84004ED55E /* DataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				E9EAF1082822DCE70046F9A8 /* CardModel.xcdatamodel */,
+				E9A3A2CA282D0E84004ED55E /* CardModel.xcdatamodel */,
 			);
-			currentVersion = E9EAF1082822DCE70046F9A8 /* CardModel.xcdatamodel */;
-			path = CardModel.xcdatamodeld;
+			currentVersion = E9A3A2CA282D0E84004ED55E /* CardModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
