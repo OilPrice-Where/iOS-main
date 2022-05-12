@@ -78,7 +78,6 @@ extension HistoriesVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withType: HistoryTableViewCell.self, for: indexPath)
         
-        print(DataManager.shared.stationList[indexPath.row].identifier)
         cell.configure(station: DataManager.shared.stationList[indexPath.row])
         
         return cell
