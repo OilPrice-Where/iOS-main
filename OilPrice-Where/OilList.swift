@@ -52,8 +52,8 @@ extension GasStation: Equatable {
         return lhs.id == rhs.id
     }
     
-    init(name: String?, brand: String?, x: Double, y: Double) {
-        self.id = ""
+    init(id: String?, name: String?, brand: String?, x: Double, y: Double) {
+        self.id = id ?? ""
         self.brand = brand ?? ""
         self.name = name ?? ""
         self.price = .zero

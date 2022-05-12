@@ -92,7 +92,7 @@ class CommonViewController: UIViewController {
         guard let info = station,
               let type = NaviType(rawValue: DefaultData.shared.naviSubject.value) else { return }
         
-        DataManager.shared.addNew(staion: info)
+        DataManager.shared.addNew(station: info)
         let position = NMGTm128(x: info.katecX, y: info.katecY).toLatLng()
         
         switch type {

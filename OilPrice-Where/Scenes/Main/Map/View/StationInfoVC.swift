@@ -295,7 +295,7 @@ final class StationInfoVC: CommonViewController {
     
     func string(_ info: InformationGasStaion, to code: String) -> String {
         let price = Preferences.priceToWon(price: info.price?.first(where: { $0.type == code })?.price ?? 0)
-        return price == "0" ? "가격정보 없음" : price + "원"
+        return price == "0" ? "가격 정보 없음" : price
     }
     
     @objc

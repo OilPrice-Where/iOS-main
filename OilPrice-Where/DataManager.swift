@@ -38,14 +38,15 @@ class DataManager {
         }
     }
     
-    func addNew(staion: GasStation?) {
+    func addNew(station: GasStation?) {
         let newStation = Station(context: mainContext)
-        newStation.name = staion?.name
-        newStation.brand = staion?.brand
+        newStation.identifier = station?.id
+        newStation.name = station?.name
+        newStation.brand = station?.brand
         newStation.oilType = DefaultData.shared.oilSubject.value
-        newStation.price = Double(staion?.price ?? 0)
-        newStation.katecX = staion?.katecX ?? .zero
-        newStation.katecY = staion?.katecY ?? .zero
+        newStation.price = Double(station?.price ?? 0)
+        newStation.katecX = station?.katecX ?? .zero
+        newStation.katecY = station?.katecY ?? .zero
         newStation.insertDate = Date()
         
         stationList.insert(newStation, at: 0)

@@ -18,13 +18,11 @@ final class GasStationPriceView: UIView {
         $0.textColor = .lightGray
         $0.textAlignment = .right
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        $0.text = "휘발유"
     }
     private let priceLabel = UILabel().then {
         $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 33)
         $0.textAlignment = .right
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        $0.text = "8,888원"
     }
     
     //MARK: - Initializer
@@ -57,6 +55,6 @@ final class GasStationPriceView: UIView {
     
     func configure(price info: GasStation) {
         typeLabel.text = Preferences.oil(code: DefaultData.shared.oilSubject.value)
-        priceLabel.text = Preferences.priceToWon(price: info.price) + "원"
+        priceLabel.text = Preferences.priceToWon(price: info.price)
     }
 }
