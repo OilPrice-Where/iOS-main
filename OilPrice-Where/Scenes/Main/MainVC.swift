@@ -448,9 +448,10 @@ extension MainVC: MainMapViewDelegate {
 }
 
 extension MainVC: NMFMapViewCameraDelegate {
-    func mapViewCameraIdle(_ mapView: NMFMapView) {
-        let centerLocation = CLLocation(latitude: mapView.latitude, longitude: mapView.longitude)
+    func mapView(_ mapView: NMFMapView, cameraDidChangeByReason reason: Int, animated: Bool) {
+        guard animated && reason == -1 else { return }
         
+        let centerLocation = CLLocation(latitude: mapView.latitude, longitude: mapView.longitude)
         guard let distance = viewModel.requestLocation?.distance(from: centerLocation), distance > 2000 else { return }
         
         DispatchQueue.main.async { [weak self] in
