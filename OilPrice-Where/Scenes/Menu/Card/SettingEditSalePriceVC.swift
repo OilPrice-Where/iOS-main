@@ -14,17 +14,16 @@ import NSObject_Rx
 final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
     //MARK: - Properties
     var viewModel: EditSalePriceViewModel!
-    private lazy var tableView = UITableView().then {
-        $0.alwaysBounceVertical = false
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
+        $0.delegate = self
+        $0.dataSource = self
+        $0.backgroundColor = .clear
+        $0.decelerationRate = UIScrollViewDecelerationRateFast
         $0.alwaysBounceHorizontal = false
+        $0.allowsMultipleSelection = false
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
-        $0.keyboardDismissMode = .onDrag
-        $0.backgroundColor = Asset.Colors.tableViewBackground.color
-        SalePriceTableViewCell.register($0)
-        // TapGesture
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapAction))
-        $0.addGestureRecognizer(tap)
+        CardCollectionViewCell.register($0)
     }
     
     //MARK: - Life Cycle
@@ -36,52 +35,73 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
     
     //MARK: - Rx Binding..
     func bindViewModel() {
-        viewModel.brandsInfoSubject
-            .bind(to: tableView.rx.items(cellIdentifier: SalePriceTableViewCell.id,
-                                         cellType: SalePriceTableViewCell.self)) { item, info, cell in
-                cell.fetchData(brand: info)
-                cell.selectionStyle = .none
-            }
-            .disposed(by: rx.disposeBag)
         
-        tableView
-            .rx
-            .setDelegate(self)
-            .disposed(by: rx.disposeBag)
     }
     
     //MARK: - Set UI
     private func makeUI() {
+        view.backgroundColor = .white
+        
         navigationItem.title = "카드 할인"
         
-        view.addSubview(tableView)
+        view.addSubview(collectionView)
         
-        tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        collectionView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.height.equalTo(view.snp.width).multipliedBy(0.75)
         }
     }
     
-    @objc
-    private func handleTapAction() {
-        tableView.endEditing(true)
+    // set collectionView flow layout
+    private func fetchLayout() -> UICollectionViewFlowLayout {
+        let itemWidth = fetchItemWidth()
+        let itemSize = CGSize(width: itemWidth, height: itemWidth * 0.6)
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumLineSpacing = 25
+        flowLayout.minimumInteritemSpacing = .zero
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.itemSize = itemSize
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 37.5, bottom: 0, right: 37.5)
+        return flowLayout
+    }
+    
+    private func fetchItemWidth() -> CGFloat {
+        let screenWidth = UIScreen.main.bounds.width - 75
+        let current = UIDevice.current
+        return current.userInterfaceIdiom == .phone ? screenWidth : current.orientation == .portrait ? screenWidth / 2 - 12.5 : screenWidth / 3 - (50 / 3)
     }
 }
 
-extension SettingEditSalePriceVC: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 60
+extension SettingEditSalePriceVC: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 40))
-        let label = UILabel(frame: CGRect(x: 17, y: 35, width: tableView.bounds.width - 16, height: 20))
-        label.text = "소유한 카드의 리터당 할인정보 입력"
-        label.font = UIFont(name: "NanumSquareRoundR", size: 13)
-        label.textAlignment = .left
-        label.textColor = .darkGray
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withType: CardCollectionViewCell.self, indexPath: indexPath)
         
-        view.addSubview(label)
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = cell.bounds
+        gradientLayer.colors = [viewModel.tColors[indexPath.row].cgColor,
+                                viewModel.bColors[indexPath.row].cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
+        cell.containerView.layer.insertSublayer(gradientLayer, at: 0)
         
-        return view
+        return cell
+    }
+}
+
+extension SettingEditSalePriceVC: UIScrollViewDelegate {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        let cellSpacing = layout.itemSize.width + layout.minimumLineSpacing
+        var offset = targetContentOffset.pointee
+        let index = (offset.x + scrollView.contentInset.left) / cellSpacing
+        let roundedIndex = round(index)
+        offset = CGPoint(x: roundedIndex * cellSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
+        targetContentOffset.pointee = offset
     }
 }

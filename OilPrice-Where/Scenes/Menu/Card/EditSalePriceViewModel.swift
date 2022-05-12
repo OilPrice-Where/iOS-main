@@ -11,21 +11,12 @@ import RxSwift
 
 //MARK: EditSalePriceViewModel
 final class EditSalePriceViewModel {
-    typealias BrandInfomation = (logo: UIImage?, title: String)
     
-    private let brandsInfo: [BrandInfomation] = [ // 선택 가능한 탐색 반경
-        (UIImage(named: "LogoSKEnergy"), "SK"),
-        (UIImage(named: "LogoOilBank"), "현대오일뱅크"),
-        (UIImage(named: "LogoGSCaltex"), "GS칼텍스"),
-        (UIImage(named: "LogoSOil"), "S-OIL"),
-        (UIImage(named: "LogoEnergyOne"), "E1"),
-        (UIImage(named: "LogoFrugalOil"), "알뜰주유소"),
-        (UIImage(named: "LogoNHOil"), "농협")
-    ]
+    var tColors: [UIColor] = [UIColor(hexString: "#1DE5E2"),
+                              UIColor(hexString: "#FFCB52"),
+                              UIColor(hexString: "#FACD68")]
     
-    var brandsInfoSubject: BehaviorSubject<[BrandInfomation]>
-    
-    init() {
-        self.brandsInfoSubject = BehaviorSubject<[BrandInfomation]>(value: brandsInfo)
-    }
+    var bColors: [UIColor] = [UIColor(hexString: "#B588F7xx"),
+                              UIColor(hexString: "#FC76B3"),
+                              UIColor(hexString: "#FF7B02")]
 }

@@ -60,6 +60,7 @@ final class InitialSettingVC: CommonViewController {
             .bind(with: self, onNext: { owner, _ in
                 let mainVC = MainVC()
                 let mainNavigationVC = UINavigationController(rootViewController: mainVC)
+                mainNavigationVC.modalPresentationStyle = .fullScreen
                 owner.present(mainNavigationVC, animated: false)
             })
             .disposed(by: rx.disposeBag)

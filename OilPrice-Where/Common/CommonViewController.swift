@@ -92,6 +92,7 @@ class CommonViewController: UIViewController {
         guard let info = station,
               let type = NaviType(rawValue: DefaultData.shared.naviSubject.value) else { return }
         
+        DataManager.shared.addNew(station: info)
         let position = NMGTm128(x: info.katecX, y: info.katecY).toLatLng()
         
         switch type {
@@ -166,11 +167,15 @@ class CommonViewController: UIViewController {
               let _appMinimumVersion = Int(appMinimumVersion),
               let _appLastestVersion = Int(appLastestVersion) else { return }
         
+        #if DEBUG
+        return
+        #else
         if (appVersionName != appLastestVersionName && appVersionName != appMinimumVersionName) || (appVersionName == appMinimumVersionName && _appBuildVersion < _appMinimumVersion) {
             forceUdpateAlert()
         } else if appVersionName != dbdata.lastest_version_name || (appVersionName == appLastestVersionName && _appBuildVersion < _appLastestVersion) {
             optionalUpdateAlert(version: _appLastestVersion)
         }
+        #endif
     }
     
     func forceUdpateAlert() {

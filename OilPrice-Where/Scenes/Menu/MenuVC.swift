@@ -34,6 +34,9 @@ final class MenuVC: CommonViewController {
     private lazy var cardSaleView = MenuKeyValueView(type: .key).then {
         $0.keyLabel.text = "카드 할인"
     }
+    private lazy var historyView = MenuKeyValueView(type: .key).then {
+        $0.keyLabel.text = "방문 내역"
+    }
     private lazy var aboutView = MenuKeyValueView(type: .subType).then {
         $0.keyLabel.text = "About us"
     }
@@ -60,7 +63,8 @@ final class MenuVC: CommonViewController {
         view.addSubview(oilTypeView)
         view.addSubview(radiusView)
         view.addSubview(findBrandView)
-        view.addSubview(cardSaleView)
+        view.addSubview(historyView)
+//        view.addSubview(cardSaleView)
         view.addSubview(aboutView)
         view.addSubview(reviewView)
         view.addSubview(versionView)
@@ -77,12 +81,12 @@ final class MenuVC: CommonViewController {
             $0.top.equalTo(oilTypeView.snp.bottom).offset(18)
             $0.left.right.equalToSuperview()
         }
-        findBrandView.snp.makeConstraints {
+        historyView.snp.makeConstraints {
             $0.top.equalTo(radiusView.snp.bottom).offset(40)
             $0.left.right.equalToSuperview()
         }
-        cardSaleView.snp.makeConstraints {
-            $0.top.equalTo(findBrandView.snp.bottom).offset(18)
+        findBrandView.snp.makeConstraints {
+            $0.top.equalTo(historyView.snp.bottom).offset(18)
             $0.left.right.equalToSuperview()
         }
         versionView.snp.makeConstraints {
@@ -150,6 +154,17 @@ final class MenuVC: CommonViewController {
                 let vc = SelectMenuVC(type: .radius)
                 vc.modalPresentationStyle = .overFullScreen
                 owner.present(vc, animated: false)
+            })
+            .disposed(by: bag)
+        // 방문 내역
+        historyView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                let navi = owner.viewModel.output.fetchNavigationController(type: .history)
+                owner.present(navi, animated: true)
             })
             .disposed(by: bag)
         // 검색 브랜드

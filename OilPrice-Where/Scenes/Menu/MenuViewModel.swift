@@ -33,6 +33,7 @@ extension MenuViewModel {
         enum PresentType {
             case findBrand
             case cardSale
+            case history
             case aboutUs
         }
         
@@ -63,6 +64,9 @@ extension MenuViewModel {
                 let viewModel = EditSalePriceViewModel()
                 saleVC.bind(viewModel: viewModel)
                 vc = saleVC
+            case .history:
+                let historiesVC = HistoriesVC()
+                vc = historiesVC
             case .aboutUs:
                 let aboutVC = SettingAboutUsVC()
                 vc = aboutVC

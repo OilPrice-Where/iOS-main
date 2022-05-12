@@ -39,7 +39,6 @@ class DefaultData {
     let brandsSubject = BehaviorRelay<[String]>(value: []) // 설정 브랜드
     let favoriteSubject = BehaviorRelay<[String]>(value: []) // 즐겨 찾기
     let naviSubject = BehaviorRelay<String>(value: "kakao")
-    let salesSubject = BehaviorRelay<[String: Int]>(value: [:])
     let localFavoritesSubject = BehaviorRelay<String>(value: "")
     let completedRelay = PublishRelay<String?>()
     
@@ -90,7 +89,6 @@ class DefaultData {
     
     func setData() {
         let defaultBrands = ["SKE", "GSC", "HDO", "SOL", "RTO", "RTX", "NHO", "ETC", "E1G", "SKG"]
-        let defaultSales = [ "SK": 0, "HDO": 0, "GSC": 0, "SOL": 0, "E1G": 0, "RTO": 0, "NHO": 0]
         
         SwiftyPlistManager.shared.start(plistNames: ["UserInfo"], logging: true) // Plist 불러오기
         
@@ -99,7 +97,6 @@ class DefaultData {
         let oilType = fetchValue(defaultValue: "", for: "OilType")
         let brands = fetchValue(defaultValue: defaultBrands, for: "Brands")
         let naviType = fetchValue(defaultValue: "kakao", for: "NaviType")
-        let sales = fetchValue(defaultValue: defaultSales, for: "Sales")
         let favArr = fetchValue(defaultValue: [String](), for: "Favorites")
         
         localFavoritesSubject.accept(localFavorites)
@@ -107,7 +104,6 @@ class DefaultData {
         radiusSubject.accept(radius)
         brandsSubject.accept(brands)
         naviSubject.accept(naviType == "tmap" ? "tMap" : naviType)
-        salesSubject.accept(sales)
         favoriteSubject.accept(favArr)
         
         // Oil Type Save
@@ -193,13 +189,6 @@ class DefaultData {
                 def?.set(type, forKey: "NaviType")
                 def?.synchronize()
                 owner.swiftyPlistManager(save: type, forKey: "NaviType")
-            })
-            .disposed(by: bag)
-        
-        // Sales Save
-        salesSubject
-            .subscribe(with: self, onNext: { owner, type in
-                owner.swiftyPlistManager(save: type, forKey: "Sales")
             })
             .disposed(by: bag)
         

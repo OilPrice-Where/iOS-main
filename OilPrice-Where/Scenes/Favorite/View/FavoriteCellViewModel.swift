@@ -42,7 +42,7 @@ extension FavoriteCellViewModel {
         let type = DefaultData.shared.oilSubject.value
         guard let displayInfo = priceList?.first(where: { $0.type == type }) else { return  "가격정보 없음" }
         
-        let price = Preferences.priceToWon(price: displayInfo.price ?? 0) + "원"
+        let price = Preferences.priceToWon(price: displayInfo.price ?? 0)
         
         return price
     }
