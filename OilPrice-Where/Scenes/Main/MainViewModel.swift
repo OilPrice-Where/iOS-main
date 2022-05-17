@@ -14,6 +14,8 @@ import Moya
 import NMapsMap
 import NSObject_Rx
 import FloatingPanel
+
+import Firebase
 //MARK: MainViewModel
 final class MainViewModel {
     //MARK: - Properties

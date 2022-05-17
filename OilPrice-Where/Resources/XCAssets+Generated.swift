@@ -48,6 +48,7 @@ internal enum Asset {
     internal static let minMapMarker = ImageAsset(name: "MinMapMarker")
     internal static let nonMapMarker = ImageAsset(name: "NonMapMarker")
     internal static let selectMapMarker = ImageAsset(name: "SelectMapMarker")
+    internal static let close = ImageAsset(name: "close")
     internal static let currentLocationButton = ImageAsset(name: "currentLocationButton")
     internal static let dieselImage = ImageAsset(name: "dieselImage")
     internal static let favoriteOffIcon = ImageAsset(name: "favoriteOffIcon")

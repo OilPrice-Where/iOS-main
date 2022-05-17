@@ -68,15 +68,9 @@ class FirebaseUtility {
                             default: break
                             }
                             
-                            let tempPrice = data.price.components(separatedBy: ".")[0]
-                            var price = ""
+                            let priceInteger = Int(data.price.components(separatedBy: ".")[0]) ?? 0
+                            let price = Preferences.priceToWon(price: priceInteger)
                             
-                            if tempPrice.count > 3 {
-                                let index = tempPrice.index(tempPrice.endIndex, offsetBy: -3)
-                                price = tempPrice[index...] + "," + tempPrice[...index]
-                            } else {
-                                price = tempPrice
-                            }
                             var difference = true
                             let index = data.diff.index(after: data.diff.startIndex)
                             if data.diff[index...] == "-" {
