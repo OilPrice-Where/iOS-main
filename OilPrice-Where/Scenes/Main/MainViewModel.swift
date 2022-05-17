@@ -77,7 +77,7 @@ extension MainViewModel {
 //MARK: - Method
 extension MainViewModel {
     private func addressUpdate() {
-        guard let location = requestLocation else { return }
+        guard let location = currentLocation else { return }
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
             if let _ = error { return }

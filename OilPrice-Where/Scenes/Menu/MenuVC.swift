@@ -235,13 +235,13 @@ final class MenuVC: CommonViewController {
                         let alert = UIAlertController(title: "최신 버전이 있습니다.", message: "설치된 버전: \(currentVersion)\n최신 버전: \(lastestVersion)", preferredStyle: .alert)
                         let updateAction = UIAlertAction(title: "업데이트", style: .default) { _ in
                             let id = "1435350344"
-                            if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)"),
-                               UIApplication.shared.canOpenURL(reviewURL) {
+                            if let appURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)"),
+                               UIApplication.shared.canOpenURL(appURL) {
                                 // 유효한 URL인지 검사
                                 if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
-                                    UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
+                                    UIApplication.shared.open(appURL, options: [:], completionHandler: nil)
                                 } else {
-                                    UIApplication.shared.openURL(reviewURL)
+                                    UIApplication.shared.openURL(appURL)
                                 }
                             }
                         }

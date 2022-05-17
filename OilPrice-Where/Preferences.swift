@@ -304,7 +304,7 @@ struct Preferences {
         return km < 1000 ? "\(Int(km))m" : String(format: "%.1fkm", km / 1000)
     }
     
-    static func showToast(width: CGFloat, message : String) -> UILabel {
+    static func showToast(width: CGFloat, message : String, subTitle: String = "") -> UILabel {
         let rect = CGRect(x: UIScreen.main.bounds.width - (width / 2),
                           y: 100,
                           width: width,
@@ -317,7 +317,7 @@ struct Preferences {
         
         let toastLabel = UILabel(frame: rect)
         toastLabel.font = FontFamily.NanumSquareRound.extraBold.font(size: 11)
-        toastLabel.attributedText = attrString.apply(word: "메뉴에서 언제든 변경하실 수 있습니다.", attrs: [.font: FontFamily.NanumSquareRound.regular.font(size: 11)])
+        toastLabel.attributedText = attrString.apply(word: subTitle, attrs: [.font: FontFamily.NanumSquareRound.regular.font(size: 11)])
         toastLabel.backgroundColor = .black.withAlphaComponent(0.75)
         toastLabel.textColor = .white
         toastLabel.textAlignment = .center

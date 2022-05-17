@@ -114,21 +114,36 @@ final class SelectMenuVC: CommonViewController {
                 owner.viewModel.input.fetchUpdate.accept(title)
                 owner.dismiss(animated: false) {
                     var msg = ""
+                    var subTitle = "메뉴에서 언제든 변경하실 수 있습니다."
+                    var installURL: URL? = nil
                     
                     switch owner.viewModel.type {
                     case .navigation:
+                        let resultURL = owner.requestURL(station: nil)
+                        let isInstallation = resultURL.isCanOpen
+                        
                         let navi = Preferences.navigation(type: DefaultData.shared.naviSubject.value)
                         let title = navi == "카카오맵" || navi == "티맵" ? "\(navi)으로" : "\(navi)로"
-                        msg = "\(title) 길 안내를 제공합니다.\n메뉴에서 언제든 변경하실 수 있습니다."
+                        
+                        if !isInstallation {
+                            installURL = resultURL.requestURL
+                            subTitle = navi == "카카오맵" || navi == "티맵" ? "\(navi)이" : "\(navi)가"
+                            subTitle += " 설치되어 있지 않아 설치페이지로 이동합니다."
+                        }
+
+                        msg = "\(title) 길 안내를 제공합니다.\n\(subTitle)"
                     case .oilType:
-                        msg = "선택하신 유종으로 탐색을 시작합니다.\n메뉴에서 언제든 변경하실 수 있습니다."
+                        msg = "선택하신 유종으로 탐색을 시작합니다.\n\(subTitle)"
                     case .radius:
-                        msg = "선택하신 반경으로 탐색을 시작합니다.\n메뉴에서 언제든 변경하실 수 있습니다."
+                        msg = "선택하신 반경으로 탐색을 시작합니다.\n\(subTitle)"
                     }
                     
                     UIApplication.shared.customKeyWindow?.hideToast()
-                    let lbl = Preferences.showToast(width: 210, message: msg)
-                    UIApplication.shared.customKeyWindow?.showToast(lbl, position: .top)
+                    let lbl = Preferences.showToast(width: subTitle == "메뉴에서 언제든 변경하실 수 있습니다." ? 210 : 290, message: msg, subTitle: subTitle)
+                    UIApplication.shared.customKeyWindow?.showToast(lbl, duration: 2.0, position: .top, completion: { _ in
+                        guard let installURL = installURL else { return }
+                        UIApplication.shared.open(installURL)
+                    })
                 }
             })
             .disposed(by: bag)
