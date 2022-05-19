@@ -28,14 +28,17 @@ final class MenuVC: CommonViewController {
     private lazy var radiusView = MenuKeyValueView(type: .keyValue).then {
         $0.keyLabel.text = "검색 반경"
     }
+    private lazy var historyView = MenuKeyValueView(type: .key).then {
+        $0.keyLabel.text = "방문 내역"
+    }
     private lazy var findBrandView = MenuKeyValueView(type: .key).then {
         $0.keyLabel.text = "검색 브랜드"
     }
+    private lazy var avgView = MenuKeyValueView(type: .key).then {
+        $0.keyLabel.text = "전국 평균가"
+    }
     private lazy var cardSaleView = MenuKeyValueView(type: .key).then {
         $0.keyLabel.text = "카드 할인"
-    }
-    private lazy var historyView = MenuKeyValueView(type: .key).then {
-        $0.keyLabel.text = "방문 내역"
     }
     private lazy var aboutView = MenuKeyValueView(type: .subType).then {
         $0.keyLabel.text = "About us"
@@ -62,19 +65,20 @@ final class MenuVC: CommonViewController {
         view.addSubview(navigationView)
         view.addSubview(oilTypeView)
         view.addSubview(radiusView)
-        view.addSubview(findBrandView)
         view.addSubview(historyView)
+        view.addSubview(findBrandView)
+        view.addSubview(avgView)
 //        view.addSubview(cardSaleView)
         view.addSubview(aboutView)
         view.addSubview(reviewView)
         view.addSubview(versionView)
         
         navigationView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(14)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.left.right.equalToSuperview()
         }
         oilTypeView.snp.makeConstraints {
-            $0.top.equalTo(navigationView.snp.bottom).offset(42)
+            $0.top.equalTo(navigationView.snp.bottom).offset(40)
             $0.left.right.equalToSuperview()
         }
         radiusView.snp.makeConstraints {
@@ -89,8 +93,12 @@ final class MenuVC: CommonViewController {
             $0.top.equalTo(historyView.snp.bottom).offset(18)
             $0.left.right.equalToSuperview()
         }
+        avgView.snp.makeConstraints {
+            $0.top.equalTo(findBrandView.snp.bottom).offset(18)
+            $0.left.right.equalToSuperview()
+        }
         versionView.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-48)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-40)
             $0.left.right.equalToSuperview()
         }
         reviewView.snp.makeConstraints {
@@ -144,6 +152,17 @@ final class MenuVC: CommonViewController {
                 owner.present(vc, animated: false)
             })
             .disposed(by: bag)
+        // 방문 내역
+        historyView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                let navi = owner.viewModel.output.fetchNavigationController(type: .history)
+                owner.present(navi, animated: true)
+            })
+            .disposed(by: bag)
         // 검색 반경
         radiusView
             .rx
@@ -156,15 +175,16 @@ final class MenuVC: CommonViewController {
                 owner.present(vc, animated: false)
             })
             .disposed(by: bag)
-        // 방문 내역
-        historyView
+        // 전국 평균가
+        avgView
             .rx
             .tapGesture()
             .when(.recognized)
             .observe(on: MainScheduler.asyncInstance)
             .bind(with: self, onNext: { owner, _ in
-                let navi = owner.viewModel.output.fetchNavigationController(type: .history)
-                owner.present(navi, animated: true)
+                let vc = PriceAverageVC()
+                vc.modalPresentationStyle = .overFullScreen
+                owner.present(vc, animated: false)
             })
             .disposed(by: bag)
         // 검색 브랜드
@@ -235,13 +255,13 @@ final class MenuVC: CommonViewController {
                         let alert = UIAlertController(title: "최신 버전이 있습니다.", message: "설치된 버전: \(currentVersion)\n최신 버전: \(lastestVersion)", preferredStyle: .alert)
                         let updateAction = UIAlertAction(title: "업데이트", style: .default) { _ in
                             let id = "1435350344"
-                            if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)"),
-                               UIApplication.shared.canOpenURL(reviewURL) {
+                            if let appURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)"),
+                               UIApplication.shared.canOpenURL(appURL) {
                                 // 유효한 URL인지 검사
                                 if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
-                                    UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
+                                    UIApplication.shared.open(appURL, options: [:], completionHandler: nil)
                                 } else {
-                                    UIApplication.shared.openURL(reviewURL)
+                                    UIApplication.shared.openURL(appURL)
                                 }
                             }
                         }

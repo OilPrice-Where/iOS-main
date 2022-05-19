@@ -14,6 +14,8 @@ import Moya
 import NMapsMap
 import NSObject_Rx
 import FloatingPanel
+
+import Firebase
 //MARK: MainViewModel
 final class MainViewModel {
     //MARK: - Properties
@@ -77,7 +79,7 @@ extension MainViewModel {
 //MARK: - Method
 extension MainViewModel {
     private func addressUpdate() {
-        guard let location = requestLocation else { return }
+        guard let location = currentLocation else { return }
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
             if let _ = error { return }

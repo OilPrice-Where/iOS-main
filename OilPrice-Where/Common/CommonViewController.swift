@@ -14,6 +14,8 @@ import SCLAlertView
 import KakaoSDKNavi
 
 class CommonViewController: UIViewController {
+    typealias ResultURL = (isCanOpen: Bool, requestURL: URL?)
+    
     let bag = DisposeBag()
     var reachability: Reachability? = Reachability() //Network
     
@@ -88,57 +90,50 @@ class CommonViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func requestDirection(station: GasStation?) {
-        guard let info = station,
-              let type = NaviType(rawValue: DefaultData.shared.naviSubject.value) else { return }
+    func requestURL(station: GasStation?) -> ResultURL {
+        let dummy = GasStation(id: "", brand: "", name: "Dummy", price: 0, distance: 0.0, katecX: 465535.79052, katecY: 351548.26588)
+        guard let type = NaviType(rawValue: DefaultData.shared.naviSubject.value) else { return (false, nil) }
+        let info = station ?? dummy
         
-        DataManager.shared.addNew(station: info)
+        var destinationURL: URL? = nil
+        var appstoreURL: URL? = nil
+        
         let position = NMGTm128(x: info.katecX, y: info.katecY).toLatLng()
         
         switch type {
         case .tMap:
             let urlString = "tmap://?rGoName=\(info.name)&rGoX=\(position.lng)&rGoY=\(position.lat)"
             
-            guard let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                  let destinationURL = URL(string: encodedStr),
-                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/431589174") else { return }
-            
-            if UIApplication.shared.canOpenURL(destinationURL) {
-                UIApplication.shared.open(destinationURL, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
-            }
+            let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            destinationURL = URL(string: encodedStr ?? "")
+            appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/431589174")
         case .kakao:
             let destination = NaviLocation(name: info.name, x: "\(NSNumber(value: info.katecX))", y: "\(NSNumber(value: info.katecY))")
-            guard let navigateUrl = NaviApi.shared.navigateUrl(destination: destination, option: NaviOption(routeInfo: false)) else { return }
-            
-            if UIApplication.shared.canOpenURL(navigateUrl) {
-                UIApplication.shared.open(navigateUrl, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.open(NaviApi.webNaviInstallUrl, options: [:], completionHandler: nil)
-            }
+            destinationURL = NaviApi.shared.navigateUrl(destination: destination, option: NaviOption(routeInfo: false))
+            appstoreURL = NaviApi.webNaviInstallUrl
         case .kakaoMap:
-            guard let destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=CAR"),
-                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425") else { return }
-            
-            if UIApplication.shared.canOpenURL(destinationURL) {
-                UIApplication.shared.open(destinationURL, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
-            }
+            destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=CAR")
+            appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425")
         case .naver:
             let urlString = "nmap://navigation?dlat=\(position.lat)&dlng=\(position.lng)&dname=\(info.name)&appname=com.oilpricewhere.wheregasoline"
             
-            guard let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                  let destinationURL = URL(string: encodedStr),
-                  let appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/311867728") else { return }
-            
-            if UIApplication.shared.canOpenURL(destinationURL) {
-                UIApplication.shared.open(destinationURL)
-            } else {
-                UIApplication.shared.open(appstoreURL, options: [:], completionHandler: nil)
-            }
+            let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            destinationURL = URL(string: encodedStr ?? "")
+            appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/311867728")
         }
+        
+        guard let _destinationURL = destinationURL, let _appstoreURL = appstoreURL else { return (false, nil) }
+        
+        return UIApplication.shared.canOpenURL(_destinationURL) ? (true, _destinationURL) : (false, _appstoreURL)
+    }
+    
+    func requestDirection(station: GasStation?) {
+        guard let info = station,
+              let requestURL = requestURL(station: info).requestURL else { return }
+        
+        DataManager.shared.addNew(station: info)
+        
+        UIApplication.shared.open(requestURL, options: [:], completionHandler: nil)
     }
     // 길안내 에러 발생
     func handleError(error: Error?) {
@@ -183,15 +178,15 @@ class CommonViewController: UIViewController {
         let refreshAlert = UIAlertController(title: "업데이트 알림", message: msg, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
             let id = "1435350344"
-            if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)"),
-               UIApplication.shared.canOpenURL(reviewURL) {
+            if let appURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)"),
+               UIApplication.shared.canOpenURL(appURL) {
                 // 유효한 URL인지 검사
                 if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
-                    UIApplication.shared.open(reviewURL, options: [:]) { _ in
+                    UIApplication.shared.open(appURL, options: [:]) { _ in
                         exit(0)
                     }
                 } else {
-                    UIApplication.shared.openURL(reviewURL)
+                    UIApplication.shared.openURL(appURL)
                 }
             }
         }
@@ -206,13 +201,13 @@ class CommonViewController: UIViewController {
         let refreshAlert = UIAlertController(title: "업데이트", message: msg, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "지금 업데이트 하기", style: .default) { _ in
             let id = "1435350344"
-            if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)?ls=1&mt=8&action=write-review"),
-               UIApplication.shared.canOpenURL(reviewURL) {
+            if let appURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)"),
+               UIApplication.shared.canOpenURL(appURL) {
                 // 유효한 URL인지 검사
                 if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
-                    UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
+                    UIApplication.shared.open(appURL, options: [:], completionHandler: nil)
                 } else {
-                    UIApplication.shared.openURL(reviewURL)
+                    UIApplication.shared.openURL(appURL)
                 }
             }
         }
