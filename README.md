@@ -77,7 +77,8 @@
 - ver 2.1.0 : Bug fixes Debug & Add Function Release(22.03.21.)
 - ver 2.2.0 : Bug fixes Debug & Add Function Release(22.04.14.)
 - ver 2.3.0 : Bug fixes Debug & Add Function Release(22.05.09.)
-- ver 2.4.0 : Bug fixes Debug & Add Function Release(22.06.18.)
+- ver 2.5.0 : Bug fixes Debug & Add Function Release(22.05.16.)
+- ver 2.6.0 : Bug fixes Debug & Add Function Release(22.05.23.)
 
 <br>
 
