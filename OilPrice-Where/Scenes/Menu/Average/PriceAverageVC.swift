@@ -115,7 +115,7 @@ final class PriceAverageVC: UIViewController {
         }
         containerView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width * 0.8)
+            $0.width.equalTo(300)
             $0.height.equalTo(270)
         }
         titleLabel.snp.makeConstraints {

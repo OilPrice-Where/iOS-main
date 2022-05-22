@@ -22,14 +22,15 @@ final class HistoriesVC: CommonViewController {
         $0.alwaysBounceHorizontal = false
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
-        $0.backgroundColor = .white
+        $0.backgroundColor = Asset.Colors.tableViewBackground.color
         HistoryTableViewCell.register($0)
     }
     private lazy var emptyLabel = UILabel().then {
         $0.text = "방문하신 주유소가 없습니다."
+        $0.textColor = .darkGray
         $0.textAlignment = .center
         $0.isHidden = !DataManager.shared.stationList.isEmpty
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 20)
+        $0.font = FontFamily.NanumSquareRound.bold.font(size: 18)
     }
     
     //MARK: - Life Cycle
@@ -48,7 +49,7 @@ final class HistoriesVC: CommonViewController {
         navigationController?.navigationBar.titleTextAttributes = [.font: FontFamily.NanumSquareRound.bold.font(size: 17),
                                                                    .foregroundColor: UIColor.white]
         
-        view.backgroundColor = .white
+        view.backgroundColor = Asset.Colors.tableViewBackground.color
         view.addSubview(tableView)
         view.addSubview(emptyLabel)
         
