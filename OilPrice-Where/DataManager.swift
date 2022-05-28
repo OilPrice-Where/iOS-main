@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import RxSwift
+import RxRelay
 
 class DataManager {
     static let shared = DataManager()
@@ -19,7 +20,13 @@ class DataManager {
     }
     
     var stationListIsNotEmpty = PublishSubject<Bool>()
-    var stationList = [Station]() { didSet { stationListIsNotEmpty.onNext(!stationList.isEmpty) } }
+    var stationListRelay = BehaviorRelay<[Station]>(value: [])
+    var stationList = [Station]() {
+        didSet {
+            stationListIsNotEmpty.onNext(!stationList.isEmpty)
+            stationListRelay.accept(stationList)
+        }
+    }
 //    var cardList = [Card]()
     
     func fetchData() {
@@ -47,6 +54,7 @@ class DataManager {
         newStation.price = Double(station?.price ?? 0)
         newStation.katecX = station?.katecX ?? .zero
         newStation.katecY = station?.katecY ?? .zero
+        newStation.count = 0
         newStation.insertDate = Date()
         
         stationList.insert(newStation, at: 0)

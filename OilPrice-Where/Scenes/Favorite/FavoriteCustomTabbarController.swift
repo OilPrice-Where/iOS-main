@@ -51,7 +51,7 @@ class FavoriteCustomTabbarController: UITabBarController {
         favoriteVC.tabBarItem.image = Asset.Images.favoriteTabIcon.image
         favoriteVC.tabBarItem.selectedImage = Asset.Images.favoriteTabIconSel.image
         
-        let listVC = UIViewController()
+        let listVC = FrequentVisitVC()
         listVC.tabBarItem.title = "자주 방문"
         listVC.tabBarItem.image = Asset.Images.oilTabIcon.image
         listVC.tabBarItem.selectedImage = Asset.Images.oilTabIconSel.image

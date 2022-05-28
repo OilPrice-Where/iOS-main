@@ -103,6 +103,8 @@
 		E9BE7B04282C67A800FF8A01 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7B03282C67A800FF8A01 /* HistoryTableViewCell.swift */; };
 		E9BE7B0B282C81F800FF8A01 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7B0A282C81F800FF8A01 /* DataManager.swift */; };
 		E9C3A64C2842140100AC861C /* FavoriteCustomTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3A64B2842140100AC861C /* FavoriteCustomTabbarController.swift */; };
+		E9C3A65128421BE800AC861C /* FrequentVisitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3A65028421BE800AC861C /* FrequentVisitVC.swift */; };
+		E9C3A65328421D3A00AC861C /* FrequentVisitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3A65228421D3A00AC861C /* FrequentVisitViewModel.swift */; };
 		E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */; };
 		E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */; };
 		E9D1445827CED3120055141A /* InfoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1445727CED3120055141A /* InfoListView.swift */; };
@@ -239,6 +241,8 @@
 		E9BE7B03282C67A800FF8A01 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		E9BE7B0A282C81F800FF8A01 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		E9C3A64B2842140100AC861C /* FavoriteCustomTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCustomTabbarController.swift; sourceTree = "<group>"; };
+		E9C3A65028421BE800AC861C /* FrequentVisitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentVisitVC.swift; sourceTree = "<group>"; };
+		E9C3A65228421D3A00AC861C /* FrequentVisitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentVisitViewModel.swift; sourceTree = "<group>"; };
 		E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPanelController+.swift"; sourceTree = "<group>"; };
 		E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoVC.swift; sourceTree = "<group>"; };
 		E9D1445727CED3120055141A /* InfoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoListView.swift; sourceTree = "<group>"; };
@@ -417,9 +421,8 @@
 			isa = PBXGroup;
 			children = (
 				E9C3A64B2842140100AC861C /* FavoriteCustomTabbarController.swift */,
-				764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift */,
-				2CAC81DE276B966300CC6096 /* FavoritesGasStationViewModel.swift */,
-				2C0C68DD276B610700945CEC /* View */,
+				E9C3A64E28421BA800AC861C /* Favorite */,
+				E9C3A64F28421BBA00AC861C /* Frequent */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
@@ -704,6 +707,33 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		E9C3A64E28421BA800AC861C /* Favorite */ = {
+			isa = PBXGroup;
+			children = (
+				764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift */,
+				2CAC81DE276B966300CC6096 /* FavoritesGasStationViewModel.swift */,
+				2C0C68DD276B610700945CEC /* View */,
+			);
+			path = Favorite;
+			sourceTree = "<group>";
+		};
+		E9C3A64F28421BBA00AC861C /* Frequent */ = {
+			isa = PBXGroup;
+			children = (
+				E9C3A65028421BE800AC861C /* FrequentVisitVC.swift */,
+				E9C3A65228421D3A00AC861C /* FrequentVisitViewModel.swift */,
+				E9C3A654284228B700AC861C /* View */,
+			);
+			path = Frequent;
+			sourceTree = "<group>";
+		};
+		E9C3A654284228B700AC861C /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		E9DD57ED27DA56110024E7FF /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -917,6 +947,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9C3A65328421D3A00AC861C /* FrequentVisitViewModel.swift in Sources */,
 				2C0C68C4276B0EE200945CEC /* Fonts+Generated.swift in Sources */,
 				2C0C68C2276B0E8600945CEC /* XCAssets+Generated.swift in Sources */,
 				E9633A8027F9D2D600B99E66 /* MenuViewModel.swift in Sources */,
@@ -945,6 +976,7 @@
 				764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift in Sources */,
 				E9BE7B0B282C81F800FF8A01 /* DataManager.swift in Sources */,
 				8EE0A2FB21DDF49E00C159D0 /* BrandTypeTableViewCell.swift in Sources */,
+				E9C3A65128421BE800AC861C /* FrequentVisitVC.swift in Sources */,
 				2C1FBE1A276AE39000E57F8A /* SelectTypeView.swift in Sources */,
 				2C0C68E2276B6C9A00945CEC /* UIApplication+.swift in Sources */,
 				E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */,
