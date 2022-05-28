@@ -289,8 +289,8 @@ final class MainVC: CommonViewController {
     }
     
     private func toFavoriteTapped() {
-        let favoriteVC = FavoritesGasStationVC()
-        navigationController?.pushViewController(favoriteVC, animated: true)
+        let tabbar = FavoriteCustomTabbarController()
+        navigationController?.pushViewController(tabbar, animated: true)
     }
     
     private func researchStation() {

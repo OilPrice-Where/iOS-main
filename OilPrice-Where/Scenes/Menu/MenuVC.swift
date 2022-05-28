@@ -68,7 +68,7 @@ final class MenuVC: CommonViewController {
         view.addSubview(historyView)
         view.addSubview(findBrandView)
         view.addSubview(avgView)
-//        view.addSubview(cardSaleView)
+        view.addSubview(cardSaleView)
         view.addSubview(aboutView)
         view.addSubview(reviewView)
         view.addSubview(versionView)
@@ -95,6 +95,10 @@ final class MenuVC: CommonViewController {
         }
         avgView.snp.makeConstraints {
             $0.top.equalTo(findBrandView.snp.bottom).offset(18)
+            $0.left.right.equalToSuperview()
+        }
+        cardSaleView.snp.makeConstraints {
+            $0.top.equalTo(avgView.snp.bottom).offset(40)
             $0.left.right.equalToSuperview()
         }
         versionView.snp.makeConstraints {

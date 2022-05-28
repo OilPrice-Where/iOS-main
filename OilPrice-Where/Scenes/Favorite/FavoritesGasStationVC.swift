@@ -44,13 +44,6 @@ final class FavoritesGasStationVC: CommonViewController {
         configure()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.navigationBar.isHidden = false
-        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
-    }
-    
     //MARK: - Set UI
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -68,12 +61,6 @@ final class FavoritesGasStationVC: CommonViewController {
     }
     
     func makeUI() {
-        navigationItem.title = "자주 가는 주유소"
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.backgroundColor = Asset.Colors.mainColor.color
-        navigationController?.navigationBar.titleTextAttributes = [.font: FontFamily.NanumSquareRound.bold.font(size: 17),
-                                                                   .foregroundColor: UIColor.white]
-        
         view.backgroundColor = Asset.Colors.mainColor.color
         
         view.addSubview(collectionView)

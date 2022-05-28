@@ -90,12 +90,11 @@ final class CardCollectionViewCell: UICollectionViewCell {
     private func fetchLayout() -> UICollectionViewFlowLayout {
         let itemSize = CGSize(width: 30, height: 30)
         
-        let flowLayout = CollectionViewLeftAlignFlowLayout()
+        let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 10
         flowLayout.minimumInteritemSpacing = 10
         flowLayout.scrollDirection = .horizontal
         flowLayout.itemSize = itemSize
-        flowLayout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
         return flowLayout
     }
 }
@@ -111,27 +110,5 @@ extension CardCollectionViewCell: UICollectionViewDataSource, UICollectionViewDe
         cell.configure(imageName: dummy[indexPath.item])
         
         return cell
-    }
-}
-
-class CollectionViewLeftAlignFlowLayout: UICollectionViewFlowLayout {
-    let cellSpacing: CGFloat = 10
- 
-    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        self.minimumLineSpacing = 10.0
-        self.sectionInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
-        let attributes = super.layoutAttributesForElements(in: rect)
- 
-        var leftMargin = sectionInset.left
-        var maxY: CGFloat = -1.0
-        attributes?.forEach { layoutAttribute in
-            if layoutAttribute.frame.origin.y >= maxY {
-                leftMargin = sectionInset.left
-            }
-            layoutAttribute.frame.origin.x = leftMargin
-            leftMargin += 30 + cellSpacing
-            maxY = max(layoutAttribute.frame.maxY, maxY)
-        }
-        return attributes
     }
 }
