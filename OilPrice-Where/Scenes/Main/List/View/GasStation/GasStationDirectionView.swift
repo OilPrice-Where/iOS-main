@@ -61,4 +61,12 @@ final class GasStationDirectionView: UIView {
     func configure(distance: String) {
         titleLabel.text = "\(distance) 안내 시작"
     }
+    
+    func configure(image: UIImage?) {
+        logoImageView.image = image
+    }
+    
+    func configure(msg: String?) {
+        titleLabel.text = msg
+    }
 }

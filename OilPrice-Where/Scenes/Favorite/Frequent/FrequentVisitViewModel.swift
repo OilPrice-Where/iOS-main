@@ -34,7 +34,9 @@ final class FrequentVisitViewModel {
                         if let _dic = dic[id] {
                             _dic.count += 1
                         } else {
-                            dic.updateValue($0, forKey: id)
+                            let station = $0
+                            station.count = 1
+                            dic.updateValue(station, forKey: id)
                         }
                     }
                 }

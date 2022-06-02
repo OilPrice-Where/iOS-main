@@ -40,8 +40,6 @@ class FavoriteCustomTabbarController: UITabBarController {
     }
     
     func configure() {
-
-        
         tabBar.backgroundColor = .white
         tabBar.tintColor = Asset.Colors.mainColor.color
         tabBar.unselectedItemTintColor = .gray
@@ -52,7 +50,7 @@ class FavoriteCustomTabbarController: UITabBarController {
         favoriteVC.tabBarItem.selectedImage = Asset.Images.favoriteTabIconSel.image
         
         let listVC = FrequentVisitVC()
-        listVC.tabBarItem.title = "자주 방문"
+        listVC.tabBarItem.title = "자주가는"
         listVC.tabBarItem.image = Asset.Images.oilTabIcon.image
         listVC.tabBarItem.selectedImage = Asset.Images.oilTabIconSel.image
 

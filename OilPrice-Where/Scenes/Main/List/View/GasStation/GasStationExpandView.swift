@@ -24,10 +24,10 @@ final class GasStationExpandView: UIView {
     let directionView = GasStationDirectionView()
     
     //MARK: - Initializer
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(height: CGFloat = 40) {
+        super.init(frame: .zero)
         
-        makeUI()
+        makeUI(height: height)
     }
     
     required init?(coder: NSCoder) {
@@ -35,7 +35,7 @@ final class GasStationExpandView: UIView {
     }
     
     //MARK: - Set UI
-    private func makeUI() {
+    private func makeUI(height: CGFloat) {
         addSubview(favoriteButton)
         addSubview(directionView)
         
@@ -43,7 +43,7 @@ final class GasStationExpandView: UIView {
             $0.top.bottom.equalToSuperview()
             $0.left.equalToSuperview().offset(16)
             $0.width.equalTo(80)
-            $0.height.equalTo(40)
+            $0.height.equalTo(height)
         }
         directionView.snp.makeConstraints {
             $0.left.equalTo(favoriteButton.snp.right).offset(15)
