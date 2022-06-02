@@ -30,6 +30,7 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        prefences()
         makeUI()
     }
     
@@ -42,15 +43,18 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
     private func makeUI() {
         view.backgroundColor = .white
         
-        navigationItem.title = "카드 할인"
-        
         view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.centerY.equalToSuperview()
-            $0.height.equalTo(view.snp.width).multipliedBy(0.75)
+            $0.edges.equalToSuperview()
         }
+    }
+    
+    private func prefences() {
+        let item = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(toCreateCard))
+        
+        navigationItem.title = "카드 할인"
+        navigationItem.rightBarButtonItem = item
     }
     
     // set collectionView flow layout
@@ -61,9 +65,9 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 25
         flowLayout.minimumInteritemSpacing = .zero
-        flowLayout.scrollDirection = .horizontal
+        flowLayout.scrollDirection = .vertical
         flowLayout.itemSize = itemSize
-        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 37.5, bottom: 0, right: 37.5)
+        flowLayout.sectionInset = UIEdgeInsets(top: 37.5, left: 0, bottom: 37.5, right: 0)
         return flowLayout
     }
     
@@ -71,6 +75,11 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
         let screenWidth = UIScreen.main.bounds.width - 75
         let current = UIDevice.current
         return current.userInterfaceIdiom == .phone ? screenWidth : current.orientation == .portrait ? screenWidth / 2 - 12.5 : screenWidth / 3 - (50 / 3)
+    }
+    
+    @objc
+    private func toCreateCard() {
+        
     }
 }
 
@@ -91,17 +100,5 @@ extension SettingEditSalePriceVC: UICollectionViewDataSource, UICollectionViewDe
         cell.containerView.layer.insertSublayer(gradientLayer, at: 0)
         
         return cell
-    }
-}
-
-extension SettingEditSalePriceVC: UIScrollViewDelegate {
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        let cellSpacing = layout.itemSize.width + layout.minimumLineSpacing
-        var offset = targetContentOffset.pointee
-        let index = (offset.x + scrollView.contentInset.left) / cellSpacing
-        let roundedIndex = round(index)
-        offset = CGPoint(x: roundedIndex * cellSpacing - scrollView.contentInset.left, y: scrollView.contentInset.top)
-        targetContentOffset.pointee = offset
     }
 }

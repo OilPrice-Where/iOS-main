@@ -165,9 +165,9 @@ class CommonViewController: UIViewController {
         #if DEBUG
         return
         #else
-        if (appVersionName != appLastestVersionName && appVersionName != appMinimumVersionName) || (appVersionName == appMinimumVersionName && _appBuildVersion < _appMinimumVersion) {
+        if (appVersionName < appMinimumVersionName) || (appVersionName == appMinimumVersionName && _appBuildVersion < _appMinimumVersion)  {
             forceUdpateAlert()
-        } else if appVersionName != dbdata.lastest_version_name || (appVersionName == appLastestVersionName && _appBuildVersion < _appLastestVersion) {
+        } else if appVersionName < dbdata.lastest_version_name || (appVersionName == appLastestVersionName && _appBuildVersion < _appLastestVersion) {
             optionalUpdateAlert(version: _appLastestVersion)
         }
         #endif

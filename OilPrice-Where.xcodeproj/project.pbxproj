@@ -96,12 +96,18 @@
 		E9633A8C27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9633A8B27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift */; };
 		E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601C27CE00A6005BB593 /* MainListVC.swift */; };
 		E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601E27CE0351005BB593 /* MainListViewModel.swift */; };
+		E978E08228425C3400AE3480 /* StationDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E978E08128425C3400AE3480 /* StationDetailVC.swift */; };
+		E978E085284277A200AE3480 /* StationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E978E084284277A200AE3480 /* StationDetailViewModel.swift */; };
 		E97B642827D7CDD700577650 /* GeoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3E2107D95C0066A59E /* GeoConverter.swift */; };
 		E9A1B17F28336A9F00B64AFA /* PriceAverageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1B17E28336A9F00B64AFA /* PriceAverageVC.swift */; };
 		E9A3A2CB282D0E84004ED55E /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9A3A2C9282D0E84004ED55E /* DataModel.xcdatamodeld */; };
 		E9BE7AFF282C632C00FF8A01 /* HistoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7AFE282C632C00FF8A01 /* HistoriesVC.swift */; };
 		E9BE7B04282C67A800FF8A01 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7B03282C67A800FF8A01 /* HistoryTableViewCell.swift */; };
 		E9BE7B0B282C81F800FF8A01 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7B0A282C81F800FF8A01 /* DataManager.swift */; };
+		E9C3A64C2842140100AC861C /* FavoriteCustomTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3A64B2842140100AC861C /* FavoriteCustomTabbarController.swift */; };
+		E9C3A65128421BE800AC861C /* FrequentVisitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3A65028421BE800AC861C /* FrequentVisitVC.swift */; };
+		E9C3A65328421D3A00AC861C /* FrequentVisitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3A65228421D3A00AC861C /* FrequentVisitViewModel.swift */; };
+		E9C3A656284228EB00AC861C /* FrequentVisitCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3A655284228EB00AC861C /* FrequentVisitCollectionViewCell.swift */; };
 		E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */; };
 		E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */; };
 		E9D1445827CED3120055141A /* InfoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1445727CED3120055141A /* InfoListView.swift */; };
@@ -232,11 +238,17 @@
 		E9633A8B27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMenuCollectionViewCell.swift; sourceTree = "<group>"; };
 		E96E601C27CE00A6005BB593 /* MainListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListVC.swift; sourceTree = "<group>"; };
 		E96E601E27CE0351005BB593 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
+		E978E08128425C3400AE3480 /* StationDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailVC.swift; sourceTree = "<group>"; };
+		E978E084284277A200AE3480 /* StationDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailViewModel.swift; sourceTree = "<group>"; };
 		E9A1B17E28336A9F00B64AFA /* PriceAverageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceAverageVC.swift; sourceTree = "<group>"; };
 		E9A3A2CA282D0E84004ED55E /* CardModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CardModel.xcdatamodel; sourceTree = "<group>"; };
 		E9BE7AFE282C632C00FF8A01 /* HistoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoriesVC.swift; sourceTree = "<group>"; };
 		E9BE7B03282C67A800FF8A01 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		E9BE7B0A282C81F800FF8A01 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		E9C3A64B2842140100AC861C /* FavoriteCustomTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCustomTabbarController.swift; sourceTree = "<group>"; };
+		E9C3A65028421BE800AC861C /* FrequentVisitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentVisitVC.swift; sourceTree = "<group>"; };
+		E9C3A65228421D3A00AC861C /* FrequentVisitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentVisitViewModel.swift; sourceTree = "<group>"; };
+		E9C3A655284228EB00AC861C /* FrequentVisitCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentVisitCollectionViewCell.swift; sourceTree = "<group>"; };
 		E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPanelController+.swift"; sourceTree = "<group>"; };
 		E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoVC.swift; sourceTree = "<group>"; };
 		E9D1445727CED3120055141A /* InfoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoListView.swift; sourceTree = "<group>"; };
@@ -414,9 +426,9 @@
 		2C0C68DC276B60A600945CEC /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
-				764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift */,
-				2CAC81DE276B966300CC6096 /* FavoritesGasStationViewModel.swift */,
-				2C0C68DD276B610700945CEC /* View */,
+				E9C3A64B2842140100AC861C /* FavoriteCustomTabbarController.swift */,
+				E9C3A64E28421BA800AC861C /* Favorite */,
+				E9C3A64F28421BBA00AC861C /* Frequent */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
@@ -660,6 +672,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		E978E0832842772F00AE3480 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				E978E08128425C3400AE3480 /* StationDetailVC.swift */,
+				E978E084284277A200AE3480 /* StationDetailViewModel.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
 		E97B642727D7C13700577650 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -697,6 +718,35 @@
 			isa = PBXGroup;
 			children = (
 				E9BE7B03282C67A800FF8A01 /* HistoryTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E9C3A64E28421BA800AC861C /* Favorite */ = {
+			isa = PBXGroup;
+			children = (
+				764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift */,
+				2CAC81DE276B966300CC6096 /* FavoritesGasStationViewModel.swift */,
+				2C0C68DD276B610700945CEC /* View */,
+			);
+			path = Favorite;
+			sourceTree = "<group>";
+		};
+		E9C3A64F28421BBA00AC861C /* Frequent */ = {
+			isa = PBXGroup;
+			children = (
+				E9C3A65028421BE800AC861C /* FrequentVisitVC.swift */,
+				E9C3A65228421D3A00AC861C /* FrequentVisitViewModel.swift */,
+				E9C3A654284228B700AC861C /* View */,
+				E978E0832842772F00AE3480 /* Detail */,
+			);
+			path = Frequent;
+			sourceTree = "<group>";
+		};
+		E9C3A654284228B700AC861C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E9C3A655284228EB00AC861C /* FrequentVisitCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -914,6 +964,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9C3A65328421D3A00AC861C /* FrequentVisitViewModel.swift in Sources */,
 				2C0C68C4276B0EE200945CEC /* Fonts+Generated.swift in Sources */,
 				2C0C68C2276B0E8600945CEC /* XCAssets+Generated.swift in Sources */,
 				E9633A8027F9D2D600B99E66 /* MenuViewModel.swift in Sources */,
@@ -922,12 +973,14 @@
 				E94D0F0827BB4D5800BCB092 /* GasStationExpandView.swift in Sources */,
 				E9F0996427D8C44B009F95DF /* KeyValueView.swift in Sources */,
 				E9D1445827CED3120055141A /* InfoListView.swift in Sources */,
+				E9C3A64C2842140100AC861C /* FavoriteCustomTabbarController.swift in Sources */,
 				E9633A7E27F9CF7D00B99E66 /* MenuKeyValueView.swift in Sources */,
 				2CAC81DD276B948B00CC6096 /* CustomKVView.swift in Sources */,
 				8ECE0DAA212385FB00FF2B46 /* AllPrices.swift in Sources */,
 				8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */,
 				E9633A8C27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift in Sources */,
 				E919CCC9281BF80700C3373E /* PlusView.swift in Sources */,
+				E978E08228425C3400AE3480 /* StationDetailVC.swift in Sources */,
 				8ECE0D52211AD42600FF2B46 /* Preferences.swift in Sources */,
 				E9BE7AFF282C632C00FF8A01 /* HistoriesVC.swift in Sources */,
 				E94D0F0227BB467600BCB092 /* GasStationTitleView.swift in Sources */,
@@ -941,11 +994,14 @@
 				764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift in Sources */,
 				E9BE7B0B282C81F800FF8A01 /* DataManager.swift in Sources */,
 				8EE0A2FB21DDF49E00C159D0 /* BrandTypeTableViewCell.swift in Sources */,
+				E9C3A65128421BE800AC861C /* FrequentVisitVC.swift in Sources */,
 				2C1FBE1A276AE39000E57F8A /* SelectTypeView.swift in Sources */,
 				2C0C68E2276B6C9A00945CEC /* UIApplication+.swift in Sources */,
 				E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */,
 				8E167D3F2107D95C0066A59E /* GeoConverter.swift in Sources */,
 				2CA4726427992D0A00DB0DDD /* CLLocationManager+.swift in Sources */,
+				E978E085284277A200AE3480 /* StationDetailViewModel.swift in Sources */,
+				E9C3A656284228EB00AC861C /* FrequentVisitCollectionViewCell.swift in Sources */,
 				2CC1C80E276C8610007527C7 /* MainMapView.swift in Sources */,
 				8E68BA1B24CCC645004730D7 /* CommonViewController.swift in Sources */,
 				E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */,
@@ -1182,7 +1238,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline;
@@ -1221,7 +1277,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline;
@@ -1258,7 +1314,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.7.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
@@ -1294,7 +1350,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.7.0;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FavoriteWidgetExtension;
