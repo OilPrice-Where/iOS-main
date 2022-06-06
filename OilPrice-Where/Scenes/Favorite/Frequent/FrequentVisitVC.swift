@@ -25,6 +25,13 @@ final class FrequentVisitVC: CommonViewController {
         $0.backgroundColor = .clear
         FrequentVisitCollectionViewCell.register($0)
     }
+    private lazy var emptyLabel = UILabel().then {
+        $0.text = "방문하신 주유소가 없습니다."
+        $0.textColor = .darkGray
+        $0.textAlignment = .center
+        $0.isHidden = !DataManager.shared.stationList.isEmpty
+        $0.font = FontFamily.NanumSquareRound.bold.font(size: 18)
+    }
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -39,8 +46,12 @@ final class FrequentVisitVC: CommonViewController {
         view.backgroundColor = .systemGroupedBackground
         
         view.addSubview(collectionView)
+        view.addSubview(emptyLabel)
         
         collectionView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        emptyLabel.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
@@ -54,14 +65,12 @@ final class FrequentVisitVC: CommonViewController {
                 cell.configure(station: station)
             }
             .disposed(by: bag)
-        
         DefaultData.shared.completedRelay
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(with: self, onNext: { owner, _ in
                 owner.collectionView.reloadData()
             })
             .disposed(by: rx.disposeBag)
-        
         collectionView
             .rx
             .modelSelected(Station.self)
@@ -72,7 +81,9 @@ final class FrequentVisitVC: CommonViewController {
                 owner.navigationController?.pushViewController(detailVC, animated: true)
             })
             .disposed(by: bag)
-        
+        DataManager.shared.stationListIsNotEmpty
+            .bind(to: emptyLabel.rx.isHidden)
+            .disposed(by: bag)
     }
     
     private func fetchLayout() -> UICollectionViewFlowLayout {

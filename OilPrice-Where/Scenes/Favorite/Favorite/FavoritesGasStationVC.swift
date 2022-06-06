@@ -18,7 +18,6 @@ import FirebaseAnalytics
 final class FavoritesGasStationVC: CommonViewController {
     //MARK: - Properties
     private var fromTap = false
-    private var notiObject: NSObjectProtocol?
     private let noneFavoriteView = NoneFavoriteView()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
         $0.backgroundColor = .clear
@@ -31,17 +30,11 @@ final class FavoritesGasStationVC: CommonViewController {
     }
     
     //MARK: - Life Cycle
-    deinit {
-        if let noti = notiObject { NotificationCenter.default.removeObserver(noti) }
-        notiObject = nil
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         makeUI()
         bindViewModel()
-        configure()
     }
     
     //MARK: - Set UI
@@ -52,7 +45,6 @@ final class FavoritesGasStationVC: CommonViewController {
             return
         }
         
-        let screenWidth = UIScreen.main.bounds.width - 75
         let itemWidth: CGFloat = fetchItemWidth()
         let itemSize = CGSize(width: itemWidth, height: 411.0)
         flowLayout.itemSize = itemSize
@@ -100,12 +92,6 @@ final class FavoritesGasStationVC: CommonViewController {
     }
     
     //MARK: - Functions..
-    func configure() {
-        notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("navigationClickEvent"),
-                                                            object: nil,
-                                                            queue: .main) { self.naviClickEvenet(noti: $0) }
-    }
-    
     override func setNetworkSetting() {
         super.setNetworkSetting()
         
@@ -122,11 +108,6 @@ final class FavoritesGasStationVC: CommonViewController {
             self?.collectionView.isHidden = true
             self?.noneFavoriteView.isHidden = false
         }
-    }
-    
-    func naviClickEvenet(noti: Notification) {
-        let info = noti.userInfo?["station"] as? GasStation
-        requestDirection(station: info)
     }
     
     // set collectionView flow layout
@@ -167,5 +148,9 @@ extension FavoritesGasStationVC: FavoriteCollectionViewCellDelegate {
         let lbl = Preferences.showToast(message: "주유소 주소가 복사되었습니다.")
         view.hideToast()
         view.showToast(lbl)
+    }
+    
+    func touchedDirection(station: GasStation?) {
+        requestDirection(station: station)
     }
 }

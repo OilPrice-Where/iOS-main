@@ -58,7 +58,7 @@ extension FavoriteCellViewModel {
         DefaultData.shared.favoriteSubject.accept(newFavArr)
     }
     // 길 안내
-    func navigationButton() {
+    func navigationButton() -> GasStation? {
         let type = DefaultData.shared.oilSubject.value
         
         guard let info = info,
@@ -67,18 +67,9 @@ extension FavoriteCellViewModel {
               let name = info.name,
               let kx = info.katecX,
               let ky = info.katecY,
-              let price = info.price?.first(where: { $0.type == type })?.price else { return }
+              let price = info.price?.first(where: { $0.type == type })?.price else { return nil }
         
-        let station = GasStation(id: id,
-                                 brand: brand,
-                                 name: name,
-                                 price: price,
-                                 distance: 0.0,
-                                 katecX: kx,
-                                 katecY: ky)
-        
-        NotificationCenter.default.post(name: NSNotification.Name("navigationClickEvent"),
-                                        object: nil,
-                                        userInfo: ["station": station])
+        return GasStation(id: id, brand: brand, name: name, price: price, distance: 0.0,
+                          katecX: kx, katecY: ky)
     }
 }

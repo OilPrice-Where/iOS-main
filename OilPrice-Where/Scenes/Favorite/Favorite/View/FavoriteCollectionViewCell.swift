@@ -14,6 +14,7 @@ import FirebaseAnalytics
 
 protocol FavoriteCollectionViewCellDelegate: AnyObject {
     func touchedAddressLabel()
+    func touchedDirection(station: GasStation?)
 }
 
 //MARK: 즐겨찾는 주유소 Cell
@@ -280,7 +281,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
                 Analytics.setUserProperty("ko", forName: "country")
                 Analytics.logEvent(event, parameters: parameters)
                 
-                owner.viewModel.navigationButton()
+                owner.delegate?.touchedDirection(station: owner.viewModel.navigationButton())
             })
             .disposed(by: rx.disposeBag)
         // 즐겨찾기 삭제
