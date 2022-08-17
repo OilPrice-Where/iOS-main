@@ -72,8 +72,20 @@
 		8EF8481A24E39B23009A32D8 /* EditSalePriceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8481924E39B23009A32D8 /* EditSalePriceViewModel.swift */; };
 		8EF8481C24E39C03009A32D8 /* SettingEditSalePriceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8481B24E39C03009A32D8 /* SettingEditSalePriceVC.swift */; };
 		E2E9B4E3DDF2DC61D6492C4B /* Pods_FavoriteWidgetExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA270F4C9F8787CC0D069A8E /* Pods_FavoriteWidgetExtension.framework */; };
+		E90FC272290E319D006908CC /* ResponsePOI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC271290E319D006908CC /* ResponsePOI.swift */; };
+		E90FC275290E3266006908CC /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC274290E3266006908CC /* SearchResultCell.swift */; };
+		E90FC277290E331F006908CC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC276290E331F006908CC /* LocationManager.swift */; };
+		E90FC279290E3364006908CC /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E90FC278290E3364006908CC /* TMapSDK.framework */; };
+		E90FC27A290E3364006908CC /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E90FC278290E3364006908CC /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E90FC27D290E33B8006908CC /* LogUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC27C290E33B8006908CC /* LogUtil.swift */; };
+		E913063628A8FC510065E30C /* EditCardNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913063528A8FC510065E30C /* EditCardNameTableViewCell.swift */; };
+		E913063828A8FD790065E30C /* CardBenefitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913063728A8FD790065E30C /* CardBenefitTableViewCell.swift */; };
+		E913063A28A8FE950065E30C /* SelectedBrandTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913063928A8FE950065E30C /* SelectedBrandTableViewCell.swift */; };
+		E913777728959DEE0078B557 /* Card+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913777428959DEE0078B557 /* Card+CoreDataProperties.swift */; };
+		E913777828959DEE0078B557 /* Card+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913777428959DEE0078B557 /* Card+CoreDataProperties.swift */; };
 		E919CCC9281BF80700C3373E /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E919CCC8281BF80700C3373E /* PlusView.swift */; };
 		E91B77B32804B49D00782435 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E91B77B22804B49D00782435 /* GoogleService-Info.plist */; };
+		E933E88428676C9300A49ADB /* AddCardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E933E88328676C9300A49ADB /* AddCardVC.swift */; };
 		E9400FDE27B0A3E2003168C6 /* NaverMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FDD27B0A3E2003168C6 /* NaverMapMarker.swift */; };
 		E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FDF27B0A3F0003168C6 /* StationInfoView.swift */; };
 		E9400FE227B0A467003168C6 /* StationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FE127B0A467003168C6 /* StationAPI.swift */; };
@@ -101,6 +113,7 @@
 		E97B642827D7CDD700577650 /* GeoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3E2107D95C0066A59E /* GeoConverter.swift */; };
 		E9A1B17F28336A9F00B64AFA /* PriceAverageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1B17E28336A9F00B64AFA /* PriceAverageVC.swift */; };
 		E9A3A2CB282D0E84004ED55E /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9A3A2C9282D0E84004ED55E /* DataModel.xcdatamodeld */; };
+		E9A64D542883D36600BF1737 /* CustomNavigationTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A64D532883D36600BF1737 /* CustomNavigationTitle.swift */; };
 		E9BE7AFF282C632C00FF8A01 /* HistoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7AFE282C632C00FF8A01 /* HistoriesVC.swift */; };
 		E9BE7B04282C67A800FF8A01 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7B03282C67A800FF8A01 /* HistoryTableViewCell.swift */; };
 		E9BE7B0B282C81F800FF8A01 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7B0A282C81F800FF8A01 /* DataManager.swift */; };
@@ -118,6 +131,11 @@
 		E9EAF1172822EC1C0046F9A8 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1162822EC1C0046F9A8 /* UIColor+.swift */; };
 		E9EAF1182822EC280046F9A8 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1162822EC1C0046F9A8 /* UIColor+.swift */; };
 		E9EAF11A2822FEC80046F9A8 /* BrandCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EAF1192822FEC80046F9A8 /* BrandCollectionViewCell.swift */; };
+		E9EFE7C9290D9BB600EA514B /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7C8290D9BB600EA514B /* SearchView.swift */; };
+		E9EFE7CC290E2D6800EA514B /* SearchBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7CB290E2D6800EA514B /* SearchBarVC.swift */; };
+		E9EFE7CE290E2D8300EA514B /* SearchBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7CD290E2D8300EA514B /* SearchBarViewModel.swift */; };
+		E9EFE7D0290E2DD100EA514B /* CommonNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7CF290E2DD100EA514B /* CommonNavigationView.swift */; };
+		E9EFE7D2290E2F7100EA514B /* CommonTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7D1290E2F7100EA514B /* CommonTextFieldView.swift */; };
 		E9F0996427D8C44B009F95DF /* KeyValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F0996327D8C44B009F95DF /* KeyValueView.swift */; };
 		F362C63C0574D48555F1F335 /* Pods_OilPrice_Where.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692C04AA68557BE6FEE04C04 /* Pods_OilPrice_Where.framework */; };
 /* End PBXBuildFile section */
@@ -142,6 +160,17 @@
 				8EAEB15A24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E90FC27B290E3364006908CC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E90FC27A290E3364006908CC /* TMapSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -214,8 +243,18 @@
 		8EF8481924E39B23009A32D8 /* EditSalePriceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSalePriceViewModel.swift; sourceTree = "<group>"; };
 		8EF8481B24E39C03009A32D8 /* SettingEditSalePriceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingEditSalePriceVC.swift; sourceTree = "<group>"; };
 		AECFB34A675AA17BD31A72A0 /* Pods-OilPrice-Where.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OilPrice-Where.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OilPrice-Where/Pods-OilPrice-Where.debug.xcconfig"; sourceTree = "<group>"; };
+		E90FC271290E319D006908CC /* ResponsePOI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsePOI.swift; sourceTree = "<group>"; };
+		E90FC274290E3266006908CC /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		E90FC276290E331F006908CC /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		E90FC278290E3364006908CC /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMapSDK.framework; sourceTree = "<group>"; };
+		E90FC27C290E33B8006908CC /* LogUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogUtil.swift; sourceTree = "<group>"; };
+		E913063528A8FC510065E30C /* EditCardNameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCardNameTableViewCell.swift; sourceTree = "<group>"; };
+		E913063728A8FD790065E30C /* CardBenefitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBenefitTableViewCell.swift; sourceTree = "<group>"; };
+		E913063928A8FE950065E30C /* SelectedBrandTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedBrandTableViewCell.swift; sourceTree = "<group>"; };
+		E913777428959DEE0078B557 /* Card+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E919CCC8281BF80700C3373E /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
 		E91B77B22804B49D00782435 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		E933E88328676C9300A49ADB /* AddCardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardVC.swift; sourceTree = "<group>"; };
 		E9400FDD27B0A3E2003168C6 /* NaverMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapMarker.swift; sourceTree = "<group>"; };
 		E9400FDF27B0A3F0003168C6 /* StationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoView.swift; sourceTree = "<group>"; };
 		E9400FE127B0A467003168C6 /* StationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationAPI.swift; sourceTree = "<group>"; };
@@ -242,6 +281,7 @@
 		E978E084284277A200AE3480 /* StationDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailViewModel.swift; sourceTree = "<group>"; };
 		E9A1B17E28336A9F00B64AFA /* PriceAverageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceAverageVC.swift; sourceTree = "<group>"; };
 		E9A3A2CA282D0E84004ED55E /* CardModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CardModel.xcdatamodel; sourceTree = "<group>"; };
+		E9A64D532883D36600BF1737 /* CustomNavigationTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationTitle.swift; sourceTree = "<group>"; };
 		E9BE7AFE282C632C00FF8A01 /* HistoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoriesVC.swift; sourceTree = "<group>"; };
 		E9BE7B03282C67A800FF8A01 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		E9BE7B0A282C81F800FF8A01 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -258,6 +298,11 @@
 		E9EAF1032822DAC30046F9A8 /* CardInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInfo.swift; sourceTree = "<group>"; };
 		E9EAF1162822EC1C0046F9A8 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		E9EAF1192822FEC80046F9A8 /* BrandCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandCollectionViewCell.swift; sourceTree = "<group>"; };
+		E9EFE7C8290D9BB600EA514B /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		E9EFE7CB290E2D6800EA514B /* SearchBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarVC.swift; sourceTree = "<group>"; };
+		E9EFE7CD290E2D8300EA514B /* SearchBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewModel.swift; sourceTree = "<group>"; };
+		E9EFE7CF290E2DD100EA514B /* CommonNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonNavigationView.swift; sourceTree = "<group>"; };
+		E9EFE7D1290E2F7100EA514B /* CommonTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextFieldView.swift; sourceTree = "<group>"; };
 		E9F0996327D8C44B009F95DF /* KeyValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueView.swift; sourceTree = "<group>"; };
 		EA270F4C9F8787CC0D069A8E /* Pods_FavoriteWidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FavoriteWidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -268,6 +313,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F362C63C0574D48555F1F335 /* Pods_OilPrice_Where.framework in Frameworks */,
+				E90FC279290E3364006908CC /* TMapSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +332,7 @@
 		0311CDC564670164F66F0F16 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E90FC278290E3364006908CC /* TMapSDK.framework */,
 				8EAEB14F24F41AFF00B5E6CE /* NotificationCenter.framework */,
 				EA270F4C9F8787CC0D069A8E /* Pods_FavoriteWidgetExtension.framework */,
 				692C04AA68557BE6FEE04C04 /* Pods_OilPrice_Where.framework */,
@@ -379,9 +426,10 @@
 		2C0C68D1276B337800945CEC /* Card */ = {
 			isa = PBXGroup;
 			children = (
+				2C0C68D2276B349000945CEC /* Cell */,
 				8EF8481B24E39C03009A32D8 /* SettingEditSalePriceVC.swift */,
 				8EF8481924E39B23009A32D8 /* EditSalePriceViewModel.swift */,
-				2C0C68D2276B349000945CEC /* Cell */,
+				E913063328A8FBE80065E30C /* AddCard */,
 			);
 			path = Card;
 			sourceTree = "<group>";
@@ -418,7 +466,9 @@
 			children = (
 				8E167D3E2107D95C0066A59E /* GeoConverter.swift */,
 				8E68BA1624CCC5F7004730D7 /* ViewModelBindableType.swift */,
+				E9EFE7D1290E2F7100EA514B /* CommonTextFieldView.swift */,
 				8E68BA1A24CCC645004730D7 /* CommonViewController.swift */,
+				E9EFE7CF290E2DD100EA514B /* CommonNavigationView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -463,6 +513,7 @@
 			children = (
 				2CC1C80B276C8123007527C7 /* MainVC.swift */,
 				2CA47265279931B500DB0DDD /* MainViewModel.swift */,
+				E9EFE7CA290E2D5F00EA514B /* Search */,
 				2CC1C7FD276C5B3C007527C7 /* Map */,
 				2CC1C805276C723A007527C7 /* List */,
 			);
@@ -498,6 +549,7 @@
 				E9400FE527B0D719003168C6 /* StationInfoPriceView.swift */,
 				E9400FE727B1146E003168C6 /* StationInfoGuideView.swift */,
 				E919CCC8281BF80700C3373E /* PlusView.swift */,
+				E9EFE7C8290D9BB600EA514B /* SearchView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -611,14 +663,51 @@
 		8EE7E34720F5EDA400F35473 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				E90FC27C290E33B8006908CC /* LogUtil.swift */,
 				8E1BB8EE2107E9A60065281B /* DataUtility.swift */,
 				29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */,
 				8EB5C2E72139214700AB83BB /* Reachability.swift */,
 				8ECE0D51211AD42600FF2B46 /* Preferences.swift */,
 				8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */,
 				E9E290D6280ECF1900BE21B3 /* DBVersionData.swift */,
+				E90FC276290E331F006908CC /* LocationManager.swift */,
 			);
 			name = Utility;
+			sourceTree = "<group>";
+		};
+		E90FC270290E3170006908CC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E90FC271290E319D006908CC /* ResponsePOI.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E90FC273290E31CF006908CC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E90FC274290E3266006908CC /* SearchResultCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E913063328A8FBE80065E30C /* AddCard */ = {
+			isa = PBXGroup;
+			children = (
+				E933E88328676C9300A49ADB /* AddCardVC.swift */,
+				E913063428A8FC1A0065E30C /* Cell */,
+			);
+			path = AddCard;
+			sourceTree = "<group>";
+		};
+		E913063428A8FC1A0065E30C /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				E913063528A8FC510065E30C /* EditCardNameTableViewCell.swift */,
+				E913063728A8FD790065E30C /* CardBenefitTableViewCell.swift */,
+				E913063928A8FE950065E30C /* SelectedBrandTableViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		E94D0F0D27BB7A7100BCB092 /* GasStation */ = {
@@ -677,6 +766,7 @@
 			children = (
 				E978E08128425C3400AE3480 /* StationDetailVC.swift */,
 				E978E084284277A200AE3480 /* StationDetailViewModel.swift */,
+				E9A64D522883D35000BF1737 /* View */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -712,6 +802,14 @@
 				E9A1B17E28336A9F00B64AFA /* PriceAverageVC.swift */,
 			);
 			path = Average;
+			sourceTree = "<group>";
+		};
+		E9A64D522883D35000BF1737 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E9A64D532883D36600BF1737 /* CustomNavigationTitle.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		E9BE7B02282C678F00FF8A01 /* View */ = {
@@ -763,11 +861,23 @@
 		E9EAF1062822DCBE0046F9A8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E913777428959DEE0078B557 /* Card+CoreDataProperties.swift */,
 				E9EAF1032822DAC30046F9A8 /* CardInfo.swift */,
 				E9BE7B0A282C81F800FF8A01 /* DataManager.swift */,
 				E9A3A2C9282D0E84004ED55E /* DataModel.xcdatamodeld */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		E9EFE7CA290E2D5F00EA514B /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				E90FC270290E3170006908CC /* Model */,
+				E90FC273290E31CF006908CC /* View */,
+				E9EFE7CB290E2D6800EA514B /* SearchBarVC.swift */,
+				E9EFE7CD290E2D8300EA514B /* SearchBarViewModel.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -784,6 +894,7 @@
 				A1410BAAA832A712804BE11F /* [CP] Embed Pods Frameworks */,
 				8E167D3421007B620066A59E /* ShellScript */,
 				8EAEB14624F4124900B5E6CE /* Embed App Extensions */,
+				E90FC27B290E3364006908CC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -971,7 +1082,9 @@
 				8EF8481A24E39B23009A32D8 /* EditSalePriceViewModel.swift in Sources */,
 				E94D0F0027BB3DBC00BCB092 /* GasStationCell.swift in Sources */,
 				E94D0F0827BB4D5800BCB092 /* GasStationExpandView.swift in Sources */,
+				E9EFE7D0290E2DD100EA514B /* CommonNavigationView.swift in Sources */,
 				E9F0996427D8C44B009F95DF /* KeyValueView.swift in Sources */,
+				E9EFE7CC290E2D6800EA514B /* SearchBarVC.swift in Sources */,
 				E9D1445827CED3120055141A /* InfoListView.swift in Sources */,
 				E9C3A64C2842140100AC861C /* FavoriteCustomTabbarController.swift in Sources */,
 				E9633A7E27F9CF7D00B99E66 /* MenuKeyValueView.swift in Sources */,
@@ -980,9 +1093,11 @@
 				8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */,
 				E9633A8C27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift in Sources */,
 				E919CCC9281BF80700C3373E /* PlusView.swift in Sources */,
+				E90FC277290E331F006908CC /* LocationManager.swift in Sources */,
 				E978E08228425C3400AE3480 /* StationDetailVC.swift in Sources */,
 				8ECE0D52211AD42600FF2B46 /* Preferences.swift in Sources */,
 				E9BE7AFF282C632C00FF8A01 /* HistoriesVC.swift in Sources */,
+				E90FC27D290E33B8006908CC /* LogUtil.swift in Sources */,
 				E94D0F0227BB467600BCB092 /* GasStationTitleView.swift in Sources */,
 				E94D0F0427BB490C00BCB092 /* GasStationBottomView.swift in Sources */,
 				E9633A8A27FA0BCB00B99E66 /* SelectMenuViewModel.swift in Sources */,
@@ -1003,7 +1118,9 @@
 				E978E085284277A200AE3480 /* StationDetailViewModel.swift in Sources */,
 				E9C3A656284228EB00AC861C /* FrequentVisitCollectionViewCell.swift in Sources */,
 				2CC1C80E276C8610007527C7 /* MainMapView.swift in Sources */,
+				E9A64D542883D36600BF1737 /* CustomNavigationTitle.swift in Sources */,
 				8E68BA1B24CCC645004730D7 /* CommonViewController.swift in Sources */,
+				E9EFE7CE290E2D8300EA514B /* SearchBarViewModel.swift in Sources */,
 				E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */,
 				8E68BA2324CCCF32004730D7 /* FindBrandViewModel.swift in Sources */,
 				E9400FDE27B0A3E2003168C6 /* NaverMapMarker.swift in Sources */,
@@ -1014,21 +1131,28 @@
 				2C0C68CA276B31CA00945CEC /* UITabBar+.swift in Sources */,
 				2CC1C80C276C8123007527C7 /* MainVC.swift in Sources */,
 				E9400FE227B0A467003168C6 /* StationAPI.swift in Sources */,
+				E90FC275290E3266006908CC /* SearchResultCell.swift in Sources */,
 				E9A1B17F28336A9F00B64AFA /* PriceAverageVC.swift in Sources */,
 				8EF8481C24E39C03009A32D8 /* SettingEditSalePriceVC.swift in Sources */,
 				2CA47266279931B500DB0DDD /* MainViewModel.swift in Sources */,
 				8EDAF7D821295AEF00422552 /* InitialSettingVC.swift in Sources */,
+				E933E88428676C9300A49ADB /* AddCardVC.swift in Sources */,
 				E9E290DD280F6B1C00BE21B3 /* NSMutableAttributedString+.swift in Sources */,
 				E9EAF1172822EC1C0046F9A8 /* UIColor+.swift in Sources */,
 				E9400FE827B1146E003168C6 /* StationInfoGuideView.swift in Sources */,
+				E913063628A8FC510065E30C /* EditCardNameTableViewCell.swift in Sources */,
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
 				E9A3A2CB282D0E84004ED55E /* DataModel.xcdatamodeld in Sources */,
+				E9EFE7D2290E2F7100EA514B /* CommonTextFieldView.swift in Sources */,
 				2CAC81DF276B966300CC6096 /* FavoritesGasStationViewModel.swift in Sources */,
 				2C0C68C8276B25AB00945CEC /* UIReusable+.swift in Sources */,
 				E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */,
+				E913777728959DEE0078B557 /* Card+CoreDataProperties.swift in Sources */,
+				E9EFE7C9290D9BB600EA514B /* SearchView.swift in Sources */,
 				E9EAF11A2822FEC80046F9A8 /* BrandCollectionViewCell.swift in Sources */,
 				E9633A8627FA0B5800B99E66 /* SelectMenuVC.swift in Sources */,
 				E9E290D7280ECF1900BE21B3 /* DBVersionData.swift in Sources */,
+				E90FC272290E319D006908CC /* ResponsePOI.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
 				8EE53E9524D01828008D8045 /* AboutUsTableViewCell.swift in Sources */,
 				E9EAF1042822DAC30046F9A8 /* CardInfo.swift in Sources */,
@@ -1039,7 +1163,9 @@
 				8EE53E9324D016B4008D8045 /* SettingAboutUsVC.swift in Sources */,
 				29B226432121FDC60012B2F6 /* NationCostList.swift in Sources */,
 				E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */,
+				E913063828A8FD790065E30C /* CardBenefitTableViewCell.swift in Sources */,
 				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,
+				E913063A28A8FE950065E30C /* SelectedBrandTableViewCell.swift in Sources */,
 				2CAC81E5276BA63400CC6096 /* LodingView.swift in Sources */,
 				8E68BA2524CCCF95004730D7 /* FindBrandVC.swift in Sources */,
 				E9BE7B04282C67A800FF8A01 /* HistoryTableViewCell.swift in Sources */,
@@ -1059,6 +1185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E97B642827D7CDD700577650 /* GeoConverter.swift in Sources */,
+				E913777828959DEE0078B557 /* Card+CoreDataProperties.swift in Sources */,
 				8EAEB16324F4B31E00B5E6CE /* FavoriteCollectionViewCell.swift in Sources */,
 				8EAEB15324F41AFF00B5E6CE /* TodayViewController.swift in Sources */,
 				8E82E43224F901D200395CDD /* InformationGasStaion.swift in Sources */,
@@ -1141,7 +1268,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = "";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
@@ -1201,7 +1328,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = NO;
 				SDKROOT = iphoneos;
@@ -1224,7 +1351,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1233,7 +1360,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = "OilPrice-Where/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1263,7 +1390,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1272,7 +1399,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = "OilPrice-Where/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1300,7 +1427,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1336,7 +1463,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
