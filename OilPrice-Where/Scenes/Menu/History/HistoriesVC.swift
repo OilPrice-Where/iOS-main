@@ -95,7 +95,7 @@ extension HistoriesVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let target = DataManager.shared.stationList[indexPath.row]
-            DataManager.shared.delete(station: target)
+            DataManager.shared.delete(value: target)
             DataManager.shared.stationList.remove(at: indexPath.row)
             
             tableView.deleteRows(at: [indexPath], with: .fade)
