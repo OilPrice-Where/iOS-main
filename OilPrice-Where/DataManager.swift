@@ -27,19 +27,19 @@ class DataManager {
             stationListRelay.accept(stationList)
         }
     }
-//    var cardList = [Card]()
+    var cardList = [Card]()
     
     func fetchData() {
         let stationRequest: NSFetchRequest<Station> = Station.fetchRequest()
-//        let cardRequest: NSFetchRequest<Card> = Card.fetchRequest()
+        let cardRequest: NSFetchRequest<Card> = Card.fetchRequest()
         
         let sortByDateDesc = NSSortDescriptor(key: "insertDate", ascending: false)
         stationRequest.sortDescriptors = [sortByDateDesc]
-        //cardRequest.sortDescriptors = [sortByDateDesc]
+        cardRequest.sortDescriptors = [sortByDateDesc]
         
         do {
             stationList = try mainContext.fetch(stationRequest)
-            //cardList = try mainContext.fetch(cardRequest)
+            cardList = try mainContext.fetch(cardRequest)
         } catch {
             print(error.localizedDescription)
         }
@@ -62,17 +62,26 @@ class DataManager {
         saveContext()
     }
     
-    func addNew(card: Void) {
+    func addNew(card: CardInfo) {
+        let newCard = Card(context: mainContext)
+        newCard.identifier = card.identifier
+        newCard.name = card.name
+        newCard.isLiter = card.isLiter
+        newCard.saleValue = card.saleValue
+        newCard.applyBrands = card.applyBrands
+        newCard.insertDate = Date()
+        
+        cardList.insert(newCard, at: 0)
         
         saveContext()
     }
     
-    func delete(station: Station?) {
-        guard let station = station else {
+    func delete<T: NSManagedObject>(value: T?) {
+        guard let managedObject = value else {
             return
         }
         
-        mainContext.delete(station)
+        mainContext.delete(managedObject)
         
         saveContext()
     }
