@@ -31,15 +31,6 @@ final class MainMapView: UIView {
         $0.maxZoomLevel = 18.0
         $0.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
     }
-    lazy var menuButton = UIButton().then {
-        $0.setImage(Asset.Images.menuIcon.image, for: .normal)
-        $0.setImage(Asset.Images.menuIcon.image, for: .highlighted)
-        $0.layer.cornerRadius = 21
-        $0.layer.borderWidth = 0.01
-        $0.layer.borderColor = UIColor.blue.cgColor
-        $0.clipsToBounds = false
-        $0.backgroundColor = .white
-    }
     let currentLocationButton = UIButton().then {
         $0.layer.cornerRadius = 21
         $0.clipsToBounds = false
@@ -84,6 +75,7 @@ final class MainMapView: UIView {
         $0.backgroundColor = Asset.Colors.mainColor.color
         $0.alpha = 0.0
     }
+    let searchView = HomeSearchView()
     let plusView = PlusView()
     
     //MARK: - Initializer
@@ -100,12 +92,12 @@ final class MainMapView: UIView {
     //MARK: - Set UI
     private func makeUI() {
         addSubview(mapView)
-        addSubview(menuButton)
         addSubview(currentLocationButton)
         addSubview(toFavoriteButton)
         addSubview(toListButton)
         addSubview(researchButton)
         addSubview(plusView)
+        addSubview(searchView)
         
         mapView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -116,14 +108,15 @@ final class MainMapView: UIView {
             $0.size.equalTo(15)
         }
         
-        addShadow(views: [menuButton, toListButton, researchButton, toFavoriteButton, currentLocationButton])
+        addShadow(views: [toListButton, researchButton, toFavoriteButton, currentLocationButton, searchView])
     }
     
     //MARK: - Method
-    func moveMap(with coordinate: CLLocationCoordinate2D) {
+    func moveMap(with coordinate: CLLocationCoordinate2D, zoomTo: Double = .zero) {
         let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
         
-        mapView.moveCamera(NMFCameraUpdate(scrollTo: latLng))
+        let cameraUpdated = NMFCameraUpdate(scrollTo: latLng, zoomTo: zoomTo == .zero ? mapView.zoomLevel : zoomTo)
+        mapView.moveCamera(cameraUpdated)
     }
     
     func showMarker(list: [GasStation]) {
