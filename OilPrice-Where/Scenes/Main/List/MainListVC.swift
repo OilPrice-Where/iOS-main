@@ -20,18 +20,22 @@ protocol MainListVCDelegate: AnyObject {
 }
 //MARK: GasStationListVC
 final class MainListVC: CommonViewController {
+    enum Section {
+        case station
+    }
+    
     //MARK: - Properties
     let infoView = InfoListView()
     var viewModel: MainListViewModel!
     weak var delegate: MainListVCDelegate?
     private var notiObject: NSObjectProtocol?
+    var dataSource: UICollectionViewDiffableDataSource<Section, GasStation>?
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
+        $0.delegate = self
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
         $0.showsHorizontalScrollIndicator = false
         $0.backgroundColor = .clear
-        $0.dataSource = self
-        $0.delegate = self
         GasStationCell.register($0)
     }
     
@@ -88,6 +92,8 @@ final class MainListVC: CommonViewController {
             $0.centerY.equalToSuperview()
             $0.centerX.equalToSuperview()
         }
+        
+        performDataSource()
     }
     
     override func viewWillLayoutSubviews() {
@@ -106,7 +112,15 @@ final class MainListVC: CommonViewController {
     
     //MARK: - Rx Binding..
     private func rxBind() {
-        // Sorted by Price/Distance
+        viewModel.stations
+            .map { !$0.isEmpty }
+            .bind(to: noneView.rx.isHidden)
+            .disposed(by: rx.disposeBag)
+        viewModel.stations
+            .bind(with: self, onNext: { owner, stations in
+                owner.performDataSnapshot(stations: stations)
+            })
+            .disposed(by: rx.disposeBag)
         infoView.priceSortedButton
             .rx
             .tap
@@ -135,11 +149,8 @@ final class MainListVC: CommonViewController {
                                                             object: nil,
                                                             queue: .main) { [weak self] noti in
             guard let stations = noti.userInfo?["stations"] as? [GasStation] else { return }
-            self?.viewModel.stations = stations
-            self?.collectionView.reloadData()
+            self?.viewModel.stations.onNext(stations)
         }
-        
-        noneView.isHidden = !viewModel.stations.isEmpty
         
         infoView.priceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
         infoView.distanceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
@@ -176,30 +187,34 @@ final class MainListVC: CommonViewController {
         }
         
         viewModel.sortedList(isPrice: isPriceSorted)
-        
-        collectionView.reloadData()
     }
 }
 
-//MARK: - CollectionView DataSources & Delegate
-extension MainListVC: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.stations.count
+extension MainListVC {
+    func performDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<Section, GasStation>(collectionView: collectionView, cellProvider: { collectionView, indexPath, station in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GasStationCell.id, for: indexPath) as? GasStationCell else { return UICollectionViewCell() }
+            
+            cell.configure(station: station, indexPath: indexPath)
+            cell.delegate = self
+            
+            return cell
+        })
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GasStationCell.id, for: indexPath) as? GasStationCell else { return UICollectionViewCell() }
-        
-        cell.configure(station: viewModel.stations[indexPath.item], indexPath: indexPath)
-        cell.delegate = self
-        
-        return cell
+    func performDataSnapshot(stations: [GasStation]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, GasStation>()
+        snapshot.appendSections([.station])
+        snapshot.appendItems(stations)
+        self.dataSource?.apply(snapshot, animatingDifferences: false)
     }
 }
 
-extension MainListVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension MainListVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.touchedCell(info: viewModel.stations[indexPath.item])
+        guard let stations = try? viewModel.stations.value() else { return }
+        
+        delegate?.touchedCell(info: stations[indexPath.item])
         navigationController?.popViewController(animated: true)
     }
 }

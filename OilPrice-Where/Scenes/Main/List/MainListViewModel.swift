@@ -13,12 +13,12 @@ import RxCocoa
 final class MainListViewModel {
     //MARK: - Properties
     let bag = DisposeBag()
-    var stations: [GasStation]
+    var stations: BehaviorSubject<[GasStation]>
     var isSortedByPrice = true
     
     //MARK: Initializer
     init(stations: [GasStation]) {
-        self.stations = stations
+        self.stations = BehaviorSubject<[GasStation]>(value: stations)
     }
 }
 
@@ -32,7 +32,13 @@ extension MainListViewModel {
 //MARK: - Method
 extension MainListViewModel {
     func sortedList(isPrice: Bool) {
-        isSortedByPrice = isPrice
-        stations = isPrice ? stations.sorted(by: { $0.price < $1.price }) : stations.sorted(by: { $0.distance < $1.distance })
+        do {
+            let value = try stations.value()
+            isSortedByPrice = isPrice
+            let sortedStations = isPrice ? value.sorted(by: { $0.price < $1.price }) : value.sorted(by: { $0.distance < $1.distance })
+            stations.onNext(sortedStations)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
