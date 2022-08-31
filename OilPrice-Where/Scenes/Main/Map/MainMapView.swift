@@ -32,37 +32,23 @@ final class MainMapView: UIView {
         $0.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
     }
     let currentLocationButton = UIButton().then {
+        let image = Asset.Images.currentLocationButton.image.withRenderingMode(.alwaysTemplate)
         $0.layer.cornerRadius = 21
         $0.clipsToBounds = false
-        $0.setImage(Asset.Images.currentLocationButton.image, for: .normal)
-        $0.setImage(Asset.Images.currentLocationButton.image, for: .highlighted)
+        $0.setImage(image, for: .normal)
+        $0.setImage(image, for: .highlighted)
         $0.backgroundColor = .white
-    }
-    let toListButton = UIButton().then {
-        if #available(iOS 15.0, *) {
-            var config = UIButton.Configuration.plain()
-            config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 2.5, bottom: 1.25, trailing: 0)
-            $0.configuration = config
-        } else {
-            $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 2.5, bottom: 1.25, right: 0)
-        }
-        $0.setImage(Asset.Images.listButton.image, for: .normal)
-        $0.setImage(Asset.Images.listButton.image, for: .highlighted)
-        $0.layer.cornerRadius = 21
-        $0.layer.borderWidth = 0.01
-        $0.layer.borderColor = UIColor.blue.cgColor
-        $0.clipsToBounds = false
-        $0.backgroundColor = Asset.Colors.mainColor.color
+        $0.tintColor = Asset.Colors.mainColor.color
     }
     let toFavoriteButton = UIButton().then {
-        let image = Asset.Images.favoriteTabIconSel.image.withRenderingMode(.alwaysTemplate)
+        let image = Asset.Images.favoriteIcon.image.withRenderingMode(.alwaysTemplate)
         $0.layer.cornerRadius = 21
         $0.layer.borderWidth = 0.01
         $0.clipsToBounds = false
         $0.setImage(image, for: .normal)
         $0.setImage(image, for: .highlighted)
-        $0.tintColor = .white
-        $0.backgroundColor = Asset.Colors.mainColor.color
+        $0.tintColor = Asset.Colors.mainColor.color
+        $0.backgroundColor = .white
     }
     let researchButton = UIButton().then {
         $0.layer.cornerRadius = 21
@@ -94,7 +80,6 @@ final class MainMapView: UIView {
         addSubview(mapView)
         addSubview(currentLocationButton)
         addSubview(toFavoriteButton)
-        addSubview(toListButton)
         addSubview(researchButton)
         addSubview(plusView)
         addSubview(searchView)
@@ -108,7 +93,7 @@ final class MainMapView: UIView {
             $0.size.equalTo(15)
         }
         
-        addShadow(views: [toListButton, researchButton, toFavoriteButton, currentLocationButton, searchView])
+        addShadow(views: [researchButton, toFavoriteButton, currentLocationButton, searchView])
     }
     
     //MARK: - Method

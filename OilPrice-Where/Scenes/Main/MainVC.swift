@@ -24,7 +24,7 @@ final class MainVC: CommonViewController {
     private lazy var mapContainerView = MainMapView()
     private lazy var guideView = StationInfoGuideView()
     private var circle: NMFCircleOverlay?
-    var bottomOffset: CGFloat = 18
+    var bottomOffset: CGFloat = 36
     let emptyView = UIView().then {
         $0.backgroundColor = .white
     }
@@ -35,7 +35,7 @@ final class MainVC: CommonViewController {
         set.presentationStyle.presentingEndAlpha = 0.65
         set.menuWidth = fetchSideMenuWidth()
         set.blurEffectStyle = nil
-        $0.leftSide = false
+        $0.leftSide = true
         $0.settings = set
     }
     
@@ -69,18 +69,14 @@ final class MainVC: CommonViewController {
         mapContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        mapContainerView.toListButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.left.equalToSuperview().offset(18)
-            $0.size.equalTo(42)
-        }
         mapContainerView.toFavoriteButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-bottomOffset)
             $0.right.equalTo(mapContainerView.currentLocationButton.snp.left).offset(-12)
             $0.size.equalTo(42)
         }
         mapContainerView.currentLocationButton.snp.makeConstraints {
-            $0.bottom.right.equalToSuperview().offset(-bottomOffset)
+            $0.bottom.equalToSuperview().offset(-bottomOffset)
+            $0.right.equalToSuperview().offset(-24)
             $0.size.equalTo(42)
         }
         mapContainerView.researchButton.snp.makeConstraints {
@@ -100,9 +96,8 @@ final class MainVC: CommonViewController {
         }
         mapContainerView.searchView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.left.equalTo(mapContainerView.toListButton.snp.right).offset(12)
-            $0.right.equalToSuperview().offset(-18)
-            $0.height.equalTo(42)
+            $0.left.right.equalToSuperview().inset(20)
+            $0.height.equalTo(50)
         }
     }
     
@@ -162,7 +157,7 @@ final class MainVC: CommonViewController {
         // menuButton Tapped
         mapContainerView
             .searchView
-            .filterButton
+            .menuButton
             .rx
             .tap
             .observe(on: MainScheduler.asyncInstance)
@@ -172,7 +167,8 @@ final class MainVC: CommonViewController {
             .disposed(by: rx.disposeBag)
         // toListButton Tapped
         mapContainerView
-            .toListButton
+            .searchView
+            .listButton
             .rx
             .tap
             .observe(on: MainScheduler.asyncInstance)
@@ -302,6 +298,9 @@ final class MainVC: CommonViewController {
             centerLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         }
         
+        mapContainerView.searchView.placeholderLabel.text = "주유소 위치를 검색해보세요."
+        mapContainerView.searchView.placeholderLabel.textColor = .systemGray3
+        mapContainerView.searchView.searchImageView.tintColor = .systemGray3
         
         viewModel.requestLocation = centerLocation
         viewModel.selectedStation = nil
@@ -408,19 +407,21 @@ final class MainVC: CommonViewController {
     }
     
     private func bottomAnimation(state: FloatingPanelState) {
-        guard (state == .hidden && bottomOffset != 18.0) ||
-                ((state == .half || state == .full) && bottomOffset != 198.0) else { return }
+        guard (state == .hidden && bottomOffset != 36.0) ||
+                ((state == .half || state == .full) && bottomOffset != 192.0) else { return }
         
         let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut)
         
-        bottomOffset = state == .hidden ? 18.0 : 198.0
+        bottomOffset = state == .hidden ? 36.0 : 192.0
+        
+        let resultBottomOffset = bottomOffset + view.safeAreaInsets.bottom
         
         animator.addAnimations {
             self.mapContainerView.toFavoriteButton.snp.updateConstraints {
-                $0.bottom.equalToSuperview().offset(-self.bottomOffset)
+                $0.bottom.equalToSuperview().offset(-resultBottomOffset)
             }
             self.mapContainerView.currentLocationButton.snp.updateConstraints {
-                $0.bottom.equalToSuperview().offset(-self.bottomOffset)
+                $0.bottom.equalToSuperview().offset(-resultBottomOffset)
             }
             
             self.view.layoutIfNeeded()
@@ -439,11 +440,15 @@ final class MainVC: CommonViewController {
 
 //MARK: - Search 관련
 extension MainVC: SearchBarDelegate {
-    func fetch(coordinate: CLLocationCoordinate2D?) {
-        guard let coordinate else { return }
+    func fetch(name: String?, coordinate: CLLocationCoordinate2D?) {
+        guard let name, let coordinate else { return }
         
         mapContainerView.moveMap(with: coordinate)
         researchStation(with: coordinate)
+        
+        mapContainerView.searchView.placeholderLabel.text = name
+        mapContainerView.searchView.placeholderLabel.textColor = .black
+        mapContainerView.searchView.searchImageView.tintColor = .black
     }
 }
 
@@ -522,7 +527,6 @@ extension MainVC: FloatingPanelControllerDelegate {
         emptyView.isHidden = fpc.state == .hidden
         mapContainerView.plusView.isHidden = isHidden
         mapContainerView.searchView.isHidden = isHidden
-        mapContainerView.toListButton.isHidden = isHidden
         mapContainerView.researchButton.isHidden = isHidden
         mapContainerView.toFavoriteButton.isHidden = isHidden
         mapContainerView.currentLocationButton.isHidden = isHidden
