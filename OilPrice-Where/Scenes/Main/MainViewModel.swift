@@ -24,7 +24,6 @@ final class MainViewModel {
     let output = Output()
     let staionProvider = MoyaProvider<StationAPI>()
     var stations = [GasStation]() { didSet { output.staionResult.accept(()) } }
-    var currentLocation: CLLocation? = nil
     var requestLocation: CLLocation? = nil { didSet { addressUpdate() } }
     var selectedStation: GasStation? = nil { didSet { output.selectedStation.accept(()) } }
     var addressString: String?
@@ -79,7 +78,7 @@ extension MainViewModel {
 //MARK: - Method
 extension MainViewModel {
     private func addressUpdate() {
-        guard let location = currentLocation else { return }
+        guard let location = LocationManager.shared.currentLocation else { return }
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
             if let _ = error { return }
@@ -115,7 +114,7 @@ extension MainViewModel {
                                             sort: sort,
                                             appKey: Preferences.getAppKey())) { [weak self] result in
             guard let self = self,
-                  let _currentLocation = self.currentLocation else { return }
+                  let _currentLocation = LocationManager.shared.currentLocation else { return }
             switch result {
             case .success(let response):
                 guard let list = try? response.map(OilList.self) else {

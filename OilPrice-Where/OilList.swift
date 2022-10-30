@@ -25,7 +25,8 @@ struct GasStations: Decodable {
     }
 }
 
-struct GasStation: Decodable {
+struct GasStation: Decodable, Hashable {
+    private let uuid: UUID? = UUID()
     let id: String // 주유소 코드
     // 브랜드(SKE:SK에너지, GSC:GS칼텍스, HDO:현대오일뱅크, SOL:S-OIL, RTO:자영알뜰,
     //      RTX:고속도로알뜰, NHO:농협알뜰, ETC:자가상표, E1G: E1, SKG:SK가스
@@ -47,11 +48,7 @@ struct GasStation: Decodable {
     }
 }
 
-extension GasStation: Equatable {
-    public static func ==(lhs: GasStation, rhs: GasStation) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
+extension GasStation {    
     init(id: String?, name: String?, brand: String?, x: Double, y: Double) {
         self.id = id ?? ""
         self.brand = brand ?? ""

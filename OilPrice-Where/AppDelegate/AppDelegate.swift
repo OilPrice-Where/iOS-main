@@ -39,8 +39,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        // 앱 시작시 위치 추적 시작
+        LocationManager.shared.startUpdating()
+    }
+    
+    func applicationWillResignActive(_ application: UIApplication) {
+        // 앱 백 그라운드로 진입시 위치 추적 멈춤
+        LocationManager.shared.stopUpdating()
+    }
+    
     func applicationDidEnterBackground(_ application: UIApplication) {
         DataManager.shared.saveContext()
+        // 앱 백 그라운드로 진입시 위치 추적 멈춤
+        LocationManager.shared.stopUpdating()
     }
     
     // initialViewController 초기 설정 페이지 관련 함수

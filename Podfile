@@ -44,6 +44,7 @@ target 'OilPrice-Where' do
   # RxSwift: Main Framework
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'CombineCocoa'
   
   # Resources
   pod 'SwiftGen', '~> 6.0'

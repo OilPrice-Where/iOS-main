@@ -10,6 +10,7 @@ import Foundation
 import Then
 import SnapKit
 import UIKit
+import NMapsMap
 import RxSwift
 import RxCocoa
 import FirebaseAnalytics
@@ -19,27 +20,25 @@ final class StationDetailVC: CommonViewController {
     //MARK: - Properties
     private var id: String?
     private let viewModel = StationDetailViewModel()
-    private let brandImageView = UIImageView().then {
+    
+    private let naviTitleView = CustomNavigationTitle()
+    var washImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
+        let image = Asset.Images.iconWash.image.withRenderingMode(.alwaysTemplate)
+        $0.image = image
+        $0.tintColor = .lightGray
     }
-    private let nameLabel = UILabel().then {
-        $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.bold.font(size: 20)
+    var repairImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+        let image = Asset.Images.iconRepair.image.withRenderingMode(.alwaysTemplate)
+        $0.image = image
+        $0.tintColor = .lightGray
     }
-    private let carWashVStackView = KVVStackView().then { // 세차
-        $0.keyLabel.text = "세차"
-        $0.valueImageView.image = Asset.Images.iconWash.image.withRenderingMode(.alwaysTemplate)
-    }
-    private let repairVStackView = KVVStackView().then { // 수리
-        $0.keyLabel.text = "수리"
-        $0.valueImageView.image = Asset.Images.iconRepair.image.withRenderingMode(.alwaysTemplate)
-    }
-    private let convenienceVStackView = KVVStackView().then { // 편의점
-        $0.keyLabel.text = "편의점"
-        $0.valueImageView.image = Asset.Images.iconConvenience.image.withRenderingMode(.alwaysTemplate)
-    }
-    private let topLine = UIView().then {
-        $0.backgroundColor = .systemGroupedBackground
+    var convenienceImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+        let image = Asset.Images.iconConvenience.image.withRenderingMode(.alwaysTemplate)
+        $0.image = image
+        $0.tintColor = .lightGray
     }
     private let priceInfoLabel = UILabel().then {
         $0.text = "가격 정보"
@@ -134,6 +133,15 @@ final class StationDetailVC: CommonViewController {
     private let emptyView = UIView().then {
         $0.backgroundColor = .systemGroupedBackground
     }
+    let mapView = NMFMapView().then {
+        $0.mapType = .navi
+        $0.positionMode = .direction
+        $0.minZoomLevel = 5.0
+        $0.maxZoomLevel = 18.0
+        $0.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
+        $0.layer.cornerRadius = 10
+        $0.allowsScrolling = false
+    }
     
     //MARK: - Life Cycle
     init(id: String) {
@@ -153,29 +161,18 @@ final class StationDetailVC: CommonViewController {
         rxBind()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        UIApplication.shared.statusBarUIView?.tintColor = .black
-        UIApplication.shared.statusBarUIView?.backgroundColor = .white
-        
-        navigationController?.navigationBar.tintColor = .black
-        navigationController?.navigationBar.backgroundColor = .white
-    }
-    
     //MARK: - Make UI
     func makeUI() {
+        navigationItem.titleView = naviTitleView
         view.backgroundColor = .white
         
         let backItem = UIBarButtonItem()
         navigationController?.navigationBar.topItem?.backBarButtonItem = backItem
         
-        view.addSubview(brandImageView)
-        view.addSubview(nameLabel)
-        view.addSubview(carWashVStackView)
-        view.addSubview(repairVStackView)
-        view.addSubview(convenienceVStackView)
-        view.addSubview(topLine)
+        view.addSubview(naviTitleView)
+        view.addSubview(washImageView)
+        view.addSubview(repairImageView)
+        view.addSubview(convenienceImageView)
         view.addSubview(priceInfoLabel)
         view.addSubview(oilKeyLabel)
         view.addSubview(diselKeyLabel)
@@ -192,48 +189,29 @@ final class StationDetailVC: CommonViewController {
         view.addSubview(addressValueButton)
         view.addSubview(phoneNumberValueButton)
         view.addSubview(expandView)
-//        view.addSubview(emptyView)
+        view.addSubview(mapView)
         
-        brandImageView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(16)
-            $0.left.equalToSuperview().offset(24)
-            $0.size.equalTo(30)
+        washImageView.snp.makeConstraints {
+            $0.centerY.equalTo(priceInfoLabel)
+            $0.right.equalTo(repairImageView.snp.left).offset(-4)
+            $0.size.equalTo(24)
         }
-        nameLabel.snp.makeConstraints {
-            $0.top.equalTo(brandImageView.snp.bottom).offset(8)
-            $0.left.equalToSuperview().offset(24)
-            $0.right.equalToSuperview().offset(16)
+        repairImageView.snp.makeConstraints {
+            $0.centerY.equalTo(priceInfoLabel)
+            $0.right.equalTo(convenienceImageView.snp.left).offset(-4)
+            $0.size.equalTo(24)
         }
-        carWashVStackView.snp.makeConstraints {
-            $0.top.equalTo(nameLabel.snp.bottom).offset(16)
-            $0.left.equalToSuperview().offset(24)
-            $0.width.equalTo(30)
-            $0.height.equalTo(47)
-        }
-        repairVStackView.snp.makeConstraints {
-            $0.top.equalTo(nameLabel.snp.bottom).offset(16)
-            $0.left.equalTo(carWashVStackView.snp.right).offset(8)
-            $0.width.equalTo(30)
-            $0.height.equalTo(47)
-        }
-        convenienceVStackView.snp.makeConstraints {
-            $0.top.equalTo(nameLabel.snp.bottom).offset(16)
-            $0.left.equalTo(repairVStackView.snp.right).offset(8)
-            $0.width.equalTo(30)
-            $0.height.equalTo(47)
-        }
-        topLine.snp.makeConstraints {
-            $0.top.equalTo(carWashVStackView.snp.bottom).offset(12)
-            $0.left.right.equalToSuperview()
-            $0.height.equalTo(8)
+        convenienceImageView.snp.makeConstraints {
+            $0.centerY.equalTo(priceInfoLabel)
+            $0.right.equalToSuperview().offset(-16)
+            $0.size.equalTo(24)
         }
         priceInfoLabel.snp.makeConstraints {
-            $0.top.equalTo(topLine.snp.bottom).offset(16)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
             $0.left.equalToSuperview().offset(24)
-            $0.right.equalToSuperview().offset(16)
         }
         oilKeyLabel.snp.makeConstraints {
-            $0.top.equalTo(priceInfoLabel.snp.bottom).offset(10)
+            $0.top.equalTo(priceInfoLabel.snp.bottom).offset(12)
             $0.left.equalToSuperview().offset(24)
         }
         highOilKeyLabel.snp.makeConstraints {
@@ -276,10 +254,16 @@ final class StationDetailVC: CommonViewController {
         detailInfoLabel.snp.makeConstraints {
             $0.top.equalTo(bottomLine.snp.bottom).offset(16)
             $0.left.equalToSuperview().offset(24)
-            $0.right.equalToSuperview().offset(16)
+            $0.right.equalToSuperview().offset(-16)
+        }
+        mapView.snp.makeConstraints {
+            $0.top.equalTo(detailInfoLabel.snp.bottom).offset(24)
+            $0.left.equalToSuperview().inset(24)
+            $0.right.equalToSuperview().offset(-16)
+            $0.height.equalTo(200)
         }
         addressKeyLabel.snp.makeConstraints {
-            $0.top.equalTo(detailInfoLabel.snp.bottom).offset(16)
+            $0.top.equalTo(mapView.snp.bottom).offset(12)
             $0.left.equalToSuperview().offset(24)
         }
         phoneNumberKeyLabel.snp.makeConstraints {
@@ -335,11 +319,11 @@ final class StationDetailVC: CommonViewController {
             .infoSubject
             .compactMap { $0 }
             .bind(with: self, onNext: { owner, station in
-                owner.brandImageView.image = Preferences.logoImage(logoName: station.brand)
-                owner.nameLabel.text = station.name
-                owner.carWashVStackView.valueImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.carWash)
-                owner.repairVStackView.valueImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.repairShop)
-                owner.convenienceVStackView.valueImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.convenienceStore)
+                owner.naviTitleView.logoImageView.image = Preferences.logoImage(logoName: station.brand)
+                owner.naviTitleView.titleLabel.text = station.name
+                owner.washImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.carWash)
+                owner.repairImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.repairShop)
+                owner.convenienceImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.convenienceStore)
                 owner.oilValueLabel.text = owner.viewModel.string(station, to: "B027")
                 owner.highOilValueLabel.text = owner.viewModel.string(station, to: "B034")
                 owner.diselValueLabel.text = owner.viewModel.string(station, to: "D047")
@@ -353,6 +337,10 @@ final class StationDetailVC: CommonViewController {
                 underlineAttributedString = NSAttributedString(string: station.phoneNumber ?? "", attributes: underlineAttribute)
                 owner.phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
                 owner.phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
+                
+                let position = NMGTm128(x: station.katecX ?? 0.0, y: station.katecY ?? 0.0).toLatLng()
+                let update = NMFCameraUpdate(scrollTo: position, zoomTo: 16.0)
+                owner.mapView.moveCamera(update)
                 
                 owner.updateFavoriteUI()
             })

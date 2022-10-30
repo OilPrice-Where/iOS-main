@@ -9,9 +9,9 @@
 import Foundation
 
 struct CardInfo {
-    var name: String
+    var identifier: String = UUID().uuidString
+    var name: String?
     var isLiter: Bool
-    var literValue: Int
-    var percentValue: Double
+    var saleValue: Double
     var applyBrands: [String]
 }

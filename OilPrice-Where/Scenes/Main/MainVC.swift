@@ -19,12 +19,12 @@ final class MainVC: CommonViewController {
     //MARK: - Properties
     var ref: DatabaseReference?
     let viewModel = MainViewModel()
-    private let locationManager = CLLocationManager()
     private lazy var fpc = FloatingPanelController()
     private lazy var contentsVC = StationInfoVC() // 띄울 VC
     private lazy var mapContainerView = MainMapView()
     private lazy var guideView = StationInfoGuideView()
     private var circle: NMFCircleOverlay?
+    var bottomOffset: CGFloat = 18
     let emptyView = UIView().then {
         $0.backgroundColor = .white
     }
@@ -35,7 +35,7 @@ final class MainVC: CommonViewController {
         set.presentationStyle.presentingEndAlpha = 0.65
         set.menuWidth = fetchSideMenuWidth()
         set.blurEffectStyle = nil
-        $0.leftSide = true
+        $0.leftSide = false
         $0.settings = set
     }
     
@@ -69,28 +69,22 @@ final class MainVC: CommonViewController {
         mapContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        mapContainerView.menuButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            $0.left.equalToSuperview().offset(20)
-            $0.size.equalTo(42)
-        }
         mapContainerView.toListButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            $0.right.equalToSuperview().offset(-20)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.left.equalToSuperview().offset(18)
             $0.size.equalTo(42)
         }
         mapContainerView.toFavoriteButton.snp.makeConstraints {
-            $0.top.equalTo(mapContainerView.toListButton.snp.bottom).offset(15)
-            $0.right.equalToSuperview().offset(-20)
+            $0.bottom.equalToSuperview().offset(-bottomOffset)
+            $0.right.equalTo(mapContainerView.currentLocationButton.snp.left).offset(-12)
             $0.size.equalTo(42)
         }
         mapContainerView.currentLocationButton.snp.makeConstraints {
-            $0.top.equalTo(mapContainerView.toFavoriteButton.snp.bottom).offset(15)
-            $0.right.equalToSuperview().offset(-20)
+            $0.bottom.right.equalToSuperview().offset(-bottomOffset)
             $0.size.equalTo(42)
         }
         mapContainerView.researchButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.centerX.equalTo(mapContainerView.snp.centerX)
             $0.width.equalTo(120)
             $0.height.equalTo(42)
@@ -103,6 +97,12 @@ final class MainVC: CommonViewController {
         emptyView.snp.makeConstraints {
             $0.top.equalTo(guideView.snp.bottom)
             $0.left.right.bottom.equalToSuperview()
+        }
+        mapContainerView.searchView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.left.equalTo(mapContainerView.toListButton.snp.right).offset(12)
+            $0.right.equalToSuperview().offset(-18)
+            $0.height.equalTo(42)
         }
     }
     
@@ -123,10 +123,9 @@ final class MainVC: CommonViewController {
         mapContainerView.delegate = self
         mapContainerView.mapView.touchDelegate = self
         mapContainerView.mapView.addCameraDelegate(delegate: self)
-        locationManager.delegate = self
         
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toSearchVC))
+        mapContainerView.searchView.addGestureRecognizer(tapGesture)
     }
     
     //MARK: - Rx Binding..
@@ -145,10 +144,12 @@ final class MainVC: CommonViewController {
             })
             .disposed(by: rx.disposeBag)
         
-        locationManager.rx.didUpdateLocations
+        LocationManager.shared.locationManager?
+            .rx
+            .didUpdateLocations
             .compactMap { $0.last }
             .subscribe(with: self, onNext: { owner, location in
-                owner.viewModel.currentLocation = location
+                LocationManager.shared.currentLocation = location
                 
                 guard let _ = owner.viewModel.requestLocation else {
                     owner.mapContainerView.moveMap(with: location.coordinate)
@@ -160,7 +161,8 @@ final class MainVC: CommonViewController {
             .disposed(by: rx.disposeBag)
         // menuButton Tapped
         mapContainerView
-            .menuButton
+            .searchView
+            .filterButton
             .rx
             .tap
             .observe(on: MainScheduler.asyncInstance)
@@ -222,7 +224,7 @@ final class MainVC: CommonViewController {
             .currentLocationButton
             .rx
             .tap
-            .compactMap { self.viewModel.currentLocation }
+            .compactMap { LocationManager.shared.currentLocation }
             .bind(to: mapContainerView.mapView.rx.center)
             .disposed(by: rx.disposeBag)
         
@@ -257,7 +259,7 @@ final class MainVC: CommonViewController {
         reachability?.whenUnreachable = { [weak self] _ in
             self?.notConnect()
             self?.viewModel.requestLocation = nil
-            self?.viewModel.currentLocation = nil
+            LocationManager.shared.currentLocation = nil
             self?.reset()
             self?.mapContainerView.resetInfoWindows()
             self?.fpc.move(to: .hidden, animated: false, completion: nil)
@@ -293,8 +295,13 @@ final class MainVC: CommonViewController {
         navigationController?.pushViewController(tabbar, animated: true)
     }
     
-    private func researchStation() {
-        let centerLocation = CLLocation(latitude: mapContainerView.mapView.latitude, longitude: mapContainerView.mapView.longitude)
+    private func researchStation(with coordinate: CLLocationCoordinate2D? = nil) {
+        var centerLocation = CLLocation(latitude: mapContainerView.mapView.latitude, longitude: mapContainerView.mapView.longitude)
+        
+        if let coordinate {
+            centerLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        }
+        
         
         viewModel.requestLocation = centerLocation
         viewModel.selectedStation = nil
@@ -304,8 +311,12 @@ final class MainVC: CommonViewController {
         viewModel.cameraPosition = nil
         
         fpc.move(to: .hidden, animated: false) { [weak self] in
-            self?.mapContainerView.researchButton.isEnabled = false
-            self?.mapContainerView.researchButton.alpha = 0.0
+            guard let self else { return }
+            
+            self.mapContainerView.researchButton.alpha = 0.0
+            self.mapContainerView.researchButton.snp.updateConstraints {
+                $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            }
         }
     }
     
@@ -395,41 +406,44 @@ final class MainVC: CommonViewController {
         circle.outlineWidth = 1
         return circle
     }
-}
-
-// MARK: - CLLocationManagerDelegate
-extension MainVC: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, // 위치 관리자가 위치를 얻을 수 없을 때
-                         didFailWithError error: Error) {
-        print("did Fail With Error \(error)")
+    
+    private func bottomAnimation(state: FloatingPanelState) {
+        guard (state == .hidden && bottomOffset != 18.0) ||
+                ((state == .half || state == .full) && bottomOffset != 198.0) else { return }
         
-        // CLError.locationUnknown: 현재 위치를 알 수 없는데 Core Location이 계속 위치 정보를 요청할 때
-        // CLError.denied: 사용자가 위치 서비스를 사용하기 위한 앱 권한을 거부
-        // CLError.network: 네트워크 관련 오류
-        if (error as NSError).code == CLError.locationUnknown.rawValue {
-            return
+        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut)
+        
+        bottomOffset = state == .hidden ? 18.0 : 198.0
+        
+        animator.addAnimations {
+            self.mapContainerView.toFavoriteButton.snp.updateConstraints {
+                $0.bottom.equalToSuperview().offset(-self.bottomOffset)
+            }
+            self.mapContainerView.currentLocationButton.snp.updateConstraints {
+                $0.bottom.equalToSuperview().offset(-self.bottomOffset)
+            }
+            
+            self.view.layoutIfNeeded()
         }
         
-        switch CLLocationManager.authorizationStatus() {
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .restricted, .denied:
-            requestLocationAlert()
-        default:
-            break
-        }
+        animator.startAnimation()
     }
     
-    // 인증 상태가 변경 되었을 때
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .restricted, .denied:
-            requestLocationAlert()
-        default:
-            break
-        }
+    @objc
+    private func toSearchVC() {
+        let searchVC = SearchBarVC()
+        searchVC.delegate = self
+        navigationController?.pushViewController(searchVC, animated: true)
+    }
+}
+
+//MARK: - Search 관련
+extension MainVC: SearchBarDelegate {
+    func fetch(coordinate: CLLocationCoordinate2D?) {
+        guard let coordinate else { return }
+        
+        mapContainerView.moveMap(with: coordinate)
+        researchStation(with: coordinate)
     }
 }
 
@@ -454,12 +468,18 @@ extension MainVC: NMFMapViewCameraDelegate {
         let centerLocation = CLLocation(latitude: mapView.latitude, longitude: mapView.longitude)
         guard let distance = viewModel.requestLocation?.distance(from: centerLocation), distance > 2000 else { return }
         
-        DispatchQueue.main.async { [weak self] in
-            self?.mapContainerView.researchButton.isEnabled = true
-            UIView.animate(withDuration: 0.15) {
-                self?.mapContainerView.researchButton.alpha = 1.0
+        let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeInOut)
+        
+        animator.addAnimations {
+            self.mapContainerView.researchButton.alpha = 1.0
+            self.mapContainerView.researchButton.snp.updateConstraints {
+                $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(56)
             }
+            
+            self.view.layoutIfNeeded()
         }
+        
+        animator.startAnimation()
     }
 }
 
@@ -501,7 +521,7 @@ extension MainVC: FloatingPanelControllerDelegate {
         guideView.isHidden = fpc.state == .hidden
         emptyView.isHidden = fpc.state == .hidden
         mapContainerView.plusView.isHidden = isHidden
-        mapContainerView.menuButton.isHidden = isHidden
+        mapContainerView.searchView.isHidden = isHidden
         mapContainerView.toListButton.isHidden = isHidden
         mapContainerView.researchButton.isHidden = isHidden
         mapContainerView.toFavoriteButton.isHidden = isHidden
@@ -509,6 +529,7 @@ extension MainVC: FloatingPanelControllerDelegate {
     }
     
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
+        bottomAnimation(state: fpc.state)
         isZoomInStation(isHidden: fpc.state == .full)
         
         let halfHeight = view.safeAreaInsets.bottom + 180.0
@@ -565,8 +586,11 @@ extension MainVC: MainListVCDelegate {
         let update = NMFCameraUpdate(scrollTo: position, zoomTo: 15.0)
         update.animation = .easeIn
         mapContainerView.mapView.moveCamera(update)
-        mapContainerView.researchButton.isEnabled = false
-        mapContainerView.researchButton.alpha = 0.0
+        
+        self.mapContainerView.researchButton.alpha = 0.0
+        mapContainerView.researchButton.snp.updateConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 }
 

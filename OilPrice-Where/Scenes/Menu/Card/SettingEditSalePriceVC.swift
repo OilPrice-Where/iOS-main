@@ -79,7 +79,8 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
     
     @objc
     private func toCreateCard() {
-        
+        let addCardVC = AddCardVC()
+        navigationController?.pushViewController(addCardVC, animated: true)
     }
 }
 
