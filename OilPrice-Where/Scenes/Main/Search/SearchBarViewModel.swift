@@ -82,7 +82,8 @@ extension SearchBarViewModel {
 
                 pois.append(ResponsePOI(name: poi.name,
                                         address: resultAddress,
-                                        coordinate: poi.coordinate))
+                                        coordinate: poi.coordinate,
+                                        insertDate: Date()))
             }
 
             self?.pois = pois

@@ -11,9 +11,10 @@ import CoreLocation
 
 struct ResponsePOI: Hashable {
     var id = UUID()
-    let name: String?
+    var name: String?
     let address: String?
     let coordinate: CLLocationCoordinate2D?
+    let insertDate: Date?
 }
 
 extension ResponsePOI {

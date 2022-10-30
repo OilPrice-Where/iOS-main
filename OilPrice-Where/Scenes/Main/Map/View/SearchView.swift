@@ -12,19 +12,31 @@ import UIKit
 //MARK: SearchView
 final class HomeSearchView: UIView {
     //MARK: - Properties
-    private let searchImageView = UIImageView().then {
-        $0.image = Asset.Images.search.image
+    private let menuImageView = UIImageView().then {
+        let image = Asset.Images.menuIcon.image.withRenderingMode(.alwaysTemplate)
+        $0.image = image
+        $0.tintColor = Asset.Colors.mainColor.color
     }
-    private let placeholderLabel = UILabel().then {
+    let menuButton = UIButton()
+    let searchImageView = UIImageView().then {
+        let image = Asset.Images.search.image.withRenderingMode(.alwaysTemplate)
+        $0.image = image
+        $0.tintColor = .systemGray3
+    }
+    let placeholderLabel = UILabel().then {
         $0.text = "주유소 위치를 검색해보세요."
         $0.textColor = .systemGray
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 12)
+        $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
     }
-    let filterButton = UIButton().then {
-        let image = Asset.Images.filter.image.withRenderingMode(.alwaysTemplate)
-        $0.setImage(image, for: .normal)
-        $0.setImage(image, for: .highlighted)
-        $0.tintColor = .black
+    let listButton = UIButton()
+    private let listImageView = UIImageView().then {
+        let image = Asset.Images.listIcon.image.withRenderingMode(.alwaysTemplate)
+        $0.image = image
+        $0.tintColor = .white
+    }
+    private let listImageBackgroundView = UIView().then {
+        $0.backgroundColor = Asset.Colors.mainColor.color
+        $0.layer.cornerRadius = 20.0
     }
     
     //MARK: - Initializer
@@ -41,24 +53,46 @@ final class HomeSearchView: UIView {
     //MARK: - Make UI
     private func makeUI() {
         backgroundColor = .white
-        layer.cornerRadius = 21
+        layer.cornerRadius = 25
         
+        addSubview(menuImageView)
+        addSubview(menuButton)
         addSubview(searchImageView)
         addSubview(placeholderLabel)
-        addSubview(filterButton)
+        addSubview(listImageBackgroundView)
+        addSubview(listImageView)
+        addSubview(listButton)
         
+        menuImageView.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(12)
+            $0.centerY.equalToSuperview()
+            $0.size.equalTo(28)
+        }
+        menuButton.snp.makeConstraints {
+            $0.left.top.bottom.equalToSuperview()
+            $0.width.equalTo(50)
+        }
         searchImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(10)
-            $0.size.equalTo(20)
+            $0.left.equalTo(menuButton.snp.right)
+            $0.size.equalTo(24)
         }
         placeholderLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalTo(searchImageView.snp.right).offset(7)
         }
-        filterButton.snp.makeConstraints {
+        listImageView.snp.makeConstraints {
+            $0.center.equalTo(listImageBackgroundView)
+            $0.size.equalTo(24)
+        }
+        listImageBackgroundView.snp.makeConstraints {
+            $0.right.equalToSuperview().offset(-8)
+            $0.centerY.equalToSuperview()
+            $0.size.equalTo(40)
+        }
+        listButton.snp.makeConstraints {
             $0.top.right.bottom.equalToSuperview()
-            $0.width.equalTo(44)
+            $0.width.equalTo(50)
         }
     }
 }

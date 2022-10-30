@@ -78,6 +78,7 @@
 		E90FC279290E3364006908CC /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E90FC278290E3364006908CC /* TMapSDK.framework */; };
 		E90FC27A290E3364006908CC /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E90FC278290E3364006908CC /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E90FC27D290E33B8006908CC /* LogUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC27C290E33B8006908CC /* LogUtil.swift */; };
+		E90FC27F290E8EAA006908CC /* RecentResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC27E290E8EAA006908CC /* RecentResultCell.swift */; };
 		E913063628A8FC510065E30C /* EditCardNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913063528A8FC510065E30C /* EditCardNameTableViewCell.swift */; };
 		E913063828A8FD790065E30C /* CardBenefitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913063728A8FD790065E30C /* CardBenefitTableViewCell.swift */; };
 		E913063A28A8FE950065E30C /* SelectedBrandTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913063928A8FE950065E30C /* SelectedBrandTableViewCell.swift */; };
@@ -248,6 +249,7 @@
 		E90FC276290E331F006908CC /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		E90FC278290E3364006908CC /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMapSDK.framework; sourceTree = "<group>"; };
 		E90FC27C290E33B8006908CC /* LogUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogUtil.swift; sourceTree = "<group>"; };
+		E90FC27E290E8EAA006908CC /* RecentResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentResultCell.swift; sourceTree = "<group>"; };
 		E913063528A8FC510065E30C /* EditCardNameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCardNameTableViewCell.swift; sourceTree = "<group>"; };
 		E913063728A8FD790065E30C /* CardBenefitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBenefitTableViewCell.swift; sourceTree = "<group>"; };
 		E913063928A8FE950065E30C /* SelectedBrandTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedBrandTableViewCell.swift; sourceTree = "<group>"; };
@@ -687,6 +689,7 @@
 			isa = PBXGroup;
 			children = (
 				E90FC274290E3266006908CC /* SearchResultCell.swift */,
+				E90FC27E290E8EAA006908CC /* RecentResultCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1141,6 +1144,7 @@
 				E9EAF1172822EC1C0046F9A8 /* UIColor+.swift in Sources */,
 				E9400FE827B1146E003168C6 /* StationInfoGuideView.swift in Sources */,
 				E913063628A8FC510065E30C /* EditCardNameTableViewCell.swift in Sources */,
+				E90FC27F290E8EAA006908CC /* RecentResultCell.swift in Sources */,
 				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
 				E9A3A2CB282D0E84004ED55E /* DataModel.xcdatamodeld in Sources */,
 				E9EFE7D2290E2F7100EA514B /* CommonTextFieldView.swift in Sources */,
