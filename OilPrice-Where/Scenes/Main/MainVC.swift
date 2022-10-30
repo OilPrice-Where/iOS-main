@@ -478,7 +478,7 @@ extension MainVC: NMFMapViewCameraDelegate {
         animator.addAnimations {
             self.mapContainerView.researchButton.alpha = 1.0
             self.mapContainerView.researchButton.snp.updateConstraints {
-                $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(56)
+                $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(68)
             }
             
             self.view.layoutIfNeeded()

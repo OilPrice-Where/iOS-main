@@ -6,7 +6,7 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import FloatingPanel
 
 class MyFloatingPanelLayout: FloatingPanelLayout {

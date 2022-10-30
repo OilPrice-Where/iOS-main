@@ -12,7 +12,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Firebase
-import Toast_Swift
+import Toast
 
 //MARK: MenuVC
 final class MenuVC: CommonViewController {

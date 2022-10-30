@@ -22,7 +22,7 @@ final class LocationManager: NSObject {
         super.init()
         
         requestLocationAccess()
-        TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "219c2c34-cdd2-45d3-867b-e08c2ea97810")
+        TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "l7xx3d6e38a766c34c2dabd61f634263a2f6")
     }
     
     // MARK: - Functions
