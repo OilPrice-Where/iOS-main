@@ -11,10 +11,8 @@ import UIKit
 extension UIApplication {
     public var customKeyWindow: UIWindow? {
         return UIApplication.shared.connectedScenes
-                .filter({$0.activationState == .foregroundActive})
-                .compactMap({$0 as? UIWindowScene})
-                .first?.windows
-                .filter { $0.isKeyWindow }.first
+                .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+                .first { $0.isKeyWindow }
     }
     
     var statusBarUIView: UIView? {
