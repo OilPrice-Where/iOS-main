@@ -16,7 +16,7 @@ struct InformationOilStationResult: Codable {
    }
 }
 
-struct InformationGasStaions: Codable {
+struct InformationGasStaions: Codable, Hashable {
    var allPriceList: [InformationGasStaion]?
    
    private enum CodingKeys: String, CodingKey {
@@ -25,7 +25,7 @@ struct InformationGasStaions: Codable {
 }
 
 
-struct InformationGasStaion: Codable {
+struct InformationGasStaion: Codable, Hashable {
    let id: String?
    let brand: String?
    //     브랜드(SKE:SK에너지, GSC:GS칼텍스, HDO:현대오일뱅크, SOL:S-OIL, RTO:자영알뜰,
@@ -57,7 +57,7 @@ struct InformationGasStaion: Codable {
    }
 }
 
-struct Price: Codable {
+struct Price: Codable, Hashable {
    let type: String?
    let price: Int?
    

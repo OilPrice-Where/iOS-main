@@ -24,6 +24,7 @@ final class MainVC: CommonViewController {
     private lazy var mapContainerView = MainMapView()
     private lazy var guideView = StationInfoGuideView()
     private var circle: NMFCircleOverlay?
+    private var noti: NSObjectProtocol?
     var bottomOffset: CGFloat = 36
     let emptyView = UIView().then {
         $0.backgroundColor = .white
@@ -40,6 +41,13 @@ final class MainVC: CommonViewController {
     }
     
     //MARK: - Life Cycle
+    deinit {
+        if let noti {
+            NotificationCenter.default.removeObserver(noti)
+        }
+        self.noti = nil
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -125,6 +133,16 @@ final class MainVC: CommonViewController {
     
     //MARK: - Rx Binding..
     private func rxBind() {
+        noti = NotificationCenter.default.addObserver(forName: NSNotification.Name("liveActivities"),
+                                                      object: nil,
+                                                      queue: .main) { [weak self] _ in
+            guard let location = LocationManager.shared.requestLocation else { return }
+            
+            self?.viewModel.isLiveActivities = true
+            self?.viewModel.requestLocation = location
+            self?.viewModel.input.requestStaions.accept(nil)
+        }
+        
         DefaultData.shared.completedRelay
             .subscribe(with: self, onNext: { owner, key in
                 guard !(key == "Favorites" || key == "LocalFavorites") else {
@@ -224,7 +242,9 @@ final class MainVC: CommonViewController {
             .bind(to: mapContainerView.mapView.rx.center)
             .disposed(by: rx.disposeBag)
         
+        
         viewModel.output.staionResult
+            .observe(on: MainScheduler.asyncInstance)
             .bind(with: self, onNext: { owner, _ in
                 owner.circle?.mapView = nil
                 owner.circle = owner.makeRadiusCircle(location: owner.viewModel.requestLocation)
@@ -234,6 +254,26 @@ final class MainVC: CommonViewController {
                 NotificationCenter.default.post(name: NSNotification.Name("stationsUpdated"),
                                                 object: nil,
                                                 userInfo: ["stations": owner.viewModel.stations])
+                
+                guard owner.viewModel.isLiveActivities,
+                      let targetStation = LocationManager.shared.findStation,
+                      let info = LocationManager.shared.stations.first(where: { $0.id == targetStation.id }),
+                      let lat = targetStation.lat, let lng = targetStation.lng else { return }
+                
+                owner.sideMenu.dismiss(animated: false)
+                owner.viewModel.isLiveActivities = false
+                let position = NMGLatLng(lat: lat, lng: lng)
+                owner.marker(didTapMarker: position, info: info)
+                owner.mapContainerView.selectedMarker = owner.mapContainerView.markers.first(where: {
+                    guard let station = $0.userInfo["station"] as? GasStation else { return false }
+                    return station.id == targetStation.id
+                })
+                owner.mapContainerView.selectedMarker?.isSelected = true
+                
+                let update = NMFCameraUpdate(scrollTo: position, zoomTo: 15.0)
+                update.animation = .easeIn
+                owner.mapContainerView.mapView.moveCamera(update)
+                
             })
             .disposed(by: viewModel.bag)
         // 즐겨찾기 목록의 StationID 값과 StationView의 StationID값이 동일 하면 선택 상태로 변경
@@ -333,7 +373,7 @@ final class MainVC: CommonViewController {
         let faovorites = DefaultData.shared.favoriteSubject.value
         guard let _id = viewModel.selectedStation?.id, faovorites.count < 6 else { return }
         let isDeleted = faovorites.contains(_id)
-                
+        
         guard isDeleted || (!isDeleted && faovorites.count < 5) else {
             DispatchQueue.main.async { [weak self] in
                 self?.makeAlert(title: "최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !")
