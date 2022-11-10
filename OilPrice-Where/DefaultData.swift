@@ -40,6 +40,7 @@ class DefaultData {
     let favoriteSubject = BehaviorRelay<[String]>(value: []) // 즐겨 찾기
     let naviSubject = BehaviorRelay<String>(value: "kakao")
     let localFavoritesSubject = BehaviorRelay<String>(value: "")
+    let backgroundFindSubject = BehaviorRelay<Bool>(value: false)
     let completedRelay = PublishRelay<String?>()
     
     // 전군 평균 기름 값 로드 함수
@@ -98,6 +99,7 @@ class DefaultData {
         let brands = fetchValue(defaultValue: defaultBrands, for: "Brands")
         let naviType = fetchValue(defaultValue: "kakao", for: "NaviType")
         let favArr = fetchValue(defaultValue: [String](), for: "Favorites")
+        let backgroundFind = fetchValue(defaultValue: false, for: "BackgroundFind")
         
         localFavoritesSubject.accept(localFavorites)
         oilSubject.accept(oilType)
@@ -105,6 +107,7 @@ class DefaultData {
         brandsSubject.accept(brands)
         naviSubject.accept(naviType == "tmap" ? "tMap" : naviType)
         favoriteSubject.accept(favArr)
+        backgroundFindSubject.accept(backgroundFind)
         
         // Oil Type Save
         oilSubject
@@ -211,6 +214,13 @@ class DefaultData {
                 value.allPriceList = self.tempFavArr
                 owner.tempFavArr = list
                 owner.localSave(favorites: value)
+            })
+            .disposed(by: bag)
+        
+        // Background Find
+        backgroundFindSubject
+            .subscribe(with: self, onNext: { owner, isFind in
+                owner.swiftyPlistManager(save: isFind, forKey: "BackgroundFind")
             })
             .disposed(by: bag)
     }
