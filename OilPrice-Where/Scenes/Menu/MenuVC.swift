@@ -40,6 +40,9 @@ final class MenuVC: CommonViewController {
     private lazy var cardSaleView = MenuKeyValueView(type: .key).then {
         $0.keyLabel.text = "카드 할인"
     }
+    private lazy var backgroundFindView = MenuKeyValueView(type: .keyValue).then {
+        $0.keyLabel.text = "백그라운드 탐색 Beta"
+    }
     private lazy var aboutView = MenuKeyValueView(type: .subType).then {
         $0.keyLabel.text = "About us"
     }
@@ -113,6 +116,16 @@ final class MenuVC: CommonViewController {
             $0.bottom.equalTo(reviewView.snp.top)
             $0.left.right.equalToSuperview()
         }
+        
+        
+        if #available(iOS 16.1, *) {
+            view.addSubview(backgroundFindView)
+            
+            backgroundFindView.snp.makeConstraints {
+                $0.top.equalTo(avgView.snp.bottom).offset(40)
+                $0.left.right.equalToSuperview()
+            }
+        }
     }
     
     //MARK: - Rx Binding..
@@ -131,6 +144,11 @@ final class MenuVC: CommonViewController {
             .map { String($0 / 1000) + "KM" }
             .asDriver(onErrorJustReturn: "")
             .drive(radiusView.valueLabel.rx.text)
+            .disposed(by: bag)
+        DefaultData.shared.backgroundFindSubject
+            .map { $0 ? "켜짐" : "꺼짐" }
+            .asDriver(onErrorJustReturn: "")
+            .drive(backgroundFindView.valueLabel.rx.text)
             .disposed(by: bag)
         // 내비게이션
         navigationView
@@ -200,6 +218,18 @@ final class MenuVC: CommonViewController {
             .bind(with: self, onNext: { owner, _ in
                 let navi = owner.viewModel.output.fetchNavigationController(type: .findBrand)
                 owner.present(navi, animated: true)
+            })
+            .disposed(by: bag)
+        // 백그라운드 탐색
+        backgroundFindView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                let vc = SelectMenuVC(type: .background)
+                vc.modalPresentationStyle = .overFullScreen
+                owner.present(vc, animated: false)
             })
             .disposed(by: bag)
         // 카드 할인
