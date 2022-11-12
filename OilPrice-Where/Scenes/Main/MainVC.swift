@@ -255,7 +255,8 @@ final class MainVC: CommonViewController {
                                                 object: nil,
                                                 userInfo: ["stations": owner.viewModel.stations])
                 
-                guard owner.viewModel.isLiveActivities,
+                guard DefaultData.shared.backgroundFindSubject.value,
+                      owner.viewModel.isLiveActivities,
                       let targetStation = LocationManager.shared.findStation,
                       let info = LocationManager.shared.stations.first(where: { $0.id == targetStation.id }),
                       let lat = targetStation.lat, let lng = targetStation.lng else { return }
@@ -274,6 +275,10 @@ final class MainVC: CommonViewController {
                 update.animation = .easeIn
                 owner.mapContainerView.mapView.moveCamera(update)
                 
+                owner.mapContainerView.researchButton.alpha = 0.0
+                owner.mapContainerView.researchButton.snp.updateConstraints {
+                    $0.top.equalTo(owner.view.safeAreaLayoutGuide)
+                }
             })
             .disposed(by: viewModel.bag)
         // 즐겨찾기 목록의 StationID 값과 StationView의 StationID값이 동일 하면 선택 상태로 변경

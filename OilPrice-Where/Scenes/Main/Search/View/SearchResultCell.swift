@@ -47,20 +47,21 @@ final class SearchResultCell: UITableViewCell {
         contentView.addSubview(lineView)
         
         titleLabel.snp.makeConstraints {
-            $0.top.left.right.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().inset(16)
+            $0.left.right.equalToSuperview()
             $0.height.equalTo(26)
         }
         distanceLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
-            $0.right.equalToSuperview().offset(-16)
+            $0.right.equalToSuperview()
         }
         subTitleLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
-            $0.left.equalToSuperview().inset(16)
+            $0.left.equalToSuperview()
             $0.right.equalTo(distanceLabel.snp.left).offset(4)
         }
         lineView.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(16)
+            $0.left.right.equalToSuperview()
             $0.bottom.equalToSuperview()
             $0.height.equalTo(1)
         }
