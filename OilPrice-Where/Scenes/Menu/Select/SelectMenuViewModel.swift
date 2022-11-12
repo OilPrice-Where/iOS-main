@@ -111,11 +111,11 @@ extension SelectMenuViewModel {
             DefaultData.shared.backgroundFindSubject.accept(isOn)
             
             if #available(iOS 16.1, *) {
-                if isOn {
+                if isOn, !(ActivityManager.shared.activity?.activityState == .active) {
                     ActivityManager.shared.configure()
-                } else {
+                } else if !isOn {
                     Task {
-                        await ActivityManager.shared.endAllActivities()
+                        await ActivityManager.shared.endActivity()
                     }
                 }
             }

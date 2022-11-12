@@ -18,26 +18,18 @@ final class ActivityManager: NSObject {
     // MARK: - Initializer
     private override init() {
         super.init()
-        
-        configure()
-    }
-    
-    deinit {
-        Task {
-            await endAllActivities()
-        }
     }
     
     func configure() {
         Task {
-            await endAllActivities()
+            await endActivity()
+            
+            activity = nil
+            let attributes = StationAttributes()
+            let state = StationAttributes.ContentState()
+            
+            activity = try? Activity<StationAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
         }
-        
-        activity = nil
-        let attributes = StationAttributes()
-        let state = StationAttributes.ContentState()
-        
-        activity = try? Activity<StationAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
     }
     
     func updateActivity(state: StationAttributes.ContentState) {
@@ -46,10 +38,9 @@ final class ActivityManager: NSObject {
         }
     }
     
-    func endAllActivities() async {
-        for act in Activity<StationAttributes>.activities {
-            await act.end(dismissalPolicy: .immediate)
-        }
+    func endActivity() async {
+        let state = activity?.contentState
+        await activity?.end(using: state, dismissalPolicy: .immediate)
     }
     
     func station() -> FindStation? {

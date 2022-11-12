@@ -9,9 +9,9 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
@@ -20,14 +20,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = initialViewController() // 설정페이지 루트뷰 설정
         window?.makeKeyAndVisible()
     }
-
+    
     func sceneDidDisconnect(_ scene: UIScene) {
+        guard DefaultData.shared.backgroundFindSubject.value else { return }
+        
+        if #available(iOS 16.1, *) {
+            let state = ActivityManager.shared.activity?.contentState
+            Task {
+                await ActivityManager.shared.activity?.end(using: state, dismissalPolicy: .immediate)
+            }
+        }
     }
-
+    
     func sceneDidBecomeActive(_ scene: UIScene) {
         UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        if #available(iOS 16.1, *),
+           DefaultData.shared.backgroundFindSubject.value,
+           (ActivityManager.shared.activity?.activityState == .dismissed || ActivityManager.shared.activity?.activityState == .ended) {
+            ActivityManager.shared.configure()
+        }
     }
-
+    
     func sceneDidEnterBackground(_ scene: UIScene) {
         DataManager.shared.saveContext()
     }
