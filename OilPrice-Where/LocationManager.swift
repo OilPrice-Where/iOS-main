@@ -238,7 +238,7 @@ extension LocationManager {
                 
                 self.stations = list.result.gasStations
             case .failure(let error):
-                print(error.localizedDescription)
+                LogUtil.e(error.localizedDescription)
             }
         }
     }

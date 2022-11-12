@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 import NMapsMap
 import CoreLocation
-import SCLAlertView
 import KakaoSDKNavi
 
 class CommonViewController: UIViewController {
@@ -27,7 +26,7 @@ class CommonViewController: UIViewController {
     }
     
     deinit {
-        print(self, #function)
+        LogUtil.d(self)
         reachability?.stopNotifier()
         reachability = nil
     }
@@ -36,7 +35,7 @@ class CommonViewController: UIViewController {
         do {
             try reachability?.startNotifier()
         } catch {
-            print(error.localizedDescription)
+            LogUtil.e(error.localizedDescription)
         }
     }
     

@@ -45,7 +45,7 @@ class DataManager {
             cardList = try mainContext.fetch(cardRequest)
             pois = try mainContext.fetch(poiRequest)
         } catch {
-            print(error.localizedDescription)
+            LogUtil.e(error.localizedDescription)
         }
     }
     

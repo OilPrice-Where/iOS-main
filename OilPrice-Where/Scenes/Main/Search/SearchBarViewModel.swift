@@ -29,7 +29,7 @@ final class SearchBarViewModel {
             .receive(on: DispatchQueue.global())
             .sink {
                 if case let .failure(error) = $0 {
-                    print(error.localizedDescription)
+                    LogUtil.e(error.localizedDescription)
                 }
             } receiveValue: { keyword in
                 self.requestPOI(searchkeyword: keyword)

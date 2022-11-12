@@ -31,12 +31,13 @@ final class ActivityManager: NSObject {
     func configure() {
         Task {
             await endAllActivities()
-            activity = nil
-            let attributes = StationAttributes()
-            let state = StationAttributes.ContentState()
-            
-            activity = try? Activity<StationAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
         }
+        
+        activity = nil
+        let attributes = StationAttributes()
+        let state = StationAttributes.ContentState()
+        
+        activity = try? Activity<StationAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
     }
     
     func updateActivity(state: StationAttributes.ContentState) {

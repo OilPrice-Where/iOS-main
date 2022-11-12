@@ -38,7 +38,7 @@ extension MainListViewModel {
             let sortedStations = isPrice ? value.sorted(by: { $0.price < $1.price }) : value.sorted(by: { $0.distance < $1.distance })
             stations.onNext(sortedStations)
         } catch {
-            print(error.localizedDescription)
+            LogUtil.e(error.localizedDescription)
         }
     }
 }

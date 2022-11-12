@@ -137,7 +137,7 @@ extension MainViewModel {
                 
                 self.stations = target
             case .failure(let error):
-                print(error.localizedDescription)
+                LogUtil.e(error.localizedDescription)
                 self.output.error.accept(.requestStation)
             }
         }

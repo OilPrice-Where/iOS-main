@@ -9,7 +9,6 @@
 import Foundation
 import RxSwift
 import RxRelay
-import SwiftyPlistManager
 import Moya
 
 // App 전체에서 사용하는 싱글톤
@@ -51,7 +50,7 @@ class DefaultData {
                 guard let decode = try? resp.map(AllPriceResult.self) else { return }
                 self.priceData = decode.result.allPriceList
             case .failure(let error):
-                print(error.localizedDescription)
+                LogUtil.e(error.localizedDescription)
             }
         }
     }
@@ -68,7 +67,7 @@ class DefaultData {
     private func swiftyPlistManager<T>(save type: T, forKey key: String, to name: String = "UserInfo") {
         SwiftyPlistManager.shared.save(type, forKey: key, toPlistWithName: name) {
             if let err = $0 {
-                print(err.localizedDescription)
+                LogUtil.e(err.localizedDescription)
                 return
             }
             
@@ -162,7 +161,7 @@ class DefaultData {
                                 group.leave()
                             }
                         case .failure(let error):
-                            print(error.localizedDescription)
+                            LogUtil.e(error.localizedDescription)
                         }
                     }
                 }

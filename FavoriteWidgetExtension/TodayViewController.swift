@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import KakaoSDKCommon
 import KakaoSDKNavi
+import NMapsMap
 import NotificationCenter
 
 class TodayViewController: UIViewController, NCWidgetProviding {
@@ -135,23 +136,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
     }
     
-    // 위치 변환 ( Katec -> WGS84 )
-    func convertKatecToWGS(with station: InformationGasStaion) -> CLLocationCoordinate2D {
-        guard let kx = station.katecX, let ky = station.katecY else { return .init(latitude: .zero, longitude: .zero) }
-        
-        let convert = GeoConverter()
-        let katecPoint = GeographicPoint(x: kx, y: ky)
-        let wgsPoint = convert.convert(sourceType: .KATEC,
-                                       destinationType: .WGS_84,
-                                       geoPoint: katecPoint)
-        
-        guard let _wgsPoint = wgsPoint else { return .init(latitude: .zero, longitude: .zero) }
-        
-        return CLLocationCoordinate2D(latitude: _wgsPoint.y,
-                                      longitude: _wgsPoint.x)
-        
-    }
-    
     // 길안내 에러 발생
     func handleError(message: String) {
         popupView.isHidden = false
@@ -195,9 +179,10 @@ extension TodayViewController: UICollectionViewDataSource {
 extension TodayViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectStation = favArr[indexPath.row]
-        guard let katecX = selectStation.katecX?.rounded(), let katecY = selectStation.katecY?.rounded() else { return }
+        guard let katecX = selectStation.katecX, let katecY = selectStation.katecY else { return }
         
-        let coordinator = convertKatecToWGS(with: selectStation)
+        let latLng = NMGTm128(x: katecX, y: katecY).toLatLng()
+        let coordinator = CLLocationCoordinate2D(latitude: latLng.lat, longitude: latLng.lng)
         
         guard let def = UserDefaults(suiteName: "group.wargi.oilPriceWhere"),
               let type = def.value(forKey: "NaviType") as? String else { return }

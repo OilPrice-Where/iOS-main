@@ -612,7 +612,7 @@ extension MainVC: FloatingPanelControllerDelegate {
                           let information = ret.result?.allPriceList?.first else { return }
                     self.contentsVC.station = information
                 case .failure(let error):
-                    print(error)
+                    LogUtil.e(error)
                 }
             }
         default:

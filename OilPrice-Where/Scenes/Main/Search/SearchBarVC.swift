@@ -211,7 +211,7 @@ final class SearchBarVC: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink {
                 if case let .failure(error) = $0 {
-                    print(error.localizedDescription)
+                    LogUtil.e(error.localizedDescription)
                 }
             } receiveValue: { [weak self] in
                 self?.viewModel.pois = $0

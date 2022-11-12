@@ -33,7 +33,7 @@ extension FavoriteCellViewModel {
                 self.infoSubject.onNext(information)
                 self.isLoadingSubject.onNext(true)
             case .failure(let error):
-                print(error)
+                LogUtil.e(error)
             }
         }
     }
