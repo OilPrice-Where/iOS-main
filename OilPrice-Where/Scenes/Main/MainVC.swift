@@ -444,8 +444,7 @@ final class MainVC: CommonViewController {
         guard let _location = location else { return nil }
         let center = NMGLatLng(from: _location.coordinate)
         
-        let radius = Double(DefaultData.shared.radiusSubject.value)
-        let circle = NMFCircleOverlay(center, radius: radius, fill: .clear)
+        let circle = NMFCircleOverlay(center, radius: 5000.0, fill: .clear)
         circle.outlineColor = .systemBlue
         circle.outlineWidth = 1
         return circle

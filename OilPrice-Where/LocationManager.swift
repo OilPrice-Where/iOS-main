@@ -159,16 +159,16 @@ extension LocationManager: CLLocationManagerDelegate {
             } else if requestLocation == nil {
                 requestLocation = locations.last
                 requestSearch()
-            }
-            
-            self.findStation = firstFindStation()
-            if var findStation = self.findStation,
-               let currentLocation = locations.last,
-               let targetLat = findStation.lat, let targetLng = findStation.lng {
-                let location = CLLocation(latitude: targetLat, longitude: targetLng)
-                findStation.distance = "\(Double(Int(currentLocation.distance(from: location) / 100)) / 10)km"
-                let state = StationAttributes.ContentState(station: findStation)
-                ActivityManager.shared.updateActivity(state: state)
+            } else {
+                self.findStation = firstFindStation()
+                if var findStation = self.findStation,
+                   let currentLocation = locations.last,
+                   let targetLat = findStation.lat, let targetLng = findStation.lng {
+                    let location = CLLocation(latitude: targetLat, longitude: targetLng)
+                    findStation.distance = "\(Double(Int(currentLocation.distance(from: location) / 100)) / 10)km"
+                    let state = StationAttributes.ContentState(station: findStation)
+                    ActivityManager.shared.updateActivity(state: state)
+                }
             }
         }
     }

@@ -99,7 +99,6 @@ extension MainViewModel {
     }
     
     private func requestSearch(sort: Int = 1) {
-        let radius = DefaultData.shared.radiusSubject.value
         let oilSubject = DefaultData.shared.oilSubject.value
         let brands = DefaultData.shared.brandsSubject.value
         
@@ -110,7 +109,7 @@ extension MainViewModel {
         
         staionProvider.request(.stationList(x: tm.x,
                                             y: tm.y,
-                                            radius: radius,
+                                            radius: 5000,
                                             prodcd: oilSubject,
                                             sort: sort,
                                             appKey: Preferences.getAppKey())) { [weak self] result in

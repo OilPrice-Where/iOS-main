@@ -25,9 +25,6 @@ final class MenuVC: CommonViewController {
     private lazy var oilTypeView = MenuKeyValueView(type: .keyValue).then {
         $0.keyLabel.text = "유종"
     }
-    private lazy var radiusView = MenuKeyValueView(type: .keyValue).then {
-        $0.keyLabel.text = "검색 반경"
-    }
     private lazy var historyView = MenuKeyValueView(type: .key).then {
         $0.keyLabel.text = "방문 내역"
     }
@@ -67,7 +64,6 @@ final class MenuVC: CommonViewController {
         view.backgroundColor = .white
         view.addSubview(navigationView)
         view.addSubview(oilTypeView)
-        view.addSubview(radiusView)
         view.addSubview(historyView)
         view.addSubview(findBrandView)
         view.addSubview(avgView)
@@ -76,20 +72,16 @@ final class MenuVC: CommonViewController {
         view.addSubview(reviewView)
         view.addSubview(versionView)
         
-        navigationView.snp.makeConstraints {
+        oilTypeView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.left.right.equalToSuperview()
         }
-        oilTypeView.snp.makeConstraints {
-            $0.top.equalTo(navigationView.snp.bottom).offset(40)
-            $0.left.right.equalToSuperview()
-        }
-        radiusView.snp.makeConstraints {
+        navigationView.snp.makeConstraints {
             $0.top.equalTo(oilTypeView.snp.bottom).offset(18)
             $0.left.right.equalToSuperview()
         }
         historyView.snp.makeConstraints {
-            $0.top.equalTo(radiusView.snp.bottom).offset(40)
+            $0.top.equalTo(navigationView.snp.bottom).offset(40)
             $0.left.right.equalToSuperview()
         }
         findBrandView.snp.makeConstraints {
@@ -140,11 +132,6 @@ final class MenuVC: CommonViewController {
             .asDriver(onErrorJustReturn: "")
             .drive(oilTypeView.valueLabel.rx.text)
             .disposed(by: bag)
-        DefaultData.shared.radiusSubject
-            .map { String($0 / 1000) + "KM" }
-            .asDriver(onErrorJustReturn: "")
-            .drive(radiusView.valueLabel.rx.text)
-            .disposed(by: bag)
         DefaultData.shared.backgroundFindSubject
             .map { $0 ? "켜짐" : "꺼짐" }
             .asDriver(onErrorJustReturn: "")
@@ -183,18 +170,6 @@ final class MenuVC: CommonViewController {
             .bind(with: self, onNext: { owner, _ in
                 let navi = owner.viewModel.output.fetchNavigationController(type: .history)
                 owner.present(navi, animated: true)
-            })
-            .disposed(by: bag)
-        // 검색 반경
-        radiusView
-            .rx
-            .tapGesture()
-            .when(.recognized)
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, _ in
-                let vc = SelectMenuVC(type: .radius)
-                vc.modalPresentationStyle = .overFullScreen
-                owner.present(vc, animated: false)
             })
             .disposed(by: bag)
         // 전국 평균가

@@ -33,7 +33,6 @@ class DefaultData {
     var priceData: [AllPrice] = [] // 전국 평균 기름 값
     var tempFavArr: [InformationGasStaion] = []
     let stationsSubject = BehaviorSubject<[GasStation]>(value: []) // 반경 주유소 리스트
-    let radiusSubject = BehaviorRelay<Int>(value: 3000) // 탐색 반경
     let oilSubject = BehaviorRelay<String>(value: "") // 오일 종류
     let brandsSubject = BehaviorRelay<[String]>(value: []) // 설정 브랜드
     let favoriteSubject = BehaviorRelay<[String]>(value: []) // 즐겨 찾기
@@ -93,7 +92,6 @@ class DefaultData {
         SwiftyPlistManager.shared.start(plistNames: ["UserInfo"], logging: true) // Plist 불러오기
         
         let localFavorites = fetchValue(defaultValue: "", for: "LocalFavorites")
-        let radius = fetchValue(defaultValue: 5000, for: "FindRadius")
         let oilType = fetchValue(defaultValue: "", for: "OilType")
         let brands = fetchValue(defaultValue: defaultBrands, for: "Brands")
         let naviType = fetchValue(defaultValue: "kakao", for: "NaviType")
@@ -102,7 +100,6 @@ class DefaultData {
         
         localFavoritesSubject.accept(localFavorites)
         oilSubject.accept(oilType)
-        radiusSubject.accept(radius)
         brandsSubject.accept(brands)
         naviSubject.accept(naviType == "tmap" ? "tMap" : naviType)
         favoriteSubject.accept(favArr)
@@ -112,13 +109,6 @@ class DefaultData {
         oilSubject
             .subscribe(with: self, onNext: { owner, type in
                 owner.swiftyPlistManager(save: type, forKey: "OilType")
-            })
-            .disposed(by: bag)
-        
-        // Find Radius Value Save
-        radiusSubject
-            .subscribe(with: self, onNext: { owner, type in
-                owner.swiftyPlistManager(save: type, forKey: "FindRadius")
             })
             .disposed(by: bag)
         
