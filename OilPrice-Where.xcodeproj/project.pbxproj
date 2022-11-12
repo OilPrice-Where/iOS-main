@@ -129,6 +129,24 @@
 		E978E08228425C3400AE3480 /* StationDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E978E08128425C3400AE3480 /* StationDetailVC.swift */; };
 		E978E085284277A200AE3480 /* StationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E978E084284277A200AE3480 /* StationDetailViewModel.swift */; };
 		E97B642827D7CDD700577650 /* GeoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D3E2107D95C0066A59E /* GeoConverter.swift */; };
+		E9984643291D13C20043D1DA /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9984642291D13C20043D1DA /* WidgetKit.framework */; };
+		E9984645291D13C20043D1DA /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9984644291D13C20043D1DA /* SwiftUI.framework */; };
+		E998464F291D13C30043D1DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E998464E291D13C30043D1DA /* Assets.xcassets */; };
+		E9984651291D13C30043D1DA /* FindStationExtension.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E998464D291D13C20043D1DA /* FindStationExtension.intentdefinition */; };
+		E9984652291D13C30043D1DA /* FindStationExtension.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E998464D291D13C20043D1DA /* FindStationExtension.intentdefinition */; };
+		E9984655291D13C30043D1DA /* FindStationExtensionExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E9984641291D13C20043D1DA /* FindStationExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E998465A291D14B50043D1DA /* StationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9984659291D14B50043D1DA /* StationAttributes.swift */; };
+		E998465B291D15B10043D1DA /* StationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9984659291D14B50043D1DA /* StationAttributes.swift */; };
+		E998465C291D271F0043D1DA /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
+		E998465E291D2AB80043D1DA /* ActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998465D291D2AB80043D1DA /* ActivityManager.swift */; };
+		E9984660291D44F20043D1DA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2B20F5E5FF006CED48 /* Images.xcassets */; };
+		E9984667291D6ED40043D1DA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9984666291D6ED40043D1DA /* SceneDelegate.swift */; };
+		E9984688291D78AA0043D1DA /* FindStationExtensionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9984687291D78AA0043D1DA /* FindStationExtensionBundle.swift */; };
+		E998468A291D78DD0043D1DA /* FindStationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9984689291D78DD0043D1DA /* FindStationExtension.swift */; };
+		E998468B291E77B00043D1DA /* NanumSquareRoundB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226532126A8BA0012B2F6 /* NanumSquareRoundB.ttf */; };
+		E998468C291E77B00043D1DA /* NanumSquareRoundEB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226542126A8BB0012B2F6 /* NanumSquareRoundEB.ttf */; };
+		E998468D291E77B00043D1DA /* NanumSquareRoundL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226522126A8B90012B2F6 /* NanumSquareRoundL.ttf */; };
+		E998468E291E77B00043D1DA /* NanumSquareRoundR.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226552126A8BD0012B2F6 /* NanumSquareRoundR.ttf */; };
 		E99E4983290EDC0B0050A1A1 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E90FC278290E3364006908CC /* TMapSDK.framework */; };
 		E99E4984290EDC0B0050A1A1 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E90FC278290E3364006908CC /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9A1B17F28336A9F00B64AFA /* PriceAverageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1B17E28336A9F00B64AFA /* PriceAverageVC.swift */; };
@@ -172,6 +190,13 @@
 			remoteGlobalIDString = 8EAEB14D24F41AFF00B5E6CE;
 			remoteInfo = FavoriteWidgetExtension;
 		};
+		E9984653291D13C30043D1DA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8E7FFE1920F5E5FF006CED48 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E9984640291D13C20043D1DA;
+			remoteInfo = FindStationExtensionExtension;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -181,6 +206,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				E9984655291D13C30043D1DA /* FindStationExtensionExtension.appex in Embed App Extensions */,
 				8EAEB15A24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -304,6 +330,17 @@
 		E96E601E27CE0351005BB593 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
 		E978E08128425C3400AE3480 /* StationDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailVC.swift; sourceTree = "<group>"; };
 		E978E084284277A200AE3480 /* StationDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailViewModel.swift; sourceTree = "<group>"; };
+		E9984641291D13C20043D1DA /* FindStationExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FindStationExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9984642291D13C20043D1DA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		E9984644291D13C20043D1DA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		E998464D291D13C20043D1DA /* FindStationExtension.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = FindStationExtension.intentdefinition; sourceTree = "<group>"; };
+		E998464E291D13C30043D1DA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E9984650291D13C30043D1DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9984659291D14B50043D1DA /* StationAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationAttributes.swift; sourceTree = "<group>"; };
+		E998465D291D2AB80043D1DA /* ActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityManager.swift; sourceTree = "<group>"; };
+		E9984666291D6ED40043D1DA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		E9984687291D78AA0043D1DA /* FindStationExtensionBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindStationExtensionBundle.swift; sourceTree = "<group>"; };
+		E9984689291D78DD0043D1DA /* FindStationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindStationExtension.swift; sourceTree = "<group>"; };
 		E99E4986290EDDEB0050A1A1 /* KakaoSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KakaoSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9A1B17E28336A9F00B64AFA /* PriceAverageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceAverageVC.swift; sourceTree = "<group>"; };
 		E9A3A2CA282D0E84004ED55E /* CardModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CardModel.xcdatamodel; sourceTree = "<group>"; };
@@ -375,6 +412,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E998463E291D13C20043D1DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9984645291D13C20043D1DA /* SwiftUI.framework in Frameworks */,
+				E9984643291D13C20043D1DA /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -386,6 +432,8 @@
 				8EAEB14F24F41AFF00B5E6CE /* NotificationCenter.framework */,
 				EA270F4C9F8787CC0D069A8E /* Pods_FavoriteWidgetExtension.framework */,
 				692C04AA68557BE6FEE04C04 /* Pods_OilPrice_Where.framework */,
+				E9984642291D13C20043D1DA /* WidgetKit.framework */,
+				E9984644291D13C20043D1DA /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -608,6 +656,7 @@
 			isa = PBXGroup;
 			children = (
 				8E7FFE2420F5E5FF006CED48 /* AppDelegate.swift */,
+				E9984666291D6ED40043D1DA /* SceneDelegate.swift */,
 			);
 			path = AppDelegate;
 			sourceTree = "<group>";
@@ -637,6 +686,7 @@
 			children = (
 				8E7FFE2320F5E5FF006CED48 /* OilPrice-Where */,
 				8EAEB15124F41AFF00B5E6CE /* FavoriteWidgetExtension */,
+				E9984646291D13C20043D1DA /* FindStationExtension */,
 				8E7FFE2220F5E5FF006CED48 /* Products */,
 				2C306C2524FE261E511F8C37 /* Pods */,
 				0311CDC564670164F66F0F16 /* Frameworks */,
@@ -648,6 +698,7 @@
 			children = (
 				8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */,
 				8EAEB14E24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex */,
+				E9984641291D13C20043D1DA /* FindStationExtensionExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -721,6 +772,7 @@
 				8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */,
 				E9E290D6280ECF1900BE21B3 /* DBVersionData.swift */,
 				E90FC276290E331F006908CC /* LocationManager.swift */,
+				E998465D291D2AB80043D1DA /* ActivityManager.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -847,6 +899,18 @@
 			path = History;
 			sourceTree = "<group>";
 		};
+		E9984646291D13C20043D1DA /* FindStationExtension */ = {
+			isa = PBXGroup;
+			children = (
+				E9984687291D78AA0043D1DA /* FindStationExtensionBundle.swift */,
+				E9984689291D78DD0043D1DA /* FindStationExtension.swift */,
+				E998464D291D13C20043D1DA /* FindStationExtension.intentdefinition */,
+				E998464E291D13C30043D1DA /* Assets.xcassets */,
+				E9984650291D13C30043D1DA /* Info.plist */,
+			);
+			path = FindStationExtension;
+			sourceTree = "<group>";
+		};
 		E9A1B17D28336A7000B64AFA /* Average */ = {
 			isa = PBXGroup;
 			children = (
@@ -912,6 +976,7 @@
 		E9EAF1062822DCBE0046F9A8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E9984659291D14B50043D1DA /* StationAttributes.swift */,
 				E913777428959DEE0078B557 /* Card+CoreDataProperties.swift */,
 				E9EAF1032822DAC30046F9A8 /* CardInfo.swift */,
 				E9BE7B0A282C81F800FF8A01 /* DataManager.swift */,
@@ -951,6 +1016,7 @@
 			);
 			dependencies = (
 				8EAEB15924F41AFF00B5E6CE /* PBXTargetDependency */,
+				E9984654291D13C30043D1DA /* PBXTargetDependency */,
 			);
 			name = "OilPrice-Where";
 			packageProductDependencies = (
@@ -1002,6 +1068,23 @@
 			productReference = 8EAEB14E24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		E9984640291D13C20043D1DA /* FindStationExtensionExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9984656291D13C30043D1DA /* Build configuration list for PBXNativeTarget "FindStationExtensionExtension" */;
+			buildPhases = (
+				E998463D291D13C20043D1DA /* Sources */,
+				E998463E291D13C20043D1DA /* Frameworks */,
+				E998463F291D13C20043D1DA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FindStationExtensionExtension;
+			productName = FindStationExtensionExtension;
+			productReference = E9984641291D13C20043D1DA /* FindStationExtensionExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1009,7 +1092,7 @@
 			isa = PBXProject;
 			attributes = {
 				DefaultBuildSystemTypeForWorkspace = Original;
-				LastSwiftUpdateCheck = 1160;
+				LastSwiftUpdateCheck = 1410;
 				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "sangwook park";
 				TargetAttributes = {
@@ -1018,6 +1101,9 @@
 					};
 					8EAEB14D24F41AFF00B5E6CE = {
 						CreatedOnToolsVersion = 11.6;
+					};
+					E9984640291D13C20043D1DA = {
+						CreatedOnToolsVersion = 14.1;
 					};
 				};
 			};
@@ -1055,6 +1141,7 @@
 			targets = (
 				8E7FFE2020F5E5FF006CED48 /* OilPrice-Where */,
 				8EAEB14D24F41AFF00B5E6CE /* FavoriteWidgetExtension */,
+				E9984640291D13C20043D1DA /* FindStationExtensionExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -1088,6 +1175,19 @@
 				8EAEB16424F4B36D00B5E6CE /* Images.xcassets in Resources */,
 				8EAEB16524F4B7D100B5E6CE /* UserInfo.plist in Resources */,
 				8EAEB15E24F41C5E00B5E6CE /* NanumSquareRoundB.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E998463F291D13C20043D1DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E998464F291D13C30043D1DA /* Assets.xcassets in Resources */,
+				E998468C291E77B00043D1DA /* NanumSquareRoundEB.ttf in Resources */,
+				E9984660291D44F20043D1DA /* Images.xcassets in Resources */,
+				E998468B291E77B00043D1DA /* NanumSquareRoundB.ttf in Resources */,
+				E998468D291E77B00043D1DA /* NanumSquareRoundL.ttf in Resources */,
+				E998468E291E77B00043D1DA /* NanumSquareRoundR.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1181,7 +1281,9 @@
 				E94D0F0827BB4D5800BCB092 /* GasStationExpandView.swift in Sources */,
 				E9EFE7D0290E2DD100EA514B /* CommonNavigationView.swift in Sources */,
 				E9F0996427D8C44B009F95DF /* KeyValueView.swift in Sources */,
+				E9984667291D6ED40043D1DA /* SceneDelegate.swift in Sources */,
 				E9EFE7CC290E2D6800EA514B /* SearchBarVC.swift in Sources */,
+				E998465E291D2AB80043D1DA /* ActivityManager.swift in Sources */,
 				E9D1445827CED3120055141A /* InfoListView.swift in Sources */,
 				E9C3A64C2842140100AC861C /* FavoriteCustomTabbarController.swift in Sources */,
 				E9633A7E27F9CF7D00B99E66 /* MenuKeyValueView.swift in Sources */,
@@ -1190,6 +1292,7 @@
 				8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */,
 				E9633A8C27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift in Sources */,
 				E919CCC9281BF80700C3373E /* PlusView.swift in Sources */,
+				E998465A291D14B50043D1DA /* StationAttributes.swift in Sources */,
 				E90FC277290E331F006908CC /* LocationManager.swift in Sources */,
 				E978E08228425C3400AE3480 /* StationDetailVC.swift in Sources */,
 				8ECE0D52211AD42600FF2B46 /* Preferences.swift in Sources */,
@@ -1234,6 +1337,7 @@
 				2CA47266279931B500DB0DDD /* MainViewModel.swift in Sources */,
 				8EDAF7D821295AEF00422552 /* InitialSettingVC.swift in Sources */,
 				E933E88428676C9300A49ADB /* AddCardVC.swift in Sources */,
+				E9984652291D13C30043D1DA /* FindStationExtension.intentdefinition in Sources */,
 				E9E290DD280F6B1C00BE21B3 /* NSMutableAttributedString+.swift in Sources */,
 				E9EAF1172822EC1C0046F9A8 /* UIColor+.swift in Sources */,
 				E9400FE827B1146E003168C6 /* StationInfoGuideView.swift in Sources */,
@@ -1291,6 +1395,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E998463D291D13C20043D1DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E998465C291D271F0043D1DA /* InformationGasStaion.swift in Sources */,
+				E998468A291D78DD0043D1DA /* FindStationExtension.swift in Sources */,
+				E9984651291D13C30043D1DA /* FindStationExtension.intentdefinition in Sources */,
+				E998465B291D15B10043D1DA /* StationAttributes.swift in Sources */,
+				E9984688291D78AA0043D1DA /* FindStationExtensionBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1298,6 +1414,11 @@
 			isa = PBXTargetDependency;
 			target = 8EAEB14D24F41AFF00B5E6CE /* FavoriteWidgetExtension */;
 			targetProxy = 8EAEB15824F41AFF00B5E6CE /* PBXContainerItemProxy */;
+		};
+		E9984654291D13C30043D1DA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E9984640291D13C20043D1DA /* FindStationExtensionExtension */;
+			targetProxy = E9984653291D13C30043D1DA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1591,6 +1712,69 @@
 			};
 			name = Release;
 		};
+		E9984657291D13C30043D1DA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3ZS2532XM8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FindStationExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FindStationExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 sangwook park. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FindStationExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E9984658291D13C30043D1DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3ZS2532XM8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FindStationExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FindStationExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 sangwook park. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FindStationExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1617,6 +1801,15 @@
 			buildConfigurations = (
 				8EAEB15C24F41AFF00B5E6CE /* Debug */,
 				8EAEB15D24F41AFF00B5E6CE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E9984656291D13C30043D1DA /* Build configuration list for PBXNativeTarget "FindStationExtensionExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9984657291D13C30043D1DA /* Debug */,
+				E9984658291D13C30043D1DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

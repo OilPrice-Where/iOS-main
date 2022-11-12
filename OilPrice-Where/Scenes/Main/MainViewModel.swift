@@ -29,6 +29,7 @@ final class MainViewModel {
     var addressString: String?
     var cameraPosition: NMFCameraPosition?
     var beforeNAfter: (before: FloatingPanelState, after: FloatingPanelState) = (.hidden, .hidden)
+    var isLiveActivities: Bool = false
     
     //MARK: - Initializer
     init() {
@@ -36,7 +37,7 @@ final class MainViewModel {
     }
     
     //MARK: - Rx Binding ..
-    func rxBind() {
+    func rxBind() {        
         input.requestStaions
             .bind(with: self, onNext: { owner, _ in
                 owner.requestSearch()

@@ -136,6 +136,8 @@ final class SelectMenuVC: CommonViewController {
                         msg = "선택하신 유종으로 탐색을 시작합니다.\n\(subTitle)"
                     case .radius:
                         msg = "선택하신 반경으로 탐색을 시작합니다.\n\(subTitle)"
+                    case .background:
+                        msg = "백그라운드 탐색을 \(DefaultData.shared.backgroundFindSubject.value ? "시작합니다" : "끕니다").\n\(subTitle)"
                     }
                     
                     UIApplication.shared.customKeyWindow?.hideToast()
@@ -178,6 +180,8 @@ final class SelectMenuVC: CommonViewController {
             return 272.0
         case .radius:
             return 198.0
+        case .background:
+            return 128.0
         }
     }
 }

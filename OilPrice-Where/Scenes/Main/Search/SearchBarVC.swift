@@ -39,6 +39,17 @@ final class SearchBarVC: UIViewController {
             .font: FontFamily.NanumSquareRound.regular.font(size: 12)
         ])
     }
+    let titleLabel = UILabel().then {
+        $0.text = "최근 검색"
+        $0.font = FontFamily.NanumSquareRound.bold.font(size: 14)
+    }
+    let removeAllButton = UIButton().then {
+        $0.setTitle("전체 삭제", for: .normal)
+        $0.setTitle("전체 삭제", for: .highlighted)
+        $0.setTitleColor(.systemGray, for: .normal)
+        $0.setTitleColor(.systemGray, for: .highlighted)
+        $0.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 12)
+    }
     lazy var recentTableView = UITableView().then {
         $0.delegate = self
         $0.separatorStyle = .none
@@ -92,6 +103,8 @@ final class SearchBarVC: UIViewController {
         view.addSubview(navigationView)
         view.addSubview(searchBarView)
         view.addSubview(searchImageView)
+        view.addSubview(titleLabel)
+        view.addSubview(removeAllButton)
         view.addSubview(recentTableView)
         view.addSubview(searchResultTableView)
         
@@ -110,8 +123,16 @@ final class SearchBarVC: UIViewController {
             $0.left.equalTo(searchBarView.snp.left).offset(10)
             $0.centerY.equalTo(searchBarView)
         }
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(searchBarView.snp.bottom).offset(24)
+            $0.left.equalToSuperview().inset(16)
+        }
+        removeAllButton.snp.makeConstraints {
+            $0.centerY.equalTo(titleLabel.snp.centerY)
+            $0.right.equalToSuperview().inset(16)
+        }
         recentTableView.snp.makeConstraints {
-            $0.top.equalTo(searchBarView.snp.bottom).offset(8)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(16)
             $0.left.bottom.right.equalToSuperview().inset(16)
         }
         searchResultTableView.snp.makeConstraints {
@@ -128,11 +149,11 @@ final class SearchBarVC: UIViewController {
     private func bind() {
         searchBarView
             .contentTextField
-            .returnPublisher
+            .textPublisher
             .receive(on: DispatchQueue.global())
             .debounce(for: 0.5, scheduler: RunLoop.main)
-            .sink { [weak self] in
-                self?.viewModel.input.requestPOI.send(self?.searchBarView.contentTextField.text)
+            .sink { [weak self] text in
+                self?.viewModel.input.requestPOI.send(text)
             }
             .store(in: &viewModel.bag)
         searchBarView
@@ -159,6 +180,29 @@ final class SearchBarVC: UIViewController {
             .filter { $0.count == 0 }
             .map { $0.isEmpty }
             .assign(to: \.isHidden, on: searchResultTableView)
+            .store(in: &viewModel.bag)
+        
+        removeAllButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                let alert = UIAlertController(title: "최근 검색어를 모두 삭제하시겠습니까?", message: nil, preferredStyle: .actionSheet)
+                let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                    for poi in DataManager.shared.pois {
+                        DataManager.shared.delete(value: poi)
+                    }
+                    DataManager.shared.pois.removeAll()
+                    
+                    self?.performRecentDataSnapShot()
+                }
+                
+                let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+                
+                alert.addAction(deleteAction)
+                alert.addAction(cancelAction)
+                
+                self?.present(alert, animated: true)
+            }
             .store(in: &viewModel.bag)
         
         viewModel

@@ -23,6 +23,7 @@ final class SelectMenuViewModel {
     private let oilType = ["휘발유", "고급휘발유", "경유", "LPG"]
     // 선택 가능한 탐색 반경
     private let findDistaceArea = ["1KM", "3KM", "5KM"]
+    private let backgroundFind = ["켜기", "끄기"]
     
     //MARK: Initializer
     init(type: SelectMenuType) {
@@ -52,6 +53,7 @@ extension SelectMenuViewModel {
         case navigation
         case oilType
         case radius
+        case background
     }
     
     enum ErrorResult: Error {
@@ -83,6 +85,9 @@ extension SelectMenuViewModel {
         case .radius:
             output.fetchModel.accept(findDistaceArea)
             output.fetchTitle.accept("주유소 탐색 반경을 선택해 주세요.")
+        case .background:
+            output.fetchModel.accept(backgroundFind)
+            output.fetchTitle.accept("백그라운드 탐색 여부를 선택해 주세요.")
         }
         
         fetchSelect()
@@ -96,6 +101,8 @@ extension SelectMenuViewModel {
             output.fetchSelect.accept(oilType.firstIndex(of: Preferences.oil(code: DefaultData.shared.oilSubject.value)) ?? 0)
         case .radius:
             output.fetchSelect.accept(findDistaceArea.firstIndex(of: Preferences.distanceKM(KM: DefaultData.shared.radiusSubject.value)) ?? 0)
+        case .background:
+            output.fetchSelect.accept(DefaultData.shared.backgroundFindSubject.value ? 0 : 1)
         }
     }
     
@@ -107,6 +114,19 @@ extension SelectMenuViewModel {
             DefaultData.shared.oilSubject.accept(Preferences.oil(name: title))
         case .radius:
             DefaultData.shared.radiusSubject.accept(Preferences.distanceKM(KM: title))
+        case .background:
+            let isOn = "켜기" == title
+            DefaultData.shared.backgroundFindSubject.accept(isOn)
+            
+            if #available(iOS 16.1, *) {
+                if isOn {
+                    ActivityManager.shared.configure()
+                } else {
+                    Task {
+                        await ActivityManager.shared.endAllActivities()
+                    }
+                }
+            }
         }
     }
 }

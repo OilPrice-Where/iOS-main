@@ -12,9 +12,9 @@ import Firebase
 import FirebaseCore
 import KakaoSDKCommon
 
-@UIApplicationMain
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
+    
     let firebaseUtility = FirebaseUtility()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -31,44 +31,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KakaoSDK.initSDK(appKey: "b8e7f9ac5bf3c19414515867205f92aa")
         DefaultData.shared.allPriceDataLoad() // 전국의 오일종류 별 저번주의 평균 값을 받아온다.
         
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.overrideUserInterfaceStyle = .light
-        window?.rootViewController = initialViewController() // 설정페이지 루트뷰 설정
-        window?.makeKeyAndVisible()
-        
         return true
     }
     
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // 앱 시작시 위치 추적 시작
-        LocationManager.shared.startUpdating()
-    }
-    
-    func applicationWillResignActive(_ application: UIApplication) {
-        // 앱 백 그라운드로 진입시 위치 추적 멈춤
-        LocationManager.shared.stopUpdating()
-    }
-    
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        DataManager.shared.saveContext()
-        // 앱 백 그라운드로 진입시 위치 추적 멈춤
-        LocationManager.shared.stopUpdating()
-    }
-    
-    // initialViewController 초기 설정 페이지 관련 함수
-    // 처음 앱을 켰을 때 저장 되어있는 오일 타입이 설정 되어 있지 않을 시에
-    // 초기 설정 페이지(InitialSettingViewController)를 루트 뷰로 설정
-    // 오일 타입이 있다면 메인 리스트 페이지(TabBarController)를 루트뷰로 설정
-    private func initialViewController() -> UIViewController {
-        if DefaultData.shared.oilSubject.value != "" {
-            let mainVC = MainVC()
-            let mainNavigationVC = UINavigationController(rootViewController: mainVC)
-            return mainNavigationVC
-        } else {
-            let vc = InitialSettingVC()
-            vc.viewModel = InitialViewModel()
-            
-            return vc
+    func applicationWillTerminate(_ application: UIApplication) {
+        guard DefaultData.shared.backgroundFindSubject.value else { return }
+        
+        if #available(iOS 16.1, *) {
+            Task {
+                await ActivityManager.shared.endAllActivities()
+            }
         }
     }
 }
