@@ -23,6 +23,7 @@ final class SearchBarVC: UIViewController {
     enum Section {
         case search
     }
+    var bag = Set<AnyCancellable>()
     weak var delegate: SearchBarDelegate?
     private let viewModel = SearchBarViewModel()
     let navigationView = CommonNavigationView().then {
@@ -71,6 +72,13 @@ final class SearchBarVC: UIViewController {
         $0.showsHorizontalScrollIndicator = false
         SearchResultCell.register($0)
     }
+    let emptyRecentSearchLabel = UILabel().then {
+        $0.text = "최근 검색한 내역이 없습니다"
+        $0.textColor = .systemGray
+        $0.textAlignment = .center
+        $0.font = FontFamily.NanumSquareRound.bold.font(size: 18)
+        $0.isHidden = true
+    }
     
     var searchDataSource: UITableViewDiffableDataSource<Section, ResponsePOI>?
     var recentDataSource: UITableViewDiffableDataSource<Section, ResponsePOI>?
@@ -106,6 +114,7 @@ final class SearchBarVC: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(removeAllButton)
         view.addSubview(recentTableView)
+        view.addSubview(emptyRecentSearchLabel)
         view.addSubview(searchResultTableView)
         
         navigationView.snp.makeConstraints {
@@ -134,6 +143,9 @@ final class SearchBarVC: UIViewController {
         recentTableView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(16)
             $0.left.bottom.right.equalToSuperview().inset(16)
+        }
+        emptyRecentSearchLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
         searchResultTableView.snp.makeConstraints {
             $0.top.equalTo(searchBarView.snp.bottom).offset(8)
@@ -227,6 +239,11 @@ final class SearchBarVC: UIViewController {
                 self?.navigationController?.popViewController(animated: true)
             }
             .store(in: &viewModel.bag)
+        
+        DataManager.shared.$poisIsNotEmpty
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.isHidden, on: emptyRecentSearchLabel)
+            .store(in: &bag)
     }
     
     @objc

@@ -12,7 +12,7 @@ import WidgetKit
 import ActivityKit
 import CoreLocation
 
-struct FindStationExtensionEntryView : View {
+struct FindStationExtensionEntryView: View, CommonFunctions {
     let context: ActivityViewContext<StationAttributes>
     
     var body: some View {
@@ -24,12 +24,14 @@ struct FindStationExtensionEntryView : View {
                 HStack {
                     ZStack {
                         RoundedRectangle(cornerRadius: 15.0, style: .continuous)
-                            .fill(.indigo)
-                        Text(brand(code: context.state.station?.brand ?? ""))
+                            .fill(brand(code: context.state.station?.brand))
+                        Text(brand(code: context.state.station?.brand))
                             .font(.custom("NanumSquareRoundEB", size: 10))
                             .foregroundColor(.white)
                     }
-                    .frame(width: 50, height: 18)
+                    .frame(width: widthOfString(brand(code: context.state.station?.brand),
+                                                usingFont: UIFont(name: "NanumSquareRoundEB", size: 10)),
+                           height: 18)
                     
                     Text("\(context.state.station?.oil ?? "") \(context.state.station?.price ?? 0)")
                         .font(.custom("NanumSquareRoundEB", size: 18))
@@ -62,36 +64,9 @@ struct FindStationExtensionEntryView : View {
             .padding(15)
         }
     }
-    
-    func brand(code: String) -> String {
-        switch code {
-        case "SKE":
-            return "SK에너지"
-        case "GSC":
-            return "GS칼텍스"
-        case "HDO":
-            return "현대오일뱅크"
-        case "SOL":
-            return "S-OIL"
-        case "RTO":
-            return "자영알뜰"
-        case "RTX":
-            return "고속도로알뜰"
-        case "NHO":
-            return "농협알뜰"
-        case "ETC":
-            return "자가상표"
-        case "E1G":
-            return "E1"
-        case "SKG":
-            return "SK가스"
-        default:
-            return "전체"
-        }
-    }
 }
 
-struct FindStationExtension: Widget {
+struct FindStationExtension: Widget, CommonFunctions {
     let kind: String = "FindStationExtension"
 
     var body: some WidgetConfiguration {
@@ -103,12 +78,14 @@ struct FindStationExtension: Widget {
                 DynamicIslandExpandedRegion(.leading) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 15.0, style: .continuous)
-                            .fill(.indigo)
-                        Text(brand(code: context.state.station?.brand ?? ""))
+                            .fill(brand(code: context.state.station?.brand))
+                        Text(brand(code: context.state.station?.brand))
                             .font(.custom("NanumSquareRoundEB", size: 8))
                             .foregroundColor(.white)
                     }
-                    .frame(width: 40, height: 16)
+                    .frame(width: widthOfString(brand(code: context.state.station?.brand),
+                                                usingFont: UIFont(name: "NanumSquareRoundEB", size: 8)),
+                           height: 16)
                 }
                 
                 DynamicIslandExpandedRegion(.trailing) {
@@ -139,67 +116,18 @@ struct FindStationExtension: Widget {
             } compactLeading: {
             } compactTrailing: {
             } minimal: {
-                Text("\(context.state.station?.distance?.replacingOccurrences(of: "km", with: "") ?? "")")
-                    .font(.custom("NanumSquareRoundEB", size: 16))
-                    .foregroundColor(.white)
+                ZStack {
+                    Circle()
+                        .fill(brand(code: context.state.station?.brand))
+                    Text("\(context.state.station?.distance?.replacingOccurrences(of: "km", with: "") ?? "")")
+                        .font(.custom("NanumSquareRoundEB", size: 12))
+                        .foregroundColor(.white)
+                }
             }
             .keylineTint(.indigo)
         }
 
     }
     
-    func logoImage(logoName name: String?) -> Image {
-        guard let logoName = name else { return Image(systemName: "drop.fill") }
-        switch logoName {
-        case "SKE":
-            return Image("LogoSKEnergy")
-        case "GSC":
-            return Image("LogoGSCaltex")
-        case "HDO":
-            return Image("LogoOilBank")
-        case "SOL":
-            return Image("LogoSOil")
-        case "RTO":
-            return Image("LogoFrugalOil")
-        case "RTX":
-            return Image("LogoExpresswayOil")
-        case "NHO":
-            return Image("LogoNHOil")
-        case "ETC":
-            return Image("LogoPersonalOil")
-        case "E1G":
-            return Image("LogoEnergyOne")
-        case "SKG":
-            return Image("LogoSKGas")
-        default:
-            return Image(systemName: "drop.fill")
-        }
-    }
-    
-    func brand(code: String) -> String {
-        switch code {
-        case "SKE":
-            return "SK에너지"
-        case "GSC":
-            return "GS칼텍스"
-        case "HDO":
-            return "현대오일뱅크"
-        case "SOL":
-            return "S-OIL"
-        case "RTO":
-            return "자영알뜰"
-        case "RTX":
-            return "고속도로알뜰"
-        case "NHO":
-            return "농협알뜰"
-        case "ETC":
-            return "자가상표"
-        case "E1G":
-            return "E1"
-        case "SKG":
-            return "SK가스"
-        default:
-            return "전체"
-        }
-    }
+
 }

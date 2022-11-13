@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 import RxSwift
 import RxRelay
+import Combine
 
 class DataManager {
     static let shared = DataManager()
@@ -20,6 +21,7 @@ class DataManager {
     }
     
     var stationListIsNotEmpty = PublishSubject<Bool>()
+    @Published var poisIsNotEmpty = false
     var stationListRelay = BehaviorRelay<[Station]>(value: [])
     var stationList = [Station]() {
         didSet {
@@ -28,7 +30,11 @@ class DataManager {
         }
     }
     var cardList = [Card]()
-    var pois = [POI]()
+    var pois = [POI]() {
+        didSet {
+            poisIsNotEmpty = !pois.isEmpty
+        }
+    }
     
     func fetchData() {
         let stationRequest: NSFetchRequest<Station> = Station.fetchRequest()
