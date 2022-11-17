@@ -22,19 +22,29 @@ final class ActivityManager: NSObject {
     
     func configure() {
         Task {
-            await endActivity()
+            await endActivities()
             
             activity = nil
-            let attributes = StationAttributes()
-            let state = StationAttributes.ContentState()
-            
-            activity = try? Activity<StationAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
+            createActivities()
         }
+    }
+    
+    func createActivities() {
+        let attributes = StationAttributes()
+        let state = StationAttributes.ContentState()
+        
+        activity = try? Activity<StationAttributes>.request(attributes: attributes, contentState: state, pushType: nil)
     }
     
     func updateActivity(state: StationAttributes.ContentState) {
         Task {
             await activity?.update(using: state)
+        }
+    }
+    
+    func endActivities() async {
+        for activity in Activity<StationAttributes>.activities {
+            await activity.end(dismissalPolicy: .immediate)
         }
     }
     

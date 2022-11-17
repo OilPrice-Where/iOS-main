@@ -150,7 +150,7 @@
 		E9A1B17F28336A9F00B64AFA /* PriceAverageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1B17E28336A9F00B64AFA /* PriceAverageVC.swift */; };
 		E9A3A2CB282D0E84004ED55E /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9A3A2C9282D0E84004ED55E /* DataModel.xcdatamodeld */; };
 		E9A64D542883D36600BF1737 /* CustomNavigationTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A64D532883D36600BF1737 /* CustomNavigationTitle.swift */; };
-		E9B48CF02921773E00061511 /* CommonFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B48CEE2921773900061511 /* CommonFunctions.swift */; };
+		E9B48CF02921773E00061511 /* SupportHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B48CEE2921773900061511 /* SupportHelper.swift */; };
 		E9BE7AFF282C632C00FF8A01 /* HistoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7AFE282C632C00FF8A01 /* HistoriesVC.swift */; };
 		E9BE7B04282C67A800FF8A01 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7B03282C67A800FF8A01 /* HistoryTableViewCell.swift */; };
 		E9BE7B0B282C81F800FF8A01 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7B0A282C81F800FF8A01 /* DataManager.swift */; };
@@ -341,7 +341,7 @@
 		E9A1B17E28336A9F00B64AFA /* PriceAverageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceAverageVC.swift; sourceTree = "<group>"; };
 		E9A3A2CA282D0E84004ED55E /* CardModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CardModel.xcdatamodel; sourceTree = "<group>"; };
 		E9A64D532883D36600BF1737 /* CustomNavigationTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationTitle.swift; sourceTree = "<group>"; };
-		E9B48CEE2921773900061511 /* CommonFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFunctions.swift; sourceTree = "<group>"; };
+		E9B48CEE2921773900061511 /* SupportHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportHelper.swift; sourceTree = "<group>"; };
 		E9BE7AFE282C632C00FF8A01 /* HistoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoriesVC.swift; sourceTree = "<group>"; };
 		E9BE7B03282C67A800FF8A01 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		E9BE7B0A282C81F800FF8A01 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -887,7 +887,7 @@
 			children = (
 				E9984687291D78AA0043D1DA /* FindStationExtensionBundle.swift */,
 				E9984689291D78DD0043D1DA /* FindStationExtension.swift */,
-				E9B48CEE2921773900061511 /* CommonFunctions.swift */,
+				E9B48CEE2921773900061511 /* SupportHelper.swift */,
 				E998464D291D13C20043D1DA /* FindStationExtension.intentdefinition */,
 				E998464E291D13C30043D1DA /* Assets.xcassets */,
 				E9984650291D13C30043D1DA /* Info.plist */,
@@ -1331,7 +1331,7 @@
 				E998468A291D78DD0043D1DA /* FindStationExtension.swift in Sources */,
 				E9984651291D13C30043D1DA /* FindStationExtension.intentdefinition in Sources */,
 				E998465B291D15B10043D1DA /* StationAttributes.swift in Sources */,
-				E9B48CF02921773E00061511 /* CommonFunctions.swift in Sources */,
+				E9B48CF02921773E00061511 /* SupportHelper.swift in Sources */,
 				E9984688291D78AA0043D1DA /* FindStationExtensionBundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1514,7 +1514,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.9.1;
+				MARKETING_VERSION = 2.9.2;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline;
@@ -1554,7 +1554,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.9.1;
+				MARKETING_VERSION = 2.9.2;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline;
@@ -1590,7 +1590,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.9.1;
+				MARKETING_VERSION = 2.9.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
@@ -1625,7 +1625,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.9.1;
+				MARKETING_VERSION = 2.9.2;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FavoriteWidgetExtension;
@@ -1657,7 +1657,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.9.1;
+				MARKETING_VERSION = 2.9.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FindStationExtension;
@@ -1689,7 +1689,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.9.1;
+				MARKETING_VERSION = 2.9.2;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FindStationExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";

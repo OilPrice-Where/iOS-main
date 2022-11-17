@@ -11,11 +11,13 @@ import CoreLocation
 import Moya
 import TMapSDK
 import NMapsMap
+//import CoreMotion
 
 final class LocationManager: NSObject {
     // MARK: - Properties
     static let shared = LocationManager()
     var locationManager: CLLocationManager?
+//    let motionManager = CMMotionActivityManager()
     @Published var currentAddress: String?
     @Published var currentLocation: CLLocation?
     @Published var requestLocation: CLLocation?
@@ -40,6 +42,7 @@ final class LocationManager: NSObject {
         locationManager?.desiredAccuracy = kCLLocationAccuracyBest
         locationManager?.allowsBackgroundLocationUpdates = true
         locationManager?.showsBackgroundLocationIndicator = true
+        locationManager?.distanceFilter = 50
         
         locationManager?.requestAlwaysAuthorization()
     }
@@ -152,15 +155,15 @@ extension LocationManager: CLLocationManagerDelegate {
         if #available(iOS 16.1, *) {
             guard DefaultData.shared.backgroundFindSubject.value else { return }
             
-            if let from = requestLocation, let to = locations.last,
+            if let from = self.requestLocation, let to = locations.last,
                from.distance(from: to) > 3000 {
-                requestLocation = to
-                requestSearch()
-            } else if requestLocation == nil {
-                requestLocation = locations.last
-                requestSearch()
+                self.requestLocation = to
+                self.requestSearch()
+            } else if self.requestLocation == nil {
+                self.requestLocation = locations.last
+                self.requestSearch()
             } else {
-                self.findStation = firstFindStation()
+                self.findStation = self.firstFindStation()
                 if var findStation = self.findStation,
                    let currentLocation = locations.last,
                    let targetLat = findStation.lat, let targetLng = findStation.lng {
@@ -238,6 +241,7 @@ extension LocationManager {
                 
                 self.stations = list.result.gasStations
             case .failure(let error):
+                self.requestLocation = nil
                 LogUtil.e(error.localizedDescription)
             }
         }

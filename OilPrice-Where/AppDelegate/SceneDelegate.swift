@@ -25,9 +25,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard DefaultData.shared.backgroundFindSubject.value else { return }
         
         if #available(iOS 16.1, *) {
-            let state = ActivityManager.shared.activity?.contentState
+            guard ActivityManager.shared.activity?.activityState == .active else { return }
+            
             Task {
-                await ActivityManager.shared.activity?.end(using: state, dismissalPolicy: .immediate)
+                await ActivityManager.shared.endActivities()
             }
         }
     }
@@ -37,7 +38,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if #available(iOS 16.1, *),
            DefaultData.shared.backgroundFindSubject.value,
-           (ActivityManager.shared.activity?.activityState == .dismissed || ActivityManager.shared.activity?.activityState == .ended) {
+           ActivityManager.shared.activity?.activityState != .active {
             ActivityManager.shared.configure()
         }
     }
