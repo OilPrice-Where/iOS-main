@@ -12,7 +12,7 @@ import WidgetKit
 import ActivityKit
 import CoreLocation
 
-struct FindStationExtensionEntryView: View, CommonFunctions {
+struct FindStationExtensionEntryView: View, SupportHelper {
     let context: ActivityViewContext<StationAttributes>
     
     var body: some View {
@@ -33,7 +33,7 @@ struct FindStationExtensionEntryView: View, CommonFunctions {
                                                 usingFont: UIFont(name: "NanumSquareRoundEB", size: 10)),
                            height: 18)
                     
-                    Text("\(context.state.station?.oil ?? "") \(context.state.station?.price ?? 0)")
+                    Text(price(context.state.station?.price, type: context.state.station?.oil))
                         .font(.custom("NanumSquareRoundEB", size: 18))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -66,7 +66,7 @@ struct FindStationExtensionEntryView: View, CommonFunctions {
     }
 }
 
-struct FindStationExtension: Widget, CommonFunctions {
+struct FindStationExtension: Widget, SupportHelper {
     let kind: String = "FindStationExtension"
 
     var body: some WidgetConfiguration {
@@ -108,7 +108,7 @@ struct FindStationExtension: Widget, CommonFunctions {
                             .font(.custom("NanumSquareRoundB", size: 14))
                             .foregroundColor(.white.opacity(0.6))
                         Spacer()
-                        Text("\(context.state.station?.oil ?? "") \(context.state.station?.price ?? 0)")
+                        Text(price(context.state.station?.price, type: context.state.station?.oil))
                             .font(.custom("NanumSquareRoundEB", size: 16))
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)

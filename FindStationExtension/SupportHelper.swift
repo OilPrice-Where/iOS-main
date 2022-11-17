@@ -1,5 +1,5 @@
 //
-//  String+.swift
+//  SupportHelper.swift
 //  OilPrice-Where
 //
 //  Created by wargi on 2022/11/14.
@@ -9,9 +9,9 @@
 import UIKit
 import SwiftUI
 
-protocol CommonFunctions {}
+protocol SupportHelper {}
 
-extension CommonFunctions {
+extension SupportHelper {
     func widthOfString(_ text: String?, usingFont: UIFont?) -> CGFloat {
         guard let text else { return .zero }
         let font = usingFont ?? .systemFont(ofSize: 8)
@@ -77,5 +77,11 @@ extension CommonFunctions {
         default:
             return "전체"
         }
+    }
+    
+    func price(_ price: Int?, type: String?) -> String {
+        guard let price, let type, price > 0 else { return "가격 정보 없음" }
+        
+        return "\(type) \(price)"
     }
 }
