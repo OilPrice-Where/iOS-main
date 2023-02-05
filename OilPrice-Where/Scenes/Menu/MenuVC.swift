@@ -25,9 +25,6 @@ final class MenuVC: CommonViewController {
     private lazy var oilTypeView = MenuKeyValueView(type: .keyValue).then {
         $0.keyLabel.text = "유종"
     }
-    private lazy var radiusView = MenuKeyValueView(type: .keyValue).then {
-        $0.keyLabel.text = "검색 반경"
-    }
     private lazy var historyView = MenuKeyValueView(type: .key).then {
         $0.keyLabel.text = "방문 내역"
     }
@@ -40,8 +37,16 @@ final class MenuVC: CommonViewController {
     private lazy var cardSaleView = MenuKeyValueView(type: .key).then {
         $0.keyLabel.text = "카드 할인"
     }
-    private lazy var backgroundFindView = MenuKeyValueView(type: .keyValue).then {
-        $0.keyLabel.text = "백그라운드 탐색 Beta"
+    private lazy var backgroundFindView = MenuKeyValueView(type: .key).then {
+        $0.keyLabel.text = "백그라운드 탐색"
+    }
+    private lazy var dropTheClothesView = MenuKeyValueView(type: .image).then {
+        $0.keyLabel.text = "드랍 더 옷"
+        $0.logoImageView.image = UIImage(named: "drop-the-clothes")
+    }
+    private lazy var godLifeView = MenuKeyValueView(type: .image).then {
+        $0.keyLabel.text = "갓생살기"
+        $0.logoImageView.image = UIImage(named: "god-life")
     }
     private lazy var aboutView = MenuKeyValueView(type: .subType).then {
         $0.keyLabel.text = "About us"
@@ -65,9 +70,8 @@ final class MenuVC: CommonViewController {
     //MARK: - Make UI
     func makeUI() {
         view.backgroundColor = .white
-        view.addSubview(navigationView)
         view.addSubview(oilTypeView)
-        view.addSubview(radiusView)
+        view.addSubview(navigationView)
         view.addSubview(historyView)
         view.addSubview(findBrandView)
         view.addSubview(avgView)
@@ -76,20 +80,16 @@ final class MenuVC: CommonViewController {
         view.addSubview(reviewView)
         view.addSubview(versionView)
         
-        navigationView.snp.makeConstraints {
+        oilTypeView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.left.right.equalToSuperview()
         }
-        oilTypeView.snp.makeConstraints {
-            $0.top.equalTo(navigationView.snp.bottom).offset(40)
-            $0.left.right.equalToSuperview()
-        }
-        radiusView.snp.makeConstraints {
+        navigationView.snp.makeConstraints {
             $0.top.equalTo(oilTypeView.snp.bottom).offset(18)
             $0.left.right.equalToSuperview()
         }
         historyView.snp.makeConstraints {
-            $0.top.equalTo(radiusView.snp.bottom).offset(40)
+            $0.top.equalTo(navigationView.snp.bottom).offset(40)
             $0.left.right.equalToSuperview()
         }
         findBrandView.snp.makeConstraints {
@@ -116,13 +116,22 @@ final class MenuVC: CommonViewController {
             $0.bottom.equalTo(reviewView.snp.top)
             $0.left.right.equalToSuperview()
         }
-        
-        
+
         if #available(iOS 16.1, *) {
             view.addSubview(backgroundFindView)
+            view.addSubview(dropTheClothesView)
+            view.addSubview(godLifeView)
             
             backgroundFindView.snp.makeConstraints {
                 $0.top.equalTo(avgView.snp.bottom).offset(40)
+                $0.left.right.equalToSuperview()
+            }
+            dropTheClothesView.snp.makeConstraints {
+                $0.top.equalTo(backgroundFindView.snp.bottom).offset(40)
+                $0.left.right.equalToSuperview()
+            }
+            godLifeView.snp.makeConstraints {
+                $0.top.equalTo(dropTheClothesView.snp.bottom).offset(18)
                 $0.left.right.equalToSuperview()
             }
         }
@@ -139,11 +148,6 @@ final class MenuVC: CommonViewController {
             .map { Preferences.oil(code: $0) }
             .asDriver(onErrorJustReturn: "")
             .drive(oilTypeView.valueLabel.rx.text)
-            .disposed(by: bag)
-        DefaultData.shared.radiusSubject
-            .map { String($0 / 1000) + "KM" }
-            .asDriver(onErrorJustReturn: "")
-            .drive(radiusView.valueLabel.rx.text)
             .disposed(by: bag)
         DefaultData.shared.backgroundFindSubject
             .map { $0 ? "켜짐" : "꺼짐" }
@@ -183,18 +187,6 @@ final class MenuVC: CommonViewController {
             .bind(with: self, onNext: { owner, _ in
                 let navi = owner.viewModel.output.fetchNavigationController(type: .history)
                 owner.present(navi, animated: true)
-            })
-            .disposed(by: bag)
-        // 검색 반경
-        radiusView
-            .rx
-            .tapGesture()
-            .when(.recognized)
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, _ in
-                let vc = SelectMenuVC(type: .radius)
-                vc.modalPresentationStyle = .overFullScreen
-                owner.present(vc, animated: false)
             })
             .disposed(by: bag)
         // 전국 평균가
@@ -241,6 +233,40 @@ final class MenuVC: CommonViewController {
             .bind(with: self, onNext: { owner, _ in
                 let navi = owner.viewModel.output.fetchNavigationController(type: .cardSale)
                 owner.present(navi, animated: true)
+            })
+            .disposed(by: bag)
+        // 드랍 더 옷
+        dropTheClothesView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                let id = "6443527487"
+                if let appURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(id)"),
+                   UIApplication.shared.canOpenURL(appURL) {
+                    // 유효한 URL인지 검사
+                    if #available(iOS 10.0, *) { //iOS 10.0부터 URL를 오픈하는 방법이 변경 되었습니다.
+                        UIApplication.shared.open(appURL, options: [:], completionHandler: nil)
+                    } else {
+                        UIApplication.shared.openURL(appURL)
+                    }
+                }
+            })
+            .disposed(by: bag)
+        // 갓생 살기
+        godLifeView
+            .rx
+            .tapGesture()
+            .when(.recognized)
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, _ in
+                let alert = UIAlertController(title: "🎉오픈 예정🎉",
+                                              message: "3월 중에 오픈 예정입니다 :)\n많은 관심 부탁드립니다 😉",
+                                              preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "확인", style: .default)
+                alert.addAction(okAction)
+                owner.present(alert, animated: true)
             })
             .disposed(by: bag)
         // AboutUs
