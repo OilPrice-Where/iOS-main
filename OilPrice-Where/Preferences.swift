@@ -6,8 +6,7 @@
 //  Copyright © 2018년 sangwook park. All rights reserved.
 //
 
-import Foundation
-import SCLAlertView
+import UIKit
 import CoreLocation
 
 // 카텍 좌표 저장
@@ -21,30 +20,6 @@ enum NaviType: String {
     case kakaoMap = "kakaoMap"
     case tMap = "tMap"
     case naver = "naverMap"
-}
-
-// 위치 변환
-struct Converter {
-    // 위치 변환 ( WGS84 -> Katec )
-    static func convertWGS84ToKatec(coordinate: CLLocationCoordinate2D) -> KatecPoint {
-        let convert = GeoConverter()
-        let wgsPoint = GeographicPoint(x: coordinate.longitude, y: coordinate.latitude)
-        let tmPoint = convert.convert(sourceType: .WGS_84, destinationType: .TM, geoPoint: wgsPoint)
-        let katecPoint = convert.convert(sourceType: .TM, destinationType: .KATEC, geoPoint: tmPoint!)
-        
-        return KatecPoint(x: katecPoint!.x, y: katecPoint!.y)
-    }
-    
-    // 위치 변환 ( Katec -> WGS84 )
-    static func convertKatecToWGS(katec: KatecPoint) -> CLLocationCoordinate2D {
-        let convert = GeoConverter()
-        let katecPoint = GeographicPoint(x: katec.x, y: katec.y)
-        let wgsPoint = convert.convert(sourceType: .KATEC,
-                                       destinationType: .WGS_84,
-                                       geoPoint: katecPoint)
-        
-        return CLLocationCoordinate2D(latitude: wgsPoint!.y, longitude: wgsPoint!.x)
-    }
 }
 
 // App 기본 설정

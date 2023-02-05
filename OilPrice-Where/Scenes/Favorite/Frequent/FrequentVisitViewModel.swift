@@ -42,7 +42,6 @@ final class FrequentVisitViewModel {
                 }
                 
                 let ret = dic.map { $0.value }.sorted(by: { $0.count > $1.count })
-                print(ret.count)
                 owner.output.stations.accept(ret)
             })
             .disposed(by: bag)

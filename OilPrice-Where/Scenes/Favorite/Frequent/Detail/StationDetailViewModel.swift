@@ -67,7 +67,7 @@ extension StationDetailViewModel {
                 DefaultData.shared.tempFavArr.append(information)
                 self.info = information
             case .failure(let error):
-                print(error)
+                LogUtil.e(error)
             }
         }
     }

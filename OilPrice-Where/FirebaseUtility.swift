@@ -94,7 +94,7 @@ class FirebaseUtility {
                             .child("averageCostList")
                             .updateChildValues(["updateTime": prices[0].tradeDate])
                     case .failure(let error):
-                        print(error.localizedDescription)
+                        LogUtil.e(error.localizedDescription)
                     }
                 }
             }

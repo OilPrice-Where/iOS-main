@@ -12,7 +12,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NMapsMap
-import SCLAlertView
 import FirebaseAnalytics
 
 protocol MainListVCDelegate: AnyObject {

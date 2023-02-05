@@ -9,7 +9,6 @@
 import Foundation
 import RxSwift
 import RxRelay
-import SwiftyPlistManager
 import Moya
 
 // App 전체에서 사용하는 싱글톤
@@ -34,7 +33,6 @@ class DefaultData {
     var priceData: [AllPrice] = [] // 전국 평균 기름 값
     var tempFavArr: [InformationGasStaion] = []
     let stationsSubject = BehaviorSubject<[GasStation]>(value: []) // 반경 주유소 리스트
-    let radiusSubject = BehaviorRelay<Int>(value: 3000) // 탐색 반경
     let oilSubject = BehaviorRelay<String>(value: "") // 오일 종류
     let brandsSubject = BehaviorRelay<[String]>(value: []) // 설정 브랜드
     let favoriteSubject = BehaviorRelay<[String]>(value: []) // 즐겨 찾기
@@ -51,7 +49,7 @@ class DefaultData {
                 guard let decode = try? resp.map(AllPriceResult.self) else { return }
                 self.priceData = decode.result.allPriceList
             case .failure(let error):
-                print(error.localizedDescription)
+                LogUtil.e(error.localizedDescription)
             }
         }
     }
@@ -68,7 +66,7 @@ class DefaultData {
     private func swiftyPlistManager<T>(save type: T, forKey key: String, to name: String = "UserInfo") {
         SwiftyPlistManager.shared.save(type, forKey: key, toPlistWithName: name) {
             if let err = $0 {
-                print(err.localizedDescription)
+                LogUtil.e(err.localizedDescription)
                 return
             }
             
@@ -94,7 +92,6 @@ class DefaultData {
         SwiftyPlistManager.shared.start(plistNames: ["UserInfo"], logging: true) // Plist 불러오기
         
         let localFavorites = fetchValue(defaultValue: "", for: "LocalFavorites")
-        let radius = fetchValue(defaultValue: 5000, for: "FindRadius")
         let oilType = fetchValue(defaultValue: "", for: "OilType")
         let brands = fetchValue(defaultValue: defaultBrands, for: "Brands")
         let naviType = fetchValue(defaultValue: "kakao", for: "NaviType")
@@ -103,7 +100,6 @@ class DefaultData {
         
         localFavoritesSubject.accept(localFavorites)
         oilSubject.accept(oilType)
-        radiusSubject.accept(radius)
         brandsSubject.accept(brands)
         naviSubject.accept(naviType == "tmap" ? "tMap" : naviType)
         favoriteSubject.accept(favArr)
@@ -113,13 +109,6 @@ class DefaultData {
         oilSubject
             .subscribe(with: self, onNext: { owner, type in
                 owner.swiftyPlistManager(save: type, forKey: "OilType")
-            })
-            .disposed(by: bag)
-        
-        // Find Radius Value Save
-        radiusSubject
-            .subscribe(with: self, onNext: { owner, type in
-                owner.swiftyPlistManager(save: type, forKey: "FindRadius")
             })
             .disposed(by: bag)
         
@@ -162,7 +151,7 @@ class DefaultData {
                                 group.leave()
                             }
                         case .failure(let error):
-                            print(error.localizedDescription)
+                            LogUtil.e(error.localizedDescription)
                         }
                     }
                 }

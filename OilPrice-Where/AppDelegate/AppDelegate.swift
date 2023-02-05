@@ -31,17 +31,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KakaoSDK.initSDK(appKey: "b8e7f9ac5bf3c19414515867205f92aa")
         DefaultData.shared.allPriceDataLoad() // 전국의 오일종류 별 저번주의 평균 값을 받아온다.
         
-        return true
-    }
-    
-    func applicationWillTerminate(_ application: UIApplication) {
-        guard DefaultData.shared.backgroundFindSubject.value else { return }
-        
-        if #available(iOS 16.1, *) {
-            Task {
-                await ActivityManager.shared.endAllActivities()
-            }
+        if #available(iOS 16.1, *),
+           DefaultData.shared.backgroundFindSubject.value {
+            ActivityManager.shared.configure()
         }
+        
+        return true
     }
 }
 
