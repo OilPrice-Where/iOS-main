@@ -14,6 +14,7 @@ final class MenuKeyValueView: UIView {
     enum MenuType {
         case key
         case keyValue
+        case image
         case subType
     }
     //MARK: - Properties
@@ -23,10 +24,16 @@ final class MenuKeyValueView: UIView {
         $0.alignment = .fill
         $0.distribution = .equalSpacing
     }
+    lazy var logoImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.layer.cornerRadius = 4
+        $0.clipsToBounds = true
+        $0.isHidden = type != .image
+    }
     lazy var keyLabel = UILabel().then {
         $0.textAlignment = .left
         switch type {
-        case .key, .keyValue:
+        case .key, .keyValue, .image:
             $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
         case .subType:
             $0.textColor = UIColor(red: 145/255, green: 145/255, blue: 145/255, alpha: 1.0)
@@ -53,15 +60,21 @@ final class MenuKeyValueView: UIView {
     //MARK: - Make UI
     func makeUI() {
         addSubview(hStackView)
-        
+        addSubview(logoImageView)
+
         hStackView.addArrangedSubview(keyLabel)
         hStackView.addArrangedSubview(valueLabel)
         
+        logoImageView.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(24)
+            $0.centerY.equalTo(keyLabel.snp.centerY)
+            $0.size.equalTo(24)
+        }
         hStackView.snp.makeConstraints {
-            $0.left.right.equalToSuperview().inset(24)
+            $0.left.equalTo(logoImageView.snp.right).offset(type == .image ? 8 : -24)
+            $0.right.equalToSuperview().offset(-24)
             $0.top.bottom.equalToSuperview()
         }
-        
         keyLabel.snp.makeConstraints {
             $0.height.equalTo(30)
         }
