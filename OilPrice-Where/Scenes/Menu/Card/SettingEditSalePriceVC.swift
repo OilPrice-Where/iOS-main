@@ -7,9 +7,7 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
-import NSObject_Rx
+
 //MARK: 카드 할인 VC
 final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
     //MARK: - Properties

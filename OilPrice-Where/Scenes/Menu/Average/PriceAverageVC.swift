@@ -10,14 +10,14 @@ import Foundation
 import Then
 import SnapKit
 import UIKit
-import RxSwift
-import RxCocoa
+import Combine
+import CombineCocoa
 import Firebase
 
 //MARK: 전국 평균가
 final class PriceAverageVC: UIViewController {
     //MARK: - Properties
-    let bag = DisposeBag()
+    var cancelBag = Set<AnyCancellable>()
     let firebaseUtility = FirebaseUtility()
     // Background
     let containerView = UIView().then {
@@ -76,7 +76,7 @@ final class PriceAverageVC: UIViewController {
         
         fetchAverageCosts()
         makeUI()
-        rxBind()
+        bind()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -176,26 +176,23 @@ final class PriceAverageVC: UIViewController {
         }
     }
     
-    //MARK: - Rx Binding..
-    func rxBind() {
+    //MARK: - Binding..
+    func bind() {
         backgroundView
-            .rx
-            .tapGesture()
-            .when(.recognized)
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, _ in
+            .gesture()
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.dismiss(animated: false)
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &cancelBag)
         
         closeButton
-            .rx
-            .tap
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, _ in
+            .tapPublisher
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.dismiss(animated: false)
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &cancelBag)
     }
     
     // HeaderView 설정

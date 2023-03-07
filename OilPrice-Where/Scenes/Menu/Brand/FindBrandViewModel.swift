@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import RxSwift
+import Combine
 //MARK: FindBrandViewModel
 final class FindBrandViewModel {
     private let findBrand = [ // 선택 가능한 탐색 반경
@@ -26,9 +26,9 @@ final class FindBrandViewModel {
     
     let allBrands = ["SOL", "RTX", "ETC", "SKE", "GSC", "HDO", "RTO", "NHO", "E1G", "SKG"]
     
-    var brandSubject: BehaviorSubject<[String]>
+    var brandSubject: CurrentValueSubject<[String], Never>
     
     init() {
-        self.brandSubject = BehaviorSubject<[String]>(value: findBrand)
+        self.brandSubject = CurrentValueSubject<[String]>(findBrand)
     }
 }

@@ -9,8 +9,6 @@
 import Then
 import SnapKit
 import UIKit
-import RxSwift
-import RxCocoa
 
 //MARK: HistoriesVC
 final class HistoriesVC: CommonViewController {
@@ -18,6 +16,7 @@ final class HistoriesVC: CommonViewController {
     private lazy var tableView = UITableView().then {
         $0.delegate = self
         $0.dataSource = self
+        $0.separatorStyle = .none
         $0.alwaysBounceVertical = false
         $0.alwaysBounceHorizontal = false
         $0.showsVerticalScrollIndicator = false
@@ -38,13 +37,12 @@ final class HistoriesVC: CommonViewController {
         super.viewDidLoad()
         
         makeUI()
-        rxBind()
+        bind()
     }
     
     //MARK: - Make UI
     func makeUI() {
         navigationItem.title = "방문 내역"
-        navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.backgroundColor = Asset.Colors.mainColor.color
         navigationController?.navigationBar.titleTextAttributes = [.font: FontFamily.NanumSquareRound.bold.font(size: 17),
                                                                    .foregroundColor: UIColor.white]
@@ -62,11 +60,12 @@ final class HistoriesVC: CommonViewController {
         }
     }
     
-    //MARK: - Rx Binding..
-    func rxBind() {
-        DataManager.shared.stationListIsNotEmpty
-            .bind(to: emptyLabel.rx.isHidden)
-            .disposed(by: bag)
+    //MARK: - Binding..
+    func bind() {
+        DataManager.shared.stationListIsEmpty
+            .map { !$0 }
+            .assign(to: \.isHidden, on: emptyLabel)
+            .store(in: &cancelBag)
     }
 }
 

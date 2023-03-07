@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 extension UIView {
     enum VerticalLocation {
@@ -42,5 +43,9 @@ extension UIView {
         return render.image { context in
             layer.render(in: context.cgContext)
         }
+    }
+    
+    func gesture(_ event: GestureType = .tap) -> GesturePublisher {
+        GesturePublisher(view: self, event: event)
     }
 }

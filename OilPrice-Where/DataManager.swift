@@ -21,11 +21,13 @@ class DataManager {
     }
     
     var stationListIsNotEmpty = PublishSubject<Bool>()
+    var stationListIsEmpty = PassthroughSubject<Bool, Never>()
     @Published var poisIsNotEmpty = false
     var stationListRelay = BehaviorRelay<[Station]>(value: [])
     var stationList = [Station]() {
         didSet {
             stationListIsNotEmpty.onNext(!stationList.isEmpty)
+            stationListIsEmpty.send(stationList.isEmpty)
             stationListRelay.accept(stationList)
         }
     }

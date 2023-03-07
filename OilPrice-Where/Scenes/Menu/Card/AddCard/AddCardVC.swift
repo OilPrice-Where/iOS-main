@@ -9,13 +9,10 @@
 import Then
 import SnapKit
 import UIKit
-import RxSwift
-import RxCocoa
 
 //MARK: 카드 추가 VC
 final class AddCardVC: UIViewController {
     //MARK: - Properties
-    let bag = DisposeBag()
     private lazy var tableView = UITableView().then {
         $0.delegate = self
         $0.dataSource = self
@@ -35,7 +32,7 @@ final class AddCardVC: UIViewController {
         super.viewDidLoad()
         
         makeUI()
-        rxBind()
+        bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,15 +67,13 @@ final class AddCardVC: UIViewController {
         }
     }
     
-    //MARK: - Rx Binding..
-    func rxBind() {
+    //MARK: - Binding..
+    func bind() {
         
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
-        
-//        nameTextField.resignFirstResponder()
     }
     
     func presentAlert() {

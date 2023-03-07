@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RxSwift
 
 //MARK: EditSalePriceViewModel
 final class EditSalePriceViewModel {

@@ -7,13 +7,15 @@
 //
 
 import UIKit
-import RxSwift
+import Combine
+import CombineCocoa
+import CombineDataSources
 
 final class SelectedBrandTableViewCell: UITableViewCell {
     //MARK: - Properties
-    let bag = DisposeBag()
+    var cancelBag = Set<AnyCancellable>()
     var viewModel = FindBrandViewModel()
-    private var isAllSwitchButton = PublishSubject<Bool>()
+    private var isAllSwitchButton = PassthroughSubject<Bool, Never>()
     private var isLauchSetting = false
 
     private lazy var tableView = UITableView().then {
@@ -30,7 +32,7 @@ final class SelectedBrandTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         makeUI()
-        rxBind()
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -46,36 +48,37 @@ final class SelectedBrandTableViewCell: UITableViewCell {
         }
     }
     
-    func rxBind() {
+    func bind() {
         viewModel.brandSubject
-            .bind(to: tableView.rx.items(cellIdentifier: BrandTypeTableViewCell.id,
-                                         cellType: BrandTypeTableViewCell.self)) { index, brand, cell in
+            .bind(subscriber: tableView.rowsSubscriber(cellIdentifier: BrandTypeTableViewCell.id,
+                                                       cellType: BrandTypeTableViewCell.self,
+                                                       cellConfig: { [weak self] cell, indexPath, brand in
+                guard let owner = self else { return }
+                
                 cell.fetchData(brand: brand)
                 guard brand != "전체" else {
                     cell.brandSelectedSwitch
-                        .rx
-                        .isOn
-                        .subscribe(onNext: {
-                            self.isAllSwitchButton.onNext($0)
-                        })
-                        .disposed(by: self.rx.disposeBag)
+                        .isOnPublisher
+                        .sink { isOn in
+                            owner.isAllSwitchButton.send(isOn)
+                        }
+                        .store(in: &owner.cancelBag)
                     
                     return
                 }
                 
-                self.isAllSwitchButton
-                    .subscribe(onNext: {
-                        guard !self.isLauchSetting else {
-                            cell.brandSelectedSwitch.isOn = $0
-                            DefaultData.shared.brandsSubject.accept($0 ? self.viewModel.allBrands : [])
+                owner.isAllSwitchButton
+                    .sink { isOn in
+                        guard !owner.isLauchSetting else {
+                            cell.brandSelectedSwitch.isOn = isOn
+                            DefaultData.shared.brandsSubject.accept(isOn ? owner.viewModel.allBrands : [])
                             return
                         }
                         
-                        self.isLauchSetting = true
-                    })
-                    .disposed(by: self.rx.disposeBag)
-                
-            }
-            .disposed(by: rx.disposeBag)
+                        owner.isLauchSetting = true
+                    }
+                    .store(in: &owner.cancelBag)
+            }))
+            .store(in: &cancelBag)
     }
 }

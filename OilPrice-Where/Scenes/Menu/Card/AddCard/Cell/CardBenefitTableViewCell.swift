@@ -7,11 +7,12 @@
 //
 
 import UIKit
-import RxSwift
+import Combine
+import CombineCocoa
 
 class CardBenefitTableViewCell: UITableViewCell {
     //MARK: - Properties
-    let bag = DisposeBag()
+    var cancelBag = Set<AnyCancellable>()
     let items = ["L당 할인", "결제일 %할인"]
     private let saleTypeLabel = UILabel().then {
         $0.text = "혜택 타입"
@@ -94,19 +95,23 @@ class CardBenefitTableViewCell: UITableViewCell {
     }
     
     func rxBind() {
-        segmentControl.rx.value
+        segmentControl
+            .selectedSegmentIndexPublisher
             .map { $0 == 0 ? true : false }
-            .bind(with: self, onNext: { owner, isSelect in
+            .sink { [weak self] isSelect in
+                guard let owner = self else { return }
+                
                 owner.stepper.value = 0.0
                 owner.stepper.stepValue = isSelect ? 1.0 : 0.1
                 owner.stepper.maximumValue = isSelect ? 500.0 : 50.0
                 owner.salePriceValueLabel.text = "0\(isSelect ? "원" : "%")"
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &cancelBag)
         
-        stepper.rx.value
+        stepper
+            .valuePublisher
             .map { self.segmentControl.selectedSegmentIndex == 0 ? "\(Int($0))원" : String(format: "%.1f%%", $0) }
-            .bind(to: salePriceValueLabel.rx.text)
-            .disposed(by: bag)
+            .assign(to: \.text, on: salePriceValueLabel)
+            .store(in: &cancelBag)
     }
 }

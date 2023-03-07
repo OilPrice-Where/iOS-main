@@ -7,10 +7,8 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
-import NSObject_Rx
 import Then
+import SnapKit
 
 final class CardCollectionViewCell: UICollectionViewCell {
     // Properties

@@ -10,12 +10,14 @@ import UIKit
 import RxSwift
 import NMapsMap
 import CoreLocation
+import Combine
 import KakaoSDKNavi
 
 class CommonViewController: UIViewController {
     typealias ResultURL = (isCanOpen: Bool, requestURL: URL?)
     
     let bag = DisposeBag()
+    var cancelBag = Set<AnyCancellable>()
     var reachability: Reachability? = Reachability() //Network
     
     override func viewDidLoad() {

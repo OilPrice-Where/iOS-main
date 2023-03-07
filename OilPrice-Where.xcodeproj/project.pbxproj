@@ -147,6 +147,8 @@
 		E998468D291E77B00043D1DA /* NanumSquareRoundL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226522126A8B90012B2F6 /* NanumSquareRoundL.ttf */; };
 		E998468E291E77B00043D1DA /* NanumSquareRoundR.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226552126A8BD0012B2F6 /* NanumSquareRoundR.ttf */; };
 		E9984694291FDADC0043D1DA /* SwiftyPlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9984693291FDADC0043D1DA /* SwiftyPlistManager.swift */; };
+		E99A7ED929BBBD4300BFCBC9 /* Gesture+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99A7ED829BBBD4300BFCBC9 /* Gesture+.swift */; };
+		E99A7EDC29BBBFB000BFCBC9 /* CombineDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = E99A7EDB29BBBFB000BFCBC9 /* CombineDataSources */; };
 		E9A1B17F28336A9F00B64AFA /* PriceAverageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1B17E28336A9F00B64AFA /* PriceAverageVC.swift */; };
 		E9A3A2CB282D0E84004ED55E /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9A3A2C9282D0E84004ED55E /* DataModel.xcdatamodeld */; };
 		E9A64D542883D36600BF1737 /* CustomNavigationTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A64D532883D36600BF1737 /* CustomNavigationTitle.swift */; };
@@ -338,6 +340,7 @@
 		E9984687291D78AA0043D1DA /* FindStationExtensionBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindStationExtensionBundle.swift; sourceTree = "<group>"; };
 		E9984689291D78DD0043D1DA /* FindStationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindStationExtension.swift; sourceTree = "<group>"; };
 		E9984693291FDADC0043D1DA /* SwiftyPlistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyPlistManager.swift; sourceTree = "<group>"; };
+		E99A7ED829BBBD4300BFCBC9 /* Gesture+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gesture+.swift"; sourceTree = "<group>"; };
 		E9A1B17E28336A9F00B64AFA /* PriceAverageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceAverageVC.swift; sourceTree = "<group>"; };
 		E9A3A2CA282D0E84004ED55E /* CardModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CardModel.xcdatamodel; sourceTree = "<group>"; };
 		E9A64D532883D36600BF1737 /* CustomNavigationTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationTitle.swift; sourceTree = "<group>"; };
@@ -377,6 +380,7 @@
 				E9689E73290EE4F000DA23AD /* Action in Frameworks */,
 				E9E0630F292024D500715F66 /* TMapSDK.framework in Frameworks */,
 				E9689E6D290EE44D00DA23AD /* RxGesture in Frameworks */,
+				E99A7EDC29BBBFB000BFCBC9 /* CombineDataSources in Frameworks */,
 				E9689E6A290EE41F00DA23AD /* RxReachability in Frameworks */,
 				E9689E67290EE3E900DA23AD /* SnapKit in Frameworks */,
 				E9689E55290EE2FD00DA23AD /* NSObject-Rx in Frameworks */,
@@ -862,6 +866,7 @@
 			children = (
 				E9400FE927B11C76003168C6 /* UIView+.swift */,
 				E9EAF1162822EC1C0046F9A8 /* UIColor+.swift */,
+				E99A7ED829BBBD4300BFCBC9 /* Gesture+.swift */,
 				2C0C68C9276B31CA00945CEC /* UITabBar+.swift */,
 				2C0C68C7276B25AB00945CEC /* UIReusable+.swift */,
 				E9E290DA280EFCDA00BE21B3 /* UIWindow+.swift */,
@@ -1024,6 +1029,7 @@
 				E94A978B290EE65B002CE7D8 /* FirebaseDatabase */,
 				E94A978D290EE65B002CE7D8 /* FirebaseStorage */,
 				E9C455A4291FDD6A00A81973 /* NMapsMap */,
+				E99A7EDB29BBBFB000BFCBC9 /* CombineDataSources */,
 			);
 			productName = "OilPrice-Where";
 			productReference = 8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */;
@@ -1118,6 +1124,7 @@
 				E94A9788290EE65B002CE7D8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				E9C455A3291FDD6A00A81973 /* XCRemoteSwiftPackageReference "NMapsMap-SPM" */,
 				E94455E4291FE059006273CF /* XCRemoteSwiftPackageReference "SwiftGen" */,
+				E99A7EDA29BBBFB000BFCBC9 /* XCRemoteSwiftPackageReference "CombineDataSources" */,
 			);
 			productRefGroup = 8E7FFE2220F5E5FF006CED48 /* Products */;
 			projectDirPath = "";
@@ -1276,6 +1283,7 @@
 				E9A3A2CB282D0E84004ED55E /* DataModel.xcdatamodeld in Sources */,
 				E9EFE7D2290E2F7100EA514B /* CommonTextFieldView.swift in Sources */,
 				2CAC81DF276B966300CC6096 /* FavoritesGasStationViewModel.swift in Sources */,
+				E99A7ED929BBBD4300BFCBC9 /* Gesture+.swift in Sources */,
 				2C0C68C8276B25AB00945CEC /* UIReusable+.swift in Sources */,
 				E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */,
 				E913777728959DEE0078B557 /* Card+CoreDataProperties.swift in Sources */,
@@ -1878,6 +1886,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		E99A7EDA29BBBFB000BFCBC9 /* XCRemoteSwiftPackageReference "CombineDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineDataSources";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.5;
+			};
+		};
 		E9C455A3291FDD6A00A81973 /* XCRemoteSwiftPackageReference "NMapsMap-SPM" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jaemyeong/NMapsMap-SPM.git";
@@ -1991,6 +2007,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E9689E74290EE53800DA23AD /* XCRemoteSwiftPackageReference "SideMenu" */;
 			productName = SideMenu;
+		};
+		E99A7EDB29BBBFB000BFCBC9 /* CombineDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E99A7EDA29BBBFB000BFCBC9 /* XCRemoteSwiftPackageReference "CombineDataSources" */;
+			productName = CombineDataSources;
 		};
 		E9C455A4291FDD6A00A81973 /* NMapsMap */ = {
 			isa = XCSwiftPackageProductDependency;
