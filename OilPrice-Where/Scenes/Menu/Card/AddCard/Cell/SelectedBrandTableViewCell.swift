@@ -13,7 +13,6 @@ import CombineDataSources
 
 final class SelectedBrandTableViewCell: UITableViewCell {
     //MARK: - Properties
-    var cancelBag = Set<AnyCancellable>()
     var viewModel = FindBrandViewModel()
     private var isAllSwitchButton = PassthroughSubject<Bool, Never>()
     private var isLauchSetting = false
@@ -62,7 +61,7 @@ final class SelectedBrandTableViewCell: UITableViewCell {
                         .sink { isOn in
                             owner.isAllSwitchButton.send(isOn)
                         }
-                        .store(in: &owner.cancelBag)
+                        .store(in: &owner.viewModel.cancelBag)
                     
                     return
                 }
@@ -77,8 +76,8 @@ final class SelectedBrandTableViewCell: UITableViewCell {
                         
                         owner.isLauchSetting = true
                     }
-                    .store(in: &owner.cancelBag)
+                    .store(in: &owner.viewModel.cancelBag)
             }))
-            .store(in: &cancelBag)
+            .store(in: &viewModel.cancelBag)
     }
 }

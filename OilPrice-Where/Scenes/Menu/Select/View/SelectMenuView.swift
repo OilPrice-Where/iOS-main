@@ -17,6 +17,7 @@ final class SelectMenuView: UIView {
         $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
     }
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchCollectionViewLayout()).then {
+        $0.backgroundColor = .white
         $0.alwaysBounceHorizontal = false
         $0.allowsMultipleSelection = false
         $0.showsVerticalScrollIndicator = false

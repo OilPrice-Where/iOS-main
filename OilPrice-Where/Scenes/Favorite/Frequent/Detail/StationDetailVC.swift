@@ -11,8 +11,8 @@ import Then
 import SnapKit
 import UIKit
 import NMapsMap
-import RxSwift
-import RxCocoa
+import Combine
+import CombineCocoa
 import FirebaseAnalytics
 
 //MARK: StationDetailVC
@@ -291,34 +291,35 @@ final class StationDetailVC: CommonViewController {
         viewModel
             .input
             .requestStationsInfo
-            .accept(id)
+            .send(id)
+        
         // favoriteButton Tapped
         expandView
             .favoriteButton
-            .rx
-            .tap
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, _ in
+            .tapPublisher
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.touchedFavoriteButton()
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         // directionButton Tapped
         expandView
             .directionView
-            .rx
-            .tapGesture()
-            .when(.recognized)
-            .observe(on: MainScheduler.asyncInstance)
-            .subscribe(with: self, onNext: { owner, _ in
+            .gesture()
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.toNavigationTapped()
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
         
         viewModel
             .output
             .infoSubject
             .compactMap { $0 }
-            .bind(with: self, onNext: { owner, station in
+            .sink { [weak self] station in
+                guard let owner = self else { return }
+                
                 owner.naviTitleView.logoImageView.image = Preferences.logoImage(logoName: station.brand)
                 owner.naviTitleView.titleLabel.text = station.name
                 owner.washImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.carWash)
@@ -343,8 +344,8 @@ final class StationDetailVC: CommonViewController {
                 owner.mapView.moveCamera(update)
                 
                 owner.updateFavoriteUI()
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &viewModel.cancelBag)
     }
     
     @objc

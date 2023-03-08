@@ -6,7 +6,6 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Then
 import SnapKit
 import UIKit
@@ -18,7 +17,7 @@ protocol FrequentVisitCollectionViewCellDelegate: AnyObject {
 //MARK: FrequentVisitCollectionViewCell
 final class FrequentVisitCollectionViewCell: UICollectionViewCell {
     //MARK: - Properties
-    private var info: Station?
+    var info: Station?
     weak var delegate: FrequentVisitCollectionViewCellDelegate?
     let titleView = GasStationTitleView()
     lazy var expandView = GasStationExpandView().then {

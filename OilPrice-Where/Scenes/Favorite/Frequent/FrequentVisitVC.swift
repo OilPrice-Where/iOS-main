@@ -6,12 +6,12 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Then
 import SnapKit
 import UIKit
-import RxSwift
-import RxCocoa
+import Combine
+import CombineCocoa
+import CombineDataSources
 import Firebase
 
 //MARK: 자주 방문한 List
@@ -59,31 +59,40 @@ final class FrequentVisitVC: CommonViewController {
     //MARK: - Rx Binding..
     func rxBind() {
         viewModel.output.stations
-            .bind(to: collectionView.rx.items(cellIdentifier: FrequentVisitCollectionViewCell.id,
-                                              cellType: FrequentVisitCollectionViewCell.self)) { item, station, cell in
+            .bind(subscriber: collectionView.itemsSubscriber(cellIdentifier: FrequentVisitCollectionViewCell.id,
+                                                             cellType: FrequentVisitCollectionViewCell.self,
+                                                             cellConfig: { cell, indexPath, station in
                 cell.delegate = self
                 cell.configure(station: station)
-            }
-            .disposed(by: bag)
+            }))
+            .store(in: &viewModel.cancelBag)
+        
         DefaultData.shared.completedRelay
-            .observe(on: MainScheduler.asyncInstance)
-            .subscribe(with: self, onNext: { owner, _ in
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.collectionView.reloadData()
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         collectionView
-            .rx
-            .modelSelected(Station.self)
-            .subscribe(with: self, onNext: { owner, station in
-                guard let id = station.identifier else { return }
+            .didSelectItemPublisher
+            .map { [weak self] indexPath in
+                self?.collectionView.cellForItem(at: indexPath) as? FrequentVisitCollectionViewCell
+            }
+            .compactMap { $0?.info }
+            .sink { [weak self] station in
+                guard let owner = self,
+                      let id = station.identifier else { return }
                 
                 let detailVC = StationDetailVC(id: id)
                 owner.navigationController?.pushViewController(detailVC, animated: true)
-            })
-            .disposed(by: bag)
-        DataManager.shared.stationListIsNotEmpty
-            .bind(to: emptyLabel.rx.isHidden)
-            .disposed(by: bag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
+        DataManager.shared.stationListIsEmpty
+            .map { !$0 }
+            .assign(to: \.isHidden, on: emptyLabel)
+            .store(in: &viewModel.cancelBag)
     }
     
     private func fetchLayout() -> UICollectionViewFlowLayout {

@@ -7,14 +7,14 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
-import NSObject_Rx
+import Combine
+import CombineCocoa
+import CombineDataSources
 //MARK: 탐색 브랜드 VC
 final class FindBrandVC: UIViewController, ViewModelBindableType {
     //MARK: - Properties
     var viewModel: FindBrandViewModel!
-    private var isAllSwitchButton = PublishSubject<Bool>()
+    private var isAllSwitchButton = PassthroughSubject<Bool, Never>()
     private var isLauchSetting = false
     private lazy var tableView = UITableView().then {
         $0.alwaysBounceVertical = false
@@ -35,35 +35,36 @@ final class FindBrandVC: UIViewController, ViewModelBindableType {
     //MARK: - Rx Binding ..
     func bindViewModel() {
         viewModel.brandSubject
-            .bind(to: tableView.rx.items(cellIdentifier: BrandTypeTableViewCell.id,
-                                         cellType: BrandTypeTableViewCell.self)) { index, brand, cell in
+            .bind(subscriber: tableView.rowsSubscriber(cellIdentifier: BrandTypeTableViewCell.id,
+                                                       cellType: BrandTypeTableViewCell.self,
+                                                       cellConfig: { [weak self] cell, indexPath, brand in
+                guard let owner = self else { return }
+                
                 cell.fetchData(brand: brand)
                 guard brand != "전체" else {
                     cell.brandSelectedSwitch
-                        .rx
-                        .isOn
-                        .subscribe(onNext: {
-                            self.isAllSwitchButton.onNext($0)
-                        })
-                        .disposed(by: self.rx.disposeBag)
+                        .isOnPublisher
+                        .sink { isOn in
+                            DefaultData.shared.brandsSubject.accept(isOn ? owner.viewModel.allBrands : [])
+                            owner.isAllSwitchButton.send(isOn)
+                        }
+                        .store(in: &owner.viewModel.cancelBag)
                     
                     return
                 }
                 
-                self.isAllSwitchButton
-                    .subscribe(onNext: {
-                        guard !self.isLauchSetting else {
-                            cell.brandSelectedSwitch.isOn = $0
-                            DefaultData.shared.brandsSubject.accept($0 ? self.viewModel.allBrands : [])
+                owner.isAllSwitchButton
+                    .sink { isOn in
+                        guard !owner.isLauchSetting else {
+                            cell.brandSelectedSwitch.isOn = isOn
                             return
                         }
                         
-                        self.isLauchSetting = true
-                    })
-                    .disposed(by: self.rx.disposeBag)
-                
-            }
-            .disposed(by: rx.disposeBag)
+                        owner.isLauchSetting = true
+                    }
+                    .store(in: &owner.viewModel.cancelBag)
+            }))
+            .store(in: &viewModel.cancelBag)
     }
     
     //MARK: - Set UI

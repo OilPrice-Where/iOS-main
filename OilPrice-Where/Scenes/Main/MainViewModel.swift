@@ -14,11 +14,13 @@ import Moya
 import NMapsMap
 import NSObject_Rx
 import FloatingPanel
+import Combine
 
 import Firebase
 //MARK: MainViewModel
 final class MainViewModel {
     //MARK: - Properties
+    var cancelBag = Set<AnyCancellable>()
     let bag = DisposeBag()
     let input = Input()
     let output = Output()
@@ -45,14 +47,15 @@ final class MainViewModel {
             .disposed(by: bag)
         
         DefaultData.shared.completedRelay
-            .bind(with: self, onNext: { owner, key in
-                guard !(key == "Favorites" || key == "LocalFavorites") else {
+            .sink { [weak self] key in
+                guard let owner = self,
+                      !(key == "Favorites" || key == "LocalFavorites") else {
                     return
                 }
                 
                 owner.requestSearch()
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &cancelBag)
     }
 }
 

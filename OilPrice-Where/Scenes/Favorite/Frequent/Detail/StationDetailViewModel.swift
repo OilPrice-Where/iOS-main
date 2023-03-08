@@ -8,30 +8,30 @@
 
 import Moya
 import UIKit
-import RxSwift
-import RxCocoa
+import Combine
 
 //MARK: StationDetailViewModel
 final class StationDetailViewModel {
     //MARK: - Properties
-    let bag = DisposeBag()
+    var cancelBag = Set<AnyCancellable>()
     let input = Input()
     let output = Output()
-    private var info: InformationGasStaion? { didSet { output.infoSubject.accept(info) } }
+    private var info: InformationGasStaion? { didSet { output.infoSubject.send(info) } }
     let stationAPI = MoyaProvider<StationAPI>()
     
     //MARK: Initializer
     init() {
-        rxBind()
+        bind()
     }
     
-    //MARK: RxBinding..
-    func rxBind() {
+    //MARK: Binding..
+    func bind() {
         input.requestStationsInfo
-            .bind(with: self, onNext: { owner, id in
+            .sink { [weak self] id in
+                guard let owner = self else { return }
                 owner.requestStationsInfo(id: id)
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &cancelBag)
     }
 }
 
@@ -42,11 +42,11 @@ extension StationDetailViewModel {
     }
     
     struct Input {
-        let requestStationsInfo = PublishRelay<String?>()
+        let requestStationsInfo = PassthroughSubject<String?, Never>()
     }
     
     struct Output {
-        var infoSubject = BehaviorRelay<InformationGasStaion?>(value: nil)
+        var infoSubject = CurrentValueSubject<InformationGasStaion?, Never>(nil)
     }
 }
 

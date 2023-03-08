@@ -7,13 +7,12 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
+import Combine
 
 //MARK: SelectMenuViewModel
 final class SelectMenuViewModel {
     //MARK: - Properties
-    let bag = DisposeBag()
+    var cancelBag = Set<AnyCancellable>()
     let input = Input()
     let output = Output()
     let type: SelectMenuType
@@ -28,22 +27,24 @@ final class SelectMenuViewModel {
     //MARK: Initializer
     init(type: SelectMenuType) {
         self.type = type
-        rxBind()
+        bind()
     }
     
-    //MARK: RxBinding..
-    func rxBind() {
+    //MARK: Binding..
+    func bind() {
         input.fetchType
-            .bind(with: self, onNext: { owner, type in
+            .sink { [weak self] type in
+                guard let owner = self else { return }
                 owner.fetchModel()
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &cancelBag)
         
         input.fetchUpdate
-            .bind(with: self, onNext: { owner, title in
+            .sink { [weak self] title in
+                guard let owner = self else { return }
                 owner.fetchUpdated(title: title)
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &cancelBag)
     }
 }
 
@@ -60,14 +61,14 @@ extension SelectMenuViewModel {
     }
     
     struct Input {
-        let fetchType = PublishRelay<Void?>()
-        let fetchUpdate = PublishRelay<String>()
+        let fetchType = PassthroughSubject<Void?, Never>()
+        let fetchUpdate = PassthroughSubject<String, Never>()
     }
     
     struct Output {
-        let fetchModel = PublishRelay<[String]>()
-        let fetchTitle = PublishRelay<String>()
-        let fetchSelect = PublishRelay<Int>()
+        let fetchModel = PassthroughSubject<[String], Never>()
+        let fetchTitle = PassthroughSubject<String, Never>()
+        let fetchSelect = PassthroughSubject<Int, Never>()
     }
 }
 
@@ -76,14 +77,14 @@ extension SelectMenuViewModel {
     private func fetchModel() {
         switch type {
         case .navigation:
-            output.fetchModel.accept(findNavi)
-            output.fetchTitle.accept("연동할 내비게이션을 선택해 주세요.")
+            output.fetchModel.send(findNavi)
+            output.fetchTitle.send("연동할 내비게이션을 선택해 주세요.")
         case .oilType:
-            output.fetchModel.accept(oilType)
-            output.fetchTitle.accept("찾으시는 유종을 선택해 주세요.")
+            output.fetchModel.send(oilType)
+            output.fetchTitle.send("찾으시는 유종을 선택해 주세요.")
         case .background:
-            output.fetchModel.accept(backgroundFind)
-            output.fetchTitle.accept("백그라운드 탐색 여부를 선택해 주세요.")
+            output.fetchModel.send(backgroundFind)
+            output.fetchTitle.send("백그라운드 탐색 여부를 선택해 주세요.")
         }
         
         fetchSelect()
@@ -92,11 +93,11 @@ extension SelectMenuViewModel {
     private func fetchSelect() {
         switch type {
         case .navigation:
-            output.fetchSelect.accept(findNavi.firstIndex(of: Preferences.navigation(type: DefaultData.shared.naviSubject.value)) ?? 0)
+            output.fetchSelect.send(findNavi.firstIndex(of: Preferences.navigation(type: DefaultData.shared.naviSubject.value)) ?? 0)
         case .oilType:
-            output.fetchSelect.accept(oilType.firstIndex(of: Preferences.oil(code: DefaultData.shared.oilSubject.value)) ?? 0)
+            output.fetchSelect.send(oilType.firstIndex(of: Preferences.oil(code: DefaultData.shared.oilSubject.value)) ?? 0)
         case .background:
-            output.fetchSelect.accept(DefaultData.shared.backgroundFindSubject.value ? 0 : 1)
+            output.fetchSelect.send(DefaultData.shared.backgroundFindSubject.value ? 0 : 1)
         }
     }
     

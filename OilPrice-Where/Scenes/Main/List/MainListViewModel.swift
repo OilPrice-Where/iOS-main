@@ -9,10 +9,12 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Combine
 //MARK: MainListViewModel
 final class MainListViewModel {
     //MARK: - Properties
     let bag = DisposeBag()
+    var cancelBag = Set<AnyCancellable>()
     var stations: BehaviorSubject<[GasStation]>
     var isSortedByPrice = true
     

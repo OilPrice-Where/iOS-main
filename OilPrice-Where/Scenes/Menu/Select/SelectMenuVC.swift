@@ -9,8 +9,9 @@
 import Then
 import SnapKit
 import UIKit
-import RxSwift
-import RxCocoa
+import Combine
+import CombineCocoa
+import CombineDataSources
 
 protocol SelectMenuVCDelegate: AnyObject {
     func dismissSelected(type: SelectMenuViewModel.SelectMenuType)
@@ -86,32 +87,38 @@ final class SelectMenuVC: CommonViewController {
         viewModel
             .output
             .fetchModel
-            .asDriver(onErrorJustReturn: [])
-            .drive(selectMenuView.collectionView.rx.items(cellIdentifier: SelectMenuCollectionViewCell.id,
-                                                          cellType: SelectMenuCollectionViewCell.self)) { index, title, cell in
+            .bind(subscriber: selectMenuView.collectionView.itemsSubscriber(cellIdentifier: SelectMenuCollectionViewCell.id,
+                                                                            cellType: SelectMenuCollectionViewCell.self,
+                                                                            cellConfig: { cell, indexPath, title in
                 cell.titleLabel.text = title
-            }
-            .disposed(by: bag)
+            }))
+            .store(in: &viewModel.cancelBag)
+        
         viewModel
             .output
             .fetchTitle
-            .asDriver(onErrorJustReturn: "")
-            .drive(selectMenuView.titleLabel.rx.text)
-            .disposed(by: bag)
+            .compactMap { $0 }
+            .assign(to: \.text, on: selectMenuView.titleLabel)
+            .store(in: &viewModel.cancelBag)
+        
         selectMenuView.laterButton
-            .rx
-            .tap
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, _ in
+            .tapPublisher
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.dismiss(animated: false)
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         selectMenuView.collectionView
-            .rx
-            .modelSelected(String.self)
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, title in
-                owner.viewModel.input.fetchUpdate.accept(title)
+            .didSelectItemPublisher
+            .map { [weak self] indexPath in
+                self?.selectMenuView.collectionView.cellForItem(at: indexPath) as? SelectMenuCollectionViewCell
+            }
+            .compactMap { $0?.titleLabel.text }
+            .sink { [weak self] title in
+                guard let owner = self else { return }
+                
+                owner.viewModel.input.fetchUpdate.send(title)
                 owner.dismiss(animated: false) {
                     var msg = ""
                     var subTitle = "메뉴에서 언제든 변경하실 수 있습니다."
@@ -145,27 +152,27 @@ final class SelectMenuVC: CommonViewController {
                         UIApplication.shared.open(installURL)
                     })
                 }
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         backgroundView
-            .rx
-            .tapGesture()
-            .when(.recognized)
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, _ in
+            .gesture()
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.dismiss(animated: false)
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         viewModel
             .output
             .fetchSelect
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, idx in
+            .sink { [weak self] idx in
+                guard let owner = self else { return }
                 owner.selectMenuView.collectionView.selectItem(at: IndexPath(item: idx, section: 0), animated: false, scrollPosition: .top)
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &viewModel.cancelBag)
         
-        viewModel.input.fetchType.accept(nil)
+        viewModel.input.fetchType.send(nil)
     }
     
     func fetchSelectMenuHeight() -> CGFloat {

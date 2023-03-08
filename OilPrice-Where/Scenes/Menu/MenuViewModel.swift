@@ -7,22 +7,21 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
+import Combine
 
 //MARK: MenuViewModel
 final class MenuViewModel {
     //MARK: - Properties
-    let bag = DisposeBag()
+    var cancelBag = Set<AnyCancellable>()
     let output = Output()
     
     //MARK: Initializer
     init() {
-        rxBind()
+        bind()
     }
     
-    //MARK: RxBinding..
-    func rxBind() {
+    //MARK: Binding..
+    func bind() {
         
     }
 }

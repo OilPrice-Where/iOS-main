@@ -12,6 +12,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NMapsMap
+import Combine
 import FirebaseAnalytics
 
 protocol MainListVCDelegate: AnyObject {
@@ -135,11 +136,11 @@ final class MainListVC: CommonViewController {
             })
             .disposed(by: bag)
         DefaultData.shared.completedRelay
-            .observe(on: MainScheduler.asyncInstance)
-            .subscribe(with: self, onNext: { owner, _ in
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.collectionView.reloadData()
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
     }
     
     //MARK: - Method

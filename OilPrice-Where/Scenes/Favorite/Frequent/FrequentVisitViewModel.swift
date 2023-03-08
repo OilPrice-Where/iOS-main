@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Combine
 import RxSwift
 import RxCocoa
 
@@ -15,16 +16,17 @@ import RxCocoa
 final class FrequentVisitViewModel {
     //MARK: - Properties
     let bag = DisposeBag()
+    var cancelBag = Set<AnyCancellable>()
     let input = Input()
     let output = Output()
     
     //MARK: Initializer
     init() {
-        rxBind()
+        bind()
     }
     
-    //MARK: RxBinding..
-    func rxBind() {
+    //MARK: Binding..
+    func bind() {
         DataManager.shared.stationListRelay
             .bind(with: self, onNext: { owner, _stations in
                 var dic = [String: Station]()
@@ -42,7 +44,7 @@ final class FrequentVisitViewModel {
                 }
                 
                 let ret = dic.map { $0.value }.sorted(by: { $0.count > $1.count })
-                owner.output.stations.accept(ret)
+                owner.output.stations.send(ret)
             })
             .disposed(by: bag)
     }
@@ -59,7 +61,7 @@ extension FrequentVisitViewModel {
     }
     
     struct Output {
-        var stations = BehaviorRelay<[Station]>(value: [])
+        var stations = CurrentValueSubject<[Station], Never>([])
     }
 }
 

@@ -144,9 +144,10 @@ final class MainVC: CommonViewController {
         }
         
         DefaultData.shared.completedRelay
-            .subscribe(with: self, onNext: { owner, key in
-                guard !(key == "Favorites" || key == "LocalFavorites") else {
-                    owner.updateFavoriteUI()
+            .sink { [weak self] key in
+                guard let owner = self,
+                      !(key == "Favorites" || key == "LocalFavorites") else {
+                    self?.updateFavoriteUI()
                     return
                 }
                 
@@ -154,8 +155,8 @@ final class MainVC: CommonViewController {
                 DispatchQueue.main.async {
                     owner.fpc.move(to: .hidden, animated: false, completion: nil)
                 }
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
         
         LocationManager.shared.locationManager?
             .rx

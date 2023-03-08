@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Combine
 import Moya
 
 // App 전체에서 사용하는 싱글톤
@@ -39,7 +40,7 @@ class DefaultData {
     let naviSubject = BehaviorRelay<String>(value: "kakao")
     let localFavoritesSubject = BehaviorRelay<String>(value: "")
     let backgroundFindSubject = BehaviorRelay<Bool>(value: false)
-    let completedRelay = PublishRelay<String?>()
+    let completedRelay = PassthroughSubject<String?, Never>()
     
     // 전군 평균 기름 값 로드 함수
     func allPriceDataLoad() {
@@ -70,7 +71,7 @@ class DefaultData {
                 return
             }
             
-            completedRelay.accept(key)
+            completedRelay.send(key)
         }
     }
     
