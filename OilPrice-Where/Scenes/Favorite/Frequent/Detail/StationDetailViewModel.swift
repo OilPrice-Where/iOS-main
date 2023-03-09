@@ -89,7 +89,7 @@ extension StationDetailViewModel {
         let oldFavArr = DefaultData.shared.favoriteSubject.value
         
         let newFavArr = oldFavArr.filter { id != $0 }
-        DefaultData.shared.favoriteSubject.accept(newFavArr)
+        DefaultData.shared.favoriteSubject.send(newFavArr)
     }
     // 컬러 값 얻기
     func fetchActivatedColor(info: String?) -> UIColor {

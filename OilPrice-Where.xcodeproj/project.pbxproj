@@ -20,7 +20,6 @@
 		2CA4726427992D0A00DB0DDD /* CLLocationManager+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA4726327992D0A00DB0DDD /* CLLocationManager+.swift */; };
 		2CA47266279931B500DB0DDD /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA47265279931B500DB0DDD /* MainViewModel.swift */; };
 		2CAC81DD276B948B00CC6096 /* CustomKVView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81DC276B948B00CC6096 /* CustomKVView.swift */; };
-		2CAC81DF276B966300CC6096 /* FavoritesGasStationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81DE276B966300CC6096 /* FavoritesGasStationViewModel.swift */; };
 		2CAC81E1276B9A7200CC6096 /* KVVStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81E0276B9A7200CC6096 /* KVVStackView.swift */; };
 		2CAC81E3276BA31D00CC6096 /* CustomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81E2276BA31D00CC6096 /* CustomNavigationView.swift */; };
 		2CAC81E5276BA63400CC6096 /* LodingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAC81E4276BA63400CC6096 /* LodingView.swift */; };
@@ -246,7 +245,6 @@
 		2CA4726327992D0A00DB0DDD /* CLLocationManager+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+.swift"; sourceTree = "<group>"; };
 		2CA47265279931B500DB0DDD /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		2CAC81DC276B948B00CC6096 /* CustomKVView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomKVView.swift; sourceTree = "<group>"; };
-		2CAC81DE276B966300CC6096 /* FavoritesGasStationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesGasStationViewModel.swift; sourceTree = "<group>"; };
 		2CAC81E0276B9A7200CC6096 /* KVVStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KVVStackView.swift; sourceTree = "<group>"; };
 		2CAC81E2276BA31D00CC6096 /* CustomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationView.swift; sourceTree = "<group>"; };
 		2CAC81E4276BA63400CC6096 /* LodingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LodingView.swift; sourceTree = "<group>"; };
@@ -928,7 +926,6 @@
 			isa = PBXGroup;
 			children = (
 				764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift */,
-				2CAC81DE276B966300CC6096 /* FavoritesGasStationViewModel.swift */,
 				2C0C68DD276B610700945CEC /* View */,
 			);
 			path = Favorite;
@@ -1282,7 +1279,6 @@
 				E9984694291FDADC0043D1DA /* SwiftyPlistManager.swift in Sources */,
 				E9A3A2CB282D0E84004ED55E /* DataModel.xcdatamodeld in Sources */,
 				E9EFE7D2290E2F7100EA514B /* CommonTextFieldView.swift in Sources */,
-				2CAC81DF276B966300CC6096 /* FavoritesGasStationViewModel.swift in Sources */,
 				E99A7ED929BBBD4300BFCBC9 /* Gesture+.swift in Sources */,
 				2C0C68C8276B25AB00945CEC /* UIReusable+.swift in Sources */,
 				E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */,

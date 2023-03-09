@@ -136,6 +136,7 @@ final class MainListVC: CommonViewController {
             })
             .disposed(by: bag)
         DefaultData.shared.completedRelay
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.collectionView.reloadData()
@@ -244,7 +245,7 @@ extension MainListVC: GasStationCellDelegate {
         var newFaovorites = faovorites
         isDeleted ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
         
-        DefaultData.shared.favoriteSubject.accept(newFaovorites)
+        DefaultData.shared.favoriteSubject.send(newFaovorites)
         
         let msg = isDeleted ? "즐겨 찾는 주유소가 삭제되었습니다." : "즐겨 찾는 주유소에 추가되었습니다."
         let lbl = Preferences.showToast(width: 240, message: msg, numberOfLines: 1)

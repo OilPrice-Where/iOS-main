@@ -7,9 +7,10 @@
 //
 
 import UIKit
-import RxSwift
+import Combine
 //MARK: InitialViewModel
 final class InitialViewModel {
+    var cancelBag = Set<AnyCancellable>()
     typealias InitialOilType = (name: String, image: UIImage?)
     
     enum SelectOilStyle: Int {
@@ -65,7 +66,7 @@ extension InitialViewModel {
     }
     
     func okAction(oil: Int, navi: Int) {
-        DefaultData.shared.oilSubject.accept(select(oil: oil))
+        DefaultData.shared.oilSubject.send(select(oil: oil))
         DefaultData.shared.naviSubject.accept(select(navi: navi))
     }
 }

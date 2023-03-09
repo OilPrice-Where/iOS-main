@@ -6,8 +6,10 @@
 //  Copyright © 2021 sangwook park. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import SnapKit
+import Then
+
 //MARK: 즐겨찾기가 없을 때 표시하는 뷰
 final class NoneFavoriteView: UIView {
     // Properties

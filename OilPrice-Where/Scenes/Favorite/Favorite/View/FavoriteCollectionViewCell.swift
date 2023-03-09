@@ -7,9 +7,10 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
-import RxGesture
+import SnapKit
+import Then
+import Combine
+import CombineCocoa
 import FirebaseAnalytics
 
 protocol FavoriteCollectionViewCellDelegate: AnyObject {
@@ -195,125 +196,139 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     //MARK: - Rx Binding ..
     func bindViewModel() {
         viewModel.isLoadingSubject
-            .do(onNext: { [weak self] in
-                guard let self = self else { return }
-                $0 ? self.loadingView.activityIndicator.startAnimating() : self.loadingView.activityIndicator.stopAnimating()
-            })
-            .bind(to: loadingView.rx.isHidden)
-            .disposed(by: rx.disposeBag)
+            .sink { [weak self] isLoad in
+                guard let owner = self else { return }
+                isLoad ? owner.loadingView.activityIndicator.startAnimating() : owner.loadingView.activityIndicator.stopAnimating()
+                owner.loadingView.isHidden = isLoad
+            }
+            .store(in: &viewModel.cancelBag)
+
         // 로고 이미지 삽입
         viewModel.infoSubject
             .map { Preferences.logoImage(logoName: $0?.brand) }
-            .bind(to: logoImageView.rx.image)
-            .disposed(by: rx.disposeBag)
+            .assign(to: \.image, on: logoImageView)
+            .store(in: &viewModel.cancelBag)
+
         // 주유소 이름
         viewModel.infoSubject
             .map { $0?.name }
-            .bind(to: gasStationNameLabel.rx.text)
-            .disposed(by: rx.disposeBag)
+            .assign(to: \.text, on: gasStationNameLabel)
+            .store(in: &viewModel.cancelBag)
+
         // 주유소 편의시설 정보
         viewModel.infoSubject
-            .subscribe(with: self, onNext: { owner, info in
-                owner.carWashVStackView.valueImageView.tintColor = self.viewModel.getActivatedColor(info: info?.carWash)
-                owner.repairVStackView.valueImageView.tintColor = self.viewModel.getActivatedColor(info: info?.repairShop)
-                owner.convenienceVStackView.valueImageView.tintColor = self.viewModel.getActivatedColor(info: info?.convenienceStore)
-            })
-            .disposed(by: rx.disposeBag)
+            .sink { [weak self] info in
+                guard let owner = self else { return }
+
+                owner.carWashVStackView.valueImageView.tintColor = owner.viewModel.getActivatedColor(info: info?.carWash)
+                owner.repairVStackView.valueImageView.tintColor = owner.viewModel.getActivatedColor(info: info?.repairShop)
+                owner.convenienceVStackView.valueImageView.tintColor = owner.viewModel.getActivatedColor(info: info?.convenienceStore)
+            }
+            .store(in: &viewModel.cancelBag)
+
         // 주소
         viewModel.infoSubject
             .compactMap { $0?.address }
             .map { NSAttributedString(string: $0, attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]) }
-            .bind(to: addressHStackView.valueLabel.rx.attributedText)
-            .disposed(by: rx.disposeBag)
+            .assign(to: \.attributedText, on: addressHStackView.valueLabel)
+            .store(in: &viewModel.cancelBag)
+
         // 주소 복사
         addressHStackView.valueLabel
-            .rx
-            .tapGesture()
-            .when(.recognized)
-            .subscribe(with: self, onNext: { owner, _ in
-                guard let valueString = owner.addressHStackView.valueLabel.text else { return }
+            .gesture()
+            .sink { [weak self] _ in
+                guard let owner = self,
+                      let valueString = owner.addressHStackView.valueLabel.text else { return }
                 UIPasteboard.general.string = valueString
 
                 owner.delegate?.touchedAddressLabel()
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
+
         // 전화번호
         viewModel.infoSubject
             .compactMap { $0?.phoneNumber }
             .map { NSAttributedString(string: $0, attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]) }
-            .bind(to: phoneNumberHStackView.valueLabel.rx.attributedText)
-            .disposed(by: rx.disposeBag)
+            .assign(to: \.attributedText, on: phoneNumberHStackView.valueLabel)
+            .store(in: &viewModel.cancelBag)
+
         // 전화 걸기
         phoneNumberHStackView.valueLabel
-            .rx
-            .tapGesture()
-            .when(.recognized)
-            .subscribe(with: self, onNext: { owner, _ in
-                guard let valueString = owner.phoneNumberHStackView.valueLabel.text,
+            .gesture()
+            .sink { [weak self] _ in
+                guard let owner = self,
+                      let valueString = owner.phoneNumberHStackView.valueLabel.text,
                       let url = URL(string: "tel:" + valueString),
                       UIApplication.shared.canOpenURL(url) else { return }
-                
+
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
+
         // 품질 인증
         viewModel.infoSubject
             .map { $0?.qualityCertification == "Y" ? "인증" : "미인증" }
-            .bind(to: qualityHStackView.valueLabel.rx.text)
-            .disposed(by: rx.disposeBag)
+            .assign(to: \.text, on: qualityHStackView.valueLabel)
+            .store(in: &viewModel.cancelBag)
+
         // 오일 타입
         DefaultData.shared.oilSubject
             .map { Preferences.oil(code: $0) }
-            .bind(to: typeOfOilLabel.rx.text)
-            .disposed(by: rx.disposeBag)
+            .assign(to: \.text, on: typeOfOilLabel)
+            .store(in: &viewModel.cancelBag)
+
         // 길 찾기
-        navigationView.rx
-            .tapGesture()
-            .when(.recognized)
-            .subscribe(with: self, onNext: { owner, _ in
+        navigationView
+            .gesture()
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
+
                 let event = "tap_favorite_navigation"
                 let parameters = [
                     "file": #file,
                     "function": #function,
                     "eventDate": DefaultData.shared.currentTime
                 ]
-                
+
                 Analytics.setUserProperty("ko", forName: "country")
                 Analytics.logEvent(event, parameters: parameters)
-                
+
                 owner.delegate?.touchedDirection(station: owner.viewModel.navigationButton())
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
+
         // 즐겨찾기 삭제
-        deleteFavoriteButton.rx.tap
-            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
-            .subscribe(with: self, onNext: { owner, _ in
+        deleteFavoriteButton
+            .tapPublisher
+            .throttle(for: .milliseconds(500), scheduler: DispatchQueue.main, latest: true)
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
+
                 let event = "tap_favorite_remove"
                 let parameters = [
                     "file": #file,
                     "function": #function,
                     "eventDate": DefaultData.shared.currentTime
                 ]
-                
+
                 Analytics.setUserProperty("ko", forName: "country")
                 Analytics.logEvent(event, parameters: parameters)
-                
+
                 owner.viewModel.deleteAction(id: owner.id)
-                
+
                 guard let vc = UIApplication.shared.customKeyWindow?.visibleViewController as? UIViewController else { return }
                 let lbl = Preferences.showToast(width: 240, message: "즐겨 찾는 주유소가 삭제되었습니다.", numberOfLines: 1)
-                
+
                 vc.view.hideToast()
                 vc.view.showToast(lbl, position: .bottom)
-            })
-            .disposed(by: rx.disposeBag)
-        
-        Observable.combineLatest(viewModel.infoSubject, DefaultData.shared.oilSubject)
-            .map { [weak self] in
-                guard let strongSelf = self else { return "가격정보 없음" }
-                return strongSelf.viewModel.displayPriceInfomation(priceList: $0.0?.price)
             }
-            .bind(to: oilPriceLabel.rx.text)
-            .disposed(by: rx.disposeBag)
+            .store(in: &viewModel.cancelBag)
+        
+        viewModel.infoSubject.combineLatest(DefaultData.shared.oilSubject)
+            .sink { [weak self] station, title in
+                guard let owner = self else { return }
+                owner.oilPriceLabel.text = owner.viewModel.displayPriceInfomation(priceList: station?.price)
+            }
+            .store(in: &viewModel.cancelBag)
     }
 }

@@ -9,9 +9,9 @@
 import UIKit
 import Foundation
 import NMapsMap
-import RxSwift
-import RxCocoa
-import NSObject_Rx
+import Combine
+import CombineCocoa
+import CombineDataSources
 import CoreLocation
 import FirebaseAnalytics
 //MARK: 즐겨찾는 주유소 VC
@@ -20,6 +20,7 @@ final class FavoritesGasStationVC: CommonViewController {
     private var fromTap = false
     private let noneFavoriteView = NoneFavoriteView()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
+        $0.delegate = self
         $0.backgroundColor = .clear
         $0.decelerationRate = UIScrollViewDecelerationRateFast
         $0.alwaysBounceHorizontal = false
@@ -72,23 +73,19 @@ final class FavoritesGasStationVC: CommonViewController {
     func bindViewModel() {
         DefaultData.shared.favoriteSubject
             .map { !$0.isEmpty }
-            .bind(to: noneFavoriteView.rx.isHidden)
-            .disposed(by: rx.disposeBag)
+            .assign(to: \.isHidden, on: noneFavoriteView)
+            .store(in: &cancelBag)
         
         DefaultData.shared.favoriteSubject
-            .bind(to: collectionView.rx.items(cellIdentifier: FavoriteCollectionViewCell.id,
-                                              cellType: FavoriteCollectionViewCell.self)) { index, id, cell in
+            .bind(subscriber: collectionView.itemsSubscriber(cellIdentifier: FavoriteCollectionViewCell.id,
+                                                             cellType: FavoriteCollectionViewCell.self,
+                                                             cellConfig: { cell, indexPath, id in
                 cell.viewModel.requestStationsInfo(id: id)
                 cell.layer.cornerRadius = 35
                 cell.delegate = self
                 cell.id = id
-            }
-            .disposed(by: rx.disposeBag)
-        
-        collectionView
-            .rx
-            .setDelegate(self)
-            .disposed(by: rx.disposeBag)
+            }))
+            .store(in: &cancelBag)
     }
     
     //MARK: - Functions..
@@ -98,7 +95,7 @@ final class FavoritesGasStationVC: CommonViewController {
         reachability?.whenReachable = { [weak self] _ in
             let favArr = DefaultData.shared.favoriteSubject.value
             self?.noneFavoriteView.isHidden = favArr.isEmpty
-            DefaultData.shared.favoriteSubject.accept(favArr)
+            DefaultData.shared.favoriteSubject.send(favArr)
             self?.collectionView.isHidden = false
             self?.collectionView.reloadData()
         }

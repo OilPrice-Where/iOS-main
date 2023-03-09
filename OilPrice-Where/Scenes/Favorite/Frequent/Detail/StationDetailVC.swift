@@ -393,7 +393,7 @@ final class StationDetailVC: CommonViewController {
         var newFaovorites = faovorites
         isDeleted ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
         
-        DefaultData.shared.favoriteSubject.accept(newFaovorites)
+        DefaultData.shared.favoriteSubject.send(newFaovorites)
         updateFavoriteUI()
         
         let msg = isDeleted ? "즐겨 찾는 주유소가 삭제되었습니다." : "즐겨 찾는 주유소에 추가되었습니다."

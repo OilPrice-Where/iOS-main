@@ -106,7 +106,7 @@ extension SelectMenuViewModel {
         case .navigation:
             DefaultData.shared.naviSubject.accept(Preferences.navigation(name: title))
         case .oilType:
-            DefaultData.shared.oilSubject.accept(Preferences.oil(name: title))
+            DefaultData.shared.oilSubject.send(Preferences.oil(name: title))
         case .background:
             let isOn = "켜기" == title
             DefaultData.shared.backgroundFindSubject.accept(isOn)

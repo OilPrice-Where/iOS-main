@@ -6,8 +6,9 @@
 //  Copyright © 2021 sangwook park. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import SnapKit
+import Then
 //MARK: 길찾기 버튼
 final class CustomNavigationView: UIView {
     // Properties

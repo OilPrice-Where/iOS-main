@@ -16,6 +16,7 @@ import Moya
 class DefaultData {
     static let shared = DefaultData() // 싱글톤 객체 생성
     private let bag = DisposeBag()
+    private var cancelbag = Set<AnyCancellable>()
     private let staionProvider = MoyaProvider<StationAPI>()
     
     // 기본 설정
@@ -34,9 +35,9 @@ class DefaultData {
     var priceData: [AllPrice] = [] // 전국 평균 기름 값
     var tempFavArr: [InformationGasStaion] = []
     let stationsSubject = BehaviorSubject<[GasStation]>(value: []) // 반경 주유소 리스트
-    let oilSubject = BehaviorRelay<String>(value: "") // 오일 종류
+    let oilSubject = CurrentValueSubject<String, Never>("") // 오일 종류
     let brandsSubject = BehaviorRelay<[String]>(value: []) // 설정 브랜드
-    let favoriteSubject = BehaviorRelay<[String]>(value: []) // 즐겨 찾기
+    let favoriteSubject = CurrentValueSubject<[String], Never>([]) // 즐겨 찾기
     let naviSubject = BehaviorRelay<String>(value: "kakao")
     let localFavoritesSubject = BehaviorRelay<String>(value: "")
     let backgroundFindSubject = BehaviorRelay<Bool>(value: false)
@@ -100,22 +101,24 @@ class DefaultData {
         let backgroundFind = fetchValue(defaultValue: false, for: "BackgroundFind")
         
         localFavoritesSubject.accept(localFavorites)
-        oilSubject.accept(oilType)
+        oilSubject.send(oilType)
         brandsSubject.accept(brands)
         naviSubject.accept(naviType == "tmap" ? "tMap" : naviType)
-        favoriteSubject.accept(favArr)
+        favoriteSubject.send(favArr)
         backgroundFindSubject.accept(backgroundFind)
         
         // Oil Type Save
         oilSubject
-            .subscribe(with: self, onNext: { owner, type in
+            .sink { [weak self] type in
+                guard let owner = self else { return }
                 owner.swiftyPlistManager(save: type, forKey: "OilType")
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &cancelbag)
         
         // Favorites Array Save
         favoriteSubject
-            .subscribe(with: self, onNext: { owner, infomations in
+            .sink { [weak self] infomations in
+                guard let owner = self else { return }
                 owner.swiftyPlistManager(save: infomations, forKey: "Favorites")
                 
                 let group = DispatchGroup()
@@ -129,7 +132,7 @@ class DefaultData {
                     owner.tempFavArr = list
                 }
                 
-                self.tempFavArr = owner.tempFavArr.filter { info in
+                owner.tempFavArr = owner.tempFavArr.filter { info in
                     guard let id = info.id else { return false }
                     if !tempArr.contains(id) && infomations.contains(id) {
                         tempArr.append(id)
@@ -165,8 +168,8 @@ class DefaultData {
                     }
                 }
                 
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &cancelbag)
         
         // Brand Array Save
         brandsSubject

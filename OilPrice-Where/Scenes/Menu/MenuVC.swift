@@ -155,9 +155,8 @@ final class MenuVC: CommonViewController {
         
         DefaultData.shared.oilSubject
             .map { Preferences.oil(code: $0) }
-            .asDriver(onErrorJustReturn: "")
-            .drive(oilTypeView.valueLabel.rx.text)
-            .disposed(by: bag)
+            .assign(to: \.text, on: oilTypeView.valueLabel)
+            .store(in: &viewModel.cancelBag)
         
         DefaultData.shared.backgroundFindSubject
             .map { $0 ? "켜짐" : "꺼짐" }

@@ -6,17 +6,16 @@
 //  Copyright © 2020 sangwook park. All rights reserved.
 //
 
-import Foundation
+import Combine
 import UIKit
-import RxSwift
 import Moya
 //MARK: FavoriteCellViewModel
 final class FavoriteCellViewModel {
-    let bag = DisposeBag()
+    var cancelBag = Set<AnyCancellable>()
     private var info: InformationGasStaion?
     let stationAPI = MoyaProvider<StationAPI>()
-    var infoSubject = BehaviorSubject<InformationGasStaion?>(value: nil)
-    var isLoadingSubject = BehaviorSubject<Bool>(value: false)
+    var infoSubject = CurrentValueSubject<InformationGasStaion?, Never>(nil)
+    var isLoadingSubject = CurrentValueSubject<Bool, Never>(false)
 }
 //MARK: Method
 extension FavoriteCellViewModel {
@@ -30,8 +29,8 @@ extension FavoriteCellViewModel {
                 
                 DefaultData.shared.tempFavArr.append(information)
                 self.info = information
-                self.infoSubject.onNext(information)
-                self.isLoadingSubject.onNext(true)
+                self.infoSubject.send(information)
+                self.isLoadingSubject.send(true)
             case .failure(let error):
                 LogUtil.e(error)
             }
@@ -55,7 +54,7 @@ extension FavoriteCellViewModel {
         let oldFavArr = DefaultData.shared.favoriteSubject.value
         
         let newFavArr = oldFavArr.filter { id != $0 }
-        DefaultData.shared.favoriteSubject.accept(newFavArr)
+        DefaultData.shared.favoriteSubject.send(newFavArr)
     }
     // 길 안내
     func navigationButton() -> GasStation? {

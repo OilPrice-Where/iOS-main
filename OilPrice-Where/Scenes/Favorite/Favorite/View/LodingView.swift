@@ -6,8 +6,9 @@
 //  Copyright © 2021 sangwook park. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import SnapKit
+import Then
 //MARK: 즐겨찾기 로딩 뷰
 final class LodingView: UIView {
     // Properties

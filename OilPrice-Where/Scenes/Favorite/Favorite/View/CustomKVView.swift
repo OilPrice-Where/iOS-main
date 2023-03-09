@@ -6,8 +6,9 @@
 //  Copyright © 2021 sangwook park. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import SnapKit
+import Then
 //MARK: Key(Label)/Value(Label) View
 final class CustomKVView: UIView {
     // Properties

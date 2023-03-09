@@ -7,9 +7,9 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
-import NSObject_Rx
+import Combine
+import CombineCocoa
+import SnapKit
 //MARK: 초기 설정 페이지
 final class InitialSettingVC: CommonViewController {
     //MARK: - Properties
@@ -44,26 +44,25 @@ final class InitialSettingVC: CommonViewController {
     func bindViewModel() {
         // 확인 버튼 클릭 이벤트
         selectTypeView.okButton
-            .rx
-            .tap
+            .tapPublisher
             .map { [weak self] _ -> selectTypes in
-                guard let strongSelf = self else { return (oil: 0, navi: 0) }
+                guard let owner = self else { return (oil: 0, navi: 0) }
                 
-                let oilIdx = strongSelf.selectTypeView.oilTypeSegmentControl.selectedSegmentIndex
-                let naviIdx = strongSelf.selectTypeView.naviTypeSegmentControl.selectedSegmentIndex
+                let oilIdx = owner.selectTypeView.oilTypeSegmentControl.selectedSegmentIndex
+                let naviIdx = owner.selectTypeView.naviTypeSegmentControl.selectedSegmentIndex
+                owner.viewModel.okAction(oil: oilIdx, navi: naviIdx)
                 
                 return (oil: oilIdx, navi: naviIdx)
             }
-            .do(onNext: { selectTypes in
-                self.viewModel.okAction(oil: selectTypes.oil, navi: selectTypes.navi)
-            })
-            .bind(with: self, onNext: { owner, _ in
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
+                
                 let mainVC = MainVC()
                 let mainNavigationVC = UINavigationController(rootViewController: mainVC)
                 mainNavigationVC.modalPresentationStyle = .fullScreen
                 owner.present(mainNavigationVC, animated: false)
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
     }
     
     //MARK: - Set UI
