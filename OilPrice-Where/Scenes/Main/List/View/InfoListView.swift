@@ -9,6 +9,7 @@
 import Then
 import SnapKit
 import UIKit
+
 //MARK: 리스트 정렬 & 위치 표시
 final class InfoListView: UIView {
     //MARK: - Properties

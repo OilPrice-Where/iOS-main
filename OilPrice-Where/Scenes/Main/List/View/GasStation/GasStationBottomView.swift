@@ -9,6 +9,7 @@
 import Then
 import SnapKit
 import UIKit
+
 //MARK: GasStationCell의 BottomView
 final class GasStationBottomView: UIStackView {
     //MARK: - Properties

@@ -8,7 +8,8 @@
 
 import NMapsMap
 import UIKit
-import RxSwift
+import SnapKit
+import Then
 
 protocol MainMapViewDelegate: AnyObject {
     func marker(didTapMarker: NMGLatLng, info: GasStation)

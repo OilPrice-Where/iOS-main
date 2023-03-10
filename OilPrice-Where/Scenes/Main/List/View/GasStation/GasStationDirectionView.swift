@@ -6,10 +6,10 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Then
 import SnapKit
 import UIKit
+
 //MARK: GasStationCell의 경로보기 버튼
 final class GasStationDirectionView: UIView {
     // Properties

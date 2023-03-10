@@ -9,8 +9,8 @@
 import Then
 import SnapKit
 import UIKit
-import RxSwift
-import RxCocoa
+import Combine
+import CombineCocoa
 import NMapsMap
 import Combine
 import FirebaseAnalytics
@@ -114,27 +114,32 @@ final class MainListVC: CommonViewController {
     private func rxBind() {
         viewModel.stations
             .map { !$0.isEmpty }
-            .bind(to: noneView.rx.isHidden)
-            .disposed(by: rx.disposeBag)
+            .assign(to: \.isHidden, on: noneView)
+            .store(in: &viewModel.cancelBag)
+        
         viewModel.stations
-            .bind(with: self, onNext: { owner, stations in
+            .sink { [weak self] stations in
+                guard let owner = self else { return }
                 owner.performDataSnapshot(stations: stations)
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         infoView.priceSortedButton
-            .rx
-            .tap
-            .bind(with: self, onNext: { owner, _ in
+            .tapPublisher
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.sortButtonTapped(btn: nil)
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         infoView.distanceSortedButton
-            .rx
-            .tap
-            .bind(with: self, onNext: { owner, _ in
+            .tapPublisher
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.sortButtonTapped(btn: nil)
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         DefaultData.shared.completedRelay
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -150,7 +155,7 @@ final class MainListVC: CommonViewController {
                                                             object: nil,
                                                             queue: .main) { [weak self] noti in
             guard let stations = noti.userInfo?["stations"] as? [GasStation] else { return }
-            self?.viewModel.stations.onNext(stations)
+            self?.viewModel.stations.send(stations)
         }
         
         infoView.priceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
@@ -213,7 +218,7 @@ extension MainListVC {
 
 extension MainListVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let stations = try? viewModel.stations.value() else { return }
+        let stations = viewModel.stations.value
         
         delegate?.touchedCell(info: stations[indexPath.item])
         navigationController?.popViewController(animated: true)

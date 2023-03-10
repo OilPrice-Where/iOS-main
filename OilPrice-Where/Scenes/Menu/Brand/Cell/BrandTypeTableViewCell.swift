@@ -7,12 +7,15 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
-import NSObject_Rx
+import Combine
+import CombineCocoa
+import SwiftUI
+
 //MARK: 탐색 브랜드 Cell
 final class BrandTypeTableViewCell: UITableViewCell {
     // Properties
+    @Published var name = ""
+    private var viewModel = FindBrandViewModel()
     private let brandTypeLable = UILabel().then {
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 17)
@@ -26,6 +29,7 @@ final class BrandTypeTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         makeUI()
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -35,39 +39,8 @@ final class BrandTypeTableViewCell: UITableViewCell {
     // Configure Data
     func fetchData(brand name: String) {
         // 검색할 브랜드 이름
-        brandTypeLable.text = name
-        
-        DefaultData.shared.brandsSubject
-            .map { $0.contains(Preferences.brand(name: name)) }
-            .bind(to: brandSelectedSwitch.rx.isOn)
-            .disposed(by: rx.disposeBag)
-        
-        guard name != "전체" else {
-            brandSelectedSwitch.isUserInteractionEnabled = !brandSelectedSwitch.isOn
-            
-            DefaultData.shared.brandsSubject
-                .map { $0.count == 10 }
-                .bind(to: brandSelectedSwitch.rx.isOn)
-                .disposed(by: rx.disposeBag)
-            
-            return
-        }
-        
-        brandSelectedSwitch.rx.isOn
-            .subscribe(onNext: {
-                var brands = DefaultData.shared.brandsSubject.value
-                
-                let code = Preferences.brand(name: name)
-                
-                if $0 {
-                    if !brands.contains(code) { brands.append(code) }
-                } else {
-                    brands = brands.filter { $0 != code }
-                }
-                
-                DefaultData.shared.brandsSubject.accept(brands)
-            })
-            .disposed(by: rx.disposeBag)
+        self.name = name
+        self.brandTypeLable.text = name
     }
     
     // Set UI
@@ -89,5 +62,48 @@ final class BrandTypeTableViewCell: UITableViewCell {
             $0.centerY.equalToSuperview()
         }
         
+    }
+    
+    private func bind() {
+        $name
+            .sink { [weak self] brandName in
+                guard brandName != "전체" else { return }
+                
+                let brands = DefaultData.shared.brandsSubject.value
+                let isContains = brands.contains(Preferences.brand(name: brandName))
+                self?.brandSelectedSwitch.isOn = isContains
+            }
+            .store(in: &viewModel.cancelBag)
+        
+        DefaultData.shared.brandsSubject
+            .sink { [weak self] brands in
+                guard let owner = self, owner.name == "전체" else { return }
+                owner.brandSelectedSwitch.isOn = brands.count == 10
+            }
+            .store(in: &viewModel.cancelBag)
+        
+        
+        brandSelectedSwitch
+            .isOnPublisher
+            .sink { [weak self] isOn in
+                guard let owner = self, !owner.name.isEmpty else { return }
+                
+                var brands = DefaultData.shared.brandsSubject.value
+                
+                let code = Preferences.brand(name: owner.name)
+                
+                if isOn {
+                    if !brands.contains(code) { brands.append(code) }
+                } else {
+                    brands = brands.filter { $0 != code }
+                }
+                
+                if owner.name == "전체" {
+                    DefaultData.shared.brandsSubject.send(isOn ? owner.viewModel.allBrands : [])
+                } else {
+                    DefaultData.shared.brandsSubject.send(brands)
+                }
+            }
+            .store(in: &viewModel.cancelBag)
     }
 }

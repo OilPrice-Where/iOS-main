@@ -7,8 +7,9 @@
 //
 
 import NMapsMap
+
 //MARK: Naver Map Marker View
-class NaverMapMarker: NMFMarker {
+final class NaverMapMarker: NMFMarker {
     //MARK: - Properties
     private var brand: String?
     private var title: String? // 클릭시 뜨는 말풍선
@@ -41,7 +42,7 @@ class NaverMapMarker: NMFMarker {
 }
 
 //MARK: 지도에서 실질적으로 표시 되는 뷰
-class CustomAnnotationView: UIView {
+final class CustomAnnotationView: UIView {
     enum MarkerType {
         case selected
         case low

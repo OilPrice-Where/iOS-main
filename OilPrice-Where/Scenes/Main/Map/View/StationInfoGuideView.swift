@@ -6,10 +6,10 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Then
 import SnapKit
 import UIKit
+
 //MARK: StationInfo의 길 안내 & 즐겨찾기
 final class StationInfoGuideView: UIView {
     //MARK: - Properties

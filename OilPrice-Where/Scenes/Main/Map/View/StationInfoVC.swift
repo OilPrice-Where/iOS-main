@@ -6,13 +6,11 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Then
 import SnapKit
 import UIKit
-import RxSwift
-import RxCocoa
 import Toast
+
 //MARK: MapView에 주유소 정보 VC
 final class StationInfoVC: CommonViewController {
     //MARK: - Properties

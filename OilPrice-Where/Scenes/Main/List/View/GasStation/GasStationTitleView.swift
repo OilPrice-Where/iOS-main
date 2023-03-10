@@ -9,6 +9,7 @@
 import Then
 import SnapKit
 import UIKit
+
 //MARK: GasStationCell의 Title 정보
 final class GasStationTitleView: UIStackView {
     // Properties

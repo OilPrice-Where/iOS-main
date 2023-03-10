@@ -70,7 +70,7 @@ final class SelectedBrandTableViewCell: UITableViewCell {
                     .sink { isOn in
                         guard !owner.isLauchSetting else {
                             cell.brandSelectedSwitch.isOn = isOn
-                            DefaultData.shared.brandsSubject.accept(isOn ? owner.viewModel.allBrands : [])
+                            DefaultData.shared.brandsSubject.send(isOn ? owner.viewModel.allBrands : [])
                             return
                         }
                         

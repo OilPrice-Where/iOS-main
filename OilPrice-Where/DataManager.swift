@@ -8,8 +8,6 @@
 
 import Foundation
 import CoreData
-import RxSwift
-import RxRelay
 import Combine
 
 class DataManager {
@@ -20,15 +18,13 @@ class DataManager {
         return persistentContainer.viewContext
     }
     
-    var stationListIsNotEmpty = PublishSubject<Bool>()
     var stationListIsEmpty = PassthroughSubject<Bool, Never>()
     @Published var poisIsNotEmpty = false
-    var stationListRelay = BehaviorRelay<[Station]>(value: [])
+    var stationListRelay = CurrentValueSubject<[Station], Never>([])
     var stationList = [Station]() {
         didSet {
-            stationListIsNotEmpty.onNext(!stationList.isEmpty)
             stationListIsEmpty.send(stationList.isEmpty)
-            stationListRelay.accept(stationList)
+            stationListRelay.send(stationList)
         }
     }
     var cardList = [Card]()

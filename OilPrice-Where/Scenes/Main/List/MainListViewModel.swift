@@ -7,20 +7,18 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
 import Combine
+
 //MARK: MainListViewModel
 final class MainListViewModel {
     //MARK: - Properties
-    let bag = DisposeBag()
     var cancelBag = Set<AnyCancellable>()
-    var stations: BehaviorSubject<[GasStation]>
+    var stations: CurrentValueSubject<[GasStation], Never>
     var isSortedByPrice = true
     
     //MARK: Initializer
     init(stations: [GasStation]) {
-        self.stations = BehaviorSubject<[GasStation]>(value: stations)
+        self.stations = CurrentValueSubject<[GasStation], Never>(stations)
     }
 }
 
@@ -34,13 +32,9 @@ extension MainListViewModel {
 //MARK: - Method
 extension MainListViewModel {
     func sortedList(isPrice: Bool) {
-        do {
-            let value = try stations.value()
-            isSortedByPrice = isPrice
-            let sortedStations = isPrice ? value.sorted(by: { $0.price < $1.price }) : value.sorted(by: { $0.distance < $1.distance })
-            stations.onNext(sortedStations)
-        } catch {
-            LogUtil.e(error.localizedDescription)
-        }
+        let value = stations.value
+        isSortedByPrice = isPrice
+        let sortedStations = isPrice ? value.sorted(by: { $0.price < $1.price }) : value.sorted(by: { $0.distance < $1.distance })
+        stations.send(sortedStations)
     }
 }

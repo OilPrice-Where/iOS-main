@@ -67,6 +67,6 @@ extension InitialViewModel {
     
     func okAction(oil: Int, navi: Int) {
         DefaultData.shared.oilSubject.send(select(oil: oil))
-        DefaultData.shared.naviSubject.accept(select(navi: navi))
+        DefaultData.shared.naviSubject.send(select(navi: navi))
     }
 }

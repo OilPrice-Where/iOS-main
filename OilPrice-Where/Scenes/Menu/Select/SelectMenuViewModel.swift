@@ -104,12 +104,12 @@ extension SelectMenuViewModel {
     private func fetchUpdated(title: String) {
         switch type {
         case .navigation:
-            DefaultData.shared.naviSubject.accept(Preferences.navigation(name: title))
+            DefaultData.shared.naviSubject.send(Preferences.navigation(name: title))
         case .oilType:
             DefaultData.shared.oilSubject.send(Preferences.oil(name: title))
         case .background:
             let isOn = "켜기" == title
-            DefaultData.shared.backgroundFindSubject.accept(isOn)
+            DefaultData.shared.backgroundFindSubject.send(isOn)
             
             if #available(iOS 16.1, *) {
                 if isOn, !(ActivityManager.shared.activity?.activityState == .active) {

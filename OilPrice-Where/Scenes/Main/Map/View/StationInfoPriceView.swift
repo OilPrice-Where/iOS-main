@@ -6,10 +6,10 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Then
 import SnapKit
 import UIKit
+
 //MARK: StationInfoView 내부 가격 및 유종 표시
 final class StationInfoPriceView: UIStackView {
     //MARK: - Properties

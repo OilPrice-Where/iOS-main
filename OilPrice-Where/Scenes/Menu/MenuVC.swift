@@ -9,8 +9,6 @@
 import Then
 import SnapKit
 import UIKit
-import RxSwift
-import RxCocoa
 import Combine
 import CombineCocoa
 import Firebase
@@ -149,9 +147,8 @@ final class MenuVC: CommonViewController {
     func bind() {
         DefaultData.shared.naviSubject
             .map { Preferences.navigation(type: $0) }
-            .asDriver(onErrorJustReturn: "")
-            .drive(navigationView.valueLabel.rx.text)
-            .disposed(by: bag)
+            .assign(to: \.text, on: navigationView.valueLabel)
+            .store(in: &viewModel.cancelBag)
         
         DefaultData.shared.oilSubject
             .map { Preferences.oil(code: $0) }
@@ -160,9 +157,8 @@ final class MenuVC: CommonViewController {
         
         DefaultData.shared.backgroundFindSubject
             .map { $0 ? "켜짐" : "꺼짐" }
-            .asDriver(onErrorJustReturn: "")
-            .drive(backgroundFindView.valueLabel.rx.text)
-            .disposed(by: bag)
+            .assign(to: \.text, on: backgroundFindView.valueLabel)
+            .store(in: &viewModel.cancelBag)
         
         // 내비게이션
         navigationView

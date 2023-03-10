@@ -41,11 +41,11 @@ final class FindBrandVC: UIViewController, ViewModelBindableType {
                 guard let owner = self else { return }
                 
                 cell.fetchData(brand: brand)
+                
                 guard brand != "전체" else {
                     cell.brandSelectedSwitch
                         .isOnPublisher
                         .sink { isOn in
-                            DefaultData.shared.brandsSubject.accept(isOn ? owner.viewModel.allBrands : [])
                             owner.isAllSwitchButton.send(isOn)
                         }
                         .store(in: &owner.viewModel.cancelBag)

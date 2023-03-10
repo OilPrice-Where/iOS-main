@@ -8,26 +8,22 @@
 
 import Foundation
 import CoreLocation
-import RxSwift
-import RxCocoa
+import Combine
 import Moya
 import NMapsMap
-import NSObject_Rx
 import FloatingPanel
-import Combine
 
 import Firebase
 //MARK: MainViewModel
 final class MainViewModel {
     //MARK: - Properties
     var cancelBag = Set<AnyCancellable>()
-    let bag = DisposeBag()
     let input = Input()
     let output = Output()
     let staionProvider = MoyaProvider<StationAPI>()
-    var stations = [GasStation]() { didSet { output.staionResult.accept(()) } }
+    var stations = [GasStation]() { didSet { output.staionResult.send(nil) } }
     var requestLocation: CLLocation? = nil { didSet { addressUpdate() } }
-    var selectedStation: GasStation? = nil { didSet { output.selectedStation.accept(()) } }
+    var selectedStation: GasStation? = nil { didSet { output.selectedStation.send(nil) } }
     var addressString: String?
     var cameraPosition: NMFCameraPosition?
     var beforeNAfter: (before: FloatingPanelState, after: FloatingPanelState) = (.hidden, .hidden)
@@ -41,10 +37,11 @@ final class MainViewModel {
     //MARK: - Rx Binding ..
     func rxBind() {        
         input.requestStaions
-            .bind(with: self, onNext: { owner, _ in
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.requestSearch()
-            })
-            .disposed(by: bag)
+            }
+            .store(in: &cancelBag)
         
         DefaultData.shared.completedRelay
             .sink { [weak self] key in
@@ -68,14 +65,14 @@ extension MainViewModel {
     }
     
     struct Input {
-        let requestStaions = PublishRelay<Void?>() // <= 검색
+        let requestStaions = PassthroughSubject<Void?, Never>() // <= 검색
     }
     
     struct Output {
-        let error = PublishRelay<ErrorResult>() // => Error
-        let staionResult = PublishRelay<Void>() // => 검색 결과
-        let selectedStation = PublishRelay<Void>() // => 주유소 선택
-        let deviceOrientation = PublishRelay<Void>() // => g
+        let error = PassthroughSubject<ErrorResult, Never>() // => Error
+        let staionResult = PassthroughSubject<Void?, Never>() // => 검색 결과
+        let selectedStation = PassthroughSubject<Void?, Never>() // => 주유소 선택
+        let deviceOrientation = PassthroughSubject<Void?, Never>() // => g
     }
 }
 
@@ -121,7 +118,7 @@ extension MainViewModel {
             switch result {
             case .success(let response):
                 guard let list = try? response.map(OilList.self) else {
-                    self.output.error.accept(.stationList)
+                    self.output.error.send(.stationList)
                     return
                 }
                 
@@ -140,7 +137,7 @@ extension MainViewModel {
                 self.stations = target
             case .failure(let error):
                 LogUtil.e(error.localizedDescription)
-                self.output.error.accept(.requestStation)
+                self.output.error.send(.requestStation)
             }
         }
     }

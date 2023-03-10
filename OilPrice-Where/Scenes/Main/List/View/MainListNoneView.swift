@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Then
+import SnapKit
+
 //MARK: List가 없을 때 표시하는 View
 final class MainListNoneView: UIView {
     //MARK: - Properties

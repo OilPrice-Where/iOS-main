@@ -8,8 +8,8 @@
 
 import CoreLocation
 import UIKit
-import RxSwift
-import RxCocoa
+import Combine
+import CombineCocoa
 import NMapsMap
 import SideMenu
 import Firebase
@@ -140,7 +140,7 @@ final class MainVC: CommonViewController {
             
             self?.viewModel.isLiveActivities = true
             self?.viewModel.requestLocation = location
-            self?.viewModel.input.requestStaions.accept(nil)
+            self?.viewModel.input.requestStaions.send(nil)
         }
         
         DefaultData.shared.completedRelay
@@ -158,95 +158,98 @@ final class MainVC: CommonViewController {
             }
             .store(in: &viewModel.cancelBag)
         
-        LocationManager.shared.locationManager?
-            .rx
-            .didUpdateLocations
-            .compactMap { $0.last }
-            .subscribe(with: self, onNext: { owner, location in
-                LocationManager.shared.currentLocation = location
+        LocationManager.shared.$currentLocation
+            .compactMap { $0 }
+            .sink { [weak self] currentLocation in
+                guard let owner = self,
+                      owner.viewModel.requestLocation == nil else { return }
                 
-                guard let _ = owner.viewModel.requestLocation else {
-                    owner.mapContainerView.moveMap(with: location.coordinate)
-                    owner.viewModel.requestLocation = location
-                    owner.viewModel.input.requestStaions.accept(nil)
-                    return
-                }
-            })
-            .disposed(by: rx.disposeBag)
+                owner.mapContainerView.moveMap(with: currentLocation.coordinate)
+                owner.viewModel.requestLocation = currentLocation
+                owner.viewModel.input.requestStaions.send(nil)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         // menuButton Tapped
         mapContainerView
             .searchView
             .menuButton
-            .rx
-            .tap
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, _ in
+            .tapPublisher
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.showSideMenu()
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         // toListButton Tapped
         mapContainerView
             .searchView
             .listButton
-            .rx
-            .tap
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, _ in
+            .tapPublisher
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.toListTapped()
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         // researchStation Tapped
         mapContainerView
             .researchButton
-            .rx
-            .tap
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, _ in
+            .tapPublisher
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.researchStation()
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         // toFavoriteButton Tapped
         mapContainerView
             .toFavoriteButton
-            .rx
-            .tap
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, _ in
+            .tapPublisher
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.toFavoriteTapped()
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         // favoriteButton Tapped
         guideView
             .favoriteButton
-            .rx
-            .tap
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, _ in
+            .tapPublisher
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.touchedFavoriteButton()
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         // directionButton Tapped
         guideView
             .directionButton
-            .rx
-            .tap
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, _ in
+            .tapPublisher
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.toNavigationTapped()
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         mapContainerView
             .currentLocationButton
-            .rx
-            .tap
+            .tapPublisher
             .compactMap { LocationManager.shared.currentLocation }
-            .bind(to: mapContainerView.mapView.rx.center)
-            .disposed(by: rx.disposeBag)
-        
+            .sink { [weak self] currentLocation  in
+                guard let owner = self else { return }
+                
+                let coordinate = currentLocation.coordinate
+                let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
+                let updated = NMFCameraUpdate(scrollTo: latLng)
+                updated.animation = .easeOut
+                owner.mapContainerView.mapView.moveCamera(updated)
+            }
+            .store(in: &viewModel.cancelBag)
         
         viewModel.output.staionResult
-            .observe(on: MainScheduler.asyncInstance)
-            .bind(with: self, onNext: { owner, _ in
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.circle?.mapView = nil
                 owner.circle = owner.makeRadiusCircle(location: owner.viewModel.requestLocation)
                 owner.circle?.mapView = owner.mapContainerView.mapView
@@ -280,14 +283,16 @@ final class MainVC: CommonViewController {
                 owner.mapContainerView.researchButton.snp.updateConstraints {
                     $0.top.equalTo(owner.view.safeAreaLayoutGuide)
                 }
-            })
-            .disposed(by: viewModel.bag)
+            }
+            .store(in: &viewModel.cancelBag)
+        
         // 즐겨찾기 목록의 StationID 값과 StationView의 StationID값이 동일 하면 선택 상태로 변경
         viewModel.output.selectedStation
-            .subscribe(with: self, onNext: { owner, _ in
+            .sink { [weak self] _ in
+                guard let owner = self else { return }
                 owner.updateFavoriteUI()
-            })
-            .disposed(by: rx.disposeBag)
+            }
+            .store(in: &viewModel.cancelBag)
     }
     
     //MARK: - Override Method
@@ -295,7 +300,7 @@ final class MainVC: CommonViewController {
         super.setNetworkSetting()
         
         reachability?.whenReachable = { [weak self] _ in
-            self?.viewModel.input.requestStaions.accept(nil)
+            self?.viewModel.input.requestStaions.send(nil)
         }
         
         reachability?.whenUnreachable = { [weak self] _ in
@@ -352,7 +357,7 @@ final class MainVC: CommonViewController {
         viewModel.selectedStation = nil
         reset()
         mapContainerView.resetInfoWindows()
-        viewModel.input.requestStaions.accept(nil)
+        viewModel.input.requestStaions.send(nil)
         viewModel.cameraPosition = nil
         
         fpc.move(to: .hidden, animated: false) { [weak self] in
