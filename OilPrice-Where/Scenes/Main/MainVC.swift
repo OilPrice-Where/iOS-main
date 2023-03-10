@@ -144,6 +144,7 @@ final class MainVC: CommonViewController {
         }
         
         DefaultData.shared.completedRelay
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] key in
                 guard let owner = self,
                       !(key == "Favorites" || key == "LocalFavorites") else {
@@ -164,9 +165,12 @@ final class MainVC: CommonViewController {
                 guard let owner = self,
                       owner.viewModel.requestLocation == nil else { return }
                 
-                owner.mapContainerView.moveMap(with: currentLocation.coordinate)
                 owner.viewModel.requestLocation = currentLocation
                 owner.viewModel.input.requestStaions.send(nil)
+                
+                DispatchQueue.main.async {
+                    owner.mapContainerView.moveMap(with: currentLocation.coordinate)
+                }
             }
             .store(in: &viewModel.cancelBag)
         
@@ -175,6 +179,7 @@ final class MainVC: CommonViewController {
             .searchView
             .menuButton
             .tapPublisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.showSideMenu()
@@ -186,6 +191,7 @@ final class MainVC: CommonViewController {
             .searchView
             .listButton
             .tapPublisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.toListTapped()
@@ -196,6 +202,7 @@ final class MainVC: CommonViewController {
         mapContainerView
             .researchButton
             .tapPublisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.researchStation()
@@ -206,6 +213,7 @@ final class MainVC: CommonViewController {
         mapContainerView
             .toFavoriteButton
             .tapPublisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.toFavoriteTapped()
@@ -216,6 +224,7 @@ final class MainVC: CommonViewController {
         guideView
             .favoriteButton
             .tapPublisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.touchedFavoriteButton()
@@ -226,6 +235,7 @@ final class MainVC: CommonViewController {
         guideView
             .directionButton
             .tapPublisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.toNavigationTapped()
@@ -243,7 +253,10 @@ final class MainVC: CommonViewController {
                 let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
                 let updated = NMFCameraUpdate(scrollTo: latLng)
                 updated.animation = .easeOut
-                owner.mapContainerView.mapView.moveCamera(updated)
+                
+                DispatchQueue.main.async {
+                    owner.mapContainerView.mapView.moveCamera(updated)
+                }
             }
             .store(in: &viewModel.cancelBag)
         
@@ -288,6 +301,7 @@ final class MainVC: CommonViewController {
         
         // 즐겨찾기 목록의 StationID 값과 StationView의 StationID값이 동일 하면 선택 상태로 변경
         viewModel.output.selectedStation
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.updateFavoriteUI()

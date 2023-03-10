@@ -66,6 +66,7 @@ final class BrandTypeTableViewCell: UITableViewCell {
     
     private func bind() {
         $name
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] brandName in
                 guard brandName != "전체" else { return }
                 
@@ -76,6 +77,7 @@ final class BrandTypeTableViewCell: UITableViewCell {
             .store(in: &viewModel.cancelBag)
         
         DefaultData.shared.brandsSubject
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] brands in
                 guard let owner = self, owner.name == "전체" else { return }
                 owner.brandSelectedSwitch.isOn = brands.count == 10

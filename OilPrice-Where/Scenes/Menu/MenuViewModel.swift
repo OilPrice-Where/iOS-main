@@ -55,13 +55,9 @@ extension MenuViewModel {
             switch type {
             case .findBrand:
                 var brandVC = FindBrandVC()
-                let viewModel = FindBrandViewModel()
-                brandVC.bind(viewModel: viewModel)
                 vc = brandVC
             case .cardSale:
                 var saleVC = SettingEditSalePriceVC()
-                let viewModel = EditSalePriceViewModel()
-                saleVC.bind(viewModel: viewModel)
                 vc = saleVC
             case .history:
                 let historiesVC = HistoriesVC()

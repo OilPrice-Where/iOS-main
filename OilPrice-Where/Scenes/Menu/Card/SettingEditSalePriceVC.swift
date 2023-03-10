@@ -9,9 +9,9 @@
 import UIKit
 
 //MARK: 카드 할인 VC
-final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
+final class SettingEditSalePriceVC: CommonViewController {
     //MARK: - Properties
-    var viewModel: EditSalePriceViewModel!
+    var viewModel = EditSalePriceViewModel()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
         $0.delegate = self
         $0.dataSource = self
@@ -30,11 +30,6 @@ final class SettingEditSalePriceVC: UIViewController, ViewModelBindableType {
         
         prefences()
         makeUI()
-    }
-    
-    //MARK: - Rx Binding..
-    func bindViewModel() {
-        
     }
     
     //MARK: - Set UI

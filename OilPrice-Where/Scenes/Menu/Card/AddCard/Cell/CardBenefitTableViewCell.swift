@@ -98,6 +98,7 @@ class CardBenefitTableViewCell: UITableViewCell {
         segmentControl
             .selectedSegmentIndexPublisher
             .map { $0 == 0 ? true : false }
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] isSelect in
                 guard let owner = self else { return }
                 

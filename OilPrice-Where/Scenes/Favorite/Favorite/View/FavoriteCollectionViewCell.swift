@@ -196,6 +196,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     //MARK: - Rx Binding ..
     func bindViewModel() {
         viewModel.isLoadingSubject
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoad in
                 guard let owner = self else { return }
                 isLoad ? owner.loadingView.activityIndicator.startAnimating() : owner.loadingView.activityIndicator.stopAnimating()
@@ -236,6 +237,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         // 주소 복사
         addressHStackView.valueLabel
             .gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self,
                       let valueString = owner.addressHStackView.valueLabel.text else { return }
@@ -255,6 +257,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         // 전화 걸기
         phoneNumberHStackView.valueLabel
             .gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self,
                       let valueString = owner.phoneNumberHStackView.valueLabel.text,
@@ -280,6 +283,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         // 길 찾기
         navigationView
             .gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
 
@@ -301,6 +305,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         deleteFavoriteButton
             .tapPublisher
             .throttle(for: .milliseconds(500), scheduler: DispatchQueue.main, latest: true)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
 
@@ -325,6 +330,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             .store(in: &viewModel.cancelBag)
         
         viewModel.infoSubject.combineLatest(DefaultData.shared.oilSubject)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] station, title in
                 guard let owner = self else { return }
                 owner.oilPriceLabel.text = owner.viewModel.displayPriceInfomation(priceList: station?.price)

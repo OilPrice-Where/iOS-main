@@ -103,6 +103,7 @@ final class SelectMenuVC: CommonViewController {
         
         selectMenuView.laterButton
             .tapPublisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.dismiss(animated: false)
@@ -115,6 +116,7 @@ final class SelectMenuVC: CommonViewController {
                 self?.selectMenuView.collectionView.cellForItem(at: indexPath) as? SelectMenuCollectionViewCell
             }
             .compactMap { $0?.titleLabel.text }
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] title in
                 guard let owner = self else { return }
                 
@@ -157,6 +159,7 @@ final class SelectMenuVC: CommonViewController {
         
         backgroundView
             .gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.dismiss(animated: false)
@@ -166,6 +169,7 @@ final class SelectMenuVC: CommonViewController {
         viewModel
             .output
             .fetchSelect
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] idx in
                 guard let owner = self else { return }
                 owner.selectMenuView.collectionView.selectItem(at: IndexPath(item: idx, section: 0), animated: false, scrollPosition: .top)

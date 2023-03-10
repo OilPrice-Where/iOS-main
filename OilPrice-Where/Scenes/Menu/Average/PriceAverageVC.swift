@@ -15,9 +15,8 @@ import CombineCocoa
 import Firebase
 
 //MARK: 전국 평균가
-final class PriceAverageVC: UIViewController {
+final class PriceAverageVC: CommonViewController {
     //MARK: - Properties
-    var cancelBag = Set<AnyCancellable>()
     let firebaseUtility = FirebaseUtility()
     // Background
     let containerView = UIView().then {
@@ -180,6 +179,7 @@ final class PriceAverageVC: UIViewController {
     func bind() {
         backgroundView
             .gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.dismiss(animated: false)
@@ -188,6 +188,7 @@ final class PriceAverageVC: UIViewController {
         
         closeButton
             .tapPublisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.dismiss(animated: false)

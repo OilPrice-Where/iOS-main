@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 //MARK: SettingAboutUsVC
-final class SettingAboutUsVC: UIViewController {
+final class SettingAboutUsVC: CommonViewController {
     enum SelectGitCell: Int {
         case wargi = 0
         case himchan = 1

@@ -11,9 +11,9 @@ import Combine
 import CombineCocoa
 import CombineDataSources
 //MARK: 탐색 브랜드 VC
-final class FindBrandVC: UIViewController, ViewModelBindableType {
+final class FindBrandVC: CommonViewController {
     //MARK: - Properties
-    var viewModel: FindBrandViewModel!
+    var viewModel = FindBrandViewModel()
     private var isAllSwitchButton = PassthroughSubject<Bool, Never>()
     private var isLauchSetting = false
     private lazy var tableView = UITableView().then {
@@ -30,10 +30,11 @@ final class FindBrandVC: UIViewController, ViewModelBindableType {
         super.viewDidLoad()
         
         makeUI()
+        bind()
     }
     
-    //MARK: - Rx Binding ..
-    func bindViewModel() {
+    //MARK: - Binding ..
+    func bind() {
         viewModel.brandSubject
             .bind(subscriber: tableView.rowsSubscriber(cellIdentifier: BrandTypeTableViewCell.id,
                                                        cellType: BrandTypeTableViewCell.self,
@@ -43,6 +44,7 @@ final class FindBrandVC: UIViewController, ViewModelBindableType {
                 cell.fetchData(brand: brand)
                 
                 guard brand != "전체" else {
+                    cell.brandSelectedSwitch.isOn = DefaultData.shared.brandsSubject.value.count == 10
                     cell.brandSelectedSwitch
                         .isOnPublisher
                         .sink { isOn in
@@ -54,6 +56,7 @@ final class FindBrandVC: UIViewController, ViewModelBindableType {
                 }
                 
                 owner.isAllSwitchButton
+                    .receive(on: DispatchQueue.main)
                     .sink { isOn in
                         guard !owner.isLauchSetting else {
                             cell.brandSelectedSwitch.isOn = isOn

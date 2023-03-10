@@ -118,6 +118,7 @@ final class MainListVC: CommonViewController {
             .store(in: &viewModel.cancelBag)
         
         viewModel.stations
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] stations in
                 guard let owner = self else { return }
                 owner.performDataSnapshot(stations: stations)
@@ -126,6 +127,7 @@ final class MainListVC: CommonViewController {
         
         infoView.priceSortedButton
             .tapPublisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.sortButtonTapped(btn: nil)
@@ -134,6 +136,7 @@ final class MainListVC: CommonViewController {
         
         infoView.distanceSortedButton
             .tapPublisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.sortButtonTapped(btn: nil)

@@ -11,7 +11,7 @@ import SnapKit
 import UIKit
 
 //MARK: 카드 추가 VC
-final class AddCardVC: UIViewController {
+final class AddCardVC: CommonViewController {
     //MARK: - Properties
     private lazy var tableView = UITableView().then {
         $0.delegate = self

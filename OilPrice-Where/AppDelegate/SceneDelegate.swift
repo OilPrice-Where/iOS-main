@@ -68,9 +68,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let mainNavigationVC = UINavigationController(rootViewController: mainVC)
             return mainNavigationVC
         } else {
-            let vc = InitialSettingVC()
-            vc.viewModel = InitialViewModel()
-            
+            let vc = InitialSettingVC()            
             return vc
         }
     }

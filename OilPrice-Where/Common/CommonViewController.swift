@@ -31,6 +31,16 @@ class CommonViewController: UIViewController {
         reachability = nil
     }
     
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
+        LogUtil.d(self)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func setNetworkSetting() {
         do {
             try reachability?.startNotifier()

@@ -14,7 +14,7 @@ import SnapKit
 final class InitialSettingVC: CommonViewController {
     //MARK: - Properties
     typealias selectTypes = (oil: Int, navi: Int)
-    var viewModel: InitialViewModel!
+    var viewModel = InitialViewModel()
     private let selectTypeView = SelectTypeView()
     
     //MARK: - Life Cycle
@@ -54,6 +54,7 @@ final class InitialSettingVC: CommonViewController {
                 
                 return (oil: oilIdx, navi: naviIdx)
             }
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 

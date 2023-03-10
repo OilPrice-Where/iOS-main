@@ -18,7 +18,7 @@ protocol SearchBarDelegate: AnyObject {
 }
 
 //MARK: SearchBarVC
-final class SearchBarVC: UIViewController {
+final class SearchBarVC: CommonViewController {
     //MARK: - Properties
     enum Section {
         case search

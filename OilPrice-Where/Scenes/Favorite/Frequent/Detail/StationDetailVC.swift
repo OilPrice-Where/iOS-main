@@ -297,6 +297,7 @@ final class StationDetailVC: CommonViewController {
         expandView
             .favoriteButton
             .tapPublisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.touchedFavoriteButton()
@@ -307,6 +308,7 @@ final class StationDetailVC: CommonViewController {
         expandView
             .directionView
             .gesture()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.toNavigationTapped()
@@ -316,6 +318,7 @@ final class StationDetailVC: CommonViewController {
         viewModel
             .output
             .infoSubject
+            .receive(on: DispatchQueue.main)
             .compactMap { $0 }
             .sink { [weak self] station in
                 guard let owner = self else { return }

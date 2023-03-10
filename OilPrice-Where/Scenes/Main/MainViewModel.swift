@@ -37,6 +37,7 @@ final class MainViewModel {
     //MARK: - Rx Binding ..
     func rxBind() {        
         input.requestStaions
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.requestSearch()
@@ -44,6 +45,7 @@ final class MainViewModel {
             .store(in: &cancelBag)
         
         DefaultData.shared.completedRelay
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] key in
                 guard let owner = self,
                       !(key == "Favorites" || key == "LocalFavorites") else {

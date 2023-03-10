@@ -68,6 +68,7 @@ final class FrequentVisitVC: CommonViewController {
             .store(in: &viewModel.cancelBag)
         
         DefaultData.shared.completedRelay
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.collectionView.reloadData()
@@ -76,6 +77,7 @@ final class FrequentVisitVC: CommonViewController {
         
         collectionView
             .didSelectItemPublisher
+            .receive(on: DispatchQueue.main)
             .map { [weak self] indexPath in
                 self?.collectionView.cellForItem(at: indexPath) as? FrequentVisitCollectionViewCell
             }
