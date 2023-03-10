@@ -257,7 +257,7 @@ final class MenuVC: CommonViewController {
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 let alert = UIAlertController(title: "🎉오픈 예정🎉",
-                                              message: "3월 중에 오픈 예정입니다 :)\n많은 관심 부탁드립니다 😉",
+                                              message: "4월 중에 오픈 예정입니다 :)\n많은 관심 부탁드립니다 😉",
                                               preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "확인", style: .default)
                 alert.addAction(okAction)

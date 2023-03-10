@@ -43,6 +43,7 @@ final class FindBrandVC: UIViewController, ViewModelBindableType {
                 cell.fetchData(brand: brand)
                 
                 guard brand != "전체" else {
+                    cell.brandSelectedSwitch.isOn = DefaultData.shared.brandsSubject.value.count == 10
                     cell.brandSelectedSwitch
                         .isOnPublisher
                         .sink { isOn in

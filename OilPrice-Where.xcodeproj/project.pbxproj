@@ -106,8 +106,6 @@
 		E9633A8627FA0B5800B99E66 /* SelectMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9633A8527FA0B5800B99E66 /* SelectMenuVC.swift */; };
 		E9633A8A27FA0BCB00B99E66 /* SelectMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9633A8927FA0BCB00B99E66 /* SelectMenuViewModel.swift */; };
 		E9633A8C27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9633A8B27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift */; };
-		E9689E50290EE2AA00DA23AD /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E9689E4F290EE2AA00DA23AD /* RxCocoa */; };
-		E9689E52290EE2AA00DA23AD /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E9689E51290EE2AA00DA23AD /* RxSwift */; };
 		E9689E61290EE38800DA23AD /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E9689E60290EE38800DA23AD /* CombineCocoa */; };
 		E9689E64290EE3C300DA23AD /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E9689E63290EE3C300DA23AD /* Then */; };
 		E9689E67290EE3E900DA23AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E9689E66290EE3E900DA23AD /* SnapKit */; };
@@ -364,7 +362,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9689E50290EE2AA00DA23AD /* RxCocoa in Frameworks */,
 				E9E0630F292024D500715F66 /* TMapSDK.framework in Frameworks */,
 				E99A7EDC29BBBFB000BFCBC9 /* CombineDataSources in Frameworks */,
 				E9689E67290EE3E900DA23AD /* SnapKit in Frameworks */,
@@ -380,7 +377,6 @@
 				E9E2A289290EE15600B91765 /* KakaoSDKNavi in Frameworks */,
 				E9689E70290EE47700DA23AD /* FloatingPanel in Frameworks */,
 				E9689E61290EE38800DA23AD /* CombineCocoa in Frameworks */,
-				E9689E52290EE2AA00DA23AD /* RxSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -990,8 +986,6 @@
 				E9E2A286290EE15600B91765 /* KakaoSDK */,
 				E9E2A288290EE15600B91765 /* KakaoSDKNavi */,
 				E904CF2F290EE21B005148D9 /* Moya */,
-				E9689E4F290EE2AA00DA23AD /* RxCocoa */,
-				E9689E51290EE2AA00DA23AD /* RxSwift */,
 				E9689E60290EE38800DA23AD /* CombineCocoa */,
 				E9689E63290EE3C300DA23AD /* Then */,
 				E9689E66290EE3E900DA23AD /* SnapKit */,
@@ -1080,7 +1074,6 @@
 			packageReferences = (
 				E9E2A285290EE15600B91765 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				E904CF2E290EE21B005148D9 /* XCRemoteSwiftPackageReference "Moya" */,
-				E9689E4E290EE2AA00DA23AD /* XCRemoteSwiftPackageReference "RxSwift" */,
 				E9689E5F290EE38800DA23AD /* XCRemoteSwiftPackageReference "CombineCocoa" */,
 				E9689E62290EE3C200DA23AD /* XCRemoteSwiftPackageReference "Then" */,
 				E9689E65290EE3E900DA23AD /* XCRemoteSwiftPackageReference "SnapKit" */,
@@ -1485,7 +1478,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.9.2;
+				MARKETING_VERSION = 2.9.3;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline;
@@ -1525,7 +1518,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.9.2;
+				MARKETING_VERSION = 2.9.3;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline;
@@ -1561,7 +1554,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.9.2;
+				MARKETING_VERSION = 2.9.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
@@ -1596,7 +1589,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.9.2;
+				MARKETING_VERSION = 2.9.3;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FavoriteWidgetExtension;
@@ -1628,7 +1621,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.9.2;
+				MARKETING_VERSION = 2.9.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FindStationExtension;
@@ -1660,7 +1653,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.9.2;
+				MARKETING_VERSION = 2.9.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FindStationExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1735,14 +1728,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 9.0.0;
-			};
-		};
-		E9689E4E290EE2AA00DA23AD /* XCRemoteSwiftPackageReference "RxSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ReactiveX/RxSwift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.5.0;
 			};
 		};
 		E9689E5F290EE38800DA23AD /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
@@ -1836,16 +1821,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E94A9788290EE65B002CE7D8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
-		};
-		E9689E4F290EE2AA00DA23AD /* RxCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E9689E4E290EE2AA00DA23AD /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
-		};
-		E9689E51290EE2AA00DA23AD /* RxSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E9689E4E290EE2AA00DA23AD /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxSwift;
 		};
 		E9689E60290EE38800DA23AD /* CombineCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
