@@ -138,6 +138,7 @@
 		E99A7ED929BBBD4300BFCBC9 /* Gesture+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99A7ED829BBBD4300BFCBC9 /* Gesture+.swift */; };
 		E99A7EDC29BBBFB000BFCBC9 /* CombineDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = E99A7EDB29BBBFB000BFCBC9 /* CombineDataSources */; };
 		E9A1B17F28336A9F00B64AFA /* PriceAverageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1B17E28336A9F00B64AFA /* PriceAverageVC.swift */; };
+		E9A2467E2AF959D6000852FA /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = E9A2467D2AF959D6000852FA /* NMapsMap */; };
 		E9A3A2CB282D0E84004ED55E /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9A3A2C9282D0E84004ED55E /* DataModel.xcdatamodeld */; };
 		E9A64D542883D36600BF1737 /* CustomNavigationTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A64D532883D36600BF1737 /* CustomNavigationTitle.swift */; };
 		E9B48CF02921773E00061511 /* SupportHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B48CEE2921773900061511 /* SupportHelper.swift */; };
@@ -148,7 +149,6 @@
 		E9C3A65128421BE800AC861C /* FrequentVisitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3A65028421BE800AC861C /* FrequentVisitVC.swift */; };
 		E9C3A65328421D3A00AC861C /* FrequentVisitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3A65228421D3A00AC861C /* FrequentVisitViewModel.swift */; };
 		E9C3A656284228EB00AC861C /* FrequentVisitCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3A655284228EB00AC861C /* FrequentVisitCollectionViewCell.swift */; };
-		E9C455A5291FDD6A00A81973 /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = E9C455A4291FDD6A00A81973 /* NMapsMap */; };
 		E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */; };
 		E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */; };
 		E9D1445827CED3120055141A /* InfoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1445727CED3120055141A /* InfoListView.swift */; };
@@ -367,7 +367,6 @@
 				E94A9787290EE58C002CE7D8 /* Toast in Frameworks */,
 				E94A978E290EE65B002CE7D8 /* FirebaseStorage in Frameworks */,
 				E9689E64290EE3C300DA23AD /* Then in Frameworks */,
-				E9C455A5291FDD6A00A81973 /* NMapsMap in Frameworks */,
 				E9E2A287290EE15600B91765 /* KakaoSDK in Frameworks */,
 				E94A978A290EE65B002CE7D8 /* FirebaseAnalytics in Frameworks */,
 				E904CF30290EE21B005148D9 /* Moya in Frameworks */,
@@ -383,6 +382,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EAEB15024F41AFF00B5E6CE /* NotificationCenter.framework in Frameworks */,
+				E9A2467E2AF959D6000852FA /* NMapsMap in Frameworks */,
 				E9E2A28B290EE17E00B91765 /* KakaoSDK in Frameworks */,
 				E9E2A28D290EE17E00B91765 /* KakaoSDKNavi in Frameworks */,
 			);
@@ -992,7 +992,6 @@
 				E94A9789290EE65B002CE7D8 /* FirebaseAnalytics */,
 				E94A978B290EE65B002CE7D8 /* FirebaseDatabase */,
 				E94A978D290EE65B002CE7D8 /* FirebaseStorage */,
-				E9C455A4291FDD6A00A81973 /* NMapsMap */,
 				E99A7EDB29BBBFB000BFCBC9 /* CombineDataSources */,
 			);
 			productName = "OilPrice-Where";
@@ -1015,6 +1014,7 @@
 			packageProductDependencies = (
 				E9E2A28A290EE17E00B91765 /* KakaoSDK */,
 				E9E2A28C290EE17E00B91765 /* KakaoSDKNavi */,
+				E9A2467D2AF959D6000852FA /* NMapsMap */,
 			);
 			productName = FavoriteWidgetExtension;
 			productReference = 8EAEB14E24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex */;
@@ -1078,8 +1078,9 @@
 				E9689E74290EE53800DA23AD /* XCRemoteSwiftPackageReference "SideMenu" */,
 				E94A9785290EE58C002CE7D8 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				E94A9788290EE65B002CE7D8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				E9C455A3291FDD6A00A81973 /* XCRemoteSwiftPackageReference "NMapsMap-SPM" */,
 				E99A7EDA29BBBFB000BFCBC9 /* XCRemoteSwiftPackageReference "CombineDataSources" */,
+				E9A2467C2AF95985000852FA /* XCRemoteSwiftPackageReference "NMapsMap" */,
+				E9A2467F2AF959F8000852FA /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			productRefGroup = 8E7FFE2220F5E5FF006CED48 /* Products */;
 			projectDirPath = "";
@@ -1456,7 +1457,7 @@
 				CODE_SIGN_ENTITLEMENTS = "OilPrice-Where/OilPrice-Where.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
@@ -1474,7 +1475,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.9.3;
+				MARKETING_VERSION = 2.9.4;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline;
@@ -1499,7 +1500,7 @@
 				CODE_SIGN_ENTITLEMENTS = "OilPrice-Where/OilPrice-Where.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
@@ -1517,7 +1518,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.9.3;
+				MARKETING_VERSION = 2.9.4;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline;
@@ -1712,80 +1713,88 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 15.0.0;
+				kind = exactVersion;
+				version = 15.0.3;
 			};
 		};
 		E94A9785290EE58C002CE7D8 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scalessec/Toast-Swift";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
+				kind = exactVersion;
+				version = 5.0.1;
 			};
 		};
 		E94A9788290EE65B002CE7D8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.0.0;
+				kind = exactVersion;
+				version = 10.17.0;
 			};
 		};
 		E9689E5F290EE38800DA23AD /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/CombineCommunity/CombineCocoa.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.1;
+				kind = exactVersion;
+				version = 0.4.1;
 			};
 		};
 		E9689E62290EE3C200DA23AD /* XCRemoteSwiftPackageReference "Then" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/devxoul/Then.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
+				kind = exactVersion;
+				version = 3.0.0;
 			};
 		};
 		E9689E65290EE3E900DA23AD /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
+				kind = exactVersion;
+				version = 5.6.0;
 			};
 		};
 		E9689E6E290EE47700DA23AD /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scenee/FloatingPanel";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				kind = exactVersion;
+				version = 2.8.0;
 			};
 		};
 		E9689E74290EE53800DA23AD /* XCRemoteSwiftPackageReference "SideMenu" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jonkykong/SideMenu";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
+				kind = exactVersion;
+				version = 6.5.0;
 			};
 		};
 		E99A7EDA29BBBFB000BFCBC9 /* XCRemoteSwiftPackageReference "CombineDataSources" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/CombineCommunity/CombineDataSources";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.5;
+				kind = exactVersion;
+				version = 0.2.5;
 			};
 		};
-		E9C455A3291FDD6A00A81973 /* XCRemoteSwiftPackageReference "NMapsMap-SPM" */ = {
+		E9A2467C2AF95985000852FA /* XCRemoteSwiftPackageReference "NMapsMap" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jaemyeong/NMapsMap-SPM.git";
+			repositoryURL = "https://github.com/jaemyeong/NMapsMap.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.16.0;
+				kind = exactVersion;
+				version = 3.17.0;
+			};
+		};
+		E9A2467F2AF959F8000852FA /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = exactVersion;
+				version = 1.3.0;
 			};
 		};
 		E9E2A285290EE15600B91765 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
@@ -1854,9 +1863,9 @@
 			package = E99A7EDA29BBBFB000BFCBC9 /* XCRemoteSwiftPackageReference "CombineDataSources" */;
 			productName = CombineDataSources;
 		};
-		E9C455A4291FDD6A00A81973 /* NMapsMap */ = {
+		E9A2467D2AF959D6000852FA /* NMapsMap */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E9C455A3291FDD6A00A81973 /* XCRemoteSwiftPackageReference "NMapsMap-SPM" */;
+			package = E9A2467C2AF95985000852FA /* XCRemoteSwiftPackageReference "NMapsMap" */;
 			productName = NMapsMap;
 		};
 		E9E2A286290EE15600B91765 /* KakaoSDK */ = {
