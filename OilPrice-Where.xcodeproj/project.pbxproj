@@ -29,7 +29,7 @@
 		764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764A2D25212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift */; };
 		765830AD212699FE006DFE2E /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
 		8E167D412107E30F0066A59E /* OilList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E167D402107E30F0066A59E /* OilList.swift */; };
-		8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1BB8EE2107E9A60065281B /* DataUtility.swift */; };
+		8E1BB8EF2107E9A60065281B /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1BB8EE2107E9A60065281B /* Data+.swift */; };
 		8E40DB1924D7E45400352F7E /* InitialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E40DB1824D7E45400352F7E /* InitialViewModel.swift */; };
 		8E4DBA4424E43492002E605C /* CardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4DBA4324E43492002E605C /* CardCollectionViewCell.swift */; };
 		8E68BA1B24CCC645004730D7 /* CommonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E68BA1A24CCC645004730D7 /* CommonViewController.swift */; };
@@ -77,7 +77,6 @@
 		E913063828A8FD790065E30C /* CardBenefitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913063728A8FD790065E30C /* CardBenefitTableViewCell.swift */; };
 		E913063A28A8FE950065E30C /* SelectedBrandTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913063928A8FE950065E30C /* SelectedBrandTableViewCell.swift */; };
 		E913777728959DEE0078B557 /* Card+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913777428959DEE0078B557 /* Card+CoreDataProperties.swift */; };
-		E913777828959DEE0078B557 /* Card+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913777428959DEE0078B557 /* Card+CoreDataProperties.swift */; };
 		E919CCC9281BF80700C3373E /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E919CCC8281BF80700C3373E /* PlusView.swift */; };
 		E91B77B32804B49D00782435 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E91B77B22804B49D00782435 /* GoogleService-Info.plist */; };
 		E933E88428676C9300A49ADB /* AddCardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E933E88328676C9300A49ADB /* AddCardVC.swift */; };
@@ -123,7 +122,6 @@
 		E9984652291D13C30043D1DA /* FindStationExtension.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E998464D291D13C20043D1DA /* FindStationExtension.intentdefinition */; };
 		E9984655291D13C30043D1DA /* FindStationExtensionExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E9984641291D13C20043D1DA /* FindStationExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E998465A291D14B50043D1DA /* StationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9984659291D14B50043D1DA /* StationAttributes.swift */; };
-		E998465B291D15B10043D1DA /* StationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9984659291D14B50043D1DA /* StationAttributes.swift */; };
 		E998465C291D271F0043D1DA /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
 		E998465E291D2AB80043D1DA /* ActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998465D291D2AB80043D1DA /* ActivityManager.swift */; };
 		E9984660291D44F20043D1DA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2B20F5E5FF006CED48 /* Images.xcassets */; };
@@ -244,7 +242,7 @@
 		765830AC212699FD006DFE2E /* InformationGasStaion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationGasStaion.swift; sourceTree = "<group>"; };
 		7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		8E167D402107E30F0066A59E /* OilList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OilList.swift; path = "OilPrice-Where/OilList.swift"; sourceTree = SOURCE_ROOT; };
-		8E1BB8EE2107E9A60065281B /* DataUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUtility.swift; sourceTree = "<group>"; };
+		8E1BB8EE2107E9A60065281B /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
 		8E40DB1824D7E45400352F7E /* InitialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewModel.swift; sourceTree = "<group>"; };
 		8E4DBA4324E43492002E605C /* CardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCollectionViewCell.swift; sourceTree = "<group>"; };
 		8E68BA1A24CCC645004730D7 /* CommonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewController.swift; sourceTree = "<group>"; };
@@ -624,24 +622,16 @@
 			path = AppDelegate;
 			sourceTree = "<group>";
 		};
-		8E4DAF0920F5EC2400E4FD92 /* Struct */ = {
+		8E4DAF0920F5EC2400E4FD92 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				765830AC212699FD006DFE2E /* InformationGasStaion.swift */,
 				8E167D402107E30F0066A59E /* OilList.swift */,
-				29B226422121FDC60012B2F6 /* NationCostList.swift */,
 				8ECE0DA9212385FB00FF2B46 /* AllPrices.swift */,
+				29B226422121FDC60012B2F6 /* NationCostList.swift */,
+				E9E290D6280ECF1900BE21B3 /* DBVersionData.swift */,
+				765830AC212699FD006DFE2E /* InformationGasStaion.swift */,
 			);
-			path = Struct;
-			sourceTree = "<group>";
-		};
-		8E4DAF0A20F5EC2700E4FD92 /* APIs */ = {
-			isa = PBXGroup;
-			children = (
-				E9400FE127B0A467003168C6 /* StationAPI.swift */,
-				8E4DAF0920F5EC2400E4FD92 /* Struct */,
-			);
-			name = APIs;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		8E7FFE1820F5E5FF006CED48 = {
@@ -670,10 +660,10 @@
 			children = (
 				8EAEB16624F4B9FC00B5E6CE /* OilPrice-Where.entitlements */,
 				8E167D422107E7240066A59E /* AppDelegate */,
-				8EE7E34720F5EDA400F35473 /* Utility */,
-				8E4DAF0A20F5EC2700E4FD92 /* APIs */,
-				E9EAF1062822DCBE0046F9A8 /* Model */,
+				8E4DAF0920F5EC2400E4FD92 /* Models */,
+				8EE7E34720F5EDA400F35473 /* Utils */,
 				2C0C68CB276B32D900945CEC /* Scenes */,
+				E9EAF1062822DCBE0046F9A8 /* Storage */,
 				8E7FFE3D20F5EABE006CED48 /* Resources */,
 				8E7FFE3E20F5EB17006CED48 /* SupportFiles */,
 			);
@@ -723,20 +713,38 @@
 			path = FavoriteWidgetExtension;
 			sourceTree = "<group>";
 		};
-		8EE7E34720F5EDA400F35473 /* Utility */ = {
+		8EE7E34720F5EDA400F35473 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				E90FC27C290E33B8006908CC /* LogUtil.swift */,
-				8E1BB8EE2107E9A60065281B /* DataUtility.swift */,
-				29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */,
-				8EB5C2E72139214700AB83BB /* Reachability.swift */,
-				8ECE0D51211AD42600FF2B46 /* Preferences.swift */,
+				E9400FE127B0A467003168C6 /* StationAPI.swift */,
 				8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */,
-				E9E290D6280ECF1900BE21B3 /* DBVersionData.swift */,
-				E90FC276290E331F006908CC /* LocationManager.swift */,
+				8ECE0D51211AD42600FF2B46 /* Preferences.swift */,
+				8EB5C2E72139214700AB83BB /* Reachability.swift */,
+				29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */,
 				E998465D291D2AB80043D1DA /* ActivityManager.swift */,
+				E90FC276290E331F006908CC /* LocationManager.swift */,
 			);
-			name = Utility;
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		E909B74C2AFFB6A50045D5E6 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				E9A3A2C9282D0E84004ED55E /* DataModel.xcdatamodeld */,
+				E9BE7B0A282C81F800FF8A01 /* DataManager.swift */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
+		E909B74D2AFFB6B30045D5E6 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				E9EAF1032822DAC30046F9A8 /* CardInfo.swift */,
+				E9984659291D14B50043D1DA /* StationAttributes.swift */,
+				E913777428959DEE0078B557 /* Card+CoreDataProperties.swift */,
+			);
+			name = Entities;
 			sourceTree = "<group>";
 		};
 		E90FC270290E3170006908CC /* Model */ = {
@@ -839,6 +847,7 @@
 		E97B642727D7C13700577650 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				8E1BB8EE2107E9A60065281B /* Data+.swift */,
 				E9400FE927B11C76003168C6 /* UIView+.swift */,
 				E9EAF1162822EC1C0046F9A8 /* UIColor+.swift */,
 				E99A7ED829BBBD4300BFCBC9 /* Gesture+.swift */,
@@ -935,16 +944,13 @@
 			name = Assets;
 			sourceTree = "<group>";
 		};
-		E9EAF1062822DCBE0046F9A8 /* Model */ = {
+		E9EAF1062822DCBE0046F9A8 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				E9984659291D14B50043D1DA /* StationAttributes.swift */,
-				E913777428959DEE0078B557 /* Card+CoreDataProperties.swift */,
-				E9EAF1032822DAC30046F9A8 /* CardInfo.swift */,
-				E9BE7B0A282C81F800FF8A01 /* DataManager.swift */,
-				E9A3A2C9282D0E84004ED55E /* DataModel.xcdatamodeld */,
+				E909B74D2AFFB6B30045D5E6 /* Entities */,
+				E909B74C2AFFB6A50045D5E6 /* CoreData */,
 			);
-			name = Model;
+			name = Storage;
 			sourceTree = "<group>";
 		};
 		E9EFE7CA290E2D5F00EA514B /* Search */ = {
@@ -1233,7 +1239,7 @@
 				E9400FE827B1146E003168C6 /* StationInfoGuideView.swift in Sources */,
 				E913063628A8FC510065E30C /* EditCardNameTableViewCell.swift in Sources */,
 				E90FC27F290E8EAA006908CC /* RecentResultCell.swift in Sources */,
-				8E1BB8EF2107E9A60065281B /* DataUtility.swift in Sources */,
+				8E1BB8EF2107E9A60065281B /* Data+.swift in Sources */,
 				E9984694291FDADC0043D1DA /* SwiftyPlistManager.swift in Sources */,
 				E9A3A2CB282D0E84004ED55E /* DataModel.xcdatamodeld in Sources */,
 				E9EFE7D2290E2F7100EA514B /* CommonTextFieldView.swift in Sources */,
@@ -1276,7 +1282,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E913777828959DEE0078B557 /* Card+CoreDataProperties.swift in Sources */,
 				8EAEB16324F4B31E00B5E6CE /* FavoriteCollectionViewCell.swift in Sources */,
 				8EAEB15324F41AFF00B5E6CE /* TodayViewController.swift in Sources */,
 				8E82E43224F901D200395CDD /* InformationGasStaion.swift in Sources */,
@@ -1291,7 +1296,6 @@
 				E998465C291D271F0043D1DA /* InformationGasStaion.swift in Sources */,
 				E998468A291D78DD0043D1DA /* FindStationExtension.swift in Sources */,
 				E9984651291D13C30043D1DA /* FindStationExtension.intentdefinition in Sources */,
-				E998465B291D15B10043D1DA /* StationAttributes.swift in Sources */,
 				E9B48CF02921773E00061511 /* SupportHelper.swift in Sources */,
 				E9984688291D78AA0043D1DA /* FindStationExtensionBundle.swift in Sources */,
 			);
