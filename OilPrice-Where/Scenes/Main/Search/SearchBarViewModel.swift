@@ -8,7 +8,11 @@
 
 import UIKit
 import Combine
+#if targetEnvironment(simulator)
+
+#else
 import TMapSDK
+#endif
 
 //MARK: SearchBarViewModel
 final class SearchBarViewModel {
@@ -61,6 +65,9 @@ extension SearchBarViewModel {
             return
         }
 
+#if targetEnvironment(simulator)
+
+#else
         let pathData = TMapPathData()
         pathData.requestFindAllPOI(keyword, count: 20) { [weak self] result, error in
             guard let result else {
@@ -89,5 +96,6 @@ extension SearchBarViewModel {
             self?.pois = pois
             self?.output.resultPOIs.send(pois)
         }
+#endif
     }
 }

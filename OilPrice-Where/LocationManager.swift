@@ -9,7 +9,12 @@
 import UIKit
 import CoreLocation
 import Moya
+
+#if targetEnvironment(simulator)
+
+#else
 import TMapSDK
+#endif
 import NMapsMap
 //import CoreMotion
 
@@ -31,7 +36,12 @@ final class LocationManager: NSObject {
         super.init()
         
         requestLocationAccess()
+#if targetEnvironment(simulator)
+
+#else
         TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "l7xx3d6e38a766c34c2dabd61f634263a2f6")
+#endif
+        
     }
     
     // MARK: - Functions
@@ -87,6 +97,9 @@ final class LocationManager: NSObject {
     func addressUpdate(location: CLLocation?, completion: @escaping (String?) -> ()) {
         guard let targetPoint = location?.coordinate else { return }
         
+#if targetEnvironment(simulator)
+
+#else
         let pathData = TMapPathData()
         
         pathData.reverseGeocoding(targetPoint, addressType: "A10") { result, error in
@@ -101,6 +114,7 @@ final class LocationManager: NSObject {
                 }
             }
         }
+#endif
     }
     
     func firstFindStation() -> FindStation? {
@@ -177,11 +191,15 @@ extension LocationManager: CLLocationManagerDelegate {
     }
 }
 
+#if targetEnvironment(simulator)
+
+#else
 extension LocationManager: TMapTapiDelegate {
     func SKTMapApikeySucceed() {
         LogUtil.d("APIKEY 인증 성공")
     }
 }
+#endif
 
 extension LocationManager {
     @available(iOS 16.1, *)
