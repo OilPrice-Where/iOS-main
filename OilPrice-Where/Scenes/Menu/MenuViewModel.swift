@@ -8,6 +8,7 @@
 
 import UIKit
 import Combine
+import SwiftUI
 
 //MARK: MenuViewModel
 final class MenuViewModel {
@@ -63,8 +64,7 @@ extension MenuViewModel {
                 let historiesVC = HistoriesVC()
                 vc = historiesVC
             case .aboutUs:
-                let aboutVC = SettingAboutUsVC()
-                vc = aboutVC
+                break
             }
             
             let navi = UINavigationController(rootViewController: vc!)

@@ -13,6 +13,7 @@ import Combine
 import CombineCocoa
 import Firebase
 import Toast
+import SwiftUI
 
 //MARK: MenuVC
 final class MenuVC: CommonViewController {
@@ -280,8 +281,9 @@ final class MenuVC: CommonViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
-                let navi = owner.viewModel.output.fetchNavigationController(type: .aboutUs)
-                owner.present(navi, animated: true)
+                let aboutUsView = AboutUsView()
+                let aboutVC = UIHostingController(rootView: aboutUsView)
+                owner.present(aboutVC, animated: true)
             }
             .store(in: &viewModel.cancelBag)
         
