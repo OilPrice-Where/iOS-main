@@ -14,6 +14,7 @@ import CombineCocoa
 import Firebase
 import Toast
 import SwiftUI
+import ComposableArchitecture
 
 //MARK: MenuVC
 final class MenuVC: CommonViewController {
@@ -214,8 +215,14 @@ final class MenuVC: CommonViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
-                let navi = owner.viewModel.output.fetchNavigationController(type: .findBrand)
-                owner.present(navi, animated: true)
+                let store = Store(initialState: OilBrandReducer.State(brands: OilBrand.allCases.map {
+                    OilBrandModel(oilBrand: $0)
+                })) {
+                    OilBrandReducer()
+                }
+                let findBrandView = FindBrandView(store: store)
+                let findBrandVC = UIHostingController(rootView: findBrandView)
+                owner.present(findBrandVC, animated: true)
             }
             .store(in: &viewModel.cancelBag)
         

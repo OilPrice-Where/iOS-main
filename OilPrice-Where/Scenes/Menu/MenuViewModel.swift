@@ -55,8 +55,7 @@ extension MenuViewModel {
             
             switch type {
             case .findBrand:
-                var brandVC = FindBrandVC()
-                vc = brandVC
+                break
             case .cardSale:
                 var saleVC = SettingEditSalePriceVC()
                 vc = saleVC

@@ -63,8 +63,6 @@
 		8EE53E6F24CEA108008D8045 /* NanumSquareRoundR.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226552126A8BD0012B2F6 /* NanumSquareRoundR.ttf */; };
 		8EE53E7124CEA481008D8045 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7658AB0B2112C38A00723CF0 /* Launch Screen.storyboard */; };
 		8EE53E7224CEA484008D8045 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7FFE2B20F5E5FF006CED48 /* Images.xcassets */; };
-		8EE53E9324D016B4008D8045 /* SettingAboutUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E9224D016B4008D8045 /* SettingAboutUsVC.swift */; };
-		8EE53E9524D01828008D8045 /* AboutUsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE53E9424D01828008D8045 /* AboutUsTableViewCell.swift */; };
 		8EF8481A24E39B23009A32D8 /* EditSalePriceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8481924E39B23009A32D8 /* EditSalePriceViewModel.swift */; };
 		8EF8481C24E39C03009A32D8 /* SettingEditSalePriceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF8481B24E39C03009A32D8 /* SettingEditSalePriceVC.swift */; };
 		E904CF30290EE21B005148D9 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = E904CF2F290EE21B005148D9 /* Moya */; };
@@ -74,6 +72,11 @@
 		E909B7552AFFBB060045D5E6 /* AboutUsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E909B7542AFFBB060045D5E6 /* AboutUsView.swift */; };
 		E909B7582B00A3640045D5E6 /* AboutCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E909B7572B00A3640045D5E6 /* AboutCellView.swift */; };
 		E909B75B2B00A4290045D5E6 /* AboutMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E909B75A2B00A4290045D5E6 /* AboutMe.swift */; };
+		E909B75D2B0121430045D5E6 /* OilBrand.swift in Sources */ = {isa = PBXBuildFile; fileRef = E909B75C2B0121430045D5E6 /* OilBrand.swift */; };
+		E909B7602B0127210045D5E6 /* FindBrandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E909B75F2B0127210045D5E6 /* FindBrandView.swift */; };
+		E909B7632B0127880045D5E6 /* OilBrandCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E909B7622B0127880045D5E6 /* OilBrandCellView.swift */; };
+		E909B7652B0131B40045D5E6 /* OilBrandStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E909B7642B0131B40045D5E6 /* OilBrandStore.swift */; };
+		E909B7682B0132C20045D5E6 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E909B7672B0132C20045D5E6 /* ComposableArchitecture */; };
 		E90FC272290E319D006908CC /* ResponsePOI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC271290E319D006908CC /* ResponsePOI.swift */; };
 		E90FC275290E3266006908CC /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC274290E3266006908CC /* SearchResultCell.swift */; };
 		E90FC277290E331F006908CC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC276290E331F006908CC /* LocationManager.swift */; };
@@ -275,13 +278,15 @@
 		8EDAF7D721295AEF00422552 /* InitialSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSettingVC.swift; sourceTree = "<group>"; };
 		8EDE51B324D5C32C004590B6 /* FavoriteCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCellViewModel.swift; sourceTree = "<group>"; };
 		8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandTypeTableViewCell.swift; sourceTree = "<group>"; };
-		8EE53E9224D016B4008D8045 /* SettingAboutUsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAboutUsVC.swift; sourceTree = "<group>"; };
-		8EE53E9424D01828008D8045 /* AboutUsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsTableViewCell.swift; sourceTree = "<group>"; };
 		8EF8481924E39B23009A32D8 /* EditSalePriceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSalePriceViewModel.swift; sourceTree = "<group>"; };
 		8EF8481B24E39C03009A32D8 /* SettingEditSalePriceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingEditSalePriceVC.swift; sourceTree = "<group>"; };
 		E909B7542AFFBB060045D5E6 /* AboutUsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsView.swift; sourceTree = "<group>"; };
 		E909B7572B00A3640045D5E6 /* AboutCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCellView.swift; sourceTree = "<group>"; };
 		E909B75A2B00A4290045D5E6 /* AboutMe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMe.swift; sourceTree = "<group>"; };
+		E909B75C2B0121430045D5E6 /* OilBrand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OilBrand.swift; sourceTree = "<group>"; };
+		E909B75F2B0127210045D5E6 /* FindBrandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindBrandView.swift; sourceTree = "<group>"; };
+		E909B7622B0127880045D5E6 /* OilBrandCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OilBrandCellView.swift; sourceTree = "<group>"; };
+		E909B7642B0131B40045D5E6 /* OilBrandStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OilBrandStore.swift; sourceTree = "<group>"; };
 		E90FC271290E319D006908CC /* ResponsePOI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsePOI.swift; sourceTree = "<group>"; };
 		E90FC274290E3266006908CC /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		E90FC276290E331F006908CC /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -372,6 +377,7 @@
 				E9689E67290EE3E900DA23AD /* SnapKit in Frameworks */,
 				E94A978C290EE65B002CE7D8 /* FirebaseDatabase in Frameworks */,
 				E94A9787290EE58C002CE7D8 /* Toast in Frameworks */,
+				E909B7682B0132C20045D5E6 /* ComposableArchitecture in Frameworks */,
 				E94A978E290EE65B002CE7D8 /* FirebaseStorage in Frameworks */,
 				E9689E64290EE3C300DA23AD /* Then in Frameworks */,
 				E9E2A287290EE15600B91765 /* KakaoSDK in Frameworks */,
@@ -490,18 +496,8 @@
 				E909B7592B00A3F80045D5E6 /* Models */,
 				E909B7562B00A3460045D5E6 /* Views */,
 				E909B7542AFFBB060045D5E6 /* AboutUsView.swift */,
-				8EE53E9224D016B4008D8045 /* SettingAboutUsVC.swift */,
-				2C0C68D0276B332D00945CEC /* Cell */,
 			);
 			path = AboutUs;
-			sourceTree = "<group>";
-		};
-		2C0C68D0276B332D00945CEC /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				8EE53E9424D01828008D8045 /* AboutUsTableViewCell.swift */,
-			);
-			path = Cell;
 			sourceTree = "<group>";
 		};
 		2C0C68D1276B337800945CEC /* Card */ = {
@@ -527,9 +523,13 @@
 		2C0C68D3276B43E800945CEC /* Brand */ = {
 			isa = PBXGroup;
 			children = (
+				E909B75E2B0121470045D5E6 /* Model */,
+				E909B7612B0127350045D5E6 /* Views */,
+				2C0C68D4276B477300945CEC /* Cell */,
 				8E68BA2424CCCF95004730D7 /* FindBrandVC.swift */,
 				8E68BA2224CCCF32004730D7 /* FindBrandViewModel.swift */,
-				2C0C68D4276B477300945CEC /* Cell */,
+				E909B7642B0131B40045D5E6 /* OilBrandStore.swift */,
+				E909B75F2B0127210045D5E6 /* FindBrandView.swift */,
 			);
 			path = Brand;
 			sourceTree = "<group>";
@@ -773,6 +773,22 @@
 				E909B75A2B00A4290045D5E6 /* AboutMe.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		E909B75E2B0121470045D5E6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E909B75C2B0121430045D5E6 /* OilBrand.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E909B7612B0127350045D5E6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E909B7622B0127880045D5E6 /* OilBrandCellView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		E90FC270290E3170006908CC /* Model */ = {
@@ -1027,6 +1043,7 @@
 				E94A978B290EE65B002CE7D8 /* FirebaseDatabase */,
 				E94A978D290EE65B002CE7D8 /* FirebaseStorage */,
 				E99A7EDB29BBBFB000BFCBC9 /* CombineDataSources */,
+				E909B7672B0132C20045D5E6 /* ComposableArchitecture */,
 			);
 			productName = "OilPrice-Where";
 			productReference = 8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */;
@@ -1114,7 +1131,7 @@
 				E94A9788290EE65B002CE7D8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				E99A7EDA29BBBFB000BFCBC9 /* XCRemoteSwiftPackageReference "CombineDataSources" */,
 				E9A2467C2AF95985000852FA /* XCRemoteSwiftPackageReference "NMapsMap" */,
-				E9A2467F2AF959F8000852FA /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				E909B7662B0132C20045D5E6 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			productRefGroup = 8E7FFE2220F5E5FF006CED48 /* Products */;
 			projectDirPath = "";
@@ -1218,6 +1235,7 @@
 				E919CCC9281BF80700C3373E /* PlusView.swift in Sources */,
 				E998465A291D14B50043D1DA /* StationAttributes.swift in Sources */,
 				E90FC277290E331F006908CC /* LocationManager.swift in Sources */,
+				E909B7652B0131B40045D5E6 /* OilBrandStore.swift in Sources */,
 				E978E08228425C3400AE3480 /* StationDetailVC.swift in Sources */,
 				8ECE0D52211AD42600FF2B46 /* Preferences.swift in Sources */,
 				E9BE7AFF282C632C00FF8A01 /* HistoriesVC.swift in Sources */,
@@ -1250,6 +1268,7 @@
 				2CAC81E3276BA31D00CC6096 /* CustomNavigationView.swift in Sources */,
 				E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */,
 				E9400FEA27B11C76003168C6 /* UIView+.swift in Sources */,
+				E909B75D2B0121430045D5E6 /* OilBrand.swift in Sources */,
 				2C0C68CA276B31CA00945CEC /* UITabBar+.swift in Sources */,
 				2CC1C80C276C8123007527C7 /* MainVC.swift in Sources */,
 				E9400FE227B0A467003168C6 /* StationAPI.swift in Sources */,
@@ -1280,19 +1299,19 @@
 				E9EAF11A2822FEC80046F9A8 /* BrandCollectionViewCell.swift in Sources */,
 				E9633A8627FA0B5800B99E66 /* SelectMenuVC.swift in Sources */,
 				E9E290D7280ECF1900BE21B3 /* DBVersionData.swift in Sources */,
+				E909B7602B0127210045D5E6 /* FindBrandView.swift in Sources */,
 				E90FC272290E319D006908CC /* ResponsePOI.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
-				8EE53E9524D01828008D8045 /* AboutUsTableViewCell.swift in Sources */,
 				E9EAF1042822DAC30046F9A8 /* CardInfo.swift in Sources */,
 				29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */,
 				2CAC81E1276B9A7200CC6096 /* KVVStackView.swift in Sources */,
 				8EDE51B424D5C32C004590B6 /* FavoriteCellViewModel.swift in Sources */,
 				E9400FE627B0D719003168C6 /* StationInfoPriceView.swift in Sources */,
-				8EE53E9324D016B4008D8045 /* SettingAboutUsVC.swift in Sources */,
 				29B226432121FDC60012B2F6 /* NationCostList.swift in Sources */,
 				E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */,
 				E913063828A8FD790065E30C /* CardBenefitTableViewCell.swift in Sources */,
 				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,
+				E909B7632B0127880045D5E6 /* OilBrandCellView.swift in Sources */,
 				E913063A28A8FE950065E30C /* SelectedBrandTableViewCell.swift in Sources */,
 				2CAC81E5276BA63400CC6096 /* LodingView.swift in Sources */,
 				8E68BA2524CCCF95004730D7 /* FindBrandVC.swift in Sources */,
@@ -1754,6 +1773,14 @@
 				version = 15.0.3;
 			};
 		};
+		E909B7662B0132C20045D5E6 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = exactVersion;
+				version = 1.3.0;
+			};
+		};
 		E94A9785290EE58C002CE7D8 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scalessec/Toast-Swift";
@@ -1826,14 +1853,6 @@
 				version = 3.17.0;
 			};
 		};
-		E9A2467F2AF959F8000852FA /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
-			requirement = {
-				kind = exactVersion;
-				version = 1.3.0;
-			};
-		};
 		E9E2A285290EE15600B91765 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
@@ -1849,6 +1868,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E904CF2E290EE21B005148D9 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
+		};
+		E909B7672B0132C20045D5E6 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E909B7662B0132C20045D5E6 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
 		};
 		E94A9786290EE58C002CE7D8 /* Toast */ = {
 			isa = XCSwiftPackageProductDependency;
