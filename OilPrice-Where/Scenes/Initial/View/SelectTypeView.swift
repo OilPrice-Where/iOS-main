@@ -114,4 +114,3 @@ final class SelectTypeView: UIView {
         naviTypeSegmentControl.setTitleTextAttributes(selectedAttribute, for: .selected)
     }
 }
-
