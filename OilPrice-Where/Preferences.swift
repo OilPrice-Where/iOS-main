@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftUI
 import CoreLocation
 
 // 카텍 좌표 저장
@@ -86,6 +87,36 @@ struct Preferences {
             return Asset.Images.logoEnergyOne.image
         case "SKG":
             return Asset.Images.logoSKGas.image
+        default:
+            return nil
+        }
+    }
+    
+    // 받아오는 Logo Code값을 Image로 변환해주는 함수
+    // ex) SKE -> UIImage(named: "LogoSKEnergy") // SK 로고이미지
+    static func logoImage(name: String?) -> Image? {
+        guard let logoName = name else { return nil }
+        switch logoName {
+        case "SKE":
+            return Asset.Images.logoSKEnergy.swiftUIImage
+        case "GSC":
+            return Asset.Images.logoGSCaltex.swiftUIImage
+        case "HDO":
+            return Asset.Images.logoOilBank.swiftUIImage
+        case "SOL":
+            return Asset.Images.logoSOil.swiftUIImage
+        case "RTO":
+            return Asset.Images.logoFrugalOil.swiftUIImage
+        case "RTX":
+            return Asset.Images.logoExpresswayOil.swiftUIImage
+        case "NHO":
+            return Asset.Images.logoNHOil.swiftUIImage
+        case "ETC":
+            return Asset.Images.logoPersonalOil.swiftUIImage
+        case "E1G":
+            return Asset.Images.logoEnergyOne.swiftUIImage
+        case "SKG":
+            return Asset.Images.logoSKGas.swiftUIImage
         default:
             return nil
         }

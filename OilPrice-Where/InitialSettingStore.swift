@@ -10,7 +10,8 @@ import SwiftUI
 import ComposableArchitecture
 
 
-struct InitialSettingReducer: Reducer {
+@Reducer
+struct InitialSettingReducer {
     struct State: Equatable {
         var oilType: OilType = .gasoline
         var navigationType: NavigationType = .kakao

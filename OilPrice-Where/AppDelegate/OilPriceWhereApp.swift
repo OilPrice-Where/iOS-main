@@ -24,6 +24,8 @@ struct OilPriceWhereApp: App {
             InitialSettingReducer()
         })
         
+        setNavigation()
+        
         FirebaseApp.configure()
         firebaseUtility.checkUpdateTime()
         
@@ -84,5 +86,17 @@ struct OilPriceWhereApp: App {
                                                     userInfo: nil)
                 }
         }
+    }
+    
+    private func setNavigation() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white,
+                                          .font: FontFamily.NanumSquareRound.bold.font(size: 16)]
+        appearance.backgroundColor = Asset.Colors.mainColor.color
+        let proxy = UINavigationBar.appearance()
+        proxy.tintColor = .white
+        proxy.standardAppearance = appearance
+        proxy.scrollEdgeAppearance = appearance
     }
 }
