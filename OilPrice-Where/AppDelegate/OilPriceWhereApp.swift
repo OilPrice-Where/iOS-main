@@ -28,6 +28,7 @@ struct OilPriceWhereApp: App {
         
         FirebaseApp.configure()
         firebaseUtility.checkUpdateTime()
+        LocationManager.shared.requestLocationAccess()
         
         #if DEBUG
         var newArguments = ProcessInfo.processInfo.arguments
