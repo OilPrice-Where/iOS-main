@@ -41,7 +41,7 @@
 		8EAEB15024F41AFF00B5E6CE /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EAEB14F24F41AFF00B5E6CE /* NotificationCenter.framework */; };
 		8EAEB15324F41AFF00B5E6CE /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAEB15224F41AFF00B5E6CE /* TodayViewController.swift */; };
 		8EAEB15624F41AFF00B5E6CE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EAEB15424F41AFF00B5E6CE /* MainInterface.storyboard */; };
-		8EAEB15A24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8EAEB14E24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8EAEB15A24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8EAEB14E24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8EAEB15E24F41C5E00B5E6CE /* NanumSquareRoundB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226532126A8BA0012B2F6 /* NanumSquareRoundB.ttf */; };
 		8EAEB15F24F41C6100B5E6CE /* NanumSquareRoundEB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226542126A8BB0012B2F6 /* NanumSquareRoundEB.ttf */; };
 		8EAEB16024F41C6300B5E6CE /* NanumSquareRoundL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226522126A8B90012B2F6 /* NanumSquareRoundL.ttf */; };
@@ -86,9 +86,14 @@
 		E913063828A8FD790065E30C /* CardBenefitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913063728A8FD790065E30C /* CardBenefitTableViewCell.swift */; };
 		E913063A28A8FE950065E30C /* SelectedBrandTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913063928A8FE950065E30C /* SelectedBrandTableViewCell.swift */; };
 		E913777728959DEE0078B557 /* Card+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913777428959DEE0078B557 /* Card+CoreDataProperties.swift */; };
+		E91794DF2B52ABE80016DEF4 /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = E91794DE2B52ABE80016DEF4 /* NMapsMap */; };
+		E91794E22B5B81700016DEF4 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91794E12B5B81700016DEF4 /* NaverMapView.swift */; };
+		E91794E52B5B84F10016DEF4 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91794E42B5B84F10016DEF4 /* MainView.swift */; };
 		E919CCC9281BF80700C3373E /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E919CCC8281BF80700C3373E /* PlusView.swift */; };
 		E91B77B32804B49D00782435 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E91B77B22804B49D00782435 /* GoogleService-Info.plist */; };
 		E92AE74E2B4B1C6000C55951 /* StationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92AE74D2B4B1C6000C55951 /* StationRow.swift */; };
+		E92AE7512B4BA1CB00C55951 /* StationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92AE7502B4BA1CB00C55951 /* StationClient.swift */; };
+		E92AE7532B4BCD6A00C55951 /* StationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92AE7522B4BCD6A00C55951 /* StationService.swift */; };
 		E933E88428676C9300A49ADB /* AddCardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E933E88328676C9300A49ADB /* AddCardVC.swift */; };
 		E937D8282B4A9C1100457812 /* InitialSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E937D8272B4A9C1100457812 /* InitialSettingView.swift */; };
 		E937D82A2B4AA1ED00457812 /* OilTypePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E937D8292B4AA1ED00457812 /* OilTypePickerView.swift */; };
@@ -133,7 +138,7 @@
 		E998464F291D13C30043D1DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E998464E291D13C30043D1DA /* Assets.xcassets */; };
 		E9984651291D13C30043D1DA /* FindStationExtension.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E998464D291D13C20043D1DA /* FindStationExtension.intentdefinition */; };
 		E9984652291D13C30043D1DA /* FindStationExtension.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E998464D291D13C20043D1DA /* FindStationExtension.intentdefinition */; };
-		E9984655291D13C30043D1DA /* FindStationExtensionExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E9984641291D13C20043D1DA /* FindStationExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E9984655291D13C30043D1DA /* FindStationExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E9984641291D13C20043D1DA /* FindStationExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E998465A291D14B50043D1DA /* StationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9984659291D14B50043D1DA /* StationAttributes.swift */; };
 		E998465C291D271F0043D1DA /* InformationGasStaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765830AC212699FD006DFE2E /* InformationGasStaion.swift */; };
 		E998465E291D2AB80043D1DA /* ActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998465D291D2AB80043D1DA /* ActivityManager.swift */; };
@@ -207,16 +212,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		8EAEB14624F4124900B5E6CE /* Embed App Extensions */ = {
+		8EAEB14624F4124900B5E6CE /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				E9984655291D13C30043D1DA /* FindStationExtensionExtension.appex in Embed App Extensions */,
-				8EAEB15A24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex in Embed App Extensions */,
+				E9984655291D13C30043D1DA /* FindStationExtensionExtension.appex in Embed Foundation Extensions */,
+				8EAEB15A24F41AFF00B5E6CE /* FavoriteWidgetExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E99E4985290EDC0B0050A1A1 /* Embed Frameworks */ = {
@@ -305,9 +310,13 @@
 		E913063728A8FD790065E30C /* CardBenefitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBenefitTableViewCell.swift; sourceTree = "<group>"; };
 		E913063928A8FE950065E30C /* SelectedBrandTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedBrandTableViewCell.swift; sourceTree = "<group>"; };
 		E913777428959DEE0078B557 /* Card+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		E91794E12B5B81700016DEF4 /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
+		E91794E42B5B84F10016DEF4 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		E919CCC8281BF80700C3373E /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
 		E91B77B22804B49D00782435 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		E92AE74D2B4B1C6000C55951 /* StationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationRow.swift; sourceTree = "<group>"; };
+		E92AE7502B4BA1CB00C55951 /* StationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationClient.swift; sourceTree = "<group>"; };
+		E92AE7522B4BCD6A00C55951 /* StationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationService.swift; sourceTree = "<group>"; };
 		E933E88328676C9300A49ADB /* AddCardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardVC.swift; sourceTree = "<group>"; };
 		E937D8272B4A9C1100457812 /* InitialSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSettingView.swift; sourceTree = "<group>"; };
 		E937D8292B4AA1ED00457812 /* OilTypePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OilTypePickerView.swift; sourceTree = "<group>"; };
@@ -395,6 +404,7 @@
 				E9689E67290EE3E900DA23AD /* SnapKit in Frameworks */,
 				E94A978C290EE65B002CE7D8 /* FirebaseDatabase in Frameworks */,
 				E94A9787290EE58C002CE7D8 /* Toast in Frameworks */,
+				E91794DF2B52ABE80016DEF4 /* NMapsMap in Frameworks */,
 				E909B7682B0132C20045D5E6 /* ComposableArchitecture in Frameworks */,
 				E94A978E290EE65B002CE7D8 /* FirebaseStorage in Frameworks */,
 				E9689E64290EE3C300DA23AD /* Then in Frameworks */,
@@ -693,6 +703,7 @@
 				8E167D422107E7240066A59E /* AppDelegate */,
 				8E4DAF0920F5EC2400E4FD92 /* Models */,
 				8EE7E34720F5EDA400F35473 /* Utils */,
+				E92AE74F2B4BA1A200C55951 /* Dependencies */,
 				2C0C68CB276B32D900945CEC /* Scenes */,
 				E9CC27162B4AD69800E19A3A /* Feature */,
 				E9EAF1062822DCBE0046F9A8 /* Storage */,
@@ -756,6 +767,7 @@
 				29B2264421228ECE0012B2F6 /* FirebaseUtility.swift */,
 				E998465D291D2AB80043D1DA /* ActivityManager.swift */,
 				E90FC276290E331F006908CC /* LocationManager.swift */,
+				E92AE7522B4BCD6A00C55951 /* StationService.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -845,6 +857,31 @@
 				E913063928A8FE950065E30C /* SelectedBrandTableViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		E91794E02B5B7FF90016DEF4 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				E91794E32B5B84DF0016DEF4 /* View */,
+				E91794E42B5B84F10016DEF4 /* MainView.swift */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
+		E91794E32B5B84DF0016DEF4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E91794E12B5B81700016DEF4 /* NaverMapView.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		E92AE74F2B4BA1A200C55951 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				E92AE7502B4BA1CB00C55951 /* StationClient.swift */,
+			);
+			path = Dependencies;
 			sourceTree = "<group>";
 		};
 		E94D0F0D27BB7A7100BCB092 /* GasStation */ = {
@@ -1003,8 +1040,9 @@
 			isa = PBXGroup;
 			children = (
 				E9CC27172B4AD6A800E19A3A /* Initial */,
-				E9CC27192B4AD6D800E19A3A /* Shared */,
+				E91794E02B5B7FF90016DEF4 /* Map */,
 				E9CC27202B4B06D500E19A3A /* List */,
+				E9CC27192B4AD6D800E19A3A /* Shared */,
 			);
 			name = Feature;
 			sourceTree = "<group>";
@@ -1094,7 +1132,7 @@
 				8E7FFE1E20F5E5FF006CED48 /* Frameworks */,
 				8E7FFE1F20F5E5FF006CED48 /* Resources */,
 				8E167D3421007B620066A59E /* ShellScript */,
-				8EAEB14624F4124900B5E6CE /* Embed App Extensions */,
+				8EAEB14624F4124900B5E6CE /* Embed Foundation Extensions */,
 				E99E4985290EDC0B0050A1A1 /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -1119,6 +1157,7 @@
 				E94A978D290EE65B002CE7D8 /* FirebaseStorage */,
 				E99A7EDB29BBBFB000BFCBC9 /* CombineDataSources */,
 				E909B7672B0132C20045D5E6 /* ComposableArchitecture */,
+				E91794DE2B52ABE80016DEF4 /* NMapsMap */,
 			);
 			productName = "OilPrice-Where";
 			productReference = 8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */;
@@ -1169,13 +1208,15 @@
 		8E7FFE1920F5E5FF006CED48 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				DefaultBuildSystemTypeForWorkspace = Original;
 				LastSwiftUpdateCheck = 1410;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1520;
 				ORGANIZATIONNAME = "sangwook park";
 				TargetAttributes = {
 					8E7FFE2020F5E5FF006CED48 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = "";
 					};
 					8EAEB14D24F41AFF00B5E6CE = {
 						CreatedOnToolsVersion = 11.6;
@@ -1294,6 +1335,7 @@
 				E9633A8027F9D2D600B99E66 /* MenuViewModel.swift in Sources */,
 				8EF8481A24E39B23009A32D8 /* EditSalePriceViewModel.swift in Sources */,
 				E94D0F0027BB3DBC00BCB092 /* GasStationCell.swift in Sources */,
+				E91794E22B5B81700016DEF4 /* NaverMapView.swift in Sources */,
 				E94D0F0827BB4D5800BCB092 /* GasStationExpandView.swift in Sources */,
 				E9EFE7D0290E2DD100EA514B /* CommonNavigationView.swift in Sources */,
 				E9F0996427D8C44B009F95DF /* KeyValueView.swift in Sources */,
@@ -1325,6 +1367,7 @@
 				8EB5C2E82139214700AB83BB /* Reachability.swift in Sources */,
 				E94D0F0C27BB56D100BCB092 /* GasStationView.swift in Sources */,
 				E94D0F0627BB4AE000BCB092 /* GasStationPriceView.swift in Sources */,
+				E91794E52B5B84F10016DEF4 /* MainView.swift in Sources */,
 				764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift in Sources */,
 				E9BE7B0B282C81F800FF8A01 /* DataManager.swift in Sources */,
 				8EE0A2FB21DDF49E00C159D0 /* BrandTypeTableViewCell.swift in Sources */,
@@ -1373,6 +1416,7 @@
 				E9A3A2CB282D0E84004ED55E /* DataModel.xcdatamodeld in Sources */,
 				E9EFE7D2290E2F7100EA514B /* CommonTextFieldView.swift in Sources */,
 				E99A7ED929BBBD4300BFCBC9 /* Gesture+.swift in Sources */,
+				E92AE7512B4BA1CB00C55951 /* StationClient.swift in Sources */,
 				E937D8282B4A9C1100457812 /* InitialSettingView.swift in Sources */,
 				2C0C68C8276B25AB00945CEC /* UIReusable+.swift in Sources */,
 				E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */,
@@ -1393,6 +1437,7 @@
 				29B226432121FDC60012B2F6 /* NationCostList.swift in Sources */,
 				E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */,
 				E913063828A8FD790065E30C /* CardBenefitTableViewCell.swift in Sources */,
+				E92AE7532B4BCD6A00C55951 /* StationService.swift in Sources */,
 				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,
 				E909B7632B0127880045D5E6 /* OilBrandCellView.swift in Sources */,
 				E937D82C2B4AAC9300457812 /* InitialSettingStore.swift in Sources */,
@@ -1504,6 +1549,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1518,7 +1564,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = "";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
@@ -1570,6 +1616,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1578,7 +1625,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = NO;
 				SDKROOT = iphoneos;
@@ -1611,7 +1658,7 @@
 				INFOPLIST_FILE = "OilPrice-Where/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "어디주유";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1627,6 +1674,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_WORKSPACE = YES;
@@ -1653,7 +1701,7 @@
 				INFOPLIST_FILE = "OilPrice-Where/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "어디주유";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1669,6 +1717,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_WORKSPACE = YES;
@@ -1957,6 +2006,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E909B7662B0132C20045D5E6 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		E91794DE2B52ABE80016DEF4 /* NMapsMap */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9A2467C2AF95985000852FA /* XCRemoteSwiftPackageReference "NMapsMap" */;
+			productName = NMapsMap;
 		};
 		E94A9786290EE58C002CE7D8 /* Toast */ = {
 			isa = XCSwiftPackageProductDependency;
