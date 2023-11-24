@@ -6,6 +6,7 @@
 //  Copyright © 2024 sangwook park. All rights reserved.
 //
 
+import Foundation
 import SwiftUI
 import ComposableArchitecture
 
@@ -15,6 +16,15 @@ struct InitialSettingReducer {
     struct State: Equatable {
         var oilType: OilType = .gasoline
         var navigationType: NavigationType = .kakao
+        
+        
+        @BindingState var isSheetVisible: Bool = false
+        
+        enum Screen: Int, CaseIterable, Identifiable, Hashable {
+            case stationList
+            
+            var id: Int { self.rawValue }
+        }
         
         enum OilType: String, CaseIterable {
             case gasoline = "휘발유"
@@ -57,15 +67,20 @@ struct InitialSettingReducer {
         }
     }
     
-    enum Action: Equatable {
+    enum Action: BindableAction, Equatable {
+        case binding(BindingAction<State>)
         case oilTypeChanged(State.OilType)
         case navigationTypeChanged(State.NavigationType)
         case okButtonTapped
     }
     
     var body: some Reducer<State, Action> {
+        BindingReducer()
         Reduce { state, action in
             switch action {
+            case .binding(_):
+                return .none
+                
             case .oilTypeChanged(let oil):
                 state.oilType = oil
                 return .none
@@ -77,6 +92,9 @@ struct InitialSettingReducer {
             case .okButtonTapped:
                 DefaultData.shared.oilSubject.send(state.oilType.code)
                 DefaultData.shared.naviSubject.send(state.navigationType.code)
+                
+                state.isSheetVisible = true
+                
                 return .none
             }
         }
