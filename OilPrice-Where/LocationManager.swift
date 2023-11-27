@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import Moya
+import Combine
 
 #if targetEnvironment(simulator)
 
@@ -18,13 +19,17 @@ import TMapSDK
 import NMapsMap
 //import CoreMotion
 
-final class LocationManager: NSObject {
+final class LocationManager: NSObject, ObservableObject {
     // MARK: - Properties
     static let shared = LocationManager()
-    var locationManager: CLLocationManager?
-//    let motionManager = CMMotionActivityManager()
+    @Published
+    private var locationManager = CLLocationManager()
+    
     @Published var currentAddress: String?
     @Published var currentLocation: CLLocation?
+    
+    var currentLocationPublisher = PassthroughSubject<CLLocation?, Never>()
+    
     @Published var requestLocation: CLLocation?
     var findStations = [FindStation]()
     var stations = [GasStation]()
@@ -32,10 +37,13 @@ final class LocationManager: NSObject {
     var findStation: FindStation?
     
     // MARK: - Initializer
+    deinit {
+        locationManager.stopUpdatingLocation()
+    }
+    
     private override init() {
         super.init()
         
-        requestLocationAccess()
 #if targetEnvironment(simulator)
 
 #else
@@ -46,27 +54,14 @@ final class LocationManager: NSObject {
     
     // MARK: - Functions
     // 위치 권한
-    private func requestLocationAccess() {
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager?.allowsBackgroundLocationUpdates = true
-        locationManager?.showsBackgroundLocationIndicator = true
-        locationManager?.distanceFilter = 50
+    func requestLocationAccess() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.showsBackgroundLocationIndicator = true
+        locationManager.distanceFilter = 50
         
-        locationManager?.requestAlwaysAuthorization()
-    }
-    
-    // 위치 추적 시작
-    func startUpdating() {
-        LogUtil.d("위치 추적 시작")
-        locationManager?.startUpdatingLocation()
-    }
-    
-    // 위치 추적 종료
-    func stopUpdating() {
-        LogUtil.d("위치 추적 종료")
-        locationManager?.stopUpdatingLocation()
+        locationManager.requestAlwaysAuthorization()
     }
     
     private func requestLocationAlert() {
@@ -130,14 +125,15 @@ final class LocationManager: NSObject {
 
 // MARK: - CLLocationManagerDelegate
 extension LocationManager: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager,
+                         didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             LogUtil.d("GPS 권한 설정됨")
-            self.locationManager?.startUpdatingLocation()
+            self.locationManager.startUpdatingLocation()
         case .notDetermined:
             LogUtil.d("GPS 권한 설정되지 않음")
-            self.locationManager?.requestAlwaysAuthorization()
+            self.locationManager.requestAlwaysAuthorization()
         case .restricted, .denied:
             LogUtil.d("GPS 권한 요청 거부됨")
             requestLocationAlert()
@@ -147,7 +143,8 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     // 실패 했을경우 받은 알림
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    func locationManager(_ manager: CLLocationManager,
+                         didFailWithError error: Error) {
         guard (error as NSError).code != CLError.locationUnknown.rawValue else {
             LogUtil.e("현재 위치 알 수 없음")
             return
@@ -155,7 +152,7 @@ extension LocationManager: CLLocationManagerDelegate {
         
         switch manager.authorizationStatus {
         case .notDetermined:
-            locationManager?.requestAlwaysAuthorization()
+            locationManager.requestAlwaysAuthorization()
         case .restricted, .denied:
             requestLocationAlert()
         default:
@@ -164,30 +161,35 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        currentLocation = locations.last
+        print(locations.last)
         
-        if #available(iOS 16.1, *) {
-            guard DefaultData.shared.backgroundFindSubject.value else { return }
-            
-            if let from = self.requestLocation, let to = locations.last,
-               from.distance(from: to) > 3000 {
-                self.requestLocation = to
-                self.requestSearch()
-            } else if self.requestLocation == nil {
-                self.requestLocation = locations.last
-                self.requestSearch()
-            } else {
-                self.findStation = self.firstFindStation()
-                if var findStation = self.findStation,
-                   let currentLocation = locations.last,
-                   let targetLat = findStation.lat, let targetLng = findStation.lng {
-                    let location = CLLocation(latitude: targetLat, longitude: targetLng)
-                    findStation.distance = "\(Double(Int(currentLocation.distance(from: location) / 100)) / 10)km"
-                    let state = StationAttributes.ContentState(station: findStation)
-                    ActivityManager.shared.updateActivity(state: state)
-                }
-            }
-        }
+        currentLocation = locations.last
+        currentLocationPublisher.send(locations.last)
+        
+        
+        
+//        if #available(iOS 16.1, *) {
+//            guard DefaultData.shared.backgroundFindSubject.value else { return }
+//            
+//            if let from = self.requestLocation, let to = locations.last,
+//               from.distance(from: to) > 3000 {
+//                self.requestLocation = to
+//                self.requestSearch()
+//            } else if self.requestLocation == nil {
+//                self.requestLocation = locations.last
+//                self.requestSearch()
+//            } else {
+//                self.findStation = self.firstFindStation()
+//                if var findStation = self.findStation,
+//                   let currentLocation = locations.last,
+//                   let targetLat = findStation.lat, let targetLng = findStation.lng {
+//                    let location = CLLocation(latitude: targetLat, longitude: targetLng)
+//                    findStation.distance = "\(Double(Int(currentLocation.distance(from: location) / 100)) / 10)km"
+//                    let state = StationAttributes.ContentState(station: findStation)
+//                    ActivityManager.shared.updateActivity(state: state)
+//                }
+//            }
+//        }
     }
 }
 
@@ -264,4 +266,50 @@ extension LocationManager {
             }
         }
     }
+}
+
+extension LocationManager {
+    func updateLocation() async -> CLLocation? {
+        
+        requestLocationAccess()
+        locationManager.startUpdatingLocation()
+        locationManager.requestLocation()
+        
+        for await location in currentLocationPublisher.values {
+            return location
+        }
+        
+        return nil
+    }
+    
+//    func requestAddress() async -> String? {
+//        return await withCheckedContinuation { continuation in
+//            self.locationCompletionHandler = { location in
+//                #if !targetEnvironment(simulator)
+//                guard let targetPoint = location?.coordinate else {
+//                    continuation.resume(returning: nil)
+//                    return
+//                }
+//                
+//                let pathData = TMapPathData()
+//                
+//                pathData.reverseGeocoding(targetPoint, addressType: "A10") { result, error in
+//                    if let result {
+//                        LogUtil.d(result)
+//                        
+//                        if let city = result["city_do"] as? String,
+//                           let gu = result["gu_gun"] as? String,
+//                           let roadName = result["roadName"] as? String,
+//                           let buildingNumber = result["buildingIndex"] as? String {
+//                            continuation.resume(returning: "\(city) \(gu) \(roadName) \(buildingNumber)")
+//                        }
+//                    } else {
+//                        continuation.resume(returning: nil)
+//                    }
+//                }
+//                #endif
+//            }
+//            self.locationManager.requestLocation()
+//        }
+//    }
 }

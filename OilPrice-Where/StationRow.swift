@@ -47,7 +47,7 @@ struct StationRow: View {
             
             HStack {
                 Button(action: {
-                    
+                    favoriteButtonTapped()
                 }, label: {
                     Asset.Images.favoriteOffIcon.swiftUIImage
                         .renderingMode(.template)
@@ -63,14 +63,14 @@ struct StationRow: View {
                 Spacer(minLength: 16)
                 
                 Button(action: {
-                    
+                    directionButtonTapped()
                 }, label: {
                     HStack {
                         Asset.Images.findMapIcon.swiftUIImage
                             .renderingMode(.template)
                             .tint(.white)
                         
-                        Text("888.8km 안내 시작")
+                        Text("\(Preferences.distance(km: station.distance)) 안내 시작")
                             .font(FontFamily.NanumSquareRound.regular.swiftUIFont(size: 18))
                             .foregroundStyle(.white)
                     }
@@ -85,6 +85,30 @@ struct StationRow: View {
         .padding(.horizontal, 16)
         .frame(height: 168)
         .background(.white)
+    }
+    
+    private func favoriteButtonTapped() {
+        var favorites = DefaultData.shared.favoriteSubject.value
+        let deleteIndex = favorites.firstIndex(where: { $0 == station.id })
+        
+        // 삭제
+        if let deleteIndex {
+            favorites.remove(at: deleteIndex)
+            DefaultData.shared.favoriteSubject.send(favorites)
+            return
+        }
+        
+        // 추가
+        guard favorites.count < 6 else {
+            return
+        }
+        
+        favorites.append(station.id)
+        DefaultData.shared.favoriteSubject.send(favorites)
+    }
+    
+    private func directionButtonTapped() {
+        
     }
 }
 

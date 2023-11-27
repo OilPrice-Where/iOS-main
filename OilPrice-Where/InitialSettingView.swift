@@ -31,6 +31,13 @@ struct InitialSettingView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.horizontal, 16)
             }
+            .sheet(isPresented: viewStore.$isSheetVisible) {
+                StationListView(
+                    store: Store(initialState: StationListReducer.State()) {
+                        StationListReducer()
+                    }
+                )
+            }
             .ignoresSafeArea()
         }
     }
