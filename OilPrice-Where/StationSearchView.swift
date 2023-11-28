@@ -11,7 +11,7 @@ import ComposableArchitecture
 
 struct StationSearchView: View {
     
-    let store: StoreOf<SearchReducer>
+    let store: StoreOf<StationSearchReducer>
     
     var body: some View {
         Text("Hello, World!")
@@ -19,8 +19,8 @@ struct StationSearchView: View {
 }
 
 #Preview {
-    let store = Store(initialState: SearchReducer.State()) {
-        SearchReducer()
+    let store = Store(initialState: StationSearchReducer.State()) {
+        StationSearchReducer()
     }
     
     return StationSearchView(store: store)

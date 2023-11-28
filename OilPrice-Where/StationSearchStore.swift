@@ -1,5 +1,5 @@
 //
-//  StationSearchView.swift
+//  StationSearchStore.swift
 //  OilPrice-Where
 //
 //  Created by wargi on 1/20/24.
@@ -11,7 +11,7 @@ import Foundation
 
 
 @Reducer
-struct StationSearchView {
+struct StationSearchReducer {
     
     struct State: Equatable {
         

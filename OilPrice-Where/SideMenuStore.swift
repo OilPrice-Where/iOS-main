@@ -6,4 +6,25 @@
 //  Copyright © 2024 sangwook park. All rights reserved.
 //
 
+import ComposableArchitecture
 import Foundation
+
+
+@Reducer
+struct SideMenuReducer {
+    
+    struct State: Equatable {
+        
+    }
+    
+    enum Action: Equatable {
+        
+    }
+    
+    var body: some Reducer<State, Action> {
+        
+        Reduce { state, action in
+            return .none
+        }
+    }
+}
