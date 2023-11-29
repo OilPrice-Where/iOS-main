@@ -17,6 +17,8 @@ struct InitialSettingReducer {
         var oilType: OilType = .gasoline
         var navigationType: NavigationType = .kakao
         
+        var main = MainReducer.State()
+        
         
         @BindingState var isSheetVisible: Bool = false
         
@@ -69,6 +71,7 @@ struct InitialSettingReducer {
     
     enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
+        case main(MainReducer.Action)
         case oilTypeChanged(State.OilType)
         case navigationTypeChanged(State.NavigationType)
         case okButtonTapped
@@ -76,9 +79,14 @@ struct InitialSettingReducer {
     
     var body: some Reducer<State, Action> {
         BindingReducer()
+        Scope(state: \.main, action: /Action.main) {
+            MainReducer()
+        }
         Reduce { state, action in
             switch action {
             case .binding(_):
+                return .none
+            case .main:
                 return .none
                 
             case .oilTypeChanged(let oil):

@@ -8,48 +8,62 @@
 
 import Foundation
 import SwiftUI
+import ComposableArchitecture
 
 
 struct MainView: View {
+    
+    let store: StoreOf<MainReducer>
+    
     var body: some View {
-        ZStack {
-            NaverMapView()
-                .ignoresSafeArea()
-            
-            VStack {
-                HStack {
-                    sideMenuButton
-                        .padding(.leading, 8)
+        WithViewStore(self.store, observe: { $0 }) { viewStore in
+            NavigationView {
+                ZStack {
+                    NaverMapView()
+                        .ignoresSafeArea()
                     
-                    searchButton
-                    
-                    Spacer()
-                    
-                    listButton
-                        .padding(8)
+                    VStack {
+                        HStack {
+                            sideMenuButton
+                                .padding(.leading, 8)
+                            
+                            searchButton
+                            
+                            Spacer()
+                            
+                            listButton
+                                .padding(8)
+                        }
+                        .background(.white)
+                        .frame(height: 56)
+                        .clipShape(RoundedRectangle(cornerRadius: 28))
+                        .shadow(radius: 2.5, x: 2.5, y: 2.5)
+                        .padding(.horizontal, 24)
+                        
+                        Spacer()
+                        
+                        HStack {
+                            Spacer()
+                            favoriteButton
+                                .padding(.horizontal, 8)
+                            currentLocationButton
+                        }
+                        .padding(.horizontal, 24)
+                    }
                 }
-                .background(.white)
-                .frame(height: 56)
-                .clipShape(RoundedRectangle(cornerRadius: 28))
-                .padding(.horizontal, 24)
-                
-                Spacer()
-                
-                HStack {
-                    Spacer()
-                    favoriteButton
-                        .padding(.horizontal, 8)
-                    currentLocationButton
-                }
-                .padding(.horizontal, 24)
             }
         }
     }
     
     /// SideMenu 이동 버튼
     var sideMenuButton: some View {
-        Button {
-            
+        NavigationLink {
+            SideMenuView(
+                store: self.store.scope(
+                    state: \.sideMenu,
+                    action: MainReducer.Action.side
+                )
+            )
         } label: {
             ZStack {
                 Asset.Images.menuIcon.swiftUIImage
@@ -61,12 +75,18 @@ struct MainView: View {
             .frame(width: 40, height: 40)
             .clipShape(RoundedRectangle(cornerRadius: 20))
         }
+
     }
     
     /// Search 페이지 이동 버튼
     var searchButton: some View {
-        Button {
-            
+        NavigationLink {
+            StationSearchView(
+                store: self.store.scope(
+                    state: \.search,
+                    action: MainReducer.Action.search
+                )
+            )
         } label: {
             HStack {
                 Asset.Images.search.swiftUIImage
@@ -85,8 +105,13 @@ struct MainView: View {
     
     /// List 페이지 이동 버튼
     var listButton: some View {
-        Button {
-            
+        NavigationLink {
+            StationListView(
+                store: self.store.scope(
+                    state: \.stationList,
+                    action: MainReducer.Action.stationList
+                )
+            )
         } label: {
             ZStack {
                 Asset.Images.listIcon.swiftUIImage
@@ -103,8 +128,13 @@ struct MainView: View {
     
     /// 즐겨찾기 페이지 이동 버튼
     var favoriteButton: some View {
-        Button {
-            
+        NavigationLink {
+            FavoriteView(
+                store: self.store.scope(
+                    state: \.favorite,
+                    action: MainReducer.Action.favorite
+                )
+            )
         } label: {
             ZStack {
                 Asset.Images.favoriteIcon.swiftUIImage
@@ -116,6 +146,7 @@ struct MainView: View {
             .frame(width: 40, height: 40)
             .background(.white)
             .clipShape(RoundedRectangle(cornerRadius: 20))
+            .shadow(radius: 2.5, x: 2.5, y: 2.5)
         }
     }
     
@@ -134,13 +165,15 @@ struct MainView: View {
             .frame(width: 40, height: 40)
             .background(.white)
             .clipShape(RoundedRectangle(cornerRadius: 20))
+            .shadow(radius: 2.5, x: 2.5, y: 2.5)
         }
     }
 }
 
-
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView()
+#Preview {
+    let store = Store(initialState: MainReducer.State()) {
+        MainReducer()
     }
+    
+    return MainView(store: store)
 }

@@ -31,11 +31,12 @@ struct InitialSettingView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.horizontal, 16)
             }
-            .sheet(isPresented: viewStore.$isSheetVisible) {
-                StationListView(
-                    store: Store(initialState: StationListReducer.State()) {
-                        StationListReducer()
-                    }
+            .fullScreenCover(isPresented: viewStore.$isSheetVisible) {
+                MainView(
+                    store: self.store.scope(
+                        state: \.main,
+                        action: InitialSettingReducer.Action.main
+                    )
                 )
             }
             .ignoresSafeArea()
