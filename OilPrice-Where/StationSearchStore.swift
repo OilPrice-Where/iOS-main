@@ -14,15 +14,17 @@ import Foundation
 struct StationSearchReducer {
     
     struct State: Equatable {
+        @BindingState var searchText: String = ""
         
+        var searchList: [String] = []
     }
     
-    enum Action: Equatable {
-        
+    enum Action: BindableAction, Equatable {
+        case binding(BindingAction<State>)
     }
     
     var body: some Reducer<State, Action> {
-        
+        BindingReducer()
         Reduce { state, action in
             return .none
         }
