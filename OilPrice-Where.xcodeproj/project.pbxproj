@@ -152,8 +152,6 @@
 		E9CD1AF427B54A9400C1375E /* FloatingPanelController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF327B54A9400C1375E /* FloatingPanelController+.swift */; };
 		E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */; };
 		E9D1445827CED3120055141A /* InfoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1445727CED3120055141A /* InfoListView.swift */; };
-		E9E0630F292024D500715F66 /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9E0630E292024D500715F66 /* TMapSDK.framework */; };
-		E9E06310292024D500715F66 /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9E0630E292024D500715F66 /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9E290D7280ECF1900BE21B3 /* DBVersionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E290D6280ECF1900BE21B3 /* DBVersionData.swift */; };
 		E9E290DB280EFCDA00BE21B3 /* UIWindow+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E290DA280EFCDA00BE21B3 /* UIWindow+.swift */; };
 		E9E290DD280F6B1C00BE21B3 /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E290DC280F6B1C00BE21B3 /* NSMutableAttributedString+.swift */; };
@@ -171,6 +169,10 @@
 		E9EFE7D0290E2DD100EA514B /* CommonNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7CF290E2DD100EA514B /* CommonNavigationView.swift */; };
 		E9EFE7D2290E2F7100EA514B /* CommonTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EFE7D1290E2F7100EA514B /* CommonTextFieldView.swift */; };
 		E9F0996427D8C44B009F95DF /* KeyValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F0996327D8C44B009F95DF /* KeyValueView.swift */; };
+		E9FE51CC2D3AC5E3003C81DE /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9FE51C72D3AC56D003C81DE /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9FE51CF2D3AC5F4003C81DE /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9FE51C72D3AC56D003C81DE /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9FE51D22D3AC69B003C81DE /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9FE51D12D3AC69B003C81DE /* TMapSDK.framework */; };
+		E9FE51D32D3AC69B003C81DE /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9FE51D12D3AC69B003C81DE /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -203,13 +205,35 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E99E4985290EDC0B0050A1A1 /* Embed Frameworks */ = {
+		E9FE51CD2D3AC5E3003C81DE /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E9E06310292024D500715F66 /* TMapSDK.framework in Embed Frameworks */,
+				E9FE51CC2D3AC5E3003C81DE /* TMapSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9FE51D02D3AC5F4003C81DE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E9FE51CF2D3AC5F4003C81DE /* TMapSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9FE51D42D3AC69B003C81DE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E9FE51D32D3AC69B003C81DE /* TMapSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,6 +377,9 @@
 		E9EFE7CF290E2DD100EA514B /* CommonNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonNavigationView.swift; sourceTree = "<group>"; };
 		E9EFE7D1290E2F7100EA514B /* CommonTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextFieldView.swift; sourceTree = "<group>"; };
 		E9F0996327D8C44B009F95DF /* KeyValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueView.swift; sourceTree = "<group>"; };
+		E9FE51C32D3AC51B003C81DE /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMapSDK.framework; path = "../../../Downloads/[iOS_SWIFT]TmapSDK_2.18 2/배포(디바이스)/TMapSDK.framework"; sourceTree = "<group>"; };
+		E9FE51C72D3AC56D003C81DE /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMapSDK.framework; path = "../../../Downloads/[iOS_SWIFT]TmapSDK_2.18/배포(디바이스)/TMapSDK.framework"; sourceTree = "<group>"; };
+		E9FE51D12D3AC69B003C81DE /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMapSDK.framework; path = TMap/TMapSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -360,7 +387,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9E0630F292024D500715F66 /* TMapSDK.framework in Frameworks */,
 				E99A7EDC29BBBFB000BFCBC9 /* CombineDataSources in Frameworks */,
 				E9689E67290EE3E900DA23AD /* SnapKit in Frameworks */,
 				E94A978C290EE65B002CE7D8 /* FirebaseDatabase in Frameworks */,
@@ -369,6 +395,7 @@
 				E9689E64290EE3C300DA23AD /* Then in Frameworks */,
 				E9C455A5291FDD6A00A81973 /* NMapsMap in Frameworks */,
 				E9E2A287290EE15600B91765 /* KakaoSDK in Frameworks */,
+				E9FE51D22D3AC69B003C81DE /* TMapSDK.framework in Frameworks */,
 				E94A978A290EE65B002CE7D8 /* FirebaseAnalytics in Frameworks */,
 				E904CF30290EE21B005148D9 /* Moya in Frameworks */,
 				E9689E76290EE53800DA23AD /* SideMenu in Frameworks */,
@@ -404,6 +431,9 @@
 			isa = PBXGroup;
 			children = (
 				E9E0630E292024D500715F66 /* TMapSDK.framework */,
+				E9FE51C32D3AC51B003C81DE /* TMapSDK.framework */,
+				E9FE51C72D3AC56D003C81DE /* TMapSDK.framework */,
+				E9FE51D12D3AC69B003C81DE /* TMapSDK.framework */,
 				8EAEB14F24F41AFF00B5E6CE /* NotificationCenter.framework */,
 				E9984642291D13C20043D1DA /* WidgetKit.framework */,
 				E9984644291D13C20043D1DA /* SwiftUI.framework */,
@@ -970,7 +1000,7 @@
 				8E7FFE1F20F5E5FF006CED48 /* Resources */,
 				8E167D3421007B620066A59E /* ShellScript */,
 				8EAEB14624F4124900B5E6CE /* Embed App Extensions */,
-				E99E4985290EDC0B0050A1A1 /* Embed Frameworks */,
+				E9FE51D42D3AC69B003C81DE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1006,6 +1036,7 @@
 				8EAEB14A24F41AFF00B5E6CE /* Sources */,
 				8EAEB14B24F41AFF00B5E6CE /* Frameworks */,
 				8EAEB14C24F41AFF00B5E6CE /* Resources */,
+				E9FE51CD2D3AC5E3003C81DE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1027,6 +1058,7 @@
 				E998463D291D13C20043D1DA /* Sources */,
 				E998463E291D13C20043D1DA /* Frameworks */,
 				E998463F291D13C20043D1DA /* Resources */,
+				E9FE51D02D3AC5F4003C81DE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1078,7 +1110,7 @@
 				E9689E74290EE53800DA23AD /* XCRemoteSwiftPackageReference "SideMenu" */,
 				E94A9785290EE58C002CE7D8 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				E94A9788290EE65B002CE7D8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				E9C455A3291FDD6A00A81973 /* XCRemoteSwiftPackageReference "NMapsMap-SPM" */,
+				E9C455A3291FDD6A00A81973 /* XCRemoteSwiftPackageReference "SPM-NMapsMap" */,
 				E99A7EDA29BBBFB000BFCBC9 /* XCRemoteSwiftPackageReference "CombineDataSources" */,
 			);
 			productRefGroup = 8E7FFE2220F5E5FF006CED48 /* Products */;
@@ -1465,11 +1497,12 @@
 					"$(PROJECT_DIR)/Kakao",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
+					"$(PROJECT_DIR)/TMap",
 				);
 				INFOPLIST_FILE = "OilPrice-Where/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "어디주유";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1484,7 +1517,8 @@
 				SKIP_INSTALL = NO;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_WORKSPACE = YES;
@@ -1508,11 +1542,12 @@
 					"$(PROJECT_DIR)/Kakao",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
+					"$(PROJECT_DIR)/TMap",
 				);
 				INFOPLIST_FILE = "OilPrice-Where/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "어디주유";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1527,7 +1562,8 @@
 				SKIP_INSTALL = NO;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_WORKSPACE = YES;
@@ -1550,7 +1586,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = FavoriteWidgetExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1563,6 +1599,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FavoriteWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_WORKSPACE = YES;
@@ -1585,7 +1625,7 @@
 					"$(PROJECT_DIR)/DaumMap.embeddedframework",
 				);
 				INFOPLIST_FILE = FavoriteWidgetExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1597,6 +1637,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FavoriteWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_WORKSPACE = YES;
@@ -1617,7 +1661,7 @@
 				INFOPLIST_FILE = FindStationExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "어디주유";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 sangwook park. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1629,6 +1673,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FindStationExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1649,7 +1697,7 @@
 				INFOPLIST_FILE = FindStationExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "어디주유";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 sangwook park. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1660,6 +1708,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline.FindStationExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1712,80 +1764,80 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 15.0.0;
+				kind = exactVersion;
+				version = 15.0.3;
 			};
 		};
 		E94A9785290EE58C002CE7D8 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scalessec/Toast-Swift";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
+				kind = exactVersion;
+				version = 5.1.1;
 			};
 		};
 		E94A9788290EE65B002CE7D8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.0.0;
+				kind = exactVersion;
+				version = 11.7.0;
 			};
 		};
 		E9689E5F290EE38800DA23AD /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/CombineCommunity/CombineCocoa.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.1;
+				kind = exactVersion;
+				version = 0.4.1;
 			};
 		};
 		E9689E62290EE3C200DA23AD /* XCRemoteSwiftPackageReference "Then" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/devxoul/Then.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
+				kind = exactVersion;
+				version = 3.0.0;
 			};
 		};
 		E9689E65290EE3E900DA23AD /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
+				kind = exactVersion;
+				version = 5.7.1;
 			};
 		};
 		E9689E6E290EE47700DA23AD /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scenee/FloatingPanel";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				kind = exactVersion;
+				version = 2.8.6;
 			};
 		};
 		E9689E74290EE53800DA23AD /* XCRemoteSwiftPackageReference "SideMenu" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jonkykong/SideMenu";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
+				kind = exactVersion;
+				version = 6.5.0;
 			};
 		};
 		E99A7EDA29BBBFB000BFCBC9 /* XCRemoteSwiftPackageReference "CombineDataSources" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/CombineCommunity/CombineDataSources";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.5;
+				kind = exactVersion;
+				version = 0.2.5;
 			};
 		};
-		E9C455A3291FDD6A00A81973 /* XCRemoteSwiftPackageReference "NMapsMap-SPM" */ = {
+		E9C455A3291FDD6A00A81973 /* XCRemoteSwiftPackageReference "SPM-NMapsMap" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jaemyeong/NMapsMap-SPM.git";
+			repositoryURL = "https://github.com/navermaps/SPM-NMapsMap";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.16.0;
+				branch = main;
+				kind = branch;
 			};
 		};
 		E9E2A285290EE15600B91765 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
@@ -1856,7 +1908,7 @@
 		};
 		E9C455A4291FDD6A00A81973 /* NMapsMap */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E9C455A3291FDD6A00A81973 /* XCRemoteSwiftPackageReference "NMapsMap-SPM" */;
+			package = E9C455A3291FDD6A00A81973 /* XCRemoteSwiftPackageReference "SPM-NMapsMap" */;
 			productName = NMapsMap;
 		};
 		E9E2A286290EE15600B91765 /* KakaoSDK */ = {

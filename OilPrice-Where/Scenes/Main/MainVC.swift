@@ -352,8 +352,8 @@ final class MainVC: CommonViewController {
     }
     
     private func toFavoriteTapped() {
-        let tabbar = FavoriteCustomTabbarController()
-        navigationController?.pushViewController(tabbar, animated: true)
+//        let tabbar = FavoriteCustomTabbarController()
+//        navigationController?.pushViewController(tabbar, animated: true)
     }
     
     private func researchStation(with coordinate: CLLocationCoordinate2D? = nil) {

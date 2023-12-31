@@ -22,22 +22,22 @@ extension StationAPI: TargetType {
     
     var path: String {
         switch self {
-        case .stationList(_, _, _, _, _, _):
+        case .stationList:
             return "/aroundAll.do"
-        case .stationDetail(_, _):
+        case .stationDetail:
             return "/detailById.do"
-        case .allPrices(_):
+        case .allPrices:
             return "/avgAllPrice.do"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .stationList(x: _, y: _, radius: _, prodcd: _, sort: _, appKey: _):
+        case .stationList:
             return .get
-        case .stationDetail(_, _):
+        case .stationDetail:
             return .get
-        case .allPrices(appKey: _):
+        case .allPrices:
             return .get
         }
     }
