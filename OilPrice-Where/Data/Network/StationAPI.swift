@@ -1,19 +1,24 @@
 //
-//  StationAPI.swift
+//  StationEndpoint.swift
 //  OilPrice-Where
 //
-//  Created by wargi_p on 2022/01/20.
-//  Copyright © 2022 sangwook park. All rights reserved.
+//  Created by wargi on 1/18/25.
+//  Copyright © 2025 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Moya
+import Foundation
+
 
 enum StationAPI {
-    case stationList(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String)
+    /// 주변 주유소 정보 조회
+    case nearbyGasStations(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String)
+    /// 주유소 정보 조회
     case stationDetail(appKey: String, id: String)
-    case allPrices(appKey: String)
+    /// 유가 정보 조회 결과
+    case oilPriceResult(appKey: String)
 }
+
 
 extension StationAPI: TargetType {
     var baseURL: URL {
@@ -22,29 +27,29 @@ extension StationAPI: TargetType {
     
     var path: String {
         switch self {
-        case .stationList:
+        case .nearbyGasStations:
             return "/aroundAll.do"
         case .stationDetail:
             return "/detailById.do"
-        case .allPrices:
+        case .oilPriceResult:
             return "/avgAllPrice.do"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .stationList:
+        case .nearbyGasStations:
             return .get
         case .stationDetail:
             return .get
-        case .allPrices:
+        case .oilPriceResult:
             return .get
         }
     }
     
     var task: Task {
         switch self {
-        case .stationList(let x, let y, let radius, let prodcd, let sort, let appKey):
+        case .nearbyGasStations(let x, let y, let radius, let prodcd, let sort, let appKey):
             let params: [String: Any] = [
                 "code": appKey,
                 "x": x,
@@ -55,8 +60,11 @@ extension StationAPI: TargetType {
                 "out": "json"
             ]
             
-            return .requestParameters(parameters: params,
-                                      encoding: URLEncoding.queryString)
+            return .requestParameters(
+                parameters: params,
+                encoding: URLEncoding.queryString
+            )
+            
         case .stationDetail(let appKey, let id):
             let params: [String: Any] = [
                 "code": appKey,
@@ -64,16 +72,21 @@ extension StationAPI: TargetType {
                 "out": "json"
             ]
             
-            return .requestParameters(parameters: params,
-                                      encoding: URLEncoding.queryString)
-        case .allPrices(let appKey):
+            return .requestParameters(
+                parameters: params,
+                encoding: URLEncoding.queryString
+            )
+            
+        case .oilPriceResult(let appKey):
             let params: [String: Any] = [
                 "code": appKey,
                 "out": "json"
             ]
             
-            return .requestParameters(parameters: params,
-                                      encoding: URLEncoding.queryString)
+            return .requestParameters(
+                parameters: params,
+                encoding: URLEncoding.queryString
+            )
         }
     }
     

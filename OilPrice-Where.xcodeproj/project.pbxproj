@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -78,7 +78,6 @@
 		E933E88428676C9300A49ADB /* AddCardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E933E88328676C9300A49ADB /* AddCardVC.swift */; };
 		E9400FDE27B0A3E2003168C6 /* NaverMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FDD27B0A3E2003168C6 /* NaverMapMarker.swift */; };
 		E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FDF27B0A3F0003168C6 /* StationInfoView.swift */; };
-		E9400FE227B0A467003168C6 /* StationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FE127B0A467003168C6 /* StationAPI.swift */; };
 		E9400FE627B0D719003168C6 /* StationInfoPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FE527B0D719003168C6 /* StationInfoPriceView.swift */; };
 		E9400FE827B1146E003168C6 /* StationInfoGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FE727B1146E003168C6 /* StationInfoGuideView.swift */; };
 		E9400FEA27B11C76003168C6 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FE927B11C76003168C6 /* UIView+.swift */; };
@@ -167,6 +166,11 @@
 		E9FE51CF2D3AC5F4003C81DE /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9FE51C72D3AC56D003C81DE /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9FE51D22D3AC69B003C81DE /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9FE51D12D3AC69B003C81DE /* TMapSDK.framework */; };
 		E9FE51D32D3AC69B003C81DE /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9FE51D12D3AC69B003C81DE /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9FE52082D3B7AC6003C81DE /* GasStationInfoResultDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52012D3B7AC6003C81DE /* GasStationInfoResultDTO.swift */; };
+		E9FE52092D3B7AC6003C81DE /* NearbyGasStationsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52022D3B7AC6003C81DE /* NearbyGasStationsDTO.swift */; };
+		E9FE520A2D3B7AC6003C81DE /* OilPriceResultDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52032D3B7AC6003C81DE /* OilPriceResultDTO.swift */; };
+		E9FE520B2D3B7AC6003C81DE /* RegionalFuelCostResultDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52042D3B7AC6003C81DE /* RegionalFuelCostResultDTO.swift */; };
+		E9FE520C2D3B7AC6003C81DE /* StationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52062D3B7AC6003C81DE /* StationAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -303,7 +307,6 @@
 		E933E88328676C9300A49ADB /* AddCardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardVC.swift; sourceTree = "<group>"; };
 		E9400FDD27B0A3E2003168C6 /* NaverMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapMarker.swift; sourceTree = "<group>"; };
 		E9400FDF27B0A3F0003168C6 /* StationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoView.swift; sourceTree = "<group>"; };
-		E9400FE127B0A467003168C6 /* StationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationAPI.swift; sourceTree = "<group>"; };
 		E9400FE527B0D719003168C6 /* StationInfoPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoPriceView.swift; sourceTree = "<group>"; };
 		E9400FE727B1146E003168C6 /* StationInfoGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoGuideView.swift; sourceTree = "<group>"; };
 		E9400FE927B11C76003168C6 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
@@ -370,11 +373,12 @@
 		E9FE51C32D3AC51B003C81DE /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMapSDK.framework; path = "../../../Downloads/[iOS_SWIFT]TmapSDK_2.18 2/배포(디바이스)/TMapSDK.framework"; sourceTree = "<group>"; };
 		E9FE51C72D3AC56D003C81DE /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMapSDK.framework; path = "../../../Downloads/[iOS_SWIFT]TmapSDK_2.18/배포(디바이스)/TMapSDK.framework"; sourceTree = "<group>"; };
 		E9FE51D12D3AC69B003C81DE /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMapSDK.framework; path = TMap/TMapSDK.framework; sourceTree = "<group>"; };
+		E9FE52012D3B7AC6003C81DE /* GasStationInfoResultDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationInfoResultDTO.swift; sourceTree = "<group>"; };
+		E9FE52022D3B7AC6003C81DE /* NearbyGasStationsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyGasStationsDTO.swift; sourceTree = "<group>"; };
+		E9FE52032D3B7AC6003C81DE /* OilPriceResultDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OilPriceResultDTO.swift; sourceTree = "<group>"; };
+		E9FE52042D3B7AC6003C81DE /* RegionalFuelCostResultDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalFuelCostResultDTO.swift; sourceTree = "<group>"; };
+		E9FE52062D3B7AC6003C81DE /* StationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		E9FE51FA2D3B7817003C81DE /* Network */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Network; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		8E7FFE1E20F5E5FF006CED48 /* Frameworks */ = {
@@ -648,14 +652,6 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
-		8E4DAF0A20F5EC2700E4FD92 /* APIs */ = {
-			isa = PBXGroup;
-			children = (
-				E9400FE127B0A467003168C6 /* StationAPI.swift */,
-			);
-			name = APIs;
-			sourceTree = "<group>";
-		};
 		8E7FFE1820F5E5FF006CED48 = {
 			isa = PBXGroup;
 			children = (
@@ -684,7 +680,6 @@
 				8E167D422107E7240066A59E /* Application */,
 				E9FE51D52D3B69C0003C81DE /* Data */,
 				8EE7E34720F5EDA400F35473 /* Utility */,
-				8E4DAF0A20F5EC2700E4FD92 /* APIs */,
 				E9EAF1062822DCBE0046F9A8 /* Model */,
 				2C0C68CB276B32D900945CEC /* Scenes */,
 				8E7FFE3D20F5EABE006CED48 /* Resources */,
@@ -975,7 +970,7 @@
 			isa = PBXGroup;
 			children = (
 				E9FE51D72D3B7080003C81DE /* Repositories */,
-				E9FE51FA2D3B7817003C81DE /* Network */,
+				E9FE52072D3B7AC6003C81DE /* Network */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -985,6 +980,26 @@
 			children = (
 			);
 			path = Repositories;
+			sourceTree = "<group>";
+		};
+		E9FE52052D3B7AC6003C81DE /* DTO+Mapping */ = {
+			isa = PBXGroup;
+			children = (
+				E9FE52032D3B7AC6003C81DE /* OilPriceResultDTO.swift */,
+				E9FE52022D3B7AC6003C81DE /* NearbyGasStationsDTO.swift */,
+				E9FE52012D3B7AC6003C81DE /* GasStationInfoResultDTO.swift */,
+				E9FE52042D3B7AC6003C81DE /* RegionalFuelCostResultDTO.swift */,
+			);
+			path = "DTO+Mapping";
+			sourceTree = "<group>";
+		};
+		E9FE52072D3B7AC6003C81DE /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				E9FE52062D3B7AC6003C81DE /* StationAPI.swift */,
+				E9FE52052D3B7AC6003C81DE /* DTO+Mapping */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1006,9 +1021,6 @@
 			dependencies = (
 				8EAEB15924F41AFF00B5E6CE /* PBXTargetDependency */,
 				E9984654291D13C30043D1DA /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				E9FE51FA2D3B7817003C81DE /* Network */,
 			);
 			name = "OilPrice-Where";
 			packageProductDependencies = (
@@ -1249,7 +1261,6 @@
 				E9400FEA27B11C76003168C6 /* UIView+.swift in Sources */,
 				2C0C68CA276B31CA00945CEC /* UITabBar+.swift in Sources */,
 				2CC1C80C276C8123007527C7 /* MainVC.swift in Sources */,
-				E9400FE227B0A467003168C6 /* StationAPI.swift in Sources */,
 				E98A508F291FDDCC00878CC3 /* SCLAlertView.swift in Sources */,
 				E90FC275290E3266006908CC /* SearchResultCell.swift in Sources */,
 				E9A1B17F28336A9F00B64AFA /* PriceAverageVC.swift in Sources */,
@@ -1283,6 +1294,11 @@
 				29B2264521228ECE0012B2F6 /* FirebaseUtility.swift in Sources */,
 				2CAC81E1276B9A7200CC6096 /* KVVStackView.swift in Sources */,
 				8EDE51B424D5C32C004590B6 /* FavoriteCellViewModel.swift in Sources */,
+				E9FE52082D3B7AC6003C81DE /* GasStationInfoResultDTO.swift in Sources */,
+				E9FE52092D3B7AC6003C81DE /* NearbyGasStationsDTO.swift in Sources */,
+				E9FE520A2D3B7AC6003C81DE /* OilPriceResultDTO.swift in Sources */,
+				E9FE520B2D3B7AC6003C81DE /* RegionalFuelCostResultDTO.swift in Sources */,
+				E9FE520C2D3B7AC6003C81DE /* StationAPI.swift in Sources */,
 				E9400FE627B0D719003168C6 /* StationInfoPriceView.swift in Sources */,
 				8EE53E9324D016B4008D8045 /* SettingAboutUsVC.swift in Sources */,
 				E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */,
