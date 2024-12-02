@@ -171,6 +171,9 @@
 		E9FE520A2D3B7AC6003C81DE /* OilPriceResultDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52032D3B7AC6003C81DE /* OilPriceResultDTO.swift */; };
 		E9FE520B2D3B7AC6003C81DE /* RegionalFuelCostResultDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52042D3B7AC6003C81DE /* RegionalFuelCostResultDTO.swift */; };
 		E9FE520C2D3B7AC6003C81DE /* StationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52062D3B7AC6003C81DE /* StationAPI.swift */; };
+		E9FE52132D3B7C97003C81DE /* AverageCostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52122D3B7C97003C81DE /* AverageCostRepository.swift */; };
+		E9FE52152D3B7CE8003C81DE /* FirebaseAverageCostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52142D3B7CE8003C81DE /* FirebaseAverageCostRepository.swift */; };
+		E9FE52172D3B85C0003C81DE /* OilPriceEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52162D3B85C0003C81DE /* OilPriceEntity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -378,6 +381,9 @@
 		E9FE52032D3B7AC6003C81DE /* OilPriceResultDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OilPriceResultDTO.swift; sourceTree = "<group>"; };
 		E9FE52042D3B7AC6003C81DE /* RegionalFuelCostResultDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalFuelCostResultDTO.swift; sourceTree = "<group>"; };
 		E9FE52062D3B7AC6003C81DE /* StationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationAPI.swift; sourceTree = "<group>"; };
+		E9FE52122D3B7C97003C81DE /* AverageCostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageCostRepository.swift; sourceTree = "<group>"; };
+		E9FE52142D3B7CE8003C81DE /* FirebaseAverageCostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAverageCostRepository.swift; sourceTree = "<group>"; };
+		E9FE52162D3B85C0003C81DE /* OilPriceEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OilPriceEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -678,6 +684,7 @@
 			children = (
 				8EAEB16624F4B9FC00B5E6CE /* OilPrice-Where.entitlements */,
 				8E167D422107E7240066A59E /* Application */,
+				E9FE520D2D3B7B92003C81DE /* Domain */,
 				E9FE51D52D3B69C0003C81DE /* Data */,
 				8EE7E34720F5EDA400F35473 /* Utility */,
 				E9EAF1062822DCBE0046F9A8 /* Model */,
@@ -978,6 +985,7 @@
 		E9FE51D72D3B7080003C81DE /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				E9FE52142D3B7CE8003C81DE /* FirebaseAverageCostRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1000,6 +1008,47 @@
 				E9FE52052D3B7AC6003C81DE /* DTO+Mapping */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		E9FE520D2D3B7B92003C81DE /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				E9FE52112D3B7BCA003C81DE /* Entities */,
+				E9FE52102D3B7BB7003C81DE /* UseCases */,
+				E9FE520E2D3B7BA3003C81DE /* Interfaces */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		E9FE520E2D3B7BA3003C81DE /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				E9FE520F2D3B7BB0003C81DE /* Repositories */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		E9FE520F2D3B7BB0003C81DE /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				E9FE52122D3B7C97003C81DE /* AverageCostRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		E9FE52102D3B7BB7003C81DE /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		E9FE52112D3B7BCA003C81DE /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				E9FE52162D3B85C0003C81DE /* OilPriceEntity.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1222,6 +1271,7 @@
 				E9D1445827CED3120055141A /* InfoListView.swift in Sources */,
 				E9C3A64C2842140100AC861C /* FavoriteCustomTabbarController.swift in Sources */,
 				E9633A7E27F9CF7D00B99E66 /* MenuKeyValueView.swift in Sources */,
+				E9FE52152D3B7CE8003C81DE /* FirebaseAverageCostRepository.swift in Sources */,
 				2CAC81DD276B948B00CC6096 /* CustomKVView.swift in Sources */,
 				8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */,
 				E9633A8C27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift in Sources */,
@@ -1229,6 +1279,7 @@
 				E998465A291D14B50043D1DA /* StationAttributes.swift in Sources */,
 				E90FC277290E331F006908CC /* LocationManager.swift in Sources */,
 				E978E08228425C3400AE3480 /* StationDetailVC.swift in Sources */,
+				E9FE52132D3B7C97003C81DE /* AverageCostRepository.swift in Sources */,
 				8ECE0D52211AD42600FF2B46 /* Preferences.swift in Sources */,
 				E9BE7AFF282C632C00FF8A01 /* HistoriesVC.swift in Sources */,
 				E90FC27D290E33B8006908CC /* LogUtil.swift in Sources */,
@@ -1270,6 +1321,7 @@
 				8EDAF7D821295AEF00422552 /* InitialSettingVC.swift in Sources */,
 				E933E88428676C9300A49ADB /* AddCardVC.swift in Sources */,
 				E9984652291D13C30043D1DA /* FindStationExtension.intentdefinition in Sources */,
+				E9FE52172D3B85C0003C81DE /* OilPriceEntity.swift in Sources */,
 				E9E290DD280F6B1C00BE21B3 /* NSMutableAttributedString+.swift in Sources */,
 				E9EAF1172822EC1C0046F9A8 /* UIColor+.swift in Sources */,
 				E9400FE827B1146E003168C6 /* StationInfoGuideView.swift in Sources */,
