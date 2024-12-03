@@ -19,7 +19,7 @@ struct OilPriceEntity: Hashable, Codable {
     /// 기름 타입
     let oilType: String
     /// 가격
-    let price: String
+    let oilPrice: String
     /// 저번주 평균가와 차이
     let diff: String
 }

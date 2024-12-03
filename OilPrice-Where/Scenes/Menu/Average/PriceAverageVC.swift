@@ -18,6 +18,7 @@ import Firebase
 final class PriceAverageVC: CommonViewController {
     //MARK: - Properties
     let firebaseUtility = FirebaseUtility()
+    
     // Background
     let containerView = UIView().then {
         $0.alpha = 0.0

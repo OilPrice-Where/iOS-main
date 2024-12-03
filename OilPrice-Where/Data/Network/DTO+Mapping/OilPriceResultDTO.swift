@@ -78,7 +78,7 @@ extension OilPriceResultDTO.OilPriceListDTO.OilPriceDTO {
             oilCode: oilCode ?? "",
             oilName: mapOilCodeToProductName(),
             oilType: oilType ?? "",
-            price: price ?? "0",
+            oilPrice: price ?? "0",
             diff: diff ?? ""
         )
     }
