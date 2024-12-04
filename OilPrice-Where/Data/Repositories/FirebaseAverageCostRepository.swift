@@ -7,17 +7,16 @@
 //
 
 import Foundation
-import Moya
 import Firebase
 import FirebaseDatabase
 
 
-
 final class FirebaseAverageCostRepository: AverageCostRepository {
     let reference: DatabaseReference
-    let provider = MoyaProvider<StationAPI>()
+    let repository: StationRepository
     
-    init(reference: DatabaseReference) {
+    init(repository: StationRepository) {
+        self.repository = repository
         self.reference = Database.database().reference()
     }
     
@@ -26,9 +25,42 @@ final class FirebaseAverageCostRepository: AverageCostRepository {
         let averageCostListRef = systemDataRef.child(Constants.FirebasePath.SystemData.AverageCostList.root)
         let productPath = averageCostListRef.child(productName)
         
+        return try await fetchSnapShotValue(reference: productPath)
+    }
+    
+    func checkAndUpdateAverageCosts() {
+        let systemDataRef = reference.child(Constants.FirebasePath.SystemData.root)
+        let averageCostListRef = systemDataRef.child(Constants.FirebasePath.SystemData.AverageCostList.root)
+        let updateTimePath = averageCostListRef.child(Constants.FirebasePath.SystemData.AverageCostList.UpdateTime.root)
+        
+        Task {
+            let lastUpdateTime: String? = try? await fetchSnapShotValue(reference: updateTimePath)
+            
+            // 현재 날짜와 마지막 업데이트 시간 비교 후 업데이트가 필요한지 여부
+            let currentDateString = currentDateString()
+            let needsUpdate = currentDateString != lastUpdateTime
+            
+            guard needsUpdate else {
+                return
+            }
+            
+            do {
+                let prices = try await repository.fetchOilPriceResult(appKey: Preferences.getAppKey())
+                handlePrices(prices, averageCostListRef: averageCostListRef)
+            } catch {
+                LogUtil.e("Moya request failed: \(error.localizedDescription)")
+            }
+        }
+    }
+}
+
+
+// MARK: - Private Helper Methods
+private extension FirebaseAverageCostRepository {
+    func fetchSnapShotValue<T>(reference path: DatabaseReference) async throws -> T {
         return try await withCheckedThrowingContinuation { continuation in
-            productPath.observeSingleEvent(of: DataEventType.value, with: { snapshot in
-                guard let averageCost = snapshot.value as? NSDictionary else {
+            path.observeSingleEvent(of: DataEventType.value, with: { snapshot in
+                guard let averageCost = snapshot.value as? T else {
                     continuation.resume(throwing: FirebaseRepositoryError.emptyData)
                     return
                 }
@@ -37,33 +69,41 @@ final class FirebaseAverageCostRepository: AverageCostRepository {
         }
     }
     
-    func checkAndUpdateAverageCosts() {
-        let currentDateString = currentDateString()
+    /// 유가 정보 리스트를 Firebase에 업데이트
+    func handlePrices(_ prices: [OilPriceEntity], averageCostListRef path: DatabaseReference) {
+        for price in prices {
+            processPrice(price, averageCostListRef: path)
+        }
         
-        let systemDataRef = reference.child(Constants.FirebasePath.SystemData.root)
-        let averageCostListRef = systemDataRef.child(Constants.FirebasePath.SystemData.AverageCostList.root)
-        let updateTimePath = averageCostListRef.child(Constants.FirebasePath.SystemData.AverageCostList.UpdateTime.root)
+        // 마지막 업데이트 시간을 첫 데이터의 tradeDate로 갱신
+        if let firstTradeDate = prices.first?.tradeDate {
+            path.updateChildValues(["updateTime": firstTradeDate])
+        }
+    }
+    
+    /// 유가 정보를 처리하고 Firebase를 업데이트
+    func processPrice(_ price: OilPriceEntity, averageCostListRef path: DatabaseReference) {
+        let oilName = price.oilName
+        let priceInteger = Int(price.oilPrice.components(separatedBy: ".").first ?? "0") ?? .zero
+        let convertedPrice = Preferences.priceToWon(price: priceInteger)
+        let priceDifferenceFlag = !price.diff.hasPrefix("-")
+        let updateCostData: [String: Any] = [
+            "difference": priceDifferenceFlag,
+            "price": convertedPrice
+        ]
         
-        updateTimePath.observeSingleEvent(of: DataEventType.value, with: { [weak self] snapshot in
-            guard let self else { return }
-            
-            let lastUpdateTime = snapshot.value as? String ?? ""
-            // 현재 날짜와 마지막 업데이트 시간 비교 후 업데이트가 필요한지 여부
-            let needsUpdate = currentDateString != lastUpdateTime
-            
-            guard needsUpdate else {
-                return
-            }
-            
-            provider.request(.oilPriceResult(appKey: Preferences.getAppKey())) { result in
-                switch result {
-                case .success(let response):
-                    
-                case .failure(let error):
-                    LogUtil.e("Moya request failed: \(error.localizedDescription)")
-                }
-            }
-        })
+        // update
+        path
+            .child(oilName)
+            .updateChildValues(updateCostData)
+    }
+    
+    /// 현재 날짜를 "yyyyMMdd" 형식의 문자열로 반환
+    func currentDateString() -> String {
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        return formatter.string(from: date)
     }
 }
 
@@ -93,61 +133,6 @@ extension FirebaseAverageCostRepository {
                     }
                 }
             }
-        }
-    }
-    
-    // MARK: - Private Helper Methods
-    
-    /// 현재 날짜를 "yyyyMMdd" 형식의 문자열로 반환
-    private func currentDateString() -> String {
-        let date = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd"
-        return formatter.string(from: date)
-    }
-    
-    /// Moya 응답을 처리하고 Firebase를 업데이트
-    private func handleAllPricesResponse(_ response: Response, databaseRef: DatabaseReference) {
-        do {
-            let decodedResult = try response.map(AllPriceResult.self)
-            guard let prices = decodedResult.result?.allPriceList else {
-                LogUtil.e("No prices found in response")
-                return
-            }
-            processPrices(prices, databaseRef: databaseRef)
-        } catch {
-            LogUtil.e("Failed to decode AllPriceResult: \(error.localizedDescription)")
-        }
-    }
-    
-    /// 유가 정보를 처리하고 Firebase를 업데이트
-    private func processPrices(_ prices: [AllPrice], databaseRef: DatabaseReference) {
-        for data in prices {
-            guard let productName = mapOilCodeToProductName(oilCode: data.oilCode ?? "") else {
-                continue
-            }
-            
-            let priceInteger = Int(data.price?.components(separatedBy: ".").first ?? "0") ?? 0
-            let convertedPrice = Preferences.priceToWon(price: priceInteger)
-            
-            let priceDifferenceFlag = !data.diff?.hasPrefix("-") ?? true
-            
-            let updateCostData: [String: Any] = [
-                "difference": priceDifferenceFlag,
-                "price": convertedPrice
-            ]
-            
-            databaseRef.child(FirebasePath.SystemData.root)
-                       .child(FirebasePath.SystemData.AverageCostList.root)
-                       .child(productName)
-                       .updateChildValues(updateCostData)
-        }
-        
-        // 마지막 업데이트 시간을 첫 데이터의 tradeDate로 갱신
-        if let firstTradeDate = prices.first?.tradeDate {
-            databaseRef.child(FirebasePath.SystemData.root)
-                       .child(FirebasePath.SystemData.AverageCostList.root)
-                       .updateChildValues(["updateTime": firstTradeDate])
         }
     }
 }
