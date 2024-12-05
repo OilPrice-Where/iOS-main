@@ -451,10 +451,12 @@ final class MainVC: CommonViewController {
                   let minimum_version_name = versionDic["minimum_version_name"]
             else { return }
             
-            let versionDbData = DbVersionData(lastest_version_code: lastest_version_code,
-                                              lastest_version_name: lastest_version_name,
-                                              minimum_version_code: minimum_version_code,
-                                              minimum_version_name: minimum_version_name)
+            let versionDbData = DatabaseVersionModel(
+                latestVersionCode: lastest_version_code,
+                latestVersionName: lastest_version_name,
+                minimumVersionCode: minimum_version_code,
+                minimumVersionName: minimum_version_name
+            )
             
             self?.checkUpdateVersion(dbdata: versionDbData)
         })
@@ -518,13 +520,13 @@ extension MainVC: SearchBarDelegate {
 
 //MARK: - NaverMap 관련
 extension MainVC: MainMapViewDelegate {
-    func marker(didTapMarker: NMGLatLng, info: GasStation) {
+    func marker(didTapMarker: NMGLatLng, info: GasStationInfoDTO) {
         if fpc.state == .hidden { fpc.move(to: .half, animated: true, completion: nil) }
         
         contentsVC.stationInfoView.configure(info)
         viewModel.selectedStation = info
         
-        let distance = info.distance < 1000 ? "\(Int(info.distance))m" : String(format: "%.1fkm", info.distance / 1000)
+        let distance = (info.distance ?? .zero) < 1000 ? "\(Int(info.distance ?? .zero))m" : String(format: "%.1fkm", (info.distance ?? .zero) / 1000)
         guideView.directionButton.setTitle(distance + " 안내시작", for: .normal)
         guideView.directionButton.setTitle(distance + " 안내시작", for: .highlighted)
     }
@@ -614,7 +616,7 @@ extension MainVC: FloatingPanelControllerDelegate {
             mapContainerView.mapView.moveCamera(update)
         case .full:
             if let station = viewModel.selectedStation {
-                let position = NMGTm128(x: station.katecX, y: station.katecY).toLatLng()
+                let position = NMGTm128(x: station.katecX ?? .zero, y: station.katecY ?? .zero).toLatLng()
                 let cameraUpdated = NMFCameraUpdate(position: NMFCameraPosition.init(position, zoom: 15.0))
                 cameraUpdated.animation = .linear
                 mapContainerView.mapView.moveCamera(cameraUpdated)
@@ -627,8 +629,8 @@ extension MainVC: FloatingPanelControllerDelegate {
                 
                 switch result {
                 case .success(let resp):
-                    guard let ret = try? resp.map(InformationOilStationResult.self),
-                          let information = ret.result?.allPriceList?.first else { return }
+                    guard let ret = try? resp.map(NearbyGasStationsDTO.self),
+                          let information = ret.result?.gasStations?.first else { return }
                     self.contentsVC.station = information
                 case .failure(let error):
                     LogUtil.e(error)
@@ -642,12 +644,12 @@ extension MainVC: FloatingPanelControllerDelegate {
 
 //MARK: - List 관련
 extension MainVC: MainListVCDelegate {
-    func touchedCell(info: GasStation) {
-        let position = NMGTm128(x: info.katecX, y: info.katecY).toLatLng()
+    func touchedCell(info: GasStationInfoDTO) {
+        let position = NMGTm128(x: info.katecX ?? .zero, y: info.katecY ?? .zero).toLatLng()
         marker(didTapMarker: position, info: info)
         
         mapContainerView.selectedMarker = mapContainerView.markers.first(where: {
-            guard let station = $0.userInfo["station"] as? GasStation else { return false }
+            guard let station = $0.userInfo["station"] as? GasStationInfoDTO else { return false }
             return station.id == info.id
         })
         mapContainerView.selectedMarker?.isSelected = true

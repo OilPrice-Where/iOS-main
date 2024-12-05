@@ -1,5 +1,5 @@
 {
-  "originHash" : "3250a18e962dab37b90bcf0fdc53dc09236cd2911f164e0ad4383c87b4376232",
+  "originHash" : "96c602d0841ba3ff4497132a32482ce660a15912294610797259bc026e684c25",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -26,24 +26,6 @@
       "state" : {
         "revision" : "61b85103a1aeed8218f17c794687781505fbbef5",
         "version" : "11.2.0"
-      }
-    },
-    {
-      "identity" : "combinecocoa",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/CombineCommunity/CombineCocoa.git",
-      "state" : {
-        "revision" : "7300c75ff9e072aa7fd0fccefcc88f74aae9bf56",
-        "version" : "0.4.1"
-      }
-    },
-    {
-      "identity" : "combinedatasources",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/CombineCommunity/CombineDataSources",
-      "state" : {
-        "revision" : "362795e0336f2c1637036f692a3b5d05806302b4",
-        "version" : "0.2.5"
       }
     },
     {
@@ -177,8 +159,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ReactiveX/RxSwift.git",
       "state" : {
-        "revision" : "b4307ba0b6425c0ba4178e138799946c3da594f8",
-        "version" : "6.5.0"
+        "revision" : "c7c7d2cf50a3211fe2843f76869c698e4e417930",
+        "version" : "6.8.0"
       }
     },
     {
@@ -229,7 +211,7 @@
     {
       "identity" : "then",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/devxoul/Then.git",
+      "location" : "https://github.com/devxoul/Then",
       "state" : {
         "revision" : "d41ef523faef0f911369f79c0b96815d9dbb6d7a",
         "version" : "3.0.0"

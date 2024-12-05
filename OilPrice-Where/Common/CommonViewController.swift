@@ -99,15 +99,15 @@ class CommonViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func requestURL(station: GasStation?) -> ResultURL {
-        let dummy = GasStation(id: "", brand: "", name: "Dummy", price: 0, distance: 0.0, katecX: 465535.79052, katecY: 351548.26588)
+    func requestURL(station: GasStationInfoDTO?) -> ResultURL {
+        let dummy = GasStationInfoDTO(id: "", brand: "", name: "Dummy", price: 0, distance: 0.0, katecX: 465535.79052, katecY: 351548.26588)
         guard let type = NaviType(rawValue: DefaultData.shared.naviSubject.value) else { return (false, nil) }
         let info = station ?? dummy
         
         var destinationURL: URL? = nil
         var appstoreURL: URL? = nil
         
-        let position = NMGTm128(x: info.katecX, y: info.katecY).toLatLng()
+        let position = NMGTm128(x: info.katecX ?? .zero, y: info.katecY ?? .zero).toLatLng()
         
         switch type {
         case .tMap:
@@ -117,7 +117,7 @@ class CommonViewController: UIViewController {
             destinationURL = URL(string: encodedStr ?? "")
             appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/431589174")
         case .kakao:
-            let destination = NaviLocation(name: info.name, x: "\(NSNumber(value: info.katecX))", y: "\(NSNumber(value: info.katecY))")
+            let destination = NaviLocation(name: info.name ?? "", x: "\(NSNumber(value: info.katecX ?? .zero))", y: "\(NSNumber(value: info.katecY ?? .zero))")
             destinationURL = NaviApi.shared.navigateUrl(destination: destination, option: NaviOption(routeInfo: false))
             appstoreURL = NaviApi.webNaviInstallUrl
         case .kakaoMap:
@@ -136,7 +136,7 @@ class CommonViewController: UIViewController {
         return UIApplication.shared.canOpenURL(_destinationURL) ? (true, _destinationURL) : (false, _appstoreURL)
     }
     
-    func requestDirection(station: GasStation?) {
+    func requestDirection(station: GasStationInfoDTO?) {
         guard let info = station,
               let requestURL = requestURL(station: info).requestURL else { return }
         

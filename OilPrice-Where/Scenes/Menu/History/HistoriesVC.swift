@@ -109,7 +109,7 @@ extension HistoriesVC: UITableViewDataSource, UITableViewDelegate {
         let alert = UIAlertController(title: "길 안내", message: "해당 주유소를 재방문 하시겠습니까?", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
             let target = DataManager.shared.stationList[indexPath.row]
-            let station = GasStation(id: target.identifier, name: target.name, brand: target.brand, x: target.katecX, y: target.katecY)
+            let station = GasStationInfoDTO(id: target.identifier, name: target.name, brand: target.brand, x: target.katecX, y: target.katecY)
             self?.requestDirection(station: station)
             
             DispatchQueue.main.async {

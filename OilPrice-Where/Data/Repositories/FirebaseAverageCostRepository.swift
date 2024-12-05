@@ -48,7 +48,7 @@ final class FirebaseAverageCostRepository: AverageCostRepository {
                 let prices = try await repository.fetchOilPriceResult(appKey: Preferences.getAppKey())
                 handlePrices(prices, averageCostListRef: averageCostListRef)
             } catch {
-                LogUtil.e("Moya request failed: \(error.localizedDescription)")
+                LogUtil.e("Request failed: \(error.localizedDescription)")
             }
         }
     }

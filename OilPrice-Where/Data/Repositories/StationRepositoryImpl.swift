@@ -12,11 +12,7 @@ import Moya
 
 final class StationRepositoryImpl: StationRepository {
     private let provider: MoyaProvider<StationAPI>
-    
-    init(provider: MoyaProvider<StationAPI> = MoyaProvider<StationAPI>()) {
-        self.provider = provider
-    }
-    
+        
     func fetchNearbyGasStations(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String) {
         
     }

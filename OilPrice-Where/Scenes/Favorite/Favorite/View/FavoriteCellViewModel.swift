@@ -57,7 +57,7 @@ extension FavoriteCellViewModel {
         DefaultData.shared.favoriteSubject.send(newFavArr)
     }
     // 길 안내
-    func navigationButton() -> GasStation? {
+    func navigationButton() -> GasStationInfoDTO? {
         let type = DefaultData.shared.oilSubject.value
         
         guard let info = info,
@@ -68,7 +68,7 @@ extension FavoriteCellViewModel {
               let ky = info.katecY,
               let price = info.price?.first(where: { $0.type == type })?.price else { return nil }
         
-        return GasStation(id: id, brand: brand, name: name, price: price, distance: 0.0,
+        return GasStationInfoDTO(id: id, brand: brand, name: name, price: price, distance: 0.0,
                           katecX: kx, katecY: ky)
     }
 }

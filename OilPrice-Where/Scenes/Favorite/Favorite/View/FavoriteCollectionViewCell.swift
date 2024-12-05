@@ -15,7 +15,7 @@ import FirebaseAnalytics
 
 protocol FavoriteCollectionViewCellDelegate: AnyObject {
     func touchedAddressLabel()
-    func touchedDirection(station: GasStation?)
+    func touchedDirection(station: GasStationInfoDTO?)
 }
 
 //MARK: 즐겨찾는 주유소 Cell
@@ -206,13 +206,13 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
 
         // 로고 이미지 삽입
         viewModel.infoSubject
-            .map { Preferences.logoImage(logoName: $0?.brand) }
+            .map { Preferences.logoImage(logoName: $0?.brand ?? "") }
             .assign(to: \.image, on: logoImageView)
             .store(in: &viewModel.cancelBag)
 
         // 주유소 이름
         viewModel.infoSubject
-            .map { $0?.name }
+            .map { $0?.name ?? "" }
             .assign(to: \.text, on: gasStationNameLabel)
             .store(in: &viewModel.cancelBag)
 

@@ -50,7 +50,7 @@ final class GasStationTitleView: UIStackView {
     }
     
     // Configure title
-    func configure(title info: GasStation) {
+    func configure(title info: GasStationInfoDTO) {
         logoImageView.image = Preferences.logoImage(logoName: info.brand)
         stationNameLabel.text = info.name
     }
