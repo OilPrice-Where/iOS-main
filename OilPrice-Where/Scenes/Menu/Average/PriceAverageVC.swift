@@ -11,7 +11,6 @@ import Then
 import SnapKit
 import UIKit
 import Combine
-import CombineCocoa
 import Firebase
 
 //MARK: 전국 평균가

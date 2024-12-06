@@ -10,8 +10,6 @@ import UIKit
 import Foundation
 import NMapsMap
 import Combine
-import CombineCocoa
-import CombineDataSources
 import CoreLocation
 import FirebaseAnalytics
 //MARK: 즐겨찾는 주유소 VC

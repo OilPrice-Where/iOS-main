@@ -9,7 +9,11 @@
 import UIKit
 import Combine
 
-enum GestureType {
+/*
+ * MARK: GesturePulisher
+ */
+
+public enum GestureType {
     case tap
     case longpress
     case pan
@@ -17,7 +21,7 @@ enum GestureType {
     case swipe
     case edge
     
-    var gesture: UIGestureRecognizer {
+    public var gesture: UIGestureRecognizer {
         switch self {
         case .tap:
             return UITapGestureRecognizer()
@@ -35,60 +39,70 @@ enum GestureType {
     }
 }
 
-// MARK: - Publisher
-struct GesturePublisher: Publisher {
-    public typealias Output = GestureType
-    public typealias Failure = Never
-    
-    private let view: UIView
-    private let event: GestureType
-    
-    public init(view: UIView, event: GestureType) {
-        self.view = view
-        self.event = event
+public extension UIView {
+    /// GesturePublisher
+    func gesturePublisher(_ gestureType: GestureType = .tap,
+                          delegate: UIGestureRecognizerDelegate? = nil) -> AnyPublisher<UIGestureRecognizer, Never> {
+        let gesture = gestureType.gesture
+        gesture.delegate = delegate
+        return GesturePublisher(targetView: self, gesture: gesture).eraseToAnyPublisher()
     }
-    
-    public func receive<S: Subscriber>(subscriber: S) where S.Failure == GesturePublisher.Failure, S.Input == GesturePublisher.Output {
-        let subscription = GestureSubscription(subscriber: subscriber,
-                                               view: view,
-                                               event: event)
-        
-        subscriber.receive(subscription: subscription)
-    }
-}
 
-// MARK: - Subscription
-private final class GestureSubscription<S: Subscriber>: Subscription where S.Input == GestureType, S.Failure == Never {
-    private var subscriber: S?
-    private var event: GestureType
-    private var view: UIView
-    
-    init(subscriber: S, view: UIView, event: GestureType) {
-        self.subscriber = subscriber
-        self.view = view
-        self.event = event
+    // MARK: - Publisher
+    struct GesturePublisher: Publisher {
         
-        configure(type: event)
-    }
-    
-    private func configure(type: GestureType) {
-        let gesture = type.gesture
-        gesture.addTarget(self, action: #selector(gestureHandler))
-        view.addGestureRecognizer(gesture)
+        public typealias Output = UIGestureRecognizer
         
-        view.isUserInteractionEnabled = true
-    }
-    
-    func request(_ demand: Subscribers.Demand) {
+        public typealias Failure = Never
         
+        private weak var targetView: UIView?
+        
+        private let gesture: UIGestureRecognizer
+        
+        public init(targetView view: UIView, gesture: UIGestureRecognizer) {
+            self.targetView = view
+            self.gesture = gesture
+        }
+        
+        public func receive<S: Subscriber>(subscriber: S) where S.Failure == GesturePublisher.Failure, S.Input == GesturePublisher.Output {
+            let subscription = GestureSubscription(subscriber: subscriber,
+                                                   targetView: targetView,
+                                                   gesture: gesture)
+            
+            subscriber.receive(subscription: subscription)
+        }
     }
-    
-    func cancel() {
-        subscriber = nil
-    }
-    
-    @objc
-    private func gestureHandler() {
-        _ = subscriber?.receive(event)
+
+    // MARK: - Subscription
+    private final class GestureSubscription<S: Subscriber>: Subscription where S.Input == UIGestureRecognizer, S.Failure == Never {
+        private var subscriber: S?
+        private var gesture: UIGestureRecognizer
+        private weak var targetView: UIView?
+        
+        init(subscriber: S, targetView view: UIView?, gesture: UIGestureRecognizer) {
+            self.subscriber = subscriber
+            self.targetView = view
+            self.gesture = gesture
+            
+            view?.isUserInteractionEnabled = true
+            
+            gesture.addTarget(self, action: #selector(gestureHandler))
+            view?.addGestureRecognizer(gesture)
+        }
+        
+        func request(_ demand: Subscribers.Demand) {
+            
+        }
+        
+        func cancel() {
+            subscriber = nil
+            targetView?.isUserInteractionEnabled = false
+            gesture.removeTarget(self, action: #selector(gestureHandler))
+        }
+        
+        @objc
+        private func gestureHandler() {
+            _ = subscriber?.receive(gesture)
+        }
     }
 }

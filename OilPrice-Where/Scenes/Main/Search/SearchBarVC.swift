@@ -11,7 +11,6 @@ import SnapKit
 import UIKit
 import Combine
 import CoreLocation
-import CombineCocoa
 
 protocol SearchBarDelegate: AnyObject {
     func fetch(name: String?, coordinate: CLLocationCoordinate2D?)

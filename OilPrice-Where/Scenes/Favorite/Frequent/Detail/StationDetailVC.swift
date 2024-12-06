@@ -12,7 +12,6 @@ import SnapKit
 import UIKit
 import NMapsMap
 import Combine
-import CombineCocoa
 import FirebaseAnalytics
 
 //MARK: StationDetailVC

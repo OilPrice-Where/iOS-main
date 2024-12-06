@@ -8,8 +8,8 @@
 
 import UIKit
 import Combine
-import CombineCocoa
 import CombineDataSources
+
 //MARK: 탐색 브랜드 VC
 final class FindBrandVC: CommonViewController {
     //MARK: - Properties

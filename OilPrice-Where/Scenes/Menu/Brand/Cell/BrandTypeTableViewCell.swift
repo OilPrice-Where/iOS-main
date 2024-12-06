@@ -8,7 +8,6 @@
 
 import UIKit
 import Combine
-import CombineCocoa
 import SwiftUI
 
 //MARK: 탐색 브랜드 Cell

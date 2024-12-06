@@ -8,7 +8,6 @@
 
 import UIKit
 import Combine
-import CombineCocoa
 import CombineDataSources
 
 final class SelectedBrandTableViewCell: UITableViewCell {

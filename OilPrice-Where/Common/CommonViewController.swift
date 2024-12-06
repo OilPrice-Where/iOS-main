@@ -15,7 +15,7 @@ import KakaoSDKNavi
 class CommonViewController: UIViewController {
     typealias ResultURL = (isCanOpen: Bool, requestURL: URL?)
     
-    var cancelBag = Set<AnyCancellable>()
+    var cancellable = Set<AnyCancellable>()
     var reachability: Reachability? = Reachability() //Network
     
     override func viewDidLoad() {

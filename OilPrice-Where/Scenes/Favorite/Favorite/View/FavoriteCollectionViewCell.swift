@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 import Then
 import Combine
-import CombineCocoa
 import FirebaseAnalytics
 
 protocol FavoriteCollectionViewCellDelegate: AnyObject {
