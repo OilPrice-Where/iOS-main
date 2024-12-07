@@ -9,109 +9,169 @@
 import Then
 import UIKit
 import SnapKit
+
+
 //MARK: 초기화면 선택 View
-final class SelectTypeView: UIView {
-    //MARK: - Properties
-    private let oils = ["휘발유", "경유", "고급유", "LPG"]
-    private let navigations = ["카카오내비", "카카오맵", "티맵", "네이버지도"]
-    private let emptyView = UIView()
-    private let selectOilTypeLabel = UILabel().then { // Oil Type
+final class SelectTypeView: UIView {    
+    // MARK: - Properties
+    private let selectOilTypeLabel = UILabel().then {
         $0.text = "찾으시는 기름의 종류를 선택해주세요."
         $0.textAlignment = .center
         $0.textColor = Asset.Colors.mainColor.color
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 15)
     }
-    lazy var oilTypeSegmentControl = UISegmentedControl(items: oils).then {
+    
+    let fuelTypeSegmentControl = UISegmentedControl().then {
         $0.selectedSegmentIndex = 0
         $0.selectedSegmentTintColor = Asset.Colors.mainColor.color
     }
-    private let selectNaviTypeLabel = UILabel().then { // Navigation Type
+    
+    private let selectNaviTypeLabel = UILabel().then {
         $0.text = "연동할 내비게이션을 선택해주세요."
         $0.textAlignment = .center
         $0.textColor = Asset.Colors.mainColor.color
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 15)
     }
-    lazy var naviTypeSegmentControl = UISegmentedControl(items: navigations).then {
+    
+    let naviTypeSegmentControl = UISegmentedControl().then {
         $0.selectedSegmentIndex = 0
         $0.selectedSegmentTintColor = Asset.Colors.mainColor.color
     }
+    
     let okButton = UIButton().then {
         $0.setTitle("확인", for: .normal)
-        $0.setTitle("확인", for: .highlighted)
         $0.setTitleColor(.white, for: .normal)
-        $0.setTitleColor(.white, for: .highlighted)
         $0.backgroundColor = Asset.Colors.mainColor.color
+        $0.layer.cornerRadius = 20
     }
     
+    /// 하단 여백을 위한 빈 뷰
+    private let spacerView = UIView()
+    
     //MARK: - Initializer
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init() {
+        super.init(frame: .zero)
         
-        viewLayoutSetUp()
-        makeUI()
+        backgroundColor = .white
+        layer.cornerRadius = 5
+        
+        configureUI()
+        setupConstraints()
+        setupSegmentControlStyles()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    //MARK: - Set UI
-    private func makeUI() {
-        layer.cornerRadius = 5
-        okButton.layer.cornerRadius = 20
+}
+
+extension SelectTypeView {
+    func updateFuelTypeeSegments(with types: [String]) {
+        // 기존 세그먼트 모두 제거
+        fuelTypeSegmentControl.removeAllSegments()
         
-        backgroundColor = .white
+        // 배열의 각 요소를 세그먼트로 추가
+        for (index, item) in types.enumerated() {
+            fuelTypeSegmentControl.insertSegment(withTitle: item, at: index, animated: false)
+        }
         
-        addSubview(selectOilTypeLabel)
-        addSubview(oilTypeSegmentControl)
-        addSubview(selectNaviTypeLabel)
-        addSubview(naviTypeSegmentControl)
-        addSubview(okButton)
-        addSubview(emptyView)
-        
-        selectOilTypeLabel.snp.makeConstraints {
-            $0.left.top.right.equalToSuperview().inset(16)
-            $0.height.equalTo(20)
-        }
-        oilTypeSegmentControl.snp.makeConstraints {
-            $0.top.equalTo(selectOilTypeLabel.snp.bottom).offset(12)
-            $0.left.right.equalToSuperview().inset(16)
-            $0.height.equalTo(30)
-        }
-        selectNaviTypeLabel.snp.makeConstraints {
-            $0.top.equalTo(oilTypeSegmentControl.snp.bottom).offset(16)
-            $0.left.right.equalToSuperview().inset(16)
-            $0.height.equalTo(20)
-        }
-        naviTypeSegmentControl.snp.makeConstraints {
-            $0.top.equalTo(selectNaviTypeLabel.snp.bottom).offset(12)
-            $0.left.right.equalToSuperview().inset(16)
-            $0.height.equalTo(30)
-        }
-        okButton.snp.makeConstraints {
-            $0.top.equalTo(naviTypeSegmentControl.snp.bottom).offset(16)
-            $0.left.right.equalToSuperview().inset(16)
-            $0.height.equalTo(40)
-        }
-        emptyView.snp.makeConstraints {
-            $0.top.equalTo(okButton.snp.bottom)
-            $0.left.right.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-16)
+        // 기본 선택 인덱스 설정 (옵션)
+        if !types.isEmpty {
+            fuelTypeSegmentControl.selectedSegmentIndex = 0
         }
     }
     
-    private func viewLayoutSetUp() {
-        let font = FontFamily.NanumSquareRound.regular.font(size: 15)
+    func updateNavigationOptionSegment(with options: [String]) {
+        // 기존 세그먼트 모두 제거
+        naviTypeSegmentControl.removeAllSegments()
         
-        let normalAttribute: [NSAttributedString.Key: Any] = [.font: font,
-                                                              .foregroundColor: UIColor.black]
-        let selectedAttribute: [NSAttributedString.Key: Any] = [.font: font,
-                                                                .foregroundColor: UIColor.white]
+        // 배열의 각 요소를 세그먼트로 추가
+        for (index, item) in options.enumerated() {
+            naviTypeSegmentControl.insertSegment(withTitle: item, at: index, animated: false)
+        }
         
-        oilTypeSegmentControl.setTitleTextAttributes(normalAttribute, for: .normal)
-        oilTypeSegmentControl.setTitleTextAttributes(selectedAttribute, for: .selected)
-        naviTypeSegmentControl.setTitleTextAttributes(normalAttribute, for: .normal)
-        naviTypeSegmentControl.setTitleTextAttributes(selectedAttribute, for: .selected)
+        // 기본 선택 인덱스 설정 (옵션)
+        if !options.isEmpty {
+            naviTypeSegmentControl.selectedSegmentIndex = 0
+        }
     }
 }
 
+// MARK: - UI Configuration
+private extension SelectTypeView {
+    enum UIConstants {
+        enum Insets {
+            static let general: CGFloat = 16
+        }
+        
+        enum Heights {
+            static let label: CGFloat = 20
+            static let segment: CGFloat = 30
+            static let button: CGFloat = 40
+        }
+        
+        enum Offsets {
+            static let labelToSegment: CGFloat = 12
+            static let segmentToLabel: CGFloat = 16
+            static let segmentToButton: CGFloat = 16
+            static let buttonToBottom: CGFloat = 16
+        }
+    }
+    
+    private func configureUI() {
+        addSubview(selectOilTypeLabel)
+        addSubview(fuelTypeSegmentControl)
+        addSubview(selectNaviTypeLabel)
+        addSubview(naviTypeSegmentControl)
+        addSubview(okButton)
+        addSubview(spacerView)
+    }
+    
+    private func setupConstraints() {
+        selectOilTypeLabel.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview().inset(UIConstants.Insets.general)
+            make.height.equalTo(UIConstants.Heights.label)
+        }
+        
+        fuelTypeSegmentControl.snp.makeConstraints { make in
+            make.top.equalTo(selectOilTypeLabel.snp.bottom).offset(UIConstants.Offsets.labelToSegment)
+            make.left.right.equalToSuperview().inset(UIConstants.Insets.general)
+            make.height.equalTo(UIConstants.Heights.segment)
+        }
+        
+        selectNaviTypeLabel.snp.makeConstraints { make in
+            make.top.equalTo(fuelTypeSegmentControl.snp.bottom).offset(UIConstants.Offsets.segmentToLabel)
+            make.left.right.equalToSuperview().inset(UIConstants.Insets.general)
+            make.height.equalTo(UIConstants.Heights.label)
+        }
+        
+        naviTypeSegmentControl.snp.makeConstraints { make in
+            make.top.equalTo(selectNaviTypeLabel.snp.bottom).offset(UIConstants.Offsets.labelToSegment)
+            make.left.right.equalToSuperview().inset(UIConstants.Insets.general)
+            make.height.equalTo(UIConstants.Heights.segment)
+        }
+        
+        okButton.snp.makeConstraints { make in
+            make.top.equalTo(naviTypeSegmentControl.snp.bottom).offset(UIConstants.Offsets.segmentToButton)
+            make.left.right.equalToSuperview().inset(UIConstants.Insets.general)
+            make.height.equalTo(UIConstants.Heights.button)
+        }
+        
+        spacerView.snp.makeConstraints { make in
+            make.top.equalTo(okButton.snp.bottom)
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-UIConstants.Offsets.buttonToBottom)
+        }
+    }
+    
+    private func setupSegmentControlStyles() {
+        let font = FontFamily.NanumSquareRound.regular.font(size: 15)
+        let normalAttributes: [NSAttributedString.Key: Any] = [.font: font, .foregroundColor: UIColor.black]
+        let selectedAttributes: [NSAttributedString.Key: Any] = [.font: font, .foregroundColor: UIColor.white]
+        
+        fuelTypeSegmentControl.setTitleTextAttributes(normalAttributes, for: .normal)
+        fuelTypeSegmentControl.setTitleTextAttributes(selectedAttributes, for: .selected)
+        naviTypeSegmentControl.setTitleTextAttributes(normalAttributes, for: .normal)
+        naviTypeSegmentControl.setTitleTextAttributes(selectedAttributes, for: .selected)
+    }
+}
