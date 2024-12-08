@@ -158,11 +158,11 @@ class CommonViewController: UIViewController {
     }
     
     //MARK: 버전 체크
-    func checkUpdateVersion(dbdata: DbVersionData){
-        let appLastestVersion = dbdata.lastest_version_code
-        let appMinimumVersion = dbdata.minimum_version_code
-        let appLastestVersionName = dbdata.lastest_version_name
-        let appMinimumVersionName = dbdata.minimum_version_name
+    func checkUpdateVersion(versionData data: DatabaseVersionModel){
+        let appLastestVersion = data.latestVersionCode
+        let appMinimumVersion = data.minimumVersionCode
+        let appLastestVersionName = data.latestVersionName
+        let appMinimumVersionName = data.minimumVersionName
         
         guard let infoDic = Bundle.main.infoDictionary,
               let appBuildVersion = infoDic["CFBundleVersion"] as? String,

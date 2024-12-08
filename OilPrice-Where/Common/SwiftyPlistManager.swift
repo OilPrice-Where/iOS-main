@@ -239,7 +239,7 @@ public class SwiftyPlistManager {
         }
     }
     
-    public func save(_ value: Any, forKey: String, toPlistWithName: String, completion:(_ error :SwiftyPlistManagerError?) -> ()) {
+    public func save(_ value: Any, forKey: String, toPlistWithName: String, completion: (_ error :SwiftyPlistManagerError?) -> ()) {
         
         if let plist = Plist(name: toPlistWithName) {
             

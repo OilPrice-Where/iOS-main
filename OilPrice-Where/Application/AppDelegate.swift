@@ -32,10 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KakaoSDK.initSDK(appKey: "b8e7f9ac5bf3c19414515867205f92aa")
         DefaultData.shared.allPriceDataLoad() // 전국의 오일종류 별 저번주의 평균 값을 받아온다.
         
-        if DefaultData.shared.backgroundFindSubject.value {
-            ActivityManager.shared.configure()
-        }
-        
         return true
     }
 }

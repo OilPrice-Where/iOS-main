@@ -101,9 +101,9 @@ final class CommonTextFieldView: UIView {
     
     private func bind() {
         contentTextField
-            .controlEventPublisher(for: .editingDidEnd)
+            .controlPublisher(for: .editingDidEnd)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
+            .sink { [weak self] _ in
                 self?.layer.borderColor = UIColor.systemGray3.cgColor
             }
             .store(in: &bag)

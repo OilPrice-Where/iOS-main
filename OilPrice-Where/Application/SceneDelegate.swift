@@ -22,24 +22,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
-        guard DefaultData.shared.backgroundFindSubject.value,
-              ActivityManager.shared.activity?.activityState == .active  else {
-            return
-        }
         
-        Task {
-            await ActivityManager.shared.endActivities()
-        }
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
-        UIApplication.shared.applicationIconBadgeNumber = 0
         
-        if #available(iOS 16.1, *),
-           DefaultData.shared.backgroundFindSubject.value,
-           ActivityManager.shared.activity?.activityState != .active {
-            ActivityManager.shared.configure()
-        }
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -69,7 +56,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let mainNavigationVC = UINavigationController(rootViewController: mainVC)
             return mainNavigationVC
         } else {
-            let initialViewModel = InitialViewModel()
+            let plistStorage: SettingStorage = PlistSettingStorage()
+            let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: plistStorage)
+            let initialViewModel = InitialViewModel(settingUseCase: settingUseCase)
             let initialSettingVC = InitialSettingVC(viewModel: initialViewModel)
             return initialSettingVC
         }
