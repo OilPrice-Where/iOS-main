@@ -112,7 +112,7 @@ final class HistoryTableViewCell: UITableViewCell {
         }
     }
     
-    func configure(station: Station) {
+    func configure(station: StationEntity) {
         brandImageView.image = Preferences.logoImage(logoName: station.brand)
         stationNameLabel.text = station.name
         visitValueLabel.text = formatter.string(for: station.insertDate)

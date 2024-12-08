@@ -60,7 +60,7 @@ final class SelectedBrandTableViewCell: UITableViewCell {
                         .sink { isOn in
                             owner.isAllSwitchButton.send(isOn)
                         }
-                        .store(in: &owner.viewModel.cancelBag)
+                        .store(in: &owner.viewModel.cancellable)
                     
                     return
                 }
@@ -75,8 +75,8 @@ final class SelectedBrandTableViewCell: UITableViewCell {
                         
                         owner.isLauchSetting = true
                     }
-                    .store(in: &owner.viewModel.cancelBag)
+                    .store(in: &owner.viewModel.cancellable)
             }))
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
     }
 }

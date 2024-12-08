@@ -156,7 +156,7 @@ final class MainVC: CommonViewController {
                     owner.fpc.move(to: .hidden, animated: false, completion: nil)
                 }
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         LocationManager.shared.$currentLocation
             .compactMap { $0 }
@@ -171,7 +171,7 @@ final class MainVC: CommonViewController {
                     owner.mapContainerView.moveMap(with: currentLocation.coordinate)
                 }
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         // menuButton Tapped
         mapContainerView
@@ -183,7 +183,7 @@ final class MainVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.showSideMenu()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         // toListButton Tapped
         mapContainerView
@@ -195,7 +195,7 @@ final class MainVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.toListTapped()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         // researchStation Tapped
         mapContainerView
@@ -206,7 +206,7 @@ final class MainVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.researchStation()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         // toFavoriteButton Tapped
         mapContainerView
@@ -217,7 +217,7 @@ final class MainVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.toFavoriteTapped()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         // favoriteButton Tapped
         guideView
@@ -228,7 +228,7 @@ final class MainVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.touchedFavoriteButton()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         // directionButton Tapped
         guideView
@@ -239,7 +239,7 @@ final class MainVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.toNavigationTapped()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         mapContainerView
             .currentLocationButton
@@ -257,7 +257,7 @@ final class MainVC: CommonViewController {
                     owner.mapContainerView.mapView.moveCamera(updated)
                 }
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         viewModel.output.staionResult
             .sink { [weak self] _ in
@@ -296,7 +296,7 @@ final class MainVC: CommonViewController {
                     $0.top.equalTo(owner.view.safeAreaLayoutGuide)
                 }
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         // 즐겨찾기 목록의 StationID 값과 StationView의 StationID값이 동일 하면 선택 상태로 변경
         viewModel.output.selectedStation
@@ -305,7 +305,7 @@ final class MainVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.updateFavoriteUI()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
     }
     
     //MARK: - Override Method

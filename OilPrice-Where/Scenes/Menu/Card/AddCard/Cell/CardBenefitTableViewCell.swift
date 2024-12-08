@@ -12,7 +12,7 @@ import Combine
 
 class CardBenefitTableViewCell: UITableViewCell {
     //MARK: - Properties
-    var cancelBag = Set<AnyCancellable>()
+    var cancellable = Set<AnyCancellable>()
     let items = ["L당 할인", "결제일 %할인"]
     private let saleTypeLabel = UILabel().then {
         $0.text = "혜택 타입"
@@ -107,12 +107,12 @@ class CardBenefitTableViewCell: UITableViewCell {
                 owner.stepper.maximumValue = isSelect ? 500.0 : 50.0
                 owner.salePriceValueLabel.text = "0\(isSelect ? "원" : "%")"
             }
-            .store(in: &cancelBag)
+            .store(in: &cancellable)
         
         stepper
             .valuePublisher
             .map { self.segmentControl.selectedSegmentIndex == 0 ? "\(Int($0))원" : String(format: "%.1f%%", $0) }
             .assign(to: \.text, on: salePriceValueLabel)
-            .store(in: &cancelBag)
+            .store(in: &cancellable)
     }
 }

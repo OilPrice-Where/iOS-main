@@ -22,16 +22,21 @@ final class SearchBarVC: CommonViewController {
     enum Section {
         case search
     }
+    
     var bag = Set<AnyCancellable>()
     weak var delegate: SearchBarDelegate?
     private let viewModel = SearchBarViewModel()
+    
+    
     let navigationView = CommonNavigationView().then {
         $0.titleLabel.text = "주소 검색"
     }
+    
     let searchImageView = UIImageView().then {
         $0.image = Asset.Images.search.image.withRenderingMode(.alwaysTemplate)
         $0.tintColor = .systemGray5
     }
+    
     let searchBarView = CommonTextFieldView(titleWidth: 0.1, contentTrailing: 8.0).then {
         $0.contentTextField.clearButtonMode = .always
         $0.contentTextField.attributedPlaceholder = NSAttributedString(string: "주유소 위치를 검색해보세요.", attributes: [
@@ -39,10 +44,12 @@ final class SearchBarVC: CommonViewController {
             .font: FontFamily.NanumSquareRound.regular.font(size: 12)
         ])
     }
+    
     let titleLabel = UILabel().then {
         $0.text = "최근 검색"
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 14)
     }
+    
     let removeAllButton = UIButton().then {
         $0.setTitle("전체 삭제", for: .normal)
         $0.setTitle("전체 삭제", for: .highlighted)
@@ -50,6 +57,7 @@ final class SearchBarVC: CommonViewController {
         $0.setTitleColor(.systemGray, for: .highlighted)
         $0.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 12)
     }
+    
     lazy var recentTableView = UITableView().then {
         $0.delegate = self
         $0.separatorStyle = .none
@@ -60,6 +68,7 @@ final class SearchBarVC: CommonViewController {
         $0.showsHorizontalScrollIndicator = false
         RecentResultCell.register($0)
     }
+    
     lazy var searchResultTableView = UITableView().then {
         $0.isHidden = true
         $0.delegate = self
@@ -175,11 +184,10 @@ final class SearchBarVC: CommonViewController {
             .assign(to: \.tintColor, on: searchImageView)
             .store(in: &viewModel.bag)
         
-        searchBarView
-            .contentTextField
-            .controlEventPublisher(for: .editingDidEnd)
+        searchBarView.contentTextField
+            .controlPublisher(for: .editingDidEnd)
             .receive(on: DispatchQueue.main)
-            .map { UIColor.systemGray4 }
+            .map { _ in UIColor.systemGray4 }
             .assign(to: \.tintColor, on: searchImageView)
             .store(in: &viewModel.bag)
         
@@ -329,7 +337,7 @@ extension SearchBarVC: UITableViewDelegate {
 }
 
 extension SearchBarVC: RecentResultCellProtocol {
-    func delete(poi: POI?, index: Int?) {
+    func delete(poi: POIEntity?, index: Int?) {
         guard let poi, let index else { return }
         
         DataManager.shared.delete(value: poi)

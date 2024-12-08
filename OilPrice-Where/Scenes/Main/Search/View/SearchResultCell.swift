@@ -6,9 +6,11 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
+import UIKit
 import Then
 import SnapKit
-import UIKit
+
+
 //MARK: SearchResultCell
 final class SearchResultCell: UITableViewCell {
     //MARK: - Properties
@@ -16,14 +18,17 @@ final class SearchResultCell: UITableViewCell {
         $0.textColor = .systemGray4
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 16)
     }
+    
     let subTitleLabel = UILabel().then {
         $0.textColor = .systemGray3
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
     }
+    
     let distanceLabel = UILabel().then {
         $0.textAlignment = .right
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
     }
+    
     let lineView = UIView().then {
         $0.backgroundColor = .systemGray5
     }
@@ -32,39 +37,56 @@ final class SearchResultCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        makeUI()
+        setupUI()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+
+// MARK: - UI Setup
+private extension SearchResultCell {
+    enum UIConstants {
+        static let titleTopInset: CGFloat = 16
+        static let titleHeight: CGFloat = 26
+        
+        static let interItemSpacing: CGFloat = 4
+        
+        static let lineHeight: CGFloat = 1
+    }
     
-    //MARK: - Make UI
-    private func makeUI() {
+    func setupUI() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(subTitleLabel)
         contentView.addSubview(distanceLabel)
         contentView.addSubview(lineView)
+    }
+    
+    func setupConstraints() {
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(UIConstants.titleTopInset)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(UIConstants.titleHeight)
+        }
         
-        titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(16)
-            $0.left.right.equalToSuperview()
-            $0.height.equalTo(26)
+        distanceLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(UIConstants.interItemSpacing)
+            make.right.equalToSuperview()
         }
-        distanceLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
-            $0.right.equalToSuperview()
+        
+        subTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(UIConstants.interItemSpacing)
+            make.left.equalToSuperview()
+            make.right.equalTo(distanceLabel.snp.left).offset(-UIConstants.interItemSpacing)
         }
-        subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
-            $0.left.equalToSuperview()
-            $0.right.equalTo(distanceLabel.snp.left).offset(4)
-        }
-        lineView.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.bottom.equalToSuperview()
-            $0.height.equalTo(1)
+        
+        lineView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.height.equalTo(UIConstants.lineHeight)
         }
     }
 }
-

@@ -91,14 +91,14 @@ final class SelectMenuVC: CommonViewController {
                                                                             cellConfig: { cell, indexPath, title in
                 cell.titleLabel.text = title
             }))
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         viewModel
             .output
             .fetchTitle
             .compactMap { $0 }
             .assign(to: \.text, on: selectMenuView.titleLabel)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         selectMenuView.laterButton
             .tapPublisher
@@ -107,7 +107,7 @@ final class SelectMenuVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.dismiss(animated: false)
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         selectMenuView.collectionView
             .didSelectItemPublisher
@@ -142,8 +142,6 @@ final class SelectMenuVC: CommonViewController {
                         msg = "\(title) 길 안내를 제공합니다.\n\(subTitle)"
                     case .oilType:
                         msg = "선택하신 유종으로 탐색을 시작합니다.\n\(subTitle)"
-                    case .background:
-                        msg = "백그라운드 탐색을 \(DefaultData.shared.backgroundFindSubject.value ? "시작합니다" : "끕니다").\n\(subTitle)"
                     }
                     
                     UIApplication.shared.customKeyWindow?.hideToast()
@@ -154,16 +152,16 @@ final class SelectMenuVC: CommonViewController {
                     })
                 }
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         backgroundView
-            .gesture()
+            .gesturePublisher()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.dismiss(animated: false)
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         viewModel
             .output
@@ -173,7 +171,7 @@ final class SelectMenuVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.selectMenuView.collectionView.selectItem(at: IndexPath(item: idx, section: 0), animated: false, scrollPosition: .top)
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         viewModel.input.fetchType.send(nil)
     }

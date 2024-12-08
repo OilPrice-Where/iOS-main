@@ -12,7 +12,7 @@ import Combine
 //MARK: SelectMenuViewModel
 final class SelectMenuViewModel {
     //MARK: - Properties
-    var cancelBag = Set<AnyCancellable>()
+    var cancellable = Set<AnyCancellable>()
     let input = Input()
     let output = Output()
     let type: SelectMenuType
@@ -37,14 +37,14 @@ final class SelectMenuViewModel {
                 guard let owner = self else { return }
                 owner.fetchModel()
             }
-            .store(in: &cancelBag)
+            .store(in: &cancellable)
         
         input.fetchUpdate
             .sink { [weak self] title in
                 guard let owner = self else { return }
                 owner.fetchUpdated(title: title)
             }
-            .store(in: &cancelBag)
+            .store(in: &cancellable)
     }
 }
 
@@ -53,7 +53,6 @@ extension SelectMenuViewModel {
     enum SelectMenuType {
         case navigation
         case oilType
-        case background
     }
     
     enum ErrorResult: Error {
@@ -82,9 +81,6 @@ extension SelectMenuViewModel {
         case .oilType:
             output.fetchModel.send(oilType)
             output.fetchTitle.send("찾으시는 유종을 선택해 주세요.")
-        case .background:
-            output.fetchModel.send(backgroundFind)
-            output.fetchTitle.send("백그라운드 탐색 여부를 선택해 주세요.")
         }
         
         fetchSelect()
@@ -96,8 +92,6 @@ extension SelectMenuViewModel {
             output.fetchSelect.send(findNavi.firstIndex(of: Preferences.navigation(type: DefaultData.shared.naviSubject.value)) ?? 0)
         case .oilType:
             output.fetchSelect.send(oilType.firstIndex(of: Preferences.oil(code: DefaultData.shared.oilSubject.value)) ?? 0)
-        case .background:
-            output.fetchSelect.send(DefaultData.shared.backgroundFindSubject.value ? 0 : 1)
         }
     }
     
@@ -107,19 +101,6 @@ extension SelectMenuViewModel {
             DefaultData.shared.naviSubject.send(Preferences.navigation(name: title))
         case .oilType:
             DefaultData.shared.oilSubject.send(Preferences.oil(name: title))
-        case .background:
-            let isOn = "켜기" == title
-            DefaultData.shared.backgroundFindSubject.send(isOn)
-            
-            if #available(iOS 16.1, *) {
-                if isOn, !(ActivityManager.shared.activity?.activityState == .active) {
-                    ActivityManager.shared.configure()
-                } else if !isOn {
-                    Task {
-                        await ActivityManager.shared.endActivity()
-                    }
-                }
-            }
         }
     }
 }

@@ -6,20 +6,22 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
+import UIKit
 import Then
 import SnapKit
-import UIKit
+
 
 protocol RecentResultCellProtocol: AnyObject {
-    func delete(poi: POI?, index: Int?)
+    func delete(poi: POIEntity?, index: Int?)
 }
 
-//MARK: SearchResultCell
+//MARK: RecentResultCell
 final class RecentResultCell: UITableViewCell {
     //MARK: - Properties
     weak var delegate: RecentResultCellProtocol?
     private var poi: POI?
     private var index: Int?
+    
     private let locationImageView = UIImageView().then {
         let image = Asset.Images.geoIcon.image.withRenderingMode(.alwaysTemplate)
         $0.image = image
@@ -53,50 +55,12 @@ final class RecentResultCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        makeUI()
+        setupUI()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    //MARK: - Make UI
-    private func makeUI() {
-        contentView.addSubview(locationImageView)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(dateLabel)
-        contentView.addSubview(deleteImageView)
-        contentView.addSubview(deleteButton)
-        contentView.addSubview(lineView)
-        
-        locationImageView.snp.makeConstraints {
-            $0.left.equalToSuperview()
-            $0.centerY.equalToSuperview()
-            $0.size.equalTo(20)
-        }
-        deleteButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview()
-            $0.size.equalTo(38)
-        }
-        deleteImageView.snp.makeConstraints {
-            $0.center.equalTo(deleteButton)
-            $0.size.equalTo(10)
-        }
-        dateLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.right.equalTo(deleteButton.snp.left)
-        }
-        titleLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalTo(locationImageView.snp.right).offset(8)
-            $0.right.equalTo(dateLabel.snp.left).offset(-8)
-        }
-        lineView.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.bottom.equalToSuperview()
-            $0.height.equalTo(1)
-        }
     }
     
     func configure(with poi: ResponsePOI, index: Int) {
@@ -109,5 +73,62 @@ final class RecentResultCell: UITableViewCell {
     @objc
     private func deleteButtonTouched() {
         delegate?.delete(poi: poi, index: index)
+    }
+}
+
+
+// MARK: - UI Setup
+private extension RecentResultCell {
+    enum UIConstants {
+        static let locationImageSize: CGFloat = 20
+        static let deleteButtonSize: CGFloat = 38
+        static let deleteImageSize: CGFloat = 10
+        static let interItemSpacing: CGFloat = 8
+        static let lineHeight: CGFloat = 1
+    }
+    
+    func setupUI() {
+        contentView.addSubview(locationImageView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(dateLabel)
+        contentView.addSubview(deleteImageView)
+        contentView.addSubview(deleteButton)
+        contentView.addSubview(lineView)
+    }
+    
+    func setupConstraints() {
+        locationImageView.snp.makeConstraints { make in
+            make.left.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.size.equalTo(UIConstants.locationImageSize)
+        }
+                
+        deleteButton.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview()
+            make.size.equalTo(UIConstants.deleteButtonSize)
+        }
+        
+        deleteImageView.snp.makeConstraints { make in
+            make.center.equalTo(deleteButton)
+            make.size.equalTo(UIConstants.deleteImageSize)
+        }
+        
+        dateLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.right.equalTo(deleteButton.snp.left)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.left.equalTo(locationImageView.snp.right).offset(UIConstants.interItemSpacing)
+            make.right.equalTo(dateLabel.snp.left).offset(-UIConstants.interItemSpacing)
+        }
+        
+        lineView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.height.equalTo(UIConstants.lineHeight)
+        }
     }
 }

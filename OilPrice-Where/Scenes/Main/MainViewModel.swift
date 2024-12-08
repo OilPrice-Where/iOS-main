@@ -17,13 +17,13 @@ import Firebase
 //MARK: MainViewModel
 final class MainViewModel {
     //MARK: - Properties
-    var cancelBag = Set<AnyCancellable>()
+    var cancellable = Set<AnyCancellable>()
     let input = Input()
     let output = Output()
     let staionProvider = MoyaProvider<StationAPI>()
-    var stations = [GasStation]() { didSet { output.staionResult.send(nil) } }
+    var stations = [GasStationInfoDTO]() { didSet { output.staionResult.send(nil) } }
     var requestLocation: CLLocation? = nil { didSet { addressUpdate() } }
-    var selectedStation: GasStation? = nil { didSet { output.selectedStation.send(nil) } }
+    var selectedStation: GasStationInfoDTO? = nil { didSet { output.selectedStation.send(nil) } }
     var addressString: String?
     var cameraPosition: NMFCameraPosition?
     var beforeNAfter: (before: FloatingPanelState, after: FloatingPanelState) = (.hidden, .hidden)
@@ -42,7 +42,7 @@ final class MainViewModel {
                 guard let owner = self else { return }
                 owner.requestSearch()
             }
-            .store(in: &cancelBag)
+            .store(in: &cancellable)
         
         DefaultData.shared.completedRelay
             .receive(on: DispatchQueue.main)
@@ -54,7 +54,7 @@ final class MainViewModel {
                 
                 owner.requestSearch()
             }
-            .store(in: &cancelBag)
+            .store(in: &cancellable)
     }
 }
 
@@ -109,7 +109,7 @@ extension MainViewModel {
         let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
         let tm = NMGTm128(from: latLng)
         
-        staionProvider.request(.stationList(x: tm.x,
+        staionProvider.request(.nearbyGasStations(x: tm.x,
                                             y: tm.y,
                                             radius: 5000,
                                             prodcd: oilSubject,
@@ -119,21 +119,21 @@ extension MainViewModel {
                   let _currentLocation = LocationManager.shared.currentLocation else { return }
             switch result {
             case .success(let response):
-                guard let list = try? response.map(OilList.self) else {
+                guard let list = try? response.map(NearbyGasStationsDTO.self) else {
                     self.output.error.send(.stationList)
                     return
                 }
                 
-                var target = list.result.gasStations.map { station -> GasStation in
-                    let stationLatLng = NMGTm128(x: station.katecX, y: station.katecY).toLatLng()
+                var target = list.result?.gasStations?.map { station -> GasStationInfoDTO in
+                    let stationLatLng = NMGTm128(x: station.katecX ?? .zero, y: station.katecY ?? .zero).toLatLng()
                     let stationLocation = CLLocation(latitude: stationLatLng.lat, longitude: stationLatLng.lng)
                     let distanceValue = stationLocation.distance(from: _currentLocation)
                     
-                    return GasStation.init(id: station.id, brand: station.brand, name: station.name, price: station.price, distance: distanceValue, katecX: station.katecX, katecY: station.katecY)
-                }
+                    return GasStationInfoDTO(id: station.id, brand: station.brand, name: station.name, price: station.price, distance: distanceValue, katecX: station.katecX, katecY: station.katecY)
+                } ?? []
                 
                 if brands.count != 10 {
-                    target = target.filter { brands.contains($0.brand) }
+                    target = target.filter { brands.contains($0.brand ?? "") }
                 }
                 
                 self.stations = target

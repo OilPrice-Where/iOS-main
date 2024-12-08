@@ -178,13 +178,13 @@ final class PriceAverageVC: CommonViewController {
     //MARK: - Binding..
     func bind() {
         backgroundView
-            .gesture()
+            .gesturePublisher()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.dismiss(animated: false)
             }
-            .store(in: &cancelBag)
+            .store(in: &cancellable)
         
         closeButton
             .tapPublisher
@@ -193,7 +193,7 @@ final class PriceAverageVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.dismiss(animated: false)
             }
-            .store(in: &cancelBag)
+            .store(in: &cancellable)
     }
     
     // HeaderView 설정

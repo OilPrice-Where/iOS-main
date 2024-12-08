@@ -12,7 +12,7 @@ import Combine
 //MARK: MenuViewModel
 final class MenuViewModel {
     //MARK: - Properties
-    var cancelBag = Set<AnyCancellable>()
+    var cancellable = Set<AnyCancellable>()
     let output = Output()
     
     //MARK: Initializer

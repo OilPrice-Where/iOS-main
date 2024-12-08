@@ -73,7 +73,7 @@ final class BrandTypeTableViewCell: UITableViewCell {
                 let isContains = brands.contains(Preferences.brand(name: brandName))
                 self?.brandSelectedSwitch.isOn = isContains
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         DefaultData.shared.brandsSubject
             .receive(on: DispatchQueue.main)
@@ -81,7 +81,7 @@ final class BrandTypeTableViewCell: UITableViewCell {
                 guard let owner = self, owner.name == "전체" else { return }
                 owner.brandSelectedSwitch.isOn = brands.count == 10
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         
         brandSelectedSwitch
@@ -105,6 +105,6 @@ final class BrandTypeTableViewCell: UITableViewCell {
                     DefaultData.shared.brandsSubject.send(brands)
                 }
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
     }
 }

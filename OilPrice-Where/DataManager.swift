@@ -20,24 +20,24 @@ class DataManager {
     
     var stationListIsEmpty = PassthroughSubject<Bool, Never>()
     @Published var poisIsNotEmpty = false
-    var stationListRelay = CurrentValueSubject<[Station], Never>([])
-    var stationList = [Station]() {
+    var stationListRelay = CurrentValueSubject<[StationEntity], Never>([])
+    var stationList = [StationEntity]() {
         didSet {
             stationListIsEmpty.send(stationList.isEmpty)
             stationListRelay.send(stationList)
         }
     }
-    var cardList = [Card]()
-    var pois = [POI]() {
+    var cardList = [CardEntity]()
+    var pois = [POIEntity]() {
         didSet {
             poisIsNotEmpty = !pois.isEmpty
         }
     }
     
     func fetchData() {
-        let stationRequest: NSFetchRequest<Station> = Station.fetchRequest()
-        let cardRequest: NSFetchRequest<Card> = Card.fetchRequest()
-        let poiRequest: NSFetchRequest<POI> = POI.fetchRequest()
+        let stationRequest: NSFetchRequest<StationEntity> = Station.fetchRequest()
+        let cardRequest: NSFetchRequest<CardEntity> = Card.fetchRequest()
+        let poiRequest: NSFetchRequest<POIEntity> = POI.fetchRequest()
         
         let sortByDateDesc = NSSortDescriptor(key: "insertDate", ascending: false)
         stationRequest.sortDescriptors = [sortByDateDesc]
@@ -71,7 +71,7 @@ class DataManager {
     }
     
     func addNew(card: CardInfo) {
-        let newCard = Card(context: mainContext)
+        let newCard = CardEntity(context: mainContext)
         newCard.identifier = card.identifier
         newCard.name = card.name
         newCard.isLiter = card.isLiter
@@ -85,7 +85,7 @@ class DataManager {
     }
     
     func addNew(poi: ResponsePOI) {
-        let newPOI = POI(context: mainContext)
+        let newPOI = POIEntity(context: mainContext)
         newPOI.name = poi.name
         newPOI.address = poi.address
         newPOI.latitude = poi.coordinate?.latitude ?? .zero

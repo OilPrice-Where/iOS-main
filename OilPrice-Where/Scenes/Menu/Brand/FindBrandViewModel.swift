@@ -10,7 +10,7 @@ import Foundation
 import Combine
 //MARK: FindBrandViewModel
 final class FindBrandViewModel {
-    var cancelBag = Set<AnyCancellable>()
+    var cancellable = Set<AnyCancellable>()
     private let findBrand = [ // 선택 가능한 탐색 반경
         "전체",
         "SK에너지",
