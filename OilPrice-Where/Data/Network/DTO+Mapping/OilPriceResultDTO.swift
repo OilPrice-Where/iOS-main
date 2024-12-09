@@ -57,13 +57,13 @@ extension OilPriceResultDTO.OilPriceListDTO {
 // MARK: - Mappings to Domain
 
 extension OilPriceResultDTO {
-    func toDomain() -> [OilPriceEntity] {
+    func toDomain() -> [OilPrice] {
         return result?.toDomain() ?? []
     }
 }
 
 extension OilPriceResultDTO.OilPriceListDTO {
-    func toDomain() -> [OilPriceEntity] {
+    func toDomain() -> [OilPrice] {
         let prices = fuelPrices ?? []
         return prices.map {
             $0.toDomain()
@@ -72,7 +72,7 @@ extension OilPriceResultDTO.OilPriceListDTO {
 }
 
 extension OilPriceResultDTO.OilPriceListDTO.OilPriceDTO {
-    func toDomain() -> OilPriceEntity {
+    func toDomain() -> OilPrice {
         .init(
             tradeDate: tradeDate ?? "",
             oilCode: oilCode ?? "",

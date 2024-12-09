@@ -70,7 +70,7 @@ private extension FirebaseAverageCostRepository {
     }
     
     /// 유가 정보 리스트를 Firebase에 업데이트
-    func handlePrices(_ prices: [OilPriceEntity], averageCostListRef path: DatabaseReference) {
+    func handlePrices(_ prices: [OilPrice], averageCostListRef path: DatabaseReference) {
         for price in prices {
             processPrice(price, averageCostListRef: path)
         }
@@ -82,7 +82,7 @@ private extension FirebaseAverageCostRepository {
     }
     
     /// 유가 정보를 처리하고 Firebase를 업데이트
-    func processPrice(_ price: OilPriceEntity, averageCostListRef path: DatabaseReference) {
+    func processPrice(_ price: OilPrice, averageCostListRef path: DatabaseReference) {
         let oilName = price.oilName
         let priceInteger = Int(price.oilPrice.components(separatedBy: ".").first ?? "0") ?? .zero
         let convertedPrice = Preferences.priceToWon(price: priceInteger)

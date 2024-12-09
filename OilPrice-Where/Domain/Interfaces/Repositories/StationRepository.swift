@@ -15,5 +15,5 @@ protocol StationRepository {
     /// 특정 주유소의 상세 정보를 조회합니다.
     func fetchStationDetail(appKey: String, id: String)
     /// 유가 정보를 조회합니다.
-    func fetchOilPriceResult(appKey: String) async throws -> [OilPriceEntity]
+    func fetchOilPriceResult(appKey: String) async throws -> [OilPrice]
 }

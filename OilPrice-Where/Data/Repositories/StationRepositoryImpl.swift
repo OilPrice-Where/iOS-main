@@ -11,8 +11,8 @@ import Moya
 
 
 final class StationRepositoryImpl: StationRepository {
-    private let provider: MoyaProvider<StationAPI>
-        
+    private let provider = MoyaProvider<StationAPI>()
+            
     func fetchNearbyGasStations(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String) {
         
     }
@@ -21,7 +21,7 @@ final class StationRepositoryImpl: StationRepository {
         
     }
     
-    func fetchOilPriceResult(appKey: String) async throws -> [OilPriceEntity] {
+    func fetchOilPriceResult(appKey: String) async throws -> [OilPrice] {
         try await withCheckedThrowingContinuation { continuation in
             provider.request(.oilPriceResult(appKey: appKey)) { result in
                 switch result {

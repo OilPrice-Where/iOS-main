@@ -1,5 +1,5 @@
 //
-//  OilPriceEntity.swift
+//  OilPrice.swift
 //  OilPrice-Where
 //
 //  Created by wargi on 1/18/25.
@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct OilPriceEntity: Hashable, Codable {
+struct OilPrice: Hashable, Codable {
     /// 거래 일자
     let tradeDate: String
     /// 기름 코드
