@@ -64,7 +64,7 @@ final class FrequentVisitVC: CommonViewController {
                 cell.delegate = self
                 cell.configure(station: station)
             }))
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         DefaultData.shared.completedRelay
             .receive(on: DispatchQueue.main)
@@ -72,7 +72,7 @@ final class FrequentVisitVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.collectionView.reloadData()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         collectionView
             .didSelectItemPublisher
@@ -88,12 +88,12 @@ final class FrequentVisitVC: CommonViewController {
                 let detailVC = StationDetailVC(id: id)
                 owner.navigationController?.pushViewController(detailVC, animated: true)
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         DataManager.shared.stationListIsEmpty
             .map { !$0 }
             .assign(to: \.isHidden, on: emptyLabel)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
     }
     
     private func fetchLayout() -> UICollectionViewFlowLayout {

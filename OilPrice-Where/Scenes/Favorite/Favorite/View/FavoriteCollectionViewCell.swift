@@ -201,41 +201,41 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
                 isLoad ? owner.loadingView.activityIndicator.startAnimating() : owner.loadingView.activityIndicator.stopAnimating()
                 owner.loadingView.isHidden = isLoad
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
 
         // 로고 이미지 삽입
         viewModel.infoSubject
             .map { Preferences.logoImage(logoName: $0?.brand ?? "") }
             .assign(to: \.image, on: logoImageView)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
 
         // 주유소 이름
         viewModel.infoSubject
             .map { $0?.name ?? "" }
             .assign(to: \.text, on: gasStationNameLabel)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
 
         // 주유소 편의시설 정보
         viewModel.infoSubject
             .sink { [weak self] info in
                 guard let owner = self else { return }
 
-                owner.carWashVStackView.valueImageView.tintColor = owner.viewModel.getActivatedColor(info: info?.carWash)
-                owner.repairVStackView.valueImageView.tintColor = owner.viewModel.getActivatedColor(info: info?.repairShop)
-                owner.convenienceVStackView.valueImageView.tintColor = owner.viewModel.getActivatedColor(info: info?.convenienceStore)
+                owner.carWashVStackView.valueImageView.tintColor = owner.viewModel.getActivatedColor(info: info?.hasCarWash)
+                owner.repairVStackView.valueImageView.tintColor = owner.viewModel.getActivatedColor(info: info?.hasRepairShop)
+                owner.convenienceVStackView.valueImageView.tintColor = owner.viewModel.getActivatedColor(info: info?.hasConvenienceStore)
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
 
         // 주소
         viewModel.infoSubject
             .compactMap { $0?.address }
             .map { NSAttributedString(string: $0, attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]) }
             .assign(to: \.attributedText, on: addressHStackView.valueLabel)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
 
         // 주소 복사
         addressHStackView.valueLabel
-            .gesture()
+            .gesturePublisher()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self,
@@ -244,18 +244,18 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
 
                 owner.delegate?.touchedAddressLabel()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
 
         // 전화번호
         viewModel.infoSubject
             .compactMap { $0?.phoneNumber }
             .map { NSAttributedString(string: $0, attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]) }
             .assign(to: \.attributedText, on: phoneNumberHStackView.valueLabel)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
 
         // 전화 걸기
         phoneNumberHStackView.valueLabel
-            .gesture()
+            .gesturePublisher()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self,
@@ -265,23 +265,23 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
 
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
 
         // 품질 인증
         viewModel.infoSubject
-            .map { $0?.qualityCertification == "Y" ? "인증" : "미인증" }
+            .map { $0?.isQualityCertified == "Y" ? "인증" : "미인증" }
             .assign(to: \.text, on: qualityHStackView.valueLabel)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
 
         // 오일 타입
         DefaultData.shared.oilSubject
             .map { Preferences.oil(code: $0) }
             .assign(to: \.text, on: typeOfOilLabel)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
 
         // 길 찾기
         navigationView
-            .gesture()
+            .gesturePublisher()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
@@ -298,7 +298,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
 
                 owner.delegate?.touchedDirection(station: owner.viewModel.navigationButton())
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
 
         // 즐겨찾기 삭제
         deleteFavoriteButton
@@ -326,14 +326,14 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
                 vc.view.hideToast()
                 vc.view.showToast(lbl, position: .bottom)
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         viewModel.infoSubject.combineLatest(DefaultData.shared.oilSubject)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] station, title in
                 guard let owner = self else { return }
-                owner.oilPriceLabel.text = owner.viewModel.displayPriceInfomation(priceList: station?.price)
+                owner.oilPriceLabel.text = owner.viewModel.displayPriceInfomation(priceList: station?.prices)
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
     }
 }

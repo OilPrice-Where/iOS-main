@@ -12,7 +12,7 @@ import Combine
 //MARK: MainListViewModel
 final class MainListViewModel {
     //MARK: - Properties
-    var cancelBag = Set<AnyCancellable>()
+    var cancellable = Set<AnyCancellable>()
     var stations: CurrentValueSubject<[GasStation], Never>
     var isSortedByPrice = true
     

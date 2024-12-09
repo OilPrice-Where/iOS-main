@@ -11,10 +11,10 @@ import UIKit
 import Moya
 //MARK: FavoriteCellViewModel
 final class FavoriteCellViewModel {
-    var cancelBag = Set<AnyCancellable>()
-    private var info: InformationGasStaion?
+    var cancellable = Set<AnyCancellable>()
+    private var info: GasStationDetailsDTO?
     let stationAPI = MoyaProvider<StationAPI>()
-    var infoSubject = CurrentValueSubject<InformationGasStaion?, Never>(nil)
+    var infoSubject = CurrentValueSubject<GasStationDetailsDTO?, Never>(nil)
     var isLoadingSubject = CurrentValueSubject<Bool, Never>(false)
 }
 //MARK: Method
@@ -24,7 +24,7 @@ extension FavoriteCellViewModel {
         stationAPI.request(.stationDetail(appKey: Preferences.getAppKey(), id: id)) {
             switch $0 {
             case .success(let resp):
-                guard let ret = try? resp.map(InformationOilStationResult.self),
+                guard let ret = try? resp.map(GasStationInfoResult.self),
                       let information = ret.result?.allPriceList?.first else { return }
                 
                 DefaultData.shared.tempFavArr.append(information)
@@ -37,7 +37,7 @@ extension FavoriteCellViewModel {
         }
     }
     // 가격 정보 얻기
-    func displayPriceInfomation(priceList: [Price]?) -> String {
+    func displayPriceInfomation(priceList: [FuelPriceDTO]?) -> String {
         let type = DefaultData.shared.oilSubject.value
         guard let displayInfo = priceList?.first(where: { $0.type == type }) else { return  "가격정보 없음" }
         
@@ -66,9 +66,16 @@ extension FavoriteCellViewModel {
               let name = info.name,
               let kx = info.katecX,
               let ky = info.katecY,
-              let price = info.price?.first(where: { $0.type == type })?.price else { return nil }
+              let price = info.prices?.first(where: { $0.type == type })?.price else { return nil }
         
-        return GasStationInfoDTO(id: id, brand: brand, name: name, price: price, distance: 0.0,
-                          katecX: kx, katecY: ky)
+        return GasStationInfoDTO(
+            id: id,
+            brand: brand,
+            name: name,
+            price: price,
+            distance: 0.0,
+            katecX: kx,
+            katecY: ky
+        )
     }
 }

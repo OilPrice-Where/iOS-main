@@ -12,13 +12,13 @@ import UIKit
 
 protocol GasStationCellDelegate: AnyObject {
     func touchedFavoriteButton(id: String?)
-    func touchedDirectionButton(info: GasStation?)
+    func touchedDirectionButton(info: GasStationInfoDTO?)
 }
 //MARK: 메인페이지의 리스트 부분에서 받아오는 주유소 목록을 나타내는 셀
 final class GasStationCell: UICollectionViewCell {
     //MARK: - Properties
     private var path: IndexPath?
-    private var info: GasStation?
+    private var info: GasStationInfoDTO?
     private var selectionCell: Bool = false
     weak var delegate: GasStationCellDelegate?
     private lazy var stationView = GasStationView().then {
@@ -69,14 +69,14 @@ final class GasStationCell: UICollectionViewCell {
         stationView.bottomView.expandView.directionView.removeGestureRecognizer(tap)
     }
     
-    func configure(station info: GasStation, indexPath: IndexPath?) {
+    func configure(station info: GasStationInfoDTO, indexPath: IndexPath?) {
         self.info = info
         self.path = indexPath
         stationView.titleView.configure(title: info)
         stationView.bottomView.priceView.configure(price: info)
-        stationView.bottomView.expandView.directionView.configure(distance: Preferences.distance(km: info.distance))
+        stationView.bottomView.expandView.directionView.configure(distance: Preferences.distance(km: info.distance ?? .zero))
         stationView.bottomView.expandView.directionView.addGestureRecognizer(tap)
-        updateFavoriteUI(favoriteID: info.id)
+        updateFavoriteUI(favoriteID: info.id ?? "")
     }
     
     @objc

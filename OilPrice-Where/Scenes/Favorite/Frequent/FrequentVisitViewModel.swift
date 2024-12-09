@@ -13,7 +13,7 @@ import Combine
 //MARK: FrequentVisitViewModel
 final class FrequentVisitViewModel {
     //MARK: - Properties
-    var cancelBag = Set<AnyCancellable>()
+    var cancellable = Set<AnyCancellable>()
     let input = Input()
     let output = Output()
     
@@ -27,7 +27,7 @@ final class FrequentVisitViewModel {
         DataManager.shared.stationListRelay
             .sink { [weak self] stations in
                 guard let owner = self else { return }
-                var dic = [String: Station]()
+                var dic = [String: StationEntity]()
                 
                 stations.forEach {
                     if let id = $0.identifier {
@@ -44,7 +44,7 @@ final class FrequentVisitViewModel {
                 let ret = dic.map { $0.value }.sorted(by: { $0.count > $1.count })
                 owner.output.stations.send(ret)
             }
-            .store(in: &cancelBag)
+            .store(in: &cancellable)
     }
 }
 
@@ -59,7 +59,7 @@ extension FrequentVisitViewModel {
     }
     
     struct Output {
-        var stations = CurrentValueSubject<[Station], Never>([])
+        var stations = CurrentValueSubject<[StationEntity], Never>([])
     }
 }
 

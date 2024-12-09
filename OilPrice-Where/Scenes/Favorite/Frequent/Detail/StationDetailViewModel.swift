@@ -13,7 +13,7 @@ import Combine
 //MARK: StationDetailViewModel
 final class StationDetailViewModel {
     //MARK: - Properties
-    var cancelBag = Set<AnyCancellable>()
+    var cancellable = Set<AnyCancellable>()
     let input = Input()
     let output = Output()
     private var info: InformationGasStaion? { didSet { output.infoSubject.send(info) } }
@@ -31,7 +31,7 @@ final class StationDetailViewModel {
                 guard let owner = self else { return }
                 owner.requestStationsInfo(id: id)
             }
-            .store(in: &cancelBag)
+            .store(in: &cancellable)
     }
 }
 

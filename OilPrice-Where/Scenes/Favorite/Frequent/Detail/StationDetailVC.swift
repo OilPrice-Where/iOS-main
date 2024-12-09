@@ -301,18 +301,18 @@ final class StationDetailVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.touchedFavoriteButton()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         // directionButton Tapped
         expandView
             .directionView
-            .gesture()
+            .gesturePublisher()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.toNavigationTapped()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         viewModel
             .output
@@ -347,7 +347,7 @@ final class StationDetailVC: CommonViewController {
                 
                 owner.updateFavoriteUI()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
     }
     
     @objc

@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 
+
 struct ResponsePOI: Hashable {
     var id = UUID()
     var name: String?

@@ -114,7 +114,7 @@ final class MainListVC: CommonViewController {
         viewModel.stations
             .map { !$0.isEmpty }
             .assign(to: \.isHidden, on: noneView)
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         viewModel.stations
             .receive(on: DispatchQueue.main)
@@ -122,7 +122,7 @@ final class MainListVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.performDataSnapshot(stations: stations)
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         infoView.priceSortedButton
             .tapPublisher
@@ -131,7 +131,7 @@ final class MainListVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.sortButtonTapped(btn: nil)
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         infoView.distanceSortedButton
             .tapPublisher
@@ -140,7 +140,7 @@ final class MainListVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.sortButtonTapped(btn: nil)
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
         
         DefaultData.shared.completedRelay
             .receive(on: DispatchQueue.main)
@@ -148,7 +148,7 @@ final class MainListVC: CommonViewController {
                 guard let owner = self else { return }
                 owner.collectionView.reloadData()
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &viewModel.cancellable)
     }
     
     //MARK: - Method

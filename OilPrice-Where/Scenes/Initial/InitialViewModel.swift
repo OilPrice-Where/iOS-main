@@ -12,10 +12,15 @@ import Combine
 
 //MARK: InitialViewModel
 final class InitialViewModel {
-    var cancelBag = Set<AnyCancellable>()
+    //MARK: Properties
+    let settingUseCase: SettingUseCase
     
     let fuelTypesPublisher: CurrentValueSubject<[String], Never> = .init(["휘발유", "경유", "고급유", "LPG"])
     let navigationOptionsPublisher: CurrentValueSubject<[String], Never> = .init(["카카오내비", "카카오맵", "티맵", "네이버지도"])
+    
+    init(settingUseCase: SettingUseCase) {
+        self.settingUseCase = settingUseCase
+    }
 }
 
 extension InitialViewModel {
@@ -50,9 +55,16 @@ extension InitialViewModel {
     
     func transform(input: Input) -> Output {
         let moveMain = input.okActionPublisher
-            .map { selection in
-                DefaultData.shared.oilSubject.send(self.select(fuel: selection.fuel))
-                DefaultData.shared.naviSubject.send(self.select(navigation: selection.navigation))
+            .map { [weak self] selection in
+                guard let self else {
+                    return
+                }
+                
+                let fuelType = select(fuel: selection.fuel)
+                settingUseCase.save(fuelType, type: .fuelType)
+                
+                let navigation = select(navigation: selection.navigation)
+                settingUseCase.save(navigation, type: .navigationType)
             }
             .eraseToAnyPublisher()
         

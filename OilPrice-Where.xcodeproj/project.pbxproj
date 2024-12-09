@@ -55,7 +55,6 @@
 		E913063628A8FC510065E30C /* EditCardNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913063528A8FC510065E30C /* EditCardNameTableViewCell.swift */; };
 		E913063828A8FD790065E30C /* CardBenefitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913063728A8FD790065E30C /* CardBenefitTableViewCell.swift */; };
 		E913063A28A8FE950065E30C /* SelectedBrandTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913063928A8FE950065E30C /* SelectedBrandTableViewCell.swift */; };
-		E913777728959DEE0078B557 /* Card+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E913777428959DEE0078B557 /* Card+CoreDataProperties.swift */; };
 		E919CCC9281BF80700C3373E /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E919CCC8281BF80700C3373E /* PlusView.swift */; };
 		E91B77B32804B49D00782435 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E91B77B22804B49D00782435 /* GoogleService-Info.plist */; };
 		E933E88428676C9300A49ADB /* AddCardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E933E88328676C9300A49ADB /* AddCardVC.swift */; };
@@ -84,6 +83,10 @@
 		E9689E70290EE47700DA23AD /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = E9689E6F290EE47700DA23AD /* FloatingPanel */; };
 		E9689E76290EE53800DA23AD /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = E9689E75290EE53800DA23AD /* SideMenu */; };
 		E96A72182D3BBEF6009B1261 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E96A72172D3BBEF6009B1261 /* Then */; };
+		E96A72372D3C02A1009B1261 /* PlistStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72362D3C02A1009B1261 /* PlistStorage.swift */; };
+		E96A72392D3C0797009B1261 /* SettingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72382D3C0797009B1261 /* SettingUseCase.swift */; };
+		E96A723B2D3C0D20009B1261 /* SettingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A723A2D3C0D20009B1261 /* SettingType.swift */; };
+		E96A723E2D3C0D3F009B1261 /* SettingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A723D2D3C0D3F009B1261 /* SettingError.swift */; };
 		E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601C27CE00A6005BB593 /* MainListVC.swift */; };
 		E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601E27CE0351005BB593 /* MainListViewModel.swift */; };
 		E978E08228425C3400AE3480 /* StationDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E978E08128425C3400AE3480 /* StationDetailVC.swift */; };
@@ -143,7 +146,7 @@
 		E9FE520C2D3B7AC6003C81DE /* StationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52062D3B7AC6003C81DE /* StationAPI.swift */; };
 		E9FE52132D3B7C97003C81DE /* AverageCostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52122D3B7C97003C81DE /* AverageCostRepository.swift */; };
 		E9FE52152D3B7CE8003C81DE /* FirebaseAverageCostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52142D3B7CE8003C81DE /* FirebaseAverageCostRepository.swift */; };
-		E9FE52172D3B85C0003C81DE /* OilPriceEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52162D3B85C0003C81DE /* OilPriceEntity.swift */; };
+		E9FE52172D3B85C0003C81DE /* OilPrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52162D3B85C0003C81DE /* OilPrice.swift */; };
 		E9FE52192D3B8B49003C81DE /* StationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE52182D3B8B49003C81DE /* StationRepository.swift */; };
 		E9FE521B2D3B8BD3003C81DE /* StationRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FE521A2D3B8BD3003C81DE /* StationRepositoryImpl.swift */; };
 /* End PBXBuildFile section */
@@ -247,7 +250,6 @@
 		E913063528A8FC510065E30C /* EditCardNameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCardNameTableViewCell.swift; sourceTree = "<group>"; };
 		E913063728A8FD790065E30C /* CardBenefitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBenefitTableViewCell.swift; sourceTree = "<group>"; };
 		E913063928A8FE950065E30C /* SelectedBrandTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedBrandTableViewCell.swift; sourceTree = "<group>"; };
-		E913777428959DEE0078B557 /* Card+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E919CCC8281BF80700C3373E /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
 		E91B77B22804B49D00782435 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		E933E88328676C9300A49ADB /* AddCardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardVC.swift; sourceTree = "<group>"; };
@@ -269,6 +271,10 @@
 		E9633A8527FA0B5800B99E66 /* SelectMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMenuVC.swift; sourceTree = "<group>"; };
 		E9633A8927FA0BCB00B99E66 /* SelectMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMenuViewModel.swift; sourceTree = "<group>"; };
 		E9633A8B27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMenuCollectionViewCell.swift; sourceTree = "<group>"; };
+		E96A72362D3C02A1009B1261 /* PlistStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistStorage.swift; sourceTree = "<group>"; };
+		E96A72382D3C0797009B1261 /* SettingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingUseCase.swift; sourceTree = "<group>"; };
+		E96A723A2D3C0D20009B1261 /* SettingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingType.swift; sourceTree = "<group>"; };
+		E96A723D2D3C0D3F009B1261 /* SettingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingError.swift; sourceTree = "<group>"; };
 		E96E601C27CE00A6005BB593 /* MainListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListVC.swift; sourceTree = "<group>"; };
 		E96E601E27CE0351005BB593 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
 		E978E08128425C3400AE3480 /* StationDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailVC.swift; sourceTree = "<group>"; };
@@ -320,7 +326,7 @@
 		E9FE52062D3B7AC6003C81DE /* StationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationAPI.swift; sourceTree = "<group>"; };
 		E9FE52122D3B7C97003C81DE /* AverageCostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageCostRepository.swift; sourceTree = "<group>"; };
 		E9FE52142D3B7CE8003C81DE /* FirebaseAverageCostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAverageCostRepository.swift; sourceTree = "<group>"; };
-		E9FE52162D3B85C0003C81DE /* OilPriceEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OilPriceEntity.swift; sourceTree = "<group>"; };
+		E9FE52162D3B85C0003C81DE /* OilPrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OilPrice.swift; sourceTree = "<group>"; };
 		E9FE52182D3B8B49003C81DE /* StationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationRepository.swift; sourceTree = "<group>"; };
 		E9FE521A2D3B8BD3003C81DE /* StationRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationRepositoryImpl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -748,8 +754,35 @@
 		E96A721B2D3BC1C2009B1261 /* PersistentStorages */ = {
 			isa = PBXGroup;
 			children = (
+				E96A72352D3C0250009B1261 /* PlistStorage */,
+				E96A723F2D3C12E4009B1261 /* CoreDataStorage */,
 			);
 			path = PersistentStorages;
+			sourceTree = "<group>";
+		};
+		E96A72352D3C0250009B1261 /* PlistStorage */ = {
+			isa = PBXGroup;
+			children = (
+				E96A72362D3C02A1009B1261 /* PlistStorage.swift */,
+			);
+			path = PlistStorage;
+			sourceTree = "<group>";
+		};
+		E96A723C2D3C0D28009B1261 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E96A723D2D3C0D3F009B1261 /* SettingError.swift */,
+				E96A723A2D3C0D20009B1261 /* SettingType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E96A723F2D3C12E4009B1261 /* CoreDataStorage */ = {
+			isa = PBXGroup;
+			children = (
+				E9A3A2C9282D0E84004ED55E /* DataModel.xcdatamodeld */,
+			);
+			path = CoreDataStorage;
 			sourceTree = "<group>";
 		};
 		E96E601B27CE008A005BB593 /* View */ = {
@@ -859,10 +892,8 @@
 			isa = PBXGroup;
 			children = (
 				E9984659291D14B50043D1DA /* StationAttributes.swift */,
-				E913777428959DEE0078B557 /* Card+CoreDataProperties.swift */,
 				E9EAF1032822DAC30046F9A8 /* CardInfo.swift */,
 				E9BE7B0A282C81F800FF8A01 /* DataManager.swift */,
-				E9A3A2C9282D0E84004ED55E /* DataModel.xcdatamodeld */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -947,6 +978,8 @@
 		E9FE52102D3B7BB7003C81DE /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				E96A723C2D3C0D28009B1261 /* Model */,
+				E96A72382D3C0797009B1261 /* SettingUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -954,7 +987,7 @@
 		E9FE52112D3B7BCA003C81DE /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				E9FE52162D3B85C0003C81DE /* OilPriceEntity.swift */,
+				E9FE52162D3B85C0003C81DE /* OilPrice.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1137,6 +1170,7 @@
 				E9633A7E27F9CF7D00B99E66 /* MenuKeyValueView.swift in Sources */,
 				E9FE52152D3B7CE8003C81DE /* FirebaseAverageCostRepository.swift in Sources */,
 				2CAC81DD276B948B00CC6096 /* CustomKVView.swift in Sources */,
+				E96A72392D3C0797009B1261 /* SettingUseCase.swift in Sources */,
 				8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */,
 				E9633A8C27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift in Sources */,
 				E919CCC9281BF80700C3373E /* PlusView.swift in Sources */,
@@ -1161,6 +1195,8 @@
 				E9C3A65128421BE800AC861C /* FrequentVisitVC.swift in Sources */,
 				2C1FBE1A276AE39000E57F8A /* SelectTypeView.swift in Sources */,
 				E978E085284277A200AE3480 /* StationDetailViewModel.swift in Sources */,
+				E96A72372D3C02A1009B1261 /* PlistStorage.swift in Sources */,
+				E96A723B2D3C0D20009B1261 /* SettingType.swift in Sources */,
 				E9C3A656284228EB00AC861C /* FrequentVisitCollectionViewCell.swift in Sources */,
 				2CC1C80E276C8610007527C7 /* MainMapView.swift in Sources */,
 				E9A64D542883D36600BF1737 /* CustomNavigationTitle.swift in Sources */,
@@ -1183,7 +1219,7 @@
 				8EDAF7D821295AEF00422552 /* InitialSettingVC.swift in Sources */,
 				E933E88428676C9300A49ADB /* AddCardVC.swift in Sources */,
 				E9984652291D13C30043D1DA /* FindStationExtension.intentdefinition in Sources */,
-				E9FE52172D3B85C0003C81DE /* OilPriceEntity.swift in Sources */,
+				E9FE52172D3B85C0003C81DE /* OilPrice.swift in Sources */,
 				E9400FE827B1146E003168C6 /* StationInfoGuideView.swift in Sources */,
 				E913063628A8FC510065E30C /* EditCardNameTableViewCell.swift in Sources */,
 				E90FC27F290E8EAA006908CC /* RecentResultCell.swift in Sources */,
@@ -1192,12 +1228,12 @@
 				E9A3A2CB282D0E84004ED55E /* DataModel.xcdatamodeld in Sources */,
 				E9EFE7D2290E2F7100EA514B /* CommonTextFieldView.swift in Sources */,
 				E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */,
-				E913777728959DEE0078B557 /* Card+CoreDataProperties.swift in Sources */,
 				E9EFE7C9290D9BB600EA514B /* SearchView.swift in Sources */,
 				E9EAF11A2822FEC80046F9A8 /* BrandCollectionViewCell.swift in Sources */,
 				E9633A8627FA0B5800B99E66 /* SelectMenuVC.swift in Sources */,
 				E9E290D7280ECF1900BE21B3 /* DatabaseVersionModel.swift in Sources */,
 				E90FC272290E319D006908CC /* ResponsePOI.swift in Sources */,
+				E96A723E2D3C0D3F009B1261 /* SettingError.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
 				8EE53E9524D01828008D8045 /* AboutUsTableViewCell.swift in Sources */,
 				E9EAF1042822DAC30046F9A8 /* CardInfo.swift in Sources */,

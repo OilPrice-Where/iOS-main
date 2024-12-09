@@ -108,6 +108,6 @@ private extension InitialSettingVC {
                 mainNavigationVC.modalPresentationStyle = .fullScreen
                 mainVC.present(mainNavigationVC, animated: false)
             }
-            .store(in: &viewModel.cancelBag)
+            .store(in: &cancellable)
     }
 }

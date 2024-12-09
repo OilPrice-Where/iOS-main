@@ -72,7 +72,7 @@ final class FavoritesGasStationVC: CommonViewController {
         DefaultData.shared.favoriteSubject
             .map { !$0.isEmpty }
             .assign(to: \.isHidden, on: noneFavoriteView)
-            .store(in: &cancelBag)
+            .store(in: &cancellable)
         
         DefaultData.shared.favoriteSubject
             .bind(subscriber: collectionView.itemsSubscriber(cellIdentifier: FavoriteCollectionViewCell.id,
@@ -83,7 +83,7 @@ final class FavoritesGasStationVC: CommonViewController {
                 cell.delegate = self
                 cell.id = id
             }))
-            .store(in: &cancelBag)
+            .store(in: &cancellable)
     }
     
     //MARK: - Functions..

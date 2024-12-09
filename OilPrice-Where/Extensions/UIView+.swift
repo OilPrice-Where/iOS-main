@@ -44,8 +44,4 @@ extension UIView {
             layer.render(in: context.cgContext)
         }
     }
-    
-    func gesture(_ event: GestureType = .tap) -> GesturePublisher {
-        GesturePublisher(view: self, event: event)
-    }
 }
