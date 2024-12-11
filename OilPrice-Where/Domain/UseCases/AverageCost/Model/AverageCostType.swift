@@ -7,3 +7,11 @@
 //
 
 import Foundation
+
+
+enum AverageCostType: String, CaseIterable {
+    case gasolin = "gasolinCost"
+    case diesel = "dieselCost"
+    case premium = "premiumCost"
+    case lpg = "lpgCost"
+}

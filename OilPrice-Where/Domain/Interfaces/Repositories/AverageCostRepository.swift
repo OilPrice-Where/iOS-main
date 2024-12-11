@@ -15,3 +15,5 @@ protocol AverageCostRepository {
     /// 평균 유가 데이터를 확인 후 업데이트
     func checkAndUpdateAverageCosts()
 }
+
+

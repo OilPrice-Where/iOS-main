@@ -13,10 +13,10 @@ import FirebaseDatabase
 
 final class FirebaseAverageCostRepository: AverageCostRepository {
     let reference: DatabaseReference
-    let repository: StationRepository
+    let stationRepository: StationRepository
     
-    init(repository: StationRepository) {
-        self.repository = repository
+    init(stationRepository: StationRepository) {
+        self.stationRepository = stationRepository
         self.reference = Database.database().reference()
     }
     
@@ -45,7 +45,7 @@ final class FirebaseAverageCostRepository: AverageCostRepository {
             }
             
             do {
-                let prices = try await repository.fetchOilPriceResult(appKey: Preferences.getAppKey())
+                let prices = try await stationRepository.fetchOilPriceResult(appKey: Preferences.getAppKey())
                 handlePrices(prices, averageCostListRef: averageCostListRef)
             } catch {
                 LogUtil.e("Request failed: \(error.localizedDescription)")

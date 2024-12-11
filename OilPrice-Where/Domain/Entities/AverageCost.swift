@@ -7,3 +7,10 @@
 //
 
 import Foundation
+
+
+struct AverageCost {
+    var type: AverageCostType
+    var price: String
+    var isPriceIncreased: Bool
+}
