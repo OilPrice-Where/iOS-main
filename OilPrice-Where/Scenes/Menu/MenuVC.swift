@@ -164,10 +164,15 @@ final class MenuVC: CommonViewController {
             .gesturePublisher()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                guard let owner = self else { return }
-                let vc = PriceAverageVC()
-                vc.modalPresentationStyle = .overFullScreen
-                owner.present(vc, animated: false)
+                guard let self else { return }
+                
+                let stationRepository: StationRepository = StationRepositoryImpl()
+                let averageCostRepository: AverageCostRepository = FirebaseAverageCostRepository(stationRepository: stationRepository)
+                let averageCostUseCase: AverageCostUseCase = AverageCostUseCaseImpl(averageCostRepository: averageCostRepository)
+                let priceAverageViewModel = PriceAverageViewModel(averageCostUseCase: averageCostUseCase)
+                let priceAverageVC = PriceAverageVC(viewModel: priceAverageViewModel)
+                priceAverageVC.modalPresentationStyle = .overFullScreen
+                present(priceAverageVC, animated: false)
             }
             .store(in: &viewModel.cancellable)
         

@@ -6,91 +6,240 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
-import Then
-import SnapKit
 import UIKit
 import Combine
-import Firebase
+import Then
+import SnapKit
+
 
 //MARK: 전국 평균가
 final class PriceAverageVC: CommonViewController {
     //MARK: - Properties
-    let firebaseUtility = FirebaseUtility()
+    private let viewModel: PriceAverageViewModel
     
     // Background
     let containerView = UIView().then {
-        $0.alpha = 0.0
+        $0.alpha = .zero
         $0.layer.cornerRadius = 10.0
         $0.backgroundColor = .white
     }
+    
     let backgroundView = UIView().then {
-        $0.alpha = 0.0
+        $0.alpha = .zero
         $0.backgroundColor = .black
     }
+    
     let titleLabel = UILabel().then {
         $0.text = "전국 평균가"
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 20)
     }
+    
     let closeButton = UIButton().then {
         $0.setImage(Asset.Images.close.image, for: .normal)
         $0.setImage(Asset.Images.close.image, for: .highlighted)
     }
+    
     // 휘발유
     let gasolineCostLabel = UILabel().then {
         $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 26)
     }
+    
     let gasolineTitleLabel = UILabel().then {
+        $0.text = "휘발유"
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 16)
     }
+    
     let gasolineUpDownImageView = UIImageView()
+    
     // 경유
     let dieselCostLabel = UILabel().then {
         $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 26)
     }
+    
     let dieselTitleLabel = UILabel().then {
+        $0.text = "경유"
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 16)
     }
+    
     let dieselUpDownImageView = UIImageView()
+    
     // 고급 휘발유
     let premiumCostLabel = UILabel().then {
         $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 26)
     }
+    
     let premiumTitleLabel = UILabel().then {
+        $0.text = "고급유"
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 16)
     }
+    
     let premiumUpDownImageView = UIImageView()
+    
     // LPG
     let lpgCostLabel = UILabel().then {
         $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 26)
     }
+    
     let lpgTitleLabel = UILabel().then {
+        $0.text = "LPG"
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 16)
     }
+    
     let lpgUpDownImageView = UIImageView()
+    
+    
+    init(viewModel: PriceAverageViewModel) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchAverageCosts()
         makeUI()
-        bind()
+        bindActions()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        UIView.animate(withDuration: 0.15) { [weak self] in
-            self?.backgroundView.alpha = 0.65
-            self?.containerView.alpha = 1.0
+        UIView.animate(withDuration: 0.15) {
+            self.backgroundView.alpha = 0.65
+            self.containerView.alpha = 1.0
         }
     }
+}
+
+//MARK: - Binding..
+private extension PriceAverageVC {
+    func bindActions() {
+        backgroundView
+            .gesturePublisher()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                dismiss(animated: false)
+            }
+            .store(in: &cancellable)
+        
+        closeButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                dismiss(animated: false)
+            }
+            .store(in: &cancellable)
+        
+        bindViewModel()
+    }
     
-    //MARK: - Make UI
+    func bindViewModel() {
+        let output = viewModel.transform(input: .init(
+            viewDidLoad: Just(()).eraseToAnyPublisher()
+        ))
+        
+        output.updateAverageCosts
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] costs in
+                guard let self else { return }
+                
+                let priceUpIcon = Asset.Images.priceUpIcon.image
+                let priceDownIcon = Asset.Images.priceDownIcon.image
+                
+                for cost in costs {
+                    let priceTrendImage = cost.isPriceIncreased ? priceUpIcon : priceDownIcon
+                    
+                    switch cost.type {
+                    case .gasolin:
+                        gasolineCostLabel.text = cost.price
+                        gasolineUpDownImageView.image = priceTrendImage
+                    case .diesel:
+                        dieselTitleLabel.text = cost.price
+                        dieselUpDownImageView.image = priceTrendImage
+                    case .premium:
+                        premiumCostLabel.text = cost.price
+                        premiumUpDownImageView.image = priceTrendImage
+                    case .lpg:
+                        lpgCostLabel.text = cost.price
+                        lpgUpDownImageView.image = priceTrendImage
+                    }
+                }
+            }
+            .store(in: &cancellable)
+    }
+}
+
+
+//MARK: - Make UI
+private extension PriceAverageVC {
+    enum UIConstants {
+        // ContainerView 사이즈
+        static let containerWidth: CGFloat = 300
+        static let containerHeight: CGFloat = 270
+
+        // TitleLabel 관련 오프셋
+        static let titleTopOffset: CGFloat = 32
+        static let titleLeftOffset: CGFloat = 24
+
+        // CloseButton 관련
+        static let closeButtonInset: CGFloat = 12
+        static let closeButtonSize: CGFloat = 40
+
+        // Gasoline TitleLabel
+        static let gasolineTitleTopOffset: CGFloat = 32
+        static let gasolineTitleLeftOffset: CGFloat = 24
+
+        // Gasoline CostLabel
+        static let gasolineCostTopOffset: CGFloat = 4
+        static let gasolineCostLeftOffset: CGFloat = 24
+
+        // Gasoline UpDownImageView
+        static let gasolineUpDownBottomOffset: CGFloat = -4  // gasolineCostLabel.bottom offset
+        static let gasolineUpDownLeftOffset: CGFloat = 4     // gasolineCostLabel.right offset
+
+        // Diesel UpDownImageView
+        static let dieselRightInset: CGFloat = 32
+
+        // Diesel CostLabel
+        static let dieselCostRightOffset: CGFloat = -4       // dieselUpDownImageView.left offset
+        // Diesel TitleLabel
+        // dieselTitleLabel는 dieselCostLabel의 left와 동일
+
+        // Premium TitleLabel
+        static let premiumTitleTopOffset: CGFloat = 30   // gasolineCostLabel.bottom offset
+        static let premiumTitleLeftOffset: CGFloat = 24
+
+        // Premium CostLabel
+        static let premiumCostTopOffset: CGFloat = 4     // premiumTitleLabel.bottom offset
+        static let premiumCostLeftOffset: CGFloat = 24
+
+        // Premium UpDownImageView
+        static let premiumUpDownBottomOffset: CGFloat = -4  // premiumCostLabel.bottom offset
+        static let premiumUpDownLeftOffset: CGFloat = 4     // premiumCostLabel.right offset
+
+        // LPG UpDownImageView
+        static let lpgRightInset: CGFloat = 32
+
+        // LPG CostLabel
+        static let lpgCostRightOffset: CGFloat = -4        // lpgUpDownImageView.left offset
+    }
+    
     func makeUI() {
         view.backgroundColor = .clear
         
+        configureUI()
+        setupConstraints()
+    }
+    
+    func configureUI() {
         view.addSubview(backgroundView)
         view.addSubview(containerView)
         
@@ -108,132 +257,87 @@ final class PriceAverageVC: CommonViewController {
         containerView.addSubview(lpgCostLabel)
         containerView.addSubview(lpgTitleLabel)
         containerView.addSubview(lpgUpDownImageView)
-        
-        backgroundView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        containerView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.width.equalTo(300)
-            $0.height.equalTo(270)
-        }
-        titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(32)
-            $0.left.equalToSuperview().offset(24)
-        }
-        closeButton.snp.makeConstraints {
-            $0.top.right.equalToSuperview().inset(12)
-            $0.size.equalTo(40)
-        }
-        gasolineTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(32)
-            $0.left.equalToSuperview().offset(24)
-        }
-        gasolineCostLabel.snp.makeConstraints {
-            $0.top.equalTo(gasolineTitleLabel.snp.bottom).offset(4)
-            $0.left.equalToSuperview().offset(24)
-        }
-        gasolineUpDownImageView.snp.makeConstraints {
-            $0.bottom.equalTo(gasolineCostLabel.snp.bottom).offset(-4)
-            $0.left.equalTo(gasolineCostLabel.snp.right).offset(4)
-        }
-        dieselUpDownImageView.snp.makeConstraints {
-            $0.bottom.equalTo(gasolineUpDownImageView.snp.bottom)
-            $0.right.equalToSuperview().inset(32)
-        }
-        dieselCostLabel.snp.makeConstraints {
-            $0.bottom.equalTo(gasolineCostLabel.snp.bottom)
-            $0.right.equalTo(dieselUpDownImageView.snp.left).offset(-4)
-        }
-        dieselTitleLabel.snp.makeConstraints {
-            $0.bottom.equalTo(gasolineTitleLabel.snp.bottom)
-            $0.left.equalTo(dieselCostLabel.snp.left)
-        }
-        premiumTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(gasolineCostLabel.snp.bottom).offset(30)
-            $0.left.equalToSuperview().offset(24)
-        }
-        premiumCostLabel.snp.makeConstraints {
-            $0.top.equalTo(premiumTitleLabel.snp.bottom).offset(4)
-            $0.left.equalToSuperview().offset(24)
-        }
-        premiumUpDownImageView.snp.makeConstraints {
-            $0.bottom.equalTo(premiumCostLabel.snp.bottom).offset(-4)
-            $0.left.equalTo(premiumCostLabel.snp.right).offset(4)
-        }
-        lpgUpDownImageView.snp.makeConstraints {
-            $0.bottom.equalTo(premiumUpDownImageView.snp.bottom)
-            $0.right.equalToSuperview().inset(32)
-        }
-        lpgCostLabel.snp.makeConstraints {
-            $0.bottom.equalTo(premiumCostLabel.snp.bottom)
-            $0.right.equalTo(lpgUpDownImageView.snp.left).offset(-4)
-        }
-        lpgTitleLabel.snp.makeConstraints {
-            $0.bottom.equalTo(premiumTitleLabel.snp.bottom)
-            $0.left.equalTo(lpgCostLabel.snp.left)
-        }
     }
     
-    //MARK: - Binding..
-    func bind() {
-        backgroundView
-            .gesturePublisher()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.dismiss(animated: false)
-            }
-            .store(in: &cancellable)
+    func setupConstraints() {
+        backgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
-        closeButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.dismiss(animated: false)
-            }
-            .store(in: &cancellable)
-    }
-    
-    // HeaderView 설정
-    func fetchAverageCosts() {
-        firebaseUtility.getAverageCost(productName: "gasolinCost") { (data) in
-            self.gasolineTitleLabel.text = "휘발유"
-            self.gasolineCostLabel.text = data["price"] as? String ?? ""
-            if data["difference"] as? Bool ?? true {
-                self.gasolineUpDownImageView.image = Asset.Images.priceUpIcon.image
-            } else {
-                self.gasolineUpDownImageView.image = Asset.Images.priceDownIcon.image
-            }
+        containerView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.equalTo(UIConstants.containerWidth)
+            make.height.equalTo(UIConstants.containerHeight)
         }
-        firebaseUtility.getAverageCost(productName: "dieselCost") { (data) in
-            self.dieselTitleLabel.text = "경유"
-            self.dieselCostLabel.text = data["price"] as? String ?? ""
-            if data["difference"] as? Bool ?? true {
-                self.dieselUpDownImageView.image = Asset.Images.priceUpIcon.image
-            } else {
-                self.dieselUpDownImageView.image = Asset.Images.priceDownIcon.image
-            }
-    
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(UIConstants.titleTopOffset)
+            make.left.equalToSuperview().offset(UIConstants.titleLeftOffset)
         }
-        firebaseUtility.getAverageCost(productName: "premiumCost") { (data) in
-            self.premiumTitleLabel.text = "고급유"
-            self.premiumCostLabel.text = data["price"] as? String ?? ""
-            if data["difference"] as? Bool ?? true {
-                self.premiumUpDownImageView.image = Asset.Images.priceUpIcon.image
-            } else {
-                self.premiumUpDownImageView.image = Asset.Images.priceDownIcon.image
-            }
+        
+        closeButton.snp.makeConstraints { make in
+            make.top.right.equalToSuperview().inset(UIConstants.closeButtonInset)
+            make.size.equalTo(UIConstants.closeButtonSize)
         }
-        firebaseUtility.getAverageCost(productName: "lpgCost") { (data) in
-            self.lpgTitleLabel.text = "LPG"
-            self.lpgCostLabel.text = data["price"] as? String ?? ""
-            if data["difference"] as? Bool ?? true {
-                self.lpgUpDownImageView.image = Asset.Images.priceUpIcon.image
-            } else {
-                self.lpgUpDownImageView.image = Asset.Images.priceDownIcon.image
-            }
+        
+        gasolineTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(UIConstants.gasolineTitleTopOffset)
+            make.left.equalToSuperview().offset(UIConstants.gasolineTitleLeftOffset)
+        }
+        
+        gasolineCostLabel.snp.makeConstraints { make in
+            make.top.equalTo(gasolineTitleLabel.snp.bottom).offset(UIConstants.gasolineCostTopOffset)
+            make.left.equalToSuperview().offset(UIConstants.gasolineCostLeftOffset)
+        }
+        
+        gasolineUpDownImageView.snp.makeConstraints { make in
+            make.bottom.equalTo(gasolineCostLabel.snp.bottom).offset(UIConstants.gasolineUpDownBottomOffset)
+            make.left.equalTo(gasolineCostLabel.snp.right).offset(UIConstants.gasolineUpDownLeftOffset)
+        }
+        
+        dieselUpDownImageView.snp.makeConstraints { make in
+            make.bottom.equalTo(gasolineUpDownImageView.snp.bottom)
+            make.right.equalToSuperview().inset(UIConstants.dieselRightInset)
+        }
+        
+        dieselCostLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(gasolineCostLabel.snp.bottom)
+            make.right.equalTo(dieselUpDownImageView.snp.left).offset(UIConstants.dieselCostRightOffset)
+        }
+        
+        dieselTitleLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(gasolineTitleLabel.snp.bottom)
+            make.left.equalTo(dieselCostLabel.snp.left)
+        }
+        
+        premiumTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(gasolineCostLabel.snp.bottom).offset(UIConstants.premiumTitleTopOffset)
+            make.left.equalToSuperview().offset(UIConstants.premiumTitleLeftOffset)
+        }
+        
+        premiumCostLabel.snp.makeConstraints { make in
+            make.top.equalTo(premiumTitleLabel.snp.bottom).offset(UIConstants.premiumCostTopOffset)
+            make.left.equalToSuperview().offset(UIConstants.premiumCostLeftOffset)
+        }
+        
+        premiumUpDownImageView.snp.makeConstraints { make in
+            make.bottom.equalTo(premiumCostLabel.snp.bottom).offset(UIConstants.premiumUpDownBottomOffset)
+            make.left.equalTo(premiumCostLabel.snp.right).offset(UIConstants.premiumUpDownLeftOffset)
+        }
+        
+        lpgUpDownImageView.snp.makeConstraints { make in
+            make.bottom.equalTo(premiumUpDownImageView.snp.bottom)
+            make.right.equalToSuperview().inset(UIConstants.lpgRightInset)
+        }
+        
+        lpgCostLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(premiumCostLabel.snp.bottom)
+            make.right.equalTo(lpgUpDownImageView.snp.left).offset(UIConstants.lpgCostRightOffset)
+        }
+        
+        lpgTitleLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(premiumTitleLabel.snp.bottom)
+            make.left.equalTo(lpgCostLabel.snp.left)
         }
     }
 }

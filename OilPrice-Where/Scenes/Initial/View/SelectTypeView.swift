@@ -118,7 +118,7 @@ private extension SelectTypeView {
         }
     }
     
-    private func configureUI() {
+    func configureUI() {
         addSubview(selectOilTypeLabel)
         addSubview(fuelTypeSegmentControl)
         addSubview(selectNaviTypeLabel)
@@ -127,7 +127,7 @@ private extension SelectTypeView {
         addSubview(spacerView)
     }
     
-    private func setupConstraints() {
+    func setupConstraints() {
         selectOilTypeLabel.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview().inset(UIConstants.Insets.general)
             make.height.equalTo(UIConstants.Heights.label)
@@ -164,7 +164,7 @@ private extension SelectTypeView {
         }
     }
     
-    private func setupSegmentControlStyles() {
+    func setupSegmentControlStyles() {
         let font = FontFamily.NanumSquareRound.regular.font(size: 15)
         let normalAttributes: [NSAttributedString.Key: Any] = [.font: font, .foregroundColor: UIColor.black]
         let selectedAttributes: [NSAttributedString.Key: Any] = [.font: font, .foregroundColor: UIColor.white]

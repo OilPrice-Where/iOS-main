@@ -84,9 +84,13 @@
 		E9689E76290EE53800DA23AD /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = E9689E75290EE53800DA23AD /* SideMenu */; };
 		E96A72182D3BBEF6009B1261 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E96A72172D3BBEF6009B1261 /* Then */; };
 		E96A72372D3C02A1009B1261 /* PlistStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72362D3C02A1009B1261 /* PlistStorage.swift */; };
-		E96A72392D3C0797009B1261 /* SettingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72382D3C0797009B1261 /* SettingUseCase.swift */; };
-		E96A723B2D3C0D20009B1261 /* SettingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A723A2D3C0D20009B1261 /* SettingType.swift */; };
-		E96A723E2D3C0D3F009B1261 /* SettingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A723D2D3C0D3F009B1261 /* SettingError.swift */; };
+		E96A72412D3C1C0A009B1261 /* PriceAverageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72402D3C1C0A009B1261 /* PriceAverageViewModel.swift */; };
+		E96A72532D3C27EE009B1261 /* SettingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A724E2D3C27EE009B1261 /* SettingError.swift */; };
+		E96A72542D3C27EE009B1261 /* SettingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A724F2D3C27EE009B1261 /* SettingType.swift */; };
+		E96A72552D3C27EE009B1261 /* SettingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72512D3C27EE009B1261 /* SettingUseCase.swift */; };
+		E96A725A2D3C27F3009B1261 /* AverageCostType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72562D3C27F3009B1261 /* AverageCostType.swift */; };
+		E96A725B2D3C27F3009B1261 /* AverageCostUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72582D3C27F3009B1261 /* AverageCostUseCase.swift */; };
+		E96A725D2D3C281E009B1261 /* AverageCost.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A725C2D3C281E009B1261 /* AverageCost.swift */; };
 		E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601C27CE00A6005BB593 /* MainListVC.swift */; };
 		E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601E27CE0351005BB593 /* MainListViewModel.swift */; };
 		E978E08228425C3400AE3480 /* StationDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E978E08128425C3400AE3480 /* StationDetailVC.swift */; };
@@ -272,9 +276,13 @@
 		E9633A8927FA0BCB00B99E66 /* SelectMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMenuViewModel.swift; sourceTree = "<group>"; };
 		E9633A8B27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMenuCollectionViewCell.swift; sourceTree = "<group>"; };
 		E96A72362D3C02A1009B1261 /* PlistStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistStorage.swift; sourceTree = "<group>"; };
-		E96A72382D3C0797009B1261 /* SettingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingUseCase.swift; sourceTree = "<group>"; };
-		E96A723A2D3C0D20009B1261 /* SettingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingType.swift; sourceTree = "<group>"; };
-		E96A723D2D3C0D3F009B1261 /* SettingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingError.swift; sourceTree = "<group>"; };
+		E96A72402D3C1C0A009B1261 /* PriceAverageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceAverageViewModel.swift; sourceTree = "<group>"; };
+		E96A724E2D3C27EE009B1261 /* SettingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingError.swift; sourceTree = "<group>"; };
+		E96A724F2D3C27EE009B1261 /* SettingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingType.swift; sourceTree = "<group>"; };
+		E96A72512D3C27EE009B1261 /* SettingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingUseCase.swift; sourceTree = "<group>"; };
+		E96A72562D3C27F3009B1261 /* AverageCostType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageCostType.swift; sourceTree = "<group>"; };
+		E96A72582D3C27F3009B1261 /* AverageCostUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageCostUseCase.swift; sourceTree = "<group>"; };
+		E96A725C2D3C281E009B1261 /* AverageCost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageCost.swift; sourceTree = "<group>"; };
 		E96E601C27CE00A6005BB593 /* MainListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListVC.swift; sourceTree = "<group>"; };
 		E96E601E27CE0351005BB593 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
 		E978E08128425C3400AE3480 /* StationDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailVC.swift; sourceTree = "<group>"; };
@@ -768,21 +776,47 @@
 			path = PlistStorage;
 			sourceTree = "<group>";
 		};
-		E96A723C2D3C0D28009B1261 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				E96A723D2D3C0D3F009B1261 /* SettingError.swift */,
-				E96A723A2D3C0D20009B1261 /* SettingType.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		E96A723F2D3C12E4009B1261 /* CoreDataStorage */ = {
 			isa = PBXGroup;
 			children = (
 				E9A3A2C9282D0E84004ED55E /* DataModel.xcdatamodeld */,
 			);
 			path = CoreDataStorage;
+			sourceTree = "<group>";
+		};
+		E96A72502D3C27EE009B1261 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E96A724E2D3C27EE009B1261 /* SettingError.swift */,
+				E96A724F2D3C27EE009B1261 /* SettingType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E96A72522D3C27EE009B1261 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				E96A72502D3C27EE009B1261 /* Model */,
+				E96A72512D3C27EE009B1261 /* SettingUseCase.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		E96A72572D3C27F3009B1261 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E96A72562D3C27F3009B1261 /* AverageCostType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E96A72592D3C27F3009B1261 /* AverageCost */ = {
+			isa = PBXGroup;
+			children = (
+				E96A72572D3C27F3009B1261 /* Model */,
+				E96A72582D3C27F3009B1261 /* AverageCostUseCase.swift */,
+			);
+			path = AverageCost;
 			sourceTree = "<group>";
 		};
 		E96E601B27CE008A005BB593 /* View */ = {
@@ -831,6 +865,7 @@
 			isa = PBXGroup;
 			children = (
 				E9A1B17E28336A9F00B64AFA /* PriceAverageVC.swift */,
+				E96A72402D3C1C0A009B1261 /* PriceAverageViewModel.swift */,
 			);
 			path = Average;
 			sourceTree = "<group>";
@@ -978,8 +1013,8 @@
 		E9FE52102D3B7BB7003C81DE /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
-				E96A723C2D3C0D28009B1261 /* Model */,
-				E96A72382D3C0797009B1261 /* SettingUseCase.swift */,
+				E96A72592D3C27F3009B1261 /* AverageCost */,
+				E96A72522D3C27EE009B1261 /* Setting */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -988,6 +1023,7 @@
 			isa = PBXGroup;
 			children = (
 				E9FE52162D3B85C0003C81DE /* OilPrice.swift */,
+				E96A725C2D3C281E009B1261 /* AverageCost.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1155,6 +1191,8 @@
 			files = (
 				E9C3A65328421D3A00AC861C /* FrequentVisitViewModel.swift in Sources */,
 				2C0C68C4276B0EE200945CEC /* Fonts+Generated.swift in Sources */,
+				E96A725A2D3C27F3009B1261 /* AverageCostType.swift in Sources */,
+				E96A725B2D3C27F3009B1261 /* AverageCostUseCase.swift in Sources */,
 				2C0C68C2276B0E8600945CEC /* XCAssets+Generated.swift in Sources */,
 				E9633A8027F9D2D600B99E66 /* MenuViewModel.swift in Sources */,
 				8EF8481A24E39B23009A32D8 /* EditSalePriceViewModel.swift in Sources */,
@@ -1170,7 +1208,6 @@
 				E9633A7E27F9CF7D00B99E66 /* MenuKeyValueView.swift in Sources */,
 				E9FE52152D3B7CE8003C81DE /* FirebaseAverageCostRepository.swift in Sources */,
 				2CAC81DD276B948B00CC6096 /* CustomKVView.swift in Sources */,
-				E96A72392D3C0797009B1261 /* SettingUseCase.swift in Sources */,
 				8E68BA2B24CCDF92004730D7 /* FavoriteCollectionViewCell.swift in Sources */,
 				E9633A8C27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift in Sources */,
 				E919CCC9281BF80700C3373E /* PlusView.swift in Sources */,
@@ -1184,6 +1221,7 @@
 				E90FC27D290E33B8006908CC /* LogUtil.swift in Sources */,
 				E94D0F0227BB467600BCB092 /* GasStationTitleView.swift in Sources */,
 				E94D0F0427BB490C00BCB092 /* GasStationBottomView.swift in Sources */,
+				E96A725D2D3C281E009B1261 /* AverageCost.swift in Sources */,
 				E9633A8A27FA0BCB00B99E66 /* SelectMenuViewModel.swift in Sources */,
 				8E40DB1924D7E45400352F7E /* InitialViewModel.swift in Sources */,
 				8EB5C2E82139214700AB83BB /* Reachability.swift in Sources */,
@@ -1196,7 +1234,6 @@
 				2C1FBE1A276AE39000E57F8A /* SelectTypeView.swift in Sources */,
 				E978E085284277A200AE3480 /* StationDetailViewModel.swift in Sources */,
 				E96A72372D3C02A1009B1261 /* PlistStorage.swift in Sources */,
-				E96A723B2D3C0D20009B1261 /* SettingType.swift in Sources */,
 				E9C3A656284228EB00AC861C /* FrequentVisitCollectionViewCell.swift in Sources */,
 				2CC1C80E276C8610007527C7 /* MainMapView.swift in Sources */,
 				E9A64D542883D36600BF1737 /* CustomNavigationTitle.swift in Sources */,
@@ -1219,6 +1256,9 @@
 				8EDAF7D821295AEF00422552 /* InitialSettingVC.swift in Sources */,
 				E933E88428676C9300A49ADB /* AddCardVC.swift in Sources */,
 				E9984652291D13C30043D1DA /* FindStationExtension.intentdefinition in Sources */,
+				E96A72532D3C27EE009B1261 /* SettingError.swift in Sources */,
+				E96A72542D3C27EE009B1261 /* SettingType.swift in Sources */,
+				E96A72552D3C27EE009B1261 /* SettingUseCase.swift in Sources */,
 				E9FE52172D3B85C0003C81DE /* OilPrice.swift in Sources */,
 				E9400FE827B1146E003168C6 /* StationInfoGuideView.swift in Sources */,
 				E913063628A8FC510065E30C /* EditCardNameTableViewCell.swift in Sources */,
@@ -1233,7 +1273,6 @@
 				E9633A8627FA0B5800B99E66 /* SelectMenuVC.swift in Sources */,
 				E9E290D7280ECF1900BE21B3 /* DatabaseVersionModel.swift in Sources */,
 				E90FC272290E319D006908CC /* ResponsePOI.swift in Sources */,
-				E96A723E2D3C0D3F009B1261 /* SettingError.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
 				8EE53E9524D01828008D8045 /* AboutUsTableViewCell.swift in Sources */,
 				E9EAF1042822DAC30046F9A8 /* CardInfo.swift in Sources */,
@@ -1249,6 +1288,7 @@
 				E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */,
 				E913063828A8FD790065E30C /* CardBenefitTableViewCell.swift in Sources */,
 				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,
+				E96A72412D3C1C0A009B1261 /* PriceAverageViewModel.swift in Sources */,
 				E913063A28A8FE950065E30C /* SelectedBrandTableViewCell.swift in Sources */,
 				2CAC81E5276BA63400CC6096 /* LodingView.swift in Sources */,
 				8E68BA2524CCCF95004730D7 /* FindBrandVC.swift in Sources */,
