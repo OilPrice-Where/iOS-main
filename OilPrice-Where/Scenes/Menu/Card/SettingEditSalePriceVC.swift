@@ -83,7 +83,7 @@ extension SettingEditSalePriceVC: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withType: CardCollectionViewCell.self, indexPath: indexPath)
+        let cell: CardCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = cell.bounds

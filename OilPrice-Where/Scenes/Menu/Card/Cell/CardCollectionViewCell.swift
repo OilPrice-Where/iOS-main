@@ -103,7 +103,7 @@ extension CardCollectionViewCell: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withType: BrandCollectionViewCell.self, indexPath: indexPath)
+        let cell: BrandCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
         
         cell.configure(imageName: dummy[indexPath.item])
         
