@@ -28,8 +28,10 @@ extension UICollectionViewCell {
 }
 
 extension UICollectionView {
-    func dequeueReusableCell<T: UICollectionViewCell>(withType type: T.Type, indexPath: IndexPath) -> T {
-        guard let cell = self.dequeueReusableCell(withReuseIdentifier: type.id, for: indexPath) as? T else { fatalError() }
+    func dequeueReusableCell<T: UICollectionViewCell>(for indexPath: IndexPath) -> T {
+        guard let cell = self.dequeueReusableCell(withReuseIdentifier: T.id, for: indexPath) as? T else {
+            fatalError()
+        }
         
         return cell
     }

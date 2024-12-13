@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         let stationRepository: StationRepository = StationRepositoryImpl()
-        let averageCostRepository: AverageCostRepository = FirebaseAverageCostRepository(repository: stationRepository)
+        let averageCostRepository: AverageCostRepository = FirebaseAverageCostRepository(stationRepository: stationRepository)
         averageCostRepository.checkAndUpdateAverageCosts()
         
         #if DEBUG
