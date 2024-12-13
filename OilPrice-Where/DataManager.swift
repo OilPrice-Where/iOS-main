@@ -53,7 +53,7 @@ class DataManager {
         }
     }
     
-    func addNew(station: GasStationInfoDTO?) {
+    func addNew(station: GasStationSummaryDTO?) {
         let newStation = Station(context: mainContext)
         newStation.identifier = station?.id
         newStation.name = station?.name

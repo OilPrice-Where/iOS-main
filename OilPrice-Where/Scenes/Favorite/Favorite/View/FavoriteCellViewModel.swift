@@ -12,9 +12,9 @@ import Moya
 //MARK: FavoriteCellViewModel
 final class FavoriteCellViewModel {
     var cancellable = Set<AnyCancellable>()
-    private var info: GasStationDetailsDTO?
+    private var info: GasStationDetailDTO?
     let stationAPI = MoyaProvider<StationAPI>()
-    var infoSubject = CurrentValueSubject<GasStationDetailsDTO?, Never>(nil)
+    var infoSubject = CurrentValueSubject<GasStationDetailDTO?, Never>(nil)
     var isLoadingSubject = CurrentValueSubject<Bool, Never>(false)
 }
 //MARK: Method
@@ -57,7 +57,7 @@ extension FavoriteCellViewModel {
         DefaultData.shared.favoriteSubject.send(newFavArr)
     }
     // 길 안내
-    func navigationButton() -> GasStationInfoDTO? {
+    func navigationButton() -> GasStationSummaryDTO? {
         let type = DefaultData.shared.oilSubject.value
         
         guard let info = info,
@@ -68,7 +68,7 @@ extension FavoriteCellViewModel {
               let ky = info.katecY,
               let price = info.prices?.first(where: { $0.type == type })?.price else { return nil }
         
-        return GasStationInfoDTO(
+        return GasStationSummaryDTO(
             id: id,
             brand: brand,
             name: name,

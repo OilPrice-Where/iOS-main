@@ -21,7 +21,7 @@ struct NearbyGasStationsDTO: Decodable {
 
 /// 주유소 리스트 정보 Response
 struct GasStationListDTO: Decodable {
-    let gasStations: [GasStationInfoDTO]?
+    let gasStations: [GasStationSummaryDTO]?
     
     private enum CodingKeys: String, CodingKey {
         case gasStations = "OIL"
@@ -30,7 +30,7 @@ struct GasStationListDTO: Decodable {
 
 
 /// 주유소 정보 Response
-struct GasStationInfoDTO: Decodable {
+struct GasStationSummaryDTO: Decodable {
     /// 주유소 코드
     let id: String?
     /// 브랜드 코드

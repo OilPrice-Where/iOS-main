@@ -519,7 +519,7 @@ extension MainVC: SearchBarDelegate {
 
 //MARK: - NaverMap 관련
 extension MainVC: MainMapViewDelegate {
-    func marker(didTapMarker: NMGLatLng, info: GasStationInfoDTO) {
+    func marker(didTapMarker: NMGLatLng, info: GasStationSummaryDTO) {
         if fpc.state == .hidden { fpc.move(to: .half, animated: true, completion: nil) }
         
         contentsVC.stationInfoView.configure(info)
@@ -643,12 +643,12 @@ extension MainVC: FloatingPanelControllerDelegate {
 
 //MARK: - List 관련
 extension MainVC: MainListVCDelegate {
-    func touchedCell(info: GasStationInfoDTO) {
+    func touchedCell(info: GasStationSummaryDTO) {
         let position = NMGTm128(x: info.katecX ?? .zero, y: info.katecY ?? .zero).toLatLng()
         marker(didTapMarker: position, info: info)
         
         mapContainerView.selectedMarker = mapContainerView.markers.first(where: {
-            guard let station = $0.userInfo["station"] as? GasStationInfoDTO else { return false }
+            guard let station = $0.userInfo["station"] as? GasStationSummaryDTO else { return false }
             return station.id == info.id
         })
         mapContainerView.selectedMarker?.isSelected = true

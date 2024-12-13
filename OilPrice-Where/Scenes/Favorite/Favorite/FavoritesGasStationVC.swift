@@ -145,7 +145,7 @@ extension FavoritesGasStationVC: FavoriteCollectionViewCellDelegate {
         view.showToast(lbl)
     }
     
-    func touchedDirection(station: GasStationInfoDTO?) {
+    func touchedDirection(station: GasStationSummaryDTO?) {
         requestDirection(station: station)
     }
 }

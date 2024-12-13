@@ -23,7 +23,7 @@ struct GasStationInfoResult: Codable {
 /// 주유소 정보 리스트 Response
 struct InformationGasStaionsDTO: Codable {
     /// 개별 주유소 정보 리스트
-    var allPriceList: [GasStationDetailsDTO]?
+    var allPriceList: [GasStationDetailDTO]?
     
     private enum CodingKeys: String, CodingKey {
         case allPriceList = "OIL"
@@ -32,7 +32,7 @@ struct InformationGasStaionsDTO: Codable {
 
 
 /// 개별 주유소 세부 정보 Response
-struct GasStationDetailsDTO: Codable {
+struct GasStationDetailDTO: Codable {
     /// 주유소 고유 ID
     let id: String?
     /// 브랜드 코드

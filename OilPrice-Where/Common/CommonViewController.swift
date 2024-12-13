@@ -99,8 +99,8 @@ class CommonViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func requestURL(station: GasStationInfoDTO?) -> ResultURL {
-        let dummy = GasStationInfoDTO(id: "", brand: "", name: "Dummy", price: 0, distance: 0.0, katecX: 465535.79052, katecY: 351548.26588)
+    func requestURL(station: GasStationSummaryDTO?) -> ResultURL {
+        let dummy = GasStationSummaryDTO(id: "", brand: "", name: "Dummy", price: 0, distance: 0.0, katecX: 465535.79052, katecY: 351548.26588)
         guard let type = NaviType(rawValue: DefaultData.shared.naviSubject.value) else { return (false, nil) }
         let info = station ?? dummy
         
@@ -136,7 +136,7 @@ class CommonViewController: UIViewController {
         return UIApplication.shared.canOpenURL(_destinationURL) ? (true, _destinationURL) : (false, _appstoreURL)
     }
     
-    func requestDirection(station: GasStationInfoDTO?) {
+    func requestDirection(station: GasStationSummaryDTO?) {
         guard let info = station,
               let requestURL = requestURL(station: info).requestURL else { return }
         
