@@ -7,3 +7,12 @@
 //
 
 import Foundation
+
+
+protocol StationRepresentable {
+    var id: String { get }
+    var brand: String { get }
+    var name: String { get }
+    var katecX: Double { get }
+    var katecY: Double { get }
+}
