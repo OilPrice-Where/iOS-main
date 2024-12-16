@@ -97,7 +97,8 @@ private extension HistoryCell {
         static let priceKeyTopOffset: CGFloat = 18
         static let visitKeyTopOffset: CGFloat = 12
         
-        // Image Size
+        // Size
+        static let contentViewHeight: CGFloat = 127.0
         static let brandImageSize: CGFloat = 30
         
         // Right Inset
@@ -129,6 +130,10 @@ private extension HistoryCell {
     }
     
     func setupConstraints() {
+        contentView.snp.makeConstraints { make in
+            make.height.equalTo(UIConstants.contentViewHeight)
+        }
+        
         brandImageView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(UIConstants.topOffset)
             $0.left.equalToSuperview().offset(UIConstants.leftOffset)
