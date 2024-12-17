@@ -15,7 +15,7 @@ import Combine
 import FirebaseAnalytics
 
 protocol MainListVCDelegate: AnyObject {
-    func touchedCell(info: GasStation)
+    func touchedCell(info: GasStationSummaryDTO)
 }
 //MARK: GasStationListVC
 final class MainListVC: CommonViewController {
@@ -28,7 +28,7 @@ final class MainListVC: CommonViewController {
     var viewModel: MainListViewModel!
     weak var delegate: MainListVCDelegate?
     private var notiObject: NSObjectProtocol?
-    var dataSource: UICollectionViewDiffableDataSource<Section, GasStation>?
+    var dataSource: UICollectionViewDiffableDataSource<Section, GasStationSummaryDTO>?
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
         $0.delegate = self
         $0.alwaysBounceVertical = false
@@ -156,7 +156,7 @@ final class MainListVC: CommonViewController {
         notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("stationsUpdated"),
                                                             object: nil,
                                                             queue: .main) { [weak self] noti in
-            guard let stations = noti.userInfo?["stations"] as? [GasStation] else { return }
+            guard let stations = noti.userInfo?["stations"] as? [GasStationSummaryDTO] else { return }
             self?.viewModel.stations.send(stations)
         }
         
@@ -200,7 +200,7 @@ final class MainListVC: CommonViewController {
 
 extension MainListVC {
     func performDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, GasStation>(collectionView: collectionView, cellProvider: { collectionView, indexPath, station in
+        dataSource = UICollectionViewDiffableDataSource<Section, GasStationSummaryDTO>(collectionView: collectionView, cellProvider: { collectionView, indexPath, station in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GasStationCell.id, for: indexPath) as? GasStationCell else { return UICollectionViewCell() }
             
             cell.configure(station: station, indexPath: indexPath)
@@ -210,8 +210,8 @@ extension MainListVC {
         })
     }
     
-    func performDataSnapshot(stations: [GasStation]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, GasStation>()
+    func performDataSnapshot(stations: [GasStationSummaryDTO]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, GasStationSummaryDTO>()
         snapshot.appendSections([.station])
         snapshot.appendItems(stations)
         self.dataSource?.apply(snapshot, animatingDifferences: false)
@@ -260,7 +260,7 @@ extension MainListVC: GasStationCellDelegate {
         view.showToast(lbl, position: .top)
     }
     
-    func touchedDirectionButton(info: GasStation?) {
+    func touchedDirectionButton(info: GasStationSummaryDTO?) {
         let event = "tap_list_navigation"
         let parameters = [
             "file": #file,

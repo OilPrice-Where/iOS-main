@@ -60,10 +60,12 @@ extension MenuViewModel {
                 var saleVC = SettingEditSalePriceVC()
                 vc = saleVC
             case .history:
-                let historiesVC = HistoriesVC()
+                let historiesViewModel = HistoriesViewModel()
+                let historiesVC = HistoriesVC(viewModel: historiesViewModel)
                 vc = historiesVC
             case .aboutUs:
-                let aboutVC = SettingAboutUsVC()
+                let aboutViewModel = SettingAboutUsViewModel()
+                let aboutVC = SettingAboutUsVC(viewModel: aboutViewModel)
                 vc = aboutVC
             }
             

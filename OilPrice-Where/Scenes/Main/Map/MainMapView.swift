@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 protocol MainMapViewDelegate: AnyObject {
-    func marker(didTapMarker: NMGLatLng, info: GasStation)
+    func marker(didTapMarker: NMGLatLng, info: GasStationSummaryDTO)
 }
 //MARK: Map Container View
 final class MainMapView: UIView {
@@ -105,7 +105,7 @@ final class MainMapView: UIView {
         mapView.moveCamera(cameraUpdated)
     }
     
-    func showMarker(list: [GasStation]) {
+    func showMarker(list: [GasStationSummaryDTO]) {
         resetInfoWindows()
         
         var lowPrice = list.reduce(1_000_000, { min($0, $1.price) })

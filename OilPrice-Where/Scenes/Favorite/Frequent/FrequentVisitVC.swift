@@ -143,7 +143,7 @@ extension FrequentVisitVC: FrequentVisitCollectionViewCellDelegate {
         view.showToast(lbl, position: .top)
     }
     
-    func touchedDirectionButton(info: Station?) {
+    func touchedDirectionButton(info: StationEntity?) {
         guard let target = info else { return }
         
         let event = "tap_list_navigation"
@@ -156,7 +156,7 @@ extension FrequentVisitVC: FrequentVisitCollectionViewCellDelegate {
         Analytics.setUserProperty("ko", forName: "country")
         Analytics.logEvent(event, parameters: parameters)
         
-        let station = GasStation(id: target.identifier, name: target.name, brand: target.brand, x: target.katecX, y: target.katecY)
+        let station = GasStationSummaryDTO(id: target.identifier, name: target.name, brand: target.brand, x: target.katecX, y: target.katecY)
         requestDirection(station: station)
     }
 }

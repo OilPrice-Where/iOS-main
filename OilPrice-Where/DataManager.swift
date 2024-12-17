@@ -6,11 +6,12 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Foundation
-import CoreData
 import Combine
+import CoreData
+import Foundation
 
-class DataManager {
+
+final class DataManager {
     static let shared = DataManager()
     private init() {}
     
@@ -35,9 +36,9 @@ class DataManager {
     }
     
     func fetchData() {
-        let stationRequest: NSFetchRequest<StationEntity> = Station.fetchRequest()
-        let cardRequest: NSFetchRequest<CardEntity> = Card.fetchRequest()
-        let poiRequest: NSFetchRequest<POIEntity> = POI.fetchRequest()
+        let stationRequest: NSFetchRequest<StationEntity> = StationEntity.fetchRequest()
+        let cardRequest: NSFetchRequest<CardEntity> = CardEntity.fetchRequest()
+        let poiRequest: NSFetchRequest<POIEntity> = POIEntity.fetchRequest()
         
         let sortByDateDesc = NSSortDescriptor(key: "insertDate", ascending: false)
         stationRequest.sortDescriptors = [sortByDateDesc]
@@ -53,8 +54,20 @@ class DataManager {
         }
     }
     
+    func fetch<T>(request: NSFetchRequest<T>) throws -> [T] {
+        do {
+            return try mainContext.fetch(request)
+        } catch {
+            throw error
+        }
+    }
+    
+    func performBackgroundTask(_ block: @escaping (NSManagedObjectContext) -> Void) {
+        persistentContainer.performBackgroundTask(block)
+    }
+    
     func addNew(station: GasStationSummaryDTO?) {
-        let newStation = Station(context: mainContext)
+        let newStation = StationEntity(context: mainContext)
         newStation.identifier = station?.id
         newStation.name = station?.name
         newStation.brand = station?.brand
@@ -126,8 +139,14 @@ class DataManager {
                 try context.save()
             } catch {
                 let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                assertionFailure("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
+}
+
+extension DataManager {
+    enum Constants {
+        static let sortByDateDesc = NSSortDescriptor(key: "insertDate", ascending: false)
     }
 }

@@ -12,12 +12,12 @@ import UIKit
 
 protocol FrequentVisitCollectionViewCellDelegate: AnyObject {
     func touchedFavoriteButton(id: String?)
-    func touchedDirectionButton(info: Station?)
+    func touchedDirectionButton(info: StationEntity?)
 }
 //MARK: FrequentVisitCollectionViewCell
 final class FrequentVisitCollectionViewCell: UICollectionViewCell {
     //MARK: - Properties
-    var info: Station?
+    var info: StationEntity?
     weak var delegate: FrequentVisitCollectionViewCellDelegate?
     let titleView = GasStationTitleView()
     lazy var expandView = GasStationExpandView().then {
@@ -86,7 +86,7 @@ final class FrequentVisitCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(station: Station) {
+    func configure(station: StationEntity) {
         info = station
         countLabel.text = "\(station.count)회 방문"
         titleView.configure(staion: station)

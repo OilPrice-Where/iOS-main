@@ -282,7 +282,7 @@ final class MainVC: CommonViewController {
                 let position = NMGLatLng(lat: lat, lng: lng)
                 owner.marker(didTapMarker: position, info: info)
                 owner.mapContainerView.selectedMarker = owner.mapContainerView.markers.first(where: {
-                    guard let station = $0.userInfo["station"] as? GasStation else { return false }
+                    guard let station = $0.userInfo["station"] as? GasStationSummaryDTO else { return false }
                     return station.id == targetStation.id
                 })
                 owner.mapContainerView.selectedMarker?.isSelected = true

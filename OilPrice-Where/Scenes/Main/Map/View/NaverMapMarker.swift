@@ -50,7 +50,7 @@ final class CustomAnnotationView: UIView {
     }
     // MARK: - Properties
     var type: MarkerType = .none
-    var stationInfo: GasStation? // 마커 내부의 주유소 정보
+    var stationInfo: GasStationSummaryDTO? // 마커 내부의 주유소 정보
     var isSelected: Bool = false {
         didSet {
             mapMarkerImageView.image = isSelected ? fetchMarkerImage(type: .selected) : fetchMarkerImage(type: type)

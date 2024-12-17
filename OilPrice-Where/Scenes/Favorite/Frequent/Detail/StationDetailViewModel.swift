@@ -16,7 +16,7 @@ final class StationDetailViewModel {
     var cancellable = Set<AnyCancellable>()
     let input = Input()
     let output = Output()
-    private var info: InformationGasStaion? { didSet { output.infoSubject.send(info) } }
+    private var info: GasStationDetailDTO? { didSet { output.infoSubject.send(info) } }
     let stationAPI = MoyaProvider<StationAPI>()
     
     //MARK: Initializer
@@ -46,7 +46,7 @@ extension StationDetailViewModel {
     }
     
     struct Output {
-        var infoSubject = CurrentValueSubject<InformationGasStaion?, Never>(nil)
+        var infoSubject = CurrentValueSubject<GasStationDetailDTO?, Never>(nil)
     }
 }
 
@@ -61,7 +61,7 @@ extension StationDetailViewModel {
         stationAPI.request(.stationDetail(appKey: Preferences.getAppKey(), id: id)) {
             switch $0 {
             case .success(let resp):
-                guard let ret = try? resp.map(InformationOilStationResult.self),
+                guard let ret = try? resp.map(GasStationInfoResult.self),
                       let information = ret.result?.allPriceList?.first else { return }
                 
                 DefaultData.shared.tempFavArr.append(information)
@@ -72,7 +72,7 @@ extension StationDetailViewModel {
         }
     }
     // 가격 정보 얻기
-    func displayPriceInfomation(priceList: [Price]?) -> String {
+    func displayPriceInfomation(priceList: [FuelPriceDTO]?) -> String {
         let type = DefaultData.shared.oilSubject.value
         guard let displayInfo = priceList?.first(where: { $0.type == type }) else { return  "가격정보 없음" }
         
@@ -95,15 +95,15 @@ extension StationDetailViewModel {
     func fetchActivatedColor(info: String?) -> UIColor {
         return info == "Y" ? Asset.Colors.mainColor.color : .lightGray
     }
-    func string(_ info: InformationGasStaion, to code: String) -> String {
-        let price = Preferences.priceToWon(price: info.price?.first(where: { $0.type == code })?.price ?? 0)
+    func string(_ info: GasStationDetailDTO, to code: String) -> String {
+        let price = Preferences.priceToWon(price: info.prices?.first(where: { $0.type == code })?.price ?? 0)
         return price == "0" ? "가격 정보 없음" : price
     }
     
-    func fetchStation() -> GasStation? {
+    func fetchStation() -> GasStationDetailDTO? {
         guard let station = info else { return nil }
         
-        return GasStation(id: station.id ?? "", name: station.name ?? "", brand: station.brand ?? "",
+        return GasStationDetailDTO(id: station.id ?? "", name: station.name ?? "", brand: station.brand ?? "",
                           x: station.katecX ?? .zero, y: station.katecY ?? .zero)
     }
 }

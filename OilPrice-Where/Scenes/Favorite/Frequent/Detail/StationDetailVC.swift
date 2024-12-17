@@ -322,7 +322,7 @@ final class StationDetailVC: CommonViewController {
             .sink { [weak self] station in
                 guard let owner = self else { return }
                 
-                owner.naviTitleView.logoImageView.image = Preferences.logoImage(logoName: station.brand)
+                owner.naviTitleView.logoImageView.image = Preferences.logoImage(logoName: station.brand ?? "")
                 owner.naviTitleView.titleLabel.text = station.name
                 owner.washImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.carWash)
                 owner.repairImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.repairShop)

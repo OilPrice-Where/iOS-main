@@ -15,7 +15,7 @@ import Toast
 final class StationInfoVC: CommonViewController {
     //MARK: - Properties
     var stationInfoView = StationInfoView()
-    var station: InformationGasStaion? = nil { didSet { configure(_station: station) } }
+    var station: GasStationSummaryDTO? = nil { didSet { configure(_station: station) } }
     var guideView = UIView().then {
         $0.backgroundColor = .systemGray4
         $0.layer.cornerRadius = 1.3
@@ -269,7 +269,7 @@ final class StationInfoVC: CommonViewController {
     }
     
     //MARK: - Configure station
-    func configure(_station: InformationGasStaion?) {
+    func configure(_station: GasStationSummaryDTO?) {
         guard let info = _station else { return }
         
         washImageView.tintColor = info.carWash == "Y" ? Asset.Colors.mainColor.color : .lightGray
@@ -291,7 +291,7 @@ final class StationInfoVC: CommonViewController {
         lpgValueLabel.text = string(info, to: "K015")
     }
     
-    func string(_ info: InformationGasStaion, to code: String) -> String {
+    func string(_ info: GasStationSummaryDTO, to code: String) -> String {
         let price = Preferences.priceToWon(price: info.price?.first(where: { $0.type == code })?.price ?? 0)
         return price == "0" ? "가격 정보 없음" : price
     }

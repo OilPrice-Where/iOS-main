@@ -19,7 +19,7 @@ final class FavoriteCellViewModel {
 }
 //MARK: Method
 extension FavoriteCellViewModel {
-    // Network -> Station
+    // Network -> StationEntity
     func requestStationsInfo(id: String) {
         stationAPI.request(.stationDetail(appKey: Preferences.getAppKey(), id: id)) {
             switch $0 {

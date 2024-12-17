@@ -19,7 +19,7 @@ protocol RecentResultCellProtocol: AnyObject {
 final class RecentResultCell: UITableViewCell {
     //MARK: - Properties
     weak var delegate: RecentResultCellProtocol?
-    private var poi: POI?
+    private var poi: POIEntity?
     private var index: Int?
     
     private let locationImageView = UIImageView().then {
