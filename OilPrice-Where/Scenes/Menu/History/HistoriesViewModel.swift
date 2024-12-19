@@ -11,9 +11,17 @@ import Foundation
 
 
 final class HistoriesViewModel {
+    
     private var cancellable = Set<AnyCancellable>()
+    
+    let storage: VisitedStationStorage
+    let visitedStations = PassthroughSubject<[VisitedGasStation], Never>()
+    
+    
+    init(storage: VisitedStationStorage) {
+        self.storage = storage
+    }
 }
-
 
 
 extension HistoriesViewModel {
@@ -30,11 +38,7 @@ extension HistoriesViewModel {
     }
     
     func trasform(input: Input) -> Output {
-        input.swipeToDelete
-            .sink { [weak self] visitedStation in
-                self?.remove(visitedStation: visitedStation)
-            }
-            .store(in: &cancellable)
+        bindActions(input: input)
             
         let presentNavigationAlert = input.didSelectItem.eraseToAnyPublisher()
         
@@ -51,14 +55,42 @@ extension HistoriesViewModel {
             moveNavigation: moveNavigation
         )
     }
+    
+    func bindActions(input: Input) {
+        input.viewDidLoad
+            .sink { [weak self] _ in
+                let visitedStations = self?.storage.fetchVisitedStations() ?? []
+                self?.visitedStations.send(visitedStations)
+            }
+            .store(in: &cancellable)
+        
+        input.swipeToDelete
+            .sink { [weak self] visitedStation in
+                self?.remove(visitedStation: visitedStation)
+            }
+            .store(in: &cancellable)
+    }
 }
 
 private extension HistoriesViewModel {
     func remove(visitedStation station: VisitedGasStation) {
-        
+        Task {
+            do {
+                try await storage.removeVisited(station: station)
+            } catch {
+                LogUtil.e(error.localizedDescription)
+            }
+        }
     }
     
     func save(visitedStation station: VisitedGasStation) {
-        
+        Task {
+            do {
+                _ = try await storage.saveVisited(station: station)
+                visitedStations.send(storage.fetchVisitedStations())
+            } catch {
+                LogUtil.e(error.localizedDescription)
+            }
+        }
     }
 }

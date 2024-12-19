@@ -48,12 +48,23 @@ final class HistoriesVC: CommonViewController {
         super.viewDidLoad()
         
         makeUI()
+        bindUI()
         bindActions()
     }
 }
 
 //MARK: - Action
 private extension HistoriesVC {
+    func bindUI() {
+        viewModel.visitedStations
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] visitedStation in
+                self?.emptyLabel.isHidden = !visitedStation.isEmpty
+                self?.dataSource.applySnapshot(with: visitedStation)
+            }
+            .store(in: &cancellable)
+    }
+    
     func bindActions() {
         let output = viewModel.trasform(input: .init(
             viewDidLoad: Just(()).eraseToAnyPublisher(),
@@ -61,11 +72,6 @@ private extension HistoriesVC {
             didSelectItem: didSelectItemPublisher.eraseToAnyPublisher(),
             alertConfirmationPublisher: alertConfirmationPublisher.eraseToAnyPublisher()
         ))
-        
-        DataManager.shared.stationListIsEmpty
-            .map { !$0 }
-            .assign(to: \.isHidden, on: emptyLabel)
-            .store(in: &cancellable)
         
         // Present alert
         output.presentNavigationAlert
@@ -205,8 +211,6 @@ private extension HistoriesVC {
         emptyLabel.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-        emptyLabel.isHidden = !DataManager.shared.stationList.isEmpty
     }
 }
 
