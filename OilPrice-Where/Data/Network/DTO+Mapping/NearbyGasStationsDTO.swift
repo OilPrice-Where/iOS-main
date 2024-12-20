@@ -30,7 +30,7 @@ struct GasStationListDTO: Decodable {
 
 
 /// 주유소 정보 Response
-struct GasStationSummaryDTO: Decodable {
+struct GasStationSummaryDTO: Decodable, Hashable {
     /// 주유소 코드
     let id: String?
     /// 브랜드 코드
