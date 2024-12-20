@@ -34,7 +34,7 @@
 		8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */; };
 		8EDAF7D821295AEF00422552 /* InitialSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDAF7D721295AEF00422552 /* InitialSettingVC.swift */; };
 		8EDE51B424D5C32C004590B6 /* FavoriteCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDE51B324D5C32C004590B6 /* FavoriteCellViewModel.swift */; };
-		8EE0A2FB21DDF49E00C159D0 /* BrandTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */; };
+		8EE0A2FB21DDF49E00C159D0 /* FindBrandCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE0A2FA21DDF49E00C159D0 /* FindBrandCell.swift */; };
 		8EE53E6C24CEA100008D8045 /* NanumSquareRoundB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226532126A8BA0012B2F6 /* NanumSquareRoundB.ttf */; };
 		8EE53E6D24CEA103008D8045 /* NanumSquareRoundEB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226542126A8BB0012B2F6 /* NanumSquareRoundEB.ttf */; };
 		8EE53E6E24CEA106008D8045 /* NanumSquareRoundL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29B226522126A8B90012B2F6 /* NanumSquareRoundL.ttf */; };
@@ -94,6 +94,11 @@
 		E96A727A2D3D8E57009B1261 /* StationRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72792D3D8E57009B1261 /* StationRepresentable.swift */; };
 		E96A72A62D3EB794009B1261 /* VisitedStationStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72A52D3EB794009B1261 /* VisitedStationStorage.swift */; };
 		E96A72A92D3EBA3D009B1261 /* StationEntity+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72A82D3EBA3D009B1261 /* StationEntity+Mapping.swift */; };
+		E96A72AB2D416B19009B1261 /* StationBrand.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72AA2D416B19009B1261 /* StationBrand.swift */; };
+		E96A72AD2D416F49009B1261 /* FindOilType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72AC2D416F49009B1261 /* FindOilType.swift */; };
+		E96A72AF2D4170E6009B1261 /* SearchDistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72AE2D4170E6009B1261 /* SearchDistance.swift */; };
+		E96A72B12D417206009B1261 /* SearchNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72B02D417206009B1261 /* SearchNavigation.swift */; };
+		E96A72BD2D4176B6009B1261 /* CoordinateSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A72BC2D4176B6009B1261 /* CoordinateSystem.swift */; };
 		E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601C27CE00A6005BB593 /* MainListVC.swift */; };
 		E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601E27CE0351005BB593 /* MainListViewModel.swift */; };
 		E978E08228425C3400AE3480 /* StationDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E978E08128425C3400AE3480 /* StationDetailVC.swift */; };
@@ -236,7 +241,7 @@
 		8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DefaultData.swift; path = "OilPrice-Where/DefaultData.swift"; sourceTree = SOURCE_ROOT; };
 		8EDAF7D721295AEF00422552 /* InitialSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSettingVC.swift; sourceTree = "<group>"; };
 		8EDE51B324D5C32C004590B6 /* FavoriteCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCellViewModel.swift; sourceTree = "<group>"; };
-		8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandTypeTableViewCell.swift; sourceTree = "<group>"; };
+		8EE0A2FA21DDF49E00C159D0 /* FindBrandCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindBrandCell.swift; sourceTree = "<group>"; };
 		8EE53E9224D016B4008D8045 /* SettingAboutUsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAboutUsVC.swift; sourceTree = "<group>"; };
 		8EE53E9424D01828008D8045 /* AboutUsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsCell.swift; sourceTree = "<group>"; };
 		8EF8481924E39B23009A32D8 /* EditSalePriceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSalePriceViewModel.swift; sourceTree = "<group>"; };
@@ -283,6 +288,11 @@
 		E96A72792D3D8E57009B1261 /* StationRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationRepresentable.swift; sourceTree = "<group>"; };
 		E96A72A52D3EB794009B1261 /* VisitedStationStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitedStationStorage.swift; sourceTree = "<group>"; };
 		E96A72A82D3EBA3D009B1261 /* StationEntity+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StationEntity+Mapping.swift"; sourceTree = "<group>"; };
+		E96A72AA2D416B19009B1261 /* StationBrand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationBrand.swift; sourceTree = "<group>"; };
+		E96A72AC2D416F49009B1261 /* FindOilType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindOilType.swift; sourceTree = "<group>"; };
+		E96A72AE2D4170E6009B1261 /* SearchDistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDistance.swift; sourceTree = "<group>"; };
+		E96A72B02D417206009B1261 /* SearchNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNavigation.swift; sourceTree = "<group>"; };
+		E96A72BC2D4176B6009B1261 /* CoordinateSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateSystem.swift; sourceTree = "<group>"; };
 		E96E601C27CE00A6005BB593 /* MainListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListVC.swift; sourceTree = "<group>"; };
 		E96E601E27CE0351005BB593 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
 		E978E08128425C3400AE3480 /* StationDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailVC.swift; sourceTree = "<group>"; };
@@ -510,7 +520,7 @@
 		2C0C68D4276B477300945CEC /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				8EE0A2FA21DDF49E00C159D0 /* BrandTypeTableViewCell.swift */,
+				8EE0A2FA21DDF49E00C159D0 /* FindBrandCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1018,6 +1028,11 @@
 				E9FE52162D3B85C0003C81DE /* OilPrice.swift */,
 				E96A725C2D3C281E009B1261 /* AverageCost.swift */,
 				E96A72732D3CECF8009B1261 /* VisitedGasStation.swift */,
+				E96A72AC2D416F49009B1261 /* FindOilType.swift */,
+				E96A72AA2D416B19009B1261 /* StationBrand.swift */,
+				E96A72AE2D4170E6009B1261 /* SearchDistance.swift */,
+				E96A72B02D417206009B1261 /* SearchNavigation.swift */,
+				E96A72BC2D4176B6009B1261 /* CoordinateSystem.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1191,6 +1206,7 @@
 				E94D0F0027BB3DBC00BCB092 /* GasStationCell.swift in Sources */,
 				E94D0F0827BB4D5800BCB092 /* GasStationExpandView.swift in Sources */,
 				E9F0996427D8C44B009F95DF /* KeyValueView.swift in Sources */,
+				E96A72AD2D416F49009B1261 /* FindOilType.swift in Sources */,
 				E9984667291D6ED40043D1DA /* SceneDelegate.swift in Sources */,
 				E9EFE7CC290E2D6800EA514B /* SearchBarVC.swift in Sources */,
 				E998465E291D2AB80043D1DA /* ActivityManager.swift in Sources */,
@@ -1203,12 +1219,14 @@
 				E9633A8C27FA15D100B99E66 /* SelectMenuCollectionViewCell.swift in Sources */,
 				E919CCC9281BF80700C3373E /* PlusView.swift in Sources */,
 				E9FE52192D3B8B49003C81DE /* StationRepository.swift in Sources */,
+				E96A72AF2D4170E6009B1261 /* SearchDistance.swift in Sources */,
 				E998465A291D14B50043D1DA /* StationAttributes.swift in Sources */,
 				E90FC277290E331F006908CC /* LocationManager.swift in Sources */,
 				E978E08228425C3400AE3480 /* StationDetailVC.swift in Sources */,
 				E9FE52132D3B7C97003C81DE /* AverageCostRepository.swift in Sources */,
 				8ECE0D52211AD42600FF2B46 /* Preferences.swift in Sources */,
 				E9BE7AFF282C632C00FF8A01 /* HistoriesVC.swift in Sources */,
+				E96A72BD2D4176B6009B1261 /* CoordinateSystem.swift in Sources */,
 				E90FC27D290E33B8006908CC /* LogUtil.swift in Sources */,
 				E94D0F0227BB467600BCB092 /* GasStationTitleView.swift in Sources */,
 				E94D0F0427BB490C00BCB092 /* GasStationBottomView.swift in Sources */,
@@ -1220,7 +1238,7 @@
 				E94D0F0627BB4AE000BCB092 /* GasStationPriceView.swift in Sources */,
 				764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift in Sources */,
 				E9BE7B0B282C81F800FF8A01 /* DataManager.swift in Sources */,
-				8EE0A2FB21DDF49E00C159D0 /* BrandTypeTableViewCell.swift in Sources */,
+				8EE0A2FB21DDF49E00C159D0 /* FindBrandCell.swift in Sources */,
 				E96A72762D3CFB34009B1261 /* HistoriesViewModel.swift in Sources */,
 				E9C3A65128421BE800AC861C /* FrequentVisitVC.swift in Sources */,
 				2C1FBE1A276AE39000E57F8A /* SelectTypeView.swift in Sources */,
@@ -1233,6 +1251,7 @@
 				E9EFE7CE290E2D8300EA514B /* SearchBarViewModel.swift in Sources */,
 				E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */,
 				8E68BA2324CCCF32004730D7 /* FindBrandViewModel.swift in Sources */,
+				E96A72AB2D416B19009B1261 /* StationBrand.swift in Sources */,
 				E9400FDE27B0A3E2003168C6 /* NaverMapMarker.swift in Sources */,
 				8E4DBA4424E43492002E605C /* CardCollectionViewCell.swift in Sources */,
 				2CAC81E3276BA31D00CC6096 /* CustomNavigationView.swift in Sources */,
@@ -1263,6 +1282,7 @@
 				E90FC272290E319D006908CC /* ResponsePOI.swift in Sources */,
 				8E7FFE2520F5E5FF006CED48 /* AppDelegate.swift in Sources */,
 				8EE53E9524D01828008D8045 /* AboutUsCell.swift in Sources */,
+				E96A72B12D417206009B1261 /* SearchNavigation.swift in Sources */,
 				E9EAF1042822DAC30046F9A8 /* CardInfo.swift in Sources */,
 				2CAC81E1276B9A7200CC6096 /* KVVStackView.swift in Sources */,
 				E96A72A92D3EBA3D009B1261 /* StationEntity+Mapping.swift in Sources */,

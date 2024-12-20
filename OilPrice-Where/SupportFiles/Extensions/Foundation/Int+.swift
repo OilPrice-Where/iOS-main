@@ -7,3 +7,14 @@
 //
 
 import Foundation
+
+
+extension Int {
+    private static var numberFormatter = NumberFormatter().then {
+        $0.numberStyle = .decimal
+    }
+    
+    var decimalNumber: String {
+        return Int.numberFormatter.string(from: NSNumber(integerLiteral: self)) ?? "0"
+    }
+}
