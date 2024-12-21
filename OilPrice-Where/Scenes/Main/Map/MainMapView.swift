@@ -108,14 +108,14 @@ final class MainMapView: UIView {
     func showMarker(list: [GasStationSummaryDTO]) {
         resetInfoWindows()
         
-        var lowPrice = list.reduce(1_000_000, { min($0, $1.price) })
+        var lowPrice = list.reduce(1_000_000, { min($0, $1.price ?? .zero) })
         lowPrice = lowPrice == 1_000_000 ? 0 : lowPrice
         
         list.forEach { station in
-            let position = NMGTm128(x: station.katecX, y: station.katecY).toLatLng()
+            let position = NMGTm128(x: station.katecX ?? .zero, y: station.katecY ?? .zero).toLatLng()
             let marker = NaverMapMarker(type: station.price == lowPrice ? .low : .none,
-                                        brand: station.brand,
-                                        price: station.price)
+                                        brand: station.brand ?? "",
+                                        price: station.price ?? .zero)
             
             marker.position = position
             marker.mapView = mapView
