@@ -324,9 +324,9 @@ final class StationDetailVC: CommonViewController {
                 
                 owner.naviTitleView.logoImageView.image = Preferences.logoImage(logoName: station.brand ?? "")
                 owner.naviTitleView.titleLabel.text = station.name
-                owner.washImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.carWash)
-                owner.repairImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.repairShop)
-                owner.convenienceImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.convenienceStore)
+                owner.washImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.hasCarWash)
+                owner.repairImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.hasRepairShop)
+                owner.convenienceImageView.tintColor = owner.viewModel.fetchActivatedColor(info: station.hasConvenienceStore)
                 owner.oilValueLabel.text = owner.viewModel.string(station, to: "B027")
                 owner.highOilValueLabel.text = owner.viewModel.string(station, to: "B034")
                 owner.diselValueLabel.text = owner.viewModel.string(station, to: "D047")

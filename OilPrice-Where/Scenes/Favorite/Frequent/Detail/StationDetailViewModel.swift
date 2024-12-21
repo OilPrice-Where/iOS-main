@@ -100,10 +100,8 @@ extension StationDetailViewModel {
         return price == "0" ? "가격 정보 없음" : price
     }
     
-    func fetchStation() -> GasStationDetailDTO? {
+    func fetchStation() -> GasStationSummaryDTO? {
         guard let station = info else { return nil }
-        
-        return GasStationDetailDTO(id: station.id ?? "", name: station.name ?? "", brand: station.brand ?? "",
-                          x: station.katecX ?? .zero, y: station.katecY ?? .zero)
+        return GasStationSummaryDTO.init(id: station.id, brand: station.brand, name: station.name, katecX: station.katecX, katecY: station.katecY)
     }
 }
