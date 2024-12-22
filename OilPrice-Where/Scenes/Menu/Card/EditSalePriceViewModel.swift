@@ -11,11 +11,11 @@ import UIKit
 //MARK: EditSalePriceViewModel
 final class EditSalePriceViewModel {
     
-    var tColors: [UIColor] = [UIColor(hexString: "#1DE5E2"),
-                              UIColor(hexString: "#FFCB52"),
-                              UIColor(hexString: "#FACD68")]
-    
-    var bColors: [UIColor] = [UIColor(hexString: "#B588F7xx"),
-                              UIColor(hexString: "#FC76B3"),
-                              UIColor(hexString: "#FF7B02")]
+//    var tColors: [UIColor] = [UIColor(hexString: "#1DE5E2"),
+//                              UIColor(hexString: "#FFCB52"),
+//                              UIColor(hexString: "#FACD68")]
+//    
+//    var bColors: [UIColor] = [UIColor(hexString: "#B588F7xx"),
+//                              UIColor(hexString: "#FC76B3"),
+//                              UIColor(hexString: "#FF7B02")]
 }

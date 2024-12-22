@@ -54,13 +54,17 @@ extension MenuViewModel {
             
             switch type {
             case .findBrand:
-                var brandVC = FindBrandVC()
+                let storage: SettingStorage = PlistSettingStorage()
+                let useCase: SettingUseCase = SettingUseCaseImpl(storage: storage)
+                let viewModel: FindBrandViewModel = .init(settingUseCase: useCase)
+                let brandVC: FindBrandVC = .init(viewModel: viewModel)
                 vc = brandVC
             case .cardSale:
-                var saleVC = SettingEditSalePriceVC()
+                let saleVC = SettingEditSalePriceVC()
                 vc = saleVC
             case .history:
-                let historiesViewModel = HistoriesViewModel()
+                let stationStorage: VisitedStationStorage = CoreDataVisitedStationStorage()
+                let historiesViewModel = HistoriesViewModel(storage: stationStorage)
                 let historiesVC = HistoriesVC(viewModel: historiesViewModel)
                 vc = historiesVC
             case .aboutUs:
