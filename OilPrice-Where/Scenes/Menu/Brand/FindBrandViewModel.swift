@@ -6,30 +6,118 @@
 //  Copyright © 2020 sangwook park. All rights reserved.
 //
 
-import Foundation
 import Combine
-//MARK: FindBrandViewModel
+import Foundation
+
+
 final class FindBrandViewModel {
-    var cancellable = Set<AnyCancellable>()
-    private let findBrand = [ // 선택 가능한 탐색 반경
-        "전체",
-        "SK에너지",
-        "현대오일뱅크",
-        "GS칼텍스",
-        "S-OIL",
-        "SK가스",
-        "자영알뜰",
-        "E1",
-        "자가상표",
-        "농협알뜰",
-        "고속도로알뜰"
-    ]
     
-    let allBrands = ["SOL", "RTX", "ETC", "SKE", "GSC", "HDO", "RTO", "NHO", "E1G", "SKG"]
+    private var cancellable = Set<AnyCancellable>()
+    private let settingUseCase: SettingUseCase
     
-    var brandSubject: CurrentValueSubject<[String], Never>
+    let brandSubject: CurrentValueSubject<[Brand], Never> = .init([])
     
-    init() {
-        self.brandSubject = CurrentValueSubject<[String], Never>(findBrand)
+    init(settingUseCase: SettingUseCase) {
+        self.settingUseCase = settingUseCase
+    }
+}
+
+
+extension FindBrandViewModel {
+    struct Brand: Hashable {
+        let code: String
+        let name: String
+        var isSearchedBrand: Bool = true
+    }
+    
+    struct Action {
+        var viewDidLoad: AnyPublisher<Void, Never>
+        var selectedBrand: AnyPublisher<Brand, Never>
+    }
+    
+    func bind(action: Action) {
+        action.viewDidLoad
+            .sink { [weak self] _ in
+                guard let self else {
+                    return
+                }
+                let findBrands = loadFindBrands()
+                brandSubject.send(findBrands)
+            }
+            .store(in: &cancellable)
+        
+        action.selectedBrand
+            .sink { [weak self] brand in
+                guard let self else {
+                    return
+                }
+                // 선택된 상태 저장
+                saveFindBrand(brand)
+                
+                let findBrands = loadFindBrands()
+                brandSubject.send(findBrands)
+            }
+            .store(in: &cancellable)
+    }
+}
+
+
+private extension FindBrandViewModel {
+    func loadFindBrands() -> [Brand] {
+        var findBrands: [Brand] = StationBrand.allCases.map {
+            .init(code: $0.code, name: $0.name)
+        }
+        
+        do {
+            let storedFindBrand: [String] = try settingUseCase.load(type: .findBrands)
+            findBrands.enumerated().forEach { index, brand in
+                let currentBrand = StationBrand(code: brand.code)
+                
+                if currentBrand == .all {
+                    // 저장된 탐색 브랜수와 전체 브랜수(여기서 -1은 전체탐색을 의미하는 All을 뺀 값) 일치하면 전체 탐색
+                    let isSearchAllBrand = storedFindBrand.count == (findBrands.count - 1)
+                    findBrands[index].isSearchedBrand = isSearchAllBrand
+                } else {
+                    findBrands[index].isSearchedBrand = storedFindBrand.contains(brand.code)
+                }
+            }
+        } catch {
+            LogUtil.e(error.localizedDescription)
+        }
+        
+        return findBrands
+    }
+    
+    func saveFindBrand(_ brand: Brand) {
+        // 선택 Case => 전체 탐색 여부
+        let selectedStationBrand = StationBrand(code: brand.code)
+        if selectedStationBrand == .all {
+            // 전체 탐색
+            if brand.isSearchedBrand {
+                let saveAllBrands = StationBrand.allCases.map { $0.code }
+                settingUseCase.save(saveAllBrands, type: .findBrands)
+            }
+            // 탐색 안함
+            else {
+                let noSearchBrands: [String] = []
+                settingUseCase.save(noSearchBrands, type: .findBrands)
+            }
+        }
+        
+        let storeFindBrands: [String] = brandSubject.value.compactMap {
+            // 전체 탐색은 저장하지 않음
+            if selectedStationBrand == .all { return nil }
+            
+            if brand.code == $0.code,
+               brand.isSearchedBrand {
+                return brand.code
+            } else if $0.isSearchedBrand {
+                return $0.code
+            } else {
+                return nil
+            }
+        }
+        
+        settingUseCase.save(storeFindBrands, type: .findBrands)
     }
 }
