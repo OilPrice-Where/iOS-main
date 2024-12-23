@@ -20,19 +20,21 @@ extension FindBrandCell {
     
     // Configure Data
     private func configure(brand: FindBrandViewModel.Brand) {
-        brandTypeLable.text = brand.name
-        brandSelectedSwitch.isOn = brand.isSearchedBrand
+        self.brand = brand
+        self.brandTypeLable.text = brand.name
+        self.brandSelectedSwitch.isOn = brand.isSearchedBrand
     }
 }
 
 protocol FindBrandCellDelegate: AnyObject {
-    func findBrandCell(_ cell: FindBrandCell, didToggleSearch isOn: Bool)
+    func findBrandCell(_ cell: FindBrandCell, didToggleSearchFor brand: FindBrandViewModel.Brand)
 }
 
 //MARK: 탐색 브랜드 Cell
 final class FindBrandCell: UICollectionViewCell {
     
     //MARK: - Properties
+    private var brand: FindBrandViewModel.Brand?
     private weak var delegate: FindBrandCellDelegate?
     
     private let brandTypeLable = UILabel().then {
@@ -60,7 +62,16 @@ final class FindBrandCell: UICollectionViewCell {
     
     @objc
     private func toggleSearchSwitch(_ sender: UISwitch) {
-        delegate?.findBrandCell(self, didToggleSearch: sender.isOn)
+        guard let brand else {
+            return
+        }
+        
+        let updateBrand: FindBrandViewModel.Brand = .init(
+            code: brand.code,
+            name: brand.name,
+            isSearchedBrand: sender.isOn
+        )
+        delegate?.findBrandCell(self, didToggleSearchFor: updateBrand)
     }
 }
 
