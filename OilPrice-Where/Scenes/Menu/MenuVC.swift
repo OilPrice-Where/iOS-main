@@ -18,33 +18,17 @@ final class MenuVC: CommonViewController {
     //MARK: - Properties
     var ref: DatabaseReference?
     let viewModel = MenuViewModel()
-    private lazy var navigationView = MenuKeyValueView(type: .keyValue).then {
-        $0.keyLabel.text = "내비게이션"
-    }
-    private lazy var oilTypeView = MenuKeyValueView(type: .keyValue).then {
-        $0.keyLabel.text = "유종"
-    }
-    private lazy var historyView = MenuKeyValueView(type: .key).then {
-        $0.keyLabel.text = "방문 내역"
-    }
-    private lazy var findBrandView = MenuKeyValueView(type: .key).then {
-        $0.keyLabel.text = "검색 브랜드"
-    }
-    private lazy var avgView = MenuKeyValueView(type: .key).then {
-        $0.keyLabel.text = "전국 평균가"
-    }
-    private lazy var cardSaleView = MenuKeyValueView(type: .key).then {
-        $0.keyLabel.text = "카드 할인"
-    }
-    private lazy var aboutView = MenuKeyValueView(type: .subType).then {
-        $0.keyLabel.text = "About us"
-    }
-    private lazy var reviewView = MenuKeyValueView(type: .subType).then {
-        $0.keyLabel.text = "App 평가하기"
-    }
-    private lazy var versionView = MenuKeyValueView(type: .subType).then {
-        $0.keyLabel.text = "버전 정보"
-    }
+    
+    private let navigationView = MenuKeyValueView(title: "내비게이션", menuType: .keyValue)
+    private let oilTypeView = MenuKeyValueView(title: "유종", menuType: .keyValue)
+    private let historyView = MenuKeyValueView(title: "방문 내역", menuType: .key)
+    private let findBrandView = MenuKeyValueView(title: "검색 브랜드", menuType: .key)
+    private let avgView = MenuKeyValueView(title: "전국 평균가", menuType: .key)
+    private let cardSaleView = MenuKeyValueView(title: "카드 할인", menuType: .key)
+    private let aboutView = MenuKeyValueView(title: "About us", menuType: .subType)
+    private let reviewView = MenuKeyValueView(title: "App 평가하기", menuType: .subType)
+    private let versionView = MenuKeyValueView(title: "버전 정보", menuType: .subType)
+    
     
     //MARK: - Life Cycle
     override func viewDidLoad() {

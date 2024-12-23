@@ -59,17 +59,17 @@
 
 xcassets:
   inputs:
-    - OilPrice-Where/Resources/Images.xcassets
-    - OilPrice-Where/Resources/Colors.xcassets
+    - OilPrice-Where/Resources/Assets/Images.xcassets
+    - OilPrice-Where/Resources/Assets/Colors.xcassets
   outputs:
     - templateName: swift5
       params:
         forceProvidesNamespaces: true
-      output: OilPrice-Where/Resources/XCAssets+Generated.swift
+      output: OilPrice-Where/Resources/SwiftGen/XCAssets+Generated.swift
       
 fonts:
     inputs:
         - OilPrice-Where/Resources/Fonts/
     outputs:
         templateName: swift5
-        output: OilPrice-Where/Resources/Fonts+Generated.swift
+        output: OilPrice-Where/Resources/SwiftGen/Fonts+Generated.swift

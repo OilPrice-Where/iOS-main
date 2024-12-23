@@ -17,12 +17,14 @@ extension HistoryCell {
     }
     
     private func configure(station: VisitedGasStation) {
-        brandImageView.image = Preferences.logoImage(logoName: station.brand)
+        let brandImage = StationBrand(code: station.brand).image
+        brandImageView.image = brandImage
         stationNameLabel.text = station.name
         visitValueLabel.text = formatter.string(for: station.visitDate)
         
-        let priceString = Preferences.priceToWon(price: Int(station.recordedPrice))
-        priceValueLabel.text = Preferences.oil(code: station.fuelCode) + " | " + (priceString != "0" ? priceString : "가격 정보 없음")
+        let priceString = station.recordedPrice.decimalNumber
+        let fuelName = FuelType(code: station.fuelCode).name
+        priceValueLabel.text = fuelName + " | " + (priceString != "0" ? priceString : "가격 정보 없음")
     }
 }
 

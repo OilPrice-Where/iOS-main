@@ -94,7 +94,7 @@ private extension HistoriesVC {
     }
     
     /// Present Alert
-    private func presentNavigationAlert(visitedStation station: VisitedGasStation) {
+    func presentNavigationAlert(visitedStation station: VisitedGasStation) {
         let alert = UIAlertController(
             title: "길 안내",
             message: "해당 주유소를 재방문 하시겠습니까?",
