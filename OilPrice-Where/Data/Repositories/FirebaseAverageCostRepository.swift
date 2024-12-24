@@ -61,7 +61,7 @@ private extension FirebaseAverageCostRepository {
         return try await withCheckedThrowingContinuation { continuation in
             path.observeSingleEvent(of: DataEventType.value, with: { snapshot in
                 guard let averageCost = snapshot.value as? T else {
-                    continuation.resume(throwing: FirebaseRepositoryError.emptyData)
+                    continuation.resume(throwing: FirebaseError.emptyData)
                     return
                 }
                 continuation.resume(returning: averageCost)
@@ -85,7 +85,7 @@ private extension FirebaseAverageCostRepository {
     func processPrice(_ price: OilPrice, averageCostListRef path: DatabaseReference) {
         let oilName = price.oilName
         let priceInteger = Int(price.oilPrice.components(separatedBy: ".").first ?? "0") ?? .zero
-        let convertedPrice = Preferences.priceToWon(price: priceInteger)
+        let convertedPrice = priceInteger.decimalNumber
         let priceDifferenceFlag = !price.diff.hasPrefix("-")
         let updateCostData: [String: Any] = [
             "difference": priceDifferenceFlag,
@@ -109,17 +109,6 @@ private extension FirebaseAverageCostRepository {
 
 
 extension FirebaseAverageCostRepository {
-    enum FirebaseRepositoryError: Error, LocalizedError {
-        case emptyData
-        
-        var errorDescription: String? {
-            switch self {
-            case .emptyData:
-                return "데이터가 없습니다."
-            }
-        }
-    }
-    
     private enum Constants {
         enum FirebasePath {
             enum SystemData {

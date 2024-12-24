@@ -31,8 +31,8 @@ final class AverageCostUseCaseImpl: AverageCostUseCase {
         
         return AverageCost(
             type: cost,
-            price: averageCost?["price"] as? String ?? "가격 정보 없음",
-            isPriceIncreased: averageCost?["difference"] as? Bool ?? true
+            price: averageCost?[Constants.Parameters.price] as? String ?? "가격 정보 없음",
+            isPriceIncreased: averageCost?[Constants.Parameters.difference] as? Bool ?? true
         )
     }
     
@@ -54,6 +54,13 @@ final class AverageCostUseCaseImpl: AverageCostUseCase {
 
 
 private extension AverageCostUseCaseImpl {
+    enum Constants {
+        enum Parameters {
+            static let price: String = "price"
+            static let difference: String = "difference"
+        }
+    }
+    
     func fetchAverageCosts() async -> [AverageCost] {
         let costs = await withTaskGroup(of: AverageCost.self) { [weak self] group in
             guard let self else {
