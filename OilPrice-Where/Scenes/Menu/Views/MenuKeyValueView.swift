@@ -13,8 +13,7 @@ import UIKit
 final class MenuKeyValueView: UIView {
 
     //MARK: - Properties
-    let title: String
-    let type: MenuType
+    private let type: MenuType
     
     let hStackView = UIStackView().then {
         $0.axis = .horizontal
@@ -22,24 +21,14 @@ final class MenuKeyValueView: UIView {
         $0.distribution = .equalSpacing
     }
     
-    lazy var logoImageView = UIImageView().then {
+    private let logoImageView = UIImageView().then {
+        $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 4
-        $0.clipsToBounds = true
-        $0.isHidden = type != .image
     }
     
-    private lazy var keyLabel = UILabel().then {
-        $0.text = title
+    private let keyLabel = UILabel().then {
         $0.textAlignment = .left
-        
-        switch type {
-        case .key, .keyValue, .image:
-            $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
-        case .subType:
-            $0.textColor = UIColor(red: 145/255, green: 145/255, blue: 145/255, alpha: 1.0)
-            $0.font = FontFamily.NanumSquareRound.regular.font(size: 12)
-        }
     }
     
     let valueLabel = UILabel().then {
@@ -49,12 +38,11 @@ final class MenuKeyValueView: UIView {
     
     //MARK: - Initializer
     init(title: String, menuType type: MenuType) {
-        self.title = title
         self.type = type
         
         super.init(frame: .zero)
         
-        makeUI()
+        makeUI(with: title)
     }
     
     required init(coder: NSCoder) {
@@ -71,24 +59,32 @@ extension MenuKeyValueView {
         case subType
     }
     
-    //MARK: - Make UI
-    private func makeUI() {
+    //MARK: - Set UI
+    enum UIConstants {
+        // MARK: - LogoImageView
+        enum LogoImageView {
+            static let leftOffset: CGFloat = 24
+            static let size: CGFloat = 24
+        }
+        
+        // MARK: - HStackView
+        enum HStackView {
+            static let leftOffsetImageType: CGFloat = 8
+            static let leftOffsetOtherType: CGFloat = -24
+            static let rightOffset: CGFloat = -24
+        }
+        
+        // MARK: - KeyLabel
+        enum KeyLabel {
+            static let height: CGFloat = 30
+        }
+    }
+    
+    private func makeUI(with title: String) {
         configureUI()
-        
-        
-        logoImageView.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(24)
-            $0.centerY.equalTo(keyLabel.snp.centerY)
-            $0.size.equalTo(24)
-        }
-        hStackView.snp.makeConstraints {
-            $0.left.equalTo(logoImageView.snp.right).offset(type == .image ? 8 : -24)
-            $0.right.equalToSuperview().offset(-24)
-            $0.top.bottom.equalToSuperview()
-        }
-        keyLabel.snp.makeConstraints {
-            $0.height.equalTo(30)
-        }
+        setConstraints()
+        configureLogoImageView()
+        configureKeyLabel(title: title)
     }
     
     private func configureUI() {
@@ -97,5 +93,40 @@ extension MenuKeyValueView {
 
         hStackView.addArrangedSubview(keyLabel)
         hStackView.addArrangedSubview(valueLabel)
+    }
+    
+    private func setConstraints() {
+        logoImageView.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(UIConstants.LogoImageView.leftOffset)
+            $0.centerY.equalTo(keyLabel.snp.centerY)
+            $0.size.equalTo(UIConstants.LogoImageView.size)
+        }
+        
+        hStackView.snp.makeConstraints {
+            let leftOffset = (type == .image) ? UIConstants.HStackView.leftOffsetImageType : UIConstants.HStackView.leftOffsetOtherType
+            $0.left.equalTo(logoImageView.snp.right).offset(leftOffset)
+            $0.right.equalToSuperview().offset(UIConstants.HStackView.rightOffset)
+            $0.top.bottom.equalToSuperview()
+        }
+        
+        keyLabel.snp.makeConstraints {
+            $0.height.equalTo(UIConstants.KeyLabel.height)
+        }
+    }
+    
+    private func configureLogoImageView() {
+        logoImageView.isHidden = type != .image
+    }
+    
+    private func configureKeyLabel(title: String) {
+        keyLabel.text = title
+        
+        switch type {
+        case .key, .keyValue, .image:
+            keyLabel.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
+        case .subType:
+            keyLabel.textColor = UIColor(red: 145/255, green: 145/255, blue: 145/255, alpha: 1.0)
+            keyLabel.font = FontFamily.NanumSquareRound.regular.font(size: 12)
+        }
     }
 }
