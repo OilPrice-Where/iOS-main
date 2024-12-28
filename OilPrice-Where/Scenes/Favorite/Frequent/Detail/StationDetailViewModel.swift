@@ -76,9 +76,8 @@ extension StationDetailViewModel {
         let type = DefaultData.shared.oilSubject.value
         guard let displayInfo = priceList?.first(where: { $0.type == type }) else { return  "가격정보 없음" }
         
-        let price = Preferences.priceToWon(price: displayInfo.price ?? 0)
-        
-        return price
+        let price = displayInfo.price ?? .zero
+        return price.decimalNumber
     }
     // 컬러 값 얻기
     func getActivatedColor(info: String?) -> UIColor {
@@ -96,12 +95,21 @@ extension StationDetailViewModel {
         return info == "Y" ? Asset.Colors.mainColor.color : .lightGray
     }
     func string(_ info: GasStationDetailDTO, to code: String) -> String {
-        let price = Preferences.priceToWon(price: info.prices?.first(where: { $0.type == code })?.price ?? 0)
-        return price == "0" ? "가격 정보 없음" : price
+        let price = info.prices?.first(where: { $0.type == code })?.price ?? 0
+        let decimalNumber = price.decimalNumber
+        return decimalNumber == "0" ? "가격 정보 없음" : decimalNumber
     }
     
-    func fetchStation() -> GasStationSummaryDTO? {
+    func fetchStation() -> GasStationSummary? {
         guard let station = info else { return nil }
-        return GasStationSummaryDTO.init(id: station.id, brand: station.brand, name: station.name, katecX: station.katecX, katecY: station.katecY)
+        
+        return GasStationSummary(
+            id: station.id ?? UUID().uuidString,
+            brand: StationBrand(name: station.brand ?? ""),
+            name: station.name ?? "",
+            price: .zero,
+            distance: .zero,
+            coordinate: .init(x: station.katecX, y: station.katecY)
+        )
     }
 }

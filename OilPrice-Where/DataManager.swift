@@ -66,15 +66,15 @@ final class DataManager {
         persistentContainer.performBackgroundTask(block)
     }
     
-    func addNew(station: GasStationSummaryDTO?) {
+    func addNew(station: GasStationSummary) {
         let newStation = StationEntity(context: mainContext)
-        newStation.identifier = station?.id
-        newStation.name = station?.name
-        newStation.brand = station?.brand
+        newStation.identifier = station.id
+        newStation.name = station.name
+        newStation.brand = station.brand.code
         newStation.oilType = DefaultData.shared.oilSubject.value
-        newStation.price = Double(station?.price ?? 0)
-        newStation.katecX = station?.katecX ?? .zero
-        newStation.katecY = station?.katecY ?? .zero
+        newStation.price = Double(station.price)
+        newStation.katecX = station.coordinate.katec.x
+        newStation.katecY = station.coordinate.katec.y
         newStation.count = 0
         newStation.insertDate = Date()
         

@@ -13,12 +13,12 @@ import Combine
 final class MainListViewModel {
     //MARK: - Properties
     var cancellable = Set<AnyCancellable>()
-    var stations: CurrentValueSubject<[GasStationSummaryDTO], Never>
+    var stations: CurrentValueSubject<[GasStationSummary], Never>
     var isSortedByPrice = true
     
     //MARK: Initializer
-    init(stations: [GasStationSummaryDTO]) {
-        self.stations = CurrentValueSubject<[GasStationSummaryDTO], Never>(stations)
+    init(stations: [GasStationSummary]) {
+        self.stations = CurrentValueSubject<[GasStationSummary], Never>(stations)
     }
 }
 
@@ -34,7 +34,7 @@ extension MainListViewModel {
     func sortedList(isPrice: Bool) {
         let value = stations.value
         isSortedByPrice = isPrice
-        let sortedStations = isPrice ? value.sorted(by: { $0.price ?? .zero < $1.price ?? .zero }) : value.sorted(by: { $0.distance ?? .zero < $1.distance ?? .zero })
+        let sortedStations = isPrice ? value.sorted(by: { $0.price < $1.price }) : value.sorted(by: { $0.distance < $1.distance })
         stations.send(sortedStations)
     }
 }

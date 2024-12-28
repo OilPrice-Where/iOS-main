@@ -99,32 +99,30 @@ class CommonViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func requestURL(station: GasStationSummaryDTO?) -> ResultURL {
-        let dummy = GasStationSummaryDTO(id: "", brand: "", name: "Dummy", price: 0, distance: 0.0, katecX: 465535.79052, katecY: 351548.26588)
-        guard let type = NaviType(rawValue: DefaultData.shared.naviSubject.value) else { return (false, nil) }
+    func requestURL(station: GasStationSummary?) -> ResultURL {
+        let dummy = GasStationSummary(id: UUID().uuidString, brand: .etc, name: "Dummy", price: 0, distance: .zero, coordinate: .init(x: nil, y: nil))
+        let type = SearchNavigation(type: DefaultData.shared.naviSubject.value)
         let info = station ?? dummy
         
         var destinationURL: URL? = nil
         var appstoreURL: URL? = nil
         
-        let position = NMGTm128(x: info.katecX ?? .zero, y: info.katecY ?? .zero).toLatLng()
-        
         switch type {
         case .tMap:
-            let urlString = "tmap://?rGoName=\(info.name)&rGoX=\(position.lng)&rGoY=\(position.lat)"
+            let urlString = "tmap://?rGoName=\(info.name)&rGoX=\(info.coordinate.tm.lng)&rGoY=\(info.coordinate.tm.lat)"
             
             let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
             destinationURL = URL(string: encodedStr ?? "")
             appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/431589174")
         case .kakao:
-            let destination = NaviLocation(name: info.name ?? "", x: "\(NSNumber(value: info.katecX ?? .zero))", y: "\(NSNumber(value: info.katecY ?? .zero))")
+            let destination = NaviLocation(name: info.name, x: "\(NSNumber(value: info.coordinate.katec.x))", y: "\(NSNumber(value: info.coordinate.katec.y))")
             destinationURL = NaviApi.shared.navigateUrl(destination: destination, option: NaviOption(routeInfo: false))
             appstoreURL = NaviApi.webNaviInstallUrl
         case .kakaoMap:
-            destinationURL = URL(string: "kakaomap://route?ep=\(position.lat),\(position.lng)&by=CAR")
+            destinationURL = URL(string: "kakaomap://route?ep=\(info.coordinate.tm.lat),\(info.coordinate.tm.lng)&by=CAR")
             appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425")
         case .naver:
-            let urlString = "nmap://navigation?dlat=\(position.lat)&dlng=\(position.lng)&dname=\(info.name)&appname=com.oilpricewhere.wheregasoline"
+            let urlString = "nmap://navigation?dlat=\(info.coordinate.tm.lat)&dlng=\(info.coordinate.tm.lng)&dname=\(info.name)&appname=com.oilpricewhere.wheregasoline"
             
             let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
             destinationURL = URL(string: encodedStr ?? "")
@@ -136,7 +134,7 @@ class CommonViewController: UIViewController {
         return UIApplication.shared.canOpenURL(_destinationURL) ? (true, _destinationURL) : (false, _appstoreURL)
     }
     
-    func requestDirection(station: GasStationSummaryDTO?) {
+    func requestDirection(station: GasStationSummary?) {
         guard let info = station,
               let requestURL = requestURL(station: info).requestURL else { return }
         

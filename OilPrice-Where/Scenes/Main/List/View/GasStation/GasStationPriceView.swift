@@ -53,8 +53,8 @@ final class GasStationPriceView: UIView {
         }
     }
     
-    func configure(price info: GasStationSummaryDTO) {
-        typeLabel.text = Preferences.oil(code: DefaultData.shared.oilSubject.value)
-        priceLabel.text = Preferences.priceToWon(price: info.price ?? 0)
+    func configure(price info: GasStationSummary) {
+        typeLabel.text = FuelType(code: DefaultData.shared.oilSubject.value).displayName
+        priceLabel.text = info.price.decimalNumber
     }
 }

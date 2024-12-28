@@ -41,9 +41,8 @@ extension FavoriteCellViewModel {
         let type = DefaultData.shared.oilSubject.value
         guard let displayInfo = priceList?.first(where: { $0.type == type }) else { return  "가격정보 없음" }
         
-        let price = Preferences.priceToWon(price: displayInfo.price ?? 0)
-        
-        return price
+        let price = displayInfo.price ?? .zero
+        return price.decimalNumber
     }
     // 컬러 값 얻기
     func getActivatedColor(info: String?) -> UIColor {
@@ -57,25 +56,28 @@ extension FavoriteCellViewModel {
         DefaultData.shared.favoriteSubject.send(newFavArr)
     }
     // 길 안내
-    func navigationButton() -> GasStationSummaryDTO? {
+    func navigationButton() -> GasStationSummary? {
         let type = DefaultData.shared.oilSubject.value
         
-        guard let info = info,
-              let id = info.id,
-              let brand = info.brand,
-              let name = info.name,
-              let kx = info.katecX,
-              let ky = info.katecY,
-              let price = info.prices?.first(where: { $0.type == type })?.price else { return nil }
+        guard
+            let info = info,
+            let id = info.id,
+            let brand = info.brand,
+            let name = info.name,
+            let kx = info.katecX,
+            let ky = info.katecY,
+            let price = info.prices?.first(where: { $0.type == type })?.price
+        else {
+            return nil
+        }
         
-        return GasStationSummaryDTO(
+        return GasStationSummary(
             id: id,
-            brand: brand,
+            brand: .init(code: brand),
             name: name,
             price: price,
-            distance: 0.0,
-            katecX: kx,
-            katecY: ky
+            distance: .zero,
+            coordinate: .init(x: kx, y: ky)
         )
     }
 }

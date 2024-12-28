@@ -14,7 +14,7 @@ import FirebaseAnalytics
 
 protocol FavoriteCollectionViewCellDelegate: AnyObject {
     func touchedAddressLabel()
-    func touchedDirection(station: GasStationSummaryDTO?)
+    func touchedDirection(station: GasStationSummary?)
 }
 
 //MARK: 즐겨찾는 주유소 Cell

@@ -156,7 +156,14 @@ extension FrequentVisitVC: FrequentVisitCollectionViewCellDelegate {
         Analytics.setUserProperty("ko", forName: "country")
         Analytics.logEvent(event, parameters: parameters)
         
-        let station = GasStationSummaryDTO(id: target.identifier, name: target.name, brand: target.brand, x: target.katecX, y: target.katecY)
+        let station = GasStationSummary(
+            id: target.identifier ?? UUID().uuidString,
+            brand: .init(code: target.brand ?? ""),
+            name: target.name ?? "",
+            price: .zero,
+            distance: .zero,
+            coordinate: .init(x: target.katecX, y: target.katecY)
+        )
         requestDirection(station: station)
     }
 }

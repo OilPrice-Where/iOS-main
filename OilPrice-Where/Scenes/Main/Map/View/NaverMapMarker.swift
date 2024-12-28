@@ -32,7 +32,7 @@ final class NaverMapMarker: NMFMarker {
     //MARK: - Set UI
     private func updatedLayout() {
         markerView.priceLabel.text = title
-        markerView.logoImageView.image = Preferences.logoImage(logoName: brand)
+        markerView.logoImageView.image = StationBrand(code: brand ?? "").image
         
         markerView.mapMarkerImageView.image = isSelected ? markerView.fetchMarkerImage(type: .selected) : markerView.fetchMarkerImage(type: markerView.type)
         markerView.priceLabel.textColor = isSelected ? .white : markerView.type == .none ? .black : .white
@@ -50,7 +50,7 @@ final class CustomAnnotationView: UIView {
     }
     // MARK: - Properties
     var type: MarkerType = .none
-    var stationInfo: GasStationSummaryDTO? // 마커 내부의 주유소 정보
+    var stationInfo: GasStationSummary? // 마커 내부의 주유소 정보
     var isSelected: Bool = false {
         didSet {
             mapMarkerImageView.image = isSelected ? fetchMarkerImage(type: .selected) : fetchMarkerImage(type: type)

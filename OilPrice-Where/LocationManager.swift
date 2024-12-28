@@ -22,7 +22,7 @@ final class LocationManager: NSObject {
     @Published var currentLocation: CLLocation?
     @Published var requestLocation: CLLocation?
     var findStations = [FindStation]()
-    var stations = [GasStationSummaryDTO]()
+    var stations = [GasStationSummary]()
     let staionProvider = MoyaProvider<StationAPI>()
     var findStation: FindStation?
     

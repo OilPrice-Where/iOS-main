@@ -21,9 +21,9 @@ final class MainViewModel {
     let input = Input()
     let output = Output()
     let staionProvider = MoyaProvider<StationAPI>()
-    var stations = [GasStationSummaryDTO]() { didSet { output.staionResult.send(nil) } }
+    var stations = [GasStationSummary]() { didSet { output.staionResult.send(nil) } }
     var requestLocation: CLLocation? = nil { didSet { addressUpdate() } }
-    var selectedStation: GasStationSummaryDTO? = nil { didSet { output.selectedStation.send(nil) } }
+    var selectedStation: GasStationSummary? = nil { didSet { output.selectedStation.send(nil) } }
     var addressString: String?
     var cameraPosition: NMFCameraPosition?
     var beforeNAfter: (before: FloatingPanelState, after: FloatingPanelState) = (.hidden, .hidden)
@@ -124,17 +124,7 @@ extension MainViewModel {
                     return
                 }
                 
-                var target = list.result?.gasStations?.map { station -> GasStationSummaryDTO in
-                    let stationLatLng = NMGTm128(x: station.katecX ?? .zero, y: station.katecY ?? .zero).toLatLng()
-                    let stationLocation = CLLocation(latitude: stationLatLng.lat, longitude: stationLatLng.lng)
-                    let distanceValue = stationLocation.distance(from: _currentLocation)
-                    
-                    return GasStationSummaryDTO(id: station.id, brand: station.brand, name: station.name, price: station.price, distance: distanceValue, katecX: station.katecX, katecY: station.katecY)
-                } ?? []
-                
-                if brands.count != 10 {
-                    target = target.filter { brands.contains($0.brand ?? "") }
-                }
+                var target = list.result?.toDomain() ?? []
                 
                 self.stations = target
             case .failure(let error):

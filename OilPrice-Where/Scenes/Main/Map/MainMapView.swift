@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 protocol MainMapViewDelegate: AnyObject {
-    func marker(didTapMarker: NMGLatLng, info: GasStationSummaryDTO)
+    func marker(info: GasStationSummary)
 }
 //MARK: Map Container View
 final class MainMapView: UIView {
@@ -105,22 +105,23 @@ final class MainMapView: UIView {
         mapView.moveCamera(cameraUpdated)
     }
     
-    func showMarker(list: [GasStationSummaryDTO]) {
+    func showMarker(list: [GasStationSummary]) {
         resetInfoWindows()
         
-        var lowPrice = list.reduce(1_000_000, { min($0, $1.price ?? .zero) })
+        var lowPrice = list.reduce(1_000_000, { min($0, $1.price) })
         lowPrice = lowPrice == 1_000_000 ? 0 : lowPrice
         
         list.forEach { station in
-            let position = NMGTm128(x: station.katecX ?? .zero, y: station.katecY ?? .zero).toLatLng()
-            let marker = NaverMapMarker(type: station.price == lowPrice ? .low : .none,
-                                        brand: station.brand ?? "",
-                                        price: station.price ?? .zero)
+            let position = NMGLatLng(lat: station.coordinate.tm.lat, lng: station.coordinate.tm.lng)
+            let marker = NaverMapMarker(
+                type: station.price == lowPrice ? .low : .none,
+                brand: station.brand.code,
+                price: station.price
+            )
             
             marker.position = position
             marker.mapView = mapView
             marker.userInfo = ["station": station]
-            
             
             marker.touchHandler = { [weak self] overlay -> Bool in
                 self?.selectedMarker = marker
@@ -128,7 +129,7 @@ final class MainMapView: UIView {
                 let cameraUpdate = NMFCameraUpdate(scrollTo: marker.position)
                 cameraUpdate.animation = .easeIn
                 self?.mapView.moveCamera(cameraUpdate)
-                self?.delegate?.marker(didTapMarker: position, info: station)
+                self?.delegate?.marker(info: station)
                 
                 return true
             }
