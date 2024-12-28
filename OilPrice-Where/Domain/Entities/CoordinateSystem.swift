@@ -10,13 +10,15 @@ import Foundation
 import NMapsMap
 
 
-struct CoordinateSystem {
+struct CoordinateSystem: Hashable {
     var katec: KATEC
     var tm: TM
     
-    init(x: Double, y: Double) {
-        self.katec = .init(x: x, y: y)
-        let latLng = NMGTm128(x: x, y: y).toLatLng()
+    init(x: Double?, y: Double?) {
+        let katec: KATEC = .init(x: x ?? 465535.79052, y: y ?? 351548.26588)
+        self.katec = katec
+        
+        let latLng = NMGTm128(x: katec.x, y: katec.y).toLatLng()
         self.tm = .init(lat: latLng.lat, lng: latLng.lng)
     }
     
@@ -29,12 +31,12 @@ struct CoordinateSystem {
 
 
 extension CoordinateSystem {
-    struct KATEC {
+    struct KATEC: Hashable {
         let x: Double
         let y: Double
     }
     
-    struct TM {
+    struct TM: Hashable {
         let lat: Double
         let lng: Double
     }

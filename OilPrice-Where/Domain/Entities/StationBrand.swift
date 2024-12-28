@@ -9,7 +9,7 @@
 import UIKit
 
 
-enum StationBrand: String, CaseIterable {
+enum StationBrand: String, CaseIterable, Hashable {
     /// SK에너지
     case ske = "SKE"
     /// 현대오일뱅크

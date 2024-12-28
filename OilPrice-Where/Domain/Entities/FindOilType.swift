@@ -25,8 +25,8 @@ enum FuelType: String, CaseIterable {
         self = FuelType(rawValue: code.uppercased()) ?? .gasoline
     }
     
-    init(name: String) {
-        self = FuelType.allCases.first(where: { $0.name == name }) ?? .gasoline
+    init(displayName name: String) {
+        self = FuelType.allCases.first(where: { $0.displayName == name }) ?? .gasoline
     }
 }
 
@@ -37,7 +37,7 @@ extension FuelType {
     }
     
     /// Fuel name
-    var name: String {
+    var displayName: String {
         switch self {
         case .gasoline:
             return "휘발유"

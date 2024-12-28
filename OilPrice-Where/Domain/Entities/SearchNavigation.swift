@@ -14,6 +14,16 @@ enum SearchNavigation: String, CaseIterable {
     case kakaoMap = "kakaoMap"
     case tMap = "tMap"
     case naver = "naverMap"
+    
+    /// 내비게이션 코드로 인스턴스 생성
+    init(type: String) {
+        self = SearchNavigation(rawValue: type) ?? .kakaoMap
+    }
+    
+    /// 내비게이션명으로 인스턴스 생성
+    init(displayName name: String) {
+        self = SearchNavigation.allCases.first(where: { $0.displayName == name }) ?? .kakaoMap
+    }
 }
 
 
