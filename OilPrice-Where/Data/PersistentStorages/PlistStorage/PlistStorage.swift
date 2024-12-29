@@ -13,7 +13,7 @@ protocol SettingStorage {
     /// 지정된 저장소에서 세팅 값 반환
     func fetchValue<T>(defaultValue: T, forKey key: String, fromStorageNamed name: String) -> T
     /// 지정된 저장소에 값을 저장
-    func save<T>(_ type: T, forKey key: String, to name: String)
+    func save<T>(_ type: T, forKey key: String, to name: String, completion: () -> Void)
 }
 
 
@@ -32,11 +32,12 @@ final class PlistSettingStorage: SettingStorage {
         }
     }
     
-    func save<T>(_ type: T, forKey key: String, to name: String = "UserInfo") {
+    func save<T>(_ type: T, forKey key: String, to name: String = "UserInfo", completion: () -> Void) {
         SwiftyPlistManager.shared.save(type, forKey: key, toPlistWithName: name) {
             if let error = $0 {
                 LogUtil.e(error.localizedDescription)
             }
+            completion()
         }
     }
 }

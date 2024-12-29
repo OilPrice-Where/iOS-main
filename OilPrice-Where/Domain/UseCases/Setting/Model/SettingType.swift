@@ -30,6 +30,10 @@ extension SettingType {
         }
     }
     
+    var notificationName: Notification.Name {
+        Notification.Name(rawValue: key)
+    }
+    
     var defaultValue: Any {
         switch self {
         case .fuelType:

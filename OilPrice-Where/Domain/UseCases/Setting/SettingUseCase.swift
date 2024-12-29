@@ -36,7 +36,12 @@ final class SettingUseCaseImpl: SettingUseCase {
     }
     
     func save<T>(_ value: T, type: SettingType) {
-        storage.save(value, forKey: type.key, to: Constants.storageName)
+        storage.save(value, forKey: type.key, to: Constants.storageName) {
+            NotificationCenter.default.post(
+                name: type.notificationName,
+                object: value
+            )
+        }
     }
 }
 
