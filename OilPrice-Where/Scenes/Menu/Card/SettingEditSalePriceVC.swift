@@ -87,8 +87,8 @@ extension SettingEditSalePriceVC: UICollectionViewDataSource, UICollectionViewDe
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = cell.bounds
-        gradientLayer.colors = [viewModel.tColors[indexPath.row].cgColor,
-                                viewModel.bColors[indexPath.row].cgColor]
+//        gradientLayer.colors = [viewModel.tColors[indexPath.row].cgColor,
+//                                viewModel.bColors[indexPath.row].cgColor]
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
         cell.containerView.layer.insertSublayer(gradientLayer, at: 0)

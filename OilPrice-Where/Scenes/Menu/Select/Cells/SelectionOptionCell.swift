@@ -1,5 +1,5 @@
 //
-//  SelectMenuCell.swift
+//  SelectionOptionCell.swift
 //  OilPrice-Where
 //
 //  Created by wargi on 2022/04/04.
@@ -12,7 +12,23 @@ import SnapKit
 
 
 //MARK: 즐겨찾는 주유소 Cell
-final class SelectMenuCell: UICollectionViewCell {
+extension SelectionOptionCell {
+    static let cellRegistration = UICollectionView.CellRegistration<SelectionOptionCell, SelectionOptionViewModel.SelectionOption> { cell, indexPath, option in
+        cell.configure(with: option)
+    }
+    
+    private func configure(with option: SelectionOptionViewModel.SelectionOption) {
+        contentView.layer.borderWidth = option.isSelected ? .zero : 0.5
+        
+        titleLabel.text = option.title
+        titleLabel.textColor = option.isSelected ? .white : .black
+        titleLabel.backgroundColor = option.isSelected ? Asset.Colors.mainColor.color : .white
+        titleLabel.layer.borderWidth = option.isSelected ? .zero : 0.5
+    }
+}
+
+
+final class SelectionOptionCell: UICollectionViewCell {
     //MARK: - Properties
     let titleLabel = UILabel().then {
         $0.textColor = .black
@@ -22,12 +38,6 @@ final class SelectMenuCell: UICollectionViewCell {
         $0.layer.cornerRadius = 5
         $0.layer.borderWidth = 0.5
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 16)
-    }
-    
-    override var isSelected: Bool {
-        didSet {
-            updateUI()
-        }
     }
     
     //MARK: - Initializer
@@ -44,17 +54,10 @@ final class SelectMenuCell: UICollectionViewCell {
 
 
 //MARK: - Set UI
-private extension SelectMenuCell {
+private extension SelectionOptionCell {
     func makeUI() {
         configureUI()
         setConstraints()
-    }
-    
-    func updateUI() {
-        contentView.layer.borderWidth = isSelected ? .zero : 0.5
-        titleLabel.textColor = isSelected ? .white : .black
-        titleLabel.backgroundColor = isSelected ? Asset.Colors.mainColor.color : .white
-        titleLabel.layer.borderWidth = isSelected ? .zero : 0.5
     }
     
     func configureUI() {
