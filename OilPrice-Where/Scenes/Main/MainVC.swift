@@ -28,16 +28,27 @@ final class MainVC: CommonViewController {
     let emptyView = UIView().then {
         $0.backgroundColor = .white
     }
-    lazy var sideMenu = SideMenuNavigationController(rootViewController: MenuVC()).then {
-        var set = SideMenuSettings()
-        set.statusBarEndAlpha = 0
-        set.presentationStyle = SideMenuPresentationStyle.menuSlideIn
-        set.presentationStyle.presentingEndAlpha = 0.65
-        set.menuWidth = fetchSideMenuWidth()
-        set.blurEffectStyle = nil
-        $0.leftSide = true
-        $0.settings = set
-    }
+    let sideMenu: SideMenuNavigationController = {
+        let storage: SettingStorage = PlistSettingStorage()
+        let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: storage)
+        let appVersionRepository: AppVersionRepository = FirebaseAppVersionRepository()
+        let appVersionUseCase: AppVersionUseCase = AppVersionUseCaseImpl(appVersionRepository: appVersionRepository)
+        let menuViewModel = MenuViewModel(settingUseCase: settingUseCase, appVersionUseCase: appVersionUseCase)
+        let menuVC = MenuVC(viewModel: menuViewModel)
+        let sideMenu = SideMenuNavigationController(rootViewController: menuVC)
+        sideMenu.leftSide = true
+        sideMenu.settings = {
+            var settings = SideMenuSettings()
+            settings.statusBarEndAlpha = 0
+            settings.presentationStyle = SideMenuPresentationStyle.menuSlideIn
+            settings.presentationStyle.presentingEndAlpha = 0.65
+            let screenWidth = UIScreen.main.bounds.width
+            settings.menuWidth = UIDevice.current.userInterfaceIdiom == .pad ? 328.0 : screenWidth * (240 / 375)
+            settings.blurEffectStyle = nil
+            return settings
+        }()
+        return sideMenu
+    }()
     
     //MARK: - Life Cycle
     deinit {

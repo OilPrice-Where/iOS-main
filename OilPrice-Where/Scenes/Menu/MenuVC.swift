@@ -42,7 +42,6 @@ final class MenuVC: CommonViewController {
         super.viewDidLoad()
         
         makeUI()
-        bindUI()
         bindActions()
     }
     
@@ -56,18 +55,6 @@ final class MenuVC: CommonViewController {
 
 //MARK: - Binding..
 private extension MenuVC {
-    func bindUI() {
-        DefaultData.shared.naviSubject
-            .map { Preferences.navigation(type: $0) }
-            .assign(to: \.text, on: navigationView.valueLabel)
-            .store(in: &viewModel.cancellable)
-        
-        DefaultData.shared.oilSubject
-            .map { Preferences.oil(code: $0) }
-            .assign(to: \.text, on: oilTypeView.valueLabel)
-            .store(in: &viewModel.cancellable)
-    }
-    
     func bindActions() {
         let selectedMenu: AnyPublisher<MenuViewModel.MenuType, Never> = Publishers.MergeMany(
             navigationView.gesturePublisher().map { _ in .navigation }.eraseToAnyPublisher(),
@@ -82,9 +69,23 @@ private extension MenuVC {
         ).eraseToAnyPublisher()
         
         let output = viewModel.transform(input: .init(
+            viewDidLoad: Just(()).eraseToAnyPublisher(),
             selectedMenu: selectedMenu
         ))
-        
+        // 선택한 유종 타이틀 설정
+        output.updateSavedFuelTitle
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] fuelType in
+                self?.oilTypeView.valueLabel.text = fuelType
+            }
+            .store(in: &cancellable)
+        // 선택한 내비게이션 타이틀 설정
+        output.updateSavedNavigationTitle
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] navigation in
+                self?.navigationView.valueLabel.text = navigation
+            }
+            .store(in: &cancellable)
         // 메뉴 VC 이동
         output.presentViewController
             .receive(on: DispatchQueue.main)
@@ -92,7 +93,6 @@ private extension MenuVC {
                 self?.present(present.viewController, animated: present.animated)
             }
             .store(in: &cancellable)
-        
         // 앱 리뷰 작성
         output.openReview
             .receive(on: DispatchQueue.main)
@@ -104,7 +104,6 @@ private extension MenuVC {
                 UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
             }
             .store(in: &cancellable)
-        
         // 버전 확인
         output.showVersionStatus
             .receive(on: DispatchQueue.main)
