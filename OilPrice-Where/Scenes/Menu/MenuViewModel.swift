@@ -12,10 +12,12 @@ import Combine
 
 final class MenuViewModel {
     //MARK: - Properties
-    var appVersionUseCase: AppVersionUseCase
+    let settingUseCase: SettingUseCase
+    let appVersionUseCase: AppVersionUseCase
     
-    
-    init(appVersionUseCase: AppVersionUseCase) {
+    init(settingUseCase: SettingUseCase,
+         appVersionUseCase: AppVersionUseCase) {
+        self.settingUseCase = settingUseCase
         self.appVersionUseCase = appVersionUseCase
     }
 }
@@ -40,11 +42,16 @@ extension MenuViewModel {
     }
     
     struct Input {
+        var viewDidLoad: AnyPublisher<Void, Never>
         /// 메뉴 선택
         var selectedMenu: AnyPublisher<MenuType, Never>
     }
     
     struct Output {
+        /// 저장한 내비게이션 타이틀
+        var updateSavedFuelTitle: AnyPublisher<String, Never>
+        /// 저장한 내비게이션 타이틀
+        var updateSavedNavigationTitle: AnyPublisher<String, Never>
         /// 메뉴 VC 이동
         var presentViewController: AnyPublisher<PresentMenu, Never>
         /// 앱 리뷰 작성
@@ -55,6 +62,8 @@ extension MenuViewModel {
     
     func transform(input: Input) -> Output {
         return .init(
+            updateSavedFuelTitle: updateSavedFuelTitlePublisher(input: input),
+            updateSavedNavigationTitle: updateSavedNavigationTitlePublisher(input: input),
             presentViewController: presentViewControllerPublisher(input: input),
             openReview: openReviewPublisher(input: input),
             showVersionStatus: showVersionStatusPublisher(input: input)
@@ -65,6 +74,48 @@ extension MenuViewModel {
 
 //MARK: - Make Publisher
 private extension MenuViewModel {
+    func updateSavedFuelTitlePublisher(input: Input) -> AnyPublisher<String, Never> {
+        let currentValuePublisher = input.viewDidLoad
+            .compactMap { [weak self] _ -> String? in
+                guard let self,
+                      let fuelType: String = try? settingUseCase.load(type: .fuelType) else {
+                    return nil
+                }
+                return fuelType
+            }
+        
+        let notificationPublisher = NotificationCenter.default.publisher(for: SettingType.fuelType.notificationName)
+            .compactMap { $0.object as? String }
+            .map { FuelType(code: $0) }
+            .map { $0.displayName }
+        
+        return Publishers.Merge(
+            notificationPublisher.eraseToAnyPublisher(),
+            currentValuePublisher.eraseToAnyPublisher()
+        ).eraseToAnyPublisher()
+    }
+    
+    func updateSavedNavigationTitlePublisher(input: Input) -> AnyPublisher<String, Never> {
+        let currentValuePublisher = input.viewDidLoad
+            .compactMap { [weak self] _ -> String? in
+                guard let self,
+                      let navigationType: String = try? settingUseCase.load(type: .navigationType) else {
+                    return nil
+                }
+                return navigationType
+            }
+        
+        let notificationPublisher = NotificationCenter.default.publisher(for: SettingType.navigationType.notificationName)
+            .compactMap { $0.object as? String }
+            .map { SearchNavigation(type: $0) }
+            .map { $0.displayName }
+        
+        return Publishers.Merge(
+            notificationPublisher.eraseToAnyPublisher(),
+            currentValuePublisher.eraseToAnyPublisher()
+        ).eraseToAnyPublisher()
+    }
+    
     func presentViewControllerPublisher(input: Input) -> AnyPublisher<PresentMenu, Never> {
         return input.selectedMenu
             .flatMap { [weak self] menu -> AnyPublisher<PresentMenu, Never> in
@@ -76,7 +127,7 @@ private extension MenuViewModel {
                 case .navigation:
                     return selectMenuViewController(type: .navigation)
                 case .fuelType:
-                    return selectMenuViewController(type: .oilType)
+                    return selectMenuViewController(type: .fuelType)
                 case .history:
                     return historiesViewController()
                 case .priceAverage:
@@ -144,12 +195,15 @@ private extension MenuViewModel {
 //MARK: - Make VC
 private extension MenuViewModel {
     /// 내비게이션 선택, 유종 선택 화면
-    func selectMenuViewController(type: SelectMenuViewModel.SelectMenuType) -> AnyPublisher<PresentMenu, Never> {
-        let selectMenuViewController = SelectMenuVC(type: type)
-        selectMenuViewController.modalPresentationStyle = .overFullScreen
+    func selectMenuViewController(type: SelectionOptionViewModel.SelectionType) -> AnyPublisher<PresentMenu, Never> {
+        let settingStorage: SettingStorage = PlistSettingStorage()
+        let plistSettingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
+        let selectionViewModel = SelectionOptionViewModel(type: type, settingUseCase: plistSettingUseCase)
+        let selectionVC = SelectionOptionVC(viewModel: selectionViewModel)
+        selectionVC.modalPresentationStyle = .overFullScreen
         
         return Just(PresentMenu(
-            viewController: selectMenuViewController,
+            viewController: selectionVC,
             animated: false
         )).eraseToAnyPublisher()
     }
