@@ -30,7 +30,7 @@ class DefaultData {
     }
     
     var priceData: [OilPriceResultDTO.OilPriceListDTO.OilPriceDTO] = [] // 전국 평균 기름 값
-    var tempFavArr: [GasStationDetailDTO] = []
+    var tempFavArr: [GasStationDetail] = []
     let stationsSubject = CurrentValueSubject<[GasStationSummary], Never>([]) // 반경 주유소 리스트
     let oilSubject = CurrentValueSubject<String, Never>("") // 오일 종류
     let brandsSubject = CurrentValueSubject<[String], Never>([]) // 설정 브랜드

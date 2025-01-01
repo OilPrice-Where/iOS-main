@@ -76,6 +76,8 @@ extension NearbyGasStationsDTO.GasStationListDTO {
 }
 
 
+//MARK: - Mapping
+
 extension NearbyGasStationsDTO {
     func toDomain() -> [GasStationSummary] {
         return result?.toDomain() ?? []
