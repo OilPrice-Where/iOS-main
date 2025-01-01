@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct GasStationSummary: Hashable {
+struct GasStationSummary: StationRepresentable {
     /// 주유소 코드
     let id: String
     /// 주유소 브랜드

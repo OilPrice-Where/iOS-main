@@ -9,20 +9,19 @@
 import Foundation
 
 
-struct VisitedGasStation: Hashable, StationRepresentable {
+struct VisitedGasStation: Hashable {
     /// 주유소 Identifier
     var id: String
     /// 주유소 브랜드
-    let brand: String
+    let brand: StationBrand
     /// 주유소 상호
     let name: String
-    /// 주유한 유종 타입 코드
-    let fuelCode: String
+    /// 주유한 유종 정보
+    let fuelType: FuelType
     /// 방문 시 기록된 주유 가격
     let recordedPrice: Double
     /// 방문 날짜
     let visitDate: Date
     /// 주유소 위치
-    var katecX: Double
-    var katecY: Double
+    var coordinate: CoordinateSystem
 }

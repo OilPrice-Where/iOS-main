@@ -36,12 +36,12 @@ enum StationBrand: String, CaseIterable, Hashable {
     
     /// 브랜드 코드로 인스턴스 생성
     init(code: String) {
-        self = StationBrand(rawValue: code.uppercased()) ?? .all
+        self = StationBrand(rawValue: code.uppercased()) ?? .etc
     }
     
     /// 브랜드명으로 인스턴스 생성
     init(name: String) {
-        self = StationBrand.allCases.first(where: { $0.name == name }) ?? .all
+        self = StationBrand.allCases.first(where: { $0.name == name }) ?? .etc
     }
 }
 
