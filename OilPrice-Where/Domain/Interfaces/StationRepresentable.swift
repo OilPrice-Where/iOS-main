@@ -9,10 +9,9 @@
 import Foundation
 
 
-protocol StationRepresentable {
+protocol StationRepresentable: Hashable {
     var id: String { get }
-    var brand: String { get }
+    var brand: StationBrand { get }
     var name: String { get }
-    var katecX: Double { get }
-    var katecY: Double { get }
+    var coordinate: CoordinateSystem { get }
 }
