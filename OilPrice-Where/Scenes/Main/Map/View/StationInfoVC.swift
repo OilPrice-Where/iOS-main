@@ -15,7 +15,7 @@ import Toast
 final class StationInfoVC: CommonViewController {
     //MARK: - Properties
     var stationInfoView = StationInfoView()
-    var station: GasStationDetailDTO? = nil { didSet { configure(_station: station) } }
+    var station: GasStationDetail? = nil { didSet { configure(_station: station) } }
     var guideView = UIView().then {
         $0.backgroundColor = .systemGray4
         $0.layer.cornerRadius = 1.3
@@ -269,19 +269,19 @@ final class StationInfoVC: CommonViewController {
     }
     
     //MARK: - Configure station
-    func configure(_station: GasStationDetailDTO?) {
+    func configure(_station: GasStationDetail?) {
         guard let info = _station else { return }
         
-        washImageView.tintColor = info.hasCarWash == "Y" ? Asset.Colors.mainColor.color : .lightGray
-        repairImageView.tintColor = info.hasRepairShop == "Y" ? Asset.Colors.mainColor.color : .lightGray
-        convenienceImageView.tintColor = info.hasConvenienceStore == "Y" ? Asset.Colors.mainColor.color : .lightGray
+        washImageView.tintColor = info.hasCarWash ? Asset.Colors.mainColor.color : .lightGray
+        repairImageView.tintColor = info.hasRepairShop ? Asset.Colors.mainColor.color : .lightGray
+        convenienceImageView.tintColor = info.hasConvenienceStore ? Asset.Colors.mainColor.color : .lightGray
         
         let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]
-        var underlineAttributedString = NSAttributedString(string: info.address ?? "", attributes: underlineAttribute)
+        var underlineAttributedString = NSAttributedString(string: info.address, attributes: underlineAttribute)
         addressValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
         addressValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
         
-        underlineAttributedString = NSAttributedString(string: info.phoneNumber ?? "", attributes: underlineAttribute)
+        underlineAttributedString = NSAttributedString(string: info.phoneNumber, attributes: underlineAttribute)
         phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
         phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
         
@@ -291,8 +291,8 @@ final class StationInfoVC: CommonViewController {
         lpgValueLabel.text = string(info, to: "K015")
     }
     
-    func string(_ info: GasStationDetailDTO, to code: String) -> String {
-        let price = info.prices?.first(where: { $0.type == code })?.price ?? .zero
+    func string(_ info: GasStationDetail, to code: String) -> String {
+        let price = info.prices.first(where: { $0.fuelType.code == code })?.price ?? .zero
         let priceToString = price.decimalNumber
         return priceToString == "0" ? "가격 정보 없음" : priceToString
     }

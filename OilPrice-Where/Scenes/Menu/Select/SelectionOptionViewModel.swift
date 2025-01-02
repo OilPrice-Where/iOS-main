@@ -13,8 +13,9 @@ import KakaoSDKNavi
 
 final class SelectionOptionViewModel {
     //MARK: - Properties
-    let type: SelectionType
-    let settingUseCase: SettingUseCase
+    private let type: SelectionType
+    private let urlBuilder: NavigationURLBuilder
+    private let settingUseCase: SettingUseCase
     
     let titlePublisher: CurrentValueSubject<String?, Never> = .init(nil)
     
@@ -24,6 +25,7 @@ final class SelectionOptionViewModel {
          settingUseCase: SettingUseCase) {
         self.type = type
         self.settingUseCase = settingUseCase
+        self.urlBuilder = AppNavigationURLBuilder(settingUseCase: settingUseCase)
         
         setTitle()
     }
@@ -167,14 +169,16 @@ private extension SelectionOptionViewModel {
             let navigationType = SearchNavigation(displayName: option.title)
             settingUseCase.save(navigationType.type, type: .navigationType)
             
-            let installURL = installURL()
+            var installURL: URL?
             let navigation = SearchNavigation(displayName: option.title)
             let isKakaoMapOrTMap = navigation == .kakaoMap || navigation == .tMap
             
             let title = isKakaoMapOrTMap ? "\(navigation.displayName)으로" : "\(navigation.displayName)로"
             var subTitle = defaultSubTitle
             
-            if installURL != nil {
+            if let destinationURL = urlBuilder.destinationURL(name: "방문주유소", coordinate: .init(x: nil, y: nil)),
+               !UIApplication.shared.canOpenURL(destinationURL) {
+                installURL = urlBuilder.installURL()
                 subTitle = isKakaoMapOrTMap ? "\(navigation.displayName)이" : "\(navigation.displayName)가"
                 subTitle += " 설치되어 있지 않아 설치페이지로 이동합니다."
             }
@@ -200,48 +204,6 @@ private extension SelectionOptionViewModel {
                 ),
                 installURL: nil
             )
-        }
-    }
-    
-    func installURL() -> URL? {
-        guard let naviType: String = try? settingUseCase.load(type: .navigationType) else {
-            return nil
-        }
-        
-        let searchNavigation = SearchNavigation(type: naviType)
-        let coordinate = CoordinateSystem(x: nil, y: nil)
-        
-        let destinationURL: URL?
-        let appStoreURL: URL?
-        
-        switch searchNavigation {
-        case .tMap:
-            let urlString = "tmap://?rGoName=테스트&rGoX=\(coordinate.tm.lng)&rGoY=\(coordinate.tm.lat)"
-            let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-            destinationURL = URL(string: encodedStr, encodingInvalidCharacters: false)
-            appStoreURL = URL(string: "itms-apps://itunes.apple.com/app/431589174", encodingInvalidCharacters: false)
-            
-        case .kakao:
-            let destination = NaviLocation(name: "테스트", x: "\(NSNumber(value: coordinate.katec.x))", y: "\(NSNumber(value: coordinate.katec.y))")
-            destinationURL = NaviApi.shared.navigateUrl(destination: destination, option: NaviOption(routeInfo: false))
-            appStoreURL = NaviApi.webNaviInstallUrl
-            
-        case .kakaoMap:
-            destinationURL = URL(string: "kakaomap://route?ep=\(coordinate.tm.lat),\(coordinate.tm.lng)&by=CAR", encodingInvalidCharacters: false)
-            appStoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425", encodingInvalidCharacters: false)
-            
-        case .naver:
-            let urlString = "nmap://navigation?dlat=\(coordinate.tm.lat)&dlng=\(coordinate.tm.lng)&dname=테스트&appname=com.oilpricewhere.wheregasoline"
-            let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-            destinationURL = URL(string: encodedStr, encodingInvalidCharacters: false)
-            appStoreURL = URL(string: "itms-apps://itunes.apple.com/app/311867728", encodingInvalidCharacters: false)
-        }
-        
-        if let destinationURL,
-           UIApplication.shared.canOpenURL(destinationURL) {
-            return nil
-        } else {
-            return appStoreURL
         }
     }
 }

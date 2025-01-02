@@ -17,13 +17,13 @@ extension HistoryCell {
     }
     
     private func configure(station: VisitedGasStation) {
-        let brandImage = StationBrand(code: station.brand).image
+        let brandImage = station.brand.image
         brandImageView.image = brandImage
         stationNameLabel.text = station.name
         visitValueLabel.text = formatter.string(for: station.visitDate)
         
         let priceString = station.recordedPrice.decimalNumber
-        let fuelName = FuelType(code: station.fuelCode).name
+        let fuelName = station.fuelType.displayName
         priceValueLabel.text = fuelName + " | " + (priceString != "0" ? priceString : "가격 정보 없음")
     }
 }
