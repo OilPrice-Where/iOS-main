@@ -6,12 +6,11 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Then
-import SnapKit
 import UIKit
 import Combine
-import CombineDataSources
-import Firebase
+import Then
+import SnapKit
+
 
 //MARK: 자주 방문한 List
 final class FrequentVisitVC: CommonViewController {
@@ -22,7 +21,7 @@ final class FrequentVisitVC: CommonViewController {
         $0.alwaysBounceHorizontal = false
         $0.showsHorizontalScrollIndicator = false
         $0.backgroundColor = .clear
-        FrequentVisitCollectionViewCell.register($0)
+        FrequentVisitCell.register($0)
     }
     private lazy var emptyLabel = UILabel().then {
         $0.text = "방문하신 주유소가 없습니다."
@@ -58,8 +57,8 @@ final class FrequentVisitVC: CommonViewController {
     //MARK: - Rx Binding..
     func rxBind() {
         viewModel.output.stations
-            .bind(subscriber: collectionView.itemsSubscriber(cellIdentifier: FrequentVisitCollectionViewCell.id,
-                                                             cellType: FrequentVisitCollectionViewCell.self,
+            .bind(subscriber: collectionView.itemsSubscriber(cellIdentifier: FrequentVisitCell.id,
+                                                             cellType: FrequentVisitCell.self,
                                                              cellConfig: { cell, indexPath, station in
                 cell.delegate = self
                 cell.configure(station: station)
@@ -78,15 +77,25 @@ final class FrequentVisitVC: CommonViewController {
             .didSelectItemPublisher
             .receive(on: DispatchQueue.main)
             .map { [weak self] indexPath in
-                self?.collectionView.cellForItem(at: indexPath) as? FrequentVisitCollectionViewCell
+                self?.collectionView.cellForItem(at: indexPath) as? FrequentVisitCell
             }
             .compactMap { $0?.info }
             .sink { [weak self] station in
-                guard let owner = self,
+                guard let self,
                       let id = station.identifier else { return }
                 
-                let detailVC = StationDetailVC(id: id)
-                owner.navigationController?.pushViewController(detailVC, animated: true)
+                let settingStorage: SettingStorage = PlistSettingStorage()
+                let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
+                let stationRepository: StationRepository = StationRepositoryImpl()
+                let visitedStationStorage: VisitedStationStorage = CoreDataVisitedStationStorage()
+                let detailViewModel = StationDetailViewModel(
+                    stationID: id,
+                    settingUseCase: settingUseCase,
+                    stationRepository: stationRepository,
+                    visitedStationStorage: visitedStationStorage
+                )
+                let detailVC = StationDetailVC(viewModel: detailViewModel)
+                navigationController?.pushViewController(detailVC, animated: true)
             }
             .store(in: &viewModel.cancellable)
         
@@ -113,16 +122,6 @@ final class FrequentVisitVC: CommonViewController {
 extension FrequentVisitVC: FrequentVisitCollectionViewCellDelegate {
     // 즐겨찾기 설정 및 해제
     func touchedFavoriteButton(id: String?) {
-        let event = "tap_list_favorite"
-        let parameters = [
-            "file": #file,
-            "function": #function,
-            "eventDate": DefaultData.shared.currentTime
-        ]
-        
-        Analytics.setUserProperty("ko", forName: "country")
-        Analytics.logEvent(event, parameters: parameters)
-        
         let faovorites = DefaultData.shared.favoriteSubject.value
         guard let _id = id, faovorites.count < 6 else { return }
         let isDeleted = faovorites.contains(_id)
@@ -145,16 +144,6 @@ extension FrequentVisitVC: FrequentVisitCollectionViewCellDelegate {
     
     func touchedDirectionButton(info: StationEntity?) {
         guard let target = info else { return }
-        
-        let event = "tap_list_navigation"
-        let parameters = [
-            "file": #file,
-            "function": #function,
-            "eventDate": DefaultData.shared.currentTime
-        ]
-        
-        Analytics.setUserProperty("ko", forName: "country")
-        Analytics.logEvent(event, parameters: parameters)
         
         let station = GasStationSummary(
             id: target.identifier ?? UUID().uuidString,
