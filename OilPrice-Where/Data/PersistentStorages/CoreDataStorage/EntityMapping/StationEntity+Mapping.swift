@@ -16,12 +16,12 @@ extension StationEntity {
         self.init(context: context)
         self.identifier = station.id
         self.name = station.name
-        self.brand = station.brand
-        self.oilType = station.fuelCode
+        self.brand = station.brand.code
+        self.oilType = station.fuelType.code
         self.price = station.recordedPrice
-        self.katecX = station.katecX
-        self.katecY = station.katecY
-        self.insertDate = Date()
+        self.katecX = station.coordinate.katec.x
+        self.katecY = station.coordinate.katec.y
+        self.insertDate = station.visitDate
     }
 }
 
@@ -30,13 +30,12 @@ extension StationEntity {
     func toDomain() -> VisitedGasStation {
         VisitedGasStation(
             id: identifier ?? "",
-            brand: brand ?? "",
+            brand: .init(code: brand ?? ""),
             name: name ?? "",
-            fuelCode: oilType ?? "",
+            fuelType: FuelType(code: oilType ?? ""),
             recordedPrice: price,
             visitDate: insertDate ?? Date(),
-            katecX: katecX,
-            katecY: katecY
+            coordinate: .init(x: katecX, y: katecY)
         )
     }
 }

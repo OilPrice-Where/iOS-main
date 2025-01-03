@@ -12,9 +12,9 @@ import Moya
 //MARK: FavoriteCellViewModel
 final class FavoriteCellViewModel {
     var cancellable = Set<AnyCancellable>()
-    private var info: GasStationDetailDTO?
+    private var info: GasStationDetail?
     let stationAPI = MoyaProvider<StationAPI>()
-    var infoSubject = CurrentValueSubject<GasStationDetailDTO?, Never>(nil)
+    var infoSubject = CurrentValueSubject<GasStationDetail?, Never>(nil)
     var isLoadingSubject = CurrentValueSubject<Bool, Never>(false)
 }
 //MARK: Method
@@ -24,8 +24,8 @@ extension FavoriteCellViewModel {
         stationAPI.request(.stationDetail(appKey: Preferences.getAppKey(), id: id)) {
             switch $0 {
             case .success(let resp):
-                guard let ret = try? resp.map(GasStationInfoResult.self),
-                      let information = ret.result?.allPriceList?.first else { return }
+                guard let result = try? resp.map(GasStationInfoResultDTO.self),
+                      let information = result.toDomain().first else { return }
                 
                 DefaultData.shared.tempFavArr.append(information)
                 self.info = information
@@ -37,12 +37,11 @@ extension FavoriteCellViewModel {
         }
     }
     // 가격 정보 얻기
-    func displayPriceInfomation(priceList: [FuelPriceDTO]?) -> String {
+    func displayPriceInfomation(priceList: [FuelPrice]?) -> String {
         let type = DefaultData.shared.oilSubject.value
-        guard let displayInfo = priceList?.first(where: { $0.type == type }) else { return  "가격정보 없음" }
+        guard let displayInfo = priceList?.first(where: { $0.fuelType.code == type }) else { return  "가격정보 없음" }
         
-        let price = displayInfo.price ?? .zero
-        return price.decimalNumber
+        return displayInfo.price.decimalNumber
     }
     // 컬러 값 얻기
     func getActivatedColor(info: String?) -> UIColor {
@@ -59,25 +58,18 @@ extension FavoriteCellViewModel {
     func navigationButton() -> GasStationSummary? {
         let type = DefaultData.shared.oilSubject.value
         
-        guard
-            let info = info,
-            let id = info.id,
-            let brand = info.brand,
-            let name = info.name,
-            let kx = info.katecX,
-            let ky = info.katecY,
-            let price = info.prices?.first(where: { $0.type == type })?.price
-        else {
+        guard let info,
+              let price = info.prices.first(where: { $0.fuelType.code == type })?.price else {
             return nil
         }
         
         return GasStationSummary(
-            id: id,
-            brand: .init(code: brand),
-            name: name,
+            id: info.id,
+            brand: info.brand,
+            name: info.name,
             price: price,
             distance: .zero,
-            coordinate: .init(x: kx, y: ky)
+            coordinate: info.coordinate
         )
     }
 }

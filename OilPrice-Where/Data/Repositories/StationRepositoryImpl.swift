@@ -17,13 +17,27 @@ final class StationRepositoryImpl: StationRepository {
         
     }
     
-    func fetchStationDetail(appKey: String, id: String) {
-        
+    func fetchStationDetails(id: String) async throws -> [GasStationDetail] {
+        try await withCheckedThrowingContinuation { continuation in
+            provider.request(.stationDetail(id: id)) { result in
+                switch result {
+                case .success(let response):
+                    do {
+                        let gasStationInfoResultDTO = try response.map(GasStationInfoResultDTO.self)
+                        continuation.resume(returning: gasStationInfoResultDTO.toDomain())
+                    } catch {
+                        continuation.resume(throwing: error)
+                    }
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
     }
     
-    func fetchOilPriceResult(appKey: String) async throws -> [OilPrice] {
+    func fetchOilPriceResult() async throws -> [OilPrice] {
         try await withCheckedThrowingContinuation { continuation in
-            provider.request(.oilPriceResult(appKey: appKey)) { result in
+            provider.request(.oilPriceResult) { result in
                 switch result {
                 case .success(let response):
                     do {

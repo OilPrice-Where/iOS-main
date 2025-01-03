@@ -12,11 +12,11 @@ import Foundation
 
 enum StationAPI {
     /// 주변 주유소 정보 조회
-    case nearbyGasStations(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String)
+    case nearbyGasStations(x: Double, y: Double, radius: Int, prodcd: String, sort: Int)
     /// 주유소 정보 조회
-    case stationDetail(appKey: String, id: String)
+    case stationDetail(id: String)
     /// 유가 정보 조회 결과
-    case oilPriceResult(appKey: String)
+    case oilPriceResult
 }
 
 
@@ -49,9 +49,9 @@ extension StationAPI: TargetType {
     
     var task: Task {
         switch self {
-        case .nearbyGasStations(let x, let y, let radius, let prodcd, let sort, let appKey):
+        case .nearbyGasStations(let x, let y, let radius, let prodcd, let sort):
             let params: [String: Any] = [
-                "code": appKey,
+                "code": Preferences.getAppKey(),
                 "x": x,
                 "y": y,
                 "radius": radius,
@@ -65,9 +65,9 @@ extension StationAPI: TargetType {
                 encoding: URLEncoding.queryString
             )
             
-        case .stationDetail(let appKey, let id):
+        case .stationDetail(let id):
             let params: [String: Any] = [
-                "code": appKey,
+                "code": Preferences.getAppKey(),
                 "id": id,
                 "out": "json"
             ]
@@ -77,9 +77,9 @@ extension StationAPI: TargetType {
                 encoding: URLEncoding.queryString
             )
             
-        case .oilPriceResult(let appKey):
+        case .oilPriceResult:
             let params: [String: Any] = [
-                "code": appKey,
+                "code": Preferences.getAppKey(),
                 "out": "json"
             ]
             
