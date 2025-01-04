@@ -49,8 +49,6 @@
 		E96A73B62D4614E3009B1261 /* FirebaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A73B52D4614E3009B1261 /* FirebaseError.swift */; };
 		E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601C27CE00A6005BB593 /* MainListVC.swift */; };
 		E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601E27CE0351005BB593 /* MainListViewModel.swift */; };
-		E978E08228425C3400AE3480 /* StationDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E978E08128425C3400AE3480 /* StationDetailVC.swift */; };
-		E978E085284277A200AE3480 /* StationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E978E084284277A200AE3480 /* StationDetailViewModel.swift */; };
 		E9984643291D13C20043D1DA /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9984642291D13C20043D1DA /* WidgetKit.framework */; };
 		E9984645291D13C20043D1DA /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9984644291D13C20043D1DA /* SwiftUI.framework */; };
 		E998464F291D13C30043D1DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E998464E291D13C30043D1DA /* Assets.xcassets */; };
@@ -62,13 +60,11 @@
 		E998465E291D2AB80043D1DA /* ActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E998465D291D2AB80043D1DA /* ActivityManager.swift */; };
 		E9984688291D78AA0043D1DA /* FindStationExtensionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9984687291D78AA0043D1DA /* FindStationExtensionBundle.swift */; };
 		E998468A291D78DD0043D1DA /* FindStationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9984689291D78DD0043D1DA /* FindStationExtension.swift */; };
-		E9A64D542883D36600BF1737 /* CustomNavigationTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A64D532883D36600BF1737 /* CustomNavigationTitle.swift */; };
 		E9B48CF02921773E00061511 /* SupportHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B48CEE2921773900061511 /* SupportHelper.swift */; };
 		E9BE7B0B282C81F800FF8A01 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7B0A282C81F800FF8A01 /* DataManager.swift */; };
 		E9C3A64C2842140100AC861C /* FavoriteCustomTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3A64B2842140100AC861C /* FavoriteCustomTabbarController.swift */; };
 		E9C3A65128421BE800AC861C /* FrequentVisitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3A65028421BE800AC861C /* FrequentVisitVC.swift */; };
 		E9C3A65328421D3A00AC861C /* FrequentVisitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3A65228421D3A00AC861C /* FrequentVisitViewModel.swift */; };
-		E9C3A656284228EB00AC861C /* FrequentVisitCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3A655284228EB00AC861C /* FrequentVisitCollectionViewCell.swift */; };
 		E9C455A5291FDD6A00A81973 /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = E9C455A4291FDD6A00A81973 /* NMapsMap */; };
 		E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */; };
 		E9D1445827CED3120055141A /* InfoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1445727CED3120055141A /* InfoListView.swift */; };
@@ -169,8 +165,6 @@
 		E96A73B52D4614E3009B1261 /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
 		E96E601C27CE00A6005BB593 /* MainListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListVC.swift; sourceTree = "<group>"; };
 		E96E601E27CE0351005BB593 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
-		E978E08128425C3400AE3480 /* StationDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailVC.swift; sourceTree = "<group>"; };
-		E978E084284277A200AE3480 /* StationDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailViewModel.swift; sourceTree = "<group>"; };
 		E9984641291D13C20043D1DA /* FindStationExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FindStationExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9984642291D13C20043D1DA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		E9984644291D13C20043D1DA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -181,13 +175,11 @@
 		E998465D291D2AB80043D1DA /* ActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityManager.swift; sourceTree = "<group>"; };
 		E9984687291D78AA0043D1DA /* FindStationExtensionBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindStationExtensionBundle.swift; sourceTree = "<group>"; };
 		E9984689291D78DD0043D1DA /* FindStationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindStationExtension.swift; sourceTree = "<group>"; };
-		E9A64D532883D36600BF1737 /* CustomNavigationTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationTitle.swift; sourceTree = "<group>"; };
 		E9B48CEE2921773900061511 /* SupportHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportHelper.swift; sourceTree = "<group>"; };
 		E9BE7B0A282C81F800FF8A01 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		E9C3A64B2842140100AC861C /* FavoriteCustomTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCustomTabbarController.swift; sourceTree = "<group>"; };
 		E9C3A65028421BE800AC861C /* FrequentVisitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentVisitVC.swift; sourceTree = "<group>"; };
 		E9C3A65228421D3A00AC861C /* FrequentVisitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentVisitViewModel.swift; sourceTree = "<group>"; };
-		E9C3A655284228EB00AC861C /* FrequentVisitCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentVisitCollectionViewCell.swift; sourceTree = "<group>"; };
 		E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoVC.swift; sourceTree = "<group>"; };
 		E9D1445727CED3120055141A /* InfoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoListView.swift; sourceTree = "<group>"; };
 		E9EAF1032822DAC30046F9A8 /* CardInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInfo.swift; sourceTree = "<group>"; };
@@ -201,17 +193,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		E96A72A42D3D9487009B1261 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 8E7FFE2020F5E5FF006CED48 /* OilPrice-Where */;
-		};
 		E96A72E12D4609B5009B1261 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Assets/Images.xcassets,
 				Fonts/NanumSquareRoundB.ttf,
 				Fonts/NanumSquareRoundEB.ttf,
 				Fonts/NanumSquareRoundL.ttf,
@@ -222,7 +206,9 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		E96A727D2D3D947B009B1261 /* SupportFiles */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E96A72A42D3D9487009B1261 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = SupportFiles; sourceTree = "<group>"; };
+		E9217FF52D47A4F900CC7220 /* Detail */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Detail; sourceTree = "<group>"; };
+		E92180002D47E9A600CC7220 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
+		E96A727D2D3D947B009B1261 /* SupportFiles */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = SupportFiles; sourceTree = "<group>"; };
 		E96A72D32D4609AC009B1261 /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E96A72E12D4609B5009B1261 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
 		E96A72F62D4609F3009B1261 /* Application */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Application; sourceTree = "<group>"; };
 		E96A73112D4609FC009B1261 /* Domain */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Domain; sourceTree = "<group>"; };
@@ -446,16 +432,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		E978E0832842772F00AE3480 /* Detail */ = {
-			isa = PBXGroup;
-			children = (
-				E978E08128425C3400AE3480 /* StationDetailVC.swift */,
-				E978E084284277A200AE3480 /* StationDetailViewModel.swift */,
-				E9A64D522883D35000BF1737 /* View */,
-			);
-			path = Detail;
-			sourceTree = "<group>";
-		};
 		E9984646291D13C20043D1DA /* FindStationExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -467,14 +443,6 @@
 				E9984650291D13C30043D1DA /* Info.plist */,
 			);
 			path = FindStationExtension;
-			sourceTree = "<group>";
-		};
-		E9A64D522883D35000BF1737 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				E9A64D532883D36600BF1737 /* CustomNavigationTitle.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		E9C3A64E28421BA800AC861C /* Favorite */ = {
@@ -491,18 +459,10 @@
 			children = (
 				E9C3A65028421BE800AC861C /* FrequentVisitVC.swift */,
 				E9C3A65228421D3A00AC861C /* FrequentVisitViewModel.swift */,
-				E9C3A654284228B700AC861C /* View */,
-				E978E0832842772F00AE3480 /* Detail */,
+				E92180002D47E9A600CC7220 /* View */,
+				E9217FF52D47A4F900CC7220 /* Detail */,
 			);
 			path = Frequent;
-			sourceTree = "<group>";
-		};
-		E9C3A654284228B700AC861C /* View */ = {
-			isa = PBXGroup;
-			children = (
-				E9C3A655284228EB00AC861C /* FrequentVisitCollectionViewCell.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		E9EAF1062822DCBE0046F9A8 /* Model */ = {
@@ -546,6 +506,8 @@
 				E9984654291D13C30043D1DA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				E9217FF52D47A4F900CC7220 /* Detail */,
+				E92180002D47E9A600CC7220 /* View */,
 				E96A727D2D3D947B009B1261 /* SupportFiles */,
 				E96A72D32D4609AC009B1261 /* Resources */,
 				E96A72F62D4609F3009B1261 /* Application */,
@@ -692,7 +654,6 @@
 				E919CCC9281BF80700C3373E /* PlusView.swift in Sources */,
 				E998465A291D14B50043D1DA /* StationAttributes.swift in Sources */,
 				E90FC277290E331F006908CC /* LocationManager.swift in Sources */,
-				E978E08228425C3400AE3480 /* StationDetailVC.swift in Sources */,
 				8ECE0D52211AD42600FF2B46 /* Preferences.swift in Sources */,
 				E90FC27D290E33B8006908CC /* LogUtil.swift in Sources */,
 				E94D0F0227BB467600BCB092 /* GasStationTitleView.swift in Sources */,
@@ -703,10 +664,7 @@
 				764A2D26212C8A2B00B0B3D8 /* FavoritesGasStationVC.swift in Sources */,
 				E9BE7B0B282C81F800FF8A01 /* DataManager.swift in Sources */,
 				E9C3A65128421BE800AC861C /* FrequentVisitVC.swift in Sources */,
-				E978E085284277A200AE3480 /* StationDetailViewModel.swift in Sources */,
-				E9C3A656284228EB00AC861C /* FrequentVisitCollectionViewCell.swift in Sources */,
 				2CC1C80E276C8610007527C7 /* MainMapView.swift in Sources */,
-				E9A64D542883D36600BF1737 /* CustomNavigationTitle.swift in Sources */,
 				E9EFE7CE290E2D8300EA514B /* SearchBarViewModel.swift in Sources */,
 				E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */,
 				E9400FDE27B0A3E2003168C6 /* NaverMapMarker.swift in Sources */,
