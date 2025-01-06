@@ -11,13 +11,12 @@ import CoreLocation
 import Moya
 import TMapSDK
 import NMapsMap
-//import CoreMotion
+
 
 final class LocationManager: NSObject {
     // MARK: - Properties
     static let shared = LocationManager()
     var locationManager: CLLocationManager?
-//    let motionManager = CMMotionActivityManager()
     @Published var currentAddress: String?
     @Published var currentLocation: CLLocation?
     @Published var requestLocation: CLLocation?
