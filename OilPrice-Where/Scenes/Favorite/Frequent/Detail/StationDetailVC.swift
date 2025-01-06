@@ -150,12 +150,320 @@ final class StationDetailVC: CommonViewController {
         super.viewDidLoad()
         
         makeUI()
-        rxBind()
+        bindActions()
+    }
+}
+
+
+//MARK: - Binding..
+private extension StationDetailVC {
+    func bindActions() {
+        // 주소 복사 버튼 탭
+        let addressButtonTapped = addressValueButton.tapPublisher
+            .map { [weak self] in
+                self?.addressValueButton.titleLabel?.text
+            }
+            .eraseToAnyPublisher()
+        // 전화연결 버튼 탭
+        let phoneNumberButton = phoneNumberValueButton.tapPublisher
+            .compactMap { [weak self] _ -> String? in
+                guard let phoneNumber = self?.phoneNumberValueButton.titleLabel?.text,
+                      !phoneNumber.isEmpty else {
+                    return nil
+                }
+                return "tel:" + phoneNumber
+            }
+            .eraseToAnyPublisher()
+        
+        let output = viewModel.transform(input: .init(
+            viewDidLoad: Just(()).eraseToAnyPublisher(),
+            addressButtonTapped: addressButtonTapped,
+            phoneNumberButtonTapped: phoneNumberButton,
+            favoriteButtonTapped: expandView.favoriteButton.tapPublisher.eraseToAnyPublisher(),
+            directionButtonTapped: expandView.gesturePublisher().map { _ in }.eraseToAnyPublisher()
+        ))
+        
+        bindUI(output: output)
     }
     
-    //MARK: - Make UI
+    func bindUI(output: StationDetailViewModel.Output) {
+        // 토스트 노출
+        output.showToast
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] message in
+                guard let self,
+                      let visibleViewController = UIApplication.shared.customKeyWindow?.visibleViewController else {
+                    return
+                }
+                visibleViewController.view.hideToast()
+                let toast = Preferences.showToast(width: 240, message: message, numberOfLines: 2)
+                visibleViewController.view.showToast(toast, position: .top)
+            }
+            .store(in: &cancellable)
+        // openURL
+        output.openURL
+            .receive(on: DispatchQueue.main)
+            .sink { url in
+                guard UIApplication.shared.canOpenURL(url) else {
+                    return
+                }
+                UIApplication.shared.open(url)
+            }
+            .store(in: &cancellable)
+        // expandView.favoriteButton
+        output.updateFavoriteButton
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isFavorite in
+                let favoriteImage = isFavorite ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
+                self?.expandView.favoriteButton.setImage(favoriteImage.withRenderingMode(.alwaysTemplate), for: .normal)
+                self?.expandView.favoriteButton.imageView?.tintColor = isFavorite ? .white : Asset.Colors.mainColor.color
+                self?.expandView.favoriteButton.backgroundColor = isFavorite ? Asset.Colors.mainColor.color : .white
+            }
+            .store(in: &cancellable)
+        // naviTitleView
+        output.updateStationDetail
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] station in
+                self?.navigationTitleView.configure(with: station)
+            }
+            .store(in: &cancellable)
+        // washImageView
+        output.updateStationDetail
+            .map { $0.hasCarWash ? Asset.Colors.mainColor.color : .lightGray }
+            .assign(to: \.tintColor, on: washImageView)
+            .store(in: &cancellable)
+        // repairImageView
+        output.updateStationDetail
+            .map { $0.hasRepairShop ? Asset.Colors.mainColor.color : .lightGray }
+            .assign(to: \.tintColor, on: repairImageView)
+            .store(in: &cancellable)
+        // convenienceImageView
+        output.updateStationDetail
+            .map { $0.hasConvenienceStore ? Asset.Colors.mainColor.color : .lightGray }
+            .assign(to: \.tintColor, on: convenienceImageView)
+            .store(in: &cancellable)
+        // convenienceImageView
+        output.updateStationDetail
+            .map { $0.hasConvenienceStore ? Asset.Colors.mainColor.color : .lightGray }
+            .assign(to: \.tintColor, on: convenienceImageView)
+            .store(in: &cancellable)
+        // addressValueButton
+        output.updateStationDetail
+            .map { $0.address }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] address in
+                let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]
+                var underlineAttributedString = NSAttributedString(string: address, attributes: underlineAttribute)
+                self?.addressValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
+                self?.addressValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
+            }
+            .store(in: &cancellable)
+        // phoneNumberValueButton
+        output.updateStationDetail
+            .map { $0.phoneNumber }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] phoneNumber in
+                let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]
+                var underlineAttributedString = NSAttributedString(string: phoneNumber, attributes: underlineAttribute)
+                self?.phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
+                self?.phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
+            }
+            .store(in: &cancellable)
+        // mapView
+        output.updateStationDetail
+            .map { NMGLatLng(lat: $0.coordinate.tm.lat, lng: $0.coordinate.tm.lng) }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] position in
+                let update = NMFCameraUpdate(scrollTo: position, zoomTo: 16.0)
+                self?.mapView.moveCamera(update)
+            }
+            .store(in: &cancellable)
+        // prices
+        output.updateStationDetail
+            .map { $0.prices }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] fuelPrices in
+                for fuelPrice in fuelPrices {
+                    switch fuelPrice.fuelType {
+                    case .gasoline:
+                        self?.oilValueLabel.text = fuelPrice.price.decimalNumber
+                    case .premiumGasoline:
+                        self?.highOilValueLabel.text = fuelPrice.price.decimalNumber
+                    case .diesel:
+                        self?.diselValueLabel.text = fuelPrice.price.decimalNumber
+                    case .lpg:
+                        self?.lpgValueLabel.text = fuelPrice.price.decimalNumber
+                    }
+                }
+            }
+            .store(in: &cancellable)
+    }
+}
+
+
+//MARK: - Set UI
+private extension StationDetailVC {
+    enum UIConstants {
+        enum WashImageView {
+            static let image: UIImage = Asset.Images.iconWash.image.withRenderingMode(.alwaysTemplate)
+            
+            static let rightOffset: CGFloat = -4
+            static let size: CGFloat = 24
+        }
+        
+        enum RepairImageView {
+            static let image: UIImage = Asset.Images.iconRepair.image.withRenderingMode(.alwaysTemplate)
+            
+            static let rightOffset: CGFloat = -4
+            static let size: CGFloat = 24
+        }
+        
+        enum ConvenienceImageView {
+            static let image: UIImage = Asset.Images.iconConvenience.image.withRenderingMode(.alwaysTemplate)
+            
+            static let rightOffset: CGFloat = -16
+            static let size: CGFloat = 24
+        }
+        
+        enum PriceInfoLabel {
+            static let text: String = "가격 정보"
+            static let font: UIFont = FontFamily.NanumSquareRound.bold.font(size: 18)
+            
+            static let topOffset: CGFloat = 24
+            static let leftOffset: CGFloat = 24
+        }
+        
+        enum OilKeyLabel {
+            static let text: String = "휘발유"
+            static let font: UIFont = FontFamily.NanumSquareRound.regular.font(size: 16)
+            
+            static let topOffset: CGFloat = 12
+            static let leftOffset: CGFloat = 24
+        }
+        
+        enum HighOilKeyLabel {
+            static let text: String = "고급유"
+            static let font: UIFont = FontFamily.NanumSquareRound.regular.font(size: 16)
+            
+            static let topOffset: CGFloat = 8
+            static let leftOffset: CGFloat = 24
+        }
+        
+        enum DiselKeyLabel {
+            static let text: String = "경유"
+            static let font: UIFont = FontFamily.NanumSquareRound.regular.font(size: 16)
+            
+            static let topOffset: CGFloat = 8
+            static let leftOffset: CGFloat = 24
+        }
+        
+        enum LpgKeyLabel {
+            static let text: String = "LPG"
+            static let font: UIFont = FontFamily.NanumSquareRound.regular.font(size: 16)
+            
+            static let topOffset: CGFloat = 8
+            static let leftOffset: CGFloat = 24
+        }
+        
+        enum OilValueLabel {
+            static let text: String = "가격 정보 없음"
+            static let font: UIFont = FontFamily.NanumSquareRound.bold.font(size: 16)
+            
+            static let leftOffset: CGFloat = 6
+            static let rightOffset: CGFloat = -16
+        }
+        
+        enum HighOilValueLabel {
+            static let text: String = "가격 정보 없음"
+            static let font: UIFont = FontFamily.NanumSquareRound.bold.font(size: 16)
+            
+            static let leftOffset: CGFloat = 6
+            static let rightOffset: CGFloat = -16
+        }
+        
+        enum DiselValueLabel {
+            static let text: String = "가격 정보 없음"
+            static let font: UIFont = FontFamily.NanumSquareRound.bold.font(size: 16)
+            
+            static let leftOffset: CGFloat = 6
+            static let rightOffset: CGFloat = -16
+        }
+        
+        enum LpgValueLabel {
+            static let text: String = "가격 정보 없음"
+            static let font: UIFont = FontFamily.NanumSquareRound.bold.font(size: 16)
+            
+            static let leftOffset: CGFloat = 6
+            static let rightOffset: CGFloat = -16
+        }
+        
+        enum BottomLine {
+            static let topOffset: CGFloat = 12
+            static let height: CGFloat = 8
+        }
+        
+        enum DetailInfoLabel {
+            static let text: String = "주유소 상세정보"
+            static let font: UIFont = FontFamily.NanumSquareRound.bold.font(size: 18)
+            
+            static let topOffset: CGFloat = 16
+            static let leftOffset: CGFloat = 24
+            static let rightOffset: CGFloat = -16
+        }
+        
+        enum MapView {
+            static let minZoomLevel: CGFloat = 5.0
+            static let maxZoomLevel: CGFloat = 18.0
+            static let cornerRadius: CGFloat = 10
+            static let extent: NMGLatLngBounds = .init(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
+            
+            static let topOffset: CGFloat = 24
+            static let leftOffset: CGFloat = 24
+            static let rightOffset: CGFloat = -16
+            static let height: CGFloat = 200
+        }
+        
+        enum AddressKeyLabel {
+            static let text: String = "주소"
+            static let font: UIFont = FontFamily.NanumSquareRound.regular.font(size: 16)
+            
+            static let topOffset: CGFloat = 12
+            static let leftOffset: CGFloat = 24
+        }
+        
+        enum PhoneNumberKeyLabel {
+            static let text: String = "전화"
+            static let font: UIFont = FontFamily.NanumSquareRound.regular.font(size: 16)
+            
+            static let topOffset: CGFloat = 8
+            static let leftOffset: CGFloat = 24
+        }
+        
+        enum AddressValueButton {
+            static let font: UIFont = FontFamily.NanumSquareRound.bold.font(size: 16)
+            
+            static let leftOffset: CGFloat = 6
+            static let rightOffset: CGFloat = -16
+        }
+        
+        enum PhoneNumberValueButton {
+            static let font: UIFont = FontFamily.NanumSquareRound.bold.font(size: 16)
+            
+            static let leftOffset: CGFloat = 6
+            static let rightOffset: CGFloat = -16
+        }
+        
+        enum ExpandView {
+            static let title: String = "길 찾기"
+            
+            static let bottomOffset: CGFloat = -16
+            static let height: CGFloat = 50
+        }
+    }
+
+    
     func makeUI() {
-        navigationItem.titleView = naviTitleView
+        navigationItem.titleView = navigationTitleView
         view.backgroundColor = .white
         
         let backItem = UIBarButtonItem()
