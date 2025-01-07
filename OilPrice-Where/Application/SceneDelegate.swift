@@ -58,9 +58,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         } else {
             let plistStorage: SettingStorage = PlistSettingStorage()
             let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: plistStorage)
-            let initialViewModel = InitialViewModel(settingUseCase: settingUseCase)
-            let initialSettingVC = InitialSettingVC(viewModel: initialViewModel)
-            return initialSettingVC
+            let initialSettingsViewModel = InitialSettingsViewModel(settingUseCase: settingUseCase)
+            let initialSettingsVC = InitialSettingsVC(viewModel: initialSettingsViewModel)
+            return initialSettingsVC
         }
     }
 }

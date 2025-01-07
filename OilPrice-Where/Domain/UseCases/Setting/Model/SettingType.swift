@@ -37,7 +37,7 @@ extension SettingType {
     var defaultValue: Any {
         switch self {
         case .fuelType:
-            return ""
+            return "B027"
         case .findBrands:
             return [
                 "SKE", "GSC", "HDO",
