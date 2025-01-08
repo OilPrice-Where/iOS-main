@@ -8,7 +8,7 @@
 
 import UIKit
 import Combine
-import CombineDataSources
+
 
 final class SelectedBrandTableViewCell: UITableViewCell {
     //MARK: - Properties
