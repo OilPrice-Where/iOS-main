@@ -6,9 +6,11 @@
 //  Copyright © 2020 sangwook park. All rights reserved.
 //
 
-import Combine
 import UIKit
+import Combine
 import Moya
+
+
 //MARK: FavoriteCellViewModel
 final class FavoriteCellViewModel {
     var cancellable = Set<AnyCancellable>()
@@ -17,11 +19,13 @@ final class FavoriteCellViewModel {
     var infoSubject = CurrentValueSubject<GasStationDetail?, Never>(nil)
     var isLoadingSubject = CurrentValueSubject<Bool, Never>(false)
 }
+
+
 //MARK: Method
 extension FavoriteCellViewModel {
     // Network -> StationEntity
     func requestStationsInfo(id: String) {
-        stationAPI.request(.stationDetail(appKey: Preferences.getAppKey(), id: id)) {
+        stationAPI.request(.stationDetail(id: id)) {
             switch $0 {
             case .success(let resp):
                 guard let result = try? resp.map(GasStationInfoResultDTO.self),
