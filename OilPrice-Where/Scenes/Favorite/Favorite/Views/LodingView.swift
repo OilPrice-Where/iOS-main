@@ -7,14 +7,17 @@
 //
 
 import UIKit
-import SnapKit
 import Then
+import SnapKit
+
+
 //MARK: 즐겨찾기 로딩 뷰
 final class LodingView: UIView {
     // Properties
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .medium)
     
-    // Initializer
+    
+    //MARK: Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -24,11 +27,21 @@ final class LodingView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+
+//MARK: - Set UI
+private extension LodingView {
+    func makeUI() {
+        configureUI()
+        setConstraints()
+    }
     
-    // Set UI
-    private func makeUI() {
+    func configureUI() {
         addSubview(activityIndicator)
-        
+    }
+    
+    func setConstraints() {
         activityIndicator.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.centerX.equalToSuperview()
