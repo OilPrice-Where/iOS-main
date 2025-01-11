@@ -6,9 +6,10 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
+import UIKit
 import Then
 import SnapKit
-import UIKit
+
 
 //MARK: GasStationCell의 Title 정보
 final class GasStationTitleView: UIStackView {
@@ -50,13 +51,8 @@ final class GasStationTitleView: UIStackView {
     }
     
     // Configure title
-    func configure(title info: GasStationSummary) {
+    func configure(title info: StationRepresentable) {
         logoImageView.image = info.brand.image
-        stationNameLabel.text = info.name
-    }
-    
-    func configure(staion info: StationEntity) {
-        logoImageView.image = StationBrand(code: info.brand ?? "").image
         stationNameLabel.text = info.name
     }
 }

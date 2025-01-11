@@ -10,6 +10,11 @@ import UIKit
 import SnapKit
 
 
+protocol FindBrandCellDelegate: AnyObject {
+    func findBrandCell(_ cell: FindBrandCell, didToggleSearchFor brand: FindBrandViewModel.Brand)
+}
+
+
 extension FindBrandCell {
     static func cellRegistration(_ delegate: FindBrandCellDelegate) -> UICollectionView.CellRegistration<FindBrandCell, FindBrandViewModel.Brand> {
         return UICollectionView.CellRegistration<FindBrandCell, FindBrandViewModel.Brand> { cell, indexPath, brand in
@@ -26,9 +31,6 @@ extension FindBrandCell {
     }
 }
 
-protocol FindBrandCellDelegate: AnyObject {
-    func findBrandCell(_ cell: FindBrandCell, didToggleSearchFor brand: FindBrandViewModel.Brand)
-}
 
 //MARK: 탐색 브랜드 Cell
 final class FindBrandCell: UICollectionViewCell {

@@ -16,21 +16,30 @@ protocol FrequentVisitCollectionViewCellDelegate: AnyObject {
     func touchedDirectionButton(info: StationEntity?)
 }
 
+
 extension FrequentVisitCell {
-    func configure(with station: StationEntity) {
+    static func cellRegistration(_ delegate: FrequentVisitCollectionViewCellDelegate) -> UICollectionView.CellRegistration<FrequentVisitCell, VisitedGasStation> {
+        return UICollectionView.CellRegistration<FrequentVisitCell, VisitedGasStation> { cell, indexPath, brand in
+            cell.delegate = delegate
+            cell.configure(brand: brand)
+        }
+    }
+    
+    // Configure Data
+    private func configure(with station: VisitedGasStation) {
         self.info = station
         
         countLabel.text = "\(station.count)회 방문"
-        titleView.configure(staion: station)
+        titleView.configure(title: station)
         
-        updateFavoriteUI(favoriteID: station.identifier)
+        updateFavoriteUI(favoriteID: station.id)
     }
 }
 
 
 final class FrequentVisitCell: UICollectionViewCell {
     //MARK: - Properties
-    private var info: StationEntity?
+    private var info: VisitedGasStation?
     weak var delegate: FrequentVisitCollectionViewCellDelegate?
     
     private let titleView = GasStationTitleView()
