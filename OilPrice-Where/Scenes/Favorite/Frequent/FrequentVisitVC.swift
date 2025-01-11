@@ -15,46 +15,43 @@ import SnapKit
 //MARK: 자주 방문한 List
 final class FrequentVisitVC: CommonViewController {
     //MARK: - Properties
-    let viewModel = FrequentVisitViewModel()
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
-        $0.alwaysBounceVertical = false
-        $0.alwaysBounceHorizontal = false
-        $0.showsHorizontalScrollIndicator = false
-        $0.backgroundColor = .clear
-        FrequentVisitCell.register($0)
-    }
-    private lazy var emptyLabel = UILabel().then {
-        $0.text = "방문하신 주유소가 없습니다."
+    private let viewModel: FrequentVisitViewModel
+    
+    private var dataSoruce: FrequentVisitDataSource!
+    private var collectionView: UICollectionView!
+    
+    private let emptyLabel = UILabel().then {
+        $0.text = UIConstants.EmptyLabel.text
         $0.textColor = .darkGray
         $0.textAlignment = .center
         $0.isHidden = !DataManager.shared.stationList.isEmpty
-        $0.font = FontFamily.NanumSquareRound.bold.font(size: 18)
+        $0.font = UIConstants.EmptyLabel.font
     }
     
+    
     //MARK: - Life Cycle
+    init(viewModel: FrequentVisitViewModel) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         makeUI()
         rxBind()
     }
-    
-    //MARK: - Make UI
-    func makeUI() {
-        view.backgroundColor = .systemGroupedBackground
-        
-        view.addSubview(collectionView)
-        view.addSubview(emptyLabel)
-        
-        collectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        emptyLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-    }
-    
-    //MARK: - Rx Binding..
+}
+
+
+//MARK: - Binding..
+private extension FrequentVisitVC {
     func rxBind() {
         viewModel.output.stations
             .bind(subscriber: collectionView.itemsSubscriber(cellIdentifier: FrequentVisitCell.id,
@@ -73,51 +70,13 @@ final class FrequentVisitVC: CommonViewController {
             }
             .store(in: &viewModel.cancellable)
         
-        collectionView
-            .didSelectItemPublisher
-            .receive(on: DispatchQueue.main)
-            .map { [weak self] indexPath in
-                self?.collectionView.cellForItem(at: indexPath) as? FrequentVisitCell
-            }
-            .compactMap { $0?.info }
-            .sink { [weak self] station in
-                guard let self,
-                      let id = station.identifier else { return }
-                
-                let settingStorage: SettingStorage = PlistSettingStorage()
-                let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
-                let stationRepository: StationRepository = StationRepositoryImpl()
-                let visitedStationStorage: VisitedStationStorage = CoreDataVisitedStationStorage()
-                let detailViewModel = StationDetailViewModel(
-                    stationID: id,
-                    settingUseCase: settingUseCase,
-                    stationRepository: stationRepository,
-                    visitedStationStorage: visitedStationStorage
-                )
-                let detailVC = StationDetailVC(viewModel: detailViewModel)
-                navigationController?.pushViewController(detailVC, animated: true)
-            }
-            .store(in: &viewModel.cancellable)
-        
         DataManager.shared.stationListIsEmpty
             .map { !$0 }
             .assign(to: \.isHidden, on: emptyLabel)
             .store(in: &viewModel.cancellable)
     }
-    
-    private func fetchLayout() -> UICollectionViewFlowLayout {
-        let screenWidth = UIScreen.main.bounds.width - 32
-        let itemWidth = UIDevice.current.userInterfaceIdiom == .phone ? screenWidth : screenWidth / 2 - 6
-        
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumLineSpacing = 16
-        flowLayout.minimumInteritemSpacing = 16
-        flowLayout.scrollDirection = .vertical
-        flowLayout.itemSize = CGSize(width: itemWidth, height: 139.2)
-        flowLayout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        return flowLayout
-    }
 }
+
 
 extension FrequentVisitVC: FrequentVisitCollectionViewCellDelegate {
     // 즐겨찾기 설정 및 해제
@@ -154,5 +113,102 @@ extension FrequentVisitVC: FrequentVisitCollectionViewCellDelegate {
             coordinate: .init(x: target.katecX, y: target.katecY)
         )
         requestDirection(station: station)
+    }
+}
+
+
+//MARK: - CollectionView
+extension FrequentVisitVC: UICollectionViewDelegate {
+    private final class FrequentVisitDataSource: UICollectionViewDiffableDataSource<CommonDiffableSection, VisitedGasStation> {
+        private typealias Snapshot = NSDiffableDataSourceSnapshot<CommonDiffableSection, VisitedGasStation>
+        
+        func applySnapshot(with stations: [VisitedGasStation],
+                           animatingDifferences: Bool = true) {
+            var snapshot: Snapshot = .init()
+            snapshot.appendItems(stations, toSection: .main)
+            apply(snapshot, animatingDifferences: animatingDifferences)
+        }
+    }
+    
+    private func configureCollectionView() {
+        let layout = collectionViewLayout()
+        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+            $0.alwaysBounceVertical = false
+            $0.alwaysBounceHorizontal = false
+            $0.showsHorizontalScrollIndicator = false
+            $0.backgroundColor = .clear
+        }
+    }
+    
+    private func configureDataSource() {
+        self.dataSource = FrequentVisitDataSource(collectionView: collectionView) { collectionView, indexPath, option in
+            let cell = FrequentVisitCell.cellRegistration(self)
+            collectionView.dequeueConfiguredReusableCell(using: cell, for: indexPath, item: option)
+        }
+    }
+    
+    private func collectionViewLayout() -> UICollectionViewFlowLayout {
+        let screenWidth = UIScreen.main.bounds.width - 32
+        let itemWidth = UIDevice.current.userInterfaceIdiom == .phone ? screenWidth : screenWidth / 2 - 6
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumLineSpacing = 16
+        flowLayout.minimumInteritemSpacing = 16
+        flowLayout.scrollDirection = .vertical
+        flowLayout.itemSize = CGSize(width: itemWidth, height: 139.2)
+        flowLayout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        return flowLayout
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let station = dataSoruce.itemIdentifier(for: indexPath) else {
+            return
+        }
+        
+        let settingStorage: SettingStorage = PlistSettingStorage()
+        let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
+        let stationRepository: StationRepository = StationRepositoryImpl()
+        let visitedStationStorage: VisitedStationStorage = CoreDataVisitedStationStorage()
+        let detailViewModel = StationDetailViewModel(
+            stationID: station.id,
+            settingUseCase: settingUseCase,
+            stationRepository: stationRepository,
+            visitedStationStorage: visitedStationStorage
+        )
+        let detailVC = StationDetailVC(viewModel: detailViewModel)
+        
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+}
+
+
+//MARK: - Set UI
+private extension FrequentVisitVC {
+    enum UIConstants {
+        enum EmptyLabel {
+            static let text: String = "방문하신 주유소가 없습니다."
+            static let font: UIFont = FontFamily.NanumSquareRound.bold.font(size: 18)
+        }
+    }
+    
+    func makeUI() {
+        configureUI()
+        setConstraints()
+    }
+    
+    func configureUI() {
+        view.backgroundColor = .systemGroupedBackground
+        
+        view.addSubview(collectionView)
+        view.addSubview(emptyLabel)
+    }
+    
+    func setConstraints() {
+        collectionView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        emptyLabel.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
 }
