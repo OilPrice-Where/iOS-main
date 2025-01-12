@@ -183,8 +183,8 @@ private extension StationDetailViewModel {
                 name: stationDetail.name,
                 fuelType: fuelPrice?.fuelType ?? .gasoline,
                 recordedPrice: Double(fuelPrice?.price ?? .zero),
-                visitDate: .init(),
-                coordinate: stationDetail.coordinate
+                coordinate: stationDetail.coordinate,
+                visitDate: .init()
             ))
         }
     }

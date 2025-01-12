@@ -34,8 +34,9 @@ extension StationEntity {
             name: name ?? "",
             fuelType: FuelType(code: oilType ?? ""),
             recordedPrice: price,
-            visitDate: insertDate ?? Date(),
-            coordinate: .init(x: katecX, y: katecY)
+            coordinate: .init(x: katecX, y: katecY),
+            visitCount: 1,
+            visitDate: insertDate ?? Date()
         )
     }
 }

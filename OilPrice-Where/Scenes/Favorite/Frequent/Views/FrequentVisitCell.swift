@@ -11,25 +11,27 @@ import Then
 import SnapKit
 
 
-protocol FrequentVisitCollectionViewCellDelegate: AnyObject {
-    func touchedFavoriteButton(id: String?)
-    func touchedDirectionButton(info: StationEntity?)
+protocol FrequentVisitCellDelegate: AnyObject {
+    /// 즐겨찾기 설정 및 해제
+    func didTapFavoriteButton(stationID id: String)
+    /// 길찾기 및 방문 주유소 저장
+    func didTapDirectionButton(station: VisitedGasStation)
 }
 
 
 extension FrequentVisitCell {
-    static func cellRegistration(_ delegate: FrequentVisitCollectionViewCellDelegate) -> UICollectionView.CellRegistration<FrequentVisitCell, VisitedGasStation> {
-        return UICollectionView.CellRegistration<FrequentVisitCell, VisitedGasStation> { cell, indexPath, brand in
+    static func cellRegistration(_ delegate: FrequentVisitCellDelegate) -> UICollectionView.CellRegistration<FrequentVisitCell, VisitedGasStation> {
+        return UICollectionView.CellRegistration<FrequentVisitCell, VisitedGasStation> { cell, indexPath, visitStation in
             cell.delegate = delegate
-            cell.configure(brand: brand)
+            cell.configure(with: visitStation)
         }
     }
     
     // Configure Data
     private func configure(with station: VisitedGasStation) {
-        self.info = station
+        self.visitStation = station
         
-        countLabel.text = "\(station.count)회 방문"
+        countLabel.text = "\(station.visitCount)회 방문"
         titleView.configure(title: station)
         
         updateFavoriteUI(favoriteID: station.id)
@@ -39,8 +41,8 @@ extension FrequentVisitCell {
 
 final class FrequentVisitCell: UICollectionViewCell {
     //MARK: - Properties
-    private var info: VisitedGasStation?
-    weak var delegate: FrequentVisitCollectionViewCellDelegate?
+    private var visitStation: VisitedGasStation?
+    weak var delegate: FrequentVisitCellDelegate?
     
     private let titleView = GasStationTitleView()
     private let expandView = GasStationExpandView()
@@ -69,13 +71,19 @@ final class FrequentVisitCell: UICollectionViewCell {
     
     
     @objc
-    func touchedFavorite(sender: UIButton) {
-        delegate?.touchedFavoriteButton(id: info?.identifier)
+    private func touchedFavorite(sender: UIButton) {
+        guard let visitStation else {
+            return
+        }
+        delegate?.didTapFavoriteButton(stationID: visitStation.id)
     }
     
     @objc
-    func touchedDirection() {
-        delegate?.touchedDirectionButton(info: info)
+    private func touchedDirection() {
+        guard let visitStation else {
+            return
+        }
+        delegate?.didTapDirectionButton(station: visitStation)
     }
 }
 

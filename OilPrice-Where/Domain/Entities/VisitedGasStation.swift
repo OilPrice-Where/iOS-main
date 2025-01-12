@@ -20,8 +20,10 @@ struct VisitedGasStation: StationRepresentable {
     let fuelType: FuelType
     /// 방문 시 기록된 주유 가격
     let recordedPrice: Double
-    /// 방문 날짜
-    let visitDate: Date
     /// 주유소 위치
     var coordinate: CoordinateSystem
+    /// 방문 수
+    var visitCount: Int = 1
+    /// 방문 날짜
+    let visitDate: Date
 }
