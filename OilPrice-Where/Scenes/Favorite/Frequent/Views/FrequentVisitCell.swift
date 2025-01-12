@@ -7,40 +7,45 @@
 //
 
 import UIKit
+import Combine
 import Then
 import SnapKit
 
 
 protocol FrequentVisitCellDelegate: AnyObject {
     /// 즐겨찾기 설정 및 해제
-    func didTapFavoriteButton(stationID id: String)
+    func didTapFavoriteButton(station: VisitedGasStation)
     /// 길찾기 및 방문 주유소 저장
     func didTapDirectionButton(station: VisitedGasStation)
 }
 
 
 extension FrequentVisitCell {
-    static func cellRegistration(_ delegate: FrequentVisitCellDelegate) -> UICollectionView.CellRegistration<FrequentVisitCell, VisitedGasStation> {
+    static func cellRegistration(_ delegate: FrequentVisitCellDelegate, settingUseCase: SettingUseCase) -> UICollectionView.CellRegistration<FrequentVisitCell, VisitedGasStation> {
         return UICollectionView.CellRegistration<FrequentVisitCell, VisitedGasStation> { cell, indexPath, visitStation in
             cell.delegate = delegate
-            cell.configure(with: visitStation)
+            cell.configure(with: visitStation, settingUseCase: settingUseCase)
         }
     }
     
     // Configure Data
-    private func configure(with station: VisitedGasStation) {
+    private func configure(with station: VisitedGasStation, settingUseCase: SettingUseCase) {
         self.visitStation = station
         
         countLabel.text = "\(station.visitCount)회 방문"
         titleView.configure(title: station)
         
-        updateFavoriteUI(favoriteID: station.id)
+        if let favorites: [String] = try? settingUseCase.load(type: .favorites) {
+            updateFavoriteUI(favorites: favorites)
+        }
     }
 }
 
 
 final class FrequentVisitCell: UICollectionViewCell {
     //MARK: - Properties
+    private var cancellable = Set<AnyCancellable>()
+    
     private var visitStation: VisitedGasStation?
     weak var delegate: FrequentVisitCellDelegate?
     
@@ -63,29 +68,61 @@ final class FrequentVisitCell: UICollectionViewCell {
         super.init(frame: frame)
         
         makeUI()
+        bindActions()
     }
     
     required init?(coder: NSCoder) {
         fatalError("Not Created View")
     }
     
-    
-    @objc
-    private func touchedFavorite(sender: UIButton) {
-        guard let visitStation else {
-            return
-        }
-        delegate?.didTapFavoriteButton(stationID: visitStation.id)
-    }
-    
-    @objc
-    private func touchedDirection() {
-        guard let visitStation else {
-            return
-        }
-        delegate?.didTapDirectionButton(station: visitStation)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        cancellable.removeAll()
+        bindActions()
     }
 }
+
+//MARK: - Bind
+private extension FrequentVisitCell {
+    func bindActions() {
+        expandView.favoriteButton
+            .tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                guard let self,
+                      let visitStation else {
+                    return
+                }
+                delegate?.didTapFavoriteButton(station: visitStation)
+            }
+            .store(in: &cancellable)
+        
+        expandView.directionView
+            .gesturePublisher()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self,
+                      let visitStation else {
+                    return
+                }
+                delegate?.didTapDirectionButton(station: visitStation)
+            }
+            .store(in: &cancellable)
+        
+        NotificationCenter.default.publisher(for: SettingType.favorites.notificationName)
+            .compactMap { $0.object as? [String] }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] favorites in
+                guard let self else {
+                    return
+                }
+                updateFavoriteUI(favorites: favorites)
+            }
+            .store(in: &cancellable)
+    }
+}
+
 
 
 //MARK: - Set UI
@@ -172,20 +209,18 @@ private extension FrequentVisitCell {
     func configureExpandView() {
         expandView.directionView.configure(msg: "길 찾기")
         expandView.directionView.configure(image: Asset.Images.navigationIcon.image.withTintColor(.white, renderingMode: .alwaysTemplate))
-        
-        expandView.favoriteButton.addTarget(self, action: #selector(self.touchedFavorite(sender:)), for: .touchUpInside)
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.touchedDirection))
-        expandView.directionView.addGestureRecognizer(tap)
     }
     
-    func updateFavoriteUI(favoriteID: String?) {
-        guard let id = favoriteID else { return }
+    func updateFavoriteUI(favorites: [String]) {
+        guard let visitStation else {
+            return
+        }
         
-        let ids = DefaultData.shared.favoriteSubject.value
-        let image = ids.contains(id) ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
+        let isFavoriteStation = favorites.contains(visitStation.id)
+        let image = isFavoriteStation ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
         
         expandView.favoriteButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
-        expandView.favoriteButton.imageView?.tintColor = ids.contains(id) ? .white : Asset.Colors.mainColor.color
-        expandView.favoriteButton.backgroundColor = ids.contains(id) ? Asset.Colors.mainColor.color : .white
+        expandView.favoriteButton.imageView?.tintColor = isFavoriteStation ? .white : Asset.Colors.mainColor.color
+        expandView.favoriteButton.backgroundColor = isFavoriteStation ? Asset.Colors.mainColor.color : .white
     }
 }

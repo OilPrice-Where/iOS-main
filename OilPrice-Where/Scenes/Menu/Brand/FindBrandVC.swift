@@ -13,7 +13,6 @@ import SnapKit
 
 //MARK: 탐색 브랜드 VC
 final class FindBrandVC: CommonViewController {
-
     //MARK: - Properties
     let viewModel: FindBrandViewModel
     
@@ -63,7 +62,7 @@ private extension FindBrandVC {
 }
 
 
-//MARK: - Set UI
+//MARK: - CollectionView
 private extension FindBrandVC {
     final class FindBrandDataSource: UICollectionViewDiffableDataSource<CommonDiffableSection, FindBrandViewModel.Brand> {
         private typealias Snapshot = NSDiffableDataSourceSnapshot<CommonDiffableSection, FindBrandViewModel.Brand>
@@ -74,13 +73,6 @@ private extension FindBrandVC {
             snapshot.appendItems(items, toSection: .main)
             apply(snapshot, animatingDifferences: animatingDifferences)
         }
-    }
-    
-    func makeUI() {
-        navigationItem.title = "검색 브랜드"
-        
-        configureCollectionView()
-        configureDataSource()
     }
     
     func configureCollectionView() {
@@ -95,9 +87,7 @@ private extension FindBrandVC {
         }
         
         view.addSubview(collectionView)
-        collectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        configureDataSource()
     }
     
     func configureDataSource() {
@@ -113,8 +103,26 @@ private extension FindBrandVC {
 }
 
 
+//MARK: - FindBrandCellDelegate
 extension FindBrandVC: FindBrandCellDelegate {
     func findBrandCell(_ cell: FindBrandCell, didToggleSearchFor brand: FindBrandViewModel.Brand) {
         didToggleSearchBrand.send(brand)
+    }
+}
+
+
+//MARK: - Set UI
+private extension FindBrandVC {
+    func makeUI() {
+        navigationItem.title = "검색 브랜드"
+        
+        configureCollectionView()
+        setConstraints()
+    }
+    
+    func setConstraints() {
+        collectionView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
 }
