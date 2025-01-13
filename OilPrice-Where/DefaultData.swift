@@ -40,7 +40,7 @@ class DefaultData {
     
     // 전군 평균 기름 값 로드 함수
     func allPriceDataLoad() {
-        staionProvider.request(.oilPriceResult(appKey: Preferences.getAppKey())) {
+        staionProvider.request(.oilPriceResult) {
             switch $0 {
             case .success(let resp):
                 guard let decode = try? resp.map(OilPriceResultDTO.self) else { return }
@@ -108,9 +108,8 @@ class DefaultData {
                 var tempArr = [String]()
                 
                 owner.tempFavArr = owner.tempFavArr.filter { info in
-                    guard let id = info.id else { return false }
-                    if !tempArr.contains(id) && infomations.contains(id) {
-                        tempArr.append(id)
+                    if !tempArr.contains(info.id) && infomations.contains(info.id) {
+                        tempArr.append(info.id)
                         return true
                     }
                     return false
@@ -118,11 +117,11 @@ class DefaultData {
                 
                 for id in infomations {
                     guard !tempArr.contains(id) else { continue }
-                    owner.staionProvider.request(.stationDetail(appKey: Preferences.getAppKey(), id: id)) {
+                    owner.staionProvider.request(.stationDetail(id: id)) {
                         switch $0 {
                         case .success(let resp):
-                            guard let result = try? resp.map(GasStationInfoResult.self),
-                                  let info = result.result?.allPriceList?.first else { return }
+                            guard let result = try? resp.map(GasStationInfoResultDTO.self),
+                                  let info = result.toDomain().first else { return }
                             
                             owner.tempFavArr.append(info)
                             

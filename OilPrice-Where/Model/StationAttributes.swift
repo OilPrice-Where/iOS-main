@@ -19,9 +19,3 @@ struct FindStation: Codable, Hashable {
     let lng: Double?
     var distance: String?
 }
-
-struct StationAttributes: ActivityAttributes {
-    struct ContentState: Codable, Hashable {
-        var station: FindStation?
-    }
-}

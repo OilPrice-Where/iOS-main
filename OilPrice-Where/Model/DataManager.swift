@@ -75,7 +75,6 @@ final class DataManager {
         newStation.price = Double(station.price)
         newStation.katecX = station.coordinate.katec.x
         newStation.katecY = station.coordinate.katec.y
-        newStation.count = 0
         newStation.insertDate = Date()
         
         stationList.insert(newStation, at: 0)
