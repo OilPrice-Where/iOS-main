@@ -9,6 +9,7 @@
 import UIKit
 import Combine
 import Then
+import Toast
 import SnapKit
 
 
@@ -20,11 +21,14 @@ final class FrequentVisitVC: CommonViewController {
     private var dataSoruce: FrequentVisitDataSource!
     private var collectionView: UICollectionView!
     
+    private let didSelectItemPublisher = PassthroughSubject<VisitedGasStation, Never>()
+    private let didTapFavoritePublisher = PassthroughSubject<VisitedGasStation, Never>()
+    private let didTapDirectionPublisher = PassthroughSubject<VisitedGasStation, Never>()
+    
     private let emptyLabel = UILabel().then {
         $0.text = UIConstants.EmptyLabel.text
         $0.textColor = .darkGray
         $0.textAlignment = .center
-        $0.isHidden = !DataManager.shared.stationList.isEmpty
         $0.font = UIConstants.EmptyLabel.font
     }
     
@@ -45,74 +49,56 @@ final class FrequentVisitVC: CommonViewController {
         super.viewDidLoad()
         
         makeUI()
-        rxBind()
+        bindActions()
     }
 }
 
 
 //MARK: - Binding..
 private extension FrequentVisitVC {
-    func rxBind() {
-        viewModel.output.stations
-            .bind(subscriber: collectionView.itemsSubscriber(cellIdentifier: FrequentVisitCell.id,
-                                                             cellType: FrequentVisitCell.self,
-                                                             cellConfig: { cell, indexPath, station in
-                cell.delegate = self
-                cell.configure(station: station)
-            }))
-            .store(in: &viewModel.cancellable)
+    func bindActions() {
+        let output = viewModel.transform(input: .init(
+            viewDidLoad: Just(()).eraseToAnyPublisher(),
+            didSelectItem: didSelectItemPublisher.eraseToAnyPublisher(),
+            didTapDirectionStation: didTapDirectionPublisher.eraseToAnyPublisher(),
+            didTapFavoriteStation: didTapFavoritePublisher.eraseToAnyPublisher()
+        ))
         
-        DefaultData.shared.completedRelay
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.collectionView.reloadData()
-            }
-            .store(in: &viewModel.cancellable)
-        
-        DataManager.shared.stationListIsEmpty
-            .map { !$0 }
-            .assign(to: \.isHidden, on: emptyLabel)
-            .store(in: &viewModel.cancellable)
-    }
-}
-
-
-extension FrequentVisitVC: FrequentVisitCollectionViewCellDelegate {
-    // 즐겨찾기 설정 및 해제
-    func touchedFavoriteButton(id: String?) {
-        let faovorites = DefaultData.shared.favoriteSubject.value
-        guard let _id = id, faovorites.count < 6 else { return }
-        let isDeleted = faovorites.contains(_id)
-        guard isDeleted || (!isDeleted && faovorites.count < 5) else {
-            DispatchQueue.main.async { [weak self] in
-                self?.makeAlert(title: "최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !")
-            }
-            return
-        }
-        var newFaovorites = faovorites
-        isDeleted ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
-        
-        DefaultData.shared.favoriteSubject.send(newFaovorites)
-        
-        let msg = isDeleted ? "즐겨 찾는 주유소가 삭제되었습니다." : "즐겨 찾는 주유소에 추가되었습니다."
-        let lbl = Preferences.showToast(width: 240, message: msg, numberOfLines: 1)
-        view.hideToast()
-        view.showToast(lbl, position: .top)
+        bindUI(output: output)
     }
     
-    func touchedDirectionButton(info: StationEntity?) {
-        guard let target = info else { return }
+    func bindUI(output: FrequentVisitViewModel.Output) {
+        output.visitedStations
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] visitedStations in
+                self?.emptyLabel.isHidden = !visitedStations.isEmpty
+                self?.dataSoruce.applySnapshot(with: visitedStations)
+            }
+            .store(in: &cancellable)
         
-        let station = GasStationSummary(
-            id: target.identifier ?? UUID().uuidString,
-            brand: .init(code: target.brand ?? ""),
-            name: target.name ?? "",
-            price: .zero,
-            distance: .zero,
-            coordinate: .init(x: target.katecX, y: target.katecY)
-        )
-        requestDirection(station: station)
+        output.showStationDetail
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] detailVC in
+                self?.navigationController?.pushViewController(detailVC, animated: true)
+            }
+            .store(in: &cancellable)
+        
+        output.openNavigation
+            .receive(on: DispatchQueue.main)
+            .sink { destinationURL in
+                UIApplication.shared.open(destinationURL)
+            }
+            .store(in: &cancellable)
+        
+        output.showToast
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] message in
+                self?.view.hideToast()
+                
+                let toast = Preferences.showToast(width: 240, message: message, numberOfLines: 1)
+                self?.view.showToast(toast, position: .top)
+            }
+            .store(in: &cancellable)
     }
 }
 
@@ -138,12 +124,20 @@ extension FrequentVisitVC: UICollectionViewDelegate {
             $0.showsHorizontalScrollIndicator = false
             $0.backgroundColor = .clear
         }
+        
+        view.addSubview(collectionView)
+        configureDataSource()
     }
     
     private func configureDataSource() {
-        self.dataSource = FrequentVisitDataSource(collectionView: collectionView) { collectionView, indexPath, option in
-            let cell = FrequentVisitCell.cellRegistration(self)
-            collectionView.dequeueConfiguredReusableCell(using: cell, for: indexPath, item: option)
+        self.dataSoruce = FrequentVisitDataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, visitStation in
+            guard let self else { return .init() }
+            let cellRegistration = FrequentVisitCell.cellRegistration(self, settingUseCase: viewModel.settingUseCase)
+            return collectionView.dequeueConfiguredReusableCell(
+                using: cellRegistration,
+                for: indexPath,
+                item: visitStation
+            )
         }
     }
     
@@ -161,23 +155,23 @@ extension FrequentVisitVC: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let station = dataSoruce.itemIdentifier(for: indexPath) else {
+        guard let visitStation = dataSoruce.itemIdentifier(for: indexPath) else {
             return
         }
         
-        let settingStorage: SettingStorage = PlistSettingStorage()
-        let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
-        let stationRepository: StationRepository = StationRepositoryImpl()
-        let visitedStationStorage: VisitedStationStorage = CoreDataVisitedStationStorage()
-        let detailViewModel = StationDetailViewModel(
-            stationID: station.id,
-            settingUseCase: settingUseCase,
-            stationRepository: stationRepository,
-            visitedStationStorage: visitedStationStorage
-        )
-        let detailVC = StationDetailVC(viewModel: detailViewModel)
-        
-        navigationController?.pushViewController(detailVC, animated: true)
+        didSelectItemPublisher.send(visitStation)
+    }
+}
+
+
+//MARK: - FrequentVisitCellDelegate
+extension FrequentVisitVC: FrequentVisitCellDelegate {    
+    func didTapFavoriteButton(station: VisitedGasStation) {
+        didTapFavoritePublisher.send(station)
+    }
+    
+    func didTapDirectionButton(station: VisitedGasStation) {
+        didTapDirectionPublisher.send(station)
     }
 }
 
@@ -192,6 +186,7 @@ private extension FrequentVisitVC {
     }
     
     func makeUI() {
+        configureCollectionView()
         configureUI()
         setConstraints()
     }
@@ -199,7 +194,6 @@ private extension FrequentVisitVC {
     func configureUI() {
         view.backgroundColor = .systemGroupedBackground
         
-        view.addSubview(collectionView)
         view.addSubview(emptyLabel)
     }
     
