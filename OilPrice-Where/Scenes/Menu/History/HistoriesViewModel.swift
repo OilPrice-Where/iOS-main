@@ -6,20 +6,26 @@
 //  Copyright © 2025 sangwook park. All rights reserved.
 //
 
+import UIKit
 import Combine
-import Foundation
 
 
 final class HistoriesViewModel {
     
     private var cancellable = Set<AnyCancellable>()
     
-    let storage: VisitedStationStorage
-    let visitedStations = PassthroughSubject<[VisitedGasStation], Never>()
+    private let storage: VisitedStationStorage
+    private let settingUseCase: SettingUseCase
+    private let urlBuilder: NavigationURLBuilder
+    
+    private let visitedStations: CurrentValueSubject<[VisitedGasStation], Never> = .init([])
     
     
-    init(storage: VisitedStationStorage) {
+    init(storage: VisitedStationStorage,
+         settingUseCase: SettingUseCase) {
         self.storage = storage
+        self.settingUseCase = settingUseCase
+        self.urlBuilder = AppNavigationURLBuilder(settingUseCase: settingUseCase)
     }
 }
 
@@ -44,9 +50,23 @@ extension HistoriesViewModel {
         
         let moveNavigation: AnyPublisher<URL, Never> = input.alertConfirmationPublisher
             .compactMap { [weak self] visitedStation in
-                guard let self else { return nil }
+                guard let self else {
+                    return nil
+                }
+                
                 save(visitedStation: visitedStation)
-                return nil
+                
+                let destinationURL = urlBuilder.destinationURL(
+                    name: visitedStation.name,
+                    coordinate: visitedStation.coordinate
+                )
+                
+                if let destinationURL,
+                   UIApplication.shared.canOpenURL(destinationURL) {
+                    return destinationURL
+                } else {
+                    return urlBuilder.installURL()
+                }
             }
             .eraseToAnyPublisher()
         
@@ -71,6 +91,7 @@ extension HistoriesViewModel {
             .store(in: &cancellable)
     }
 }
+
 
 private extension HistoriesViewModel {
     func remove(visitedStation station: VisitedGasStation) {
