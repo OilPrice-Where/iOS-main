@@ -1,5 +1,5 @@
 //
-//  FavoriteCellViewModel.swift
+//  FavoriteStationsViewModel.swift
 //  OilPrice-Where
 //
 //  Created by 박상욱 on 2020/08/02.
@@ -12,7 +12,7 @@ import Moya
 
 
 //MARK: FavoriteCellViewModel
-final class FavoriteCellViewModel {
+final class FavoriteStationsViewModel {
     var cancellable = Set<AnyCancellable>()
     private var info: GasStationDetail?
     let stationAPI = MoyaProvider<StationAPI>()
@@ -22,7 +22,7 @@ final class FavoriteCellViewModel {
 
 
 //MARK: Method
-extension FavoriteCellViewModel {
+extension FavoriteStationsViewModel {
     // Network -> StationEntity
     func requestStationsInfo(id: String) {
         stationAPI.request(.stationDetail(id: id)) {
@@ -46,10 +46,6 @@ extension FavoriteCellViewModel {
         guard let displayInfo = priceList?.first(where: { $0.fuelType.code == type }) else { return  "가격정보 없음" }
         
         return displayInfo.price.decimalNumber
-    }
-    // 컬러 값 얻기
-    func getActivatedColor(info: String?) -> UIColor {
-        return info == "Y" ? Asset.Colors.mainColor.color : .lightGray
     }
     // 즐겨찾기 삭제
     func deleteAction(id: String) {
