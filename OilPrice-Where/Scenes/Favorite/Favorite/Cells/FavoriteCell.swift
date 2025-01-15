@@ -13,18 +13,60 @@ import SnapKit
 
 
 protocol FavoriteCellDelegate: AnyObject {
-    func touchedAddressLabel()
-    func touchedDirection(station: GasStationSummary?)
+    /// 주유소 즐겨찾기 해제
+    func didTapFavorite(station: GasStationDetail)
+    /// 주유소 주소 저장
+    func didTapAddressLabel(station: GasStationDetail)
+    /// 주유소에 전화걸기
+    func didTapPhoneNumberLabel(station: GasStationDetail)
+    /// 길찾기 및 방문 주유소 저장
+    func didTapDirectionButton(station: GasStationDetail)
+}
+
+
+extension FavoriteCell {
+    static func cellRegistration(_ delegate: FavoriteCellDelegate, fuelType: FuelType) -> UICollectionView.CellRegistration<FavoriteCell, GasStationDetail> {
+        return UICollectionView.CellRegistration<FavoriteCell, GasStationDetail> { cell, indexPath, visitStation in
+            cell.delegate = delegate
+            cell.configure(with: visitStation, fuelType: fuelType)
+        }
+    }
+    
+    // Configure Data
+    private func configure(with station: GasStationDetail, fuelType: FuelType) {
+        self.favoriteStation = station
+        
+        
+        // 로고 이미지 삽입
+        logoImageView.image = station.brand.image
+        // 주유소명
+        gasStationNameLabel.text = station.name
+        // 선택 유종
+        typeOfOilLabel.text = fuelType.displayName
+        // 품질 인증
+        qualityHStackView.valueLabel.text = station.isQualityCertified ? "인증" : "미인증"
+        // 주소
+        let attributes = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]
+        addressHStackView.valueLabel.attributedText = NSAttributedString(string: station.address, attributes: attributes)
+        // 전화번호
+        phoneNumberHStackView.valueLabel.attributedText = NSAttributedString(string: station.phoneNumber, attributes: attributes)
+        // 주유소 편의시설 정보
+        carWashVStackView.valueImageView.tintColor = station.hasCarWash ? Asset.Colors.mainColor.color : .lightGray
+        repairVStackView.valueImageView.tintColor = station.hasRepairShop ? Asset.Colors.mainColor.color : .lightGray
+        convenienceVStackView.valueImageView.tintColor = station.hasConvenienceStore ? Asset.Colors.mainColor.color : .lightGray
+    }
 }
 
 
 //MARK: 즐겨찾는 주유소 Cell
-class FavoriteCell: UICollectionViewCell {
+final class FavoriteCell: UICollectionViewCell {
     //MARK: - Properties
+    private var cancellable = Set<AnyCancellable>()
+    
     weak var delegate: FavoriteCellDelegate?
     
-    var id = ""
-    var viewModel = FavoriteCellViewModel()
+    
+    private var favoriteStation: GasStationDetail?
 
     private let loadingView = LodingView()
     private let logoImageView = UIImageView().then {
@@ -85,12 +127,13 @@ class FavoriteCell: UICollectionViewCell {
     private let navigationView = CustomNavigationView()
     private let spacerView = UIView()
     
+    
     //MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         makeUI()
-        bindViewModel()
+        bindActions()
     }
     
     required init?(coder: NSCoder) {
@@ -101,128 +144,55 @@ class FavoriteCell: UICollectionViewCell {
 
 //MARK: - Binding ..
 private extension FavoriteCell {
-    func bindViewModel() {
-        viewModel.isLoadingSubject
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] isLoad in
-                guard let owner = self else { return }
-                isLoad ? owner.loadingView.activityIndicator.startAnimating() : owner.loadingView.activityIndicator.stopAnimating()
-                owner.loadingView.isHidden = isLoad
-            }
-            .store(in: &viewModel.cancellable)
-
-        // 로고 이미지 삽입
-        viewModel.infoSubject
-            .map { Preferences.logoImage(logoName: $0?.brand ?? "") }
-            .assign(to: \.image, on: logoImageView)
-            .store(in: &viewModel.cancellable)
-
-        // 주유소 이름
-        viewModel.infoSubject
-            .map { $0?.name ?? "" }
-            .assign(to: \.text, on: gasStationNameLabel)
-            .store(in: &viewModel.cancellable)
-
-        // 주유소 편의시설 정보
-        viewModel.infoSubject
-            .sink { [weak self] info in
-                guard let owner = self else { return }
-
-                owner.carWashVStackView.valueImageView.tintColor = owner.viewModel.getActivatedColor(info: info?.hasCarWash)
-                owner.repairVStackView.valueImageView.tintColor = owner.viewModel.getActivatedColor(info: info?.hasRepairShop)
-                owner.convenienceVStackView.valueImageView.tintColor = owner.viewModel.getActivatedColor(info: info?.hasConvenienceStore)
-            }
-            .store(in: &viewModel.cancellable)
-
-        // 주소
-        viewModel.infoSubject
-            .compactMap { $0?.address }
-            .map { NSAttributedString(string: $0, attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]) }
-            .assign(to: \.attributedText, on: addressHStackView.valueLabel)
-            .store(in: &viewModel.cancellable)
-
+    func bindActions() {
         // 주소 복사
         addressHStackView.valueLabel
             .gesturePublisher()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                guard let owner = self,
-                      let valueString = owner.addressHStackView.valueLabel.text else { return }
-                UIPasteboard.general.string = valueString
-
-                owner.delegate?.touchedAddressLabel()
+                guard let self,
+                      let favoriteStation else {
+                    return
+                }
+                delegate?.didTapAddressLabel(station: favoriteStation)
             }
-            .store(in: &viewModel.cancellable)
-
-        // 전화번호
-        viewModel.infoSubject
-            .compactMap { $0?.phoneNumber }
-            .map { NSAttributedString(string: $0, attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]) }
-            .assign(to: \.attributedText, on: phoneNumberHStackView.valueLabel)
-            .store(in: &viewModel.cancellable)
-
+            .store(in: &cancellable)
         // 전화 걸기
         phoneNumberHStackView.valueLabel
             .gesturePublisher()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                guard let owner = self,
-                      let valueString = owner.phoneNumberHStackView.valueLabel.text,
-                      let url = URL(string: "tel:" + valueString),
-                      UIApplication.shared.canOpenURL(url) else { return }
-
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                guard let self,
+                      let favoriteStation else {
+                    return
+                }
+                delegate?.didTapPhoneNumberLabel(station: favoriteStation)
             }
-            .store(in: &viewModel.cancellable)
-
-        // 품질 인증
-        viewModel.infoSubject
-            .map { $0?.isQualityCertified == "Y" ? "인증" : "미인증" }
-            .assign(to: \.text, on: qualityHStackView.valueLabel)
-            .store(in: &viewModel.cancellable)
-
-        // 오일 타입
-        DefaultData.shared.oilSubject
-            .map { Preferences.oil(code: $0) }
-            .assign(to: \.text, on: typeOfOilLabel)
-            .store(in: &viewModel.cancellable)
-
+            .store(in: &cancellable)
         // 길 찾기
         navigationView
             .gesturePublisher()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                guard let owner = self else { return }
-
-                owner.delegate?.touchedDirection(station: owner.viewModel.navigationButton())
+                guard let self,
+                      let favoriteStation else {
+                    return
+                }
+                delegate?.didTapDirectionButton(station: favoriteStation)
             }
-            .store(in: &viewModel.cancellable)
-
+            .store(in: &cancellable)
         // 즐겨찾기 삭제
         deleteFavoriteButton
             .tapPublisher
-            .throttle(for: .milliseconds(500), scheduler: DispatchQueue.main, latest: true)
-            .receive(on: DispatchQueue.main)
+            .throttle(for: .milliseconds(500), scheduler: DispatchQueue.main, latest: false)
             .sink { [weak self] _ in
-                guard let owner = self else { return }
-
-                owner.viewModel.deleteAction(id: owner.id)
-
-                guard let vc = UIApplication.shared.customKeyWindow?.visibleViewController as? UIViewController else { return }
-                let lbl = Preferences.showToast(width: 240, message: "즐겨 찾는 주유소가 삭제되었습니다.", numberOfLines: 1)
-
-                vc.view.hideToast()
-                vc.view.showToast(lbl, position: .bottom)
+                guard let self,
+                      let favoriteStation else {
+                    return
+                }
+                delegate?.didTapFavorite(station: favoriteStation)
             }
-            .store(in: &viewModel.cancellable)
-        
-        viewModel.infoSubject.combineLatest(DefaultData.shared.oilSubject)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] station, title in
-                guard let owner = self else { return }
-                owner.oilPriceLabel.text = owner.viewModel.displayPriceInfomation(priceList: station?.prices)
-            }
-            .store(in: &viewModel.cancellable)
+            .store(in: &cancellable)
     }
 }
 

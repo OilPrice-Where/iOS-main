@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import SnapKit
 import Then
+import SnapKit
 
 
 //MARK: 길찾기 버튼
