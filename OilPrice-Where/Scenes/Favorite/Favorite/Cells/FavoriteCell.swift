@@ -13,9 +13,9 @@ import SnapKit
 
 
 protocol FavoriteCellDelegate: AnyObject {
-    /// 주유소 즐겨찾기 해제
+    /// 주유소 즐겨찾기 삭제
     func didTapFavorite(station: GasStationDetail)
-    /// 주유소 주소 저장
+    /// 주유소 주소 복사
     func didTapAddressLabel(station: GasStationDetail)
     /// 주유소에 전화걸기
     func didTapPhoneNumberLabel(station: GasStationDetail)
@@ -43,6 +43,8 @@ extension FavoriteCell {
         gasStationNameLabel.text = station.name
         // 선택 유종
         typeOfOilLabel.text = fuelType.displayName
+        // 가격
+        oilPriceLabel.text = displayPrice(fuelType: fuelType)
         // 품질 인증
         qualityHStackView.valueLabel.text = station.isQualityCertified ? "인증" : "미인증"
         // 주소
@@ -194,12 +196,26 @@ private extension FavoriteCell {
             }
             .store(in: &cancellable)
     }
+    
+    /// 가격 정보 얻기
+    func displayPrice(fuelType: FuelType) -> String {
+        guard let favoriteStation,
+              let displayInfo = favoriteStation.prices.first(where: { $0.fuelType == fuelType }) else {
+            return "가격정보 없음"
+        }
+        return displayInfo.price.decimalNumber
+    }
 }
 
 
 //MARK: - Set UI
 private extension FavoriteCell {
     enum UIConstants {
+        enum ContentView {
+            static let backgroundColor: UIColor = .white
+            static let cornerRadius: CGFloat = 35
+        }
+        
         enum LogoImageView {
             static let topOffset: CGFloat = 20
             static let leftOffset: CGFloat = 20
@@ -321,7 +337,8 @@ private extension FavoriteCell {
     }
     
     func makeUI() {
-        backgroundColor = .white
+        backgroundColor = UIConstants.ContentView.backgroundColor
+        layer.cornerRadius = UIConstants.ContentView.cornerRadius
         
         configureUI()
         setConstraints()

@@ -9,6 +9,7 @@
 import UIKit
 import Combine
 import Then
+import Toast
 import SnapKit
 
 
@@ -19,6 +20,11 @@ final class FavoriteStationsVC: CommonViewController {
     
     private var dataSoruce: FavoriteStationsDataSource!
     private var collectionView: UICollectionView!
+    
+    private let didTapAddressPublisher = PassthroughSubject<GasStationDetail, Never>()
+    private let didTapFavoritePublisher = PassthroughSubject<GasStationDetail, Never>()
+    private let didTapDirectionPublisher = PassthroughSubject<GasStationDetail, Never>()
+    private let didTapPhoneNumberPublisher = PassthroughSubject<GasStationDetail, Never>()
     
     private let noneFavoriteView = NoneFavoriteView()
     
@@ -56,44 +62,45 @@ final class FavoriteStationsVC: CommonViewController {
 //MARK: - Binding..
 private extension FavoriteStationsVC {
     func bindActions() {
-        DefaultData.shared.favoriteSubject
-            .map { !$0.isEmpty }
-            .assign(to: \.isHidden, on: noneFavoriteView)
+        let output = viewModel.transform(input: .init(
+            viewDidLoad: Just(()).eraseToAnyPublisher(),
+            didTapAddressStation: didTapAddressPublisher.eraseToAnyPublisher(),
+            didTapPhoneNumberStation: didTapPhoneNumberPublisher.eraseToAnyPublisher(),
+            didTapDirectionStation: didTapDirectionPublisher.eraseToAnyPublisher(),
+            didTapDeleteFavoriteStation: didTapFavoritePublisher.eraseToAnyPublisher()
+        ))
+        
+        bindUI(output: output)
+    }
+    
+    func bindUI(output: FavoriteStationsViewModel.Output) {
+        output.favoriteStations
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] favoriteStations in
+                self?.noneFavoriteView.isHidden = !favoriteStations.isEmpty
+                self?.dataSoruce.applySnapshot(with: favoriteStations)
+            }
             .store(in: &cancellable)
         
-        //                guard let vc = UIApplication.shared.customKeyWindow?.visibleViewController as? UIViewController else { return }
-        //                let lbl = Preferences.showToast(width: 240, message: "즐겨 찾는 주유소가 삭제되었습니다.", numberOfLines: 1)
-        //
-        //                vc.view.hideToast()
-        //                vc.view.showToast(lbl, position: .bottom)
-        
-        DefaultData.shared.favoriteSubject
-            .bind(subscriber: collectionView.itemsSubscriber(cellIdentifier: FavoriteCollectionViewCell.id,
-                                                             cellType: FavoriteCollectionViewCell.self,
-                                                             cellConfig: { cell, indexPath, id in
-                cell.viewModel.requestStationsInfo(id: id)
-                cell.layer.cornerRadius = 35
-                cell.delegate = self
-                cell.id = id
-            }))
+        output.openURL
+            .receive(on: DispatchQueue.main)
+            .sink { destinationURL in
+                guard UIApplication.shared.canOpenURL(destinationURL) else {
+                    return
+                }
+                UIApplication.shared.open(destinationURL)
+            }
             .store(in: &cancellable)
         
-        viewModel.isLoadingSubject
+        output.showToast
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] isLoad in
-                guard let owner = self else { return }
-                isLoad ? owner.loadingView.activityIndicator.startAnimating() : owner.loadingView.activityIndicator.stopAnimating()
-                owner.loadingView.isHidden = isLoad
+            .sink { [weak self] message in
+                self?.view.hideToast()
+                
+                let toast = Preferences.showToast(width: 240, message: message, numberOfLines: 1)
+                self?.view.showToast(toast)
             }
-            .store(in: &viewModel.cancellable)
-        
-        viewModel.infoSubject.combineLatest(DefaultData.shared.oilSubject)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] station, title in
-                guard let owner = self else { return }
-                owner.oilPriceLabel.text = owner.viewModel.displayPriceInfomation(priceList: station?.prices)
-            }
-            .store(in: &viewModel.cancellable)
+            .store(in: &cancellable)
     }
 }
 
@@ -130,7 +137,7 @@ extension FavoriteStationsVC: UICollectionViewDelegate {
     private func configureDataSource() {
         self.dataSoruce = FavoriteStationsDataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, visitStation in
             guard let self else { return .init() }
-            let cellRegistration = FavoriteCell.cellRegistration(self, fuelType: <#T##FuelType#>)
+            let cellRegistration = FavoriteCell.cellRegistration(self, fuelType: viewModel.fuelType)
             return collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
                 for: indexPath,
@@ -164,21 +171,19 @@ extension FavoriteStationsVC: UICollectionViewDelegate {
 //MARK: - FavoriteCellDelegate
 extension FavoriteStationsVC: FavoriteCellDelegate {
     func didTapFavorite(station: GasStationDetail) {
-        <#code#>
+        didTapFavoritePublisher.send(station)
     }
     
     func didTapAddressLabel(station: GasStationDetail) {
-        let lbl = Preferences.showToast(message: "주유소 주소가 복사되었습니다.")
-        view.hideToast()
-        view.showToast(lbl)
+        didTapAddressPublisher.send(station)
     }
     
     func didTapPhoneNumberLabel(station: GasStationDetail) {
-        <#code#>
+        didTapPhoneNumberPublisher.send(station)
     }
     
     func didTapDirectionButton(station: GasStationDetail) {
-        requestDirection(station: station)
+        didTapDirectionPublisher.send(station)
     }
 }
 

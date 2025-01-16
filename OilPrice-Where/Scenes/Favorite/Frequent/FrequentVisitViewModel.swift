@@ -31,6 +31,7 @@ final class FrequentVisitViewModel {
     }
 }
 
+
 //MARK: - I/O & transform
 extension FrequentVisitViewModel {
     struct Input {
@@ -58,6 +59,7 @@ extension FrequentVisitViewModel {
         )
     }
 }
+
 
 //MARK: - Make Publishers
 private extension FrequentVisitViewModel {

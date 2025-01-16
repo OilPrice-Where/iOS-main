@@ -91,7 +91,15 @@ private extension FavoriteTabbarController {
     }
     
     func makeFavoriteStationsVC() -> FavoriteStationsVC {
-        let favoriteStationsViewModel = FavoriteStationsViewModel()
+        let settingStorage: SettingStorage = PlistSettingStorage()
+        let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
+        let stationRepository: StationRepository = StationRepositoryImpl()
+        let visitedStationStorage: VisitedStationStorage = CoreDataVisitedStationStorage()
+        let favoriteStationsViewModel = FavoriteStationsViewModel(
+            settingUseCase: settingUseCase,
+            stationRepository: stationRepository,
+            visitedStationStorage: visitedStationStorage
+        )
         return .init(viewModel: favoriteStationsViewModel).then {
             $0.tabBarItem.title = UIConstants.FavoriteStationsVC.title
             $0.tabBarItem.image = UIConstants.FavoriteStationsVC.tabImage
@@ -103,7 +111,10 @@ private extension FavoriteTabbarController {
         let visitedStationStorage: VisitedStationStorage = CoreDataVisitedStationStorage()
         let settingStorage: SettingStorage = PlistSettingStorage()
         let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
-        let frequentVisitViewModel = FrequentVisitViewModel(storage: visitedStationStorage, settingUseCase: settingUseCase)
+        let frequentVisitViewModel = FrequentVisitViewModel(
+            storage: visitedStationStorage,
+            settingUseCase: settingUseCase
+        )
         return .init(viewModel: frequentVisitViewModel).then {
             $0.tabBarItem.title = UIConstants.FrequentVisitVC.title
             $0.tabBarItem.image = UIConstants.FrequentVisitVC.tabImage
