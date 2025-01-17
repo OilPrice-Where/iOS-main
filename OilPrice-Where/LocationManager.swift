@@ -9,9 +9,10 @@
 import UIKit
 import CoreLocation
 import Moya
-import TMapSDK
 import NMapsMap
-
+#if RELEASE
+import TMapSDK
+#endif
 
 final class LocationManager: NSObject {
     // MARK: - Properties
@@ -29,12 +30,13 @@ final class LocationManager: NSObject {
     private override init() {
         super.init()
         
+        setTMapAuthentication()
         requestLocationAccess()
-        TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "l7xx3d6e38a766c34c2dabd61f634263a2f6")
     }
     
+    
     // MARK: - Functions
-    // 위치 권한
+    /// 위치 권한
     private func requestLocationAccess() {
         locationManager = CLLocationManager()
         locationManager?.delegate = self
@@ -46,13 +48,13 @@ final class LocationManager: NSObject {
         locationManager?.requestAlwaysAuthorization()
     }
     
-    // 위치 추적 시작
+    /// 위치 추적 시작
     func startUpdating() {
         LogUtil.d("위치 추적 시작")
         locationManager?.startUpdatingLocation()
     }
     
-    // 위치 추적 종료
+    /// 위치 추적 종료
     func stopUpdating() {
         LogUtil.d("위치 추적 종료")
         locationManager?.stopUpdatingLocation()
@@ -153,8 +155,14 @@ extension LocationManager: CLLocationManagerDelegate {
     }
 }
 
+#if RELEASE
 extension LocationManager: TMapTapiDelegate {
+    func setTMapAuthentication() {
+        TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "l7xx3d6e38a766c34c2dabd61f634263a2f6")
+    }
+    
     func SKTMapApikeySucceed() {
-        LogUtil.d("APIKEY 인증 성공")
+        LogUtil.d("TMAP API KEY 인증 성공")
     }
 }
+#endif

@@ -11,25 +11,9 @@ import CoreLocation
 
 
 struct ResponsePOI: Hashable {
-    var id = UUID()
-    var name: String?
-    let address: String?
-    let coordinate: CLLocationCoordinate2D?
-    let insertDate: Date?
-}
-
-extension ResponsePOI {
-    static func == (lhs: ResponsePOI, rhs: ResponsePOI) -> Bool {
-        return lhs.name == rhs.name &&
-                lhs.coordinate?.latitude == rhs.coordinate?.latitude &&
-                lhs.coordinate?.longitude == rhs.coordinate?.longitude &&
-                lhs.id == rhs.id
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-        hasher.combine(name)
-        hasher.combine(coordinate?.latitude)
-        hasher.combine(coordinate?.longitude)
-    }
+    let id = UUID()
+    let name: String
+    let address: String
+    let coordinate: CoordinateSystem
+    let insertDate: Date
 }
