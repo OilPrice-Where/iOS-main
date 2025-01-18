@@ -207,8 +207,10 @@ private extension FrequentVisitCell {
     }
     
     func configureExpandView() {
-        expandView.directionView.configure(msg: "길 찾기")
-        expandView.directionView.configure(image: Asset.Images.navigationIcon.image.withTintColor(.white, renderingMode: .alwaysTemplate))
+        expandView.directionView.configure(
+            image: Asset.Images.navigationIcon.image.withTintColor(.white, renderingMode: .alwaysTemplate),
+            message: "길 찾기"
+        )
     }
     
     func updateFavoriteUI(favorites: [String]) {
