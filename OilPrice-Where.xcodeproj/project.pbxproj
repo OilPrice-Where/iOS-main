@@ -14,13 +14,13 @@
 		8EB5C2E82139214700AB83BB /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB5C2E72139214700AB83BB /* Reachability.swift */; };
 		8ECE0D52211AD42600FF2B46 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D51211AD42600FF2B46 /* Preferences.swift */; };
 		8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */; };
+		C5A9BAE22D4C3D5A00A89620 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A9BAE12D4C3D5A00A89620 /* SearchResultView.swift */; };
+		C5A9BAE52D4C533400A89620 /* RecentResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A9BAE42D4C533400A89620 /* RecentResultView.swift */; };
 		C5CFB09C2D48D38200735184 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C5CFB09B2D48D38200735184 /* SnapKit */; };
 		C5CFB09F2D48D3A900735184 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C5CFB09E2D48D3A900735184 /* Moya */; };
 		E90FC272290E319D006908CC /* ResponsePOI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC271290E319D006908CC /* ResponsePOI.swift */; };
-		E90FC275290E3266006908CC /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC274290E3266006908CC /* SearchResultCell.swift */; };
 		E90FC277290E331F006908CC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC276290E331F006908CC /* LocationManager.swift */; };
 		E90FC27D290E33B8006908CC /* LogUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC27C290E33B8006908CC /* LogUtil.swift */; };
-		E90FC27F290E8EAA006908CC /* RecentResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC27E290E8EAA006908CC /* RecentResultCell.swift */; };
 		E919CCC9281BF80700C3373E /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E919CCC8281BF80700C3373E /* PlusView.swift */; };
 		E9400FDE27B0A3E2003168C6 /* NaverMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FDD27B0A3E2003168C6 /* NaverMapMarker.swift */; };
 		E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FDF27B0A3F0003168C6 /* StationInfoView.swift */; };
@@ -78,11 +78,11 @@
 		8EB5C2E72139214700AB83BB /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		8ECE0D51211AD42600FF2B46 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Preferences.swift; path = "OilPrice-Where/Preferences.swift"; sourceTree = SOURCE_ROOT; };
 		8ECE0D53211AF0C300FF2B46 /* DefaultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DefaultData.swift; path = "OilPrice-Where/DefaultData.swift"; sourceTree = SOURCE_ROOT; };
+		C5A9BAE12D4C3D5A00A89620 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
+		C5A9BAE42D4C533400A89620 /* RecentResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentResultView.swift; sourceTree = "<group>"; };
 		E90FC271290E319D006908CC /* ResponsePOI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsePOI.swift; sourceTree = "<group>"; };
-		E90FC274290E3266006908CC /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		E90FC276290E331F006908CC /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		E90FC27C290E33B8006908CC /* LogUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogUtil.swift; sourceTree = "<group>"; };
-		E90FC27E290E8EAA006908CC /* RecentResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentResultCell.swift; sourceTree = "<group>"; };
 		E919CCC8281BF80700C3373E /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
 		E9400FDD27B0A3E2003168C6 /* NaverMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapMarker.swift; sourceTree = "<group>"; };
 		E9400FDF27B0A3F0003168C6 /* StationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoView.swift; sourceTree = "<group>"; };
@@ -122,6 +122,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		C5A9BAE32D4C461000A89620 /* Cells */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Cells; sourceTree = "<group>"; };
 		E92181782D4BEE6800CC7220 /* Favorite */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Favorite; sourceTree = "<group>"; };
 		E92181882D4BF06D00CC7220 /* Model */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Model; sourceTree = "<group>"; };
 		E96A727D2D3D947B009B1261 /* SupportFiles */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (C5CFB09D2D48D38700735184 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = SupportFiles; sourceTree = "<group>"; };
@@ -280,13 +281,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		E90FC273290E31CF006908CC /* View */ = {
+		E90FC273290E31CF006908CC /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E90FC274290E3266006908CC /* SearchResultCell.swift */,
-				E90FC27E290E8EAA006908CC /* RecentResultCell.swift */,
+				C5A9BAE32D4C461000A89620 /* Cells */,
+				C5A9BAE12D4C3D5A00A89620 /* SearchResultView.swift */,
+				C5A9BAE42D4C533400A89620 /* RecentResultView.swift */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		E94D0F0D27BB7A7100BCB092 /* GasStation */ = {
@@ -317,7 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				E90FC270290E3170006908CC /* Model */,
-				E90FC273290E31CF006908CC /* View */,
+				E90FC273290E31CF006908CC /* Views */,
 				E9EFE7CB290E2D6800EA514B /* SearchBarVC.swift */,
 				E9EFE7CD290E2D8300EA514B /* SearchBarViewModel.swift */,
 			);
@@ -341,6 +343,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				C5A9BAE32D4C461000A89620 /* Cells */,
 				E92181782D4BEE6800CC7220 /* Favorite */,
 				E92181882D4BF06D00CC7220 /* Model */,
 				E96A727D2D3D947B009B1261 /* SupportFiles */,
@@ -451,18 +454,18 @@
 				E9400FDE27B0A3E2003168C6 /* NaverMapMarker.swift in Sources */,
 				E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */,
 				2CC1C80C276C8123007527C7 /* MainVC.swift in Sources */,
-				E90FC275290E3266006908CC /* SearchResultCell.swift in Sources */,
 				2CA47266279931B500DB0DDD /* MainViewModel.swift in Sources */,
 				E9400FE827B1146E003168C6 /* StationInfoGuideView.swift in Sources */,
-				E90FC27F290E8EAA006908CC /* RecentResultCell.swift in Sources */,
 				E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */,
 				E9EFE7C9290D9BB600EA514B /* SearchView.swift in Sources */,
 				E90FC272290E319D006908CC /* ResponsePOI.swift in Sources */,
 				E9400FE627B0D719003168C6 /* StationInfoPriceView.swift in Sources */,
 				E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */,
+				C5A9BAE52D4C533400A89620 /* RecentResultView.swift in Sources */,
 				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,
 				E94D0F0A27BB50D000BCB092 /* GasStationDirectionView.swift in Sources */,
 				2CC1C80A276C79F5007527C7 /* MainListNoneView.swift in Sources */,
+				C5A9BAE22D4C3D5A00A89620 /* SearchResultView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
