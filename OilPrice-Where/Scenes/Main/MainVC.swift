@@ -51,6 +51,18 @@ final class MainVC: CommonViewController {
     }()
     
     //MARK: - Life Cycle
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+        let searchPathRepository = TMapSearchPathRepository()
+        LocationManager.shared.setLocationManager(searchPathRepository: searchPathRepository)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     deinit {
         if let noti {
             NotificationCenter.default.removeObserver(noti)
@@ -282,22 +294,21 @@ final class MainVC: CommonViewController {
                                                 object: nil,
                                                 userInfo: ["stations": owner.viewModel.stations])
                 
-                guard DefaultData.shared.backgroundFindSubject.value,
-                      owner.viewModel.isLiveActivities,
+                guard owner.viewModel.isLiveActivities,
                       let targetStation = LocationManager.shared.findStation,
                       let info = LocationManager.shared.stations.first(where: { $0.id == targetStation.id }),
                       let lat = targetStation.lat, let lng = targetStation.lng else { return }
                 
                 owner.sideMenu.dismiss(animated: false)
                 owner.viewModel.isLiveActivities = false
-                let position = NMGLatLng(lat: lat, lng: lng)
-                owner.marker(didTapMarker: position, info: info)
+                owner.marker(info: info)
                 owner.mapContainerView.selectedMarker = owner.mapContainerView.markers.first(where: {
                     guard let station = $0.userInfo["station"] as? GasStationSummary else { return false }
                     return station.id == targetStation.id
                 })
                 owner.mapContainerView.selectedMarker?.isSelected = true
                 
+                let position = NMGLatLng(lat: lat, lng: lng)
                 let update = NMFCameraUpdate(scrollTo: position, zoomTo: 15.0)
                 update.animation = .easeIn
                 owner.mapContainerView.mapView.moveCamera(update)
@@ -468,7 +479,7 @@ final class MainVC: CommonViewController {
                 minimumVersionName: minimum_version_name
             )
             
-            self?.checkUpdateVersion(dbdata: versionDbData)
+            self?.checkUpdateVersion(versionData: versionDbData)
         })
     }
     
@@ -508,7 +519,9 @@ final class MainVC: CommonViewController {
     
     @objc
     private func toSearchVC() {
-        let searchVC = SearchBarVC()
+        let searchStorage: SearchPOIStorage = CoreDataSearchPOIStorage()
+        let searchViewModel: SearchBarViewModel = .init(searchPOIStorage: searchStorage)
+        let searchVC = SearchBarVC(viewModel: searchViewModel)
         searchVC.delegate = self
         navigationController?.pushViewController(searchVC, animated: true)
     }
@@ -516,13 +529,11 @@ final class MainVC: CommonViewController {
 
 //MARK: - Search 관련
 extension MainVC: SearchBarDelegate {
-    func fetch(name: String?, coordinate: CLLocationCoordinate2D?) {
-        guard let name, let coordinate else { return }
+    func search(poi: SearchPOI) {        
+        mapContainerView.moveMap(with: poi.coordinate.location.coordinate)
+        researchStation(with: poi.coordinate.location.coordinate)
         
-        mapContainerView.moveMap(with: coordinate)
-        researchStation(with: coordinate)
-        
-        mapContainerView.searchView.placeholderLabel.text = name
+        mapContainerView.searchView.placeholderLabel.text = poi.name
         mapContainerView.searchView.placeholderLabel.textColor = .black
         mapContainerView.searchView.searchImageView.tintColor = .black
     }
@@ -638,9 +649,9 @@ extension MainVC: FloatingPanelControllerDelegate {
                 guard let self = self else { return }
                 
                 switch result {
-                case .success(let resp):
-                    guard let ret = try? resp.map(GasStationInfoResult.self),
-                          let information = ret.result?.allPriceList?.first else { return }
+                case .success(let response):
+                    guard let result = try? response.map(GasStationInfoResultDTO.self),
+                          let information = result.toDomain().first else { return }
                     self.contentsVC.station = information
                 case .failure(let error):
                     LogUtil.e(error)

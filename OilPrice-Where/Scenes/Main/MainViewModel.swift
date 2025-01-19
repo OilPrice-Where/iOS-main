@@ -88,7 +88,7 @@ extension MainViewModel {
             
             var currentPlacemark: CLPlacemark?
             // 에러가 없고, 주소 정보가 있으며 주소가 공백이지 않을 시
-            if error == nil, let p = placemarks, !p.isEmpty {
+            if error == nil, let p = placemarks, p.isNotEmpty {
                 currentPlacemark = p.last
             } else {
                 currentPlacemark = nil
@@ -113,8 +113,7 @@ extension MainViewModel {
                                             y: tm.y,
                                             radius: 5000,
                                             prodcd: oilSubject,
-                                            sort: sort,
-                                            appKey: Preferences.getAppKey())) { [weak self] result in
+                                            sort: sort)) { [weak self] result in
             guard let self = self,
                   let _currentLocation = LocationManager.shared.currentLocation else { return }
             switch result {
@@ -135,7 +134,7 @@ extension MainViewModel {
     }
     
     func requestStationsInfo(id: String, completion: @escaping Completion) {
-        staionProvider.request(.stationDetail(appKey: Preferences.getAppKey(), id: id)) {
+        staionProvider.request(.stationDetail(id: id)) {
             completion($0)
         }
     }
