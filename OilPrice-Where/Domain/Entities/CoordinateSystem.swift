@@ -41,3 +41,10 @@ extension CoordinateSystem {
         let lng: Double
     }
 }
+
+
+extension CoordinateSystem {
+    var location: CLLocation {
+        .init(latitude: tm.lat, longitude: tm.lng)
+    }
+}

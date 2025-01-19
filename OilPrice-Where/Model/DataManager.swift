@@ -31,7 +31,7 @@ final class DataManager {
     var cardList = [CardEntity]()
     var pois = [POIEntity]() {
         didSet {
-            poisIsNotEmpty = !pois.isEmpty
+            poisIsNotEmpty = pois.isNotEmpty
         }
     }
     
@@ -92,19 +92,6 @@ final class DataManager {
         newCard.insertDate = Date()
         
         cardList.insert(newCard, at: 0)
-        
-        saveContext()
-    }
-    
-    func addNew(poi: ResponsePOI) {
-        let newPOI = POIEntity(context: mainContext)
-        newPOI.name = poi.name
-        newPOI.address = poi.address
-        newPOI.latitude = poi.coordinate?.latitude ?? .zero
-        newPOI.longitude = poi.coordinate?.longitude ?? .zero
-        newPOI.insertDate = Date()
-        
-        pois.insert(newPOI, at: 0)
         
         saveContext()
     }

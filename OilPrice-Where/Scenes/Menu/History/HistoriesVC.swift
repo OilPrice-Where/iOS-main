@@ -59,7 +59,7 @@ private extension HistoriesVC {
         viewModel.visitedStations
             .receive(on: DispatchQueue.main)
             .sink { [weak self] visitedStation in
-                self?.emptyLabel.isHidden = !visitedStation.isEmpty
+                self?.emptyLabel.isHidden = visitedStation.isNotEmpty
                 self?.dataSource.applySnapshot(with: visitedStation)
             }
             .store(in: &cancellable)

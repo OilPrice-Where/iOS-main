@@ -71,7 +71,7 @@ private extension FrequentVisitVC {
         output.visitedStations
             .receive(on: DispatchQueue.main)
             .sink { [weak self] visitedStations in
-                self?.emptyLabel.isHidden = !visitedStations.isEmpty
+                self?.emptyLabel.isHidden = visitedStations.isNotEmpty
                 self?.dataSoruce.applySnapshot(with: visitedStations)
             }
             .store(in: &cancellable)

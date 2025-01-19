@@ -8,9 +8,10 @@
 
 import UIKit
 import Combine
+import SnapKit
 
 
-class CardBenefitTableViewCell: UITableViewCell {
+final class CardBenefitTableViewCell: UITableViewCell {
     //MARK: - Properties
     var cancellable = Set<AnyCancellable>()
     let items = ["L당 할인", "결제일 %할인"]

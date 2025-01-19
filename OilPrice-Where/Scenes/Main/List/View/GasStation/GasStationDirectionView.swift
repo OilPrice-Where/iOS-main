@@ -21,7 +21,7 @@ extension GasStationDirectionView {
         if let distance {
             titleLabel.text = "\(distance) 안내 시작"
         } else if let message {
-            titleLabel.text = msg
+            titleLabel.text = message
         }
     }
 }

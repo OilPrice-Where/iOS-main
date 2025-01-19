@@ -80,8 +80,7 @@ private extension InitialSettingsVC {
     
     func setConstraints() {
         initialSettingsView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.center.equalToSuperview()
         }
     }
 }

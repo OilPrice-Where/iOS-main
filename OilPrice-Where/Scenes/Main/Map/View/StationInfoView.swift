@@ -63,12 +63,12 @@ final class StationInfoView: UIView {
     }
     
     //MARK: - Configure station
-    func configure(_ station: StationEntity) {
+    func configure(_ station: GasStationSummary) {
         let oilType = DefaultData.shared.oilSubject.value
         
-        logoImageView.image = Preferences.logoImage(logoName: station.brand)
+        logoImageView.image = station.brand.image
         nameLabel.text = station.name
-        priceStackView.priceLabel.text = Preferences.priceToWon(price: Int(station.price ?? .zero))
-        priceStackView.oilTypeLabel.text = Preferences.oil(code: oilType)
+        priceStackView.priceLabel.text = station.price.decimalNumber
+        priceStackView.oilTypeLabel.text = FuelType(code: oilType).displayName
     }
 }

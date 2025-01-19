@@ -120,7 +120,7 @@ private extension FavoriteStationsViewModel {
     
     func showToastPublisher(input: Input) -> AnyPublisher<String, Never> {
         let addressToastPublisher = input.didTapAddressStation
-            .filter { !$0.address.isEmpty }
+            .filter { $0.address.isNotEmpty }
             .compactMap { station -> String? in
                 UIPasteboard.general.string = station.address
                 return "주유소 주소가 복사되었습니다."
@@ -209,7 +209,7 @@ private extension FavoriteStationsViewModel {
         Task {
             let fuelPrice = station.prices.first(where: { $0.fuelType.code == fuelCode })
             
-            _ = try await visitedStationStorage.saveVisited(station: .init(
+            try await visitedStationStorage.saveVisited(station: .init(
                 id: station.id,
                 brand: station.brand,
                 name: station.name,

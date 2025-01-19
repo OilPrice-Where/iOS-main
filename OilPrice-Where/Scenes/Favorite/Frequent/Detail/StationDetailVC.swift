@@ -132,7 +132,7 @@ final class StationDetailVC: CommonViewController {
         $0.titleLabel?.font = UIConstants.PhoneNumberValueButton.font
     }
     private let expandView = GasStationExpandView(height: UIConstants.ExpandView.height).then {
-        $0.directionView.configure(msg: UIConstants.ExpandView.title)
+        $0.directionView.configure(message: UIConstants.ExpandView.title)
     }
     
     //MARK: - Life Cycle
@@ -168,7 +168,7 @@ private extension StationDetailVC {
         let phoneNumberButton = phoneNumberValueButton.tapPublisher
             .compactMap { [weak self] _ -> String? in
                 guard let phoneNumber = self?.phoneNumberValueButton.titleLabel?.text,
-                      !phoneNumber.isEmpty else {
+                      phoneNumber.isNotEmpty else {
                     return nil
                 }
                 return "tel:" + phoneNumber

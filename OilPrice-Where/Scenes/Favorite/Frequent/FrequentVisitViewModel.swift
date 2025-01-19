@@ -153,7 +153,7 @@ private extension FrequentVisitViewModel {
     func save(visitedStation station: VisitedGasStation) {
         Task {
             do {
-                _ = try await storage.saveVisited(station: station)
+                try await storage.saveVisited(station: station)
                 visitStationsPublisher.send(storage.fetchVisitedStations())
             } catch {
                 LogUtil.e(error.localizedDescription)

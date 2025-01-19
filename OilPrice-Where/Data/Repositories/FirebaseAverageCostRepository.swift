@@ -45,7 +45,7 @@ final class FirebaseAverageCostRepository: AverageCostRepository {
             }
             
             do {
-                let prices = try await stationRepository.fetchOilPriceResult(appKey: Preferences.getAppKey())
+                let prices = try await stationRepository.fetchOilPriceResult()
                 handlePrices(prices, averageCostListRef: averageCostListRef)
             } catch {
                 LogUtil.e("Request failed: \(error.localizedDescription)")

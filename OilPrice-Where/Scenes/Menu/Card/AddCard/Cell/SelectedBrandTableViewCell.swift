@@ -8,11 +8,12 @@
 
 import UIKit
 import Combine
+import SnapKit
 
 
 final class SelectedBrandTableViewCell: UITableViewCell {
     //MARK: - Properties
-    var viewModel = FindBrandViewModel()
+//    var viewModel = FindBrandViewModel()
     private var isAllSwitchButton = PassthroughSubject<Bool, Never>()
     private var isLauchSetting = false
 
@@ -22,7 +23,7 @@ final class SelectedBrandTableViewCell: UITableViewCell {
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
         $0.backgroundColor = Asset.Colors.tableViewBackground.color
-        BrandTypeTableViewCell.register($0)
+//        BrandTypeTableViewCell.register($0)
     }
     
     // Initializer
@@ -47,36 +48,36 @@ final class SelectedBrandTableViewCell: UITableViewCell {
     }
     
     func bind() {
-        viewModel.brandSubject
-            .bind(subscriber: tableView.rowsSubscriber(cellIdentifier: BrandTypeTableViewCell.id,
-                                                       cellType: BrandTypeTableViewCell.self,
-                                                       cellConfig: { [weak self] cell, indexPath, brand in
-                guard let owner = self else { return }
-                
-                cell.fetchData(brand: brand)
-                guard brand != "전체" else {
-                    cell.brandSelectedSwitch
-                        .isOnPublisher
-                        .sink { isOn in
-                            owner.isAllSwitchButton.send(isOn)
-                        }
-                        .store(in: &owner.viewModel.cancellable)
-                    
-                    return
-                }
-                
-                owner.isAllSwitchButton
-                    .sink { isOn in
-                        guard !owner.isLauchSetting else {
-                            cell.brandSelectedSwitch.isOn = isOn
-                            DefaultData.shared.brandsSubject.send(isOn ? owner.viewModel.allBrands : [])
-                            return
-                        }
-                        
-                        owner.isLauchSetting = true
-                    }
-                    .store(in: &owner.viewModel.cancellable)
-            }))
-            .store(in: &viewModel.cancellable)
+//        viewModel.brandSubject
+//            .bind(subscriber: tableView.rowsSubscriber(cellIdentifier: BrandTypeTableViewCell.id,
+//                                                       cellType: BrandTypeTableViewCell.self,
+//                                                       cellConfig: { [weak self] cell, indexPath, brand in
+//                guard let owner = self else { return }
+//                
+//                cell.fetchData(brand: brand)
+//                guard brand != "전체" else {
+//                    cell.brandSelectedSwitch
+//                        .isOnPublisher
+//                        .sink { isOn in
+//                            owner.isAllSwitchButton.send(isOn)
+//                        }
+//                        .store(in: &owner.viewModel.cancellable)
+//                    
+//                    return
+//                }
+//                
+//                owner.isAllSwitchButton
+//                    .sink { isOn in
+//                        guard !owner.isLauchSetting else {
+//                            cell.brandSelectedSwitch.isOn = isOn
+//                            DefaultData.shared.brandsSubject.send(isOn ? owner.viewModel.allBrands : [])
+//                            return
+//                        }
+//                        
+//                        owner.isLauchSetting = true
+//                    }
+//                    .store(in: &owner.viewModel.cancellable)
+//            }))
+//            .store(in: &viewModel.cancellable)
     }
 }

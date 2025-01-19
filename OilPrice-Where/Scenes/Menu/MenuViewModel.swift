@@ -78,10 +78,11 @@ private extension MenuViewModel {
         let currentValuePublisher = input.viewDidLoad
             .compactMap { [weak self] _ -> String? in
                 guard let self,
-                      let fuelType: String = try? settingUseCase.load(type: .fuelType) else {
+                      let fuelCode: String = try? settingUseCase.load(type: .fuelType) else {
                     return nil
                 }
-                return fuelType
+                let fuelType = FuelType(code: fuelCode)
+                return fuelType.displayName
             }
         
         let notificationPublisher = NotificationCenter.default.publisher(for: SettingType.fuelType.notificationName)
@@ -102,7 +103,8 @@ private extension MenuViewModel {
                       let navigationType: String = try? settingUseCase.load(type: .navigationType) else {
                     return nil
                 }
-                return navigationType
+                let searchNavigation = SearchNavigation(type: navigationType)
+                return searchNavigation.displayName
             }
         
         let notificationPublisher = NotificationCenter.default.publisher(for: SettingType.navigationType.notificationName)
@@ -210,8 +212,10 @@ private extension MenuViewModel {
     
     /// 방문 내역
     func historiesViewController() -> AnyPublisher<PresentMenu, Never> {
-        let stationStorage: VisitedStationStorage = CoreDataVisitedStationStorage()
-        let historiesViewModel = HistoriesViewModel(storage: stationStorage)
+        let visitedStationStorage: VisitedStationStorage = CoreDataVisitedStationStorage()
+        let settingStorage: SettingStorage = PlistSettingStorage()
+        let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
+        let historiesViewModel = HistoriesViewModel(storage: visitedStationStorage, settingUseCase: settingUseCase)
         let historiesVC = HistoriesVC(viewModel: historiesViewModel)
         
         return Just(PresentMenu(

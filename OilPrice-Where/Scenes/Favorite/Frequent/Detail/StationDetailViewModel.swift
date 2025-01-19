@@ -84,7 +84,7 @@ extension StationDetailViewModel {
     func showToastPublisher(input: Input) -> AnyPublisher<String, Never> {
         let addressToastPublisher = input.addressButtonTapped
             .compactMap { address -> String? in
-                guard let address, !address.isEmpty else {
+                guard let address, address.isNotEmpty else {
                     return nil
                 }
                 UIPasteboard.general.string = address
@@ -177,7 +177,7 @@ private extension StationDetailViewModel {
         Task {
             let fuelPrice = stationDetail.prices.first(where: { $0.fuelType.code == fuelCode })
             
-            _ = try await visitedStationStorage.saveVisited(station: .init(
+            try await visitedStationStorage.saveVisited(station: .init(
                 id: stationID,
                 brand: stationDetail.brand,
                 name: stationDetail.name,

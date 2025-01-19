@@ -112,7 +112,7 @@ final class MainListVC: CommonViewController {
     //MARK: - Rx Binding..
     private func rxBind() {
         viewModel.stations
-            .map { !$0.isEmpty }
+            .map { $0.isNotEmpty }
             .assign(to: \.isHidden, on: noneView)
             .store(in: &viewModel.cancellable)
         

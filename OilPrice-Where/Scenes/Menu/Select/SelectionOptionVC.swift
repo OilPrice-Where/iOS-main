@@ -150,6 +150,7 @@ extension SelectionOptionVC: UICollectionViewDelegate {
         func applySnapshot(with options: [SelectionOptionViewModel.SelectionOption],
                            animatingDifferences: Bool = true) {
             var snapshot: Snapshot = .init()
+            snapshot.appendSections([.main])
             snapshot.appendItems(options, toSection: .main)
             apply(snapshot, animatingDifferences: animatingDifferences)
         }
@@ -158,6 +159,7 @@ extension SelectionOptionVC: UICollectionViewDelegate {
     private func configureCollectionView() {
         let layout = collectionViewLayout()
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+            $0.delegate = self
             $0.backgroundColor = .white
             $0.alwaysBounceHorizontal = false
             $0.allowsMultipleSelection = false
@@ -167,8 +169,9 @@ extension SelectionOptionVC: UICollectionViewDelegate {
     }
     
     private func configureDataSource() {
+        let cellRegistration = SelectionOptionCell.cellRegistration
         self.dataSource = SelectionDataSource(collectionView: collectionView) { collectionView, indexPath, option in
-            collectionView.dequeueConfiguredReusableCell(using: SelectionOptionCell.cellRegistration, for: indexPath, item: option)
+            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: option)
         }
     }
     

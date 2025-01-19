@@ -18,7 +18,7 @@ final class HistoriesViewModel {
     private let settingUseCase: SettingUseCase
     private let urlBuilder: NavigationURLBuilder
     
-    private let visitedStations: CurrentValueSubject<[VisitedGasStation], Never> = .init([])
+    private(set) var visitedStations: CurrentValueSubject<[VisitedGasStation], Never> = .init([])
     
     
     init(storage: VisitedStationStorage,
@@ -107,7 +107,7 @@ private extension HistoriesViewModel {
     func save(visitedStation station: VisitedGasStation) {
         Task {
             do {
-                _ = try await storage.saveVisited(station: station)
+                try await storage.saveVisited(station: station)
                 visitedStations.send(storage.fetchVisitedStations())
             } catch {
                 LogUtil.e(error.localizedDescription)

@@ -10,7 +10,8 @@ import UIKit
 import Then
 import SnapKit
 
-class EditCardNameTableViewCell: UITableViewCell {
+
+final class EditCardNameTableViewCell: UITableViewCell {
     // Properties
     private let nameLabel = UILabel().then {
         $0.text = "카드 별칭"

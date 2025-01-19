@@ -179,7 +179,7 @@ private extension InitialSettingsView {
         }
         
         // 기본 선택 인덱스 설정 (옵션)
-        if !fuelTypes.isEmpty {
+        if fuelTypes.isNotEmpty {
             fuelTypeSegmentControl.selectedSegmentIndex = 0
         }
     }
@@ -194,7 +194,7 @@ private extension InitialSettingsView {
         }
         
         // 기본 선택 인덱스 설정 (옵션)
-        if !navigationTypes.isEmpty {
+        if navigationTypes.isNotEmpty {
             naviTypeSegmentControl.selectedSegmentIndex = 0
         }
     }

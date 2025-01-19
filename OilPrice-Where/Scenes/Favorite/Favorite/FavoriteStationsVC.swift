@@ -77,7 +77,7 @@ private extension FavoriteStationsVC {
         output.favoriteStations
             .receive(on: DispatchQueue.main)
             .sink { [weak self] favoriteStations in
-                self?.noneFavoriteView.isHidden = !favoriteStations.isEmpty
+                self?.noneFavoriteView.isHidden = favoriteStations.isNotEmpty
                 self?.dataSoruce.applySnapshot(with: favoriteStations)
             }
             .store(in: &cancellable)

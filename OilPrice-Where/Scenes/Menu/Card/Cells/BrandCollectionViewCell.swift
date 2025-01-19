@@ -37,7 +37,7 @@ final class BrandCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(imageName: String?) {
-        let image = Preferences.logoImage(logoName: imageName)
-        imageView.image = image
+//        let image = Preferences.logoImage(logoName: imageName)
+//        imageView.image = image
     }
 }
