@@ -155,6 +155,7 @@ private extension HistoriesVC {
         func applySnapshot(with stations: [VisitedGasStation],
                            animatingDifferences: Bool = true) {
             var snapshot: Snapshot = .init()
+            snapshot.appendSections([.main])
             snapshot.appendItems(stations, toSection: .main)
             apply(snapshot, animatingDifferences: animatingDifferences)
         }
@@ -201,8 +202,9 @@ private extension HistoriesVC {
     }
     
     func configureDataSource() {
+        let cellRegistration = HistoryCell.cellRegistration
         self.dataSource = HistoriesDataSource(collectionView: collectionView) { collectionView, indexPath, aboutMe in
-            collectionView.dequeueConfiguredReusableCell(using: HistoryCell.cellRegistration, for: indexPath, item: aboutMe)
+            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: aboutMe)
         }
     }
     
