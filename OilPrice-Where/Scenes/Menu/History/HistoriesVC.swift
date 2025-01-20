@@ -21,15 +21,14 @@ final class HistoriesVC: CommonViewController {
     private var collectionView: UICollectionView!
     private var dataSource: HistoriesDataSource!
     
-    private let swipeToDeletePublisher = PassthroughSubject<VisitedGasStation, Never>()
-    private let didSelectItemPublisher = PassthroughSubject<VisitedGasStation, Never>()
-    private let alertConfirmationPublisher = PassthroughSubject<VisitedGasStation, Never>()
+    private let swipeToDeletePublisher = PassthroughSubject<HistoriesViewModel.HistoryItem, Never>()
+    private let didSelectItemPublisher = PassthroughSubject<HistoriesViewModel.HistoryItem, Never>()
+    private let alertConfirmationPublisher = PassthroughSubject<HistoriesViewModel.HistoryItem, Never>()
     
     private let emptyLabel = UILabel().then {
         $0.text = "방문하신 주유소가 없습니다."
         $0.textColor = .darkGray
         $0.textAlignment = .center
-        $0.isHidden = true
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 18)
     }
     
@@ -48,23 +47,12 @@ final class HistoriesVC: CommonViewController {
         super.viewDidLoad()
         
         makeUI()
-        bindUI()
         bindActions()
     }
 }
 
 //MARK: - Action
 private extension HistoriesVC {
-    func bindUI() {
-        viewModel.visitedStations
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] visitedStation in
-                self?.emptyLabel.isHidden = visitedStation.isNotEmpty
-                self?.dataSource.applySnapshot(with: visitedStation)
-            }
-            .store(in: &cancellable)
-    }
-    
     func bindActions() {
         let output = viewModel.trasform(input: .init(
             viewDidLoad: Just(()).eraseToAnyPublisher(),
@@ -73,14 +61,20 @@ private extension HistoriesVC {
             alertConfirmationPublisher: alertConfirmationPublisher.eraseToAnyPublisher()
         ))
         
+        output.visitStationItems
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] stationItems in
+                self?.emptyLabel.isHidden = stationItems.isNotEmpty
+                self?.dataSource.applySnapshot(with: stationItems)
+            }
+            .store(in: &cancellable)
         // Present alert
         output.presentNavigationAlert
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] visitedStation in
-                self?.presentNavigationAlert(visitedStation: visitedStation)
+            .sink { [weak self] historyItem in
+                self?.presentNavigationAlert(historyItem: historyItem)
             }
             .store(in: &cancellable)
-        
         // Move Navigation
         output.moveNavigation
             .receive(on: DispatchQueue.main)
@@ -94,7 +88,7 @@ private extension HistoriesVC {
     }
     
     /// Present Alert
-    func presentNavigationAlert(visitedStation station: VisitedGasStation) {
+    func presentNavigationAlert(historyItem item: HistoriesViewModel.HistoryItem) {
         let alert = UIAlertController(
             title: "길 안내",
             message: "해당 주유소를 재방문 하시겠습니까?",
@@ -105,7 +99,7 @@ private extension HistoriesVC {
             title: "확인",
             style: .default
         ) { [weak self] _ in
-            self?.alertConfirmationPublisher.send((station))
+            self?.alertConfirmationPublisher.send((item))
         }
         
         let cancelAction = UIAlertAction(
@@ -149,14 +143,14 @@ private extension HistoriesVC {
 
 //MARK: - Set UI
 private extension HistoriesVC {
-    final class HistoriesDataSource: UICollectionViewDiffableDataSource<CommonDiffableSection, VisitedGasStation> {
-        private typealias Snapshot = NSDiffableDataSourceSnapshot<CommonDiffableSection, VisitedGasStation>
+    final class HistoriesDataSource: UICollectionViewDiffableDataSource<CommonDiffableSection, HistoriesViewModel.HistoryItem> {
+        private typealias Snapshot = NSDiffableDataSourceSnapshot<CommonDiffableSection, HistoriesViewModel.HistoryItem>
         
-        func applySnapshot(with stations: [VisitedGasStation],
+        func applySnapshot(with items: [HistoriesViewModel.HistoryItem],
                            animatingDifferences: Bool = true) {
             var snapshot: Snapshot = .init()
             snapshot.appendSections([.main])
-            snapshot.appendItems(stations, toSection: .main)
+            snapshot.appendItems(items, toSection: .main)
             apply(snapshot, animatingDifferences: animatingDifferences)
         }
     }
@@ -165,9 +159,9 @@ private extension HistoriesVC {
         view.backgroundColor = Asset.Colors.tableViewBackground.color
         
         configureNavigation()
-        configureEmptyLabel()
         configureCollectionView()
         configureDataSource()
+        configureEmptyLabel()
     }
     
     func configureNavigation() {
@@ -203,8 +197,8 @@ private extension HistoriesVC {
     
     func configureDataSource() {
         let cellRegistration = HistoryCell.cellRegistration
-        self.dataSource = HistoriesDataSource(collectionView: collectionView) { collectionView, indexPath, aboutMe in
-            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: aboutMe)
+        self.dataSource = HistoriesDataSource(collectionView: collectionView) { collectionView, indexPath, historyItem in
+            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: historyItem)
         }
     }
     
@@ -218,10 +212,10 @@ private extension HistoriesVC {
 
 extension HistoriesVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let station = dataSource.itemIdentifier(for: indexPath) else {
+        guard let item = dataSource.itemIdentifier(for: indexPath) else {
             return
         }
         
-        didSelectItemPublisher.send(station)
+        didSelectItemPublisher.send(item)
     }
 }

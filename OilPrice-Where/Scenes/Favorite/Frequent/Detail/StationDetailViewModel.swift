@@ -178,7 +178,7 @@ private extension StationDetailViewModel {
             let fuelPrice = stationDetail.prices.first(where: { $0.fuelType.code == fuelCode })
             
             try await visitedStationStorage.saveVisited(station: .init(
-                id: stationID,
+                stationID: stationID,
                 brand: stationDetail.brand,
                 name: stationDetail.name,
                 fuelType: fuelPrice?.fuelType ?? .gasoline,

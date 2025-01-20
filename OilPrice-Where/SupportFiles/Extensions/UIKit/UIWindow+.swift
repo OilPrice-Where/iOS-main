@@ -9,11 +9,11 @@
 import UIKit
 
 extension UIWindow {
-    public var visibleViewController: UIViewController? {
+    var visibleViewController: UIViewController? {
         return self.visibleViewControllerFrom(vc: self.rootViewController)
     }
     
-    public func visibleViewControllerFrom(vc: UIViewController? = UIApplication.shared.customKeyWindow?.rootViewController) -> UIViewController? {
+    func visibleViewControllerFrom(vc: UIViewController? = UIApplication.shared.customKeyWindow?.rootViewController) -> UIViewController? {
         if let nc = vc as? UINavigationController {
             return self.visibleViewControllerFrom(vc: nc.visibleViewController)
         } else if let tc = vc as? UITabBarController {
@@ -25,5 +25,15 @@ extension UIWindow {
                 return vc
             }
         }
+    }
+    
+    static var current: UIWindow? {
+        for scene in UIApplication.shared.connectedScenes {
+            guard let windowScene = scene as? UIWindowScene else { continue }
+            for window in windowScene.windows {
+                if window.isKeyWindow { return window }
+            }
+        }
+        return nil
     }
 }

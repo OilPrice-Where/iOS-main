@@ -10,7 +10,7 @@ import Foundation
 
 
 protocol StationRepresentable: Hashable {
-    var id: String { get }
+    var stationID: String { get }
     var brand: StationBrand { get }
     var name: String { get }
     var coordinate: CoordinateSystem { get }

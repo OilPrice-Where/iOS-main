@@ -68,7 +68,7 @@ final class DataManager {
     
     func addNew(station: GasStationSummary) {
         let newStation = StationEntity(context: mainContext)
-        newStation.identifier = station.id
+        newStation.identifier = station.stationID
         newStation.name = station.name
         newStation.brand = station.brand.code
         newStation.oilType = DefaultData.shared.oilSubject.value

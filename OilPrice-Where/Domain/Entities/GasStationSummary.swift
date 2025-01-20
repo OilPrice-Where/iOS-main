@@ -11,7 +11,7 @@ import Foundation
 
 struct GasStationSummary: StationRepresentable {
     /// 주유소 코드
-    let id: String
+    let stationID: String
     /// 주유소 브랜드
     let brand: StationBrand
     /// 매장 이름

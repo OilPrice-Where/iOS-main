@@ -11,7 +11,7 @@ import Foundation
 
 struct VisitedGasStation: StationRepresentable {
     /// 주유소 Identifier
-    var id: String
+    var stationID: String
     /// 주유소 브랜드
     let brand: StationBrand
     /// 주유소 상호

@@ -18,7 +18,7 @@ final class HistoriesViewModel {
     private let settingUseCase: SettingUseCase
     private let urlBuilder: NavigationURLBuilder
     
-    private(set) var visitedStations: CurrentValueSubject<[VisitedGasStation], Never> = .init([])
+    private let visitedStationsPublisher: CurrentValueSubject<[HistoryItem], Never> = .init([])
     
     
     init(storage: VisitedStationStorage,
@@ -31,15 +31,21 @@ final class HistoriesViewModel {
 
 
 extension HistoriesViewModel {
+    struct HistoryItem: Hashable {
+        let index: Int
+        let station: VisitedGasStation
+    }
+    
     struct Input {
         let viewDidLoad: AnyPublisher<Void, Never>
-        let swipeToDelete: AnyPublisher<VisitedGasStation, Never>
-        let didSelectItem: AnyPublisher<VisitedGasStation, Never>
-        let alertConfirmationPublisher: AnyPublisher<VisitedGasStation, Never>
+        let swipeToDelete: AnyPublisher<HistoryItem, Never>
+        let didSelectItem: AnyPublisher<HistoryItem, Never>
+        let alertConfirmationPublisher: AnyPublisher<HistoryItem, Never>
     }
     
     struct Output {
-        let presentNavigationAlert: AnyPublisher<VisitedGasStation, Never>
+        let visitStationItems: AnyPublisher<[HistoryItem], Never>
+        let presentNavigationAlert: AnyPublisher<HistoryItem, Never>
         let moveNavigation: AnyPublisher<URL, Never>
     }
     
@@ -49,16 +55,16 @@ extension HistoriesViewModel {
         let presentNavigationAlert = input.didSelectItem.eraseToAnyPublisher()
         
         let moveNavigation: AnyPublisher<URL, Never> = input.alertConfirmationPublisher
-            .compactMap { [weak self] visitedStation in
+            .compactMap { [weak self] historyItem in
                 guard let self else {
                     return nil
                 }
                 
-                save(visitedStation: visitedStation)
+                save(visitedStation: historyItem.station)
                 
                 let destinationURL = urlBuilder.destinationURL(
-                    name: visitedStation.name,
-                    coordinate: visitedStation.coordinate
+                    name: historyItem.station.name,
+                    coordinate: historyItem.station.coordinate
                 )
                 
                 if let destinationURL,
@@ -71,6 +77,7 @@ extension HistoriesViewModel {
             .eraseToAnyPublisher()
         
         return .init(
+            visitStationItems: visitedStationsPublisher.eraseToAnyPublisher(),
             presentNavigationAlert: presentNavigationAlert,
             moveNavigation: moveNavigation
         )
@@ -79,14 +86,22 @@ extension HistoriesViewModel {
     func bindActions(input: Input) {
         input.viewDidLoad
             .sink { [weak self] _ in
-                let visitedStations = self?.storage.fetchVisitedStations() ?? []
-                self?.visitedStations.send(visitedStations)
+                guard let self else {
+                    return
+                }
+                let historyItems = storage.fetchVisitedStations().enumerated().map { index, station in
+                    HistoryItem(
+                        index: index,
+                        station: station
+                    )
+                }
+                visitedStationsPublisher.send(historyItems)
             }
             .store(in: &cancellable)
         
         input.swipeToDelete
-            .sink { [weak self] visitedStation in
-                self?.remove(visitedStation: visitedStation)
+            .sink { [weak self] historyItem in
+                self?.remove(visitedStation: historyItem.station)
             }
             .store(in: &cancellable)
     }
@@ -108,7 +123,13 @@ private extension HistoriesViewModel {
         Task {
             do {
                 try await storage.saveVisited(station: station)
-                visitedStations.send(storage.fetchVisitedStations())
+                let historyItems = storage.fetchVisitedStations().enumerated().map { index, station in
+                    HistoryItem(
+                        index: index,
+                        station: station
+                    )
+                }
+                visitedStationsPublisher.send(historyItems)
             } catch {
                 LogUtil.e(error.localizedDescription)
             }

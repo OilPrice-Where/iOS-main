@@ -76,12 +76,12 @@ final class GasStationCell: UICollectionViewCell {
         stationView.bottomView.priceView.configure(price: info)
         stationView.bottomView.expandView.directionView.configure(distance: String(format: "%.1fkm", info.distance))
         stationView.bottomView.expandView.directionView.addGestureRecognizer(tap)
-        updateFavoriteUI(favoriteID: info.id)
+        updateFavoriteUI(favoriteID: info.stationID)
     }
     
     @objc
     private func touchedFavorite(sender: Any) {
-        delegate?.touchedFavoriteButton(id: info?.id)
+        delegate?.touchedFavoriteButton(id: info?.stationID)
     }
     
     @objc

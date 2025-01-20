@@ -38,7 +38,7 @@ extension NearbyGasStationsDTO.GasStationListDTO {
     /// 주유소 정보 Response
     struct GasStationSummaryDTO: Decodable, Hashable {
         /// 주유소 코드
-        let id: String?
+        let stationID: String?
         /// 브랜드 코드
         /// - NOTE
         ///   - SKE: SK에너지
@@ -64,7 +64,7 @@ extension NearbyGasStationsDTO.GasStationListDTO {
         let katecY: Double?
         
         private enum CodingKeys: String, CodingKey {
-            case id = "UNI_ID"
+            case stationID = "UNI_ID"
             case brand = "POLL_DIV_CD"
             case name = "OS_NM"
             case price = "PRICE"
@@ -95,7 +95,7 @@ extension NearbyGasStationsDTO.GasStationListDTO {
 extension NearbyGasStationsDTO.GasStationListDTO.GasStationSummaryDTO {
     func toDomain() -> GasStationSummary {
         .init(
-            id: id ?? UUID().uuidString,
+            stationID: stationID ?? UUID().uuidString,
             brand: StationBrand(code: brand ?? ""),
             name: name ?? "",
             price: price ?? .zero,

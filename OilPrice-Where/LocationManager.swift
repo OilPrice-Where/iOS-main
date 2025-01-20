@@ -7,35 +7,41 @@
 //
 
 import UIKit
+import Combine
 import CoreLocation
-import Moya
-import NMapsMap
-#if RELEASE
-import TMapSDK
-#endif
+
 
 final class LocationManager: NSObject {
     // MARK: - Properties
     static let shared = LocationManager()
+    
+    private var searchPathRepository: SearchPathRepository!
+    
     var locationManager: CLLocationManager?
     @Published var currentAddress: String?
     @Published var currentLocation: CLLocation?
     @Published var requestLocation: CLLocation?
+    
+    
     var findStations = [FindStation]()
     var stations = [GasStationSummary]()
-    let staionProvider = MoyaProvider<StationAPI>()
     var findStation: FindStation?
     
     // MARK: - Initializer
     private override init() {
         super.init()
         
-        setTMapAuthentication()
         requestLocationAccess()
     }
     
-    
-    // MARK: - Functions
+    func setLocationManager(searchPathRepository: SearchPathRepository) {
+        self.searchPathRepository = searchPathRepository
+    }
+}
+
+
+// MARK: - Functions
+extension LocationManager {
     /// 위치 권한
     private func requestLocationAccess() {
         locationManager = CLLocationManager()
@@ -85,24 +91,20 @@ final class LocationManager: NSObject {
         visibleVC.present(alert, animated: true, completion: nil)
     }
     
-    func addressUpdate(location: CLLocation?, completion: @escaping (String?) -> ()) {
-        guard let targetPoint = location?.coordinate else { return }
-        
-        let pathData = TMapPathData()
-        
-        pathData.reverseGeocoding(targetPoint, addressType: "A10") { result, error in
-            if let result = result {
-                LogUtil.d(result)
-                
-                if let city = result["city_do"] as? String,
-                   let gu = result["gu_gun"] as? String,
-                   let roadName = result["roadName"] as? String,
-                   let buildingNumber = result["buildingIndex"] as? String {
-                    completion("\(city) \(gu) \(roadName) \(buildingNumber)")
-                }
-            }
+    func addressUpdate(coordinate: CoordinateSystem, completion: @escaping (String?) -> ()) {
+        Task {
+            let fullAddress = await searchPathRepository.reverseGeocoding(coordinate: coordinate)
+            completion(fullAddress)
         }
     }
+    
+    func fetchSearchPOIs(keyword: String?, count: Int = 30) async -> [SearchPOI] {
+        guard let keyword, keyword.isNotEmpty else {
+            return []
+        }
+        return await searchPathRepository.requestFindAllPOIs(keyword: keyword, count: count)
+    }
+    
     
     func firstFindStation() -> FindStation? {
         guard let from = currentLocation else { return nil }
@@ -114,6 +116,7 @@ final class LocationManager: NSObject {
         }.first
     }
 }
+
 
 // MARK: - CLLocationManagerDelegate
 extension LocationManager: CLLocationManagerDelegate {
@@ -154,15 +157,3 @@ extension LocationManager: CLLocationManagerDelegate {
         currentLocation = locations.last
     }
 }
-
-#if RELEASE
-extension LocationManager: TMapTapiDelegate {
-    func setTMapAuthentication() {
-        TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: "l7xx3d6e38a766c34c2dabd61f634263a2f6")
-    }
-    
-    func SKTMapApikeySucceed() {
-        LogUtil.d("TMAP API KEY 인증 성공")
-    }
-}
-#endif

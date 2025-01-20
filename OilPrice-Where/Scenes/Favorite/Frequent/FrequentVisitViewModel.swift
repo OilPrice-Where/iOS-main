@@ -67,12 +67,12 @@ private extension FrequentVisitViewModel {
         return visitStationsPublisher
             .map { visitedStations in
                 let stationDictionary = visitedStations.reduce(into: [String: VisitedGasStation]()) { dict, station in
-                    if var existingStation = dict[station.id] {
+                    if var existingStation = dict[station.stationID] {
                         existingStation.visitCount += 1
-                        dict[station.id] = existingStation
+                        dict[station.stationID] = existingStation
                     } else {
                         var newStation = station
-                        dict[station.id] = newStation
+                        dict[station.stationID] = newStation
                     }
                 }
                 return stationDictionary.values.sorted { $0.visitCount > $1.visitCount }
@@ -88,7 +88,7 @@ private extension FrequentVisitViewModel {
                 let stationRepository: StationRepository = StationRepositoryImpl()
                 let visitedStationStorage: VisitedStationStorage = CoreDataVisitedStationStorage()
                 let detailViewModel = StationDetailViewModel(
-                    stationID: visitStation.id,
+                    stationID: visitStation.stationID,
                     settingUseCase: settingUseCase,
                     stationRepository: stationRepository,
                     visitedStationStorage: visitedStationStorage
@@ -130,10 +130,10 @@ private extension FrequentVisitViewModel {
                     return nil
                 }
                 
-                if favorites.contains(visitedStation.id) {
-                    return deleteFavoriteMessage(stationID: visitedStation.id)
+                if favorites.contains(visitedStation.stationID) {
+                    return deleteFavoriteMessage(stationID: visitedStation.stationID)
                 } else {
-                    return addFavoriteMessage(stationID: visitedStation.id)
+                    return addFavoriteMessage(stationID: visitedStation.stationID)
                 }
             }.eraseToAnyPublisher()
     }
@@ -176,7 +176,7 @@ private extension FrequentVisitViewModel {
     }
     /// 즐겨찾기 추가
     func addFavoriteIfNeeded(stationID: String) -> Bool {
-        guard var favorites: [String] = try? settingUseCase.load(type: .favorites),
+        guard let favorites: [String] = try? settingUseCase.load(type: .favorites),
               favorites.count < 5 else {
             return false
         }

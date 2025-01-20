@@ -131,7 +131,7 @@ private extension FavoriteStationsViewModel {
                 guard let self else {
                     return nil
                 }
-                return deleteFavorite(stationID: station.id)
+                return deleteFavorite(stationID: station.stationID)
             }
         
         return Publishers.Merge(
@@ -210,7 +210,7 @@ private extension FavoriteStationsViewModel {
             let fuelPrice = station.prices.first(where: { $0.fuelType.code == fuelCode })
             
             try await visitedStationStorage.saveVisited(station: .init(
-                id: station.id,
+                stationID: station.stationID,
                 brand: station.brand,
                 name: station.name,
                 fuelType: fuelPrice?.fuelType ?? .gasoline,

@@ -218,7 +218,7 @@ private extension FrequentVisitCell {
             return
         }
         
-        let isFavoriteStation = favorites.contains(visitStation.id)
+        let isFavoriteStation = favorites.contains(visitStation.stationID)
         let image = isFavoriteStation ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
         
         expandView.favoriteButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)

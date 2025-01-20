@@ -100,7 +100,7 @@ class CommonViewController: UIViewController {
     }
     
     func requestURL(station: GasStationSummary?) -> ResultURL {
-        let dummy = GasStationSummary(id: UUID().uuidString, brand: .etc, name: "Dummy", price: 0, distance: .zero, coordinate: .init(x: nil, y: nil))
+        let dummy = GasStationSummary(stationID: UUID().uuidString, brand: .etc, name: "Dummy", price: 0, distance: .zero, coordinate: .init(x: nil, y: nil))
         let type = SearchNavigation(type: DefaultData.shared.naviSubject.value)
         let info = station ?? dummy
         

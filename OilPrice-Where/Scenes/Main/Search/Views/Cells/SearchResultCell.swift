@@ -12,23 +12,22 @@ import SnapKit
 
 
 extension SearchResultCell {
-    static func cellRegistration(searchText: String) -> UICollectionView.CellRegistration<SearchResultCell, ResponsePOI> {
+    static func cellRegistration(searchText: String) -> UICollectionView.CellRegistration<SearchResultCell, SearchPOI> {
         return UICollectionView.CellRegistration { cell, indexPath, poi in
             cell.configure(with: poi, commonSearchText: searchText)
         }
     }
     
-    private func configure(with poi: ResponsePOI, commonSearchText: String) {
-        let attrString = NSMutableAttributedString(string: poi.name ?? "")
+    private func configure(with poi: SearchPOI, commonSearchText: String) {
+        let attrString = NSMutableAttributedString(string: poi.name)
         titleLabel.attributedText = attrString.apply(
-            word: commonText,
+            word: commonSearchText,
             attrs: [.foregroundColor: UIColor.black]
         )
         subTitleLabel.text = poi.address
         
-        if let departure = LocationManager.shared.currentLocation,
-           let targetCoordinate = poi.coordinate {
-            let distance = departure.distance(from: poi.coordinate.tm)
+        if let departure = LocationManager.shared.currentLocation {
+            let distance = departure.distance(from: poi.coordinate.location)
             let distanceString = distance < 1000 ? "\(Int(distance))m" : "\(Double(Int(distance * 10 / 1000)) / 10)km"
             distanceLabel.text = distanceString
         }

@@ -65,7 +65,10 @@ private extension CoreDataVisitedStationStorage {
         request.sortDescriptors = [NSSortDescriptor(key: "insertDate", ascending: false)]
         
         try context.fetch(request)
-            .filter { $0.insertDate == station.visitDate && $0.identifier == station.id }
+            .filter {
+                $0.insertDate == station.visitDate &&
+                $0.identifier == station.stationID
+            }
             .forEach { context.delete($0) }
     }
 }

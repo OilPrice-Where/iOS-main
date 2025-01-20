@@ -14,7 +14,7 @@ extension StationEntity {
     convenience init(visitedStation station: VisitedGasStation,
                      insertInto context: NSManagedObjectContext) {
         self.init(context: context)
-        self.identifier = station.id
+        self.identifier = station.stationID
         self.name = station.name
         self.brand = station.brand.code
         self.oilType = station.fuelType.code
@@ -29,7 +29,7 @@ extension StationEntity {
 extension StationEntity {
     func toDomain() -> VisitedGasStation {
         VisitedGasStation(
-            id: identifier ?? "",
+            stationID: identifier ?? "",
             brand: .init(code: brand ?? ""),
             name: name ?? "",
             fuelType: FuelType(code: oilType ?? ""),

@@ -12,18 +12,18 @@ import SnapKit
 
 
 extension HistoryCell {
-    static let cellRegistration = UICollectionView.CellRegistration<HistoryCell, VisitedGasStation> { cell, indexPath, station in
-        cell.configure(station: station)
+    static let cellRegistration = UICollectionView.CellRegistration<HistoryCell, HistoriesViewModel.HistoryItem> { cell, indexPath, historyItem in
+        cell.configure(historyItem: historyItem)
     }
     
-    private func configure(station: VisitedGasStation) {
-        let brandImage = station.brand.image
+    private func configure(historyItem item: HistoriesViewModel.HistoryItem) {
+        let brandImage = item.station.brand.image
         brandImageView.image = brandImage
-        stationNameLabel.text = station.name
-        visitValueLabel.text = formatter.string(for: station.visitDate)
+        stationNameLabel.text = item.station.name
+        visitValueLabel.text = formatter.string(for: item.station.visitDate)
         
-        let priceString = station.recordedPrice.decimalNumber
-        let fuelName = station.fuelType.displayName
+        let priceString = item.station.recordedPrice.decimalNumber
+        let fuelName = item.station.fuelType.displayName
         priceValueLabel.text = fuelName + " | " + (priceString != "0" ? priceString : "가격 정보 없음")
     }
 }
@@ -132,10 +132,10 @@ private extension HistoryCell {
     }
     
     func setupConstraints() {
-        contentView.snp.makeConstraints { make in
-            make.height.equalTo(UIConstants.contentViewHeight)
+        contentView.snp.makeConstraints {
+            $0.width.equalTo(UIScreen.screenWidth)
+            $0.height.equalTo(UIConstants.contentViewHeight)
         }
-        
         brandImageView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(UIConstants.topOffset)
             $0.left.equalToSuperview().offset(UIConstants.leftOffset)
@@ -148,23 +148,19 @@ private extension HistoryCell {
             $0.right.equalToSuperview().offset(UIConstants.rightInset)
             $0.height.equalTo(UIConstants.stationNameHeight)
         }
-        
         priceKeyLabel.snp.makeConstraints {
             $0.top.equalTo(stationNameLabel.snp.bottom).offset(UIConstants.priceKeyTopOffset)
             $0.left.equalToSuperview().offset(UIConstants.leftOffset)
         }
-        
         priceValueLabel.snp.makeConstraints {
             $0.top.equalTo(priceKeyLabel.snp.top)
             $0.left.equalTo(priceKeyLabel.snp.right).offset(UIConstants.priceValueOffset)
             $0.right.equalToSuperview().offset(UIConstants.valueRightInset)
         }
-        
         visitKeyLabel.snp.makeConstraints {
             $0.top.equalTo(priceKeyLabel.snp.bottom).offset(UIConstants.visitKeyTopOffset)
             $0.left.equalToSuperview().offset(UIConstants.leftOffset)
         }
-        
         visitValueLabel.snp.makeConstraints {
             $0.top.equalTo(visitKeyLabel.snp.top)
             $0.left.equalTo(visitKeyLabel.snp.right).offset(UIConstants.visitValueOffset)

@@ -108,8 +108,9 @@ class DefaultData {
                 var tempArr = [String]()
                 
                 owner.tempFavArr = owner.tempFavArr.filter { info in
-                    if !tempArr.contains(info.id) && infomations.contains(info.id) {
-                        tempArr.append(info.id)
+                    if !tempArr.contains(info.stationID) &&
+                        infomations.contains(info.stationID) {
+                        tempArr.append(info.stationID)
                         return true
                     }
                     return false
