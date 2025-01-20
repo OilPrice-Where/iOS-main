@@ -122,7 +122,7 @@ extension GasStationInfoResultDTO.InformationGasStaionsDTO {
 extension GasStationInfoResultDTO.InformationGasStaionsDTO.GasStationDetailDTO {
     func toDomain() -> GasStationDetail {
         return .init(
-            id: id ?? UUID().uuidString,
+            stationID: id ?? UUID().uuidString,
             brand: .init(code: brand ?? ""),
             name: name ?? "주유소명 정보가 없습니다",
             address: address ?? "주소 정보가 제공되지 않았습니다",

@@ -58,7 +58,7 @@ private extension InitialSettingsVC {
                 let mainVC = MainVC()
                 let mainNavigationVC = UINavigationController(rootViewController: mainVC)
                 mainNavigationVC.modalPresentationStyle = .fullScreen
-                mainVC.present(mainNavigationVC, animated: false)
+                present(mainNavigationVC, animated: false)
             }
             .store(in: &cancellable)
     }

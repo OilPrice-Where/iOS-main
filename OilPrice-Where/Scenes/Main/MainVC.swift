@@ -134,7 +134,7 @@ final class MainVC: CommonViewController {
     private func updateFavoriteUI() {
         let ids = DefaultData.shared.favoriteSubject.value
         
-        guard let id = viewModel.selectedStation?.id else { return }
+        guard let id = viewModel.selectedStation?.stationID else { return }
         let image = ids.contains(id) ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
         
         DispatchQueue.main.async { [weak self] in
@@ -296,7 +296,7 @@ final class MainVC: CommonViewController {
                 
                 guard owner.viewModel.isLiveActivities,
                       let targetStation = LocationManager.shared.findStation,
-                      let info = LocationManager.shared.stations.first(where: { $0.id == targetStation.id }),
+                      let info = LocationManager.shared.stations.first(where: { $0.stationID == targetStation.id }),
                       let lat = targetStation.lat, let lng = targetStation.lng else { return }
                 
                 owner.sideMenu.dismiss(animated: false)
@@ -304,7 +304,7 @@ final class MainVC: CommonViewController {
                 owner.marker(info: info)
                 owner.mapContainerView.selectedMarker = owner.mapContainerView.markers.first(where: {
                     guard let station = $0.userInfo["station"] as? GasStationSummary else { return false }
-                    return station.id == targetStation.id
+                    return station.stationID == targetStation.id
                 })
                 owner.mapContainerView.selectedMarker?.isSelected = true
                 
@@ -417,7 +417,7 @@ final class MainVC: CommonViewController {
         Analytics.logEvent(event, parameters: parameters)
         
         let faovorites = DefaultData.shared.favoriteSubject.value
-        guard let _id = viewModel.selectedStation?.id, faovorites.count < 6 else { return }
+        guard let _id = viewModel.selectedStation?.stationID, faovorites.count < 6 else { return }
         let isDeleted = faovorites.contains(_id)
         
         guard isDeleted || (!isDeleted && faovorites.count < 5) else {
@@ -643,9 +643,9 @@ extension MainVC: FloatingPanelControllerDelegate {
                 mapContainerView.mapView.moveCamera(cameraUpdated)
             }
             
-            guard let station = viewModel.selectedStation, station.id != contentsVC.station?.id else { return }
+            guard let station = viewModel.selectedStation, station.stationID != contentsVC.station?.stationID else { return }
             
-            viewModel.requestStationsInfo(id: station.id) { [weak self] result in
+            viewModel.requestStationsInfo(id: station.stationID) { [weak self] result in
                 guard let self = self else { return }
                 
                 switch result {
@@ -671,7 +671,7 @@ extension MainVC: MainListVCDelegate {
         
         mapContainerView.selectedMarker = mapContainerView.markers.first(where: {
             guard let station = $0.userInfo["station"] as? GasStationSummary else { return false }
-            return station.id == info.id
+            return station.stationID == info.stationID
         })
         mapContainerView.selectedMarker?.isSelected = true
         let update = NMFCameraUpdate(scrollTo: position, zoomTo: 15.0)

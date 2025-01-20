@@ -11,7 +11,8 @@ import SnapKit
 
 
 protocol RecentResultViewDelegate: AnyObject {
-    func didTapRecentResult(poi: ResponsePOI)
+    func didTapRecentResult(poi: SearchPOI)
+    func didTapDeleteRecentResult(poi: SearchPOI)
 }
 
 
@@ -19,16 +20,16 @@ final class RecentResultView: UIView {
     weak var delegate: RecentResultViewDelegate?
     
     private var collectionView: UICollectionView!
-    private var dataSource: SearchResultDataSource!
+    private var dataSource: RecentResultDataSource!
 }
 
 
 //MARK: - CollectionView
 extension RecentResultView: UICollectionViewDelegate {
-    private final class SearchResultDataSource: UICollectionViewDiffableDataSource<CommonDiffableSection, ResponsePOI> {
-        private typealias Snapshot = NSDiffableDataSourceSnapshot<CommonDiffableSection, ResponsePOI>
+    private final class RecentResultDataSource: UICollectionViewDiffableDataSource<CommonDiffableSection, SearchPOI> {
+        private typealias Snapshot = NSDiffableDataSourceSnapshot<CommonDiffableSection, SearchPOI>
         
-        func applySnapshot(with pois: [ResponsePOI],
+        func applySnapshot(with pois: [SearchPOI],
                            animatingDifferences: Bool = false) {
             var snapshot: Snapshot = .init()
             snapshot.appendItems(pois, toSection: .main)
@@ -51,9 +52,9 @@ extension RecentResultView: UICollectionViewDelegate {
     }
     
     private func configureDataSource() {
-        self.dataSource = SearchResultDataSource(collectionView: collectionView) { collectionView, indexPath, poi in
-            let cellRegistration = RecentResultCell.cellRegistration(searchText: "")
-            collectionView.dequeueConfiguredReusableCell(
+        self.dataSource = RecentResultDataSource(collectionView: collectionView) { collectionView, indexPath, poi in
+            let cellRegistration = RecentResultCell.cellRegistration(self)
+            return collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
                 for: indexPath,
                 item: poi
@@ -67,14 +68,25 @@ extension RecentResultView: UICollectionViewDelegate {
         }
         
         delegate?.didTapRecentResult(poi: poi)
-        delegate?.fetch(name: DataManager.shared.pois[indexPath.row].name,
-                        coordinate: poi.coordinate.tm)
+    }
+}
+
+
+extension RecentResultView: RecentResultCellDelegate {
+    func delete(poi: SearchPOI) {
+        delegate?.didTapDeleteRecentResult(poi: poi)
     }
 }
 
 
 //MARK: - Set UI
 private extension RecentResultView {
+    enum UIConstants {
+        enum CollectionView {
+            static let insets: CGFloat = 16
+        }
+    }
+    
     func makeUI() {
         configureCollectionView()
         configureUI()
@@ -82,12 +94,12 @@ private extension RecentResultView {
     }
     
     func configureUI() {
-        view.addSubview(collectionView)
+        addSubview(collectionView)
     }
     
     func setConstraints() {
         collectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.edges.equalToSuperview().inset(UIConstants.CollectionView.insets)
         }
     }
 }

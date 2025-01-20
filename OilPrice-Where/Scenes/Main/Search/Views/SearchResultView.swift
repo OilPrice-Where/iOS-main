@@ -11,7 +11,7 @@ import SnapKit
 
 
 protocol SearchResultViewDelegate: AnyObject {
-    func didTapSearchResult(poi: ResponsePOI)
+    func didTapSearchResult(poi: SearchPOI)
 }
 
 
@@ -25,10 +25,10 @@ final class SearchResultView: UIView {
 
 //MARK: - CollectionView
 extension SearchResultView: UICollectionViewDelegate {
-    private final class SearchResultDataSource: UICollectionViewDiffableDataSource<CommonDiffableSection, ResponsePOI> {
-        private typealias Snapshot = NSDiffableDataSourceSnapshot<CommonDiffableSection, ResponsePOI>
+    private final class SearchResultDataSource: UICollectionViewDiffableDataSource<CommonDiffableSection, SearchPOI> {
+        private typealias Snapshot = NSDiffableDataSourceSnapshot<CommonDiffableSection, SearchPOI>
         
-        func applySnapshot(with pois: [ResponsePOI],
+        func applySnapshot(with pois: [SearchPOI],
                            animatingDifferences: Bool = false) {
             var snapshot: Snapshot = .init()
             snapshot.appendItems(pois, toSection: .main)
@@ -53,12 +53,16 @@ extension SearchResultView: UICollectionViewDelegate {
     private func configureDataSource() {
         self.dataSource = SearchResultDataSource(collectionView: collectionView) { collectionView, indexPath, poi in
             let cellRegistration = SearchResultCell.cellRegistration(searchText: "")
-            collectionView.dequeueConfiguredReusableCell(
+            return collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
                 for: indexPath,
                 item: poi
             )
         }
+    }
+    
+    func apply(pois: [SearchPOI]) {
+        dataSource.applySnapshot(with: pois)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -67,9 +71,6 @@ extension SearchResultView: UICollectionViewDelegate {
         }
         
         delegate?.didTapSearchResult(poi: poi)
-        
-        DataManager.shared.addNew(poi: viewModel.pois[indexPath.row])
-        delegate?.fetch(name: viewModel.pois[indexPath.row].name, coordinate: viewModel.pois[indexPath.row].coordinate)
     }
 }
 
@@ -91,7 +92,7 @@ private extension SearchResultView {
     }
     
     func configureUI() {
-        view.addSubview(collectionView)
+        addSubview(collectionView)
     }
     
     func setConstraints() {
