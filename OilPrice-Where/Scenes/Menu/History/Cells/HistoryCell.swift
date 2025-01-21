@@ -133,6 +133,7 @@ private extension HistoryCell {
     
     func setupConstraints() {
         contentView.snp.makeConstraints {
+            $0.top.left.equalToSuperview()
             $0.width.equalTo(UIScreen.screenWidth)
             $0.height.equalTo(UIConstants.contentViewHeight)
         }

@@ -70,6 +70,7 @@ private extension FindBrandVC {
         func applySnapshot(with items: [FindBrandViewModel.Brand],
                            animatingDifferences: Bool = true) {
             var snapshot: Snapshot = .init()
+            snapshot.appendSections([.main])
             snapshot.appendItems(items, toSection: .main)
             apply(snapshot, animatingDifferences: animatingDifferences)
         }
@@ -91,8 +92,8 @@ private extension FindBrandVC {
     }
     
     func configureDataSource() {
+        let cellRegistration = FindBrandCell.cellRegistration(self)
         self.dataSource = FindBrandDataSource(collectionView: collectionView) { collectionView, indexPath, brand in
-            let cellRegistration = FindBrandCell.cellRegistration(self)
             return collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
                 for: indexPath,

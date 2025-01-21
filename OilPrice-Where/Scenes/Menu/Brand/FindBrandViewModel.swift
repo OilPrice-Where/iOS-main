@@ -91,10 +91,14 @@ private extension FindBrandViewModel {
     func saveFindBrand(_ brand: Brand) {
         // 선택 Case => 전체 탐색 여부
         let selectedStationBrand = StationBrand(code: brand.code)
+        
+        let saveAllBrands = StationBrand.allCases
+            .filter { $0 != .all }
+            .map { $0.code }
+        
         if selectedStationBrand == .all {
             // 전체 탐색
             if brand.isSearchedBrand {
-                let saveAllBrands = StationBrand.allCases.map { $0.code }
                 settingUseCase.save(saveAllBrands, type: .findBrands)
             }
             // 탐색 안함
@@ -102,22 +106,20 @@ private extension FindBrandViewModel {
                 let noSearchBrands: [String] = []
                 settingUseCase.save(noSearchBrands, type: .findBrands)
             }
-        }
-        
-        let storeFindBrands: [String] = brandSubject.value.compactMap {
-            // 전체 탐색은 저장하지 않음
-            if selectedStationBrand == .all { return nil }
+        } else {
+            let storeFindBrands: [String] = brandSubject.value
+                .compactMap {
+                    // 전체 탐색은 저장하지 않음
+                    if StationBrand(code: $0.code) == .all { return nil }
+                    
+                    if brand.code == $0.code {
+                        return brand.isSearchedBrand ? brand.code : nil
+                    } else {
+                        return $0.isSearchedBrand ? $0.code : nil
+                    }
+                }
             
-            if brand.code == $0.code,
-               brand.isSearchedBrand {
-                return brand.code
-            } else if $0.isSearchedBrand {
-                return $0.code
-            } else {
-                return nil
-            }
+            settingUseCase.save(storeFindBrands, type: .findBrands)
         }
-        
-        settingUseCase.save(storeFindBrands, type: .findBrands)
     }
 }

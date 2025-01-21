@@ -10,6 +10,8 @@ import UIKit
 
 
 enum StationBrand: String, CaseIterable, Hashable {
+    /// 전체 브랜드
+    case all = "ALL"
     /// SK에너지
     case ske = "SKE"
     /// 현대오일뱅크
@@ -30,8 +32,6 @@ enum StationBrand: String, CaseIterable, Hashable {
     case etc = "ETC"
     /// E1
     case e1g = "E1G"
-    /// 전체 브랜드
-    case all = "ALL"
     
     
     /// 브랜드 코드로 인스턴스 생성

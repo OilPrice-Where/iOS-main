@@ -81,7 +81,7 @@ final class FindBrandCell: UICollectionViewCell {
 //MARK: - Set UI
 private extension FindBrandCell {
     enum UIConstants {
-        static let contentViewHeight: CGFloat = 17
+        static let contentViewHeight: CGFloat = 44
         
         static let brandTypeLabelLeftInset: CGFloat = 20
         static let brandSelectedSwitchRightInset: CGFloat = 20
@@ -100,16 +100,16 @@ private extension FindBrandCell {
     }
     
     func setupConstraints() {
-        contentView.snp.makeConstraints { make in
-            make.height.equalTo(UIConstants.contentViewHeight)
+        contentView.snp.makeConstraints {
+            $0.left.top.equalToSuperview()
+            $0.width.equalTo(UIScreen.screenWidth)
+            $0.height.equalTo(UIConstants.contentViewHeight)
         }
-        
         brandSelectedSwitch.snp.makeConstraints {
             $0.right.equalToSuperview().inset(UIConstants.brandSelectedSwitchRightInset)
             $0.centerY.equalToSuperview()
             $0.width.equalTo(UIConstants.brandSelectedSwitchWidth)
         }
-        
         brandTypeLable.snp.makeConstraints {
             $0.left.equalToSuperview().offset(UIConstants.brandTypeLabelLeftInset)
             $0.right.equalTo(brandSelectedSwitch.snp.left).offset(UIConstants.brandTypeLabelRightToSwitchOffset)

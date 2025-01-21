@@ -8,86 +8,133 @@
 
 import UIKit
 import Combine
-import TMapSDK
+
 
 //MARK: SearchBarViewModel
 final class SearchBarViewModel {
     //MARK: - Properties
-    var bag = Set<AnyCancellable>()
-    let input = Input()
-    let output = Output()
-    var pois = [ResponsePOI]()
+    private var cancellable = Set<AnyCancellable>()
+
+    private let searchPOIStorage: SearchPOIStorage
+    
+    private let recentSearchResultPublisher: CurrentValueSubject<[SearchPOI], Never> = .init([])
+    
     
     //MARK: Initializer
-    init() {
-        bind()
-    }
-    
-    //MARK: RxBinding..
-    private func bind() {
-        input.requestPOI
-            .receive(on: DispatchQueue.global())
-            .sink {
-                if case let .failure(error) = $0 {
-                    LogUtil.e(error.localizedDescription)
-                }
-            } receiveValue: { keyword in
-                self.requestPOI(searchkeyword: keyword)
-            }
-            .store(in: &bag)
+    init(searchPOIStorage: SearchPOIStorage) {
+        self.searchPOIStorage = searchPOIStorage
     }
 }
 
-//MARK: - I/O & Error
+
+//MARK: - I/O & transform
 extension SearchBarViewModel {
-    enum ErrorResult: Error {
-        case searchError(Error?)
-    }
-    
     struct Input {
-        var requestPOI = CurrentValueSubject<String?, ErrorResult>.init(nil)
+        let viewDidLoad: AnyPublisher<Void, Never>
+        let inputSearchText: AnyPublisher<String?, Never>
+        let didTapPOI: AnyPublisher<SearchPOI, Never>
+        let didTapDeletePOI: AnyPublisher<SearchPOI, Never>
+        let didTapRemoveAllPOI: AnyPublisher<Void, Never>
     }
     
     struct Output {
-        var resultPOIs = CurrentValueSubject<[ResponsePOI], ErrorResult>.init([])
+        let recentSearchResult: AnyPublisher<[SearchPOI], Never>
+        let searchKeywordResult: AnyPublisher<[SearchPOI], Never>
+        let selectedPOIResult: AnyPublisher<SearchPOI, Never>
+    }
+    
+    func transform(input: Input) -> Output {
+        bindActions(input: input)
+        
+        return .init(
+            recentSearchResult: recentSearchResultPublisher.eraseToAnyPublisher(),
+            searchKeywordResult: searchKeywordResultPublisher(input: input),
+            selectedPOIResult: selectedPOIResultPublisher(input: input)
+        )
     }
 }
 
-//MARK: - Method
-extension SearchBarViewModel {
-    private func requestPOI(searchkeyword: String?) {
-        guard let keyword = searchkeyword, !keyword.isEmpty else {
-            output.resultPOIs.send([])
-            return
-        }
-
-        let pathData = TMapPathData()
-        pathData.requestFindAllPOI(keyword, count: 20) { [weak self] result, error in
-            guard let result else {
-                return
+//MARK: Bind
+private extension SearchBarViewModel {
+    func bindActions(input: Input) {
+        input.viewDidLoad
+            .sink { [weak self] _ in
+                guard let self else {
+                    return
+                }
+                let searchPOIs = searchPOIStorage.fetchSearchPOIs()
+                recentSearchResultPublisher.send(searchPOIs)
             }
-
-            var pois = [ResponsePOI]()
-
-            for poi in result {
-                var roadAddress = poi.roadName ?? ""
-                roadAddress += poi.buildingNo1 == "" ? "" : " " + (poi.buildingNo1 ?? "")
-                roadAddress += poi.buildingNo2 == "" || poi.buildingNo2 == "0" ? "" : "-" + (poi.buildingNo2 ?? "")
-
-                let previousAddress = poi.detailAddrName ?? ""
-
-                var resultAddress = poi.upperAddrName ?? ""
-                resultAddress += " " + (poi.middleAddrName ?? "") + " "
-                resultAddress += roadAddress.isEmpty ? previousAddress : roadAddress
-
-                pois.append(ResponsePOI(name: poi.name,
-                                        address: resultAddress,
-                                        coordinate: poi.coordinate,
-                                        insertDate: Date()))
+            .store(in: &cancellable)
+        
+        input.didTapDeletePOI
+            .sink { [weak self] poi in
+                guard let self else {
+                    return
+                }
+                
+                Task {
+                    do {
+                        try await self.searchPOIStorage.removeSearch(poi: poi)
+                        var searchPOIs = self.searchPOIStorage.fetchSearchPOIs()
+                        self.recentSearchResultPublisher.send(searchPOIs)
+                    } catch {
+                        LogUtil.e("삭제 실패")
+                    }
+                }
             }
+            .store(in: &cancellable)
+        
+        input.didTapRemoveAllPOI
+            .sink { [weak self] poi in
+                guard let self else {
+                    return
+                }
+                
+                Task {
+                    await withThrowingTaskGroup(of: Void.self) { group in
+                        let searchPOIs = self.searchPOIStorage.fetchSearchPOIs()
+                        searchPOIs.forEach { poi in
+                            group.addTask {
+                                try await self.searchPOIStorage.removeSearch(poi: poi)
+                            }
+                        }
+                    }
+                    self.recentSearchResultPublisher.send([])
+                }
+            }
+            .store(in: &cancellable)
+    }
+}
 
-            self?.pois = pois
-            self?.output.resultPOIs.send(pois)
-        }
+
+//MARK: Make Publisher
+private extension SearchBarViewModel {
+    func searchKeywordResultPublisher(input: Input) -> AnyPublisher<[SearchPOI], Never> {
+        input.inputSearchText
+            .debounce(for: 0.5, scheduler: DispatchQueue.main)
+            .removeDuplicates()
+            .compactMap { $0 }
+            .filter { $0.isNotEmpty }
+            .flatMap { searchText in
+                Future<[SearchPOI], Never> { promise in
+                    Task {
+                        let searchPOIs = await LocationManager.shared.fetchSearchPOIs(keyword: searchText)
+                        promise(.success(searchPOIs))
+                    }
+                }
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func selectedPOIResultPublisher(input: Input) -> AnyPublisher<SearchPOI, Never> {
+        input.didTapPOI
+            .map { [weak self] poi in
+                Task {
+                    try await self?.searchPOIStorage.saveSearch(poi: poi)
+                }
+                return poi
+            }
+            .eraseToAnyPublisher()
     }
 }
