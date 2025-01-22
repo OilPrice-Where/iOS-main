@@ -13,7 +13,7 @@ import SnapKit
 
 
 protocol SearchBarDelegate: AnyObject {
-    func fetch(name: String?, coordinate: CLLocationCoordinate2D?)
+    func search(poi: SearchPOI)
 }
 
 
@@ -23,6 +23,10 @@ final class SearchBarVC: CommonViewController {
     weak var delegate: SearchBarDelegate?
     
     private let viewModel: SearchBarViewModel
+    
+    private let didTapSearchPOI = PassthroughSubject<SearchPOI, Never>()
+    private let didTapDeleteSearchPOI = PassthroughSubject<SearchPOI, Never>()
+    private let didConfirmRemoveAllPOI = PassthroughSubject<Void, Never>()
     
     private let recentResultView = RecentResultView()
     private let searchResultView = SearchResultView()
@@ -70,13 +74,18 @@ final class SearchBarVC: CommonViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         makeUI()
+        configureRecentResultView()
         configureSearchResultView()
-        bind()
+        bindActions()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,80 +100,19 @@ final class SearchBarVC: CommonViewController {
         
         view.endEditing(true)
     }
-    
-    //MARK: - Rx Binding..
-    private func bind() {
-        searchBarView
-            .contentTextField
-            .textPublisher
-            .receive(on: DispatchQueue.global())
-            .debounce(for: 0.5, scheduler: RunLoop.main)
-            .sink { [weak self] text in
-                self?.viewModel.input.requestPOI.send(text)
-            }
-            .store(in: &viewModel.bag)
-        searchBarView
-            .contentTextField
-            .didBeginEditingPublisher
-            .receive(on: DispatchQueue.main)
-            .map { UIColor.systemGray }
-            .assign(to: \.tintColor, on: searchImageView)
-            .store(in: &viewModel.bag)
-        
-        searchBarView.contentTextField
-            .controlPublisher(for: .editingDidEnd)
-            .receive(on: DispatchQueue.main)
-            .map { _ in UIColor.systemGray4 }
-            .assign(to: \.tintColor, on: searchImageView)
-            .store(in: &viewModel.bag)
-        
-        searchBarView
-            .contentTextField
-            .textPublisher
-            .receive(on: DispatchQueue.main)
-            .compactMap { $0 }
-            .filter { $0.count == 0 }
-            .map { $0.isEmpty }
-            .assign(to: \.isHidden, on: searchResultTableView)
-            .store(in: &viewModel.bag)
-        
+}
+
+
+//MARK: - Binding..
+private extension SearchBarVC {
+    func bindActions() {
         removeAllButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                let alert = UIAlertController(title: "최근 검색어를 모두 삭제하시겠습니까?", message: nil, preferredStyle: .actionSheet)
-                let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-                    for poi in DataManager.shared.pois {
-                        DataManager.shared.delete(value: poi)
-                    }
-                    DataManager.shared.pois.removeAll()
-                    
-                    self?.performRecentDataSnapShot()
-                }
-                
-                let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-                
-                alert.addAction(deleteAction)
-                alert.addAction(cancelAction)
-                
-                self?.present(alert, animated: true)
+                self?.presentClearSearchHistoryAlert()
             }
-            .store(in: &viewModel.bag)
-        
-        viewModel
-            .output
-            .resultPOIs
-            .receive(on: DispatchQueue.main)
-            .sink {
-                if case let .failure(error) = $0 {
-                    LogUtil.e(error.localizedDescription)
-                }
-            } receiveValue: { [weak self] in
-                self?.viewModel.pois = $0
-                self?.searchResultTableView.isHidden = $0.isEmpty
-                self?.performSearchDataSnapShot(pois: $0)
-            }
-            .store(in: &viewModel.bag)
+            .store(in: &cancellable)
         
         navigationView.backButton
             .tapPublisher
@@ -172,72 +120,116 @@ final class SearchBarVC: CommonViewController {
             .sink { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
             }
-            .store(in: &viewModel.bag)
+            .store(in: &cancellable)
         
-        DataManager.shared.$poisIsNotEmpty
+        let output = viewModel.transform(input: .init(
+            viewDidLoad: Just(()).eraseToAnyPublisher(),
+            inputSearchText: searchBarView.contentTextField.textPublisher.eraseToAnyPublisher(),
+            didTapPOI: didTapSearchPOI.eraseToAnyPublisher(),
+            didTapDeletePOI: didTapDeleteSearchPOI.eraseToAnyPublisher(),
+            didTapRemoveAllPOI: didConfirmRemoveAllPOI.eraseToAnyPublisher()
+        ))
+        
+        bindUI(output: output)
+    }
+    
+    func bindUI(output: SearchBarViewModel.Output) {
+        output.recentSearchResult
             .receive(on: DispatchQueue.main)
-            .assign(to: \.isHidden, on: emptyRecentSearchLabel)
-            .store(in: &bag)
-    }
-    
-    @objc
-    private func backButtonTouched() {
-        navigationController?.popViewController(animated: true)
+            .sink { [weak self] searchPOIs in
+                self?.emptyRecentSearchLabel.isHidden = searchPOIs.isNotEmpty
+                self?.recentResultView.apply(pois: searchPOIs)
+            }
+            .store(in: &cancellable)
+        
+        output.searchKeywordResult
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] items in
+                self?.searchResultView.isHidden = items.isEmpty
+                self?.searchResultView.apply(items: items)
+            }
+            .store(in: &cancellable)
+        
+        output.selectedPOIResult
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] poi in
+                self?.delegate?.search(poi: poi)
+                self?.navigationController?.popViewController(animated: true)
+            }
+            .store(in: &cancellable)
+        
+        searchBarView.contentTextField
+            .didBeginEditingPublisher
+            .receive(on: DispatchQueue.main)
+            .map { UIColor.systemGray }
+            .assign(to: \.tintColor, on: searchImageView)
+            .store(in: &cancellable)
+        
+        searchBarView.contentTextField
+            .controlPublisher(for: .editingDidEnd)
+            .receive(on: DispatchQueue.main)
+            .map { _ in UIColor.systemGray4 }
+            .assign(to: \.tintColor, on: searchImageView)
+            .store(in: &cancellable)
+        
+        searchBarView.contentTextField
+            .textPublisher
+            .receive(on: DispatchQueue.main)
+            .compactMap { $0 }
+            .map { $0.isEmpty }
+            .assign(to: \.isHidden, on: searchResultView)
+            .store(in: &cancellable)
     }
 }
 
-//MARK:- DiffDataSource
-extension SearchBarVC: UITableViewDelegate {
-    private func performRecentDataSource() {
-        recentDataSource = UITableViewDiffableDataSource<Section, ResponsePOI>(tableView: recentTableView, cellProvider: { tableView, indexPath, poi in
-            let cell = tableView.dequeueReusableCell(withType: RecentResultCell.self, for: indexPath)
-            
-            cell.configure(with: poi, index: indexPath.row)
-            cell.delegate = self
-            
-            return cell
-        })
+
+extension SearchBarVC: RecentResultViewDelegate {
+    func didTapRecentResult(poi: SearchPOI) {
+        didTapSearchPOI.send(poi)
     }
     
-    private func performRecentDataSnapShot() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ResponsePOI>()
-        snapshot.appendSections([.search])
+    func didTapDeleteRecentResult(poi: SearchPOI) {
+        didTapDeleteSearchPOI.send(poi)
+    }
+    
+    private func configureRecentResultView() {
+        recentResultView.delegate = self
+    }
+    
+    private func presentClearSearchHistoryAlert() {
+        let alert = UIAlertController(
+            title: "최근 검색어를 모두 삭제하시겠습니까?",
+            message: nil,
+            preferredStyle: .actionSheet
+        )
         
-        let pois = DataManager.shared.pois.map {
-            ResponsePOI(name: $0.name,
-                        address: $0.address,
-                        coordinate: CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude),
-                        insertDate: $0.insertDate)
+        let deleteAction = UIAlertAction(
+            title: "삭제",
+            style: .destructive
+        ) { [weak self] _ in
+            self?.didConfirmRemoveAllPOI.send(())
         }
+        let cancelAction = UIAlertAction(
+            title: "취소",
+            style: .cancel
+        )
         
-        snapshot.appendItems(pois)
-        self.recentDataSource?.apply(snapshot, animatingDifferences: false)
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
         
-        navigationController?.popViewController(animated: true)
+        present(alert, animated: true)
     }
 }
 
-extension SearchBarVC: RecentResultCellProtocol {
-    func delete(poi: POIEntity?, index: Int?) {
-        guard let poi, let index else { return }
-        
-        DataManager.shared.delete(value: poi)
-        DataManager.shared.pois.remove(at: index)
-        
-        performRecentDataSnapShot()
-    }
-}
 
 extension SearchBarVC: SearchResultViewDelegate {
-    func didTapSearchResult(poi: ResponsePOI) {
-        
+    func didTapSearchResult(poi: SearchPOI) {
+        didTapSearchPOI.send(poi)
     }
     
     private func configureSearchResultView() {
         searchResultView.delegate = self
+        searchResultView.isHidden = true
     }
 }
 
@@ -302,7 +294,7 @@ private extension SearchBarVC {
         view.addSubview(searchImageView)
         view.addSubview(titleLabel)
         view.addSubview(removeAllButton)
-        view.addSubview(recentTableView)
+        view.addSubview(recentResultView)
         view.addSubview(emptyRecentSearchLabel)
         view.addSubview(searchResultView)
     }
@@ -331,9 +323,9 @@ private extension SearchBarVC {
             $0.centerY.equalTo(titleLabel.snp.centerY)
             $0.right.equalToSuperview().offset(UIConstants.RemoveAllButton.rightOffset)
         }
-        recentTableView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(16)
-            $0.left.bottom.right.equalToSuperview().inset(16)
+        recentResultView.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.left.bottom.right.equalToSuperview()
         }
         emptyRecentSearchLabel.snp.makeConstraints {
             $0.center.equalToSuperview()

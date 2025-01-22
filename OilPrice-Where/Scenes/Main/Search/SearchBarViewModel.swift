@@ -29,6 +29,11 @@ final class SearchBarViewModel {
 
 //MARK: - I/O & transform
 extension SearchBarViewModel {
+    struct SearchResultItem: Hashable {
+        let searchText: String
+        let poi: SearchPOI
+    }
+    
     struct Input {
         let viewDidLoad: AnyPublisher<Void, Never>
         let inputSearchText: AnyPublisher<String?, Never>
@@ -39,7 +44,7 @@ extension SearchBarViewModel {
     
     struct Output {
         let recentSearchResult: AnyPublisher<[SearchPOI], Never>
-        let searchKeywordResult: AnyPublisher<[SearchPOI], Never>
+        let searchKeywordResult: AnyPublisher<[SearchResultItem], Never>
         let selectedPOIResult: AnyPublisher<SearchPOI, Never>
     }
     
@@ -76,7 +81,7 @@ private extension SearchBarViewModel {
                 Task {
                     do {
                         try await self.searchPOIStorage.removeSearch(poi: poi)
-                        var searchPOIs = self.searchPOIStorage.fetchSearchPOIs()
+                        let searchPOIs = self.searchPOIStorage.fetchSearchPOIs()
                         self.recentSearchResultPublisher.send(searchPOIs)
                     } catch {
                         LogUtil.e("삭제 실패")
@@ -110,17 +115,23 @@ private extension SearchBarViewModel {
 
 //MARK: Make Publisher
 private extension SearchBarViewModel {
-    func searchKeywordResultPublisher(input: Input) -> AnyPublisher<[SearchPOI], Never> {
+    func searchKeywordResultPublisher(input: Input) -> AnyPublisher<[SearchResultItem], Never> {
         input.inputSearchText
             .debounce(for: 0.5, scheduler: DispatchQueue.main)
             .removeDuplicates()
             .compactMap { $0 }
             .filter { $0.isNotEmpty }
             .flatMap { searchText in
-                Future<[SearchPOI], Never> { promise in
+                Future<[SearchResultItem], Never> { promise in
                     Task {
                         let searchPOIs = await LocationManager.shared.fetchSearchPOIs(keyword: searchText)
-                        promise(.success(searchPOIs))
+                        let searchResultItems = searchPOIs.map {
+                            SearchResultItem(
+                                searchText: searchText,
+                                poi: $0
+                            )
+                        }
+                        promise(.success(searchResultItems))
                     }
                 }
             }
@@ -131,7 +142,12 @@ private extension SearchBarViewModel {
         input.didTapPOI
             .map { [weak self] poi in
                 Task {
-                    try await self?.searchPOIStorage.saveSearch(poi: poi)
+                    try await self?.searchPOIStorage.saveSearch(poi: .init(
+                        name: poi.name,
+                        address: poi.address,
+                        coordinate: poi.coordinate,
+                        insertDate: Date()
+                    ))
                 }
                 return poi
             }

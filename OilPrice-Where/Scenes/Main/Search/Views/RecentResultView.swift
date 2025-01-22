@@ -21,6 +21,17 @@ final class RecentResultView: UIView {
     
     private var collectionView: UICollectionView!
     private var dataSource: RecentResultDataSource!
+    
+    
+    init() {
+        super.init(frame: .zero)
+        
+        makeUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 
@@ -32,34 +43,49 @@ extension RecentResultView: UICollectionViewDelegate {
         func applySnapshot(with pois: [SearchPOI],
                            animatingDifferences: Bool = false) {
             var snapshot: Snapshot = .init()
+            snapshot.appendSections([.main])
             snapshot.appendItems(pois, toSection: .main)
             apply(snapshot, animatingDifferences: animatingDifferences)
         }
     }
     
     private func configureCollectionView() {
-        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        let layout = collectionViewLayout()
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
             $0.delegate = self
             $0.keyboardDismissMode = .onDrag
             $0.alwaysBounceVertical = false
             $0.alwaysBounceHorizontal = false
+            $0.showsVerticalScrollIndicator = false
             $0.showsHorizontalScrollIndicator = false
         }
         
         configureDataSource()
     }
     
+    private func collectionViewLayout() -> UICollectionViewFlowLayout {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumLineSpacing = .zero
+        flowLayout.minimumInteritemSpacing = .zero
+        flowLayout.scrollDirection = .vertical
+        flowLayout.itemSize = UIConstants.CollectionView.itemSize
+        flowLayout.sectionInset = .zero
+        return flowLayout
+    }
+    
     private func configureDataSource() {
+        let cellRegistration = RecentResultCell.cellRegistration(self)
         self.dataSource = RecentResultDataSource(collectionView: collectionView) { collectionView, indexPath, poi in
-            let cellRegistration = RecentResultCell.cellRegistration(self)
             return collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
                 for: indexPath,
                 item: poi
             )
         }
+    }
+    
+    func apply(pois: [SearchPOI]) {
+        dataSource.applySnapshot(with: pois)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -84,6 +110,10 @@ private extension RecentResultView {
     enum UIConstants {
         enum CollectionView {
             static let insets: CGFloat = 16
+            static let itemSize: CGSize = .init(
+                width: UIScreen.screenWidth - (insets * 2),
+                height: 50
+            )
         }
     }
     

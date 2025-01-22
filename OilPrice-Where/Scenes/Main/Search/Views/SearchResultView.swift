@@ -20,57 +20,78 @@ final class SearchResultView: UIView {
     
     private var collectionView: UICollectionView!
     private var dataSource: SearchResultDataSource!
+    
+    
+    init() {
+        super.init(frame: .zero)
+        
+        makeUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 
 //MARK: - CollectionView
 extension SearchResultView: UICollectionViewDelegate {
-    private final class SearchResultDataSource: UICollectionViewDiffableDataSource<CommonDiffableSection, SearchPOI> {
-        private typealias Snapshot = NSDiffableDataSourceSnapshot<CommonDiffableSection, SearchPOI>
+    private final class SearchResultDataSource: UICollectionViewDiffableDataSource<CommonDiffableSection, SearchBarViewModel.SearchResultItem> {
+        private typealias Snapshot = NSDiffableDataSourceSnapshot<CommonDiffableSection, SearchBarViewModel.SearchResultItem>
         
-        func applySnapshot(with pois: [SearchPOI],
+        func applySnapshot(with items: [SearchBarViewModel.SearchResultItem],
                            animatingDifferences: Bool = false) {
             var snapshot: Snapshot = .init()
-            snapshot.appendItems(pois, toSection: .main)
+            snapshot.appendSections([.main])
+            snapshot.appendItems(items, toSection: .main)
             apply(snapshot, animatingDifferences: animatingDifferences)
         }
     }
     
     private func configureCollectionView() {
-        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        let layout = collectionViewLayout()
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
             $0.delegate = self
             $0.keyboardDismissMode = .onDrag
             $0.alwaysBounceVertical = false
             $0.alwaysBounceHorizontal = false
+            $0.showsVerticalScrollIndicator = false
             $0.showsHorizontalScrollIndicator = false
         }
         
         configureDataSource()
     }
     
+    private func collectionViewLayout() -> UICollectionViewFlowLayout {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumLineSpacing = .zero
+        flowLayout.minimumInteritemSpacing = .zero
+        flowLayout.scrollDirection = .vertical
+        flowLayout.itemSize = UIConstants.CollectionView.itemSize
+        flowLayout.sectionInset = .zero
+        return flowLayout
+    }
+    
     private func configureDataSource() {
-        self.dataSource = SearchResultDataSource(collectionView: collectionView) { collectionView, indexPath, poi in
-            let cellRegistration = SearchResultCell.cellRegistration(searchText: "")
+        let cellRegistration = SearchResultCell.cellRegistration
+        self.dataSource = SearchResultDataSource(collectionView: collectionView) { collectionView, indexPath, item in
             return collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
                 for: indexPath,
-                item: poi
+                item: item
             )
         }
     }
     
-    func apply(pois: [SearchPOI]) {
-        dataSource.applySnapshot(with: pois)
+    func apply(items: [SearchBarViewModel.SearchResultItem]) {
+        dataSource.applySnapshot(with: items)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let poi = dataSource.itemIdentifier(for: indexPath) else {
+        guard let item = dataSource.itemIdentifier(for: indexPath) else {
             return
         }
-        
-        delegate?.didTapSearchResult(poi: poi)
+        delegate?.didTapSearchResult(poi: item.poi)
     }
 }
 
@@ -82,6 +103,11 @@ private extension SearchResultView {
             static let topOffset: CGFloat = 8
             static let horizontalInsets: CGFloat = 16
             static let bottomOffset: CGFloat = -16
+            
+            static let itemSize: CGSize = .init(
+                width: UIScreen.screenWidth - (horizontalInsets * 2),
+                height: 86
+            )
         }
     }
     

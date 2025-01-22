@@ -15,6 +15,11 @@ final class TMapSearchPathRepository: SearchPathRepository {
     private let pathData = TMapPathData()
     
     
+    init() {
+        setTMapAuthentication()
+    }
+    
+    
     func requestFindAllPOIs(keyword: String, count: Int) async -> [SearchPOI] {
         await withCheckedContinuation { [weak self] continuation in
             guard let self else {
@@ -24,6 +29,7 @@ final class TMapSearchPathRepository: SearchPathRepository {
             
             self.pathData.requestFindAllPOI(keyword, count: count) { result, error in
                 if let error {
+                    LogUtil.e(error.localizedDescription)
                     continuation.resume(returning: [])
                     return
                 }
@@ -56,7 +62,7 @@ final class TMapSearchPathRepository: SearchPathRepository {
                     var resultAddress = (poi.upperAddrName ?? "") + " " + (poi.middleAddrName ?? "")
 
                     // 4. 도로명 주소가 존재하면 사용하고, 없을 경우 상세 주소 사용
-                    resultAddress += " " + (roadAddress.isEmpty ? previousAddress : roadAddress)
+                    resultAddress += " " + (roadAddress.isEmpty ? previousAddress : roadAddress + buildingPart)
                     
                     return SearchPOI(
                         name: poi.name ?? "",

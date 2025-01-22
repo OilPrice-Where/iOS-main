@@ -57,7 +57,7 @@ final class RecentResultCell: UICollectionViewCell {
     private let lineView = UIView().then {
         $0.backgroundColor = .systemGray5
     }
-    let dateFormatter = DateFormatter().then {
+    private let dateFormatter = DateFormatter().then {
         $0.dateFormat = "MM/dd"
         $0.locale = Locale(identifier: "ko_KR")
     }
@@ -68,6 +68,7 @@ final class RecentResultCell: UICollectionViewCell {
         super.init(frame: frame)
         
         makeUI()
+        configureDeleteButton()
     }
     
     required init?(coder: NSCoder) {
@@ -143,9 +144,6 @@ private extension RecentResultCell {
     }
     
     func setConstraints() {
-        contentView.snp.makeConstraints { make in
-            make.height.equalTo(UIConstants.ContentView.height)
-        }
         locationImageView.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.centerY.equalToSuperview()

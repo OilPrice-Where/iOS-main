@@ -37,17 +37,17 @@ final class HistoryCell: UICollectionViewCell {
     }
     
     //MARK: - Properties
-    
-    let brandImageView = UIImageView().then {
+    private let containerView = UIView()
+    private let brandImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
     }
-    let stationNameLabel = UILabel().then {
+    private let stationNameLabel = UILabel().then {
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 18)
         $0.textAlignment = .left
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
-    let priceKeyLabel = UILabel().then {
+    private let priceKeyLabel = UILabel().then {
         $0.text = "방문 가격"
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
@@ -55,11 +55,11 @@ final class HistoryCell: UICollectionViewCell {
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
-    var priceValueLabel = UILabel().then {
+    private let priceValueLabel = UILabel().then {
         $0.textAlignment = .right
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 14)
     }
-    let visitKeyLabel = UILabel().then {
+    private let visitKeyLabel = UILabel().then {
         $0.text = "방문 일자"
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
@@ -67,7 +67,7 @@ final class HistoryCell: UICollectionViewCell {
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
-    var visitValueLabel = UILabel().then {
+    private let visitValueLabel = UILabel().then {
         $0.textAlignment = .right
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 14)
     }
@@ -123,18 +123,21 @@ private extension HistoryCell {
     }
     
     func configureUI() {
-        contentView.addSubview(brandImageView)
-        contentView.addSubview(stationNameLabel)
-        contentView.addSubview(priceKeyLabel)
-        contentView.addSubview(priceValueLabel)
-        contentView.addSubview(visitKeyLabel)
-        contentView.addSubview(visitValueLabel)
+        contentView.addSubview(containerView)
+        
+        containerView.addSubview(brandImageView)
+        containerView.addSubview(stationNameLabel)
+        containerView.addSubview(priceKeyLabel)
+        containerView.addSubview(priceValueLabel)
+        containerView.addSubview(visitKeyLabel)
+        containerView.addSubview(visitValueLabel)
     }
     
     func setupConstraints() {
-        contentView.snp.makeConstraints {
-            $0.top.left.equalToSuperview()
-            $0.width.equalTo(UIScreen.screenWidth)
+        containerView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
             $0.height.equalTo(UIConstants.contentViewHeight)
         }
         brandImageView.snp.makeConstraints {
@@ -142,7 +145,6 @@ private extension HistoryCell {
             $0.left.equalToSuperview().offset(UIConstants.leftOffset)
             $0.size.equalTo(UIConstants.brandImageSize)
         }
-        
         stationNameLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(UIConstants.topOffset)
             $0.left.equalTo(brandImageView.snp.right).offset(UIConstants.betweenOffset)

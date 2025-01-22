@@ -12,22 +12,22 @@ import SnapKit
 
 
 extension SearchResultCell {
-    static func cellRegistration(searchText: String) -> UICollectionView.CellRegistration<SearchResultCell, SearchPOI> {
-        return UICollectionView.CellRegistration { cell, indexPath, poi in
-            cell.configure(with: poi, commonSearchText: searchText)
+    static var cellRegistration: UICollectionView.CellRegistration<SearchResultCell, SearchBarViewModel.SearchResultItem> {
+        return UICollectionView.CellRegistration { cell, indexPath, item in
+            cell.configure(with: item)
         }
     }
     
-    private func configure(with poi: SearchPOI, commonSearchText: String) {
-        let attrString = NSMutableAttributedString(string: poi.name)
+    private func configure(with item: SearchBarViewModel.SearchResultItem) {
+        let attrString = NSMutableAttributedString(string: item.poi.name)
         titleLabel.attributedText = attrString.apply(
-            word: commonSearchText,
+            word: item.searchText,
             attrs: [.foregroundColor: UIColor.black]
         )
-        subTitleLabel.text = poi.address
+        subTitleLabel.text = item.poi.address
         
         if let departure = LocationManager.shared.currentLocation {
-            let distance = departure.distance(from: poi.coordinate.location)
+            let distance = departure.distance(from: item.poi.coordinate.location)
             let distanceString = distance < 1000 ? "\(Int(distance))m" : "\(Double(Int(distance * 10 / 1000)) / 10)km"
             distanceLabel.text = distanceString
         }
@@ -71,10 +71,6 @@ final class SearchResultCell: UICollectionViewCell {
 // MARK: - UI Setup
 private extension SearchResultCell {
     enum UIConstants {
-        enum ContentView {
-            static let height: CGFloat = 86
-        }
-        
         enum TitleLabel {
             static let font = FontFamily.NanumSquareRound.bold.font(size: 16)
             
@@ -115,9 +111,6 @@ private extension SearchResultCell {
     }
     
     func setConstraints() {
-        contentView.snp.makeConstraints { make in
-            make.height.equalTo(UIConstants.ContentView.height)
-        }
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(UIConstants.TitleLabel.topInset)
             make.horizontalEdges.equalToSuperview()
