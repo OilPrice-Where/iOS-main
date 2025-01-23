@@ -109,8 +109,6 @@ final class TMapSearchPathRepository: SearchPathRepository {
 
 extension TMapSearchPathRepository: TMapTapiDelegate {
     private enum Constants {
-        static let apiKey = "l7xx3d6e38a766c34c2dabd61f634263a2f6"
-                
         struct Parameters {
             static let city = "city_do"
             static let gu = "gu_gun"
@@ -120,7 +118,7 @@ extension TMapSearchPathRepository: TMapTapiDelegate {
     }
     
     func setTMapAuthentication() {
-        TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: Constants.apiKey)
+        TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: Preferences.tMapAppKey())
     }
     
     func SKTMapApikeySucceed() {

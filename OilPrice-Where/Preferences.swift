@@ -31,28 +31,23 @@ struct Preferences {
         alert.iconTintColor = UIColor.white
     }
     
-    // Random App Key
-    // 5개의 App Key중 랜덤하게 한 개의 App Key 반환
-    static func getAppKey() -> String {
-        var appKey = ""
-        
-        switch Int.random(in: 0 ... 5) {
-        case 0:
-            appKey = "F302180619"
-        case 1:
-            appKey = "F303180619"
-        case 2:
-            appKey = "F304180619"
-        case 3:
-            appKey = "F305180619"
-        case 4:
-            appKey = "F306180619"
-        default:
-            appKey = "F307180619"
+    /// Random App Key
+    static func stationAppKey() -> String {
+        guard let appKeys: [String] = loadPlistValue(type: .oil),
+              let appKey = appKeys.randomElement() else {
+            return ""
         }
-        
         return appKey
     }
+    
+    /// TMap API Key
+    static func tMapAppKey() -> String {
+        guard let appKey: String = loadPlistValue(type: .tMap) else {
+            return ""
+        }
+        return appKey
+    }
+    
     
     static func stringByRemovingControlCharacters2(string: String) -> String {
         let controlChars = NSCharacterSet.controlCharacters
@@ -108,5 +103,46 @@ struct Preferences {
         toastLabel.numberOfLines = numberOfLines
         
         return toastLabel
+    }
+}
+
+
+private extension Preferences {
+    enum AppSettings: String {
+        case oil = "StationAppKeys"
+        case tMap = "TMapAPIKey"
+        
+        enum Path {
+            static let fileName: String = "AppSettings"
+            static let type: String = "plist"
+        }
+    }
+    
+    static func loadPlistValue<T>(type: AppSettings) -> T? {
+        guard let plistPath = Bundle.main.path(forResource: AppSettings.Path.fileName, ofType: AppSettings.Path.type) else {
+            LogUtil.e("Plist 파일을 찾을 수 없습니다.")
+            return nil
+        }
+        
+        let plistURL = URL(fileURLWithPath: plistPath)
+        
+        do {
+            let plistData = try Data(contentsOf: plistURL)
+            let dictionary = try PropertyListSerialization.propertyList(
+                from: plistData,
+                options: [],
+                format: nil
+            ) as? [String: Any]
+            
+            guard let dictionary,
+                  let value = dictionary[type.rawValue] as? T else {
+                LogUtil.e("Plist 데이터를 찾을 수 없습니다.")
+                return nil
+            }
+            return value
+        } catch {
+            LogUtil.e("Plist 로드 중 에러 발생: \(error.localizedDescription)")
+            return nil
+        }
     }
 }

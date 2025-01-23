@@ -51,7 +51,7 @@ extension StationAPI: TargetType {
         switch self {
         case .nearbyGasStations(let x, let y, let radius, let prodcd, let sort):
             let params: [String: Any] = [
-                "code": Preferences.getAppKey(),
+                "code": Preferences.stationAppKey(),
                 "x": x,
                 "y": y,
                 "radius": radius,
@@ -67,7 +67,7 @@ extension StationAPI: TargetType {
             
         case .stationDetail(let id):
             let params: [String: Any] = [
-                "code": Preferences.getAppKey(),
+                "code": Preferences.stationAppKey(),
                 "id": id,
                 "out": "json"
             ]
@@ -79,7 +79,7 @@ extension StationAPI: TargetType {
             
         case .oilPriceResult:
             let params: [String: Any] = [
-                "code": Preferences.getAppKey(),
+                "code": Preferences.stationAppKey(),
                 "out": "json"
             ]
             

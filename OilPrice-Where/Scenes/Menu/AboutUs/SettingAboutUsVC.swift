@@ -79,6 +79,7 @@ private extension SettingAboutUsVC {
         func applySnapshot(with items: [SettingAboutUsViewModel.AboutMe],
                            animatingDifferences: Bool = true) {
             var snapshot: Snapshot = .init()
+            snapshot.appendSections([.main])
             snapshot.appendItems(items, toSection: .main)
             apply(snapshot, animatingDifferences: animatingDifferences)
         }
@@ -110,8 +111,9 @@ private extension SettingAboutUsVC {
     }
     
     func configureDataSource() {
+        let cellRegistration = AboutUsCell.cellRegistration
         self.dataSource = SettingAboutUsDataSource(collectionView: collectionView) { collectionView, indexPath, aboutMe in
-            collectionView.dequeueConfiguredReusableCell(using: AboutUsCell.cellRegistration, for: indexPath, item: aboutMe)
+            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: aboutMe)
         }
     }
 }
