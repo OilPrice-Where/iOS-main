@@ -7,12 +7,14 @@
 //
 
 import Foundation
+#if !DEBUG
 import TMapSDK
-
+#endif
 
 final class TMapSearchPathRepository: SearchPathRepository {
-    
+#if !targetEnvironment(simulator)
     private let pathData = TMapPathData()
+#endif
     
     
     init() {
@@ -26,14 +28,14 @@ final class TMapSearchPathRepository: SearchPathRepository {
                 continuation.resume(returning: [])
                 return
             }
-            
+#if !targetEnvironment(simulator)
             self.pathData.requestFindAllPOI(keyword, count: count) { result, error in
                 if let error {
                     LogUtil.e(error.localizedDescription)
                     continuation.resume(returning: [])
                     return
                 }
-                               
+                
                 let items = result ?? []
                 let pois: [SearchPOI] = items.compactMap { poi in
                     guard let coordinate = poi.coordinate else {
@@ -43,7 +45,7 @@ final class TMapSearchPathRepository: SearchPathRepository {
                     // 1. 도로명 주소 및 상세 주소 생성
                     let roadAddress = poi.roadName ?? ""
                     let previousAddress = poi.detailAddrName ?? ""
-
+                    
                     // 2. 건물 번호 부분 생성
                     let buildingPart: String = {
                         // 첫 번째 건물 번호가 없으면 빈 문자열 반환
@@ -57,10 +59,10 @@ final class TMapSearchPathRepository: SearchPathRepository {
                         // 첫 번째 건물 번호만 존재할 경우
                         return " \(no1)"
                     }()
-
+                    
                     // 3. 상위 주소와 중간 주소 결합
                     var resultAddress = (poi.upperAddrName ?? "") + " " + (poi.middleAddrName ?? "")
-
+                    
                     // 4. 도로명 주소가 존재하면 사용하고, 없을 경우 상세 주소 사용
                     resultAddress += " " + (roadAddress.isEmpty ? previousAddress : roadAddress + buildingPart)
                     
@@ -73,6 +75,9 @@ final class TMapSearchPathRepository: SearchPathRepository {
                 }
                 continuation.resume(returning: pois)
             }
+#else
+            continuation.resume(returning: [])
+#endif
         }
     }
     
@@ -82,7 +87,7 @@ final class TMapSearchPathRepository: SearchPathRepository {
                 continuation.resume(returning: "")
                 return
             }
-            
+#if !targetEnvironment(simulator)
             pathData.reverseGeocoding(coordinate.location.coordinate, addressType: "A10") { result, error in
                 if let error {
                     LogUtil.e(error.localizedDescription)
@@ -102,12 +107,15 @@ final class TMapSearchPathRepository: SearchPathRepository {
                 }
                 continuation.resume(returning: "\(city) \(gu) \(roadName) \(buildingNumber)")
             }
+#else
+            continuation.resume(returning: "")
+#endif
         }
     }
 }
 
 
-extension TMapSearchPathRepository: TMapTapiDelegate {
+extension TMapSearchPathRepository {
     private enum Constants {
         struct Parameters {
             static let city = "city_do"
@@ -118,10 +126,16 @@ extension TMapSearchPathRepository: TMapTapiDelegate {
     }
     
     func setTMapAuthentication() {
+#if !targetEnvironment(simulator)
         TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: Preferences.tMapAppKey())
+#endif
     }
-    
+}
+
+#if !targetEnvironment(simulator)
+extension TMapSearchPathRepository: TMapTapiDelegate {
     func SKTMapApikeySucceed() {
         LogUtil.d("TMAP API KEY 인증 성공")
     }
 }
+#endif

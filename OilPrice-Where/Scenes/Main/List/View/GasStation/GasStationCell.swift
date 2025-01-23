@@ -10,6 +10,7 @@ import Then
 import SnapKit
 import UIKit
 
+
 protocol GasStationCellDelegate: AnyObject {
     func touchedFavoriteButton(id: String?)
     func touchedDirectionButton(info: GasStationSummary?)
