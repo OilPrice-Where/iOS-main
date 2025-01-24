@@ -113,6 +113,7 @@ extension FavoriteStationsVC: UICollectionViewDelegate {
         func applySnapshot(with stations: [GasStationDetail],
                            animatingDifferences: Bool = true) {
             var snapshot: Snapshot = .init()
+            snapshot.appendSections([.main])
             snapshot.appendItems(stations, toSection: .main)
             apply(snapshot, animatingDifferences: animatingDifferences)
         }
@@ -135,10 +136,9 @@ extension FavoriteStationsVC: UICollectionViewDelegate {
     }
     
     private func configureDataSource() {
-        self.dataSoruce = FavoriteStationsDataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, visitStation in
-            guard let self else { return .init() }
-            let cellRegistration = FavoriteCell.cellRegistration(self, fuelType: viewModel.fuelType)
-            return collectionView.dequeueConfiguredReusableCell(
+        let cellRegistration = FavoriteCell.cellRegistration(self, fuelType: viewModel.fuelType)
+        self.dataSoruce = FavoriteStationsDataSource(collectionView: collectionView) { collectionView, indexPath, visitStation in
+            collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
                 for: indexPath,
                 item: visitStation

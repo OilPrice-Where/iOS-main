@@ -6,9 +6,10 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
+import UIKit
 import Then
 import SnapKit
-import UIKit
+
 
 //MARK: GasStationCell의 ContentView
 final class GasStationView: UIView {
@@ -16,8 +17,9 @@ final class GasStationView: UIView {
     let titleView = GasStationTitleView()
     let bottomView = GasStationBottomView()
     private let lineView = UIView().then {
-        $0.backgroundColor = UIColor(red: 236/255, green: 236/255, blue: 236/255, alpha: 1.0)
+        $0.backgroundColor = UIConstants.LineView.backgroundColor
     }
+    
     
     //MARK: - Initializer
     override init(frame: CGRect) {
@@ -29,29 +31,61 @@ final class GasStationView: UIView {
     required init?(coder: NSCoder) {
         fatalError("Not Created View")
     }
+}
+
+
+//MARK: - Set UI
+private extension GasStationView {
+    enum UIConstants {
+        enum TitleView {
+            static let topOffset: CGFloat = 12
+            static let leftOffset: CGFloat = 12
+            static let rightOffset: CGFloat = -16
+            static let height: CGFloat = 30
+        }
+        
+        enum LineView {
+            static let backgroundColor: UIColor = .init(red: 236/255, green: 236/255, blue: 236/255, alpha: 1.0)
+            
+            static let topOffset: CGFloat = 8
+            static let height: CGFloat = 1.2
+        }
+        
+        enum BottomView {
+            static let topOffset: CGFloat = 8
+            static let bottomOffset: CGFloat = -12
+        }
+    }
     
-    //MARK: - Set UI
-    private func makeUI() {
+    func makeUI() {
+        configureUI()
+        setConstraints()
+    }
+    
+    func configureUI() {
         backgroundColor = .white
         
         addSubview(titleView)
         addSubview(lineView)
         addSubview(bottomView)
-        
+    }
+    
+    func setConstraints() {
         titleView.snp.makeConstraints {
-            $0.top.left.equalToSuperview().offset(12)
-            $0.right.equalToSuperview().offset(-16)
-            $0.height.equalTo(30)
+            $0.top.equalToSuperview().offset(UIConstants.TitleView.topOffset)
+            $0.left.equalToSuperview().offset(UIConstants.TitleView.leftOffset)
+            $0.right.equalToSuperview().offset(UIConstants.TitleView.rightOffset)
+            $0.height.equalTo(UIConstants.TitleView.height)
         }
         lineView.snp.makeConstraints {
-            $0.top.equalTo(titleView.snp.bottom).offset(8)
+            $0.top.equalTo(titleView.snp.bottom).offset(UIConstants.LineView.topOffset)
             $0.left.right.equalTo(titleView)
-            $0.height.equalTo(1.2)
+            $0.height.equalTo(UIConstants.LineView.height)
         }
         bottomView.snp.makeConstraints {
-            $0.top.equalTo(lineView.snp.bottom).offset(8)
-            $0.left.right.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-12)
+            $0.top.equalTo(lineView.snp.bottom).offset(UIConstants.BottomView.topOffset)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(UIConstants.BottomView.bottomOffset)
         }
     }
 }
