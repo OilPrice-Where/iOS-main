@@ -7,7 +7,8 @@
 //
 
 import Foundation
-#if !DEBUG
+
+#if !targetEnvironment(simulator)
 import TMapSDK
 #endif
 

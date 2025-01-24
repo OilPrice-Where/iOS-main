@@ -48,7 +48,7 @@ extension FavoriteCell {
         // 품질 인증
         qualityHStackView.valueLabel.text = station.isQualityCertified ? "인증" : "미인증"
         // 주소
-        let attributes = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]
+        let attributes = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
         addressHStackView.valueLabel.attributedText = NSAttributedString(string: station.address, attributes: attributes)
         // 전화번호
         phoneNumberHStackView.valueLabel.attributedText = NSAttributedString(string: station.phoneNumber, attributes: attributes)

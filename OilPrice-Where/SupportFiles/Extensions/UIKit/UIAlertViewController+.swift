@@ -16,7 +16,7 @@ extension UIAlertController {
     
     static func createAlertContoller(title: String,
                                      message: String,
-                                     style: UIAlertControllerStyle = .alert,
+                                     style: UIAlertController.Style = .alert,
                                      actions: [UIAlertAction] = [okAction]) -> UIAlertController {
         let alert = UIAlertController(
             title: title,

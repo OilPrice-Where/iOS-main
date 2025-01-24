@@ -14,7 +14,7 @@ import SnapKit
 //MARK: 즐겨찾기 로딩 뷰
 final class LodingView: UIView {
     // Properties
-    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .medium)
+    let activityIndicator = UIActivityIndicatorView(style: .medium)
     
     
     //MARK: Initializer

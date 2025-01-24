@@ -36,7 +36,7 @@ final class SelectionOptionVC: CommonViewController {
     private let laterButton = UIButton().then {
         let att = NSAttributedString(
             string: "다음에 설정",
-            attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]
+            attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
         )
         $0.setAttributedTitle(att, for: .normal)
         $0.setAttributedTitle(att, for: .highlighted)

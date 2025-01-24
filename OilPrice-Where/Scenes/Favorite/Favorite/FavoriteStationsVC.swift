@@ -123,7 +123,7 @@ extension FavoriteStationsVC: UICollectionViewDelegate {
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
             $0.delegate = self
             $0.backgroundColor = .clear
-            $0.decelerationRate = UIScrollViewDecelerationRateFast
+            $0.decelerationRate = UIScrollView.DecelerationRate.fast
             $0.alwaysBounceHorizontal = false
             $0.allowsMultipleSelection = false
             $0.showsVerticalScrollIndicator = false

@@ -252,7 +252,7 @@ private extension StationDetailVC {
             .map { $0.address }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] address in
-                let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]
+                let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
                 var underlineAttributedString = NSAttributedString(string: address, attributes: underlineAttribute)
                 self?.addressValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
                 self?.addressValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
@@ -263,7 +263,7 @@ private extension StationDetailVC {
             .map { $0.phoneNumber }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] phoneNumber in
-                let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]
+                let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
                 var underlineAttributedString = NSAttributedString(string: phoneNumber, attributes: underlineAttribute)
                 self?.phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
                 self?.phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)

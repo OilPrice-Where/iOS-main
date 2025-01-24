@@ -78,7 +78,7 @@ extension LocationManager {
         
         let openAction = UIAlertAction(title: "설정으로 이동",
                                        style: .default) { _ in
-            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+            if let url = URL(string: UIApplication.openSettingsURLString) {
                 UIApplication.shared.open(url,
                                           options: [:],
                                           completionHandler: nil)

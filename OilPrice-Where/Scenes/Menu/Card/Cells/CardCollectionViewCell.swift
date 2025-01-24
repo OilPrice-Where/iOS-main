@@ -33,7 +33,7 @@ final class CardCollectionViewCell: UICollectionViewCell {
     lazy var brandCollectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
         $0.dataSource = self
         $0.backgroundColor = .clear
-        $0.decelerationRate = UIScrollViewDecelerationRateFast
+        $0.decelerationRate = UIScrollView.DecelerationRate.fast
         $0.alwaysBounceHorizontal = false
         $0.allowsMultipleSelection = false
         $0.showsVerticalScrollIndicator = false

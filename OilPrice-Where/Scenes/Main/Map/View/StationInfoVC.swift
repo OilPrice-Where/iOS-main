@@ -276,7 +276,7 @@ final class StationInfoVC: CommonViewController {
         repairImageView.tintColor = info.hasRepairShop ? Asset.Colors.mainColor.color : .lightGray
         convenienceImageView.tintColor = info.hasConvenienceStore ? Asset.Colors.mainColor.color : .lightGray
         
-        let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleThick.rawValue]
+        let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
         var underlineAttributedString = NSAttributedString(string: info.address, attributes: underlineAttribute)
         addressValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
         addressValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)

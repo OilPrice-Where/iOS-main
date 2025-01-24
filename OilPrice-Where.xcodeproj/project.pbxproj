@@ -19,6 +19,8 @@
 		E90FC277290E331F006908CC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC276290E331F006908CC /* LocationManager.swift */; };
 		E90FC27D290E33B8006908CC /* LogUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90FC27C290E33B8006908CC /* LogUtil.swift */; };
 		E919CCC9281BF80700C3373E /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E919CCC8281BF80700C3373E /* PlusView.swift */; };
+		E93A76632D4F88640051A5DC /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93A76622D4F88640051A5DC /* TMapSDK.framework */; };
+		E93A76642D4F88640051A5DC /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E93A76622D4F88640051A5DC /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9400FDE27B0A3E2003168C6 /* NaverMapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FDD27B0A3E2003168C6 /* NaverMapMarker.swift */; };
 		E9400FE027B0A3F0003168C6 /* StationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FDF27B0A3F0003168C6 /* StationInfoView.swift */; };
 		E9400FE627B0D719003168C6 /* StationInfoPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9400FE527B0D719003168C6 /* StationInfoPriceView.swift */; };
@@ -41,8 +43,6 @@
 		E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601C27CE00A6005BB593 /* MainListVC.swift */; };
 		E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E601E27CE0351005BB593 /* MainListViewModel.swift */; };
 		E9C455A5291FDD6A00A81973 /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = E9C455A4291FDD6A00A81973 /* NMapsMap */; };
-		E9C9E6202D4E979C00E565DB /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9C9E61C2D4E973E00E565DB /* TMapSDK.framework */; };
-		E9C9E6212D4E979C00E565DB /* TMapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9C9E61C2D4E973E00E565DB /* TMapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9CD1AF627B54D4000C1375E /* StationInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */; };
 		E9D1445827CED3120055141A /* InfoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1445727CED3120055141A /* InfoListView.swift */; };
 		E9E2A287290EE15600B91765 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = E9E2A286290EE15600B91765 /* KakaoSDK */; };
@@ -62,13 +62,13 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E9C9E6222D4E979C00E565DB /* Embed Frameworks */ = {
+		E93A76612D4F86E10051A5DC /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E9C9E6212D4E979C00E565DB /* TMapSDK.framework in Embed Frameworks */,
+				E93A76642D4F88640051A5DC /* TMapSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,6 +89,7 @@
 		E90FC276290E331F006908CC /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		E90FC27C290E33B8006908CC /* LogUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogUtil.swift; sourceTree = "<group>"; };
 		E919CCC8281BF80700C3373E /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
+		E93A76622D4F88640051A5DC /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMapSDK.framework; path = TMap/Release/TMapSDK.framework; sourceTree = "<group>"; };
 		E9400FDD27B0A3E2003168C6 /* NaverMapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapMarker.swift; sourceTree = "<group>"; };
 		E9400FDF27B0A3F0003168C6 /* StationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoView.swift; sourceTree = "<group>"; };
 		E9400FE527B0D719003168C6 /* StationInfoPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoPriceView.swift; sourceTree = "<group>"; };
@@ -105,7 +106,6 @@
 		E96E601E27CE0351005BB593 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
 		E9984642291D13C20043D1DA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		E9984644291D13C20043D1DA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		E9C9E61C2D4E973E00E565DB /* TMapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMapSDK.framework; path = TMap/TMapSDK.framework; sourceTree = "<group>"; };
 		E9CD1AF527B54D4000C1375E /* StationInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoVC.swift; sourceTree = "<group>"; };
 		E9D1445727CED3120055141A /* InfoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoListView.swift; sourceTree = "<group>"; };
 		E9EFE7C8290D9BB600EA514B /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -146,7 +146,7 @@
 				E94A978E290EE65B002CE7D8 /* FirebaseStorage in Frameworks */,
 				E9C455A5291FDD6A00A81973 /* NMapsMap in Frameworks */,
 				E9E2A287290EE15600B91765 /* KakaoSDK in Frameworks */,
-				E9C9E6202D4E979C00E565DB /* TMapSDK.framework in Frameworks */,
+				E93A76632D4F88640051A5DC /* TMapSDK.framework in Frameworks */,
 				C5CFB09F2D48D3A900735184 /* Moya in Frameworks */,
 				E94A978A290EE65B002CE7D8 /* FirebaseAnalytics in Frameworks */,
 				E9689E76290EE53800DA23AD /* SideMenu in Frameworks */,
@@ -162,7 +162,7 @@
 		0311CDC564670164F66F0F16 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E9C9E61C2D4E973E00E565DB /* TMapSDK.framework */,
+				E93A76622D4F88640051A5DC /* TMapSDK.framework */,
 				8EAEB14F24F41AFF00B5E6CE /* NotificationCenter.framework */,
 				E9984642291D13C20043D1DA /* WidgetKit.framework */,
 				E9984644291D13C20043D1DA /* SwiftUI.framework */,
@@ -308,7 +308,7 @@
 				8E7FFE1E20F5E5FF006CED48 /* Frameworks */,
 				8E7FFE1F20F5E5FF006CED48 /* Resources */,
 				8EAEB14624F4124900B5E6CE /* Embed App Extensions */,
-				E9C9E6222D4E979C00E565DB /* Embed Frameworks */,
+				E93A76612D4F86E10051A5DC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -362,7 +362,7 @@
 				};
 			};
 			buildConfigurationList = 8E7FFE1C20F5E5FF006CED48 /* Build configuration list for PBXProject "OilPrice-Where" */;
-			compatibilityVersion = "Xcode 13.0";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -442,7 +442,7 @@
 		8E7FFE3120F5E600006CED48 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -478,7 +478,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -508,7 +508,6 @@
 		8E7FFE3220F5E600006CED48 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -539,12 +538,12 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
+				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -568,18 +567,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_ENTITLEMENTS = "OilPrice-Where/OilPrice-Where.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3ZS2532XM8;
 				ENABLE_BITCODE = NO;
-				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/TMap",
+					"$(PROJECT_DIR)/TMap/Debug",
 				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "OilPrice-Where/SupportFiles/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "어디주유";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
@@ -589,7 +588,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.9.4;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.OilPriceWhere.wheregasoline;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -600,7 +599,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_WORKSPACE = YES;
 			};
@@ -620,7 +619,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/TMap",
+					"$(PROJECT_DIR)/TMap/Release",
 				);
 				INFOPLIST_FILE = "OilPrice-Where/SupportFiles/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "어디주유";
@@ -642,7 +641,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_WORKSPACE = YES;
 			};
