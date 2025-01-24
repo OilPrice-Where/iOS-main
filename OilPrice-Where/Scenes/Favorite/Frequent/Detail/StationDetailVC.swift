@@ -190,9 +190,8 @@ private extension StationDetailVC {
         // 토스트 노출
         output.showToast
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] message in
-                guard let self,
-                      let visibleViewController = UIApplication.shared.customKeyWindow?.visibleViewController else {
+            .sink { message in
+                guard let visibleViewController = UIApplication.shared.customKeyWindow?.visibleViewController else {
                     return
                 }
                 visibleViewController.view.hideToast()
@@ -253,7 +252,7 @@ private extension StationDetailVC {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] address in
                 let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
-                var underlineAttributedString = NSAttributedString(string: address, attributes: underlineAttribute)
+                let underlineAttributedString = NSAttributedString(string: address, attributes: underlineAttribute)
                 self?.addressValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
                 self?.addressValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
             }
@@ -264,7 +263,7 @@ private extension StationDetailVC {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] phoneNumber in
                 let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
-                var underlineAttributedString = NSAttributedString(string: phoneNumber, attributes: underlineAttribute)
+                let underlineAttributedString = NSAttributedString(string: phoneNumber, attributes: underlineAttribute)
                 self?.phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
                 self?.phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
             }

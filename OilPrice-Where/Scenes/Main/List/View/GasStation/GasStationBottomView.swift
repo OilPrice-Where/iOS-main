@@ -6,9 +6,10 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
+import UIKit
 import Then
 import SnapKit
-import UIKit
+
 
 //MARK: GasStationCell의 BottomView
 final class GasStationBottomView: UIStackView {
@@ -26,11 +27,24 @@ final class GasStationBottomView: UIStackView {
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+
+//MARK: - Set UI
+private extension GasStationBottomView {
+    enum UIConstants {
+        enum StackView {
+            static let spacing: CGFloat = 5.0
+        }
+    }
     
-    //MARK: - Make UI
-    private func makeUI() {
+    func makeUI() {
+        configureUI()
+    }
+    
+    func configureUI() {
         axis = .vertical
-        spacing = 5.0
+        spacing = UIConstants.StackView.spacing
         alignment = .fill
         distribution = .fill
         
