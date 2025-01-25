@@ -111,6 +111,7 @@ extension FrequentVisitVC: UICollectionViewDelegate {
         func applySnapshot(with stations: [VisitedGasStation],
                            animatingDifferences: Bool = true) {
             var snapshot: Snapshot = .init()
+            snapshot.appendSections([.main])
             snapshot.appendItems(stations, toSection: .main)
             apply(snapshot, animatingDifferences: animatingDifferences)
         }
@@ -119,6 +120,7 @@ extension FrequentVisitVC: UICollectionViewDelegate {
     private func configureCollectionView() {
         let layout = collectionViewLayout()
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+            $0.delegate = self
             $0.alwaysBounceVertical = false
             $0.alwaysBounceHorizontal = false
             $0.showsHorizontalScrollIndicator = false
@@ -130,9 +132,8 @@ extension FrequentVisitVC: UICollectionViewDelegate {
     }
     
     private func configureDataSource() {
-        self.dataSoruce = FrequentVisitDataSource(collectionView: collectionView) { [weak self] collectionView, indexPath, visitStation in
-            guard let self else { return .init() }
-            let cellRegistration = FrequentVisitCell.cellRegistration(self, settingUseCase: viewModel.settingUseCase)
+        let cellRegistration = FrequentVisitCell.cellRegistration(self, settingUseCase: viewModel.settingUseCase)
+        self.dataSoruce = FrequentVisitDataSource(collectionView: collectionView) { collectionView, indexPath, visitStation in
             return collectionView.dequeueConfiguredReusableCell(
                 using: cellRegistration,
                 for: indexPath,
