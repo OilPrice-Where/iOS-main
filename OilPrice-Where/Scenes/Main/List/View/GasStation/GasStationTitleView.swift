@@ -11,9 +11,18 @@ import Then
 import SnapKit
 
 
+//MARK: - Configure
+extension GasStationTitleView {
+    func configure(title info: any StationRepresentable) {
+        logoImageView.image = info.brand.image
+        stationNameLabel.text = info.name
+    }
+}
+
+
 //MARK: GasStationCell의 Title 정보
 final class GasStationTitleView: UIStackView {
-    // Properties
+    //MARK: - Properties
     private let logoImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
     }
@@ -24,7 +33,8 @@ final class GasStationTitleView: UIStackView {
         $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
-    // Initializer
+    
+    //MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -34,25 +44,43 @@ final class GasStationTitleView: UIStackView {
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+
+//MARK: - Set UI
+private extension GasStationTitleView {
+    enum UIConstants {
+        enum StackView {
+            static let spacing: CGFloat = 8
+        }
+        
+        enum LogoImageView {
+            static let size: CGFloat = 30
+        }
+        
+        enum StationNameLabel {
+            static let font = FontFamily.NanumSquareRound.bold.font(size: 20)
+        }
+    }
     
-    // Set UI
-    private func makeUI() {
+    func makeUI() {
+        configureUI()
+        setConstraints()
+    }
+    
+    func configureUI() {
         axis = .horizontal
-        spacing = 8.0
+        spacing = UIConstants.StackView.spacing
         alignment = .fill
         distribution = .fill
         
         addArrangedSubview(logoImageView)
         addArrangedSubview(stationNameLabel)
-        
-        logoImageView.snp.makeConstraints {
-            $0.size.equalTo(30)
-        }
     }
     
-    // Configure title
-    func configure(title info: any StationRepresentable) {
-        logoImageView.image = info.brand.image
-        stationNameLabel.text = info.name
+    func setConstraints() {
+        logoImageView.snp.makeConstraints {
+            $0.size.equalTo(UIConstants.LogoImageView.size)
+        }
     }
 }
