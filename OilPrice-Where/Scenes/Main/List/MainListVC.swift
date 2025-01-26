@@ -12,7 +12,7 @@ import UIKit
 import Combine
 import NMapsMap
 import Combine
-import FirebaseAnalytics
+
 
 protocol MainListVCDelegate: AnyObject {
     func touchedCell(info: GasStationSummary)
@@ -203,7 +203,7 @@ extension MainListVC {
         dataSource = UICollectionViewDiffableDataSource<Section, GasStationSummary>(collectionView: collectionView, cellProvider: { collectionView, indexPath, station in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GasStationCell.id, for: indexPath) as? GasStationCell else { return UICollectionViewCell() }
             
-            cell.configure(station: station, indexPath: indexPath)
+            cell.configure(station: station)
             cell.delegate = self
             
             return cell
@@ -228,21 +228,10 @@ extension MainListVC: UICollectionViewDelegate {
 }
 
 extension MainListVC: GasStationCellDelegate {
-    // 즐겨찾기 설정 및 해제
-    func touchedFavoriteButton(id: String?) {
-        let event = "tap_list_favorite"
-        let parameters = [
-            "file": #file,
-            "function": #function,
-            "eventDate": DefaultData.shared.currentTime
-        ]
-        
-        Analytics.setUserProperty("ko", forName: "country")
-        Analytics.logEvent(event, parameters: parameters)
-        
+    func touchedFavoriteButton(stationID: String) {
         let faovorites = DefaultData.shared.favoriteSubject.value
-        guard let _id = id, faovorites.count < 6 else { return }
-        let isDeleted = faovorites.contains(_id)
+        guard faovorites.count < 6 else { return }
+        let isDeleted = faovorites.contains(stationID)
         guard isDeleted || (!isDeleted && faovorites.count < 5) else {
             DispatchQueue.main.async { [weak self] in
                 self?.makeAlert(title: "최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !")
@@ -250,7 +239,7 @@ extension MainListVC: GasStationCellDelegate {
             return
         }
         var newFaovorites = faovorites
-        isDeleted ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
+        isDeleted ? newFaovorites = newFaovorites.filter { $0 != stationID } : newFaovorites.append(stationID)
         
         DefaultData.shared.favoriteSubject.send(newFaovorites)
         
@@ -260,17 +249,7 @@ extension MainListVC: GasStationCellDelegate {
         view.showToast(lbl, position: .top)
     }
     
-    func touchedDirectionButton(info: GasStationSummary?) {
-        let event = "tap_list_navigation"
-        let parameters = [
-            "file": #file,
-            "function": #function,
-            "eventDate": DefaultData.shared.currentTime
-        ]
-        
-        Analytics.setUserProperty("ko", forName: "country")
-        Analytics.logEvent(event, parameters: parameters)
-        
-        requestDirection(station: info)
+    func touchedDirectionButton(station summary: GasStationSummary) {
+        requestDirection(station: summary)
     }
 }

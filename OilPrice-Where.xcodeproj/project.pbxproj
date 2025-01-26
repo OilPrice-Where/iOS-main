@@ -29,13 +29,6 @@
 		E94A978A290EE65B002CE7D8 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = E94A9789290EE65B002CE7D8 /* FirebaseAnalytics */; };
 		E94A978C290EE65B002CE7D8 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = E94A978B290EE65B002CE7D8 /* FirebaseDatabase */; };
 		E94A978E290EE65B002CE7D8 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = E94A978D290EE65B002CE7D8 /* FirebaseStorage */; };
-		E94D0F0027BB3DBC00BCB092 /* GasStationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D0EFF27BB3DBC00BCB092 /* GasStationCell.swift */; };
-		E94D0F0227BB467600BCB092 /* GasStationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D0F0127BB467600BCB092 /* GasStationTitleView.swift */; };
-		E94D0F0427BB490C00BCB092 /* GasStationBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D0F0327BB490C00BCB092 /* GasStationBottomView.swift */; };
-		E94D0F0627BB4AE000BCB092 /* GasStationPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D0F0527BB4AE000BCB092 /* GasStationPriceView.swift */; };
-		E94D0F0827BB4D5800BCB092 /* GasStationExpandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D0F0727BB4D5800BCB092 /* GasStationExpandView.swift */; };
-		E94D0F0A27BB50D000BCB092 /* GasStationDirectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D0F0927BB50D000BCB092 /* GasStationDirectionView.swift */; };
-		E94D0F0C27BB56D100BCB092 /* GasStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D0F0B27BB56D100BCB092 /* GasStationView.swift */; };
 		E9689E70290EE47700DA23AD /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = E9689E6F290EE47700DA23AD /* FloatingPanel */; };
 		E9689E76290EE53800DA23AD /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = E9689E75290EE53800DA23AD /* SideMenu */; };
 		E96A72182D3BBEF6009B1261 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = E96A72172D3BBEF6009B1261 /* Then */; };
@@ -94,13 +87,6 @@
 		E9400FDF27B0A3F0003168C6 /* StationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoView.swift; sourceTree = "<group>"; };
 		E9400FE527B0D719003168C6 /* StationInfoPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoPriceView.swift; sourceTree = "<group>"; };
 		E9400FE727B1146E003168C6 /* StationInfoGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoGuideView.swift; sourceTree = "<group>"; };
-		E94D0EFF27BB3DBC00BCB092 /* GasStationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationCell.swift; sourceTree = "<group>"; };
-		E94D0F0127BB467600BCB092 /* GasStationTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationTitleView.swift; sourceTree = "<group>"; };
-		E94D0F0327BB490C00BCB092 /* GasStationBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationBottomView.swift; sourceTree = "<group>"; };
-		E94D0F0527BB4AE000BCB092 /* GasStationPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationPriceView.swift; sourceTree = "<group>"; };
-		E94D0F0727BB4D5800BCB092 /* GasStationExpandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationExpandView.swift; sourceTree = "<group>"; };
-		E94D0F0927BB50D000BCB092 /* GasStationDirectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationDirectionView.swift; sourceTree = "<group>"; };
-		E94D0F0B27BB56D100BCB092 /* GasStationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasStationView.swift; sourceTree = "<group>"; };
 		E96A73B52D4614E3009B1261 /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
 		E96E601C27CE00A6005BB593 /* MainListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListVC.swift; sourceTree = "<group>"; };
 		E96E601E27CE0351005BB593 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
@@ -126,6 +112,7 @@
 		E92181782D4BEE6800CC7220 /* Favorite */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Favorite; sourceTree = "<group>"; };
 		E92181882D4BF06D00CC7220 /* Model */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Model; sourceTree = "<group>"; };
 		E92184022D4E54BD00CC7220 /* Search */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Search; sourceTree = "<group>"; };
+		E93A7A482D50002E0051A5DC /* Cells */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Cells; sourceTree = "<group>"; };
 		E96A727D2D3D947B009B1261 /* SupportFiles */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (C5CFB09D2D48D38700735184 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = SupportFiles; sourceTree = "<group>"; };
 		E96A72D32D4609AC009B1261 /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
 		E96A72F62D4609F3009B1261 /* Application */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Application; sourceTree = "<group>"; };
@@ -205,9 +192,10 @@
 		2CC1C805276C723A007527C7 /* List */ = {
 			isa = PBXGroup;
 			children = (
+				E93A7A482D50002E0051A5DC /* Cells */,
 				E96E601C27CE00A6005BB593 /* MainListVC.swift */,
 				E96E601E27CE0351005BB593 /* MainListViewModel.swift */,
-				E96E601B27CE008A005BB593 /* View */,
+				E96E601B27CE008A005BB593 /* Views */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -273,28 +261,13 @@
 			name = Common;
 			sourceTree = "<group>";
 		};
-		E94D0F0D27BB7A7100BCB092 /* GasStation */ = {
-			isa = PBXGroup;
-			children = (
-				E94D0EFF27BB3DBC00BCB092 /* GasStationCell.swift */,
-				E94D0F0B27BB56D100BCB092 /* GasStationView.swift */,
-				E94D0F0127BB467600BCB092 /* GasStationTitleView.swift */,
-				E94D0F0327BB490C00BCB092 /* GasStationBottomView.swift */,
-				E94D0F0527BB4AE000BCB092 /* GasStationPriceView.swift */,
-				E94D0F0727BB4D5800BCB092 /* GasStationExpandView.swift */,
-				E94D0F0927BB50D000BCB092 /* GasStationDirectionView.swift */,
-			);
-			path = GasStation;
-			sourceTree = "<group>";
-		};
-		E96E601B27CE008A005BB593 /* View */ = {
+		E96E601B27CE008A005BB593 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				2CC1C809276C79F5007527C7 /* MainListNoneView.swift */,
 				E9D1445727CED3120055141A /* InfoListView.swift */,
-				E94D0F0D27BB7A7100BCB092 /* GasStation */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -318,6 +291,7 @@
 				E92181782D4BEE6800CC7220 /* Favorite */,
 				E92181882D4BF06D00CC7220 /* Model */,
 				E92184022D4E54BD00CC7220 /* Search */,
+				E93A7A482D50002E0051A5DC /* Cells */,
 				E96A727D2D3D947B009B1261 /* SupportFiles */,
 				E96A72D32D4609AC009B1261 /* Resources */,
 				E96A72F62D4609F3009B1261 /* Application */,
@@ -405,8 +379,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E94D0F0027BB3DBC00BCB092 /* GasStationCell.swift in Sources */,
-				E94D0F0827BB4D5800BCB092 /* GasStationExpandView.swift in Sources */,
 				E9F0996427D8C44B009F95DF /* KeyValueView.swift in Sources */,
 				E9D1445827CED3120055141A /* InfoListView.swift in Sources */,
 				E96A73B62D4614E3009B1261 /* FirebaseError.swift in Sources */,
@@ -414,11 +386,7 @@
 				E90FC277290E331F006908CC /* LocationManager.swift in Sources */,
 				8ECE0D52211AD42600FF2B46 /* Preferences.swift in Sources */,
 				E90FC27D290E33B8006908CC /* LogUtil.swift in Sources */,
-				E94D0F0227BB467600BCB092 /* GasStationTitleView.swift in Sources */,
-				E94D0F0427BB490C00BCB092 /* GasStationBottomView.swift in Sources */,
 				8EB5C2E82139214700AB83BB /* Reachability.swift in Sources */,
-				E94D0F0C27BB56D100BCB092 /* GasStationView.swift in Sources */,
-				E94D0F0627BB4AE000BCB092 /* GasStationPriceView.swift in Sources */,
 				2CC1C80E276C8610007527C7 /* MainMapView.swift in Sources */,
 				E96E601D27CE00A6005BB593 /* MainListVC.swift in Sources */,
 				E9400FDE27B0A3E2003168C6 /* NaverMapMarker.swift in Sources */,
@@ -431,7 +399,6 @@
 				E9400FE627B0D719003168C6 /* StationInfoPriceView.swift in Sources */,
 				E96E601F27CE0351005BB593 /* MainListViewModel.swift in Sources */,
 				8ECE0D54211AF0C300FF2B46 /* DefaultData.swift in Sources */,
-				E94D0F0A27BB50D000BCB092 /* GasStationDirectionView.swift in Sources */,
 				2CC1C80A276C79F5007527C7 /* MainListNoneView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
