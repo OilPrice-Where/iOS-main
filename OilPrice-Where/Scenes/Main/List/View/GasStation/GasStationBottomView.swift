@@ -11,6 +11,18 @@ import Then
 import SnapKit
 
 
+extension GasStationBottomView {
+    func configure(with station: GasStationSummary, isFavorite: Bool) {
+        priceView.configure(price: station)
+        
+        expandView.configure(
+            isFavorite: isFavorite,
+            distance: String(format: "%.1fkm", station.distance / 1000)
+        )
+    }
+}
+
+
 //MARK: GasStationCell의 BottomView
 final class GasStationBottomView: UIStackView {
     //MARK: - Properties

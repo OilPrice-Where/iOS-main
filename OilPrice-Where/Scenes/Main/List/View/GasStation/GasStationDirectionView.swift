@@ -16,7 +16,9 @@ extension GasStationDirectionView {
     func configure(image: UIImage? = nil,
                    distance: String? = nil,
                    message: String? = nil) {
-        logoImageView.image = image
+        if let image {
+            logoImageView.image = image
+        }
         
         if let distance {
             titleLabel.text = "\(distance) 안내 시작"

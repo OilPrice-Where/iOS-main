@@ -11,14 +11,28 @@ import Then
 import SnapKit
 
 
+extension GasStationView {
+    func configure(with station: GasStationSummary, isFavoriteStation: Bool) {
+        titleView.configure(title: station)
+        
+        bottomView.configure(
+            with: station,
+            isFavorite: isFavoriteStation
+        )
+    }
+}
+
+
 //MARK: GasStationCell의 ContentView
 final class GasStationView: UIView {
     //MARK: - Properties
-    let titleView = GasStationTitleView()
-    let bottomView = GasStationBottomView()
+    private let titleView = GasStationTitleView()
+    private let bottomView = GasStationBottomView()
     private let lineView = UIView().then {
         $0.backgroundColor = UIConstants.LineView.backgroundColor
     }
+    
+
     
     
     //MARK: - Initializer
@@ -30,6 +44,16 @@ final class GasStationView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("Not Created View")
+    }
+}
+
+extension GasStationView {
+    var favoriteButton: UIButton {
+        bottomView.expandView.favoriteButton
+    }
+    
+    var directionView: UIView {
+        bottomView.expandView.directionView
     }
 }
 

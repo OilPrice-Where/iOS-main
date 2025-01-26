@@ -13,6 +13,8 @@ import NMapsMap
 import SideMenu
 import Firebase
 import FloatingPanel
+
+
 //MARK: Main Map VC
 final class MainVC: CommonViewController {
     //MARK: - Properties
@@ -373,8 +375,8 @@ final class MainVC: CommonViewController {
     }
     
     private func toFavoriteTapped() {
-//        let tabbar = FavoriteCustomTabbarController()
-//        navigationController?.pushViewController(tabbar, animated: true)
+        let tabbar = FavoriteTabbarController()
+        navigationController?.pushViewController(tabbar, animated: true)
     }
     
     private func researchStation(with coordinate: CLLocationCoordinate2D? = nil) {
