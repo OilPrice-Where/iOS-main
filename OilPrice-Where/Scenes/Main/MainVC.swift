@@ -370,7 +370,7 @@ final class MainVC: CommonViewController {
         let listVC = MainListVC()
         listVC.delegate = self
         listVC.viewModel = MainListViewModel(stations: viewModel.stations)
-        listVC.infoView.fetch(geoCode: viewModel.addressString)
+        listVC.infoView.configure(address: viewModel.addressString)
         navigationController?.pushViewController(listVC, animated: true)
     }
     
@@ -408,16 +408,6 @@ final class MainVC: CommonViewController {
     }
     
     private func touchedFavoriteButton() {
-        let event = "didTapFavoriteButton"
-        let parameters = [
-            "file": #file,
-            "function": #function,
-            "eventDate": DefaultData.shared.currentTime
-        ]
-        
-        Analytics.setUserProperty("ko", forName: "country")
-        Analytics.logEvent(event, parameters: parameters)
-        
         let faovorites = DefaultData.shared.favoriteSubject.value
         guard let _id = viewModel.selectedStation?.stationID, faovorites.count < 6 else { return }
         let isDeleted = faovorites.contains(_id)
@@ -441,16 +431,6 @@ final class MainVC: CommonViewController {
     }
     
     private func toNavigationTapped() {
-        let event = "tap_main_navigation"
-        let parameters = [
-            "file": #file,
-            "function": #function,
-            "eventDate": DefaultData.shared.currentTime
-        ]
-        
-        Analytics.setUserProperty("ko", forName: "country")
-        Analytics.logEvent(event, parameters: parameters)
-        
         requestDirection(station: viewModel.selectedStation)
     }
     
