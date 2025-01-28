@@ -20,18 +20,18 @@ protocol GasStationCellDelegate: AnyObject {
 
 
 extension GasStationCell {
-    static func cellRegistration(_ delegate: GasStationCellDelegate) -> UICollectionView.CellRegistration<GasStationCell, GasStationSummary> {
+    static func cellRegistration(_ delegate: GasStationCellDelegate, settingUseCase: SettingUseCase) -> UICollectionView.CellRegistration<GasStationCell, GasStationSummary> {
         return UICollectionView.CellRegistration<GasStationCell, GasStationSummary> { cell, indexPath, station in
             cell.delegate = delegate
-            cell.configure(station: station)
+            cell.configure(station: station, settingUseCase: settingUseCase)
         }
     }
     
-    private func configure(station summary: GasStationSummary) {
+    private func configure(station summary: GasStationSummary, settingUseCase: SettingUseCase) {
         self.summary = summary
         
-        let ids = DefaultData.shared.favoriteSubject.value
-        let isFavoriteStation = ids.contains(summary.stationID)
+        let favorites: [String]? = try? settingUseCase.load(type: .favorites)
+        let isFavoriteStation = favorites?.contains(summary.stationID) ?? false
         stationView.configure(with: summary, isFavoriteStation: isFavoriteStation)
     }
 }
@@ -74,6 +74,7 @@ private extension GasStationCell {
                       summary.stationID.isNotEmpty else {
                     return
                 }
+                stationView.updateFavoriteUI()
                 delegate?.touchedFavoriteButton(stationID: summary.stationID)
             }
             .store(in: &cancellable)
@@ -96,17 +97,6 @@ private extension GasStationCell {
 //MARK: - Set UI
 private extension GasStationCell {
     enum UIConstants {
-        enum FavoriteButton {
-            static let image: UIImage = Asset.Images.favoriteOffIcon.image.withRenderingMode(.alwaysTemplate)
-            static let tintColor: UIColor = Asset.Colors.mainColor.color
-            static let borderWidth: CGFloat = 1.0
-            static let borderColor: CGColor = Asset.Colors.mainColor.color.cgColor
-            static let cornerRadius: CGFloat = 5
-            
-            static let leftOffset: CGFloat = 16
-            static let width: CGFloat = 80
-        }
-        
         enum StationView {
             static let cornerRadius: CGFloat = 5
         }

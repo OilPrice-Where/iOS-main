@@ -553,7 +553,6 @@
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/TMap/Release",
 				);
 				INFOPLIST_FILE = "OilPrice-Where/SupportFiles/Info.plist";
