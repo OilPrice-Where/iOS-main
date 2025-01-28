@@ -6,41 +6,35 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Then
-import SnapKit
 import UIKit
 import Combine
+import Then
+import SnapKit
 import NMapsMap
-import Combine
 
 
 protocol MainListVCDelegate: AnyObject {
     func touchedCell(info: GasStationSummary)
 }
+
+
 //MARK: GasStationListVC
 final class MainListVC: CommonViewController {
-    enum Section {
-        case station
-    }
-    
     //MARK: - Properties
-    let infoView = InfoListView()
-    var viewModel: MainListViewModel!
     weak var delegate: MainListVCDelegate?
-    private var notiObject: NSObjectProtocol?
-    var dataSource: UICollectionViewDiffableDataSource<Section, GasStationSummary>?
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: fetchLayout()).then {
-        $0.delegate = self
-        $0.alwaysBounceVertical = false
-        $0.alwaysBounceHorizontal = false
-        $0.showsHorizontalScrollIndicator = false
-        $0.backgroundColor = .clear
-        GasStationCell.register($0)
-    }
     
+    private let viewModel: MainListViewModel
+    
+    private var notiObject: NSObjectProtocol?
+    
+    private var dataSource: StationListDataSource!
+    private var collectionView: UICollectionView!
+    
+    private let infoView = InfoListView()
     private var noneView = MainListNoneView().then {
         $0.isHidden = true
     }
+    
     
     //MARK: - Life Cycle
     deinit {
@@ -48,69 +42,54 @@ final class MainListVC: CommonViewController {
         notiObject = nil
     }
     
+    init(viewModel: MainListViewModel) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         makeUI()
-        rxBind()
+        bindActions()
         configure()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.navigationBar.isHidden = false
-        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
-    }
-    
-    //MARK: - Set UI
-    private func makeUI() {
-        navigationItem.title = "주유소 목록"
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.backgroundColor = Asset.Colors.mainColor.color
-        navigationController?.navigationBar.titleTextAttributes = [.font: FontFamily.NanumSquareRound.bold.font(size: 17),
-                                                                   .foregroundColor: UIColor.white]
-        
-        view.backgroundColor = .systemGroupedBackground
-        
-        view.addSubview(infoView)
-        view.addSubview(collectionView)
-        view.addSubview(noneView)
-        
-        infoView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.left.right.equalToSuperview()
-            $0.height.equalTo(30)
-        }
-        collectionView.snp.makeConstraints {
-            $0.top.equalTo(infoView.snp.bottom)
-            $0.left.right.equalToSuperview()
-            $0.bottom.equalToSuperview()
-        }
-        noneView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.centerX.equalToSuperview()
-        }
-        
-        performDataSource()
+        updateUI()
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
-            return
+        if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.itemSize = UIConstants.CollectionView.itemSize
+            flowLayout.invalidateLayout()
         }
-        
-        let screenWidth = UIScreen.main.bounds.width - 32
-        let itemWidth = UIDevice.current.userInterfaceIdiom == .phone ? screenWidth : screenWidth / 2 - 6
-        flowLayout.itemSize = CGSize(width: itemWidth, height: 168.0)
-        
-        flowLayout.invalidateLayout()
     }
     
-    //MARK: - Rx Binding..
-    private func rxBind() {
+    //MARK: - Methods
+    private func configure() {
+        notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("stationsUpdated"),
+                                                            object: nil,
+                                                            queue: .main) { [weak self] noti in
+            guard let stations = noti.userInfo?["stations"] as? [GasStationSummary] else { return }
+            self?.viewModel.stations.send(stations)
+        }
+    }
+}
+
+
+//MARK: - Binding..
+private extension MainListVC {
+    func bindActions() {
         viewModel.stations
             .map { $0.isNotEmpty }
             .assign(to: \.isHidden, on: noneView)
@@ -119,26 +98,23 @@ final class MainListVC: CommonViewController {
         viewModel.stations
             .receive(on: DispatchQueue.main)
             .sink { [weak self] stations in
-                guard let owner = self else { return }
-                owner.performDataSnapshot(stations: stations)
+                guard let self else { return }
+                
+                dataSource.applySnapshot(with: stations)
             }
             .store(in: &viewModel.cancellable)
         
-        infoView.priceSortedButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.sortButtonTapped(btn: nil)
-            }
-            .store(in: &viewModel.cancellable)
         
-        infoView.distanceSortedButton
-            .tapPublisher
+        Publishers.Merge(
+            infoView.priceSortedButton.tapPublisher.map { true }.eraseToAnyPublisher(),
+            infoView.distanceSortedButton.tapPublisher.map { false }.eraseToAnyPublisher()
+        )
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.sortButtonTapped(btn: nil)
+            .sink { [weak self] isPriceSort in
+                guard let self else { return }
+                
+                infoView.updateSortButton(isPriceSort: isPriceSort)
+                viewModel.sortedList(isPrice: isPriceSort)
             }
             .store(in: &viewModel.cancellable)
         
@@ -150,83 +126,62 @@ final class MainListVC: CommonViewController {
             }
             .store(in: &viewModel.cancellable)
     }
-    
-    //MARK: - Method
-    private func configure() {
-        notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("stationsUpdated"),
-                                                            object: nil,
-                                                            queue: .main) { [weak self] noti in
-            guard let stations = noti.userInfo?["stations"] as? [GasStationSummary] else { return }
-            self?.viewModel.stations.send(stations)
-        }
+}
+
+
+//MARK: - CollectionView
+extension MainListVC: UICollectionViewDelegate {
+    private final class StationListDataSource: UICollectionViewDiffableDataSource<CommonDiffableSection, GasStationSummary> {
+        private typealias Snapshot = NSDiffableDataSourceSnapshot<CommonDiffableSection, GasStationSummary>
         
-        infoView.priceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
-        infoView.distanceSortedButton.addTarget(self, action: #selector(sortButtonTapped(btn:)), for: .touchUpInside)
+        func applySnapshot(with stations: [GasStationSummary],
+                           animatingDifferences: Bool = false) {
+            var snapshot: Snapshot = .init()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(stations, toSection: .main)
+            apply(snapshot, animatingDifferences: animatingDifferences)
+        }
     }
     
-    private func fetchLayout() -> UICollectionViewFlowLayout {
-        let screenWidth = UIScreen.main.bounds.width - 32
-        let itemWidth = UIDevice.current.userInterfaceIdiom == .phone ? screenWidth : screenWidth / 2 - 6
-        
+    private func configureCollectionView() {
+        let layout = collectionViewLayout()
+        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+            $0.delegate = self
+            $0.alwaysBounceVertical = false
+            $0.alwaysBounceHorizontal = false
+            $0.showsHorizontalScrollIndicator = false
+            $0.backgroundColor = .systemGroupedBackground
+        }
+    }
+    
+    private func configureDataSource() {
+        let cellRegistration = GasStationCell.cellRegistration(self)
+        self.dataSource = StationListDataSource(collectionView: collectionView) { collectionView, indexPath, station in
+            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: station)
+        }
+    }
+    
+    private func collectionViewLayout() -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumLineSpacing = 12
-        flowLayout.minimumInteritemSpacing = 12
         flowLayout.scrollDirection = .vertical
-        flowLayout.itemSize = CGSize(width: itemWidth, height: 163.2)
-        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        flowLayout.minimumLineSpacing = UIConstants.CollectionView.lineSpacing
+        flowLayout.minimumInteritemSpacing = UIConstants.CollectionView.itemSpacing
+        flowLayout.itemSize = UIConstants.CollectionView.itemSize
+        flowLayout.sectionInset = UIConstants.CollectionView.sectionInset
         return flowLayout
     }
     
-    @objc
-    private func sortButtonTapped(btn: UIButton?) {
-        guard let text = btn?.titleLabel?.text else { return }
-        
-        let isPriceSorted = text == "가격순"
-        
-        infoView.priceSortedButton.isSelected = isPriceSorted
-        infoView.distanceSortedButton.isSelected = !isPriceSorted
-        
-        if isPriceSorted {
-            infoView.priceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
-            infoView.distanceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
-        } else {
-            infoView.priceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.regular.font(size: 16)
-            infoView.distanceSortedButton.titleLabel?.font = FontFamily.NanumSquareRound.extraBold.font(size: 16)
-        }
-        
-        viewModel.sortedList(isPrice: isPriceSorted)
-    }
-}
-
-extension MainListVC {
-    func performDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, GasStationSummary>(collectionView: collectionView, cellProvider: { collectionView, indexPath, station in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GasStationCell.id, for: indexPath) as? GasStationCell else { return UICollectionViewCell() }
-            
-            cell.configure(station: station)
-            cell.delegate = self
-            
-            return cell
-        })
-    }
-    
-    func performDataSnapshot(stations: [GasStationSummary]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, GasStationSummary>()
-        snapshot.appendSections([.station])
-        snapshot.appendItems(stations)
-        self.dataSource?.apply(snapshot, animatingDifferences: false)
-    }
-}
-
-extension MainListVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let stations = viewModel.stations.value
-        
-        delegate?.touchedCell(info: stations[indexPath.item])
+        guard let station = dataSource.itemIdentifier(for: indexPath) else {
+            return
+        }
+        delegate?.touchedCell(info: station)
         navigationController?.popViewController(animated: true)
     }
 }
 
+
+//MARK: - GasStationCellDelegate
 extension MainListVC: GasStationCellDelegate {
     func touchedFavoriteButton(stationID: String) {
         let faovorites = DefaultData.shared.favoriteSubject.value
@@ -251,5 +206,79 @@ extension MainListVC: GasStationCellDelegate {
     
     func touchedDirectionButton(station summary: GasStationSummary) {
         requestDirection(station: summary)
+    }
+}
+
+
+//MARK: - Set UI
+private extension MainListVC {
+    enum UIConstants {
+        enum Navigation {
+            static let title: String = "주유소 목록"
+            static let titleTextAttributes: [NSAttributedString.Key : Any] = [
+                .font: FontFamily.NanumSquareRound.bold.font(size: 17),
+                .foregroundColor: UIColor.white
+            ]
+        }
+        
+        enum InfoView {
+            static let height: CGFloat = 30
+        }
+        
+        enum CollectionView {
+            private static let width: CGFloat = UIScreen.screenWidth - 32
+            
+            static let horizontalPadding: CGFloat = 32
+            
+            static let lineSpacing: CGFloat = 12.0
+            static let itemSpacing: CGFloat = 12.0
+            
+            static let sectionInset: UIEdgeInsets = .init(top: .zero, left: 16, bottom: .zero, right: 16)
+            static let itemSize: CGSize = .init(
+                width: UIDevice.current.userInterfaceIdiom == .phone ? width : width / 2 - 6,
+                height: 163.2
+            )
+        }
+    }
+    
+    func makeUI() {
+        configureCollectionView()
+        configureDataSource()
+        configureUI()
+        setConstraints()
+    }
+    
+    func configureUI() {
+        navigationItem.title = UIConstants.Navigation.title
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.backgroundColor = Asset.Colors.mainColor.color
+        navigationController?.navigationBar.titleTextAttributes = UIConstants.Navigation.titleTextAttributes
+        
+        view.backgroundColor = Asset.Colors.mainColor.color
+        
+        view.addSubview(infoView)
+        view.addSubview(collectionView)
+        view.addSubview(noneView)
+    }
+    
+    func updateUI() {
+        navigationController?.navigationBar.isHidden = false
+        UIApplication.shared.statusBarUIView?.backgroundColor = Asset.Colors.mainColor.color
+    }
+    
+    func setConstraints() {
+        infoView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(UIConstants.InfoView.height)
+        }
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(infoView.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+        noneView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
     }
 }

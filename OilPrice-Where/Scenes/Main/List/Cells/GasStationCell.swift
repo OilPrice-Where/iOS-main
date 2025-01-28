@@ -20,7 +20,14 @@ protocol GasStationCellDelegate: AnyObject {
 
 
 extension GasStationCell {
-    func configure(station summary: GasStationSummary) {
+    static func cellRegistration(_ delegate: GasStationCellDelegate) -> UICollectionView.CellRegistration<GasStationCell, GasStationSummary> {
+        return UICollectionView.CellRegistration<GasStationCell, GasStationSummary> { cell, indexPath, station in
+            cell.delegate = delegate
+            cell.configure(station: station)
+        }
+    }
+    
+    private func configure(station summary: GasStationSummary) {
         self.summary = summary
         
         let ids = DefaultData.shared.favoriteSubject.value
