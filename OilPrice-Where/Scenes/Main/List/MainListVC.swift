@@ -9,8 +9,8 @@
 import UIKit
 import Combine
 import Then
+import Toast
 import SnapKit
-import NMapsMap
 
 
 protocol MainListVCDelegate: AnyObject {
@@ -25,7 +25,8 @@ final class MainListVC: CommonViewController {
     
     private let viewModel: MainListViewModel
     
-    private var notiObject: NSObjectProtocol?
+    private let didTapFavoritePublisher = PassthroughSubject<String, Never>()
+    private let didTapDirectionPublisher = PassthroughSubject<GasStationSummary, Never>()
     
     private var dataSource: StationListDataSource!
     private var collectionView: UICollectionView!
@@ -37,11 +38,6 @@ final class MainListVC: CommonViewController {
     
     
     //MARK: - Life Cycle
-    deinit {
-        if let noti = notiObject { NotificationCenter.default.removeObserver(noti) }
-        notiObject = nil
-    }
-    
     init(viewModel: MainListViewModel) {
         self.viewModel = viewModel
         
@@ -57,7 +53,6 @@ final class MainListVC: CommonViewController {
         
         makeUI()
         bindActions()
-        configure()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,57 +69,64 @@ final class MainListVC: CommonViewController {
             flowLayout.invalidateLayout()
         }
     }
-    
-    //MARK: - Methods
-    private func configure() {
-        notiObject = NotificationCenter.default.addObserver(forName: NSNotification.Name("stationsUpdated"),
-                                                            object: nil,
-                                                            queue: .main) { [weak self] noti in
-            guard let stations = noti.userInfo?["stations"] as? [GasStationSummary] else { return }
-            self?.viewModel.stations.send(stations)
-        }
-    }
 }
 
 
 //MARK: - Binding..
 private extension MainListVC {
     func bindActions() {
-        viewModel.stations
-            .map { $0.isNotEmpty }
-            .assign(to: \.isHidden, on: noneView)
-            .store(in: &viewModel.cancellable)
+        let didTapSortButton = Publishers.Merge(
+            infoView.priceSortedButton.tapPublisher.map { true }.eraseToAnyPublisher(),
+            infoView.distanceSortedButton.tapPublisher.map { false }.eraseToAnyPublisher()
+        ).map { [weak self] isPriceSort in
+            self?.infoView.updateSortButton(isPriceSort: isPriceSort)
+            return isPriceSort
+        }.eraseToAnyPublisher()
         
-        viewModel.stations
+        let output = viewModel.transform(input: .init(
+            viewDidLoad: Just(()).eraseToAnyPublisher(),
+            didTapSortButton: didTapSortButton,
+            didTapFavoriteStation: didTapFavoritePublisher.eraseToAnyPublisher(),
+            didTapDirectionStation: didTapDirectionPublisher.eraseToAnyPublisher()
+        ))
+        
+        bindUI(output: output)
+    }
+    
+    func bindUI(output: MainListViewModel.Output) {
+        output.updateStations
             .receive(on: DispatchQueue.main)
             .sink { [weak self] stations in
                 guard let self else { return }
-                
+                noneView.isHidden = stations.isNotEmpty
                 dataSource.applySnapshot(with: stations)
             }
-            .store(in: &viewModel.cancellable)
+            .store(in: &cancellable)
         
-        
-        Publishers.Merge(
-            infoView.priceSortedButton.tapPublisher.map { true }.eraseToAnyPublisher(),
-            infoView.distanceSortedButton.tapPublisher.map { false }.eraseToAnyPublisher()
-        )
+        output.updateAddress
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] isPriceSort in
+            .sink { [weak self] fullAddress in
                 guard let self else { return }
-                
-                infoView.updateSortButton(isPriceSort: isPriceSort)
-                viewModel.sortedList(isPrice: isPriceSort)
+                infoView.configure(address: fullAddress)
             }
-            .store(in: &viewModel.cancellable)
+            .store(in: &cancellable)
         
-        DefaultData.shared.completedRelay
+        output.openNavigation
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.collectionView.reloadData()
+            .sink { destinationURL in
+                UIApplication.shared.open(destinationURL)
             }
-            .store(in: &viewModel.cancellable)
+            .store(in: &cancellable)
+        
+        output.showToast
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] message in
+                self?.view.hideToast()
+                
+                let toast = Preferences.showToast(width: 240, message: message, numberOfLines: 1)
+                self?.view.showToast(toast, position: .top)
+            }
+            .store(in: &cancellable)
     }
 }
 
@@ -155,7 +157,7 @@ extension MainListVC: UICollectionViewDelegate {
     }
     
     private func configureDataSource() {
-        let cellRegistration = GasStationCell.cellRegistration(self)
+        let cellRegistration = GasStationCell.cellRegistration(self, settingUseCase: viewModel.settingUseCase)
         self.dataSource = StationListDataSource(collectionView: collectionView) { collectionView, indexPath, station in
             collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: station)
         }
@@ -184,28 +186,11 @@ extension MainListVC: UICollectionViewDelegate {
 //MARK: - GasStationCellDelegate
 extension MainListVC: GasStationCellDelegate {
     func touchedFavoriteButton(stationID: String) {
-        let faovorites = DefaultData.shared.favoriteSubject.value
-        guard faovorites.count < 6 else { return }
-        let isDeleted = faovorites.contains(stationID)
-        guard isDeleted || (!isDeleted && faovorites.count < 5) else {
-            DispatchQueue.main.async { [weak self] in
-                self?.makeAlert(title: "최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !")
-            }
-            return
-        }
-        var newFaovorites = faovorites
-        isDeleted ? newFaovorites = newFaovorites.filter { $0 != stationID } : newFaovorites.append(stationID)
-        
-        DefaultData.shared.favoriteSubject.send(newFaovorites)
-        
-        let msg = isDeleted ? "즐겨 찾는 주유소가 삭제되었습니다." : "즐겨 찾는 주유소에 추가되었습니다."
-        let lbl = Preferences.showToast(width: 240, message: msg, numberOfLines: 1)
-        view.hideToast()
-        view.showToast(lbl, position: .top)
+        didTapFavoritePublisher.send(stationID)
     }
     
     func touchedDirectionButton(station summary: GasStationSummary) {
-        requestDirection(station: summary)
+        didTapDirectionPublisher.send(summary)
     }
 }
 
