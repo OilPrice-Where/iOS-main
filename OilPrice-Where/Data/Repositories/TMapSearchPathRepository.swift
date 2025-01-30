@@ -7,13 +7,13 @@
 //
 
 import Foundation
-
-#if !targetEnvironment(simulator)
+#if RELEASE
 import TMapSDK
 #endif
 
+
 final class TMapSearchPathRepository: SearchPathRepository {
-#if !targetEnvironment(simulator)
+#if RELEASE
     private let pathData = TMapPathData()
 #endif
     
@@ -29,7 +29,7 @@ final class TMapSearchPathRepository: SearchPathRepository {
                 continuation.resume(returning: [])
                 return
             }
-#if !targetEnvironment(simulator)
+#if RELEASE
             self.pathData.requestFindAllPOI(keyword, count: count) { result, error in
                 if let error {
                     LogUtil.e(error.localizedDescription)
@@ -83,12 +83,12 @@ final class TMapSearchPathRepository: SearchPathRepository {
     }
     
     func reverseGeocoding(coordinate: CoordinateSystem) async -> String {
-        await withCheckedContinuation { [weak self] continuation in
+#if RELEASE
+        return await withCheckedContinuation { [weak self] continuation in
             guard let self else {
                 continuation.resume(returning: "")
                 return
             }
-#if !targetEnvironment(simulator)
             pathData.reverseGeocoding(coordinate.location.coordinate, addressType: "A10") { result, error in
                 if let error {
                     LogUtil.e(error.localizedDescription)
@@ -108,10 +108,10 @@ final class TMapSearchPathRepository: SearchPathRepository {
                 }
                 continuation.resume(returning: "\(city) \(gu) \(roadName) \(buildingNumber)")
             }
-#else
-            continuation.resume(returning: "")
-#endif
         }
+#else
+        return ""
+#endif
     }
 }
 
@@ -127,13 +127,13 @@ extension TMapSearchPathRepository {
     }
     
     func setTMapAuthentication() {
-#if !targetEnvironment(simulator)
+#if RELEASE
         TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: Preferences.tMapAppKey())
 #endif
     }
 }
 
-#if !targetEnvironment(simulator)
+#if RELEASE
 extension TMapSearchPathRepository: TMapTapiDelegate {
     func SKTMapApikeySucceed() {
         LogUtil.d("TMAP API KEY 인증 성공")

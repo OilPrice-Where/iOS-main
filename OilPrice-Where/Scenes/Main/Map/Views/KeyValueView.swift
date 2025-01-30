@@ -14,12 +14,12 @@ import UIKit
 final class KeyValueView: UIView {
     //MARK: - Properties
     let keyLabel = UILabel().then {
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 12)
+        $0.font = UIConstants.KeyLabel.font
         $0.textColor = .white
         $0.textAlignment = .left
     }
     let valueLabel = UILabel().then {
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 12)
+        $0.font = UIConstants.ValueLabel.font
         $0.textColor = .white
         $0.textAlignment = .right
     }
@@ -34,19 +34,44 @@ final class KeyValueView: UIView {
     required init?(coder: NSCoder) {
         fatalError("Not Created View")
     }
+}
+
+
+//MARK: - Set UI
+private extension KeyValueView {
+    enum UIConstants {
+        enum KeyLabel {
+            static let font: UIFont = FontFamily.NanumSquareRound.regular.font(size: 12)
+            
+            static let leftOffset: CGFloat = 6
+        }
+        
+        enum ValueLabel {
+            static let font: UIFont = FontFamily.NanumSquareRound.regular.font(size: 12)
+            
+            static let rightOffset: CGFloat = -6
+        }
+    }
     
-    //MARK: - Set UI
-    private func makeUI() {
+    func makeUI() {
+        configureUI()
+        setConstraints()
+    }
+    
+    func configureUI() {
         addSubview(keyLabel)
         addSubview(valueLabel)
-        
+    }
+    
+    func setConstraints() {
         keyLabel.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(6)
+            $0.left.equalToSuperview().offset(UIConstants.KeyLabel.leftOffset)
             $0.centerY.equalToSuperview()
         }
         valueLabel.snp.makeConstraints {
-            $0.right.equalToSuperview().offset(-6)
+            $0.right.equalToSuperview().offset(UIConstants.ValueLabel.rightOffset)
             $0.centerY.equalToSuperview()
         }
     }
 }
+

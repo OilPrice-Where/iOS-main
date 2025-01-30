@@ -26,7 +26,7 @@ final class LogUtil {
         funcName: String = #function) {
         print("""
             ------------------------------------------------------------------------------------
-            \(Date().toString) \(LogEvent.e.rawValue)[\(sourceFileName(filePath: filename))]
+            \(String(describing: Date().toString)) \(LogEvent.e.rawValue)[\(sourceFileName(filePath: filename))]
             Line:\(line)
             Column:\(column)
             Function:\(funcName) ->
@@ -43,7 +43,7 @@ final class LogUtil {
         funcName: String = #function) {
         print("""
             ------------------------------------------------------------------------------------
-            \(Date().toString) \(LogEvent.i.rawValue)[\(sourceFileName(filePath: filename))]
+            \(String(describing: Date().toString)) \(LogEvent.i.rawValue)[\(sourceFileName(filePath: filename))]
             Line:\(line)
             Column:\(column)
             Function:\(funcName) ->
@@ -60,7 +60,7 @@ final class LogUtil {
         funcName: String = #function) {
         print("""
             ------------------------------------------------------------------------------------
-            \(Date().toString) \(LogEvent.d.rawValue)[\(sourceFileName(filePath: filename))]
+            \(String(describing: Date().toString)) \(LogEvent.d.rawValue)[\(sourceFileName(filePath: filename))]
             Line:\(line)
             Column:\(column)
             Function:\(funcName) ->
@@ -77,7 +77,7 @@ final class LogUtil {
         funcName: String = #function) {
         print("""
             ------------------------------------------------------------------------------------
-            \(Date().toString) \(LogEvent.v.rawValue)[\(sourceFileName(filePath: filename))]
+            \(String(describing: Date().toString)) \(LogEvent.v.rawValue)[\(sourceFileName(filePath: filename))]
             Line:\(line)
             Column:\(column)
             Function:\(funcName) ->
@@ -94,7 +94,7 @@ final class LogUtil {
         funcName: String = #function) {
         print("""
             ------------------------------------------------------------------------------------
-            \(Date().toString) \(LogEvent.w.rawValue)[\(sourceFileName(filePath: filename))]
+            \(String(describing: Date().toString)) \(LogEvent.w.rawValue)[\(sourceFileName(filePath: filename))]
             Line:\(line)
             Column:\(column)
             Function:\(funcName) ->
@@ -111,7 +111,7 @@ final class LogUtil {
         funcName: String = #function) {
         print("""
             ------------------------------------------------------------------------------------
-            \(Date().toString) \(LogEvent.s.rawValue)[\(sourceFileName(filePath: filename))]
+            \(String(describing: Date().toString)) \(LogEvent.s.rawValue)[\(sourceFileName(filePath: filename))]
             Line:\(line)
             Column:\(column)
             Function:\(funcName) ->
