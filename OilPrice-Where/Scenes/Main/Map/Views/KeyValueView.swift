@@ -6,9 +6,10 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
+import UIKit
 import Then
 import SnapKit
-import UIKit
+
 
 //MARK: KeyValueView
 final class KeyValueView: UIView {
