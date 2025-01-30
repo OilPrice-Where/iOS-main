@@ -114,9 +114,8 @@ final class MainMapView: UIView {
         list.forEach { station in
             let position = NMGLatLng(lat: station.coordinate.tm.lat, lng: station.coordinate.tm.lng)
             let marker = NaverMapMarker(
-                type: station.price == lowPrice ? .low : .none,
-                brand: station.brand.code,
-                price: station.price
+                markerType: station.price == lowPrice ? .low : .none,
+                station: station
             )
             
             marker.position = position

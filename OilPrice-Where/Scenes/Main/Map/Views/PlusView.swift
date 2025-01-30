@@ -6,18 +6,20 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
+import UIKit
 import Then
 import SnapKit
-import UIKit
+
+
 //MARK: PlusView
 final class PlusView: UIView {
     //MARK: - Properties
-    let hView = UIView().then {
-        $0.layer.cornerRadius = 0.5
+    let horizontalView = UIView().then {
+        $0.layer.cornerRadius = UIConstants.HorizontalView.cornerRadius
         $0.backgroundColor = Asset.Colors.mainColor.color
     }
-    let vView = UIView().then {
-        $0.layer.cornerRadius = 0.5
+    let verticalView = UIView().then {
+        $0.layer.cornerRadius = UIConstants.VerticalView.cornerRadius
         $0.backgroundColor = Asset.Colors.mainColor.color
     }
     
@@ -31,22 +33,43 @@ final class PlusView: UIView {
     required init?(coder: NSCoder) {
         fatalError("Not Created View")
     }
-    
-    //MARK: - Make UI
-    func makeUI() {
-        addSubview(hView)
-        addSubview(vView)
-        
-        hView.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.centerY.equalToSuperview()
-            $0.height.equalTo(1.5)
+}
+
+
+//MARK: - Set UI
+private extension PlusView {
+    enum UIConstants {
+        enum HorizontalView {
+            static let cornerRadius: CGFloat = 0.5
+            static let height: CGFloat = 1.5
         }
         
-        vView.snp.makeConstraints {
+        enum VerticalView {
+            static let cornerRadius: CGFloat = 0.5
+            static let width: CGFloat = 1.5
+        }
+    }
+    
+    func makeUI() {
+        configureUI()
+        setConstraints()
+    }
+    
+    func configureUI() {
+        addSubview(horizontalView)
+        addSubview(verticalView)
+    }
+    
+    func setConstraints() {
+        horizontalView.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.height.equalTo(UIConstants.HorizontalView.height)
+        }
+        verticalView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(1.5)
+            $0.width.equalTo(UIConstants.VerticalView.width)
         }
     }
 }
