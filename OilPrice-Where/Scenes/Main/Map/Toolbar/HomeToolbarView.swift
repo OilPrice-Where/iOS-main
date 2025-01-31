@@ -1,5 +1,5 @@
 //
-//  SearchView.swift
+//  HomeToolbarView.swift
 //  OilPrice-Where
 //
 //  Created by wargi on 2022/10/30.
@@ -11,7 +11,7 @@ import Then
 import SnapKit
 
 
-extension HomeSearchView {
+extension HomeToolbarView {
     func configure(searchText: String = "") {
         let isSearched = searchText.isNotEmpty
         searchImageView.tintColor = isSearched ? .black : .systemGray3
@@ -21,8 +21,8 @@ extension HomeSearchView {
 }
 
 
-//MARK: SearchView
-final class HomeSearchView: UIView {
+//MARK: 홈의 세부적인 기능으로 이동할 수 있는 Toolbar(메뉴, 검색, 주유소 리스트)
+final class HomeToolbarView: UIView {
     //MARK: - Properties
     let menuButton = UIButton()
     private let menuImageView = UIImageView().then {
@@ -63,7 +63,7 @@ final class HomeSearchView: UIView {
 
 
 //MARK: - Set UI
-private extension HomeSearchView {
+private extension HomeToolbarView {
     enum UIConstants {
         enum ContentView {
             static let cornerRadius: CGFloat = 25

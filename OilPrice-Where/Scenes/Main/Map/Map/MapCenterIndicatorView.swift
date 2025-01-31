@@ -1,5 +1,5 @@
 //
-//  PlusView.swift
+//  MapCenterIndicatorView.swift
 //  OilPrice-Where
 //
 //  Created by wargi on 2022/04/29.
@@ -11,8 +11,8 @@ import Then
 import SnapKit
 
 
-//MARK: PlusView
-final class PlusView: UIView {
+//MARK: `+` 모양으로 지도의 가운데 표시하기 위한 뷰
+final class MapCenterIndicatorView: UIView {
     //MARK: - Properties
     let horizontalView = UIView().then {
         $0.layer.cornerRadius = UIConstants.HorizontalView.cornerRadius
@@ -37,7 +37,7 @@ final class PlusView: UIView {
 
 
 //MARK: - Set UI
-private extension PlusView {
+private extension MapCenterIndicatorView {
     enum UIConstants {
         enum HorizontalView {
             static let cornerRadius: CGFloat = 0.5

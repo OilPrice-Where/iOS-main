@@ -126,7 +126,7 @@ final class MainVC: CommonViewController {
             $0.top.equalTo(guideView.snp.bottom)
             $0.left.right.bottom.equalToSuperview()
         }
-        mapContainerView.searchView.snp.makeConstraints {
+        mapContainerView.toolbarView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.left.right.equalToSuperview().inset(20)
             $0.height.equalTo(50)
@@ -152,7 +152,7 @@ final class MainVC: CommonViewController {
         mapContainerView.mapView.addCameraDelegate(delegate: self)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toSearchVC))
-        mapContainerView.searchView.addGestureRecognizer(tapGesture)
+        mapContainerView.toolbarView.addGestureRecognizer(tapGesture)
     }
     
     //MARK: - Rx Binding..
@@ -200,7 +200,7 @@ final class MainVC: CommonViewController {
         
         // menuButton Tapped
         mapContainerView
-            .searchView
+            .toolbarView
             .menuButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
@@ -212,7 +212,7 @@ final class MainVC: CommonViewController {
         
         // toListButton Tapped
         mapContainerView
-            .searchView
+            .toolbarView
             .listButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
@@ -393,7 +393,7 @@ final class MainVC: CommonViewController {
             centerLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         }
         
-        mapContainerView.searchView.configure()
+        mapContainerView.toolbarView.configure()
         
         viewModel.requestLocation = centerLocation
         viewModel.selectedStation = nil
@@ -519,7 +519,7 @@ extension MainVC: SearchBarDelegate {
     func search(poi: SearchPOI) {        
         mapContainerView.moveMap(with: poi.coordinate.location.coordinate)
         researchStation(with: poi.coordinate.location.coordinate)
-        mapContainerView.searchView.configure(searchText: poi.name)
+        mapContainerView.toolbarView.configure(searchText: poi.name)
     }
 }
 
@@ -596,8 +596,8 @@ extension MainVC: FloatingPanelControllerDelegate {
     func isZoomInStation(isHidden: Bool) {
         guideView.isHidden = fpc.state == .hidden
         emptyView.isHidden = fpc.state == .hidden
-        mapContainerView.plusView.isHidden = isHidden
-        mapContainerView.searchView.isHidden = isHidden
+        mapContainerView.mapCenterIndicatorView.isHidden = isHidden
+        mapContainerView.toolbarView.isHidden = isHidden
         mapContainerView.researchButton.isHidden = isHidden
         mapContainerView.toFavoriteButton.isHidden = isHidden
         mapContainerView.currentLocationButton.isHidden = isHidden

@@ -62,8 +62,8 @@ final class MainMapView: UIView {
         $0.backgroundColor = Asset.Colors.mainColor.color
         $0.alpha = 0.0
     }
-    let searchView = HomeSearchView()
-    let plusView = PlusView()
+    let toolbarView = HomeToolbarView()
+    let mapCenterIndicatorView = MapCenterIndicatorView()
     
     //MARK: - Initializer
     override init(frame: CGRect) {
@@ -82,19 +82,18 @@ final class MainMapView: UIView {
         addSubview(currentLocationButton)
         addSubview(toFavoriteButton)
         addSubview(researchButton)
-        addSubview(plusView)
-        addSubview(searchView)
+        addSubview(mapCenterIndicatorView)
+        addSubview(toolbarView)
         
         mapView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-        plusView.snp.makeConstraints {
+        mapCenterIndicatorView.snp.makeConstraints {
             $0.center.equalTo(mapView)
             $0.size.equalTo(15)
         }
         
-        addShadow(views: [researchButton, toFavoriteButton, currentLocationButton, searchView])
+        addShadow(views: [researchButton, toFavoriteButton, currentLocationButton, toolbarView])
     }
     
     //MARK: - Method
