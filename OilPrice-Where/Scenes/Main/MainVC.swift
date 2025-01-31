@@ -393,9 +393,7 @@ final class MainVC: CommonViewController {
             centerLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         }
         
-        mapContainerView.searchView.placeholderLabel.text = "주유소 위치를 검색해보세요."
-        mapContainerView.searchView.placeholderLabel.textColor = .systemGray3
-        mapContainerView.searchView.searchImageView.tintColor = .systemGray3
+        mapContainerView.searchView.configure()
         
         viewModel.requestLocation = centerLocation
         viewModel.selectedStation = nil
@@ -521,10 +519,7 @@ extension MainVC: SearchBarDelegate {
     func search(poi: SearchPOI) {        
         mapContainerView.moveMap(with: poi.coordinate.location.coordinate)
         researchStation(with: poi.coordinate.location.coordinate)
-        
-        mapContainerView.searchView.placeholderLabel.text = poi.name
-        mapContainerView.searchView.placeholderLabel.textColor = .black
-        mapContainerView.searchView.searchImageView.tintColor = .black
+        mapContainerView.searchView.configure(searchText: poi.name)
     }
 }
 
