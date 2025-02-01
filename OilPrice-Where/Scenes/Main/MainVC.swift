@@ -377,7 +377,6 @@ final class MainVC: CommonViewController {
         )
         let listVC = MainListVC(viewModel: listViewModel)
         listVC.delegate = self
-//        listVC.infoView.configure(address: viewModel.addressString)
         navigationController?.pushViewController(listVC, animated: true)
     }
     

@@ -123,6 +123,13 @@ extension LocationManager {
             return from.distance(from: to) <= 2000
         }.first
     }
+    
+    func distance(from: CoordinateSystem) -> CGFloat? {
+        guard let to = currentLocation else {
+            return nil
+        }
+        return to.distance(from: from.location)
+    }
 }
 
 

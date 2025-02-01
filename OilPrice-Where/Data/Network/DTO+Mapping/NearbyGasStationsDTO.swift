@@ -94,16 +94,19 @@ extension NearbyGasStationsDTO.GasStationListDTO {
 
 extension NearbyGasStationsDTO.GasStationListDTO.GasStationSummaryDTO {
     func toDomain() -> GasStationSummary {
-        .init(
+        let distance = distance ?? .zero
+        let coordinate = CoordinateSystem(
+            x: katecX,
+            y: katecY
+        )
+        
+        return .init(
             stationID: stationID ?? UUID().uuidString,
             brand: StationBrand(code: brand ?? ""),
             name: name ?? "",
             price: price ?? .zero,
-            distance: distance ?? .zero,
-            coordinate: CoordinateSystem(
-                x: katecX,
-                y: katecY
-            )
+            distance: LocationManager.shared.distance(from: coordinate) ?? distance,
+            coordinate:coordinate
         )
     }
 }

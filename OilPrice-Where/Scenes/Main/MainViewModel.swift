@@ -102,20 +102,20 @@ extension MainViewModel {
     
     private func requestSearch(sort: Int = 1) {
         let oilSubject = DefaultData.shared.oilSubject.value
-        let brands = DefaultData.shared.brandsSubject.value
         
         guard let coordinate = requestLocation?.coordinate else { return }
         
         let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
         let tm = NMGTm128(from: latLng)
         
-        staionProvider.request(.nearbyGasStations(x: tm.x,
-                                            y: tm.y,
-                                            radius: 5000,
-                                            prodcd: oilSubject,
-                                            sort: sort)) { [weak self] result in
-            guard let self = self,
-                  let _currentLocation = LocationManager.shared.currentLocation else { return }
+        staionProvider.request(.nearbyGasStations(
+            x: tm.x,
+            y: tm.y,
+            radius: 5000,
+            prodcd: oilSubject,
+            sort: sort
+        )) { [weak self] result in
+            guard let self else { return }
             switch result {
             case .success(let response):
                 guard let list = try? response.map(NearbyGasStationsDTO.self) else {
@@ -123,9 +123,8 @@ extension MainViewModel {
                     return
                 }
                 
-                var target = list.result?.toDomain() ?? []
-                
-                self.stations = target
+                self.stations = list.result?.toDomain() ?? []
+
             case .failure(let error):
                 LogUtil.e(error.localizedDescription)
                 self.output.error.send(.requestStation)

@@ -26,8 +26,7 @@ extension SearchResultCell {
         )
         subTitleLabel.text = item.poi.address
         
-        if let departure = LocationManager.shared.currentLocation {
-            let distance = departure.distance(from: item.poi.coordinate.location)
+        if let distance = LocationManager.shared.distance(from: item.poi.coordinate) {
             let distanceString = distance < 1000 ? "\(Int(distance))m" : "\(Double(Int(distance * 10 / 1000)) / 10)km"
             distanceLabel.text = distanceString
         }
