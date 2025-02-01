@@ -69,7 +69,6 @@ final class StationInfoView: UIView {
         
         logoImageView.image = station.brand.image
         nameLabel.text = station.name
-        priceStackView.priceLabel.text = station.price.decimalNumber
-        priceStackView.oilTypeLabel.text = FuelType(code: oilType).displayName
+        priceStackView.configure(fuelType: FuelType(code: oilType), price: station.price)
     }
 }
