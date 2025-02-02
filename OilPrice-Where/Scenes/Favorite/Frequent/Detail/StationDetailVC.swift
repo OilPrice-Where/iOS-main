@@ -229,21 +229,19 @@ private extension StationDetailVC {
         // washImageView
         output.updateStationDetail
             .map { $0.hasCarWash ? Asset.Colors.mainColor.color : .lightGray }
+            .receive(on: DispatchQueue.main)
             .assign(to: \.tintColor, on: washImageView)
             .store(in: &cancellable)
         // repairImageView
         output.updateStationDetail
             .map { $0.hasRepairShop ? Asset.Colors.mainColor.color : .lightGray }
+            .receive(on: DispatchQueue.main)
             .assign(to: \.tintColor, on: repairImageView)
             .store(in: &cancellable)
         // convenienceImageView
         output.updateStationDetail
             .map { $0.hasConvenienceStore ? Asset.Colors.mainColor.color : .lightGray }
-            .assign(to: \.tintColor, on: convenienceImageView)
-            .store(in: &cancellable)
-        // convenienceImageView
-        output.updateStationDetail
-            .map { $0.hasConvenienceStore ? Asset.Colors.mainColor.color : .lightGray }
+            .receive(on: DispatchQueue.main)
             .assign(to: \.tintColor, on: convenienceImageView)
             .store(in: &cancellable)
         // addressValueButton
@@ -254,7 +252,6 @@ private extension StationDetailVC {
                 let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
                 let underlineAttributedString = NSAttributedString(string: address, attributes: underlineAttribute)
                 self?.addressValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
-                self?.addressValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
             }
             .store(in: &cancellable)
         // phoneNumberValueButton
@@ -265,7 +262,6 @@ private extension StationDetailVC {
                 let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
                 let underlineAttributedString = NSAttributedString(string: phoneNumber, attributes: underlineAttribute)
                 self?.phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
-                self?.phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
             }
             .store(in: &cancellable)
         // mapView

@@ -21,11 +21,6 @@ final class StationInfoView: UIView {
         $0.textAlignment = .left
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 22)
     }
-    private let favoriteButton = UIButton().then {
-        $0.imageView?.contentMode = .scaleAspectFill
-        $0.setImage(Asset.Images.favoriteOffIcon.image, for: .normal)
-        $0.setImage(Asset.Images.favoriteOffIcon.image, for: .highlighted)
-    }
     private let priceStackView = StationInfoPriceView()
     
     //MARK: - Initializer

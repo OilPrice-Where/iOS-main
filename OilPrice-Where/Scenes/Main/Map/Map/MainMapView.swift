@@ -6,14 +6,17 @@
 //  Copyright © 2021 sangwook park. All rights reserved.
 //
 
-import NMapsMap
 import UIKit
-import SnapKit
 import Then
+import SnapKit
+import NMapsMap
+
 
 protocol MainMapViewDelegate: AnyObject {
     func marker(info: GasStationSummary)
 }
+
+
 //MARK: Map Container View
 final class MainMapView: UIView {
     //MARK: - Properties
@@ -148,5 +151,3 @@ final class MainMapView: UIView {
         views.forEach { $0.addShadow(offset: offset, color: color, opacity: opacity, radius: radius) }
     }
 }
-
-

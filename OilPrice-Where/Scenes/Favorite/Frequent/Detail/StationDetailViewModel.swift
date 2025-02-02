@@ -162,9 +162,7 @@ private extension StationDetailViewModel {
                         return
                     }
                     self.stationDetail = stationDetail
-                    Task { @MainActor in
-                        promise(.success(stationDetail))
-                    }
+                    promise(.success(stationDetail))
                 }
             }
         }.eraseToAnyPublisher()
