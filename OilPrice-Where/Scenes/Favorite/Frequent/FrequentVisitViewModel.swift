@@ -71,8 +71,7 @@ private extension FrequentVisitViewModel {
                         existingStation.visitCount += 1
                         dict[station.stationID] = existingStation
                     } else {
-                        var newStation = station
-                        dict[station.stationID] = newStation
+                        dict[station.stationID] = station
                     }
                 }
                 return stationDictionary.values.sorted { $0.visitCount > $1.visitCount }

@@ -367,10 +367,17 @@ final class MainVC: CommonViewController {
     }
     
     private func toListTapped() {
-        let listVC = MainListVC()
+        let visitedStationStorage: VisitedStationStorage = CoreDataVisitedStationStorage()
+        let settingStorage: SettingStorage = PlistSettingStorage()
+        let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
+        let listViewModel = MainListViewModel(
+            stations: viewModel.stations,
+            settingUseCase: settingUseCase,
+            visitedStationStorage: visitedStationStorage
+        )
+        let listVC = MainListVC(viewModel: listViewModel)
         listVC.delegate = self
-        listVC.viewModel = MainListViewModel(stations: viewModel.stations)
-        listVC.infoView.configure(address: viewModel.addressString)
+//        listVC.infoView.configure(address: viewModel.addressString)
         navigationController?.pushViewController(listVC, animated: true)
     }
     

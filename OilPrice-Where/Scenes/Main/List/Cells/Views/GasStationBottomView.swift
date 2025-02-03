@@ -12,11 +12,10 @@ import SnapKit
 
 
 extension GasStationBottomView {
-    func configure(with station: GasStationSummary, isFavorite: Bool) {
+    func configure(with station: GasStationSummary) {
         priceView.configure(price: station)
         
         expandView.configure(
-            isFavorite: isFavorite,
             distance: String(format: "%.1fkm", station.distance / 1000)
         )
     }

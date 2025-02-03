@@ -15,10 +15,8 @@ extension GasStationView {
     func configure(with station: GasStationSummary, isFavoriteStation: Bool) {
         titleView.configure(title: station)
         
-        bottomView.configure(
-            with: station,
-            isFavorite: isFavoriteStation
-        )
+        bottomView.configure(with: station)
+        updateFavoriteUI(isFavoriteStation: isFavoriteStation)
     }
 }
 
@@ -31,8 +29,6 @@ final class GasStationView: UIView {
     private let lineView = UIView().then {
         $0.backgroundColor = UIConstants.LineView.backgroundColor
     }
-    
-
     
     
     //MARK: - Initializer
@@ -54,6 +50,17 @@ extension GasStationView {
     
     var directionView: UIView {
         bottomView.expandView.directionView
+    }
+    
+    func updateFavoriteUI(isFavoriteStation: Bool? = nil) {
+        let isFavorite = isFavoriteStation ?? !favoriteButton.isSelected
+        favoriteButton.isSelected = isFavorite
+        let favoriteImage = isFavorite ? UIConstants.FavoriteButton.favoriteOnIcon : UIConstants.FavoriteButton.favoriteOffIcon
+        favoriteButton.setImage(favoriteImage, for: .normal)
+        let favoriteTintColor = isFavorite ? UIConstants.FavoriteButton.favoriteOnTintColor : UIConstants.FavoriteButton.favoriteOffTintColor
+        favoriteButton.imageView?.tintColor = favoriteTintColor
+        let favoriteBackgroundColor = isFavorite ? UIConstants.FavoriteButton.favoriteOnBackgroundColor : UIConstants.FavoriteButton.favoriteOffBackgroundColor
+        favoriteButton.backgroundColor = favoriteBackgroundColor
     }
 }
 
@@ -78,6 +85,17 @@ private extension GasStationView {
         enum BottomView {
             static let topOffset: CGFloat = 8
             static let bottomOffset: CGFloat = -12
+        }
+        
+        enum FavoriteButton {
+            static let favoriteOnIcon: UIImage = Asset.Images.favoriteOnIcon.image.withRenderingMode(.alwaysTemplate)
+            static let favoriteOffIcon: UIImage = Asset.Images.favoriteOffIcon.image.withRenderingMode(.alwaysTemplate)
+            
+            static let favoriteOnTintColor: UIColor = .white
+            static let favoriteOffTintColor: UIColor = Asset.Colors.mainColor.color
+            
+            static let favoriteOnBackgroundColor: UIColor = Asset.Colors.mainColor.color
+            static let favoriteOffBackgroundColor: UIColor = .white
         }
     }
     

@@ -12,15 +12,8 @@ import SnapKit
 
 
 extension GasStationExpandView {
-    func configure(isFavorite: Bool, distance: String) {
+    func configure(distance: String) {
         directionView.configure(distance: distance)
-        
-        let favoriteImage = isFavorite ? UIConstants.FavoriteButton.favoriteOnIcon : UIConstants.FavoriteButton.favoriteOffIcon
-        favoriteButton.setImage(favoriteImage, for: .normal)
-        let favoriteTintColor = isFavorite ? UIConstants.FavoriteButton.favoriteOnTintColor : UIConstants.FavoriteButton.favoriteOffTintColor
-        favoriteButton.imageView?.tintColor = favoriteTintColor
-        let favoriteBackgroundColor = isFavorite ? UIConstants.FavoriteButton.favoriteOnBackgroundColor : UIConstants.FavoriteButton.favoriteOffBackgroundColor
-        favoriteButton.backgroundColor = favoriteBackgroundColor
     }
 }
 

@@ -254,31 +254,26 @@ private extension SelectionOptionVC {
         backgroundView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
         containerView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.width.equalToSuperview().multipliedBy(UIConstants.ContainerView.widthRatio)
             $0.height.equalTo(UIConstants.ContainerView.height)
         }
-        
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(UIConstants.TitleLabel.topOffset)
             $0.horizontalEdges.equalToSuperview().inset(UIConstants.TitleLabel.horizontalPadding)
             $0.height.equalTo(UIConstants.TitleLabel.height)
         }
-        
         collectionView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(UIConstants.CollectionView.topOffset)
             $0.horizontalEdges.equalToSuperview().inset(UIConstants.CollectionView.horizontalPadding)
             $0.height.equalTo(UIConstants.CollectionView.height)
         }
-        
         laterButton.snp.makeConstraints {
             $0.top.equalTo(collectionView.snp.bottom).offset(UIConstants.LaterButton.topOffset)
             $0.centerX.equalToSuperview()
             $0.size.equalTo(UIConstants.LaterButton.size)
         }
-        
         spacerView.snp.makeConstraints {
             $0.top.equalTo(laterButton.snp.bottom).offset(UIConstants.SpacerView.topOffset)
             $0.left.right.bottom.equalToSuperview()

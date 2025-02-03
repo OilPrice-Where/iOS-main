@@ -91,11 +91,19 @@ extension LocationManager {
         visibleVC.present(alert, animated: true, completion: nil)
     }
     
-    func addressUpdate(coordinate: CoordinateSystem, completion: @escaping (String?) -> ()) {
-        Task {
-            let fullAddress = await searchPathRepository.reverseGeocoding(coordinate: coordinate)
-            completion(fullAddress)
+    func addressUpdate() async -> String {
+        guard let currentLocation else {
+            return ""
         }
+        
+        let fullAddress = await searchPathRepository.reverseGeocoding(
+            coordinate: CoordinateSystem(
+                lat: currentLocation.coordinate.latitude,
+                lng: currentLocation.coordinate.longitude
+            )
+        )
+        
+        return fullAddress
     }
     
     func fetchSearchPOIs(keyword: String?, count: Int = 30) async -> [SearchPOI] {
