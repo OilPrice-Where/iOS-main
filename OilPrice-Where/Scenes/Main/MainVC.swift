@@ -21,7 +21,9 @@ final class MainVC: CommonViewController {
     var ref: DatabaseReference?
     let viewModel = MainViewModel()
     private lazy var fpc = FloatingPanelController()
-    private lazy var contentsVC = StationInfoVC() // 띄울 VC
+    /// 주유소 상세 정보
+    private let stationDetailInfoVC: StationInfoVC
+    
     private lazy var mapContainerView = MainMapView()
     private lazy var guideView = StationInfoGuideView()
     private var circle: NMFCircleOverlay?
@@ -54,6 +56,10 @@ final class MainVC: CommonViewController {
     
     //MARK: - Life Cycle
     init() {
+        let stationRepository: StationRepository = StationRepositoryImpl()
+        let stationInfoViewModel: StationInfoViewModel = StationInfoViewModel(stationRepository: stationRepository)
+        self.stationDetailInfoVC = StationInfoVC(viewModel: stationInfoViewModel)
+        
         super.init(nibName: nil, bundle: nil)
         
         let searchPathRepository = TMapSearchPathRepository()
@@ -527,8 +533,8 @@ extension MainVC: MainMapViewDelegate {
     func marker(info: GasStationSummary) {
         if fpc.state == .hidden { fpc.move(to: .half, animated: true, completion: nil) }
         
-        contentsVC.stationInfoView.configure(info)
         viewModel.selectedStation = info
+        stationDetailInfoVC.configure(station: info)
         
         let distance = info.distance < 1000 ? "\(Int(info.distance))m" : String(format: "%.1fkm", info.distance / 1000)
         guideView.directionButton.setTitle(distance + " 안내시작", for: .normal)
@@ -573,7 +579,7 @@ extension MainVC: FloatingPanelControllerDelegate {
         fpc.contentMode = .fitToBounds
         fpc.changePanelStyle() // panel 스타일 변경 (대신 bar UI가 사라지므로 따로 넣어주어야함)
         fpc.delegate = self
-        fpc.set(contentViewController: contentsVC) // floating panel에 삽입할 것
+        fpc.set(contentViewController: stationDetailInfoVC) // floating panel에 삽입할 것
         fpc.addPanel(toParent: self) // fpc를 관리하는 UIViewController
         fpc.layout = MyFloatingPanelLayout()
         fpc.invalidateLayout() // if needed
@@ -607,7 +613,7 @@ extension MainVC: FloatingPanelControllerDelegate {
         isZoomInStation(isHidden: fpc.state == .full)
         
         let halfHeight = view.safeAreaInsets.bottom + 180.0
-        let fullHeight = view.safeAreaInsets.bottom + 422.0
+        let fullHeight = view.safeAreaInsets.bottom + 450.0
         mapContainerView.mapView.contentInset.bottom = fpc.state == .hidden ? .zero : fpc.state == .half ? halfHeight : fullHeight
         
         switch fpc.state {
@@ -626,20 +632,7 @@ extension MainVC: FloatingPanelControllerDelegate {
                 mapContainerView.mapView.moveCamera(cameraUpdated)
             }
             
-            guard let station = viewModel.selectedStation, station.stationID != contentsVC.station?.stationID else { return }
-            
-            viewModel.requestStationsInfo(id: station.stationID) { [weak self] result in
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let response):
-                    guard let result = try? response.map(GasStationInfoResultDTO.self),
-                          let information = result.toDomain().first else { return }
-                    self.contentsVC.station = information
-                case .failure(let error):
-                    LogUtil.e(error)
-                }
-            }
+            stationDetailInfoVC.requestStationDetail(id: viewModel.selectedStation?.stationID)
         default:
             break
         }

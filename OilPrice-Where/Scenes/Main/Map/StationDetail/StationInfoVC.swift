@@ -6,143 +6,376 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Then
-import SnapKit
 import UIKit
+import Combine
+import Then
 import Toast
+import SnapKit
+
+
+extension StationInfoVC {
+    func configure(station: GasStationSummary) {
+        stationInfoView.configure(station)
+    }
+}
+
 
 //MARK: MapView에 주유소 정보 VC
 final class StationInfoVC: CommonViewController {
     //MARK: - Properties
-    var stationInfoView = StationInfoView()
-    var station: GasStationDetail? = nil { didSet { configure(_station: station) } }
-    var guideView = UIView().then {
+    private let viewModel: StationInfoViewModel
+    
+    private let requestStationDetailPublisher = PassthroughSubject<String, Never>()
+    
+    private let stationInfoView = StationInfoView()
+    private let guideView = UIView().then {
         $0.backgroundColor = .systemGray4
-        $0.layer.cornerRadius = 1.3
+        $0.layer.cornerRadius = UIConstants.GuideView.cornerRadius
     }
-    var topLineView = UIView().then {
+    private let topLineView = UIView().then {
         $0.backgroundColor = .systemGroupedBackground
     }
-    var titleByStationDetailLabel = UILabel().then {
-        $0.text = "주유소 상세정보"
+    private let titleByStationDetailLabel = UILabel().then {
+        $0.text = UIConstants.TitleByStationDetailLabel.text
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.bold.font(size: 16)
+        $0.font = UIConstants.TitleByStationDetailLabel.font
     }
-    var washImageView = UIImageView().then {
+    private let washImageView = UIImageView().then {
+        $0.image = UIConstants.WashImageView.image
         $0.contentMode = .scaleAspectFit
-        let image = Asset.Images.iconWash.image.withRenderingMode(.alwaysTemplate)
-        $0.image = image
         $0.tintColor = .lightGray
     }
-    var repairImageView = UIImageView().then {
+    private let repairImageView = UIImageView().then {
+        $0.image = UIConstants.RepairImageView.image
         $0.contentMode = .scaleAspectFit
-        let image = Asset.Images.iconRepair.image.withRenderingMode(.alwaysTemplate)
-        $0.image = image
         $0.tintColor = .lightGray
     }
-    var convenienceImageView = UIImageView().then {
+    private let convenienceImageView = UIImageView().then {
+        $0.image = UIConstants.ConvenienceImageView.image
         $0.contentMode = .scaleAspectFit
-        let image = Asset.Images.iconConvenience.image.withRenderingMode(.alwaysTemplate)
-        $0.image = image
         $0.tintColor = .lightGray
     }
-    var addressKeyLabel = UILabel().then {
-        $0.text = "주소"
+    private let addressKeyLabel = UILabel().then {
+        $0.text = UIConstants.AddressKeyLabel.text
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
+        $0.font = UIConstants.AddressKeyLabel.font
         $0.textColor = .lightGray
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
-    var phoneNumberKeyLabel = UILabel().then {
-        $0.text = "전화"
+    private let phoneNumberKeyLabel = UILabel().then {
+        $0.text = UIConstants.PhoneNumberKeyLabel.text
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
+        $0.font = UIConstants.PhoneNumberKeyLabel.font
         $0.textColor = .lightGray
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
-    lazy var addressValueButton = UIButton().then {
+    private let addressValueButton = UIButton().then {
         $0.contentHorizontalAlignment = .right
         $0.titleLabel?.font = FontFamily.NanumSquareRound.bold.font(size: 14)
-        $0.addTarget(self, action: #selector(fetchAddressCopy), for: .touchUpInside)
     }
-    lazy var phoneNumberValueButton = UIButton().then {
+    private let phoneNumberValueButton = UIButton().then {
         $0.contentHorizontalAlignment = .right
         $0.titleLabel?.font = FontFamily.NanumSquareRound.bold.font(size: 14)
-        $0.addTarget(self, action: #selector(fetchTel), for: .touchUpInside)
     }
-    var bottomLineView = UIView().then {
+    private let bottomLineView = UIView().then {
         $0.backgroundColor = .systemGroupedBackground
     }
-    var titleByPriceLabel = UILabel().then {
-        $0.text = "가격 정보"
+    private let titleByPriceLabel = UILabel().then {
+        $0.text = UIConstants.TitleByPriceLabel.text
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.bold.font(size: 16)
+        $0.font = UIConstants.TitleByPriceLabel.font
     }
-    var oilKeyLabel = UILabel().then {
-        $0.text = "휘발유"
+    private let oilKeyLabel = UILabel().then {
+        $0.text = UIConstants.FuelKey.displayName(type: .gasoline)
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
+        $0.font = UIConstants.FuelKey.font
         $0.textColor = .darkGray
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
-    var highOilKeyLabel = UILabel().then {
-        $0.text = "고급유"
+    private let highOilKeyLabel = UILabel().then {
+        $0.text = UIConstants.FuelKey.displayName(type: .premiumGasoline)
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
+        $0.font = UIConstants.FuelKey.font
         $0.textColor = .darkGray
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
-    var diselKeyLabel = UILabel().then {
-        $0.text = "경유"
+    private let diselKeyLabel = UILabel().then {
+        $0.text = UIConstants.FuelKey.displayName(type: .diesel)
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
+        $0.font = UIConstants.FuelKey.font
         $0.textColor = .darkGray
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
-    var lpgKeyLabel = UILabel().then {
-        $0.text = "LPG"
+    private let lpgKeyLabel = UILabel().then {
+        $0.text = UIConstants.FuelKey.displayName(type: .lpg)
         $0.textAlignment = .left
-        $0.font = FontFamily.NanumSquareRound.regular.font(size: 14)
+        $0.font = UIConstants.FuelKey.font
         $0.textColor = .darkGray
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
-    var oilValueLabel = UILabel().then {
-        $0.text = "가격정보 없음"
+    private let oilValueLabel = UILabel().then {
+        $0.text = UIConstants.FuelValue.text
         $0.textAlignment = .right
-        $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 14)
+        $0.font = UIConstants.FuelValue.font
     }
-    var highOilValueLabel = UILabel().then {
-        $0.text = "가격정보 없음"
+    private let highOilValueLabel = UILabel().then {
+        $0.text = UIConstants.FuelValue.text
         $0.textAlignment = .right
-        $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 14)
+        $0.font = UIConstants.FuelValue.font
     }
-    var diselValueLabel = UILabel().then {
-        $0.text = "가격정보 없음"
+    private let diselValueLabel = UILabel().then {
+        $0.text = UIConstants.FuelValue.text
         $0.textAlignment = .right
-        $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 14)
+        $0.font = UIConstants.FuelValue.font
     }
-    var lpgValueLabel = UILabel().then {
-        $0.text = "가격정보 없음"
+    private let lpgValueLabel = UILabel().then {
+        $0.text = UIConstants.FuelValue.text
         $0.textAlignment = .right
-        $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 14)
+        $0.font = UIConstants.FuelValue.font
     }
     
+    
     //MARK: - Life Cycle
+    init(viewModel: StationInfoViewModel) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         makeUI()
+        bindActions()
     }
     
-    //MARK: - Set UI
-    private func makeUI() {
+    func requestStationDetail(id: String?) {
+        guard let id, id.isNotEmpty else {
+            return
+        }
+        requestStationDetailPublisher.send(id)
+    }
+}
+
+//MARK: - Binding..
+private extension StationInfoVC {
+    func bindActions() {
+        // 주소 복사 버튼 탭
+        let addressButtonTapped = addressValueButton.tapPublisher
+            .map { [weak self] in
+                self?.addressValueButton.titleLabel?.text
+            }
+            .eraseToAnyPublisher()
+        // 전화연결 버튼 탭
+        let phoneNumberButton = phoneNumberValueButton.tapPublisher
+            .compactMap { [weak self] _ -> String? in
+                guard let phoneNumber = self?.phoneNumberValueButton.titleLabel?.text,
+                      phoneNumber.isNotEmpty else {
+                    return nil
+                }
+                return "tel:" + phoneNumber
+            }
+            .eraseToAnyPublisher()
+        
+        let output = viewModel.transform(input: .init(
+            requestStationDetail: requestStationDetailPublisher.eraseToAnyPublisher(),
+            addressButtonTapped: addressButtonTapped,
+            phoneNumberButtonTapped: phoneNumberButton
+        ))
+        
+        bindUI(output: output)
+    }
+    
+    func bindUI(output: StationInfoViewModel.Output) {
+        // openURL
+        output.openURL
+            .receive(on: DispatchQueue.main)
+            .sink { url in
+                guard UIApplication.shared.canOpenURL(url) else {
+                    return
+                }
+                UIApplication.shared.open(url)
+            }
+            .store(in: &cancellable)
+        // washImageView
+        output.updateStationDetail
+            .map { $0.hasCarWash ? Asset.Colors.mainColor.color : .lightGray }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.tintColor, on: washImageView)
+            .store(in: &cancellable)
+        // repairImageView
+        output.updateStationDetail
+            .map { $0.hasRepairShop ? Asset.Colors.mainColor.color : .lightGray }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.tintColor, on: repairImageView)
+            .store(in: &cancellable)
+        // convenienceImageView
+        output.updateStationDetail
+            .map { $0.hasConvenienceStore ? Asset.Colors.mainColor.color : .lightGray }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.tintColor, on: convenienceImageView)
+            .store(in: &cancellable)
+        // addressValueButton
+        output.updateStationDetail
+            .map { $0.address }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] address in
+                let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
+                let underlineAttributedString = NSAttributedString(string: address, attributes: underlineAttribute)
+                self?.addressValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
+            }
+            .store(in: &cancellable)
+        // phoneNumberValueButton
+        output.updateStationDetail
+            .map { $0.phoneNumber }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] phoneNumber in
+                let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
+                let underlineAttributedString = NSAttributedString(string: phoneNumber, attributes: underlineAttribute)
+                self?.phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
+            }
+            .store(in: &cancellable)
+        // prices
+        output.updateStationDetail
+            .map { $0.prices }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] fuelPrices in
+                for fuelPrice in fuelPrices {
+                    switch fuelPrice.fuelType {
+                    case .gasoline:
+                        self?.oilValueLabel.text = fuelPrice.price.decimalNumber
+                    case .premiumGasoline:
+                        self?.highOilValueLabel.text = fuelPrice.price.decimalNumber
+                    case .diesel:
+                        self?.diselValueLabel.text = fuelPrice.price.decimalNumber
+                    case .lpg:
+                        self?.lpgValueLabel.text = fuelPrice.price.decimalNumber
+                    }
+                }
+            }
+            .store(in: &cancellable)
+    }
+}
+
+
+//MARK: - Set UI
+private extension StationInfoVC {
+    enum UIConstants {
+        enum StationInfoView {
+            static let topOffset: CGFloat = 10
+            static let height: CGFloat = 88
+        }
+        
+        enum GuideView {
+            static let cornerRadius: CGFloat = 1.3
+            
+            static let topOffset: CGFloat = 10
+            static let width: CGFloat = 30
+            static let height: CGFloat = 2.6
+        }
+        
+        enum TopLineView {
+            static let topOffset: CGFloat = 10
+            static let height: CGFloat = 5
+        }
+        
+        enum TitleByStationDetailLabel {
+            static let text: String = "주유소 상세정보"
+            static let font: UIFont = FontFamily.NanumSquareRound.bold.font(size: 16)
+            
+            static let topOffset: CGFloat = 16
+            static let leftOffset: CGFloat = 14
+        }
+        
+        enum WashImageView {
+            static let image: UIImage = Asset.Images.iconWash.image.withRenderingMode(.alwaysTemplate)
+            
+            static let rightOffset: CGFloat = -4
+            static let size: CGFloat = 20
+        }
+        
+        enum RepairImageView {
+            static let image: UIImage = Asset.Images.iconRepair.image.withRenderingMode(.alwaysTemplate)
+            
+            static let rightOffset: CGFloat = -4
+            static let size: CGFloat = 20
+        }
+        
+        enum ConvenienceImageView {
+            static let image: UIImage = Asset.Images.iconConvenience.image.withRenderingMode(.alwaysTemplate)
+            
+            static let rightOffset: CGFloat = -16
+            static let size: CGFloat = 20
+        }
+        
+        enum AddressKeyLabel {
+            static let text: String = "주소"
+            static let font: UIFont = FontFamily.NanumSquareRound.regular.font(size: 14)
+            
+            static let topOffset: CGFloat = 16
+            static let leftOffset: CGFloat = 14
+        }
+        
+        enum PhoneNumberKeyLabel {
+            static let text: String = "전화"
+            static let font: UIFont = FontFamily.NanumSquareRound.regular.font(size: 14)
+            
+            static let topOffset: CGFloat = 8
+            static let leftOffset: CGFloat = 14
+        }
+        
+        enum BottomLineView {
+            static let topOffset: CGFloat = 10
+            static let height: CGFloat = 5
+        }
+        
+        enum TitleByPriceLabel {
+            static let text: String = "가격 정보"
+            static let font: UIFont = FontFamily.NanumSquareRound.bold.font(size: 16)
+            
+            static let topOffset: CGFloat = 16
+            static let leftOffset: CGFloat = 14
+        }
+        
+        enum FuelKey {
+            static let text: String = "휘발유"
+            static let font: UIFont = FontFamily.NanumSquareRound.regular.font(size: 14)
+            
+            static let topOffset: CGFloat = 10
+            static let leftOffset: CGFloat = 14
+            
+            static func displayName(type: FuelType) -> String {
+                return type.displayName
+            }
+        }
+        
+        enum FuelValue {
+            static let text: String = "가격정보 없음"
+            static let font: UIFont = FontFamily.NanumSquareRound.extraBold.font(size: 14)
+            
+            static let leftOffset: CGFloat = 5
+            static let rightOffset: CGFloat = -14
+        }
+    }
+    
+    func makeUI() {
+        configureUI()
+        setConstraints()
+    }
+    
+    func configureUI() {
         view.backgroundColor = .white
+        
         view.addSubview(stationInfoView)
         view.addSubview(guideView)
         view.addSubview(topLineView)
@@ -164,51 +397,52 @@ final class StationInfoVC: CommonViewController {
         view.addSubview(highOilValueLabel)
         view.addSubview(diselValueLabel)
         view.addSubview(lpgValueLabel)
-        
+    }
+    
+    func setConstraints() {
         guideView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
+            $0.top.equalToSuperview().offset(UIConstants.GuideView.topOffset)
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(30)
-            $0.height.equalTo(2.6)
+            $0.width.equalTo(UIConstants.GuideView.width)
+            $0.height.equalTo(UIConstants.GuideView.height)
         }
-        
         stationInfoView.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.top.equalToSuperview().offset(10)
-            $0.height.equalTo(88)
+            $0.top.equalToSuperview().offset(UIConstants.StationInfoView.topOffset)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(UIConstants.StationInfoView.height)
         }
         topLineView.snp.makeConstraints {
-            $0.top.equalTo(stationInfoView.snp.bottom).offset(10)
-            $0.left.right.equalToSuperview()
-            $0.height.equalTo(5)
+            $0.top.equalTo(stationInfoView.snp.bottom).offset(UIConstants.TopLineView.topOffset)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(UIConstants.TopLineView.height)
         }
         titleByStationDetailLabel.snp.makeConstraints {
-            $0.top.equalTo(topLineView.snp.bottom).offset(16)
-            $0.left.equalToSuperview().offset(14)
+            $0.top.equalTo(topLineView.snp.bottom).offset(UIConstants.TitleByStationDetailLabel.topOffset)
+            $0.left.equalToSuperview().offset(UIConstants.TitleByStationDetailLabel.leftOffset)
             $0.right.equalToSuperview()
         }
         convenienceImageView.snp.makeConstraints {
-            $0.right.equalToSuperview().offset(-16)
+            $0.right.equalToSuperview().offset(UIConstants.ConvenienceImageView.rightOffset)
             $0.centerY.equalTo(titleByStationDetailLabel.snp.centerY)
-            $0.size.equalTo(20)
+            $0.size.equalTo(UIConstants.ConvenienceImageView.size)
         }
         repairImageView.snp.makeConstraints {
-            $0.right.equalTo(convenienceImageView.snp.left).offset(-4)
+            $0.right.equalTo(convenienceImageView.snp.left).offset(UIConstants.RepairImageView.rightOffset)
             $0.centerY.equalTo(titleByStationDetailLabel.snp.centerY)
-            $0.size.equalTo(20)
+            $0.size.equalTo(UIConstants.RepairImageView.size)
         }
         washImageView.snp.makeConstraints {
-            $0.right.equalTo(repairImageView.snp.left).offset(-4)
+            $0.right.equalTo(repairImageView.snp.left).offset(UIConstants.WashImageView.rightOffset)
             $0.centerY.equalTo(titleByStationDetailLabel.snp.centerY)
-            $0.size.equalTo(20)
+            $0.size.equalTo(UIConstants.WashImageView.size)
         }
         addressKeyLabel.snp.makeConstraints {
-            $0.top.equalTo(titleByStationDetailLabel.snp.bottom).offset(16)
-            $0.left.equalToSuperview().offset(14)
+            $0.top.equalTo(titleByStationDetailLabel.snp.bottom).offset(UIConstants.AddressKeyLabel.topOffset)
+            $0.left.equalToSuperview().offset(UIConstants.AddressKeyLabel.leftOffset)
         }
         phoneNumberKeyLabel.snp.makeConstraints {
-            $0.top.equalTo(addressKeyLabel.snp.bottom).offset(8)
-            $0.left.equalToSuperview().offset(14)
+            $0.top.equalTo(addressKeyLabel.snp.bottom).offset(UIConstants.PhoneNumberKeyLabel.topOffset)
+            $0.left.equalToSuperview().offset(UIConstants.PhoneNumberKeyLabel.leftOffset)
         }
         addressValueButton.snp.makeConstraints {
             $0.top.equalTo(addressKeyLabel.snp.top)
@@ -221,100 +455,50 @@ final class StationInfoVC: CommonViewController {
             $0.right.equalToSuperview().offset(-14)
         }
         bottomLineView.snp.makeConstraints {
-            $0.top.equalTo(phoneNumberValueButton.snp.bottom).offset(10)
+            $0.top.equalTo(phoneNumberValueButton.snp.bottom).offset(UIConstants.BottomLineView.topOffset)
             $0.left.right.equalToSuperview()
-            $0.height.equalTo(5)
+            $0.height.equalTo(UIConstants.BottomLineView.height)
         }
         titleByPriceLabel.snp.makeConstraints {
-            $0.top.equalTo(bottomLineView.snp.bottom).offset(16)
-            $0.left.equalToSuperview().offset(14)
+            $0.top.equalTo(bottomLineView.snp.bottom).offset(UIConstants.TitleByPriceLabel.topOffset)
+            $0.left.equalToSuperview().offset(UIConstants.TitleByPriceLabel.leftOffset)
             $0.right.equalToSuperview()
         }
         oilKeyLabel.snp.makeConstraints {
-            $0.top.equalTo(titleByPriceLabel.snp.bottom).offset(10)
-            $0.left.equalToSuperview().offset(14)
+            $0.top.equalTo(titleByPriceLabel.snp.bottom).offset(UIConstants.FuelKey.topOffset)
+            $0.left.equalToSuperview().offset(UIConstants.FuelKey.leftOffset)
         }
         highOilKeyLabel.snp.makeConstraints {
-            $0.top.equalTo(oilKeyLabel.snp.bottom).offset(8)
-            $0.left.equalToSuperview().offset(14)
+            $0.top.equalTo(oilKeyLabel.snp.bottom).offset(UIConstants.FuelKey.topOffset)
+            $0.left.equalToSuperview().offset(UIConstants.FuelKey.leftOffset)
         }
         diselKeyLabel.snp.makeConstraints {
-            $0.top.equalTo(highOilKeyLabel.snp.bottom).offset(8)
-            $0.left.equalToSuperview().offset(14)
+            $0.top.equalTo(highOilKeyLabel.snp.bottom).offset(UIConstants.FuelKey.topOffset)
+            $0.left.equalToSuperview().offset(UIConstants.FuelKey.leftOffset)
         }
         lpgKeyLabel.snp.makeConstraints {
-            $0.top.equalTo(diselKeyLabel.snp.bottom).offset(8)
-            $0.left.equalToSuperview().offset(14)
+            $0.top.equalTo(diselKeyLabel.snp.bottom).offset(UIConstants.FuelKey.topOffset)
+            $0.left.equalToSuperview().offset(UIConstants.FuelKey.leftOffset)
         }
         oilValueLabel.snp.makeConstraints {
             $0.top.equalTo(oilKeyLabel.snp.top)
-            $0.left.equalTo(oilKeyLabel.snp.left).offset(5)
-            $0.right.equalToSuperview().offset(-14)
+            $0.left.equalTo(oilKeyLabel.snp.left).offset(UIConstants.FuelValue.leftOffset)
+            $0.right.equalToSuperview().offset(UIConstants.FuelValue.rightOffset)
         }
         highOilValueLabel.snp.makeConstraints {
             $0.top.equalTo(highOilKeyLabel.snp.top)
-            $0.left.equalTo(highOilKeyLabel.snp.left).offset(5)
-            $0.right.equalToSuperview().offset(-14)
+            $0.left.equalTo(highOilKeyLabel.snp.left).offset(UIConstants.FuelValue.leftOffset)
+            $0.right.equalToSuperview().offset(UIConstants.FuelValue.rightOffset)
         }
         diselValueLabel.snp.makeConstraints {
             $0.top.equalTo(diselKeyLabel.snp.top)
-            $0.left.equalTo(diselKeyLabel.snp.left).offset(5)
-            $0.right.equalToSuperview().offset(-14)
+            $0.left.equalTo(diselKeyLabel.snp.left).offset(UIConstants.FuelValue.leftOffset)
+            $0.right.equalToSuperview().offset(UIConstants.FuelValue.rightOffset)
         }
         lpgValueLabel.snp.makeConstraints {
             $0.top.equalTo(lpgKeyLabel.snp.top)
-            $0.left.equalTo(lpgKeyLabel.snp.left).offset(5)
-            $0.right.equalToSuperview().offset(-14)
+            $0.left.equalTo(lpgKeyLabel.snp.left).offset(UIConstants.FuelValue.leftOffset)
+            $0.right.equalToSuperview().offset(UIConstants.FuelValue.rightOffset)
         }
-    }
-    
-    //MARK: - Configure station
-    func configure(_station: GasStationDetail?) {
-        guard let info = _station else { return }
-        
-        washImageView.tintColor = info.hasCarWash ? Asset.Colors.mainColor.color : .lightGray
-        repairImageView.tintColor = info.hasRepairShop ? Asset.Colors.mainColor.color : .lightGray
-        convenienceImageView.tintColor = info.hasConvenienceStore ? Asset.Colors.mainColor.color : .lightGray
-        
-        let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
-        var underlineAttributedString = NSAttributedString(string: info.address, attributes: underlineAttribute)
-        addressValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
-        addressValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
-        
-        underlineAttributedString = NSAttributedString(string: info.phoneNumber, attributes: underlineAttribute)
-        phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .normal)
-        phoneNumberValueButton.setAttributedTitle(underlineAttributedString, for: .highlighted)
-        
-        oilValueLabel.text = string(info, to: "B027")
-        highOilValueLabel.text = string(info, to: "B034")
-        diselValueLabel.text = string(info, to: "D047")
-        lpgValueLabel.text = string(info, to: "K015")
-    }
-    
-    func string(_ info: GasStationDetail, to code: String) -> String {
-        let price = info.prices.first(where: { $0.fuelType.code == code })?.price ?? .zero
-        let priceToString = price.decimalNumber
-        return priceToString == "0" ? "가격 정보 없음" : priceToString
-    }
-    
-    @objc
-    func fetchAddressCopy() {
-        guard let valueString = addressValueButton.titleLabel?.text else { return }
-        UIPasteboard.general.string = valueString
-        
-        guard let vc = UIApplication.shared.customKeyWindow?.visibleViewController as? UIViewController else { return }
-        let lbl = Preferences.showToast(message: "주유소 주소가 복사되었습니다.")
-        
-        vc.view.hideToast()
-        vc.view.showToast(lbl, position: .top)
-    }
-    
-    @objc
-    func fetchTel() {
-        guard let valueString = phoneNumberValueButton.titleLabel?.text,
-              let url = URL(string: "tel:" + valueString),
-              UIApplication.shared.canOpenURL(url) else { return }
-        
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }

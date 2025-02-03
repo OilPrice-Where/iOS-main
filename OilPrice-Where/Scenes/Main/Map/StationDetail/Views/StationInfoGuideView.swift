@@ -65,7 +65,7 @@ private extension StationInfoGuideView {
             static let topOffset: CGFloat = 14
             static let leftOffset: CGFloat = 10
             static let rightOffset: CGFloat = -14
-            static let height: CGFloat = 80
+            static let height: CGFloat = 50
         }
     }
     
