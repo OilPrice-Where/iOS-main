@@ -56,8 +56,13 @@ final class MainVC: CommonViewController {
     
     //MARK: - Life Cycle
     init() {
+        let settingStorage: SettingStorage = PlistSettingStorage()
+        let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
         let stationRepository: StationRepository = StationRepositoryImpl()
-        let stationInfoViewModel: StationInfoViewModel = StationInfoViewModel(stationRepository: stationRepository)
+        let stationInfoViewModel: StationInfoViewModel = StationInfoViewModel(
+            settingUseCase: settingUseCase,
+            stationRepository: stationRepository
+        )
         self.stationDetailInfoVC = StationInfoVC(viewModel: stationInfoViewModel)
         
         super.init(nibName: nil, bundle: nil)
@@ -171,6 +176,15 @@ final class MainVC: CommonViewController {
             self?.viewModel.isLiveActivities = true
             self?.viewModel.requestLocation = location
             self?.viewModel.input.requestStaions.send(nil)
+        }
+        
+        SettingType.allCases.forEach {
+            NotificationCenter.default.publisher(for: $0.notificationName)
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    self?.fpc.move(to: .hidden, animated: false, completion: nil)
+                }
+                .store(in: &viewModel.cancellable)
         }
         
         DefaultData.shared.completedRelay

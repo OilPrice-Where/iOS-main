@@ -9,12 +9,13 @@
 import Foundation
 
 
-enum SettingType {
+enum SettingType: CaseIterable {
     case fuelType
     case findBrands
     case navigationType
     case favorites
 }
+
 
 extension SettingType {
     var key: String {

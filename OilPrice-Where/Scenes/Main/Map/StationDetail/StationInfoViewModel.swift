@@ -12,12 +12,23 @@ import Combine
 
 final class StationInfoViewModel {
     //MARK: - Properties
+    private let settingUseCase: SettingUseCase
     private let stationRepository: StationRepository
     
     
     //MARK: Initializer
-    init(stationRepository: StationRepository) {
+    init(settingUseCase: SettingUseCase,
+         stationRepository: StationRepository) {
+        self.settingUseCase = settingUseCase
         self.stationRepository = stationRepository
+    }
+    
+    
+    func currentFuelType() -> FuelType {
+        guard let fuelCode: String = try? settingUseCase.load(type: .fuelType) else {
+            return .gasoline
+        }
+        return FuelType(code: fuelCode)
     }
 }
 
@@ -62,7 +73,8 @@ extension StationInfoViewModel {
                         }
                         promise(.success(stationDetail))
                     }
-                }.eraseToAnyPublisher()
+                }
+                .eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
     }
@@ -75,7 +87,8 @@ extension StationInfoViewModel {
                 }
                 UIPasteboard.general.string = address
                 return "주유소 주소가 복사되었습니다."
-            }.eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
     }
     
     func openUrlPublisher(input: Input) -> AnyPublisher<URL, Never> {
@@ -85,6 +98,7 @@ extension StationInfoViewModel {
                     return nil
                 }
                 return phoneNumberURL
-            }.eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
     }
 }

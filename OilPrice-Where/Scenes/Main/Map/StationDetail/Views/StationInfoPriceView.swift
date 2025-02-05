@@ -12,9 +12,9 @@ import SnapKit
 
 
 extension StationInfoPriceView {
-    func configure(fuelType: FuelType, price: Int) {
-        priceLabel.text = price.decimalNumber
-        oilTypeLabel.text = fuelType.displayName
+    func configure(fuel: FuelPrice) {
+        priceLabel.text = fuel.price.decimalNumber
+        oilTypeLabel.text = fuel.fuelType.displayName
     }
 }
 

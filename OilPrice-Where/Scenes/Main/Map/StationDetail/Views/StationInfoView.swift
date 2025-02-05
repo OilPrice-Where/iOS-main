@@ -13,12 +13,12 @@ import SnapKit
 
 //MARK: - Configure station
 extension StationInfoView {
-    func configure(_ station: GasStationSummary) {
-        let oilType = DefaultData.shared.oilSubject.value
-        
+    func configure(fuelType: FuelType, station: GasStationSummary) {
         logoImageView.image = station.brand.image
         nameLabel.text = station.name
-        priceStackView.configure(fuelType: FuelType(code: oilType), price: station.price)
+        priceStackView.configure(
+            fuel: FuelPrice(fuelType: fuelType, price: station.price)
+        )
     }
 }
 

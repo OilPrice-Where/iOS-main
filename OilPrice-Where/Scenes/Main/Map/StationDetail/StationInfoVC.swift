@@ -15,7 +15,10 @@ import SnapKit
 
 extension StationInfoVC {
     func configure(station: GasStationSummary) {
-        stationInfoView.configure(station)
+        stationInfoView.configure(
+            fuelType: viewModel.currentFuelType(),
+            station: station
+        )
     }
 }
 
