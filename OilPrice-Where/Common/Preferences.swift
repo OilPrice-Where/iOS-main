@@ -7,13 +7,7 @@
 //
 
 import UIKit
-import CoreLocation
 
-// 카텍 좌표 저장
-struct KatecPoint {
-    let x: Double
-    let y: Double
-}
 
 // App 기본 설정
 struct Preferences {
@@ -46,18 +40,6 @@ struct Preferences {
             return ""
         }
         return appKey
-    }
-    
-    
-    static func stringByRemovingControlCharacters2(string: String) -> String {
-        let controlChars = NSCharacterSet.controlCharacters
-        var range = string.rangeOfCharacter(from: controlChars)
-        var mutable = string
-        while let removeRange = range {
-            mutable.removeSubrange(removeRange)
-            range = mutable.rangeOfCharacter(from: controlChars)
-        }
-        return mutable
     }
     
     static func showToast(width: CGFloat, message : String, subTitle: String = "") -> UILabel {

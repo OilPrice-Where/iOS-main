@@ -6,10 +6,11 @@
 //  Copyright © 2021 sangwook park. All rights reserved.
 //
 
-import CoreLocation
 import UIKit
 import Combine
-import NMapsMap
+import CoreLocation
+import Then
+import SnapKit
 import SideMenu
 import Firebase
 import FloatingPanel
@@ -21,54 +22,31 @@ final class MainVC: CommonViewController {
     var ref: DatabaseReference?
     let viewModel = MainViewModel()
     private lazy var fpc = FloatingPanelController()
+    /// 사이드 메뉴
+    private let sideMenu: SideMenuNavigationController
+    /// MapView
+    private lazy var mapView = MainMapView()
     /// 주유소 상세 정보
     private let stationDetailInfoVC: StationInfoVC
-    
-    private lazy var mapContainerView = MainMapView()
+    ///
     private lazy var guideView = StationInfoGuideView()
     
-    private var noti: NSObjectProtocol?
     var bottomOffset: CGFloat = 36
     let emptyView = UIView().then {
         $0.backgroundColor = .white
     }
-    let sideMenu: SideMenuNavigationController = {
-        let storage: SettingStorage = PlistSettingStorage()
-        let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: storage)
-        let appVersionRepository: AppVersionRepository = FirebaseAppVersionRepository()
-        let appVersionUseCase: AppVersionUseCase = AppVersionUseCaseImpl(appVersionRepository: appVersionRepository)
-        let menuViewModel = MenuViewModel(settingUseCase: settingUseCase, appVersionUseCase: appVersionUseCase)
-        let menuVC = MenuVC(viewModel: menuViewModel)
-        let sideMenu = SideMenuNavigationController(rootViewController: menuVC)
-        sideMenu.leftSide = true
-        sideMenu.settings = {
-            var settings = SideMenuSettings()
-            settings.statusBarEndAlpha = 0
-            settings.presentationStyle = SideMenuPresentationStyle.menuSlideIn
-            settings.presentationStyle.presentingEndAlpha = 0.65
-            let screenWidth = UIScreen.main.bounds.width
-            settings.menuWidth = UIDevice.current.userInterfaceIdiom == .pad ? 328.0 : screenWidth * (240 / 375)
-            settings.blurEffectStyle = nil
-            return settings
-        }()
-        return sideMenu
-    }()
+    
     
     //MARK: - Life Cycle
-    init() {
-        let settingStorage: SettingStorage = PlistSettingStorage()
-        let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
-        let stationRepository: StationRepository = StationRepositoryImpl()
-        let stationInfoViewModel: StationInfoViewModel = StationInfoViewModel(
-            settingUseCase: settingUseCase,
-            stationRepository: stationRepository
-        )
+    init(menuViewModel: MenuViewModel,
+         stationInfoViewModel: StationInfoViewModel) {
         self.stationDetailInfoVC = StationInfoVC(viewModel: stationInfoViewModel)
-        
+        let menuVC = MenuVC(viewModel: menuViewModel)
+        self.sideMenu = SideMenuNavigationController(rootViewController: menuVC)
+ 
         super.init(nibName: nil, bundle: nil)
         
-        let searchPathRepository = TMapSearchPathRepository()
-        LocationManager.shared.setLocationManager(searchPathRepository: searchPathRepository)
+        configure()
     }
     
     required init?(coder: NSCoder) {
@@ -76,18 +54,11 @@ final class MainVC: CommonViewController {
     }
     
     
-    deinit {
-        if let noti {
-            NotificationCenter.default.removeObserver(noti)
-        }
-        self.noti = nil
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         makeUI()
-        configure()
+        
         rxBind()
         appVersionCheck()
     }
@@ -103,13 +74,13 @@ final class MainVC: CommonViewController {
     private func makeUI() {
         navigationItem.title = "주유 정보"
         view.backgroundColor = .white
-        view.addSubview(mapContainerView)
+        view.addSubview(mapView)
         
         setupView()
         fpc.view.addSubview(guideView)
         fpc.view.addSubview(emptyView)
         
-        mapContainerView.snp.makeConstraints {
+        mapView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         guideView.snp.makeConstraints {
@@ -137,21 +108,26 @@ final class MainVC: CommonViewController {
     }
     
     private func configure() {
-        mapContainerView.delegate = self
+        let searchPathRepository = TMapSearchPathRepository()
+        LocationManager.shared.setLocationManager(searchPathRepository: searchPathRepository)
+        
+        mapView.delegate = self
+        
+        sideMenu.leftSide = true
+        sideMenu.settings = {
+            var settings = SideMenuSettings()
+            settings.statusBarEndAlpha = 0
+            settings.presentationStyle = SideMenuPresentationStyle.menuSlideIn
+            settings.presentationStyle.presentingEndAlpha = 0.65
+            let screenWidth = UIScreen.main.bounds.width
+            settings.menuWidth = UIDevice.current.userInterfaceIdiom == .pad ? 328.0 : screenWidth * (240 / 375)
+            settings.blurEffectStyle = nil
+            return settings
+        }()
     }
     
     //MARK: - Rx Binding..
     private func rxBind() {
-        noti = NotificationCenter.default.addObserver(forName: NSNotification.Name("liveActivities"),
-                                                      object: nil,
-                                                      queue: .main) { [weak self] _ in
-            guard let location = LocationManager.shared.requestLocation else { return }
-            
-            self?.viewModel.isLiveActivities = true
-            self?.viewModel.requestLocation = location
-            self?.viewModel.input.requestStaions.send(nil)
-        }
-        
         SettingType.allCases.forEach {
             NotificationCenter.default.publisher(for: $0.notificationName)
                 .receive(on: DispatchQueue.main)
@@ -170,7 +146,7 @@ final class MainVC: CommonViewController {
                     return
                 }
                 
-                mapContainerView.resetSelectedMarker()
+                mapView.resetSelectedMarker()
                 DispatchQueue.main.async {
                     self.fpc.move(to: .hidden, animated: false, completion: nil)
                 }
@@ -188,7 +164,7 @@ final class MainVC: CommonViewController {
                 viewModel.requestLocation = currentLocation
                 viewModel.input.requestStaions.send(nil)
                 
-                mapContainerView.moveMap(scrollTo: currentLocation.coordinate)
+                mapView.moveMap(scrollTo: currentLocation.coordinate)
             }
             .store(in: &viewModel.cancellable)
         
@@ -218,8 +194,8 @@ final class MainVC: CommonViewController {
             .sink { [weak self] _ in
                 guard let self else { return }
                 
-                mapContainerView.applyCircle(location: viewModel.requestLocation)
-                mapContainerView.showMarker(list: viewModel.stations)
+                mapView.applyCircle(location: viewModel.requestLocation)
+                mapView.showMarker(list: viewModel.stations)
                 
                 NotificationCenter.default.post(
                     name: NSNotification.Name("stationsUpdated"),
@@ -232,20 +208,20 @@ final class MainVC: CommonViewController {
                       let lat = targetStation.lat, let lng = targetStation.lng else { return }
                 
                 sideMenu.dismiss(animated: false)
-                mapView(mapContainerView, didTapMarker: info)
-                mapContainerView.selectedMarker = mapContainerView.markers.first(where: {
+                mapView(mapView, didTapMarker: info)
+                mapView.selectedMarker = mapView.markers.first(where: {
                     guard let station = $0.userInfo["station"] as? GasStationSummary else { return false }
                     return station.stationID == targetStation.id
                 })
-                mapContainerView.selectedMarker?.isSelected = true
+                mapView.selectedMarker?.isSelected = true
                 
-                mapContainerView.moveMap(
+                mapView.moveMap(
                     scrollTo: .init(latitude: lat, longitude: lng),
                     zoomTo: 15.0,
                     animation: .easeIn
                 )
                 
-                mapContainerView.hideResearchButtonWithAnimation()
+                mapView.hideResearchButtonWithAnimation()
             }
             .store(in: &viewModel.cancellable)
         
@@ -271,7 +247,7 @@ final class MainVC: CommonViewController {
             self?.notConnect()
             self?.viewModel.requestLocation = nil
             LocationManager.shared.currentLocation = nil
-            self?.mapContainerView.reset()
+            self?.mapView.reset()
             self?.fpc.move(to: .hidden, animated: false, completion: nil)
         }
     }
@@ -293,19 +269,19 @@ final class MainVC: CommonViewController {
         if let coordinate {
             requestLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         } else {
-            requestLocation = mapContainerView.currentMapCenterLocation
+            requestLocation = mapView.currentMapCenterLocation
         }
         
         viewModel.requestLocation = requestLocation
         viewModel.selectedStation = nil
-        mapContainerView.reset()
+        mapView.reset()
         viewModel.input.requestStaions.send(nil)
         viewModel.zoomLevel = nil
         
         fpc.move(to: .hidden, animated: false) { [weak self] in
             guard let self else { return }
             
-            mapContainerView.hideResearchButtonWithAnimation()
+            mapView.hideResearchButtonWithAnimation()
         }
     }
     
@@ -369,14 +345,14 @@ final class MainVC: CommonViewController {
         bottomOffset = state == .hidden ? 36.0 : 192.0
         let resultBottomOffset = bottomOffset + view.safeAreaInsets.bottom
         
-        mapContainerView.updatePostionBottomButtons(bottomOffset: resultBottomOffset)
+        mapView.updatePostionBottomButtons(bottomOffset: resultBottomOffset)
     }
 }
 
 //MARK: - Search 관련
 extension MainVC: SearchBarDelegate {
     func search(poi: SearchPOI) {
-        mapContainerView.moveSearch(poi: poi)
+        mapView.moveSearch(poi: poi)
         researchStation(with: poi.coordinate.location.coordinate)
     }
 }
@@ -459,13 +435,13 @@ extension MainVC: FloatingPanelControllerDelegate {
         viewModel.beforeNAfter = (fpc.state, viewModel.beforeNAfter.after)
         
         guard fpc.state == .half else { return }
-        viewModel.zoomLevel = mapContainerView.currentZoomLevel
+        viewModel.zoomLevel = mapView.currentZoomLevel
     }
     
     func isZoomInStation(isHidden: Bool) {
         guideView.isHidden = fpc.state == .hidden
         emptyView.isHidden = fpc.state == .hidden
-        mapContainerView.setHidden(isHidden)
+        mapView.setHidden(isHidden)
     }
     
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
@@ -475,24 +451,24 @@ extension MainVC: FloatingPanelControllerDelegate {
         let halfHeight = view.safeAreaInsets.bottom + 180.0
         let fullHeight = view.safeAreaInsets.bottom + 450.0
         let bottomInset = fpc.state == .hidden ? .zero : fpc.state == .half ? halfHeight : fullHeight
-        mapContainerView.setContentBottom(inset: bottomInset)
+        mapView.setContentBottom(inset: bottomInset)
         
         switch fpc.state {
         case .hidden:
-            mapContainerView.resetSelectedMarker()
+            mapView.resetSelectedMarker()
         case .half:
             guard viewModel.beforeNAfter.before == .full else {
                 return
             }
-            let centerLocation = mapContainerView.currentMapCenterLocation
-            mapContainerView.moveMap(
+            let centerLocation = mapView.currentMapCenterLocation
+            mapView.moveMap(
                 scrollTo: centerLocation.coordinate,
                 zoomTo: viewModel.zoomLevel,
                 animation: .easeIn
             )
         case .full:
             if let station = viewModel.selectedStation {
-                mapContainerView.moveMap(
+                mapView.moveMap(
                     scrollTo: station.coordinate.location.coordinate,
                     zoomTo: 15.0,
                     animation: .linear
@@ -509,7 +485,11 @@ extension MainVC: FloatingPanelControllerDelegate {
 //MARK: - List 관련
 extension MainVC: MainListVCDelegate {
     func touchedCell(info: GasStationSummary) {
-        mapContainerView.moveMarker(station: info)
+        mapView.moveMarker(station: info)
     }
 }
 
+
+private extension MainVC {
+    
+}

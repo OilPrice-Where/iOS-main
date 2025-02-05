@@ -55,7 +55,25 @@ private extension InitialSettingsVC {
             .sink { [weak self] in
                 guard let self else { return }
                 
-                let mainVC = MainVC()
+                let settingStorage: SettingStorage = PlistSettingStorage()
+                let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
+                let stationRepository: StationRepository = StationRepositoryImpl()
+                let stationInfoViewModel: StationInfoViewModel = StationInfoViewModel(
+                    settingUseCase: settingUseCase,
+                    stationRepository: stationRepository
+                )
+                
+                let appVersionRepository: AppVersionRepository = FirebaseAppVersionRepository()
+                let appVersionUseCase: AppVersionUseCase = AppVersionUseCaseImpl(appVersionRepository: appVersionRepository)
+                let menuViewModel = MenuViewModel(
+                    settingUseCase: settingUseCase,
+                    appVersionUseCase: appVersionUseCase
+                )
+                
+                let mainVC = MainVC(
+                    menuViewModel: menuViewModel,
+                    stationInfoViewModel: stationInfoViewModel
+                )
                 let mainNavigationVC = UINavigationController(rootViewController: mainVC)
                 mainNavigationVC.modalPresentationStyle = .fullScreen
                 present(mainNavigationVC, animated: false)

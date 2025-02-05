@@ -52,7 +52,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
      */
     private func initialViewController() -> UIViewController {
         if DefaultData.shared.oilSubject.value != "" {
-            let mainVC = MainVC()
+            let settingStorage: SettingStorage = PlistSettingStorage()
+            let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
+            let stationRepository: StationRepository = StationRepositoryImpl()
+            let stationInfoViewModel: StationInfoViewModel = StationInfoViewModel(
+                settingUseCase: settingUseCase,
+                stationRepository: stationRepository
+            )
+            
+            let appVersionRepository: AppVersionRepository = FirebaseAppVersionRepository()
+            let appVersionUseCase: AppVersionUseCase = AppVersionUseCaseImpl(appVersionRepository: appVersionRepository)
+            let menuViewModel = MenuViewModel(
+                settingUseCase: settingUseCase,
+                appVersionUseCase: appVersionUseCase
+            )
+            
+            let mainVC = MainVC(
+                menuViewModel: menuViewModel,
+                stationInfoViewModel: stationInfoViewModel
+            )
             let mainNavigationVC = UINavigationController(rootViewController: mainVC)
             return mainNavigationVC
         } else {
