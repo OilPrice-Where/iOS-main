@@ -25,7 +25,9 @@ final class MainViewModel {
     var requestLocation: CLLocation? = nil { didSet { addressUpdate() } }
     var selectedStation: GasStationSummary? = nil { didSet { output.selectedStation.send(nil) } }
     var addressString: String?
-    var cameraPosition: NMFCameraPosition?
+    
+    var zoomLevel: CGFloat?
+    
     var beforeNAfter: (before: FloatingPanelState, after: FloatingPanelState) = (.hidden, .hidden)
     var isLiveActivities: Bool = false
     
