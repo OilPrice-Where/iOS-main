@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2CA47266279931B500DB0DDD /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA47265279931B500DB0DDD /* MainViewModel.swift */; };
-		2CC1C80C276C8123007527C7 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC1C80B276C8123007527C7 /* MainVC.swift */; };
 		C5CFB09C2D48D38200735184 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C5CFB09B2D48D38200735184 /* SnapKit */; };
 		C5CFB09F2D48D3A900735184 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C5CFB09E2D48D3A900735184 /* Moya */; };
 		E93A76632D4F88640051A5DC /* TMapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93A76622D4F88640051A5DC /* TMapSDK.framework */; };
@@ -50,8 +48,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2CA47265279931B500DB0DDD /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
-		2CC1C80B276C8123007527C7 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		8E7FFE2120F5E5FF006CED48 /* OilPrice-Where.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OilPrice-Where.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAEB14F24F41AFF00B5E6CE /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		8EAEB16624F4B9FC00B5E6CE /* OilPrice-Where.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "OilPrice-Where.entitlements"; sourceTree = "<group>"; };
@@ -71,10 +67,8 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		C5FC16772D50313B005DFB02 /* List */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = List; sourceTree = "<group>"; };
 		E92181782D4BEE6800CC7220 /* Favorite */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Favorite; sourceTree = "<group>"; };
 		E92181882D4BF06D00CC7220 /* Model */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Model; sourceTree = "<group>"; };
-		E92184022D4E54BD00CC7220 /* Search */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Search; sourceTree = "<group>"; };
 		E96A727D2D3D947B009B1261 /* SupportFiles */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (C5CFB09D2D48D38700735184 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = SupportFiles; sourceTree = "<group>"; };
 		E96A72D32D4609AC009B1261 /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
 		E96A72F62D4609F3009B1261 /* Application */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Application; sourceTree = "<group>"; };
@@ -83,7 +77,7 @@
 		E96A738A2D460AA4009B1261 /* Menu */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Menu; sourceTree = "<group>"; };
 		E96A73A92D460AD9009B1261 /* Initial */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Initial; sourceTree = "<group>"; };
 		E995AE6D2D5113D0007C1A56 /* Common */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Common; sourceTree = "<group>"; };
-		E995AFEF2D571EDE007C1A56 /* Map */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Map; sourceTree = "<group>"; };
+		E995B02B2D57DD3B007C1A56 /* Main */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Main; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,23 +119,11 @@
 			isa = PBXGroup;
 			children = (
 				E96A73A92D460AD9009B1261 /* Initial */,
-				2CC1C7FC276C52E1007527C7 /* Main */,
+				E995B02B2D57DD3B007C1A56 /* Main */,
 				E92181782D4BEE6800CC7220 /* Favorite */,
 				E96A738A2D460AA4009B1261 /* Menu */,
 			);
 			path = Scenes;
-			sourceTree = "<group>";
-		};
-		2CC1C7FC276C52E1007527C7 /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				2CC1C80B276C8123007527C7 /* MainVC.swift */,
-				2CA47265279931B500DB0DDD /* MainViewModel.swift */,
-				E92184022D4E54BD00CC7220 /* Search */,
-				E995AFEF2D571EDE007C1A56 /* Map */,
-				C5FC16772D50313B005DFB02 /* List */,
-			);
-			path = Main;
 			sourceTree = "<group>";
 		};
 		8E7FFE1820F5E5FF006CED48 = {
@@ -195,10 +177,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				C5FC16772D50313B005DFB02 /* List */,
 				E92181782D4BEE6800CC7220 /* Favorite */,
 				E92181882D4BF06D00CC7220 /* Model */,
-				E92184022D4E54BD00CC7220 /* Search */,
 				E96A727D2D3D947B009B1261 /* SupportFiles */,
 				E96A72D32D4609AC009B1261 /* Resources */,
 				E96A72F62D4609F3009B1261 /* Application */,
@@ -207,7 +187,7 @@
 				E96A738A2D460AA4009B1261 /* Menu */,
 				E96A73A92D460AD9009B1261 /* Initial */,
 				E995AE6D2D5113D0007C1A56 /* Common */,
-				E995AFEF2D571EDE007C1A56 /* Map */,
+				E995B02B2D57DD3B007C1A56 /* Main */,
 			);
 			name = "OilPrice-Where";
 			packageProductDependencies = (
@@ -288,8 +268,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CC1C80C276C8123007527C7 /* MainVC.swift in Sources */,
-				2CA47266279931B500DB0DDD /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

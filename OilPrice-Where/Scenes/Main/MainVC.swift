@@ -26,7 +26,7 @@ final class MainVC: CommonViewController {
     
     private lazy var mapContainerView = MainMapView()
     private lazy var guideView = StationInfoGuideView()
-    private var circle: NMFCircleOverlay?
+    
     private var noti: NSObjectProtocol?
     var bottomOffset: CGFloat = 36
     let emptyView = UIView().then {
@@ -112,22 +112,6 @@ final class MainVC: CommonViewController {
         mapContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        mapContainerView.toFavoriteButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-bottomOffset)
-            $0.right.equalTo(mapContainerView.currentLocationButton.snp.left).offset(-12)
-            $0.size.equalTo(42)
-        }
-        mapContainerView.currentLocationButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-bottomOffset)
-            $0.right.equalToSuperview().offset(-24)
-            $0.size.equalTo(42)
-        }
-        mapContainerView.researchButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.centerX.equalTo(mapContainerView.snp.centerX)
-            $0.width.equalTo(120)
-            $0.height.equalTo(42)
-        }
         guideView.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
@@ -136,11 +120,6 @@ final class MainVC: CommonViewController {
         emptyView.snp.makeConstraints {
             $0.top.equalTo(guideView.snp.bottom)
             $0.left.right.bottom.equalToSuperview()
-        }
-        mapContainerView.toolbarView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.left.right.equalToSuperview().inset(20)
-            $0.height.equalTo(50)
         }
     }
     
@@ -159,11 +138,6 @@ final class MainVC: CommonViewController {
     
     private func configure() {
         mapContainerView.delegate = self
-        mapContainerView.mapView.touchDelegate = self
-        mapContainerView.mapView.addCameraDelegate(delegate: self)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toSearchVC))
-        mapContainerView.toolbarView.addGestureRecognizer(tapGesture)
     }
     
     //MARK: - Rx Binding..
@@ -190,15 +164,15 @@ final class MainVC: CommonViewController {
         DefaultData.shared.completedRelay
             .receive(on: DispatchQueue.main)
             .sink { [weak self] key in
-                guard let owner = self,
+                guard let self,
                       !(key == "Favorites" || key == "LocalFavorites") else {
                     self?.updateFavoriteUI()
                     return
                 }
                 
-                owner.reset()
+                mapContainerView.resetSelectedMarker()
                 DispatchQueue.main.async {
-                    owner.fpc.move(to: .hidden, animated: false, completion: nil)
+                    self.fpc.move(to: .hidden, animated: false, completion: nil)
                 }
             }
             .store(in: &viewModel.cancellable)
@@ -206,61 +180,15 @@ final class MainVC: CommonViewController {
         LocationManager.shared.$currentLocation
             .compactMap { $0 }
             .sink { [weak self] currentLocation in
-                guard let owner = self,
-                      owner.viewModel.requestLocation == nil else { return }
-                
-                owner.viewModel.requestLocation = currentLocation
-                owner.viewModel.input.requestStaions.send(nil)
-                
-                DispatchQueue.main.async {
-                    owner.mapContainerView.moveMap(with: currentLocation.coordinate)
+                guard let self,
+                      viewModel.requestLocation == nil else {
+                    return
                 }
-            }
-            .store(in: &viewModel.cancellable)
-        
-        // menuButton Tapped
-        mapContainerView
-            .toolbarView
-            .menuButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.showSideMenu()
-            }
-            .store(in: &viewModel.cancellable)
-        
-        // toListButton Tapped
-        mapContainerView
-            .toolbarView
-            .listButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.toListTapped()
-            }
-            .store(in: &viewModel.cancellable)
-        
-        // researchStation Tapped
-        mapContainerView
-            .researchButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.researchStation()
-            }
-            .store(in: &viewModel.cancellable)
-        
-        // toFavoriteButton Tapped
-        mapContainerView
-            .toFavoriteButton
-            .tapPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.toFavoriteTapped()
+                
+                viewModel.requestLocation = currentLocation
+                viewModel.input.requestStaions.send(nil)
+                
+                mapContainerView.moveMap(scrollTo: currentLocation.coordinate)
             }
             .store(in: &viewModel.cancellable)
         
@@ -286,59 +214,38 @@ final class MainVC: CommonViewController {
             }
             .store(in: &viewModel.cancellable)
         
-        mapContainerView
-            .currentLocationButton
-            .tapPublisher
-            .compactMap { LocationManager.shared.currentLocation }
-            .sink { [weak self] currentLocation  in
-                guard let owner = self else { return }
-                
-                let coordinate = currentLocation.coordinate
-                let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
-                let updated = NMFCameraUpdate(scrollTo: latLng)
-                updated.animation = .easeOut
-                
-                DispatchQueue.main.async {
-                    owner.mapContainerView.mapView.moveCamera(updated)
-                }
-            }
-            .store(in: &viewModel.cancellable)
-        
         viewModel.output.staionResult
             .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.circle?.mapView = nil
-                owner.circle = owner.makeRadiusCircle(location: owner.viewModel.requestLocation)
-                owner.circle?.mapView = owner.mapContainerView.mapView
+                guard let self else { return }
                 
-                owner.mapContainerView.showMarker(list: owner.viewModel.stations)
-                NotificationCenter.default.post(name: NSNotification.Name("stationsUpdated"),
-                                                object: nil,
-                                                userInfo: ["stations": owner.viewModel.stations])
+                mapContainerView.applyCircle(location: viewModel.requestLocation)
+                mapContainerView.showMarker(list: viewModel.stations)
                 
-                guard owner.viewModel.isLiveActivities,
-                      let targetStation = LocationManager.shared.findStation,
+                NotificationCenter.default.post(
+                    name: NSNotification.Name("stationsUpdated"),
+                    object: nil,
+                    userInfo: ["stations": viewModel.stations]
+                )
+                
+                guard let targetStation = LocationManager.shared.findStation,
                       let info = LocationManager.shared.stations.first(where: { $0.stationID == targetStation.id }),
                       let lat = targetStation.lat, let lng = targetStation.lng else { return }
                 
-                owner.sideMenu.dismiss(animated: false)
-                owner.viewModel.isLiveActivities = false
-                owner.marker(info: info)
-                owner.mapContainerView.selectedMarker = owner.mapContainerView.markers.first(where: {
+                sideMenu.dismiss(animated: false)
+                mapView(mapContainerView, didTapMarker: info)
+                mapContainerView.selectedMarker = mapContainerView.markers.first(where: {
                     guard let station = $0.userInfo["station"] as? GasStationSummary else { return false }
                     return station.stationID == targetStation.id
                 })
-                owner.mapContainerView.selectedMarker?.isSelected = true
+                mapContainerView.selectedMarker?.isSelected = true
                 
-                let position = NMGLatLng(lat: lat, lng: lng)
-                let update = NMFCameraUpdate(scrollTo: position, zoomTo: 15.0)
-                update.animation = .easeIn
-                owner.mapContainerView.mapView.moveCamera(update)
+                mapContainerView.moveMap(
+                    scrollTo: .init(latitude: lat, longitude: lng),
+                    zoomTo: 15.0,
+                    animation: .easeIn
+                )
                 
-                owner.mapContainerView.researchButton.alpha = 0.0
-                owner.mapContainerView.researchButton.snp.updateConstraints {
-                    $0.top.equalTo(owner.view.safeAreaLayoutGuide)
-                }
+                mapContainerView.hideResearchButtonWithAnimation()
             }
             .store(in: &viewModel.cancellable)
         
@@ -364,8 +271,7 @@ final class MainVC: CommonViewController {
             self?.notConnect()
             self?.viewModel.requestLocation = nil
             LocationManager.shared.currentLocation = nil
-            self?.reset()
-            self?.mapContainerView.resetInfoWindows()
+            self?.mapContainerView.reset()
             self?.fpc.move(to: .hidden, animated: false, completion: nil)
         }
     }
@@ -382,52 +288,24 @@ final class MainVC: CommonViewController {
     }
     
     //MARK: - User Intraction
-    private func showSideMenu() {
-        present(sideMenu, animated: true, completion: nil)
-    }
-    
-    private func toListTapped() {
-        let visitedStationStorage: VisitedStationStorage = CoreDataVisitedStationStorage()
-        let settingStorage: SettingStorage = PlistSettingStorage()
-        let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
-        let listViewModel = MainListViewModel(
-            stations: viewModel.stations,
-            settingUseCase: settingUseCase,
-            visitedStationStorage: visitedStationStorage
-        )
-        let listVC = MainListVC(viewModel: listViewModel)
-        listVC.delegate = self
-        navigationController?.pushViewController(listVC, animated: true)
-    }
-    
-    private func toFavoriteTapped() {
-        let tabbar = FavoriteTabbarController()
-        navigationController?.pushViewController(tabbar, animated: true)
-    }
-    
     private func researchStation(with coordinate: CLLocationCoordinate2D? = nil) {
-        var centerLocation = CLLocation(latitude: mapContainerView.mapView.latitude, longitude: mapContainerView.mapView.longitude)
-        
+        let requestLocation: CLLocation
         if let coordinate {
-            centerLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            requestLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        } else {
+            requestLocation = mapContainerView.currentMapCenterLocation
         }
         
-        mapContainerView.toolbarView.configure()
-        
-        viewModel.requestLocation = centerLocation
+        viewModel.requestLocation = requestLocation
         viewModel.selectedStation = nil
-        reset()
-        mapContainerView.resetInfoWindows()
+        mapContainerView.reset()
         viewModel.input.requestStaions.send(nil)
-        viewModel.cameraPosition = nil
+        viewModel.zoomLevel = nil
         
         fpc.move(to: .hidden, animated: false) { [weak self] in
             guard let self else { return }
             
-            self.mapContainerView.researchButton.alpha = 0.0
-            self.mapContainerView.researchButton.snp.updateConstraints {
-                $0.top.equalTo(self.view.safeAreaLayoutGuide)
-            }
+            mapContainerView.hideResearchButtonWithAnimation()
         }
     }
     
@@ -458,11 +336,6 @@ final class MainVC: CommonViewController {
         requestDirection(station: viewModel.selectedStation)
     }
     
-    private func reset() {
-        mapContainerView.selectedMarker?.isSelected = false
-        mapContainerView.selectedMarker = nil
-    }
-    
     private func appVersionCheck() {
         ref = Database.database().reference()
         guard let _ref = ref else { return }
@@ -489,103 +362,80 @@ final class MainVC: CommonViewController {
         })
     }
     
-    private func makeRadiusCircle(location: CLLocation?) -> NMFCircleOverlay? {
-        guard let _location = location else { return nil }
-        let center = NMGLatLng(from: _location.coordinate)
-        
-        let circle = NMFCircleOverlay(center, radius: 5000.0, fill: .clear)
-        circle.outlineColor = .systemBlue
-        circle.outlineWidth = 1
-        return circle
-    }
-    
     private func bottomAnimation(state: FloatingPanelState) {
         guard (state == .hidden && bottomOffset != 36.0) ||
                 ((state == .half || state == .full) && bottomOffset != 192.0) else { return }
         
-        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut)
-        
         bottomOffset = state == .hidden ? 36.0 : 192.0
-        
         let resultBottomOffset = bottomOffset + view.safeAreaInsets.bottom
         
-        animator.addAnimations {
-            self.mapContainerView.toFavoriteButton.snp.updateConstraints {
-                $0.bottom.equalToSuperview().offset(-resultBottomOffset)
-            }
-            self.mapContainerView.currentLocationButton.snp.updateConstraints {
-                $0.bottom.equalToSuperview().offset(-resultBottomOffset)
-            }
-            
-            self.view.layoutIfNeeded()
-        }
+        mapContainerView.updatePostionBottomButtons(bottomOffset: resultBottomOffset)
+    }
+}
+
+//MARK: - Search 관련
+extension MainVC: SearchBarDelegate {
+    func search(poi: SearchPOI) {
+        mapContainerView.moveSearch(poi: poi)
+        researchStation(with: poi.coordinate.location.coordinate)
+    }
+}
+
+//MARK: - NaverMap 관련
+extension MainVC: MainMapViewDelegate {
+    func mapView(_ mapView: MainMapView, didTapMarker station: GasStationSummary) {
+        if fpc.state == .hidden { fpc.move(to: .half, animated: true, completion: nil) }
         
-        animator.startAnimation()
+        viewModel.selectedStation = station
+        stationDetailInfoVC.configure(station: station)
+        
+        let distance = station.distance < 1000 ? "\(Int(station.distance))m" : String(format: "%.1fkm", station.distance / 1000)
+        guideView.directionButton.setTitle(distance + " 안내시작", for: .normal)
+        guideView.directionButton.setTitle(distance + " 안내시작", for: .highlighted)
     }
     
-    @objc
-    private func toSearchVC() {
+    func mapViewDidTapMap(_ mapView: MainMapView) {
+        guard fpc.state != .hidden else { return }
+        viewModel.beforeNAfter.before = .hidden
+        fpc.move(to: .hidden, animated: true, completion: nil)
+    }
+    
+    func mapViewDidTapFavorite(_ mapView: MainMapView) {
+        let tabbar = FavoriteTabbarController()
+        navigationController?.pushViewController(tabbar, animated: true)
+    }
+    
+    func mapViewDidTapResearch(_ mapView: MainMapView) {
+        researchStation()
+    }
+    
+    func mapViewDidTapToolbar(_ mapView: MainMapView) {
         let searchStorage: SearchPOIStorage = CoreDataSearchPOIStorage()
         let searchViewModel: SearchBarViewModel = .init(searchPOIStorage: searchStorage)
         let searchVC = SearchBarVC(viewModel: searchViewModel)
         searchVC.delegate = self
         navigationController?.pushViewController(searchVC, animated: true)
     }
-}
-
-//MARK: - Search 관련
-extension MainVC: SearchBarDelegate {
-    func search(poi: SearchPOI) {        
-        mapContainerView.moveMap(with: poi.coordinate.location.coordinate)
-        researchStation(with: poi.coordinate.location.coordinate)
-        mapContainerView.toolbarView.configure(searchText: poi.name)
+    
+    func mapViewDidTapToolbarMenu(_ mapView: MainMapView) {
+        present(sideMenu, animated: true, completion: nil)
+    }
+    
+    func mapViewDidTapToolbarList(_ mapView: MainMapView) {
+        let visitedStationStorage: VisitedStationStorage = CoreDataVisitedStationStorage()
+        let settingStorage: SettingStorage = PlistSettingStorage()
+        let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
+        let listViewModel = MainListViewModel(
+            stations: viewModel.stations,
+            settingUseCase: settingUseCase,
+            visitedStationStorage: visitedStationStorage
+        )
+        let listVC = MainListVC(viewModel: listViewModel)
+        listVC.delegate = self
+        navigationController?.pushViewController(listVC, animated: true)
     }
 }
 
-//MARK: - NaverMap 관련
-extension MainVC: MainMapViewDelegate {
-    func marker(info: GasStationSummary) {
-        if fpc.state == .hidden { fpc.move(to: .half, animated: true, completion: nil) }
-        
-        viewModel.selectedStation = info
-        stationDetailInfoVC.configure(station: info)
-        
-        let distance = info.distance < 1000 ? "\(Int(info.distance))m" : String(format: "%.1fkm", info.distance / 1000)
-        guideView.directionButton.setTitle(distance + " 안내시작", for: .normal)
-        guideView.directionButton.setTitle(distance + " 안내시작", for: .highlighted)
-    }
-}
-
-extension MainVC: NMFMapViewCameraDelegate {
-    func mapView(_ mapView: NMFMapView, cameraDidChangeByReason reason: Int, animated: Bool) {
-        guard animated && reason == -1 else { return }
-        
-        let centerLocation = CLLocation(latitude: mapView.latitude, longitude: mapView.longitude)
-        guard let distance = viewModel.requestLocation?.distance(from: centerLocation), distance > 2000 else { return }
-        
-        let animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeInOut)
-        
-        animator.addAnimations {
-            self.mapContainerView.researchButton.alpha = 1.0
-            self.mapContainerView.researchButton.snp.updateConstraints {
-                $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(68)
-            }
-            
-            self.view.layoutIfNeeded()
-        }
-        
-        animator.startAnimation()
-    }
-}
-
-extension MainVC: NMFMapViewTouchDelegate {
-    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        guard fpc.state != .hidden else { return }
-        reset()
-        viewModel.beforeNAfter.before = .hidden
-        fpc.move(to: .hidden, animated: true, completion: nil)
-    }
-}
 
 //MARK: - FloatingPanel 관련
 extension MainVC: FloatingPanelControllerDelegate {
@@ -609,17 +459,13 @@ extension MainVC: FloatingPanelControllerDelegate {
         viewModel.beforeNAfter = (fpc.state, viewModel.beforeNAfter.after)
         
         guard fpc.state == .half else { return }
-        viewModel.cameraPosition = mapContainerView.mapView.cameraPosition
+        viewModel.zoomLevel = mapContainerView.currentZoomLevel
     }
     
     func isZoomInStation(isHidden: Bool) {
         guideView.isHidden = fpc.state == .hidden
         emptyView.isHidden = fpc.state == .hidden
-        mapContainerView.mapCenterIndicatorView.isHidden = isHidden
-        mapContainerView.toolbarView.isHidden = isHidden
-        mapContainerView.researchButton.isHidden = isHidden
-        mapContainerView.toFavoriteButton.isHidden = isHidden
-        mapContainerView.currentLocationButton.isHidden = isHidden
+        mapContainerView.setHidden(isHidden)
     }
     
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
@@ -628,22 +474,29 @@ extension MainVC: FloatingPanelControllerDelegate {
         
         let halfHeight = view.safeAreaInsets.bottom + 180.0
         let fullHeight = view.safeAreaInsets.bottom + 450.0
-        mapContainerView.mapView.contentInset.bottom = fpc.state == .hidden ? .zero : fpc.state == .half ? halfHeight : fullHeight
+        let bottomInset = fpc.state == .hidden ? .zero : fpc.state == .half ? halfHeight : fullHeight
+        mapContainerView.setContentBottom(inset: bottomInset)
         
         switch fpc.state {
         case .hidden:
-            reset()
+            mapContainerView.resetSelectedMarker()
         case .half:
-            guard viewModel.beforeNAfter.before == .full, let position = viewModel.cameraPosition else { return }
-            let update = NMFCameraUpdate(position: position)
-            update.animation = .easeIn
-            mapContainerView.mapView.moveCamera(update)
+            guard viewModel.beforeNAfter.before == .full else {
+                return
+            }
+            let centerLocation = mapContainerView.currentMapCenterLocation
+            mapContainerView.moveMap(
+                scrollTo: centerLocation.coordinate,
+                zoomTo: viewModel.zoomLevel,
+                animation: .easeIn
+            )
         case .full:
             if let station = viewModel.selectedStation {
-                let position = NMGLatLng(lat: station.coordinate.tm.lat, lng: station.coordinate.tm.lng)
-                let cameraUpdated = NMFCameraUpdate(position: NMFCameraPosition.init(position, zoom: 15.0))
-                cameraUpdated.animation = .linear
-                mapContainerView.mapView.moveCamera(cameraUpdated)
+                mapContainerView.moveMap(
+                    scrollTo: station.coordinate.location.coordinate,
+                    zoomTo: 15.0,
+                    animation: .linear
+                )
             }
             
             stationDetailInfoVC.requestStationDetail(id: viewModel.selectedStation?.stationID)
@@ -656,22 +509,7 @@ extension MainVC: FloatingPanelControllerDelegate {
 //MARK: - List 관련
 extension MainVC: MainListVCDelegate {
     func touchedCell(info: GasStationSummary) {
-        let position = NMGLatLng(lat: info.coordinate.tm.lat, lng: info.coordinate.tm.lng)
-        marker(info: info)
-        
-        mapContainerView.selectedMarker = mapContainerView.markers.first(where: {
-            guard let station = $0.userInfo["station"] as? GasStationSummary else { return false }
-            return station.stationID == info.stationID
-        })
-        mapContainerView.selectedMarker?.isSelected = true
-        let update = NMFCameraUpdate(scrollTo: position, zoomTo: 15.0)
-        update.animation = .easeIn
-        mapContainerView.mapView.moveCamera(update)
-        
-        self.mapContainerView.researchButton.alpha = 0.0
-        mapContainerView.researchButton.snp.updateConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-        }
+        mapContainerView.moveMarker(station: info)
     }
 }
 
