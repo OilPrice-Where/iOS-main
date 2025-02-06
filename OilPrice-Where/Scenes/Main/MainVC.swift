@@ -12,34 +12,36 @@ import CoreLocation
 import Then
 import SnapKit
 import SideMenu
-import Firebase
 import FloatingPanel
 
 
 //MARK: Main Map VC
 final class MainVC: CommonViewController {
     //MARK: - Properties
-    var ref: DatabaseReference?
-    let viewModel = MainViewModel()
-    private lazy var fpc = FloatingPanelController()
+    private let viewModel: MainViewModel
+    
+    /// MapView
+    private let mapView = MainMapView()
     /// 사이드 메뉴
     private let sideMenu: SideMenuNavigationController
-    /// MapView
-    private lazy var mapView = MainMapView()
+    /// 바텀시트
+    private let bottomSheetController = FloatingPanelController()
     /// 주유소 상세 정보
     private let stationDetailInfoVC: StationInfoVC
-    ///
-    private lazy var guideView = StationInfoGuideView()
+    /// 선택된 주유소 액션 버튼 Container(`즐겨찾기`, `길 찾기`)
+    private let stationActionsView = StationActionsView()
     
-    var bottomOffset: CGFloat = 36
-    let emptyView = UIView().then {
+    private var bottomOffset: CGFloat = 36
+    private let emptyView = UIView().then {
         $0.backgroundColor = .white
     }
     
     
     //MARK: - Life Cycle
-    init(menuViewModel: MenuViewModel,
+    init(viewModel: MainViewModel,
+         menuViewModel: MenuViewModel,
          stationInfoViewModel: StationInfoViewModel) {
+        self.viewModel = viewModel
         self.stationDetailInfoVC = StationInfoVC(viewModel: stationInfoViewModel)
         let menuVC = MenuVC(viewModel: menuViewModel)
         self.sideMenu = SideMenuNavigationController(rootViewController: menuVC)
@@ -58,52 +60,35 @@ final class MainVC: CommonViewController {
         super.viewDidLoad()
         
         makeUI()
-        
-        rxBind()
-        appVersionCheck()
+        bindActions()
+        //TODO: appVersionCheck()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.navigationBar.isHidden = true
-        UIApplication.shared.statusBarUIView?.backgroundColor = .clear
+        updateUI()
     }
     
-    //MARK: - Set UI
-    private func makeUI() {
-        navigationItem.title = "주유 정보"
-        view.backgroundColor = .white
-        view.addSubview(mapView)
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
         
-        setupView()
-        fpc.view.addSubview(guideView)
-        fpc.view.addSubview(emptyView)
-        
-        mapView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        guideView.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(82)
-        }
-        emptyView.snp.makeConstraints {
-            $0.top.equalTo(guideView.snp.bottom)
-            $0.left.right.bottom.equalToSuperview()
-        }
+        sideMenu.dismiss(animated: false)
     }
     
-    private func updateFavoriteUI() {
-        let ids = DefaultData.shared.favoriteSubject.value
+    override func setNetworkSetting() {
+        super.setNetworkSetting()
         
-        guard let id = viewModel.selectedStation?.stationID else { return }
-        let image = ids.contains(id) ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
+        reachability?.whenReachable = { [weak self] _ in
+            self?.viewModel.input.requestStaions.send(nil)
+        }
         
-        DispatchQueue.main.async { [weak self] in
-            self?.guideView.favoriteButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
-            self?.guideView.favoriteButton.imageView?.tintColor = ids.contains(id) ? .white : Asset.Colors.mainColor.color
-            self?.guideView.favoriteButton.backgroundColor = ids.contains(id) ? Asset.Colors.mainColor.color : .white
+        reachability?.whenUnreachable = { [weak self] _ in
+            self?.notConnect()
+            self?.viewModel.requestLocation = nil
+            LocationManager.shared.currentLocation = nil
+            self?.mapView.reset()
+            self?.bottomSheetController.move(to: .hidden, animated: false, completion: nil)
         }
     }
     
@@ -112,27 +97,18 @@ final class MainVC: CommonViewController {
         LocationManager.shared.setLocationManager(searchPathRepository: searchPathRepository)
         
         mapView.delegate = self
-        
-        sideMenu.leftSide = true
-        sideMenu.settings = {
-            var settings = SideMenuSettings()
-            settings.statusBarEndAlpha = 0
-            settings.presentationStyle = SideMenuPresentationStyle.menuSlideIn
-            settings.presentationStyle.presentingEndAlpha = 0.65
-            let screenWidth = UIScreen.main.bounds.width
-            settings.menuWidth = UIDevice.current.userInterfaceIdiom == .pad ? 328.0 : screenWidth * (240 / 375)
-            settings.blurEffectStyle = nil
-            return settings
-        }()
     }
-    
-    //MARK: - Rx Binding..
-    private func rxBind() {
+}
+
+
+//MARK: - BindActions
+private extension MainVC {
+    func bindActions() {
         SettingType.allCases.forEach {
             NotificationCenter.default.publisher(for: $0.notificationName)
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] _ in
-                    self?.fpc.move(to: .hidden, animated: false, completion: nil)
+                    self?.bottomSheetController.move(to: .hidden, animated: false, completion: nil)
                 }
                 .store(in: &viewModel.cancellable)
         }
@@ -148,7 +124,7 @@ final class MainVC: CommonViewController {
                 
                 mapView.resetSelectedMarker()
                 DispatchQueue.main.async {
-                    self.fpc.move(to: .hidden, animated: false, completion: nil)
+                    self.bottomSheetController.move(to: .hidden, animated: false, completion: nil)
                 }
             }
             .store(in: &viewModel.cancellable)
@@ -169,7 +145,7 @@ final class MainVC: CommonViewController {
             .store(in: &viewModel.cancellable)
         
         // favoriteButton Tapped
-        guideView
+        stationActionsView
             .favoriteButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
@@ -180,7 +156,7 @@ final class MainVC: CommonViewController {
             .store(in: &viewModel.cancellable)
         
         // directionButton Tapped
-        guideView
+        stationActionsView
             .directionButton
             .tapPublisher
             .receive(on: DispatchQueue.main)
@@ -235,57 +211,20 @@ final class MainVC: CommonViewController {
             .store(in: &viewModel.cancellable)
     }
     
-    //MARK: - Override Method
-    override func setNetworkSetting() {
-        super.setNetworkSetting()
+    func updateFavoriteUI() {
+        let ids = DefaultData.shared.favoriteSubject.value
         
-        reachability?.whenReachable = { [weak self] _ in
-            self?.viewModel.input.requestStaions.send(nil)
-        }
+        guard let id = viewModel.selectedStation?.stationID else { return }
+        let image = ids.contains(id) ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
         
-        reachability?.whenUnreachable = { [weak self] _ in
-            self?.notConnect()
-            self?.viewModel.requestLocation = nil
-            LocationManager.shared.currentLocation = nil
-            self?.mapView.reset()
-            self?.fpc.move(to: .hidden, animated: false, completion: nil)
+        DispatchQueue.main.async { [weak self] in
+            self?.stationActionsView.favoriteButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+            self?.stationActionsView.favoriteButton.imageView?.tintColor = ids.contains(id) ? .white : Asset.Colors.mainColor.color
+            self?.stationActionsView.favoriteButton.backgroundColor = ids.contains(id) ? Asset.Colors.mainColor.color : .white
         }
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        
-        sideMenu.dismiss(animated: false)
-    }
-    
-    func fetchSideMenuWidth() -> CGFloat {
-        let screenWidth = UIScreen.main.bounds.width
-        return UIDevice.current.userInterfaceIdiom == .pad ? 328.0 : screenWidth * (240 / 375)
-    }
-    
-    //MARK: - User Intraction
-    private func researchStation(with coordinate: CLLocationCoordinate2D? = nil) {
-        let requestLocation: CLLocation
-        if let coordinate {
-            requestLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        } else {
-            requestLocation = mapView.currentMapCenterLocation
-        }
-        
-        viewModel.requestLocation = requestLocation
-        viewModel.selectedStation = nil
-        mapView.reset()
-        viewModel.input.requestStaions.send(nil)
-        viewModel.zoomLevel = nil
-        
-        fpc.move(to: .hidden, animated: false) { [weak self] in
-            guard let self else { return }
-            
-            mapView.hideResearchButtonWithAnimation()
-        }
-    }
-    
-    private func touchedFavoriteButton() {
+    func touchedFavoriteButton() {
         let faovorites = DefaultData.shared.favoriteSubject.value
         guard let _id = viewModel.selectedStation?.stationID, faovorites.count < 6 else { return }
         let isDeleted = faovorites.contains(_id)
@@ -311,69 +250,56 @@ final class MainVC: CommonViewController {
     private func toNavigationTapped() {
         requestDirection(station: viewModel.selectedStation)
     }
-    
-    private func appVersionCheck() {
-        ref = Database.database().reference()
-        guard let _ref = ref else { return }
-        
-        let data = _ref.child("version")
-        
-        data.observeSingleEvent(of: .value, with: { [weak self] snapshot in
-            guard let versionData = snapshot.value as? NSDictionary,
-                  let versionDic = versionData as? [String: String],
-                  let lastest_version_code = versionDic["lastest_version_code"],
-                  let lastest_version_name = versionDic["lastest_version_name"],
-                  let minimum_version_code = versionDic["minimum_version_code"],
-                  let minimum_version_name = versionDic["minimum_version_name"]
-            else { return }
-            
-            let versionDbData = DatabaseVersionModel(
-                latestVersionCode: lastest_version_code,
-                latestVersionName: lastest_version_name,
-                minimumVersionCode: minimum_version_code,
-                minimumVersionName: minimum_version_name
-            )
-            
-            self?.checkUpdateVersion(versionData: versionDbData)
-        })
-    }
-    
-    private func bottomAnimation(state: FloatingPanelState) {
-        guard (state == .hidden && bottomOffset != 36.0) ||
-                ((state == .half || state == .full) && bottomOffset != 192.0) else { return }
-        
-        bottomOffset = state == .hidden ? 36.0 : 192.0
-        let resultBottomOffset = bottomOffset + view.safeAreaInsets.bottom
-        
-        mapView.updatePostionBottomButtons(bottomOffset: resultBottomOffset)
-    }
 }
 
-//MARK: - Search 관련
+
+//MARK: - SearchBarDelegate
 extension MainVC: SearchBarDelegate {
     func search(poi: SearchPOI) {
         mapView.moveSearch(poi: poi)
         researchStation(with: poi.coordinate.location.coordinate)
     }
+    
+    private func researchStation(with coordinate: CLLocationCoordinate2D? = nil) {
+        let requestLocation: CLLocation
+        if let coordinate {
+            requestLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        } else {
+            requestLocation = mapView.currentMapCenterLocation
+        }
+        
+        viewModel.requestLocation = requestLocation
+        viewModel.selectedStation = nil
+        mapView.reset()
+        viewModel.input.requestStaions.send(nil)
+        viewModel.zoomLevel = nil
+        
+        bottomSheetController.move(to: .hidden, animated: false) { [weak self] in
+            guard let self else { return }
+            
+            mapView.hideResearchButtonWithAnimation()
+        }
+    }
 }
 
-//MARK: - NaverMap 관련
+
+//MARK: - MainMapViewDelegate
 extension MainVC: MainMapViewDelegate {
     func mapView(_ mapView: MainMapView, didTapMarker station: GasStationSummary) {
-        if fpc.state == .hidden { fpc.move(to: .half, animated: true, completion: nil) }
+        if bottomSheetController.state == .hidden { bottomSheetController.move(to: .half, animated: true, completion: nil) }
         
         viewModel.selectedStation = station
         stationDetailInfoVC.configure(station: station)
         
         let distance = station.distance < 1000 ? "\(Int(station.distance))m" : String(format: "%.1fkm", station.distance / 1000)
-        guideView.directionButton.setTitle(distance + " 안내시작", for: .normal)
-        guideView.directionButton.setTitle(distance + " 안내시작", for: .highlighted)
+        stationActionsView.directionButton.setTitle(distance + " 안내시작", for: .normal)
+        stationActionsView.directionButton.setTitle(distance + " 안내시작", for: .highlighted)
     }
     
     func mapViewDidTapMap(_ mapView: MainMapView) {
-        guard fpc.state != .hidden else { return }
+        guard bottomSheetController.state != .hidden else { return }
         viewModel.beforeNAfter.before = .hidden
-        fpc.move(to: .hidden, animated: true, completion: nil)
+        bottomSheetController.move(to: .hidden, animated: true, completion: nil)
     }
     
     func mapViewDidTapFavorite(_ mapView: MainMapView) {
@@ -415,45 +341,33 @@ extension MainVC: MainMapViewDelegate {
 
 //MARK: - FloatingPanel 관련
 extension MainVC: FloatingPanelControllerDelegate {
-    func setupView() {
-        fpc.contentMode = .fitToBounds
-        fpc.changePanelStyle() // panel 스타일 변경 (대신 bar UI가 사라지므로 따로 넣어주어야함)
-        fpc.delegate = self
-        fpc.set(contentViewController: stationDetailInfoVC) // floating panel에 삽입할 것
-        fpc.addPanel(toParent: self) // fpc를 관리하는 UIViewController
-        fpc.layout = MyFloatingPanelLayout()
-        fpc.invalidateLayout() // if needed
-        fpc.show()
-    }
-    
     //MARK: Delegate
-    func floatingPanel(_ fpc: FloatingPanelController, layoutFor size: CGSize) -> FloatingPanelLayout {
+    func floatingPanel(_ bottomSheetController: FloatingPanelController, layoutFor size: CGSize) -> FloatingPanelLayout {
         return MyFloatingPanelLayout()
     }
     
-    func floatingPanelWillBeginDragging(_ fpc: FloatingPanelController) {
-        viewModel.beforeNAfter = (fpc.state, viewModel.beforeNAfter.after)
-        
-        guard fpc.state == .half else { return }
+    func floatingPanelWillBeginDragging(_ bottomSheetController: FloatingPanelController) {
+        viewModel.beforeNAfter = (bottomSheetController.state, viewModel.beforeNAfter.after)
+        guard bottomSheetController.state == .half else { return }
         viewModel.zoomLevel = mapView.currentZoomLevel
     }
     
     func isZoomInStation(isHidden: Bool) {
-        guideView.isHidden = fpc.state == .hidden
-        emptyView.isHidden = fpc.state == .hidden
+        stationActionsView.isHidden = bottomSheetController.state == .hidden
+        emptyView.isHidden = bottomSheetController.state == .hidden
         mapView.setHidden(isHidden)
     }
     
-    func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
-        bottomAnimation(state: fpc.state)
-        isZoomInStation(isHidden: fpc.state == .full)
+    func floatingPanelDidChangeState(_ bottomSheetController: FloatingPanelController) {
+        bottomAnimation(state: bottomSheetController.state)
+        isZoomInStation(isHidden: bottomSheetController.state == .full)
         
         let halfHeight = view.safeAreaInsets.bottom + 180.0
         let fullHeight = view.safeAreaInsets.bottom + 450.0
-        let bottomInset = fpc.state == .hidden ? .zero : fpc.state == .half ? halfHeight : fullHeight
+        let bottomInset = bottomSheetController.state == .hidden ? .zero : bottomSheetController.state == .half ? halfHeight : fullHeight
         mapView.setContentBottom(inset: bottomInset)
         
-        switch fpc.state {
+        switch bottomSheetController.state {
         case .hidden:
             mapView.resetSelectedMarker()
         case .half:
@@ -480,9 +394,19 @@ extension MainVC: FloatingPanelControllerDelegate {
             break
         }
     }
+    
+    private func bottomAnimation(state: FloatingPanelState) {
+        guard (state == .hidden && bottomOffset != 36.0) ||
+                ((state == .half || state == .full) && bottomOffset != 192.0) else { return }
+        
+        bottomOffset = state == .hidden ? 36.0 : 192.0
+        let resultBottomOffset = bottomOffset + view.safeAreaInsets.bottom
+        
+        mapView.updatePostionBottomButtons(bottomOffset: resultBottomOffset)
+    }
 }
 
-//MARK: - List 관련
+//MARK: - MainListVCDelegate
 extension MainVC: MainListVCDelegate {
     func touchedCell(info: GasStationSummary) {
         mapView.moveMarker(station: info)
@@ -490,6 +414,82 @@ extension MainVC: MainListVCDelegate {
 }
 
 
+//MARK: - Set UI
 private extension MainVC {
+    enum UIConstants {
+        enum Navigation {
+            static let title: String = "주유 정보"
+        }
+        
+        enum SideMenu {
+            static let presentingEndAlpha = 0.65
+            static let width = UIDevice.current.userInterfaceIdiom == .pad ? 328.0 : UIScreen.screenWidth * (240 / 375)
+        }
+        
+        enum StationActionButtonContainerView {
+            
+        }
+    }
     
+    func makeUI() {
+        configureUI()
+        setConstraints()
+    }
+    
+    func updateUI() {
+        navigationController?.navigationBar.isHidden = true
+        UIApplication.shared.statusBarUIView?.backgroundColor = .clear
+    }
+    
+    func configureUI() {
+        navigationItem.title = UIConstants.Navigation.title
+        view.backgroundColor = .white
+        view.addSubview(mapView)
+        
+        configureMenu()
+        configureBottomSheet()
+    }
+    
+    func configureMenu() {
+        sideMenu.leftSide = true
+        sideMenu.settings = {
+            var settings = SideMenuSettings()
+            settings.statusBarEndAlpha = .zero
+            settings.presentationStyle = SideMenuPresentationStyle.menuSlideIn
+            settings.presentationStyle.presentingEndAlpha = UIConstants.SideMenu.presentingEndAlpha
+            settings.menuWidth = UIConstants.SideMenu.width
+            settings.blurEffectStyle = nil
+            return settings
+        }()
+    }
+    
+    func configureBottomSheet() {
+        bottomSheetController.view.addSubview(stationActionsView)
+        bottomSheetController.view.addSubview(emptyView)
+        
+        bottomSheetController.contentMode = .fitToBounds
+        bottomSheetController.changePanelStyle() // panel 스타일 변경 (대신 bar UI가 사라지므로 따로 넣어주어야함)
+        bottomSheetController.delegate = self
+        bottomSheetController.set(contentViewController: stationDetailInfoVC) // floating panel에 삽입할 것
+        bottomSheetController.addPanel(toParent: self) // bottomSheetController를 관리하는 UIViewController
+        bottomSheetController.layout = MyFloatingPanelLayout()
+        bottomSheetController.invalidateLayout() // if needed
+        bottomSheetController.show()
+    }
+    
+    func setConstraints() {
+        mapView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        stationActionsView.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(82)
+        }
+        emptyView.snp.makeConstraints {
+            $0.top.equalTo(stationActionsView.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+    }
 }

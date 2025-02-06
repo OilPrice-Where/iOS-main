@@ -1,5 +1,5 @@
 //
-//  StationInfoGuideView.swift
+//  StationActionsView.swift
 //  OilPrice-Where
 //
 //  Created by wargi on 2022/02/07.
@@ -12,7 +12,7 @@ import SnapKit
 
 
 //MARK: StationInfo의 길 안내 & 즐겨찾기
-final class StationInfoGuideView: UIView {
+final class StationActionsView: UIView {
     //MARK: - Properties
     let favoriteButton = UIButton().then {
         $0.setImage(UIConstants.FavoriteButton.image, for: .normal)
@@ -45,7 +45,7 @@ final class StationInfoGuideView: UIView {
 
 
 //MARK: - Set UI
-private extension StationInfoGuideView {
+private extension StationActionsView {
     enum UIConstants {
         enum FavoriteButton {
             static let image: UIImage = Asset.Images.favoriteOffIcon.image.withRenderingMode(.alwaysTemplate)

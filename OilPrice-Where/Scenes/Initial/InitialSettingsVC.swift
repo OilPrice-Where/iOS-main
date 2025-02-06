@@ -71,6 +71,7 @@ private extension InitialSettingsVC {
                 )
                 
                 let mainVC = MainVC(
+                    viewModel: .init(),
                     menuViewModel: menuViewModel,
                     stationInfoViewModel: stationInfoViewModel
                 )

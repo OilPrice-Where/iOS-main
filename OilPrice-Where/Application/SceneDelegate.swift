@@ -68,6 +68,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             )
             
             let mainVC = MainVC(
+                viewModel: .init(),
                 menuViewModel: menuViewModel,
                 stationInfoViewModel: stationInfoViewModel
             )
