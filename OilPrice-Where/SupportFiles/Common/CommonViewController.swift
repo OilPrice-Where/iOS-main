@@ -50,33 +50,6 @@ class CommonViewController: UIViewController {
         }
     }
     
-    func makeAlert(title: String,
-                   subTitle: String,
-                   duration: TimeInterval = 1.5,
-                   showCloseButton: Bool = false,
-                   closeButtonTitle: String? = nil,
-                   colorStyle: UInt = 0x5E82FF,
-                   completion: @escaping SCLAlertView.SCLTimeoutConfiguration.ActionType = {}) {
-        let appearance = SCLAlertView.SCLAppearance(kWindowWidth: 300,
-                                                    kTitleFont: FontFamily.NanumSquareRound.bold.font(size: 18),
-                                                    kTextFont: FontFamily.NanumSquareRound.regular.font(size: 15),
-                                                    showCloseButton: showCloseButton)
-        
-        let alert = SCLAlertView(appearance: appearance)
-        alert.iconTintColor = UIColor.white
-        let timeOut = SCLAlertView.SCLTimeoutConfiguration(timeoutValue: duration, timeoutAction: completion)
-        
-        guard duration == 1.5 else {
-            alert.showError(title, subTitle: subTitle, closeButtonTitle: closeButtonTitle, colorStyle: colorStyle)
-            return
-        }
-        alert.showWarning(title, subTitle: subTitle, timeout: timeOut, colorStyle: colorStyle)
-    }
-    
-    func notConnect() {
-        makeAlert(title: "네트워크 오류 발생", subTitle: "인터넷 연결이 오프라인 상태입니다.", duration: 0.0, showCloseButton: true, closeButtonTitle: "확인")
-    }
-    
     func requestLocationAlert() {
         let alert = UIAlertController(title: "위치정보를 불러올 수 없습니다.",
                                       message: "위치정보를 사용해 주변 주유소의 정보를 불러오기 때문에 위치정보 사용이 꼭 필요합니다. 설정으로 이동하여 위치 정보 접근을 허용해 주세요.",

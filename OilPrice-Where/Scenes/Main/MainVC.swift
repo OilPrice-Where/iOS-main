@@ -84,7 +84,8 @@ final class MainVC: CommonViewController {
         }
         
         reachability?.whenUnreachable = { [weak self] _ in
-            self?.notConnect()
+            //TODO: Check
+//            self?.notConnect()
             self?.viewModel.requestLocation = nil
             LocationManager.shared.currentLocation = nil
             self?.mapView.reset()
@@ -231,7 +232,8 @@ private extension MainVC {
         
         guard isDeleted || (!isDeleted && faovorites.count < 5) else {
             DispatchQueue.main.async { [weak self] in
-                self?.makeAlert(title: "최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !")
+                //TODO: Check
+//                self?.makeAlert(title: "최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !")
             }
             return
         }

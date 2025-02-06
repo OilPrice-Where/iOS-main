@@ -6,10 +6,12 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
-import Then
-import SnapKit
 import UIKit
 import Combine
+import Then
+import SnapKit
+
+
 //MARK: CommonTextFieldView
 final class CommonTextFieldView: UIView {
     //MARK: - Properties
