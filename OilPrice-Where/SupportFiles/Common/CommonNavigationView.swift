@@ -6,9 +6,11 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
+import UIKit
 import Then
 import SnapKit
-import UIKit
+
+
 //MARK: CommonNavigationView
 final class CommonNavigationView: UIView {
     //MARK: - Properties
