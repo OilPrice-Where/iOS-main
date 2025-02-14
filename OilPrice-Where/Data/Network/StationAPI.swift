@@ -12,7 +12,7 @@ import Foundation
 
 enum StationAPI {
     /// 주변 주유소 정보 조회
-    case nearbyGasStations(x: Double, y: Double, radius: Int, prodcd: String, sort: Int)
+    case nearbyGasStations(x: Double, y: Double, prodcd: String)
     /// 주유소 정보 조회
     case stationDetail(id: String)
     /// 유가 정보 조회 결과
@@ -49,13 +49,13 @@ extension StationAPI: TargetType {
     
     var task: Task {
         switch self {
-        case .nearbyGasStations(let x, let y, let radius, let prodcd, let sort):
+        case .nearbyGasStations(let x, let y, let prodcd):
             let params: [String: Any] = [
                 "code": Preferences.stationAppKey(),
                 "x": x,
                 "y": y,
-                "radius": radius,
-                "sort": sort,
+                "radius": 5000, // 5KM
+                "sort": 1, // 가격순
                 "prodcd": prodcd,
                 "out": "json"
             ]

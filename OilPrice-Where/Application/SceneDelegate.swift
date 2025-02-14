@@ -51,35 +51,39 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
      오일 타입이 있다면 메인 리스트 페이지(TabBarController)를 루트뷰로 설정
      */
     private func initialViewController() -> UIViewController {
-        if DefaultData.shared.oilSubject.value != "" {
-            let settingStorage: SettingStorage = PlistSettingStorage()
-            let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
+        let settingStorage: SettingStorage = PlistSettingStorage()
+        let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: settingStorage)
+        let fuelCode: String = settingStorage.fetchValue(
+            defaultValue: "",
+            forKey: SettingType.fuelType.key,
+            fromStorageNamed: PlistSettingStorage.Constants.defaultStorageName)
+        
+        if fuelCode.isEmpty {
+            let initialSettingsViewModel = InitialSettingsViewModel(settingUseCase: settingUseCase)
+            let initialSettingsVC = InitialSettingsVC(viewModel: initialSettingsViewModel)
+            return initialSettingsVC
+        } else {
             let stationRepository: StationRepository = StationRepositoryImpl()
             let stationInfoViewModel: StationInfoViewModel = StationInfoViewModel(
                 settingUseCase: settingUseCase,
-                stationRepository: stationRepository
-            )
+                stationRepository: stationRepository)
             
             let appVersionRepository: AppVersionRepository = FirebaseAppVersionRepository()
             let appVersionUseCase: AppVersionUseCase = AppVersionUseCaseImpl(appVersionRepository: appVersionRepository)
             let menuViewModel = MenuViewModel(
                 settingUseCase: settingUseCase,
-                appVersionUseCase: appVersionUseCase
-            )
+                appVersionUseCase: appVersionUseCase)
             
+            let mainViewModel = MainViewModel(
+                settingUseCase: settingUseCase,
+                stationRepository: stationRepository)
             let mainVC = MainVC(
-                viewModel: .init(),
+                viewModel: mainViewModel,
                 menuViewModel: menuViewModel,
                 stationInfoViewModel: stationInfoViewModel
             )
             let mainNavigationVC = UINavigationController(rootViewController: mainVC)
             return mainNavigationVC
-        } else {
-            let plistStorage: SettingStorage = PlistSettingStorage()
-            let settingUseCase: SettingUseCase = SettingUseCaseImpl(storage: plistStorage)
-            let initialSettingsViewModel = InitialSettingsViewModel(settingUseCase: settingUseCase)
-            let initialSettingsVC = InitialSettingsVC(viewModel: initialSettingsViewModel)
-            return initialSettingsVC
         }
     }
 }

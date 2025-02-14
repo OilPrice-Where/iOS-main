@@ -9,6 +9,7 @@
 import UIKit
 import Combine
 import CoreLocation
+import Then
 
 
 final class LocationManager: NSObject {
@@ -17,15 +18,18 @@ final class LocationManager: NSObject {
     
     private var searchPathRepository: SearchPathRepository!
     
-    var locationManager: CLLocationManager?
+    private let locationManager = CLLocationManager().then {
+        $0.desiredAccuracy = kCLLocationAccuracyBest
+        $0.allowsBackgroundLocationUpdates = true
+        $0.showsBackgroundLocationIndicator = true
+        $0.distanceFilter = 50
+        $0.requestAlwaysAuthorization()
+    }
     @Published var currentAddress: String?
     @Published var currentLocation: CLLocation?
     @Published var requestLocation: CLLocation?
     
-    
-    var findStations = [FindStation]()
     var stations = [GasStationSummary]()
-    var findStation: FindStation?
     
     // MARK: - Initializer
     private override init() {
@@ -44,44 +48,38 @@ final class LocationManager: NSObject {
 extension LocationManager {
     /// 위치 권한
     private func requestLocationAccess() {
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager?.allowsBackgroundLocationUpdates = true
-        locationManager?.showsBackgroundLocationIndicator = true
-        locationManager?.distanceFilter = 50
-        
-        locationManager?.requestAlwaysAuthorization()
+        locationManager.delegate = self
     }
     
     /// 위치 추적 시작
     func startUpdating() {
         LogUtil.d("위치 추적 시작")
-        locationManager?.startUpdatingLocation()
+        locationManager.startUpdatingLocation()
     }
     
     /// 위치 추적 종료
     func stopUpdating() {
         LogUtil.d("위치 추적 종료")
-        locationManager?.stopUpdatingLocation()
+        locationManager.stopUpdatingLocation()
     }
     
     private func requestLocationAlert() {
         guard let visibleVC = UIApplication.shared.customKeyWindow?.visibleViewController else { return }
         
-        let alert = UIAlertController(title: "위치정보를 불러올 수 없습니다.",
-                                      message: "위치정보를 사용해 주변 '주유소'의 정보를 불러오기 때문에 위치정보 권한이 필요합니다. 설정으로 이동하여 위치 정보 접근을 허용해 주세요.",
-                                      preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소",
-                                         style: .cancel,
-                                         handler: nil)
-        
-        let openAction = UIAlertAction(title: "설정으로 이동",
-                                       style: .default) { _ in
+        let alert = UIAlertController(
+            title: "위치정보를 불러올 수 없습니다.",
+            message: "위치정보를 사용해 주변 '주유소'의 정보를 불러오기 때문에 위치정보 권한이 필요합니다. 설정으로 이동하여 위치 정보 접근을 허용해 주세요.",
+            preferredStyle: .alert)
+        let cancelAction = UIAlertAction(
+            title: "취소",
+            style: .cancel,
+            handler: nil)
+        let openAction = UIAlertAction(
+            title: "설정으로 이동",
+            style: .default
+        ) { _ in
             if let url = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url,
-                                          options: [:],
-                                          completionHandler: nil)
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
         
@@ -113,17 +111,6 @@ extension LocationManager {
         return await searchPathRepository.requestFindAllPOIs(keyword: keyword, count: count)
     }
     
-    
-    func firstFindStation() -> FindStation? {
-        guard let from = currentLocation else { return nil }
-        
-        return findStations.filter {
-            guard let targetLat = $0.lat, let targetLng = $0.lng else { return false }
-            let to = CLLocation(latitude: targetLat, longitude: targetLng)
-            return from.distance(from: to) <= 2000
-        }.first
-    }
-    
     func distance(from: CoordinateSystem) -> CGFloat? {
         guard let to = currentLocation else {
             return nil
@@ -139,10 +126,10 @@ extension LocationManager: CLLocationManagerDelegate {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             LogUtil.d("GPS 권한 설정됨")
-            self.locationManager?.startUpdatingLocation()
+            self.locationManager.startUpdatingLocation()
         case .notDetermined:
             LogUtil.d("GPS 권한 설정되지 않음")
-            self.locationManager?.requestAlwaysAuthorization()
+            self.locationManager.requestAlwaysAuthorization()
         case .restricted, .denied:
             LogUtil.d("GPS 권한 요청 거부됨")
             requestLocationAlert()
@@ -160,7 +147,7 @@ extension LocationManager: CLLocationManagerDelegate {
         
         switch manager.authorizationStatus {
         case .notDetermined:
-            locationManager?.requestAlwaysAuthorization()
+            locationManager.requestAlwaysAuthorization()
         case .restricted, .denied:
             requestLocationAlert()
         default:

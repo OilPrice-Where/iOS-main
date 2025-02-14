@@ -67,7 +67,6 @@ extension MainViewModel {
         case reseponseStaion // => Response
         case stationList // => Favorite
     }
-    
     struct Input {
         let requestStaions = PassthroughSubject<Void?, Never>() // <= 검색
     }

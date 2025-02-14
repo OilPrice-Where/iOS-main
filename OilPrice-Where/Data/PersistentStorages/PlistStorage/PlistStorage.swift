@@ -18,7 +18,7 @@ protocol SettingStorage {
 
 
 final class PlistSettingStorage: SettingStorage {
-    func fetchValue<T>(defaultValue: T, forKey key: String, fromStorageNamed name: String = "UserInfo") -> T {
+    func fetchValue<T>(defaultValue: T, forKey key: String, fromStorageNamed name: String) -> T {
         if let value = SwiftyPlistManager.shared.fetchValue(for: key, fromPlistWithName: name) as? T {
             return value
         } else {
@@ -32,12 +32,19 @@ final class PlistSettingStorage: SettingStorage {
         }
     }
     
-    func save<T>(_ type: T, forKey key: String, to name: String = "UserInfo", completion: () -> Void) {
+    func save<T>(_ type: T, forKey key: String, to name: String, completion: () -> Void) {
         SwiftyPlistManager.shared.save(type, forKey: key, toPlistWithName: name) {
             if let error = $0 {
                 LogUtil.e(error.localizedDescription)
             }
             completion()
         }
+    }
+}
+
+
+extension PlistSettingStorage {
+    enum Constants {
+        static let defaultStorageName: String = "UserInfo"
     }
 }
