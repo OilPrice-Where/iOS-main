@@ -13,8 +13,22 @@ import Moya
 final class StationRepositoryImpl: StationRepository {
     private let provider = MoyaProvider<StationAPI>()
             
-    func fetchNearbyGasStations(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String) {
-        
+    func fetchNearbyGasStations(x: Double, y: Double, prodcd: String) async throws -> [GasStationSummary] {
+        try await withCheckedThrowingContinuation { continuation in
+            provider.request(.nearbyGasStations(x: x, y: y, prodcd: prodcd)) { result in
+                switch result {
+                case .success(let response):
+                    do {
+                        let gasStationInfoResultDTO = try response.map(NearbyGasStationsDTO.self)
+                        continuation.resume(returning: gasStationInfoResultDTO.toDomain())
+                    } catch {
+                        continuation.resume(throwing: error)
+                    }
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
     }
     
     func fetchStationDetails(id: String) async throws -> [GasStationDetail] {

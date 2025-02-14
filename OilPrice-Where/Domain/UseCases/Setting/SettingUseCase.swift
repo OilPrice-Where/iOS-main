@@ -31,22 +31,20 @@ final class SettingUseCaseImpl: SettingUseCase {
         return storage.fetchValue(
             defaultValue: defaultValue,
             forKey: type.key,
-            fromStorageNamed: Constants.storageName
+            fromStorageNamed: PlistSettingStorage.Constants.defaultStorageName
         )
     }
     
     func save<T>(_ value: T, type: SettingType) {
-        storage.save(value, forKey: type.key, to: Constants.storageName) {
+        storage.save(
+            value,
+            forKey: type.key,
+            to: PlistSettingStorage.Constants.defaultStorageName
+        ) {
             NotificationCenter.default.post(
                 name: type.notificationName,
                 object: value
             )
         }
-    }
-}
-
-private extension SettingUseCaseImpl {
-    enum Constants {
-        static let storageName: String = "UserInfo"
     }
 }

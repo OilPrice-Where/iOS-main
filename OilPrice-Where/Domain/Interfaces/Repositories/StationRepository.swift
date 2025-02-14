@@ -11,7 +11,7 @@ import Foundation
 
 protocol StationRepository {
     /// 주변 주유소 정보를 조회합니다.
-    func fetchNearbyGasStations(x: Double, y: Double, radius: Int, prodcd: String, sort: Int, appKey: String)
+    func fetchNearbyGasStations(x: Double, y: Double, prodcd: String) async throws -> [GasStationSummary]
     /// 특정 주유소의 상세 정보를 조회합니다.
     func fetchStationDetails(id: String) async throws -> [GasStationDetail]
     /// 유가 정보를 조회합니다.
