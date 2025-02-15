@@ -70,11 +70,13 @@ private extension InitialSettingsVC {
                     appVersionUseCase: appVersionUseCase
                 )
                 
+                let mainViewModel = MainViewModel(
+                    settingUseCase: settingUseCase,
+                    stationRepository: stationRepository)
                 let mainVC = MainVC(
-                    viewModel: .init(),
+                    viewModel: mainViewModel,
                     menuViewModel: menuViewModel,
-                    stationInfoViewModel: stationInfoViewModel
-                )
+                    stationInfoViewModel: stationInfoViewModel)
                 let mainNavigationVC = UINavigationController(rootViewController: mainVC)
                 mainNavigationVC.modalPresentationStyle = .fullScreen
                 present(mainNavigationVC, animated: false)

@@ -268,18 +268,18 @@ extension MainMapView {
         mapView.addCameraDelegate(delegate: self)
     }
     
-    func applyCircle(location: CLLocation?) {
+    func applyCircle(coordinateSystem: CoordinateSystem?) {
         circle?.mapView = nil
-        circle = createCircle(location: location)
+        circle = createCircle(coordinateSystem: coordinateSystem)
         circle?.mapView = mapView
     }
     
-    private func createCircle(location: CLLocation?) -> NMFCircleOverlay? {
-        guard let location else {
+    private func createCircle(coordinateSystem: CoordinateSystem?) -> NMFCircleOverlay? {
+        guard let coordinateSystem else {
             return nil
         }
         
-        let center = NMGLatLng(from: location.coordinate)
+        let center = NMGLatLng(lat: coordinateSystem.tm.lat, lng: coordinateSystem.tm.lng)
         let circle = NMFCircleOverlay(center, radius: 5000.0, fill: .clear)
         circle.outlineColor = .systemBlue
         circle.outlineWidth = 1
@@ -310,14 +310,17 @@ extension MainMapView {
     }
     
     func moveMarker(station: GasStationSummary) {
-        delegate?.mapView(self, didTapMarker: station)
+        resetSelectedMarker()
         
-        selectedMarker?.isSelected = true
-        selectedMarker = markers.first(where: {
-            guard let station = $0.userInfo["station"] as? GasStationSummary else {
+        selectedMarker = markers.first(where: { marker in
+            guard
+                let info = marker.userInfo["station"] as? GasStationSummary,
+                info.stationID == station.stationID
+            else {
                 return false
             }
-            return station.stationID == station.stationID
+            marker.isSelected = true
+            return true
         })
         
         moveMap(
@@ -325,6 +328,8 @@ extension MainMapView {
             zoomTo: 15.0,
             animation: .easeIn
         )
+        
+        delegate?.mapView(self, didTapMarker: station)
     }
     
     func moveSearch(poi: SearchPOI) {

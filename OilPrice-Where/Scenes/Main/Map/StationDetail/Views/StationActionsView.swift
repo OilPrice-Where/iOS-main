@@ -11,6 +11,15 @@ import Then
 import SnapKit
 
 
+extension StationActionsView {
+    func configureDirectionButton(station: GasStationSummary) {
+        let distance = station.distance < 1000 ? "\(Int(station.distance))m" : String(format: "%.1fkm", station.distance / 1000)
+        directionButton.setTitle(distance + " 안내시작", for: .normal)
+        directionButton.setTitle(distance + " 안내시작", for: .highlighted)
+    }
+}
+
+
 //MARK: StationInfo의 길 안내 & 즐겨찾기
 final class StationActionsView: UIView {
     //MARK: - Properties
