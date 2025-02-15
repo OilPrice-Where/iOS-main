@@ -6,136 +6,144 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
+import Combine
 import Foundation
 import CoreLocation
-import Combine
-import Moya
-import NMapsMap
 import FloatingPanel
 
-import Firebase
+
 //MARK: MainViewModel
 final class MainViewModel {
     //MARK: - Properties
-    var cancellable = Set<AnyCancellable>()
-    let input = Input()
-    let output = Output()
-    let staionProvider = MoyaProvider<StationAPI>()
-    var stations = [GasStationSummary]() { didSet { output.staionResult.send(nil) } }
-    var requestLocation: CLLocation? = nil { didSet { addressUpdate() } }
-    var selectedStation: GasStationSummary? = nil { didSet { output.selectedStation.send(nil) } }
-    var addressString: String?
+    private var cancellable = Set<AnyCancellable>()
     
+    private let settingUseCase: SettingUseCase
+    private let stationRepository: StationRepository
+    
+    private(set) var stations: [GasStationSummary] = []
+    private(set) var requestCoordinateSystem: CoordinateSystem? = nil
+    private(set) var selectedStation: GasStationSummary? = nil
+    
+    var location: CLLocation?
     var zoomLevel: CGFloat?
     
     var beforeNAfter: (before: FloatingPanelState, after: FloatingPanelState) = (.hidden, .hidden)
-    var isLiveActivities: Bool = false
+    
     
     //MARK: - Initializer
-    init() {
-        rxBind()
-    }
-    
-    //MARK: - Rx Binding ..
-    func rxBind() {        
-        input.requestStaions
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.requestSearch()
-            }
-            .store(in: &cancellable)
-        
-        DefaultData.shared.completedRelay
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] key in
-                guard let owner = self,
-                      !(key == "Favorites" || key == "LocalFavorites") else {
-                    return
-                }
-                
-                owner.requestSearch()
-            }
-            .store(in: &cancellable)
+    init(settingUseCase: SettingUseCase,
+         stationRepository: StationRepository) {
+        self.settingUseCase = settingUseCase
+        self.stationRepository = stationRepository
     }
 }
 
-//MARK: - I/O & Error
+
+//MARK: - I/O & transform
 extension MainViewModel {
-    enum ErrorResult: Error {
-        case requestStation // => Network
-        case reseponseStaion // => Response
-        case stationList // => Favorite
-    }
     struct Input {
-        let requestStaions = PassthroughSubject<Void?, Never>() // <= 검색
+        let viewDidLoad: AnyPublisher<Void, Never>
+        /// 서치 바 검색
+        let searchByPOI: AnyPublisher<SearchPOI, Never>
+        /// 현재 위치 검색
+        let searchByMap: AnyPublisher<CLLocation, Never>
+        /// 설정 값 업데이트
+        let updatedSettings: AnyPublisher<Void, Never>
+        /// 주유소 선택
+        let selectedStation: AnyPublisher<GasStationSummary, Never>
     }
     
     struct Output {
-        let error = PassthroughSubject<ErrorResult, Never>() // => Error
-        let staionResult = PassthroughSubject<Void?, Never>() // => 검색 결과
-        let selectedStation = PassthroughSubject<Void?, Never>() // => 주유소 선택
-        let deviceOrientation = PassthroughSubject<Void?, Never>() // => g
+        /// 주유소 리스트 결과
+        let staionsResult: AnyPublisher<[GasStationSummary], Never>
+        /// 주유소 선택
+        let selectedStation: AnyPublisher<GasStationSummary, Never>
+        
+    }
+    
+    func transform(input: Input) -> Output {
+        return .init(
+            staionsResult: staionsResultPublisher(input: input),
+            selectedStation: selectedStationPublisher(input: input)
+        )
     }
 }
 
-//MARK: - Method
-extension MainViewModel {
-    private func addressUpdate() {
-        guard let location = LocationManager.shared.currentLocation else { return }
-        let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
-            if let _ = error { return }
-            
-            var currentPlacemark: CLPlacemark?
-            // 에러가 없고, 주소 정보가 있으며 주소가 공백이지 않을 시
-            if error == nil, let p = placemarks, p.isNotEmpty {
-                currentPlacemark = p.last
-            } else {
-                currentPlacemark = nil
-            }
-            
-            var string = currentPlacemark?.locality ?? ""
-            string += string.count > 0 ? " " + (currentPlacemark?.name ?? "") : currentPlacemark?.name ?? ""
-            self?.addressString = string
-        }
-    }
-    
-    private func requestSearch(sort: Int = 1) {
-        let oilSubject = DefaultData.shared.oilSubject.value
-        
-        guard let coordinate = requestLocation?.coordinate else { return }
-        
-        let latLng = NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude)
-        let tm = NMGTm128(from: latLng)
-        
-        staionProvider.request(.nearbyGasStations(
-            x: tm.x,
-            y: tm.y,
-            radius: 5000,
-            prodcd: oilSubject,
-            sort: sort
-        )) { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .success(let response):
-                guard let list = try? response.map(NearbyGasStationsDTO.self) else {
-                    self.output.error.send(.stationList)
-                    return
-                }
-                
-                self.stations = list.result?.toDomain() ?? []
 
-            case .failure(let error):
-                LogUtil.e(error.localizedDescription)
-                self.output.error.send(.requestStation)
+//MARK: - Make Publisher
+extension MainViewModel {
+    func staionsResultPublisher(input: Input) -> AnyPublisher<[GasStationSummary], Never> {
+        let viewDidLoad = input.viewDidLoad
+            .flatMap { _ -> AnyPublisher<CLLocation, Never> in
+                LocationManager.shared.$currentLocation
+                    .compactMap { $0 }
+                    .first()
+                    .eraseToAnyPublisher()
             }
-        }
+            .map { CoordinateSystem(lat: $0.coordinate.latitude, lng: $0.coordinate.longitude) }
+            .eraseToAnyPublisher()
+        
+        let searchByPOI = input.searchByPOI
+            .compactMap { $0.coordinate }
+            .eraseToAnyPublisher()
+        
+        let searchByMap = input.searchByMap
+            .map { CoordinateSystem(lat: $0.coordinate.latitude, lng: $0.coordinate.longitude) }
+            .eraseToAnyPublisher()
+        
+        let updatedSettings = input.updatedSettings
+            .compactMap { [weak self] _ -> CoordinateSystem? in
+                guard let self else { return nil }
+                
+                if let requestCoordinateSystem {
+                    return requestCoordinateSystem
+                } else if let currentLocation = LocationManager.shared.currentLocation {
+                    return CoordinateSystem(lat: currentLocation.coordinate.latitude, lng: currentLocation.coordinate.longitude)
+                } else {
+                    return nil
+                }
+            }
+            .eraseToAnyPublisher()
+        
+        let staionsResultPublisher = Publishers.Merge4(
+            viewDidLoad,
+            searchByPOI,
+            searchByMap,
+            updatedSettings
+        ).eraseToAnyPublisher()
+        
+        return staionsResultPublisher
+            .flatMap { [weak self] coordinateSystem -> AnyPublisher<[GasStationSummary], Never> in
+                guard let self else {
+                    return Empty().eraseToAnyPublisher()
+                }
+                return Future { promise in
+                    Task {
+                        guard
+                            let prodcd: String = try? self.settingUseCase.load(type: .fuelType),
+                            let stations = try? await self.stationRepository.fetchNearbyGasStations(
+                                x: coordinateSystem.katec.x,
+                                y: coordinateSystem.katec.y,
+                                prodcd: prodcd)
+                        else {
+                            return
+                        }
+                        self.stations = stations
+                        self.requestCoordinateSystem = coordinateSystem
+                        promise(.success(stations))
+                    }
+                }
+                .eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
     }
     
-    func requestStationsInfo(id: String, completion: @escaping Completion) {
-        staionProvider.request(.stationDetail(id: id)) {
-            completion($0)
-        }
+    func selectedStationPublisher(input: Input) -> AnyPublisher<GasStationSummary, Never> {
+        return input.selectedStation
+            .map { [weak self] station in
+                self?.selectedStation = station
+                return station
+            }
+            .eraseToAnyPublisher()
     }
 }
