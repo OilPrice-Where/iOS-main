@@ -20,6 +20,10 @@ final class MainVC: CommonViewController {
     //MARK: - Properties
     private let viewModel: MainViewModel
     
+    private let searchBarPublisher: PassthroughSubject<SearchPOI, Never> = .init()
+    private let searchMapPublisher: PassthroughSubject<CLLocation, Never> = .init()
+    private let selectedStationPublisher: PassthroughSubject<GasStationSummary, Never> = .init()
+    
     /// MapView
     private let mapView = MainMapView()
     /// 사이드 메뉴
@@ -80,13 +84,13 @@ final class MainVC: CommonViewController {
         super.setNetworkSetting()
         
         reachability?.whenReachable = { [weak self] _ in
-            self?.viewModel.input.requestStaions.send(nil)
+//            self?.viewModel.input.requestStaions.send(nil)
         }
         
         reachability?.whenUnreachable = { [weak self] _ in
             //TODO: Check
 //            self?.notConnect()
-            self?.viewModel.requestLocation = nil
+//            self?.viewModel.requestLocation = nil
             LocationManager.shared.currentLocation = nil
             self?.mapView.reset()
             self?.bottomSheetController.move(to: .hidden, animated: false, completion: nil)
@@ -96,7 +100,6 @@ final class MainVC: CommonViewController {
     private func configure() {
         let searchPathRepository = TMapSearchPathRepository()
         LocationManager.shared.setLocationManager(searchPathRepository: searchPathRepository)
-        
         mapView.delegate = self
     }
 }
@@ -105,112 +108,79 @@ final class MainVC: CommonViewController {
 //MARK: - BindActions
 private extension MainVC {
     func bindActions() {
-        SettingType.allCases.forEach {
-            NotificationCenter.default.publisher(for: $0.notificationName)
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    self?.bottomSheetController.move(to: .hidden, animated: false, completion: nil)
-                }
-                .store(in: &viewModel.cancellable)
-        }
-        
-        DefaultData.shared.completedRelay
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] key in
-                guard let self,
-                      !(key == "Favorites" || key == "LocalFavorites") else {
-                    self?.updateFavoriteUI()
-                    return
-                }
-                
-                mapView.resetSelectedMarker()
-                DispatchQueue.main.async {
-                    self.bottomSheetController.move(to: .hidden, animated: false, completion: nil)
-                }
+        let settingsPublishers = SettingType.allCases
+            .filter { $0 != .favorites }
+            .map(\.notificationName)
+            .map {
+                return NotificationCenter.default
+                    .publisher(for: $0)
+                    .map { _ in }
+                    .eraseToAnyPublisher()
             }
-            .store(in: &viewModel.cancellable)
         
-        LocationManager.shared.$currentLocation
-            .compactMap { $0 }
-            .sink { [weak self] currentLocation in
-                guard let self,
-                      viewModel.requestLocation == nil else {
-                    return
-                }
-                
-                viewModel.requestLocation = currentLocation
-                viewModel.input.requestStaions.send(nil)
-                
-                mapView.moveMap(scrollTo: currentLocation.coordinate)
-            }
-            .store(in: &viewModel.cancellable)
+        let output = viewModel.transform(input: .init(
+            viewDidLoad: Just(()).eraseToAnyPublisher(),
+            searchByPOI: searchBarPublisher.eraseToAnyPublisher(),
+            searchByMap: searchMapPublisher.eraseToAnyPublisher(),
+            updatedSettings: Publishers.MergeMany(settingsPublishers).eraseToAnyPublisher(),
+            selectedStation: selectedStationPublisher.eraseToAnyPublisher()
+        ))
         
         // favoriteButton Tapped
-        stationActionsView
-            .favoriteButton
+        stationActionsView.favoriteButton
             .tapPublisher
-            .receive(on: DispatchQueue.main)
+            .throttle(for: 0.5, scheduler: DispatchQueue.main, latest: false)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.touchedFavoriteButton()
             }
-            .store(in: &viewModel.cancellable)
+            .store(in: &cancellable)
         
         // directionButton Tapped
-        stationActionsView
-            .directionButton
+        stationActionsView.directionButton
             .tapPublisher
-            .receive(on: DispatchQueue.main)
+            .throttle(for: 0.5, scheduler: DispatchQueue.main, latest: false)
             .sink { [weak self] _ in
                 guard let owner = self else { return }
                 owner.toNavigationTapped()
             }
-            .store(in: &viewModel.cancellable)
+            .store(in: &cancellable)
         
-        viewModel.output.staionResult
-            .sink { [weak self] _ in
+        bindUI(output: output)
+    }
+    
+    
+    func bindUI(output: MainViewModel.Output) {
+        output.staionsResult
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] staions in
                 guard let self else { return }
                 
-                mapView.applyCircle(location: viewModel.requestLocation)
-                mapView.showMarker(list: viewModel.stations)
-                
-                NotificationCenter.default.post(
-                    name: NSNotification.Name("stationsUpdated"),
-                    object: nil,
-                    userInfo: ["stations": viewModel.stations]
-                )
-                
-                guard let targetStation = LocationManager.shared.findStation,
-                      let info = LocationManager.shared.stations.first(where: { $0.stationID == targetStation.id }),
-                      let lat = targetStation.lat, let lng = targetStation.lng else { return }
-                
                 sideMenu.dismiss(animated: false)
-                mapView(mapView, didTapMarker: info)
-                mapView.selectedMarker = mapView.markers.first(where: {
-                    guard let station = $0.userInfo["station"] as? GasStationSummary else { return false }
-                    return station.stationID == targetStation.id
-                })
-                mapView.selectedMarker?.isSelected = true
                 
-                mapView.moveMap(
-                    scrollTo: .init(latitude: lat, longitude: lng),
-                    zoomTo: 15.0,
-                    animation: .easeIn
-                )
+                bottomSheetController.move(to: .hidden, animated: false) {
+                    self.mapView.hideResearchButtonWithAnimation()
+                }
                 
+                mapView.reset()
+                mapView.applyCircle(coordinateSystem: viewModel.requestCoordinateSystem)
+                mapView.showMarker(list: viewModel.stations)
                 mapView.hideResearchButtonWithAnimation()
             }
-            .store(in: &viewModel.cancellable)
-        
+            .store(in: &cancellable)
         // 즐겨찾기 목록의 StationID 값과 StationView의 StationID값이 동일 하면 선택 상태로 변경
-        viewModel.output.selectedStation
+        output.selectedStation
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.updateFavoriteUI()
+            .sink { [weak self] station in
+                guard let self else { return }
+                
+                updateFavoriteUI()
+                stationDetailInfoVC.configure(station: station)
+                stationActionsView.configureDirectionButton(station: station)
             }
-            .store(in: &viewModel.cancellable)
+            .store(in: &cancellable)
     }
+    
     
     func updateFavoriteUI() {
         let ids = DefaultData.shared.favoriteSubject.value
@@ -258,29 +228,8 @@ private extension MainVC {
 //MARK: - SearchBarDelegate
 extension MainVC: SearchBarDelegate {
     func search(poi: SearchPOI) {
+        searchBarPublisher.send(poi)
         mapView.moveSearch(poi: poi)
-        researchStation(with: poi.coordinate.location.coordinate)
-    }
-    
-    private func researchStation(with coordinate: CLLocationCoordinate2D? = nil) {
-        let requestLocation: CLLocation
-        if let coordinate {
-            requestLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        } else {
-            requestLocation = mapView.currentMapCenterLocation
-        }
-        
-        viewModel.requestLocation = requestLocation
-        viewModel.selectedStation = nil
-        mapView.reset()
-        viewModel.input.requestStaions.send(nil)
-        viewModel.zoomLevel = nil
-        
-        bottomSheetController.move(to: .hidden, animated: false) { [weak self] in
-            guard let self else { return }
-            
-            mapView.hideResearchButtonWithAnimation()
-        }
     }
 }
 
@@ -288,14 +237,10 @@ extension MainVC: SearchBarDelegate {
 //MARK: - MainMapViewDelegate
 extension MainVC: MainMapViewDelegate {
     func mapView(_ mapView: MainMapView, didTapMarker station: GasStationSummary) {
-        if bottomSheetController.state == .hidden { bottomSheetController.move(to: .half, animated: true, completion: nil) }
-        
-        viewModel.selectedStation = station
-        stationDetailInfoVC.configure(station: station)
-        
-        let distance = station.distance < 1000 ? "\(Int(station.distance))m" : String(format: "%.1fkm", station.distance / 1000)
-        stationActionsView.directionButton.setTitle(distance + " 안내시작", for: .normal)
-        stationActionsView.directionButton.setTitle(distance + " 안내시작", for: .highlighted)
+        if bottomSheetController.state == .hidden {
+            bottomSheetController.move(to: .half, animated: true, completion: nil)
+        }
+        selectedStationPublisher.send(station)
     }
     
     func mapViewDidTapMap(_ mapView: MainMapView) {
@@ -310,7 +255,7 @@ extension MainVC: MainMapViewDelegate {
     }
     
     func mapViewDidTapResearch(_ mapView: MainMapView) {
-        researchStation()
+        searchMapPublisher.send(mapView.currentMapCenterLocation)
     }
     
     func mapViewDidTapToolbar(_ mapView: MainMapView) {
@@ -351,6 +296,7 @@ extension MainVC: FloatingPanelControllerDelegate {
     func floatingPanelWillBeginDragging(_ bottomSheetController: FloatingPanelController) {
         viewModel.beforeNAfter = (bottomSheetController.state, viewModel.beforeNAfter.after)
         guard bottomSheetController.state == .half else { return }
+        viewModel.location = mapView.currentMapCenterLocation
         viewModel.zoomLevel = mapView.currentZoomLevel
     }
     
@@ -376,12 +322,13 @@ extension MainVC: FloatingPanelControllerDelegate {
             guard viewModel.beforeNAfter.before == .full else {
                 return
             }
-            let centerLocation = mapView.currentMapCenterLocation
-            mapView.moveMap(
-                scrollTo: centerLocation.coordinate,
-                zoomTo: viewModel.zoomLevel,
-                animation: .easeIn
-            )
+            if let centerLocation = viewModel.location {
+                mapView.moveMap(
+                    scrollTo: centerLocation.coordinate,
+                    zoomTo: viewModel.zoomLevel,
+                    animation: .easeIn
+                )
+            }
         case .full:
             if let station = viewModel.selectedStation {
                 mapView.moveMap(
@@ -411,6 +358,7 @@ extension MainVC: FloatingPanelControllerDelegate {
 //MARK: - MainListVCDelegate
 extension MainVC: MainListVCDelegate {
     func touchedCell(info: GasStationSummary) {
+        mapView(mapView, didTapMarker: info)
         mapView.moveMarker(station: info)
     }
 }
@@ -428,8 +376,8 @@ private extension MainVC {
             static let width = UIDevice.current.userInterfaceIdiom == .pad ? 328.0 : UIScreen.screenWidth * (240 / 375)
         }
         
-        enum StationActionButtonContainerView {
-            
+        enum StationActionView {
+            static let height: CGFloat = 82
         }
     }
     
@@ -486,7 +434,7 @@ private extension MainVC {
         stationActionsView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(82)
+            $0.height.equalTo(UIConstants.StationActionView.height)
         }
         emptyView.snp.makeConstraints {
             $0.top.equalTo(stationActionsView.snp.bottom)
