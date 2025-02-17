@@ -14,8 +14,6 @@ import KakaoSDKNavi
 
 
 class CommonViewController: UIViewController {
-    typealias ResultURL = (isCanOpen: Bool, requestURL: URL?)
-    
     var cancellable = Set<AnyCancellable>()
     var reachability: Reachability? = Reachability() //Network
     
@@ -69,62 +67,6 @@ class CommonViewController: UIViewController {
         
         alert.addAction(cancelAction)
         alert.addAction(openAction)
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func requestURL(station: GasStationSummary?) -> ResultURL {
-        let dummy = GasStationSummary(stationID: UUID().uuidString, brand: .etc, name: "Dummy", price: 0, distance: .zero, coordinate: .init(x: nil, y: nil))
-        let type = SearchNavigation(type: DefaultData.shared.naviSubject.value)
-        let info = station ?? dummy
-        
-        var destinationURL: URL? = nil
-        var appstoreURL: URL? = nil
-        
-        switch type {
-        case .tMap:
-            let urlString = "tmap://?rGoName=\(info.name)&rGoX=\(info.coordinate.tm.lng)&rGoY=\(info.coordinate.tm.lat)"
-            
-            let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-            destinationURL = URL(string: encodedStr ?? "")
-            appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/431589174")
-        case .kakao:
-            let destination = NaviLocation(name: info.name, x: "\(NSNumber(value: info.coordinate.katec.x))", y: "\(NSNumber(value: info.coordinate.katec.y))")
-            destinationURL = NaviApi.shared.navigateUrl(destination: destination, option: NaviOption(routeInfo: false))
-            appstoreURL = NaviApi.webNaviInstallUrl
-        case .kakaoMap:
-            destinationURL = URL(string: "kakaomap://route?ep=\(info.coordinate.tm.lat),\(info.coordinate.tm.lng)&by=CAR")
-            appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/304608425")
-        case .naver:
-            let urlString = "nmap://navigation?dlat=\(info.coordinate.tm.lat)&dlng=\(info.coordinate.tm.lng)&dname=\(info.name)&appname=com.oilpricewhere.wheregasoline"
-            
-            let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-            destinationURL = URL(string: encodedStr ?? "")
-            appstoreURL = URL(string: "itms-apps://itunes.apple.com/app/311867728")
-        }
-        
-        guard let _destinationURL = destinationURL, let _appstoreURL = appstoreURL else { return (false, nil) }
-        
-        return UIApplication.shared.canOpenURL(_destinationURL) ? (true, _destinationURL) : (false, _appstoreURL)
-    }
-    
-    func requestDirection(station: GasStationSummary?) {
-        guard let info = station,
-              let requestURL = requestURL(station: info).requestURL else { return }
-        
-        DataManager.shared.addNew(station: info)
-        
-        UIApplication.shared.open(requestURL, options: [:], completionHandler: nil)
-    }
-    // 길안내 에러 발생
-    func handleError(error: Error?) {
-        guard let error = error as NSError? else { return }
-        
-        let alert = UIAlertController(title: title,
-                                      message: error.localizedFailureReason,
-                                      preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-        alert.addAction(okAction)
         
         present(alert, animated: true, completion: nil)
     }

@@ -109,7 +109,7 @@ final class MainVC: CommonViewController {
 private extension MainVC {
     func bindActions() {
         let settingsPublishers = SettingType.allCases
-            .filter { $0 != .favorites }
+            .filter { $0 != .favorites || $0 != .navigationType }
             .map(\.notificationName)
             .map {
                 return NotificationCenter.default
@@ -123,7 +123,8 @@ private extension MainVC {
             searchByPOI: searchBarPublisher.eraseToAnyPublisher(),
             searchByMap: searchMapPublisher.eraseToAnyPublisher(),
             updatedSettings: Publishers.MergeMany(settingsPublishers).eraseToAnyPublisher(),
-            selectedStation: selectedStationPublisher.eraseToAnyPublisher()
+            selectedStation: selectedStationPublisher.eraseToAnyPublisher(),
+            didTapDirectionStation: stationActionsView.directionButton.tapPublisher
         ))
         
         // favoriteButton Tapped
@@ -136,16 +137,6 @@ private extension MainVC {
             }
             .store(in: &cancellable)
         
-        // directionButton Tapped
-        stationActionsView.directionButton
-            .tapPublisher
-            .throttle(for: 0.5, scheduler: DispatchQueue.main, latest: false)
-            .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.toNavigationTapped()
-            }
-            .store(in: &cancellable)
-        
         bindUI(output: output)
     }
     
@@ -155,8 +146,6 @@ private extension MainVC {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] staions in
                 guard let self else { return }
-                
-                sideMenu.dismiss(animated: false)
                 
                 bottomSheetController.move(to: .hidden, animated: false) {
                     self.mapView.hideResearchButtonWithAnimation()
@@ -177,6 +166,16 @@ private extension MainVC {
                 updateFavoriteUI()
                 stationDetailInfoVC.configure(station: station)
                 stationActionsView.configureDirectionButton(station: station)
+            }
+            .store(in: &cancellable)
+        // 길찾기
+        output.openURL
+            .receive(on: DispatchQueue.main)
+            .sink { destinationURL in
+                guard UIApplication.shared.canOpenURL(destinationURL) else {
+                    return
+                }
+                UIApplication.shared.open(destinationURL)
             }
             .store(in: &cancellable)
     }
@@ -217,10 +216,6 @@ private extension MainVC {
         let lbl = Preferences.showToast(width: 240, message: msg, numberOfLines: 1)
         view.hideToast()
         view.showToast(lbl, position: .top)
-    }
-    
-    private func toNavigationTapped() {
-        requestDirection(station: viewModel.selectedStation)
     }
 }
 

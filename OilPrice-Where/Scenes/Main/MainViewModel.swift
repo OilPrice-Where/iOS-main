@@ -6,8 +6,8 @@
 //  Copyright © 2022 sangwook park. All rights reserved.
 //
 
+import UIKit
 import Combine
-import Foundation
 import CoreLocation
 import FloatingPanel
 
@@ -18,7 +18,10 @@ final class MainViewModel {
     private var cancellable = Set<AnyCancellable>()
     
     private let settingUseCase: SettingUseCase
+    private let urlBuilder: NavigationURLBuilder
     private let stationRepository: StationRepository
+    private let visitedStationStorage: VisitedStationStorage
+    
     
     private(set) var stations: [GasStationSummary] = []
     private(set) var requestCoordinateSystem: CoordinateSystem? = nil
@@ -32,9 +35,12 @@ final class MainViewModel {
     
     //MARK: - Initializer
     init(settingUseCase: SettingUseCase,
-         stationRepository: StationRepository) {
+         stationRepository: StationRepository,
+         visitedStationStorage: VisitedStationStorage) {
         self.settingUseCase = settingUseCase
+        self.urlBuilder = AppNavigationURLBuilder(settingUseCase: settingUseCase)
         self.stationRepository = stationRepository
+        self.visitedStationStorage = visitedStationStorage
     }
 }
 
@@ -51,6 +57,9 @@ extension MainViewModel {
         let updatedSettings: AnyPublisher<Void, Never>
         /// 주유소 선택
         let selectedStation: AnyPublisher<GasStationSummary, Never>
+        /// 길찾기 및 방문 주유소 저장
+        let didTapDirectionStation: AnyPublisher<Void, Never>
+        
     }
     
     struct Output {
@@ -58,20 +67,23 @@ extension MainViewModel {
         let staionsResult: AnyPublisher<[GasStationSummary], Never>
         /// 주유소 선택
         let selectedStation: AnyPublisher<GasStationSummary, Never>
+        /// Open URL
+        let openURL: AnyPublisher<URL, Never>
         
     }
     
     func transform(input: Input) -> Output {
         return .init(
             staionsResult: staionsResultPublisher(input: input),
-            selectedStation: selectedStationPublisher(input: input)
+            selectedStation: selectedStationPublisher(input: input),
+            openURL: openUrlPublisher(input: input)
         )
     }
 }
 
 
 //MARK: - Make Publisher
-extension MainViewModel {
+private extension MainViewModel {
     func staionsResultPublisher(input: Input) -> AnyPublisher<[GasStationSummary], Never> {
         let viewDidLoad = input.viewDidLoad
             .flatMap { _ -> AnyPublisher<CLLocation, Never> in
@@ -145,5 +157,52 @@ extension MainViewModel {
                 return station
             }
             .eraseToAnyPublisher()
+    }
+    
+    func openUrlPublisher(input: Input) -> AnyPublisher<URL, Never> {
+        return input.didTapDirectionStation
+            .compactMap { [weak self] _ -> URL? in
+                guard let self,
+                      let selectedStation else {
+                    return nil
+                }
+                // 방문 주유소 저장
+                saveStation(selectedStation)
+                
+                let destinationURL = urlBuilder.destinationURL(
+                    name: selectedStation.name,
+                    coordinate: selectedStation.coordinate
+                )
+                
+                if let destinationURL,
+                   UIApplication.shared.canOpenURL(destinationURL) {
+                    return destinationURL
+                } else {
+                    return urlBuilder.installURL()
+                }
+            }
+            .eraseToAnyPublisher()
+    }
+}
+
+
+private extension MainViewModel {
+    /// 길 찾기 전 방문기록 저장
+    func saveStation(_ station: GasStationSummary) {
+        guard let fuelCode: String = try? settingUseCase.load(type: .fuelType) else {
+            return
+        }
+        
+        Task {
+            try await visitedStationStorage.saveVisited(station: .init(
+                stationID: station.stationID,
+                brand: station.brand,
+                name: station.name,
+                fuelType: .init(code: fuelCode),
+                recordedPrice: Double(station.price),
+                coordinate: station.coordinate,
+                visitDate: .init()
+            ))
+        }
     }
 }

@@ -74,9 +74,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 settingUseCase: settingUseCase,
                 appVersionUseCase: appVersionUseCase)
             
+            let visitedStationStorage: VisitedStationStorage = CoreDataVisitedStationStorage()
+            
             let mainViewModel = MainViewModel(
                 settingUseCase: settingUseCase,
-                stationRepository: stationRepository)
+                stationRepository: stationRepository,
+                visitedStationStorage: visitedStationStorage)
             let mainVC = MainVC(
                 viewModel: mainViewModel,
                 menuViewModel: menuViewModel,
