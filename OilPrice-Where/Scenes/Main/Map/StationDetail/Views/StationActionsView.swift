@@ -12,10 +12,15 @@ import SnapKit
 
 
 extension StationActionsView {
-    func configureDirectionButton(station: GasStationSummary) {
+    func configure(station: GasStationSummary, isFavorite: Bool) {
         let distance = station.distance < 1000 ? "\(Int(station.distance))m" : String(format: "%.1fkm", station.distance / 1000)
         directionButton.setTitle(distance + " 안내시작", for: .normal)
         directionButton.setTitle(distance + " 안내시작", for: .highlighted)
+        
+        let favoriteImage = isFavorite ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
+        favoriteButton.setImage(favoriteImage.withRenderingMode(.alwaysTemplate), for: .normal)
+        favoriteButton.imageView?.tintColor = isFavorite ? .white : Asset.Colors.mainColor.color
+        favoriteButton.backgroundColor = isFavorite ? Asset.Colors.mainColor.color : .white
     }
 }
 

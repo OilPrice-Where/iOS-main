@@ -22,6 +22,7 @@ final class MainViewModel {
     private let stationRepository: StationRepository
     private let visitedStationStorage: VisitedStationStorage
     
+    private let updateFavoriteButtonPublisher = CurrentValueSubject<Bool, Never>(false)
     
     private(set) var stations: [GasStationSummary] = []
     private(set) var requestCoordinateSystem: CoordinateSystem? = nil
@@ -59,16 +60,19 @@ extension MainViewModel {
         let selectedStation: AnyPublisher<GasStationSummary, Never>
         /// 길찾기 및 방문 주유소 저장
         let didTapDirectionStation: AnyPublisher<Void, Never>
-        
+        /// 즐겨찾기 추가 및 삭제
+        let didTapFavoriteStation: AnyPublisher<Void, Never>
     }
     
     struct Output {
         /// 주유소 리스트 결과
         let staionsResult: AnyPublisher<[GasStationSummary], Never>
         /// 주유소 선택
-        let selectedStation: AnyPublisher<GasStationSummary, Never>
+        let selectedStation: AnyPublisher<(station: GasStationSummary, isFavorite: Bool), Never>
         /// Open URL
         let openURL: AnyPublisher<URL, Never>
+        // Show toast
+        let showToast: AnyPublisher<String, Never>
         
     }
     
@@ -76,7 +80,8 @@ extension MainViewModel {
         return .init(
             staionsResult: staionsResultPublisher(input: input),
             selectedStation: selectedStationPublisher(input: input),
-            openURL: openUrlPublisher(input: input)
+            openURL: openUrlPublisher(input: input),
+            showToast: showToastPublisher(input: input)
         )
     }
 }
@@ -150,13 +155,54 @@ private extension MainViewModel {
             .eraseToAnyPublisher()
     }
     
-    func selectedStationPublisher(input: Input) -> AnyPublisher<GasStationSummary, Never> {
-        return input.selectedStation
-            .map { [weak self] station in
-                self?.selectedStation = station
-                return station
+    func selectedStationPublisher(input: Input) -> AnyPublisher<(station: GasStationSummary, isFavorite: Bool), Never> {
+        let favoritesSetting = NotificationCenter.default
+            .publisher(for: SettingType.favorites.notificationName)
+            .compactMap { $0.object as? [String] }
+            .compactMap { [weak self] favorites -> (station: GasStationSummary, isFavorite: Bool)? in
+                guard let self,
+                      let selectedStation = self.selectedStation else {
+                    return nil
+                }
+                return (station: selectedStation, isFavorite: favorites.contains(selectedStation.stationID))
             }
             .eraseToAnyPublisher()
+        
+        let updateFavoriteButton = updateFavoriteButtonPublisher
+            .compactMap { [weak self] isFavorite -> (station: GasStationSummary, isFavorite: Bool)? in
+                guard let self,
+                      let selectedStation = self.selectedStation else {
+                    return nil
+                }
+                return (station: selectedStation, isFavorite: isFavorite)
+            }
+            .eraseToAnyPublisher()
+        
+        let updateFavoritePublisher = Publishers.Merge(
+            favoritesSetting,
+            updateFavoriteButton
+        )
+            .removeDuplicates(by: {
+                $0.station.stationID == $1.station.stationID &&
+                $0.isFavorite == $1.isFavorite
+            })
+            .eraseToAnyPublisher()
+        
+        let selectedStation = input.selectedStation
+            .compactMap { [weak self] station -> (station: GasStationSummary, isFavorite: Bool)? in
+                guard let self,
+                      let favorites: [String] = try? settingUseCase.load(type: .favorites) else {
+                    return nil
+                }
+                self.selectedStation = station
+                return (station: station, isFavorite: favorites.contains(station.stationID))
+            }
+            .eraseToAnyPublisher()
+        
+        return Publishers.Merge(
+            updateFavoritePublisher,
+            selectedStation
+        ).eraseToAnyPublisher()
     }
     
     func openUrlPublisher(input: Input) -> AnyPublisher<URL, Never> {
@@ -183,6 +229,23 @@ private extension MainViewModel {
             }
             .eraseToAnyPublisher()
     }
+    
+    func showToastPublisher(input: Input) -> AnyPublisher<String, Never> {
+        return input.didTapFavoriteStation
+            .compactMap { [weak self] _ in
+                guard let self,
+                      let selectedStation,
+                      let favorites: [String] = try? settingUseCase.load(type: .favorites) else {
+                    return nil
+                }
+                
+                if favorites.contains(selectedStation.stationID) {
+                    return deleteFavoriteMessage(stationID: selectedStation.stationID)
+                } else {
+                    return addFavoriteMessage(stationID: selectedStation.stationID)
+                }
+            }.eraseToAnyPublisher()
+    }
 }
 
 
@@ -204,5 +267,40 @@ private extension MainViewModel {
                 visitDate: .init()
             ))
         }
+    }
+    
+    /// 즐겨찾기 추가 및 결과 메시지
+    func addFavoriteMessage(stationID: String) -> String {
+        if addFavoriteIfNeeded(stationID: stationID) {
+            return "즐겨 찾는 주유소에 추가되었습니다."
+        } else {
+            return "최대 5개까지 추가 가능합니다🥹\n이전 즐겨찾기를 삭제하고 추가해주세요."
+        }
+    }
+    /// 즐겨찾기 삭제 및 결과 메시지
+    func deleteFavoriteMessage(stationID: String) -> String {
+        deleteFavorite(stationID: stationID)
+        return "즐겨 찾는 주유소가 삭제되었습니다."
+    }
+    /// 즐겨찾기 추가
+    func addFavoriteIfNeeded(stationID: String) -> Bool {
+        guard let favorites: [String] = try? settingUseCase.load(type: .favorites),
+              favorites.count < 5 else {
+            return false
+        }
+        var saveFavorites = Set<String>(favorites)
+        saveFavorites.insert(stationID)
+        updateFavoriteButtonPublisher.send(true)
+        settingUseCase.save(saveFavorites.map { $0 }, type: .favorites)
+        return true
+    }
+    /// 즐겨찾기 삭제
+    func deleteFavorite(stationID: String) {
+        guard var favorites: [String] = try? settingUseCase.load(type: .favorites) else {
+            return
+        }
+        favorites.removeAll(where: { $0 == stationID })
+        updateFavoriteButtonPublisher.send(false)
+        settingUseCase.save(favorites, type: .favorites)
     }
 }

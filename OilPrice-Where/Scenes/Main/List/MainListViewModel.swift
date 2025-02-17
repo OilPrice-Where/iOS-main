@@ -20,7 +20,6 @@ final class MainListViewModel {
     private(set) var settingUseCase: SettingUseCase
     private let urlBuilder: NavigationURLBuilder
     
-    private let updateFavoriteButtonPublisher = CurrentValueSubject<Bool, Never>(false)
     
     //MARK: Initializer
     init(stations: [GasStationSummary],

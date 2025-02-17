@@ -20,7 +20,7 @@ final class FrequentVisitViewModel {
     private let urlBuilder: NavigationURLBuilder
     
     private let visitStationsPublisher: CurrentValueSubject<[VisitedGasStation], Never> = .init([])
-    private let updateFavoriteButtonPublisher = CurrentValueSubject<Bool, Never>(false)
+    
     
     //MARK: Initializer
     init(storage: VisitedStationStorage,
@@ -181,7 +181,6 @@ private extension FrequentVisitViewModel {
         }
         var saveFavorites = Set<String>(favorites)
         saveFavorites.insert(stationID)
-        updateFavoriteButtonPublisher.send(true)
         settingUseCase.save(saveFavorites.map { $0 }, type: .favorites)
         return true
     }
@@ -191,7 +190,6 @@ private extension FrequentVisitViewModel {
             return
         }
         favorites.removeAll(where: { $0 == stationID })
-        updateFavoriteButtonPublisher.send(false)
         settingUseCase.save(favorites, type: .favorites)
     }
 }

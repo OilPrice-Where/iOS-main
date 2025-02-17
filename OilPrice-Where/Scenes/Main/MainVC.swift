@@ -10,6 +10,7 @@ import UIKit
 import Combine
 import CoreLocation
 import Then
+import Toast
 import SnapKit
 import SideMenu
 import FloatingPanel
@@ -109,7 +110,7 @@ final class MainVC: CommonViewController {
 private extension MainVC {
     func bindActions() {
         let settingsPublishers = SettingType.allCases
-            .filter { $0 != .favorites || $0 != .navigationType }
+            .filter { $0 != .favorites && $0 != .navigationType }
             .map(\.notificationName)
             .map {
                 return NotificationCenter.default
@@ -124,18 +125,9 @@ private extension MainVC {
             searchByMap: searchMapPublisher.eraseToAnyPublisher(),
             updatedSettings: Publishers.MergeMany(settingsPublishers).eraseToAnyPublisher(),
             selectedStation: selectedStationPublisher.eraseToAnyPublisher(),
-            didTapDirectionStation: stationActionsView.directionButton.tapPublisher
+            didTapDirectionStation: stationActionsView.directionButton.tapPublisher,
+            didTapFavoriteStation: stationActionsView.favoriteButton.tapPublisher
         ))
-        
-        // favoriteButton Tapped
-        stationActionsView.favoriteButton
-            .tapPublisher
-            .throttle(for: 0.5, scheduler: DispatchQueue.main, latest: false)
-            .sink { [weak self] _ in
-                guard let owner = self else { return }
-                owner.touchedFavoriteButton()
-            }
-            .store(in: &cancellable)
         
         bindUI(output: output)
     }
@@ -160,12 +152,11 @@ private extension MainVC {
         // 즐겨찾기 목록의 StationID 값과 StationView의 StationID값이 동일 하면 선택 상태로 변경
         output.selectedStation
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] station in
+            .sink { [weak self] station, isFavorite in
                 guard let self else { return }
                 
-                updateFavoriteUI()
                 stationDetailInfoVC.configure(station: station)
-                stationActionsView.configureDirectionButton(station: station)
+                stationActionsView.configure(station: station, isFavorite: isFavorite)
             }
             .store(in: &cancellable)
         // 길찾기
@@ -178,44 +169,18 @@ private extension MainVC {
                 UIApplication.shared.open(destinationURL)
             }
             .store(in: &cancellable)
-    }
-    
-    
-    func updateFavoriteUI() {
-        let ids = DefaultData.shared.favoriteSubject.value
-        
-        guard let id = viewModel.selectedStation?.stationID else { return }
-        let image = ids.contains(id) ? Asset.Images.favoriteOnIcon.image : Asset.Images.favoriteOffIcon.image
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.stationActionsView.favoriteButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
-            self?.stationActionsView.favoriteButton.imageView?.tintColor = ids.contains(id) ? .white : Asset.Colors.mainColor.color
-            self?.stationActionsView.favoriteButton.backgroundColor = ids.contains(id) ? Asset.Colors.mainColor.color : .white
-        }
-    }
-    
-    func touchedFavoriteButton() {
-        let faovorites = DefaultData.shared.favoriteSubject.value
-        guard let _id = viewModel.selectedStation?.stationID, faovorites.count < 6 else { return }
-        let isDeleted = faovorites.contains(_id)
-        
-        guard isDeleted || (!isDeleted && faovorites.count < 5) else {
-            DispatchQueue.main.async { [weak self] in
-                //TODO: Check
-//                self?.makeAlert(title: "최대 5개까지 추가 가능합니다", subTitle: "이전 즐겨찾기를 삭제하고 추가해주세요 !")
+        // 즐겨찾기 결과 메세지
+        output.showToast
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] message in
+                guard let self else {
+                    return
+                }
+                view.hideToast()
+                let toast = Preferences.showToast(width: 240, message: message, numberOfLines: 1)
+                view.showToast(toast, point: .init(x: view.center.x, y: view.safeAreaInsets.top + 78))
             }
-            return
-        }
-        var newFaovorites = faovorites
-        isDeleted ? newFaovorites = newFaovorites.filter { $0 != _id } : newFaovorites.append(_id)
-        
-        DefaultData.shared.favoriteSubject.send(newFaovorites)
-        updateFavoriteUI()
-        
-        let msg = isDeleted ? "즐겨 찾는 주유소가 삭제되었습니다." : "즐겨 찾는 주유소에 추가되었습니다."
-        let lbl = Preferences.showToast(width: 240, message: msg, numberOfLines: 1)
-        view.hideToast()
-        view.showToast(lbl, position: .top)
+            .store(in: &cancellable)
     }
 }
 
