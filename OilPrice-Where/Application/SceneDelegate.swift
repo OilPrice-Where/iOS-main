@@ -33,17 +33,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         DataManager.shared.saveContext()
     }
     
-    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        guard userActivity.activityType == "NSUserActivityTypeLiveActivity",
-              let navi = UIApplication.shared.customKeyWindow?.visibleViewController?.navigationController else { return }
-        
-        navi.popToRootViewController(animated: true)
-        
-        NotificationCenter.default.post(name: NSNotification.Name("liveActivities"),
-                                        object: nil,
-                                        userInfo: nil)
-    }
-    
     /*
      initialViewController 초기 설정 페이지 관련 함수
      처음 앱을 켰을 때 저장 되어있는 오일 타입이 설정 되어 있지 않을 시에
@@ -79,6 +68,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let mainViewModel = MainViewModel(
                 settingUseCase: settingUseCase,
                 stationRepository: stationRepository,
+                appVersionUseCase: appVersionUseCase,
                 visitedStationStorage: visitedStationStorage)
             let mainVC = MainVC(
                 viewModel: mainViewModel,
