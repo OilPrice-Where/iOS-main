@@ -26,10 +26,9 @@ struct Preferences {
 //        alert.iconTintColor = UIColor.white
     }
     
-    /// Random App Key
-    static func stationAppKey() -> String {
-        guard let appKeys: [String] = loadPlistValue(type: .oil),
-              let appKey = appKeys.randomElement() else {
+    /// Kakao API Key
+    static func kakaoAppKey() -> String {
+        guard let appKey: String = loadPlistValue(type: .kakao) else {
             return ""
         }
         return appKey
@@ -38,6 +37,15 @@ struct Preferences {
     /// TMap API Key
     static func tMapAppKey() -> String {
         guard let appKey: String = loadPlistValue(type: .tMap) else {
+            return ""
+        }
+        return appKey
+    }
+    
+    /// Random App Key
+    static func stationAppKey() -> String {
+        guard let appKeys: [String] = loadPlistValue(type: .oil),
+              let appKey = appKeys.randomElement() else {
             return ""
         }
         return appKey
@@ -92,8 +100,9 @@ struct Preferences {
 
 private extension Preferences {
     enum AppSettings: String {
-        case oil = "StationAppKeys"
+        case kakao = "KakaoAPIKey"
         case tMap = "TMapAPIKey"
+        case oil = "StationAppKeys"
         
         enum Path {
             static let fileName: String = "AppSettings"

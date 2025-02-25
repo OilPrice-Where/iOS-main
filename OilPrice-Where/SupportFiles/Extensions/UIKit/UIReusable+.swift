@@ -6,8 +6,8 @@
 //  Copyright © 2021 sangwook park. All rights reserved.
 //
 
-import Foundation
 import UIKit
+
 
 extension UIView {
     static var id: String {
