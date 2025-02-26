@@ -20,6 +20,7 @@ final class MainViewModel {
     private let settingUseCase: SettingUseCase
     private let urlBuilder: NavigationURLBuilder
     private let stationRepository: StationRepository
+    private let appVersionUseCase: AppVersionUseCase
     private let visitedStationStorage: VisitedStationStorage
     
     private let updateFavoriteButtonPublisher = CurrentValueSubject<Bool, Never>(false)
@@ -37,10 +38,12 @@ final class MainViewModel {
     //MARK: - Initializer
     init(settingUseCase: SettingUseCase,
          stationRepository: StationRepository,
+         appVersionUseCase: AppVersionUseCase,
          visitedStationStorage: VisitedStationStorage) {
         self.settingUseCase = settingUseCase
         self.urlBuilder = AppNavigationURLBuilder(settingUseCase: settingUseCase)
         self.stationRepository = stationRepository
+        self.appVersionUseCase = appVersionUseCase
         self.visitedStationStorage = visitedStationStorage
     }
 }
@@ -73,7 +76,8 @@ extension MainViewModel {
         let openURL: AnyPublisher<URL, Never>
         // Show toast
         let showToast: AnyPublisher<String, Never>
-        
+        /// 버전 확인
+        var showVersionStatus: AnyPublisher<AppUpdateStatus, Never>
     }
     
     func transform(input: Input) -> Output {
@@ -81,7 +85,8 @@ extension MainViewModel {
             staionsResult: staionsResultPublisher(input: input),
             selectedStation: selectedStationPublisher(input: input),
             openURL: openUrlPublisher(input: input),
-            showToast: showToastPublisher(input: input)
+            showToast: showToastPublisher(input: input),
+            showVersionStatus: showVersionStatusPublisher(input: input)
         )
     }
 }
@@ -245,6 +250,39 @@ private extension MainViewModel {
                     return addFavoriteMessage(stationID: selectedStation.stationID)
                 }
             }.eraseToAnyPublisher()
+    }
+    
+    func showVersionStatusPublisher(input: Input) -> AnyPublisher<AppUpdateStatus, Never> {
+        input.viewDidLoad
+            .flatMap { [weak self] _ -> AnyPublisher<AppUpdateStatus, Never> in
+                guard let self else {
+                    return Empty().eraseToAnyPublisher()
+                }
+                return appUpdateStatusPublisher()
+            }
+            .filter {
+                if case .upToDate = $0 {
+                    return false
+                } else {
+                    return true
+                }
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func appUpdateStatusPublisher() -> AnyPublisher<AppUpdateStatus, Never> {
+        Deferred {
+            Future { promise in
+                Task { [weak self] in
+                    guard let self else {
+                        return
+                    }
+                    
+                    let versionStauts = await appVersionUseCase.checkAndUpdateAppVersion()
+                    promise(.success(versionStauts))
+                }
+            }
+        }.eraseToAnyPublisher()
     }
 }
 

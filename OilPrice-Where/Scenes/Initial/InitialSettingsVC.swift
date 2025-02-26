@@ -75,6 +75,7 @@ private extension InitialSettingsVC {
                 let mainViewModel = MainViewModel(
                     settingUseCase: settingUseCase,
                     stationRepository: stationRepository,
+                    appVersionUseCase: appVersionUseCase,
                     visitedStationStorage: visitedStationStorage)
                 let mainVC = MainVC(
                     viewModel: mainViewModel,

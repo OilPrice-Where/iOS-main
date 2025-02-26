@@ -66,7 +66,6 @@ final class MainVC: CommonViewController {
         
         makeUI()
         bindActions()
-        //TODO: appVersionCheck()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -149,6 +148,13 @@ private extension MainVC {
                 mapView.hideResearchButtonWithAnimation()
             }
             .store(in: &cancellable)
+        // 버전 업데이트
+        output.showVersionStatus
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] versionStatus in
+                self?.showUpdateVersionAlert(versionStatus: versionStatus)
+            }
+            .store(in: &cancellable)
         // 즐겨찾기 목록의 StationID 값과 StationView의 StationID값이 동일 하면 선택 상태로 변경
         output.selectedStation
             .receive(on: DispatchQueue.main)
@@ -181,6 +187,50 @@ private extension MainVC {
                 view.showToast(toast, point: .init(x: view.center.x, y: view.safeAreaInsets.top + 78))
             }
             .store(in: &cancellable)
+    }
+    
+    func showUpdateVersionAlert(versionStatus: AppUpdateStatus) {
+        let alert: UIAlertController?
+        
+        switch versionStatus {
+        case .optionalUpdate(let title, let message, let appURLString):
+            let nextUpdateAction = UIAlertAction(title: "나중에 하기", style: .destructive)
+            let updateAction = UIAlertAction(title: "지금 업데이트 하기", style: .default) { _ in
+                guard let appURL = URL(string: appURLString, encodingInvalidCharacters: false),
+                      UIApplication.shared.canOpenURL(appURL) else {
+                    return
+                }
+                UIApplication.shared.open(appURL, options: [:], completionHandler: nil)
+            }
+            
+            alert = UIAlertController.createAlertContoller(
+                title: title,
+                message: message,
+                actions: [nextUpdateAction, updateAction]
+            )
+            
+        case .forcedUpdate(let title, let message, let appURLString):
+            let updateAction = UIAlertAction(title: "업데이트 하기", style: .default) { _ in
+                guard let appURL = URL(string: appURLString, encodingInvalidCharacters: false),
+                      UIApplication.shared.canOpenURL(appURL) else {
+                    return
+                }
+                UIApplication.shared.open(appURL, options: [:], completionHandler: nil)
+            }
+            
+            alert = UIAlertController.createAlertContoller(
+                title: title,
+                message: message,
+                actions: [updateAction]
+            )
+            
+        default:
+            alert = nil
+        }
+        
+        if let alert {
+            present(alert, animated: true)
+        }
     }
 }
 
