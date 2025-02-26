@@ -12,8 +12,8 @@ import SnapKit
 
 
 extension GasStationPriceView {
-    func configure(price info: GasStationSummary) {
-        typeLabel.text = FuelType(code: DefaultData.shared.oilSubject.value).displayName
+    func configure(fuelType type: FuelType, station info: GasStationSummary) {
+        typeLabel.text = type.displayName
         priceLabel.text = info.price.decimalNumber
     }
 }

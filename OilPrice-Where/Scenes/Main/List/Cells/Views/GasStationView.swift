@@ -12,10 +12,10 @@ import SnapKit
 
 
 extension GasStationView {
-    func configure(with station: GasStationSummary, isFavoriteStation: Bool) {
+    func configure(fuelType type: FuelType, station: GasStationSummary, isFavoriteStation: Bool) {
         titleView.configure(title: station)
         
-        bottomView.configure(with: station)
+        bottomView.configure(fuelType: type, station: station)
         updateFavoriteUI(isFavoriteStation: isFavoriteStation)
     }
 }

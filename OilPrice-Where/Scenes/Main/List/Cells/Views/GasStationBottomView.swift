@@ -12,8 +12,8 @@ import SnapKit
 
 
 extension GasStationBottomView {
-    func configure(with station: GasStationSummary) {
-        priceView.configure(price: station)
+    func configure(fuelType type: FuelType, station: GasStationSummary) {
+        priceView.configure(fuelType: type, station: station)
         
         expandView.configure(
             distance: String(format: "%.1fkm", station.distance / 1000)

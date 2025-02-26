@@ -30,9 +30,14 @@ extension GasStationCell {
     private func configure(station summary: GasStationSummary, settingUseCase: SettingUseCase) {
         self.summary = summary
         
+        let fuelCode: String? = try? settingUseCase.load(type: .fuelType)
         let favorites: [String]? = try? settingUseCase.load(type: .favorites)
         let isFavoriteStation = favorites?.contains(summary.stationID) ?? false
-        stationView.configure(with: summary, isFavoriteStation: isFavoriteStation)
+        stationView.configure(
+            fuelType: FuelType(code: fuelCode ?? ""),
+            station: summary,
+            isFavoriteStation: isFavoriteStation
+        )
     }
 }
 
