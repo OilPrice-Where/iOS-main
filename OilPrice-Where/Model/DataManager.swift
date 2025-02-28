@@ -12,103 +12,13 @@ import Foundation
 
 
 final class DataManager {
+    
     static let shared = DataManager()
     private init() {}
     
-    var mainContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
-    
-    var stationListIsEmpty = PassthroughSubject<Bool, Never>()
-    @Published var poisIsNotEmpty = false
-    var stationListRelay = CurrentValueSubject<[StationEntity], Never>([])
-    var stationList = [StationEntity]() {
-        didSet {
-            stationListIsEmpty.send(stationList.isEmpty)
-            stationListRelay.send(stationList)
-        }
-    }
-    var cardList = [CardEntity]()
-    var pois = [POIEntity]() {
-        didSet {
-            poisIsNotEmpty = pois.isNotEmpty
-        }
-    }
-    
-    func fetchData() {
-        let stationRequest: NSFetchRequest<StationEntity> = StationEntity.fetchRequest()
-        let cardRequest: NSFetchRequest<CardEntity> = CardEntity.fetchRequest()
-        let poiRequest: NSFetchRequest<POIEntity> = POIEntity.fetchRequest()
-        
-        let sortByDateDesc = NSSortDescriptor(key: "insertDate", ascending: false)
-        stationRequest.sortDescriptors = [sortByDateDesc]
-        cardRequest.sortDescriptors = [sortByDateDesc]
-        poiRequest.sortDescriptors = [sortByDateDesc]
-        
-        do {
-            stationList = try mainContext.fetch(stationRequest)
-            cardList = try mainContext.fetch(cardRequest)
-            pois = try mainContext.fetch(poiRequest)
-        } catch {
-            LogUtil.e(error.localizedDescription)
-        }
-    }
-    
-    func fetch<T>(request: NSFetchRequest<T>) throws -> [T] {
-        do {
-            return try mainContext.fetch(request)
-        } catch {
-            throw error
-        }
-    }
-    
-    func performBackgroundTask(_ block: @escaping (NSManagedObjectContext) -> Void) {
-        persistentContainer.performBackgroundTask(block)
-    }
-    
-    func addNew(station: GasStationSummary) {
-        let newStation = StationEntity(context: mainContext)
-        newStation.identifier = station.stationID
-        newStation.name = station.name
-        newStation.brand = station.brand.code
-        newStation.oilType = DefaultData.shared.oilSubject.value
-        newStation.price = Double(station.price)
-        newStation.katecX = station.coordinate.katec.x
-        newStation.katecY = station.coordinate.katec.y
-        newStation.insertDate = Date()
-        
-        stationList.insert(newStation, at: 0)
-        
-        saveContext()
-    }
-    
-    func addNew(card: CardInfo) {
-        let newCard = CardEntity(context: mainContext)
-        newCard.identifier = card.identifier
-        newCard.name = card.name
-        newCard.isLiter = card.isLiter
-        newCard.saleValue = card.saleValue
-        newCard.applyBrands = card.applyBrands
-        newCard.insertDate = Date()
-        
-        cardList.insert(newCard, at: 0)
-        
-        saveContext()
-    }
-    
-    func delete<T: NSManagedObject>(value: T?) {
-        guard let managedObject = value else {
-            return
-        }
-        
-        mainContext.delete(managedObject)
-        
-        saveContext()
-    }
-    
     // MARK: - Core Data stack
-    lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "DataModel")
+    private lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: Constants.containerName)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -116,9 +26,13 @@ final class DataManager {
         })
         return container
     }()
-
+    
+    private var mainContext: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    
     // MARK: - Core Data Saving support
-    func saveContext () {
+    func saveContext() {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
@@ -132,7 +46,29 @@ final class DataManager {
 }
 
 extension DataManager {
-    enum Constants {
+    private enum Constants {
+        static let containerName = "DataModel"
         static let sortByDateDesc = NSSortDescriptor(key: "insertDate", ascending: false)
+    }
+    
+    func fetch<T>(request: NSFetchRequest<T>) throws -> [T] {
+        do {
+            return try mainContext.fetch(request)
+        } catch {
+            throw error
+        }
+    }
+    
+    func delete<T: NSManagedObject>(value: T?) {
+        guard let managedObject = value else {
+            return
+        }
+        
+        mainContext.delete(managedObject)
+        saveContext()
+    }
+    
+    func performBackgroundTask(_ block: @escaping (NSManagedObjectContext) -> Void) {
+        persistentContainer.performBackgroundTask(block)
     }
 }
