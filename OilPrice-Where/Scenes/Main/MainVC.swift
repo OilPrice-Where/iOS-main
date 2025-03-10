@@ -21,6 +21,7 @@ final class MainVC: CommonViewController {
     //MARK: - Properties
     private let viewModel: MainViewModel
     
+    private let researchPublisher: PassthroughSubject<Void, Never> = .init()
     private let searchBarPublisher: PassthroughSubject<SearchPOI, Never> = .init()
     private let searchMapPublisher: PassthroughSubject<CLLocation, Never> = .init()
     private let selectedStationPublisher: PassthroughSubject<GasStationSummary, Never> = .init()
@@ -84,21 +85,22 @@ final class MainVC: CommonViewController {
         super.setNetworkSetting()
         
         reachability?.whenReachable = { [weak self] _ in
-//            self?.viewModel.input.requestStaions.send(nil)
+            self?.researchPublisher.send(())
         }
         
         reachability?.whenUnreachable = { [weak self] _ in
-            //TODO: Check
-//            self?.notConnect()
-//            self?.viewModel.requestLocation = nil
+            guard let self else { return }
+            view.hideToast()
+            let toast = Preferences.showToast(width: 240, message: "네트워크 연결 상태를 확인해주세요.", numberOfLines: 1)
+            view.showToast(toast, point: .init(x: view.center.x, y: view.safeAreaInsets.top + 78))
             LocationManager.shared.currentLocation = nil
-            self?.mapView.reset()
-            self?.bottomSheetController.move(to: .hidden, animated: false, completion: nil)
+            mapView.reset()
+            bottomSheetController.move(to: .hidden, animated: false, completion: nil)
         }
     }
     
     private func configure() {
-        let searchPathRepository = TMapSearchPathRepository()
+        let searchPathRepository: SearchPathRepository = TMapSearchPathRepository()
         LocationManager.shared.setLocationManager(searchPathRepository: searchPathRepository)
         mapView.delegate = self
     }
@@ -120,6 +122,7 @@ private extension MainVC {
         
         let output = viewModel.transform(input: .init(
             viewDidLoad: Just(()).eraseToAnyPublisher(),
+            research: researchPublisher.eraseToAnyPublisher(),
             searchByPOI: searchBarPublisher.eraseToAnyPublisher(),
             searchByMap: searchMapPublisher.eraseToAnyPublisher(),
             updatedSettings: Publishers.MergeMany(settingsPublishers).eraseToAnyPublisher(),
@@ -194,35 +197,10 @@ private extension MainVC {
         
         switch versionStatus {
         case .optionalUpdate(let title, let message, let appURLString):
-            let nextUpdateAction = UIAlertAction(title: "나중에 하기", style: .destructive)
-            let updateAction = UIAlertAction(title: "지금 업데이트 하기", style: .default) { _ in
-                guard let appURL = URL(string: appURLString, encodingInvalidCharacters: false),
-                      UIApplication.shared.canOpenURL(appURL) else {
-                    return
-                }
-                UIApplication.shared.open(appURL, options: [:], completionHandler: nil)
-            }
-            
-            alert = UIAlertController.createAlertContoller(
-                title: title,
-                message: message,
-                actions: [nextUpdateAction, updateAction]
-            )
+            alert = createOptionalUpdateAlert(title: title, message: message, appURLString: appURLString)
             
         case .forcedUpdate(let title, let message, let appURLString):
-            let updateAction = UIAlertAction(title: "업데이트 하기", style: .default) { _ in
-                guard let appURL = URL(string: appURLString, encodingInvalidCharacters: false),
-                      UIApplication.shared.canOpenURL(appURL) else {
-                    return
-                }
-                UIApplication.shared.open(appURL, options: [:], completionHandler: nil)
-            }
-            
-            alert = UIAlertController.createAlertContoller(
-                title: title,
-                message: message,
-                actions: [updateAction]
-            )
+            alert = createForcedUpdateAlert(title: title, message: message, appURLString: appURLString)
             
         default:
             alert = nil
@@ -231,6 +209,39 @@ private extension MainVC {
         if let alert {
             present(alert, animated: true)
         }
+    }
+    
+    private func createOptionalUpdateAlert(title: String, message: String, appURLString: String) -> UIAlertController {
+        let nextUpdateAction = UIAlertAction(title: "나중에 하기", style: .destructive)
+        let updateAction = UIAlertAction(title: "지금 업데이트 하기", style: .default) { _ in
+            self.openAppStore(urlString: appURLString)
+        }
+        
+        return UIAlertController.createAlertContoller(
+            title: title,
+            message: message,
+            actions: [nextUpdateAction, updateAction]
+        )
+    }
+    
+    private func createForcedUpdateAlert(title: String, message: String, appURLString: String) -> UIAlertController {
+        let updateAction = UIAlertAction(title: "업데이트 하기", style: .default) { _ in
+            self.openAppStore(urlString: appURLString)
+        }
+        
+        return UIAlertController.createAlertContoller(
+            title: title,
+            message: message,
+            actions: [updateAction]
+        )
+    }
+    
+    private func openAppStore(urlString: String) {
+        guard let appURL = URL(string: urlString, encodingInvalidCharacters: false),
+              UIApplication.shared.canOpenURL(appURL) else {
+            return
+        }
+        UIApplication.shared.open(appURL, options: [:], completionHandler: nil)
     }
 }
 

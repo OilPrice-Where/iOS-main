@@ -13,7 +13,7 @@ import Combine
 //MARK: SearchBarViewModel
 final class SearchBarViewModel {
     //MARK: - Properties
-    private var cancellable = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
 
     private let searchPOIStorage: SearchPOIStorage
     
@@ -23,6 +23,10 @@ final class SearchBarViewModel {
     //MARK: Initializer
     init(searchPOIStorage: SearchPOIStorage) {
         self.searchPOIStorage = searchPOIStorage
+    }
+    
+    deinit {
+        cancellables.removeAll()
     }
 }
 
@@ -70,13 +74,11 @@ private extension SearchBarViewModel {
                 let searchPOIs = searchPOIStorage.fetchSearchPOIs()
                 recentSearchResultPublisher.send(searchPOIs)
             }
-            .store(in: &cancellable)
+            .store(in: &cancellables)
         
         input.didTapDeletePOI
             .sink { [weak self] poi in
-                guard let self else {
-                    return
-                }
+                guard let self else { return }
                 
                 Task {
                     do {
@@ -84,11 +86,11 @@ private extension SearchBarViewModel {
                         let searchPOIs = self.searchPOIStorage.fetchSearchPOIs()
                         self.recentSearchResultPublisher.send(searchPOIs)
                     } catch {
-                        LogUtil.e("삭제 실패")
+                        LogUtil.e("검색 기록 삭제 실패: \(error.localizedDescription)")
                     }
                 }
             }
-            .store(in: &cancellable)
+            .store(in: &cancellables)
         
         input.didTapRemoveAllPOI
             .sink { [weak self] poi in
@@ -97,18 +99,22 @@ private extension SearchBarViewModel {
                 }
                 
                 Task {
-                    await withThrowingTaskGroup(of: Void.self) { group in
+                    do {
                         let searchPOIs = self.searchPOIStorage.fetchSearchPOIs()
-                        searchPOIs.forEach { poi in
-                            group.addTask {
-                                try await self.searchPOIStorage.removeSearch(poi: poi)
+                        try await withThrowingTaskGroup(of: Void.self) { group in
+                            searchPOIs.forEach { poi in
+                                group.addTask {
+                                    try await self.searchPOIStorage.removeSearch(poi: poi)
+                                }
                             }
                         }
+                        self.recentSearchResultPublisher.send([])
+                    } catch {
+                        LogUtil.e("전체 검색 기록 삭제 실패: \(error.localizedDescription)")
                     }
-                    self.recentSearchResultPublisher.send([])
                 }
             }
-            .store(in: &cancellable)
+            .store(in: &cancellables)
     }
 }
 

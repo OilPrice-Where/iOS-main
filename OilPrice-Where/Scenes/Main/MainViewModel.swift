@@ -46,6 +46,10 @@ final class MainViewModel {
         self.appVersionUseCase = appVersionUseCase
         self.visitedStationStorage = visitedStationStorage
     }
+    
+    deinit {
+        cancellable.removeAll()
+    }
 }
 
 
@@ -53,6 +57,8 @@ final class MainViewModel {
 extension MainViewModel {
     struct Input {
         let viewDidLoad: AnyPublisher<Void, Never>
+        /// 재검색
+        let research: AnyPublisher<Void, Never>
         /// 서치 바 검색
         let searchByPOI: AnyPublisher<SearchPOI, Never>
         /// 현재 위치 검색
@@ -105,6 +111,20 @@ private extension MainViewModel {
             .map { CoordinateSystem(lat: $0.coordinate.latitude, lng: $0.coordinate.longitude) }
             .eraseToAnyPublisher()
         
+        let research = input.research
+            .flatMap { _ -> AnyPublisher<CLLocation, Never> in
+                if let currentLocation = LocationManager.shared.currentLocation {
+                    return Just(currentLocation).eraseToAnyPublisher()
+                } else {
+                    return LocationManager.shared.$currentLocation
+                        .compactMap { $0 }
+                        .first()
+                        .eraseToAnyPublisher()
+                }
+            }
+            .map { CoordinateSystem(lat: $0.coordinate.latitude, lng: $0.coordinate.longitude) }
+            .eraseToAnyPublisher()
+        
         let searchByPOI = input.searchByPOI
             .compactMap { $0.coordinate }
             .eraseToAnyPublisher()
@@ -127,8 +147,9 @@ private extension MainViewModel {
             }
             .eraseToAnyPublisher()
         
-        let staionsResultPublisher = Publishers.Merge4(
+        let staionsResultPublisher = Publishers.MergeMany(
             viewDidLoad,
+            research,
             searchByPOI,
             searchByMap,
             updatedSettings
@@ -139,25 +160,39 @@ private extension MainViewModel {
                 guard let self else {
                     return Empty().eraseToAnyPublisher()
                 }
-                return Future { promise in
-                    Task {
-                        guard
-                            let prodcd: String = try? self.settingUseCase.load(type: .fuelType),
-                            let stations = try? await self.stationRepository.fetchNearbyGasStations(
-                                x: coordinateSystem.katec.x,
-                                y: coordinateSystem.katec.y,
-                                prodcd: prodcd)
-                        else {
-                            return
-                        }
-                        self.stations = stations
-                        self.requestCoordinateSystem = coordinateSystem
-                        promise(.success(stations))
-                    }
-                }
-                .eraseToAnyPublisher()
+                return self.fetchStationsForCoordinateSystem(coordinateSystem)
             }
             .eraseToAnyPublisher()
+    }
+    
+    private func fetchStationsForCoordinateSystem(_ coordinateSystem: CoordinateSystem) -> AnyPublisher<[GasStationSummary], Never> {
+        return Future { [weak self] promise in
+            guard let self else {
+                promise(.success([]))
+                return
+            }
+            
+            Task {
+                do {
+                    let prodcd: String = try self.settingUseCase.load(type: .fuelType)
+                    let findBrands: [String] = try self.settingUseCase.load(type: .findBrands)
+                    let stations = try await self.stationRepository.fetchNearbyGasStations(
+                        x: coordinateSystem.katec.x,
+                        y: coordinateSystem.katec.y,
+                        prodcd: prodcd
+                    )
+                    
+                    let filteredStations = stations.filter { findBrands.contains($0.brand.rawValue) }
+                    self.stations = filteredStations
+                    self.requestCoordinateSystem = coordinateSystem
+                    promise(.success(filteredStations))
+                } catch {
+                    LogUtil.e("주유소 데이터 로드 실패: \(error.localizedDescription)")
+                    promise(.success([]))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
     }
     
     func selectedStationPublisher(input: Input) -> AnyPublisher<(station: GasStationSummary, isFavorite: Bool), Never> {
