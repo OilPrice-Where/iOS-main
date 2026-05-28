@@ -276,11 +276,17 @@ private extension MenuViewModel {
     func createStyledNavigationController(_ viewController: UIViewController) -> UINavigationController {
         return UINavigationController(rootViewController: viewController).then {
             $0.navigationBar.tintColor = .white
-            $0.navigationBar.titleTextAttributes = [
+
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = Asset.Colors.mainColor.color
+            appearance.titleTextAttributes = [
                 .font: FontFamily.NanumSquareRound.bold.font(size: 17),
                 .foregroundColor: UIColor.white
             ]
-            $0.navigationBar.backgroundColor = Asset.Colors.mainColor.color
+            $0.navigationBar.standardAppearance = appearance
+            $0.navigationBar.scrollEdgeAppearance = appearance
+            $0.navigationBar.compactAppearance = appearance
         }
     }
 }

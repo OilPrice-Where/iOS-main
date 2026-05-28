@@ -60,6 +60,7 @@ struct Preferences {
         if hasSubTitle {
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineSpacing = 6
+            paragraphStyle.alignment = .center
             let attrString = NSMutableAttributedString(string: message)
             attrString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
             toastLabel.attributedText = attrString.apply(word: subTitle, attrs: [.font: FontFamily.NanumSquareRound.regular.font(size: 11)])

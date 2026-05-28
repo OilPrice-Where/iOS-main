@@ -52,6 +52,7 @@ let app: Target = .target(
         "OilPrice-Where/Resources/**",
         "OilPrice-Where/SupportFiles/GoogleService-Info.plist",
         "OilPrice-Where/SupportFiles/UserInfo.plist",
+        "AppSettings.plist",
     ],
     entitlements: .file(path: "OilPrice-Where/Entitlements/OilPrice-Where.entitlements"),
     dependencies: [
