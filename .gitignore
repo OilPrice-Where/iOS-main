@@ -12,6 +12,10 @@ build/
 DerivedData/
 AppSettings.plist
 
+## Tuist generated (regenerated via `tuist generate`)
+*.xcodeproj
+Derived/
+
 ## Various settings
 *.xcworkspace
 *.pbxuser
