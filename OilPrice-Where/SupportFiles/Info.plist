@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>어디주유</string>
+	<string>$(X_BUNDLE_DISPLAY_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleGetInfoString</key>
@@ -54,7 +54,7 @@
 	<key>KAKAO_APP_KEY</key>
 	<string>b8e7f9ac5bf3c19414515867205f92aa</string>
 	<key>LSApplicationCategoryType</key>
-	<string>NSLocationWhenInUseUsageDescription</string>
+	<string>public.app-category.navigation</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaomap</string>
