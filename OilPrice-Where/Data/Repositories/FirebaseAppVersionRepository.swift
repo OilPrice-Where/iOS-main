@@ -50,6 +50,8 @@ private extension FirebaseAppVersionRepository {
                     return
                 }
                 continuation.resume(returning: averageCost)
+            }, withCancel: { error in
+                continuation.resume(throwing: error)
             })
         }
     }

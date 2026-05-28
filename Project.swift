@@ -15,6 +15,9 @@ let appSettings: Settings = .settings(
         "SWIFT_VERSION": "5.0",
         "CODE_SIGN_STYLE": "Automatic",
         "DEVELOPMENT_TEAM": "3ZS2532XM8",
+        "MARKETING_VERSION": "2.9.4",
+        "CURRENT_PROJECT_VERSION": "1",
+        "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
     ],
     configurations: [
         .debug(name: .debugProd, settings: ["OTHER_SWIFT_FLAGS": "-DPROD -DDEBUG"], xcconfig: "Configurations/Prod-Config.xcconfig"),
@@ -69,16 +72,8 @@ let app: Target = .target(
         .external(name: "NMapsMap"),
         .external(name: "KakaoSDK"),
     ],
-    settings: .settings(base: [
-        "MARKETING_VERSION": "2.9.4",
-        "CURRENT_PROJECT_VERSION": "1",
-        "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
-    ]),
     coreDataModels: [
-        .coreDataModel(
-            "OilPrice-Where/Data/PersistentStorages/CoreDataStorage/DataModel.xcdatamodeld",
-            currentVersion: "CardModel"
-        )
+        .coreDataModel("OilPrice-Where/Data/PersistentStorages/CoreDataStorage/DataModel.xcdatamodeld")
     ]
 )
 

@@ -65,6 +65,8 @@ private extension FirebaseAverageCostRepository {
                     return
                 }
                 continuation.resume(returning: averageCost)
+            }, withCancel: { error in
+                continuation.resume(throwing: error)
             })
         }
     }
