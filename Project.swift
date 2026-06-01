@@ -60,6 +60,7 @@ let app: Target = .target(
     entitlements: .file(path: "OilPrice-Where/Entitlements/OilPrice-Where.entitlements"),
     dependencies: [
         .xcframework(path: "TMap/TMapSDK.xcframework", status: .required),
+        .xcframework(path: "TMap/VSMSDK.xcframework", status: .required),
         .external(name: "SnapKit"),
         .external(name: "Moya"),
         .external(name: "Toast"),

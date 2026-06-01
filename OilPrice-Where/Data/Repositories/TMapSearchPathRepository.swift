@@ -7,66 +7,61 @@
 //
 
 import Foundation
-#if RELEASE
 import TMapSDK
-#endif
 
 
 final class TMapSearchPathRepository: SearchPathRepository {
-#if RELEASE
     private let pathData = TMapPathData()
-#endif
-    
-    
+
+
     init() {
         setTMapAuthentication()
     }
-    
-    
+
+
     func requestFindAllPOIs(keyword: String, count: Int) async -> [SearchPOI] {
         await withCheckedContinuation { [weak self] continuation in
             guard let self else {
                 continuation.resume(returning: [])
                 return
             }
-#if RELEASE
             self.pathData.requestFindAllPOI(keyword, count: count) { result, error in
                 if let error {
                     LogUtil.e(error.localizedDescription)
                     continuation.resume(returning: [])
                     return
                 }
-                
+
                 let items = result ?? []
                 let pois: [SearchPOI] = items.compactMap { poi in
                     guard let coordinate = poi.coordinate else {
                         return nil
                     }
-                    
+
                     // 1. 도로명 주소 및 상세 주소 생성
                     let roadAddress = poi.roadName ?? ""
                     let previousAddress = poi.detailAddrName ?? ""
-                    
+
                     // 2. 건물 번호 부분 생성
                     let buildingPart: String = {
                         // 첫 번째 건물 번호가 없으면 빈 문자열 반환
                         guard let no1 = poi.buildingNo1, no1.isNotEmpty else { return "" }
-                        
+
                         // 두 번째 건물 번호가 존재하고 "0"이 아니라면 하이픈으로 연결
                         if let no2 = poi.buildingNo2, no2.isNotEmpty, no2 != "0" {
                             return " \(no1)-\(no2)"
                         }
-                        
+
                         // 첫 번째 건물 번호만 존재할 경우
                         return " \(no1)"
                     }()
-                    
+
                     // 3. 상위 주소와 중간 주소 결합
                     var resultAddress = (poi.upperAddrName ?? "") + " " + (poi.middleAddrName ?? "")
-                    
+
                     // 4. 도로명 주소가 존재하면 사용하고, 없을 경우 상세 주소 사용
                     resultAddress += " " + (roadAddress.isEmpty ? previousAddress : roadAddress + buildingPart)
-                    
+
                     return SearchPOI(
                         name: poi.name ?? "",
                         address: resultAddress,
@@ -76,14 +71,10 @@ final class TMapSearchPathRepository: SearchPathRepository {
                 }
                 continuation.resume(returning: pois)
             }
-#else
-            continuation.resume(returning: [])
-#endif
         }
     }
-    
+
     func reverseGeocoding(coordinate: CoordinateSystem) async -> String {
-#if RELEASE
         return await withCheckedContinuation { [weak self] continuation in
             guard let self else {
                 continuation.resume(returning: "")
@@ -95,7 +86,7 @@ final class TMapSearchPathRepository: SearchPathRepository {
                     continuation.resume(returning: "")
                     return
                 }
-                
+
                 guard
                     let result,
                     let city = result[Constants.Parameters.city] as? String,
@@ -109,9 +100,6 @@ final class TMapSearchPathRepository: SearchPathRepository {
                 continuation.resume(returning: "\(city) \(gu) \(roadName) \(buildingNumber)")
             }
         }
-#else
-        return ""
-#endif
     }
 }
 
@@ -125,18 +113,14 @@ extension TMapSearchPathRepository {
             static let buildingNumber = "buildingIndex"
         }
     }
-    
+
     func setTMapAuthentication() {
-#if RELEASE
         TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: Preferences.tMapAppKey())
-#endif
     }
 }
 
-#if RELEASE
 extension TMapSearchPathRepository: TMapTapiDelegate {
     func SKTMapApikeySucceed() {
         LogUtil.d("TMAP API KEY 인증 성공")
     }
 }
-#endif
