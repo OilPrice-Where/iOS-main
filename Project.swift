@@ -33,7 +33,7 @@ let appTests: Target = .target(
     destinations: .iOS,
     product: .unitTests,
     bundleId: "com.OilPriceWhere.wheregasolineTests",
-    deploymentTargets: .iOS("18.0"),
+    deploymentTargets: .iOS("17.0"),
     infoPlist: .default,
     sources: ["OilPrice-Where/Tests/**"],
     resources: [],
@@ -46,7 +46,7 @@ let app: Target = .target(
     destinations: .iOS,
     product: .app,
     bundleId: "$(X_BUNDLE_ID)",
-    deploymentTargets: .iOS("18.0"),
+    deploymentTargets: .iOS("17.0"),
     infoPlist: .file(path: "OilPrice-Where/SupportFiles/Info.plist"),
     sources: [
         .glob("OilPrice-Where/**", excluding: ["OilPrice-Where/Tests/**"])
