@@ -22,12 +22,15 @@ final class InitialSettingsView: UIView {
     weak var delegate: InitialSettingsViewDelegate?
 
     private let fuelTypes = FuelType.allCases
+    private let navigationTypes = SearchNavigation.allCases
 
-    private let logoLabel = UILabel().then {
-        $0.text = "어"
-        $0.textAlignment = .center
-        $0.textColor = .white
-        $0.font = FontFamily.NanumSquareRound.extraBold.font(size: 22)
+    private let logoImageView = UIImageView().then {
+        $0.image = UIImage(
+            systemName: "fuelpump.fill",
+            withConfiguration: UIImage.SymbolConfiguration(pointSize: 26, weight: .bold)
+        )
+        $0.tintColor = .white
+        $0.contentMode = .center
         $0.backgroundColor = Asset.Colors.brand.color
         $0.layer.cornerRadius = UIConstants.Radius.logo
         $0.clipsToBounds = true
@@ -44,10 +47,10 @@ final class InitialSettingsView: UIView {
         $0.font = FontFamily.NanumSquareRound.regular.font(size: 16)
         $0.numberOfLines = 0
     }
-    private lazy var headerStackView = UIStackView(arrangedSubviews: [logoLabel, titleLabel, subtitleLabel]).then {
+    private lazy var headerStackView = UIStackView(arrangedSubviews: [logoImageView, titleLabel, subtitleLabel]).then {
         $0.axis = .vertical
         $0.alignment = .leading
-        $0.setCustomSpacing(UIConstants.Spacing.logoToTitle, after: logoLabel)
+        $0.setCustomSpacing(UIConstants.Spacing.logoToTitle, after: logoImageView)
         $0.setCustomSpacing(UIConstants.Spacing.titleToSubtitle, after: titleLabel)
     }
 
@@ -57,9 +60,16 @@ final class InitialSettingsView: UIView {
         $0.font = FontFamily.NanumSquareRound.bold.font(size: 14)
     }
     private lazy var fuelSegmentedView = SegmentedSelectionView(options: fuelTypes.map { $0.displayName })
-    private lazy var cardStackView = UIStackView(arrangedSubviews: [sectionLabel, fuelSegmentedView]).then {
+    private let navigationSectionLabel = UILabel().then {
+        $0.text = "연동할 내비게이션을 선택해주세요"
+        $0.textColor = Asset.Colors.brand.color
+        $0.font = FontFamily.NanumSquareRound.bold.font(size: 14)
+    }
+    private lazy var navigationSegmentedView = SegmentedSelectionView(options: navigationTypes.map { $0.displayName })
+    private lazy var cardStackView = UIStackView(arrangedSubviews: [sectionLabel, fuelSegmentedView, navigationSectionLabel, navigationSegmentedView]).then {
         $0.axis = .vertical
         $0.spacing = UIConstants.Spacing.sectionLabelToSegment
+        $0.setCustomSpacing(UIConstants.Spacing.sectionToSection, after: fuelSegmentedView)
     }
     private let cardView = UIView().then {
         $0.backgroundColor = Asset.Colors.surface.color
@@ -93,7 +103,8 @@ final class InitialSettingsView: UIView {
     @objc
     private func startButtonTapped() {
         let result: InitialSettingsViewModel.SelectionResult = .init(
-            fuel: fuelTypes[fuelSegmentedView.selectedIndex]
+            fuel: fuelTypes[fuelSegmentedView.selectedIndex],
+            navigation: navigationTypes[navigationSegmentedView.selectedIndex]
         )
         delegate?.initialSettingsView(self, didSelect: result)
     }
@@ -108,6 +119,7 @@ private extension InitialSettingsView {
             static let headerToCard: CGFloat = 24
             static let cardToButton: CGFloat = 24
             static let sectionLabelToSegment: CGFloat = 10
+            static let sectionToSection: CGFloat = 22
         }
 
         enum Insets {
@@ -136,7 +148,7 @@ private extension InitialSettingsView {
     }
 
     func setupConstraints() {
-        logoLabel.snp.makeConstraints { make in
+        logoImageView.snp.makeConstraints { make in
             make.width.height.equalTo(UIConstants.Sizes.logo)
         }
 
@@ -155,6 +167,10 @@ private extension InitialSettingsView {
         }
 
         fuelSegmentedView.snp.makeConstraints { make in
+            make.height.equalTo(UIConstants.Sizes.segment)
+        }
+
+        navigationSegmentedView.snp.makeConstraints { make in
             make.height.equalTo(UIConstants.Sizes.segment)
         }
 
