@@ -22,7 +22,6 @@ final class InitialSettingsViewModel {
 extension InitialSettingsViewModel {
     struct SelectionResult {
         var fuel: FuelType
-        var navigation: SearchNavigation
     }
     
     struct Input {
@@ -42,7 +41,6 @@ extension InitialSettingsViewModel {
                     return
                 }
                 settingUseCase.save(selection.fuel.code, type: .fuelType)
-                settingUseCase.save(selection.navigation.type, type: .navigationType)
             }
             .eraseToAnyPublisher()
         

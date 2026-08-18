@@ -92,20 +92,30 @@ private extension InitialSettingsVC {
 
 //MARK: - Set UI
 private extension InitialSettingsVC {
+    enum UIConstants {
+        enum Insets {
+            static let horizontal: CGFloat = 24
+            static let vertical: CGFloat = 32
+        }
+    }
+
     func makeUI() {
         configureUI()
         setConstraints()
     }
     
     func configureUI() {
-        view.backgroundColor = Asset.Colors.mainColor.color
-        
+        view.backgroundColor = Asset.Colors.paper.color
+
         view.addSubview(initialSettingsView)
     }
-    
+
     func setConstraints() {
         initialSettingsView.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(UIConstants.Insets.horizontal)
+            $0.centerY.equalTo(view.safeAreaLayoutGuide)
+            $0.top.greaterThanOrEqualTo(view.safeAreaLayoutGuide).offset(UIConstants.Insets.vertical)
+            $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide).offset(-UIConstants.Insets.vertical)
         }
     }
 }
