@@ -11,16 +11,9 @@ import UIKit
 import SnapKit
 
 
-protocol SegmentedSelectionViewDelegate: AnyObject {
-    func segmentedSelectionView(_ view: SegmentedSelectionView, didSelectIndexAt index: Int)
-}
-
-
 //MARK: 커스텀 세그먼트 (sunken 트랙 + 선택 pill)
 final class SegmentedSelectionView: UIView {
     // MARK: - Properties
-    weak var delegate: SegmentedSelectionViewDelegate?
-
     private(set) var selectedIndex: Int
 
     private let options: [String]
@@ -56,7 +49,6 @@ final class SegmentedSelectionView: UIView {
 
         selectedIndex = sender.tag
         updateSelectionAppearance()
-        delegate?.segmentedSelectionView(self, didSelectIndexAt: selectedIndex)
     }
 }
 
@@ -105,6 +97,8 @@ private extension SegmentedSelectionView {
             button.tag = index
             button.setTitle(title, for: .normal)
             button.titleLabel?.font = FontFamily.NanumSquareRound.bold.font(size: 14)
+            button.titleLabel?.adjustsFontSizeToFitWidth = true
+            button.titleLabel?.minimumScaleFactor = 0.8
             button.layer.cornerRadius = UIConstants.Radius.pill
             button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
             stackView.addArrangedSubview(button)
@@ -124,6 +118,7 @@ private extension SegmentedSelectionView {
             }
 
             button.accessibilityTraits = isSelected ? [.button, .selected] : .button
+            button.accessibilityLabel = "\(options[index]), \(index + 1)/\(options.count)"
         }
     }
 }
